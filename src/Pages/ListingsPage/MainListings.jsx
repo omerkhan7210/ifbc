@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import AllListings from "./AllListings"
-import ListingsFilter from "./ListingsFilter"
+import ListingsFilter from "./Filters/ListingsFilter"
 import { MyContext } from "src/Context/ListingDataContext"
 import SearchingComponent from "./SearchingComponent"
 import { useParams } from "react-router-dom"

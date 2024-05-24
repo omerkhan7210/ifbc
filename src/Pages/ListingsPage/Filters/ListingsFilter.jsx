@@ -1,9 +1,6 @@
 import { useContext, useState } from "react";
-import BusinessFilter from "./Filters/BusinessFilter"
-import FinancialsFilter from "./Filters/FinancialsFilter"
-import TerritoriesFilter from "./Filters/TerritoriesFilter"
 import { MyContext } from "src/Context/ListingDataContext";
-import CategorySearch from "./Filters/CategorySearch";
+import CategorySearch from "./CategorySearch";
 
 
 
@@ -27,9 +24,6 @@ const ListingsFilter = () => {
       }
 
       <CategorySearch homepage={false} />
-      <BusinessFilter />
-      <FinancialsFilter />
-      <TerritoriesFilter />
       {/* <FeaturesFilter />
       <ListsFilter /> */}
 

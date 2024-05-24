@@ -12,7 +12,7 @@ const SearchDropdown = ({ config }) => {
     return (
         <div className="relative w-full group flex flex-col gap-2 col-span-12 md:col-span-3">
             <button
-                className={`h-16 px-4 text-md w-full capitalize text-white bg-[${buttonBgColor}] focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold ${selectedCat ? 'text-xs' : ''}`}
+                className={`h-16 px-4 text-md w-full capitalize text-white bg-custom-dark-blue focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold ${selectedCat ? 'text-xs' : ''}`}
                 onClick={() => setActiveDD(!activeDD)}
             >
                 {selectedCat && selectedCat !== '' ? (
