@@ -10,7 +10,7 @@ const Navbar = () => {
                 </li>
                 <li id="menu-item-552041" className="current-menu-item current_page_item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552041">
                   <Link to="/listings" aria-current="page">Franchises</Link>
-                  <ul className="sub-menu">
+                  <ul className="sub-menu z-[999] relative">
                     <li id="menu-item-552042" className="icon-fls current-menu-item current_page_item menu-item menu-item-type-custom menu-item-object-custom current-menu-item current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552042">
                       <div className="flex">
                         <div className="h-8 w-8 text-[#2176ff] ml-4 mr-2"><svg xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve" fill="currentColor" viewBox="0 0 350 350">

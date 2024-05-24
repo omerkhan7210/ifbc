@@ -35,7 +35,7 @@ const SearchDropdown = ({ config }) => {
                     </>
                 )}
             </button>
-            <div className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${activeDD ? 'h-[300px' : 'h-0 opacity-0'} duration-200 bg-white border border-dimmed text-sm md:text-sm overflow-x-hidden overflow-scroll ]`}>
+            <div className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${activeDD ? 'h-[300px]' : 'h-0 opacity-0'} duration-200 bg-white border border-dimmed text-sm md:text-sm overflow-x-hidden overflow-scroll ]`}>
                 {uniqueItems.map((item, index) => (
                     <div className="flex justify-between items-center" key={index}>
                         <div
