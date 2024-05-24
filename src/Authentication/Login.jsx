@@ -120,10 +120,11 @@ const Login = ({setIfLogin}) => {
         Forgot Password?
       </a>
     </div>
-  </form>
-  <p className="text-center text-gray-500 text-xs">
-    ©2024 IFBC. All rights reserved.
-  </p>
+      </form>
+      {/* footer */}
+      <p className="text-center text-gray-500 text-xs">
+        ©2024 IFBC. All rights reserved.
+      </p>
       </div>
  
 </div>
