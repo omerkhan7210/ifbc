@@ -4,6 +4,7 @@ import FranchiseSlider from './FranchiseSlider';
 import About from './About';
 import About2 from './About2';
 import ServicesGrid from './ServicesGrid';
+import Services from './Services';
 import Testimonials from './Testimonials';
 import PreFooter from 'src/Globals/PreFooter';
 
@@ -17,9 +18,11 @@ const MainHome = () => {
           <HomeBanner />
           
           <About />
-          <ServicesGrid />
+          {/* <ServicesGrid /> */}
 
           <About2 />
+          
+          <Services/>
           {/* <FranchiseSlider/> */}
 
           <Testimonials />

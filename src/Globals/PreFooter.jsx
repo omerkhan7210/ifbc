@@ -12,8 +12,8 @@ const PreFooter = () => {
                   <img src="/images/home-seven/cta-shape-3.svg" alt className="absolute top-10 right-10" />
                   <img src="/images/home-seven/cta-shape-3.svg" alt className="absolute bottom-10 right-28 h7-cta-open-anim-rev" />
                   <img src="/images/home-seven/cta-shape-5.svg" alt className="absolute bottom-0 left-0 cta-dot-anim" />
-                  <div className="w-full flex flex-col items-center">
-                    <h1 className="py-0.5 px-5 bg-white/10 uppercase border-white/20 border rounded-[30px] font-medium text-white w-fit mx-auto">
+                  <div className="w-full flex flex-col items-center justify-center px-10 md:px-0 gap-4 md:gap-0">
+                    <h1 className="text-center md:text-left py-0.5 px-5 bg-white/10 uppercase border-white/20 border rounded-[30px] font-medium text-white w-fit mx-auto">
                     How much franchise can you afford?
                     </h1>
                     <h2 className="md:text-48 text-24 capitalize font-semibold text-white mb-[12px] mt-2.5 w-full text-center">

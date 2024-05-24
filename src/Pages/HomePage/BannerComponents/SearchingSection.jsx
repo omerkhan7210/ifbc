@@ -94,6 +94,8 @@ const SearchingSection = () => {
         });
     };
 
+    const isMobile = window.innerWidth < 768 ? true : false
+
     return (
             
         <div id='searching-contianer' className='flex flex-col gap-2'>
@@ -119,7 +121,7 @@ const SearchingSection = () => {
                 ))}
             </div>
            
-           <button className='uppercase text-md bg-white font-semibold w-full   md:w-1/2 mx-auto py-3 md:px-60'>SEARCH</button>
+           <button className={`uppercase text-md bg-white font-semibold ${isMobile ? "w-full":"md:w-1/2"}  mx-auto py-3 md:px-60`}>SEARCH</button>
           
         </div>
 
