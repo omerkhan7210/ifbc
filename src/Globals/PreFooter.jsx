@@ -2,8 +2,8 @@ import React from 'react'
 
 const PreFooter = () => {
   return (
-    <section id="consultation" className="relative bg-white">
-            <div className="absolute -bottom-2 w-full bg-it-black h-[152px]" />
+    <section id="consultation" className="relative bg-white mb-5">
+            <div className="absolute bottom-24 w-full bg-it-black h-[152px]" />
             <div className="consultation-section-wrapper w-full relative">
               <div className="theme-container mx-auto relative z-10">
                 <div className="w-full py-[80px] bg-it-blue rounded-[20px] md:flex relative overflow-hidden">

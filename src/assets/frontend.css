@@ -4559,8 +4559,6 @@ select:not(.ui-datepicker-month):not(.ui-datepicker-year) {
      background-clip: padding-box;
      padding-left: 0.75rem;
      padding-right: 0.75rem;
-     padding-top: 0.5rem;
-     padding-bottom: 0.5rem;
      font-size: 1rem;
      line-height: 1.5rem;
      font-weight: 400;

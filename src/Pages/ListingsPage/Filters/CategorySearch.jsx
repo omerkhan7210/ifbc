@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 
-const CategorySearch = ({homepage}) => {
+const CategorySearch = () => {
     const [activeDD, setActiveDD] = useState(false);
     const { listings, setFilters, selectedCats, setSelectedCats } = useContext(MyContext);
   
@@ -11,7 +11,7 @@ const CategorySearch = ({homepage}) => {
         if (isCatSelected) {
           return prevSelectedCats.filter((item) => item !== cat);
         } else {
-          return [...prevSelectedCats, cat];
+          return [...prevSelectedCats, cat.toLowerCase()];
         }
   
       });
@@ -44,7 +44,7 @@ const CategorySearch = ({homepage}) => {
           className="py-2.5 px-3 w-full md:text-sm text-site bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold"
           onClick={() => setActiveDD(!activeDD)}
         >
-          {selectedCats.length > 1 ? "Select Category" : "Select another category"}
+          {selectedCats.length > 0 ? "Select A Category" : "Select Another Category"}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -57,11 +57,13 @@ const CategorySearch = ({homepage}) => {
           </svg>
         </button>
         <div
-          className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${activeDD ? '' : 'opacity-0'
-            } duration-200 p-1 bg-white dark:bg-gray-800 border border-dimmed text-sm md:text-sm h-96 overflow-scroll`}
+          className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${activeDD ? 'h-96' : 'h-0 opacity-0'
+            } duration-200 p-1 bg-white dark:bg-gray-800 border border-dimmed text-sm md:text-sm  overflow-scroll`}
         >
           {uniqueFranchisedCats.map((cat, index) => {
-            const isActive = selectedCats.includes(cat)
+            const isActive = selectedCats.includes(cat.toLowerCase())
+            console.log(cat.toLowerCase() , selectedCats[0])
+
             return (
               <div className="flex justify-between items-center">
               <div

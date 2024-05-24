@@ -9,19 +9,27 @@ const AllListings = () => {
 
 
   const [currentPage, setCurrentPage] = useState(1);
-  const { filters,paginationListings, setPaginationListings, listings, loading, activeListings, showActiveListings,setFilters } = useContext(MyContext)
+  const { filters,paginationListings, setPaginationListings, listings, loading, activeListings, showActiveListings,setFilters,setSelectedCats } = useContext(MyContext)
   const [filterListings,setFilterListings] = useState()
   const totalNoOfListings = window.innerWidth < 768 ? 10 : 25
 
   
   useEffect(()=>{
     const searchKeyWordV = window.location.href.split("?")[1]
+
     if(searchKeyWordV){
-      // Update the filters state with the search keyword
-    setFilters({
-      ...filters,
-      search: searchKeyWordV
-    });
+      const filterName = searchKeyWordV.split("=")[0]
+      const filterProp = searchKeyWordV.split("=")[1]
+      const filterPropString = filterProp.split("%20").join(' ').trim()
+      if(filterName && filterPropString){
+        setSelectedCats([filterPropString])
+          // Update the filters state with the search keyword
+          setFilters({
+            ...filters,
+            [filterName]: [filterPropString]
+          });
+      }
+     
     }
   },[])
 
@@ -35,6 +43,7 @@ const AllListings = () => {
         const hasUnitKey = filters.hasOwnProperty("units");
         const hasMembershipsKey = filters.hasOwnProperty("memberships");
 
+        console.log(filters)
         // Apply your filtering logic here based on the filters prop
         let matchesSearch = true;
         let matchesCategory = true;

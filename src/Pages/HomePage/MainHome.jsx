@@ -12,13 +12,14 @@ const MainHome = () => {
   return (
     <div id="smooth-wrapper">
       <div id="smooth-content">
-        <main className="w-full mt-5">
+        <main className="w-full">
 
           <HomeBanner />
-          <About2 />
-          <ServicesGrid />
+          
           <About />
+          <ServicesGrid />
 
+          <About2 />
           {/* <FranchiseSlider/> */}
 
           <Testimonials />

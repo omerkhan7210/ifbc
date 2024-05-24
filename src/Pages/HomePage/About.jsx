@@ -1,7 +1,7 @@
 import React from 'react'
 
-const About = () => {
 
+const TextColumn = ()=>{
 
     const listItems = [
         {
@@ -14,11 +14,8 @@ const About = () => {
         }
     ];
 
-
-    return (
-        <section className="py-[70px] sm:py-[130px] bg-white">
-            <div className="theme-container mx-auto grid grid-cols-6 lg:grid-cols-12 sm:gap-[63px]">
-                <div className="col-span-6">
+    return(
+        <div className="col-span-6">
                     <h1 className="px-5 bg-main-gray border border-it-blue/20 text-it-blue font-medium rounded-[30px] w-fit">
                         Who we are?
                     </h1>
@@ -59,9 +56,14 @@ const About = () => {
                         </div>
                     </a>
                 </div>
-                <div className="col-span-6 mt-5 md:mt-0">
+    )
+}
+
+const ImageColumn = ()=>{
+    return(
+        <div className="col-span-6 mt-5 md:mt-0">
                     <div className="flex w-full relative justify-end">
-                        <img src="/images/home-seven/business.png" alt className="max-w-full" />
+                        <img src="/images/home-seven/business.png" alt className="md:max-w-[85%] h-[650px] object-cover rounded" />
                         <div className="bg-it-blue p-4 sm:p-[30px] rounded-2xl absolute z-20 bottom-16 left-2 sm:left-0 w-48 sm:w-[295px]">
                             <img src="/images/home-five/hero/about-card-shape.webp" alt className="absolute right-2 top-bottom-moving" />
                             <div className="flex items-center gap-2.5">
@@ -76,11 +78,23 @@ const About = () => {
                         </div>
                     </div>
                 </div>
+    )
+}
+
+
+const About = () => {
+  
+    return (
+        <section className="py-[30px] bg-white">
+            <div className="theme-container mx-auto grid grid-cols-6 lg:grid-cols-12 sm:gap-[63px]">
+                <TextColumn/>
+                <ImageColumn/>
             </div>
         </section>
 
 
     )
 }
+
 
 export default About
