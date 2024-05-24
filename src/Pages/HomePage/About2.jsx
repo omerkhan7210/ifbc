@@ -39,11 +39,10 @@ const About2 = () => {
         <div className="col-span-12 md:col-span-6">
            <div className="relative">
             <img src="/images/home-seven/about.png" alt className=" object-cover rounded" />
-            {!isMobile && 
-            <div className="w-[100px] aspect-square rounded-[10px] bg-it-blue flex justify-center items-center absolute -top-[50px] -right-[50px]">
+            
+            <div className="w-[100px] aspect-square rounded-[10px] bg-it-blue flex justify-center items-center absolute -top-[50px] -right-[0px] md:-right-[50px]">
               <img src="/images/home-seven/franchise-svgrepo-com (1).svg" alt="" className='w-16' />
             </div>
-            } 
           </div>
         </div>
        <TextColumn/>

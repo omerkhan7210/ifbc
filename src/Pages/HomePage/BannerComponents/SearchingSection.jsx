@@ -62,25 +62,21 @@ const SearchingSection = () => {
         
         {
             key: 'category',
-            bgcolor: '#0038b3',
             placeholder: 'Select Category',
             buttonBgColor: '#4d85ff',
         },
         {
             key: 'FranchiseFee',
-            bgcolor: '#1a62ff',
             placeholder: 'Select Investment Fee',
             buttonBgColor: '#1a62ff',
         },
         {
             key: 'franchisedUnits',
-            bgcolor: '#0048e6',
             placeholder: 'Select Units',
             buttonBgColor: '#0048e6',
         },
         {
             key: 'Single',
-            bgcolor: '#0038b3',
             placeholder: 'Select Single',
             buttonBgColor: '#0038b3',
         },
@@ -123,7 +119,8 @@ const SearchingSection = () => {
                 ))}
             </div>
            
-          <button className='uppercase text-md bg-white font-semibold   w-1/2 mx-auto py-3 px-60'>SEARCH</button>
+           <button className='uppercase text-md bg-white font-semibold w-full   md:w-1/2 mx-auto py-3 md:px-60'>SEARCH</button>
+          
         </div>
 
 
