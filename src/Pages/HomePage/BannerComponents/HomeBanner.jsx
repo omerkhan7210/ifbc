@@ -10,7 +10,7 @@ const ListingBox = ({id,bgcolor,svg,min,max})=>{
   const uniqueFranchisedCats = [...new Set(listings.map((listing) => listing.category))];
   
   return (
-    <div id={id} className={` bg-[${bgcolor}]  w-full col-span-12 md:col-span-4 p-5`}>
+    <div id={id} className={` bg-custom-heading-color  w-full col-span-12 md:col-span-4 p-5`}>
           <h3 className='text-lg font-bold text-white flex items-center gap-1 '>
             {svg}
            

@@ -55,7 +55,7 @@ const Header = ({ mobileActive, setMobileActive }) => {
         {/* APPOINTMENT BUTTON */}
 
         <div className={`${isMobile ? "" : "flex justify-end"}`}>
-          <button className={`${isMobile ? "hidden": "uppercase font-semibold rounded-full hover:bg-custom-heading-color hover:text-white transition-all duration-150 bg-white text-custom-heading-color px-10  text-sm" } `}>
+          <button className={`${isMobile ? "hidden": "uppercase font-semibold rounded-full hover:bg-custom-heading-color hover:text-white transition-all duration-150 bg-white text-custom-heading-color px-10  text-sm h-5" } `}>
             Book an appointment
           </button>
           <button
