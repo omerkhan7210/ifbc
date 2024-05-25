@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 
-
 const variants = {
   initial: {
     scaleY: 0.5,
@@ -18,7 +17,7 @@ const variants = {
   },
 };
 
-const BarLoader = () => {
+const BarLoader = ({ bgcolor }) => {
   return (
     <motion.div
       transition={{
@@ -28,11 +27,31 @@ const BarLoader = () => {
       animate="animate"
       className="flex gap-1"
     >
-      <motion.div variants={variants} className="h-12 w-2 bg-custom-blue" />
-      <motion.div variants={variants} className="h-12 w-2 bg-custom-blue" />
-      <motion.div variants={variants} className="h-12 w-2 bg-custom-blue" />
-      <motion.div variants={variants} className="h-12 w-2 bg-custom-blue" />
-      <motion.div variants={variants} className="h-12 w-2 bg-custom-blue" />
+      <motion.div
+        variants={variants}
+        className="h-12 w-2 "
+        style={{ backgroundColor: `${bgcolor}` }}
+      />
+      <motion.div
+        variants={variants}
+        className="h-12 w-2 "
+        style={{ backgroundColor: `${bgcolor}` }}
+      />
+      <motion.div
+        variants={variants}
+        className="h-12 w-2 "
+        style={{ backgroundColor: `${bgcolor}` }}
+      />
+      <motion.div
+        variants={variants}
+        className="h-12 w-2 "
+        style={{ backgroundColor: `${bgcolor}` }}
+      />
+      <motion.div
+        variants={variants}
+        className="h-12 w-2 "
+        style={{ backgroundColor: `${bgcolor}` }}
+      />
     </motion.div>
   );
 };

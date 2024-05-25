@@ -9492,5 +9492,17 @@ blockquote {
      display: none;
    }
 
+
  
-   
+   .logo-div {
+     height: 55px;
+   }
+   .logo-div a{
+     position: relative;
+   }
+   .logo-div svg{
+     position: absolute;
+     top: 13px;
+     left: 0;
+     width: 134px;
+   }
