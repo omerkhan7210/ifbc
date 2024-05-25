@@ -26,10 +26,24 @@ const ListingsColumns = ({ listing, index }) => {
   return (
     <div className="relative">
       {isActive && (
-        <div className={`container absolute ${isActive ? "" : "left-3 top-1"} w-16 p-4`}>
-          <input type="checkbox" id="cbx2" style={{ display: 'none' }} checked={true} />
+        <div
+          className={`container absolute ${
+            isActive ? "" : "left-3 top-1"
+          } w-16 p-4`}
+        >
+          <input
+            type="checkbox"
+            id="cbx2"
+            style={{ display: "none" }}
+            checked={true}
+          />
           <label htmlFor="cbx2" className="check scale-150 relative z-50">
-            <svg width="30px" className="border-green-200 border-2 bg-white rounded-full" height="30px" viewBox="0 0 18 18">
+            <svg
+              width="30px"
+              className="border-green-200 border-2 bg-white rounded-full"
+              height="30px"
+              viewBox="0 0 18 18"
+            >
               <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z" />
               <polyline points="1 9 7 14 15 4" />
             </svg>
@@ -53,14 +67,22 @@ const ListingsColumns = ({ listing, index }) => {
         onClick={handleCardClick} // Correctly call handleCardClick here
         className="flex flex-col gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[1px_1px_5px_grey] "
       >
-        <div id="image-container" className="w-full h-full relative">
+        <div
+          id="image-container"
+          className="w-full h-full relative flex justify-center"
+        >
           <img
-            src={"/"+listing?.imgUrl}
+            src={"/" + listing?.imgUrl}
             alt={listing.name}
             className="object-contain h-44 w-64"
           />
 
-          <div id="text-content" className={`absolute flex ${fee ? "justify-between" : "justify-end"} top-40 w-full`}>
+          <div
+            id="text-content"
+            className={`absolute flex ${
+              fee ? "justify-between" : "justify-end"
+            } top-40 w-full`}
+          >
             {fee && (
               <p className="bg-white py-2 text-xs font-bold px-4 rounded-full shadow-lg">
                 {fee}
@@ -68,7 +90,9 @@ const ListingsColumns = ({ listing, index }) => {
             )}
             <p
               className={`py-2 text-xs font-bold px-4 rounded-full shadow-lg text-white ${
-                listing?.Memberships === "Member" ? "bg-custom-blue" : "bg-custom-orange"
+                listing?.Memberships === "Member"
+                  ? "bg-custom-blue"
+                  : "bg-custom-orange"
               }`}
             >
               {listing?.Memberships}
@@ -76,17 +100,22 @@ const ListingsColumns = ({ listing, index }) => {
           </div>
         </div>
 
-        <div id="heading-container" className="flex flex-col items-center justify-center">
+        <div
+          id="heading-container"
+          className="flex flex-col items-center justify-center"
+        >
           <h1
             className={`text-custom-heading-color font-bold text-center text-sm lg:text-lg`}
           >
             {listing.name}
           </h1>
 
-         
-    {/* added anchor */}
+          {/* added anchor */}
           <a
-            href={`/listings-details/${listing?.name?.toLowerCase().split(" ").join('-')}`}
+            href={`/listings-details/${listing?.name
+              ?.toLowerCase()
+              .split(" ")
+              .join("-")}`}
             className="bg-custom-dark-blue w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
           >
             <span>See More Details</span>
@@ -105,7 +134,6 @@ const ListingsColumns = ({ listing, index }) => {
               />
             </svg>
           </a>
-          
         </div>
       </motion.div>
     </div>

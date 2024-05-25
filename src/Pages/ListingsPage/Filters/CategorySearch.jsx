@@ -39,15 +39,17 @@ const CategorySearch = () => {
     ...new Set(listings.map((listing) => listing.category)),
   ];
 
+  console.log(selectedCats);
+
   return (
     <div className="relative w-full group flex flex-col gap-2 mb-5 ">
       <button
-        className="py-2.5 px-3 w-full md:text-sm text-site bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold"
+        className="py-2.5 px-3 w-full md:text-sm text-site hover:bg-custom-heading-color hover:text-white focus:bg-custom-heading-color focus:text-white transition-all duration-300  bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold"
         onClick={() => setActiveDD(!activeDD)}
       >
         {selectedCats.length > 0
-          ? "Select A Category"
-          : "Select Another Category"}
+          ? "Select Another Category"
+          : "Select A Category"}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -80,7 +82,7 @@ const CategorySearch = () => {
                   isActive
                     ? "border-l-4 border-custom-heading-color"
                     : "text-black"
-                } w-full block cursor-pointer hover:bg-white dark:hover:bg-gray-900 dark:bg-gray-800 hover:text-link px-3 py-2 `}
+                } w-full block cursor-pointer hover:bg-slate-300 dark:hover:bg-gray-900 dark:bg-gray-800 hover:text-link px-3 py-2 `}
               >
                 <span>
                   {cat}(
@@ -94,7 +96,7 @@ const CategorySearch = () => {
               {isActive && (
                 <span
                   className="text-red-950 font-bold cursor-pointer"
-                  onClick={() => handleRemoveCat(cat)}
+                  onClick={() => handleRemoveCat(cat.toLowerCase())}
                 >
                   X
                 </span>

@@ -71,7 +71,8 @@ const SearchDropdown = ({ config }) => {
                 setActiveDD(false);
                 setSelectedCat(item);
               }}
-              className="text-black w-full block cursor-pointer hover:bg-white dark:hover:bg-gray-900 hover:text-link px-3 py-2"
+              className="text-black w-full block cursor-pointer hover:text-link px-3 
+              py-2 hover:bg-slate-200"
             >
               <span>{item}</span>
             </div>
@@ -129,7 +130,7 @@ const SearchingSection = () => {
           placeholder="Search Any Listing"
           value={searchKeyword}
           onChange={handleSearchInputChange}
-          className="block w-full px-2 py-3 text-sm    text-black pr-10 rounded-none outline-none bg-white"
+          className="block w-full px-2 py-3 text-sm   focus:border-custom-heading-color border-2 text-black pr-10 rounded-none outline-none bg-white"
         />
 
         <button className=" absolute right-2.5 top-5.5 w-4 h-4">
@@ -149,11 +150,11 @@ const SearchingSection = () => {
       </div>
 
       <button
-        className={`uppercase text-md bg-white font-semibold ${
+        class={`${
           isMobile ? "w-full" : "md:w-1/2"
-        }  mx-auto py-3 md:px-60`}
+        }  relative items-center justify-start overflow-hidden font-medium transition-all duration-500 bg-white hover:bg-custom-heading-color hover:text-white group py-1.5 px-2.5 mx-auto h-12 text-center`}
       >
-        SEARCH
+        Search
       </button>
     </div>
   );

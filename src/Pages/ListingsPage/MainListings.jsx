@@ -36,7 +36,6 @@ const ExtraTools = () => {
           value="tc"
           onClick={() => setTCheck(true)}
         >
-          {" "}
           Territory Checks
         </button>
         <button
@@ -44,15 +43,14 @@ const ExtraTools = () => {
           value="fr"
           onClick={() => setformalRegCheck(true)}
         >
-          {" "}
-          Formal Registrations{" "}
+          Formal Registrations
         </button>
       </div>
 
       <div className="grid grid-cols-12 col-span-12 sm:col-span-6 lg:col-span-4 w-full gap-3 sm:gap-3 ">
         <div className="col-span-12">
-          <select onChange={handleTools}>
-            <option value>Tools</option>
+          <select onChange={handleTools} className="py-3">
+            <option value="">Tools</option>
             <option value="email"> Email Selected Franchises </option>
             <option value="info"> Create Information Packet </option>
             <option value="comparison"> Create Comparison Report </option>
@@ -62,23 +60,25 @@ const ExtraTools = () => {
         </div>
 
         <button
-          className="col-span-6 border-2 border-green-600 py-2 px-5 w-full md:w-auto tertiary-button text-green-600"
+          className={`${
+            activeListings.length > 0 ? "col-span-6" : "col-span-12"
+          } border-2 border-green-600 py-2 px-5 w-full md:w-auto tertiary-button text-green-600`}
           onClick={selectAllListings}
         >
-          {" "}
-          Select All{" "}
+          Select All
         </button>
 
-        <button
-          className="col-span-6 border-2 border-red-600 py-2 px-5  w-full md:w-auto tertiary-button text-red-600"
-          onClick={() => {
-            setShowActiveListings(false);
-            setActiveListings([]);
-          }}
-        >
-          {" "}
-          Clear All{" "}
-        </button>
+        {activeListings.length > 0 && (
+          <button
+            className="col-span-6 border-2 border-red-600 py-2 px-5  w-full md:w-auto tertiary-button text-red-600"
+            onClick={() => {
+              setShowActiveListings(false);
+              setActiveListings([]);
+            }}
+          >
+            Clear All
+          </button>
+        )}
       </div>
 
       <div
@@ -100,7 +100,6 @@ const ExtraTools = () => {
                 : "text-custom-blue"
             }`}
           >
-            {" "}
             My Selection <span> ({activeListings.length}) </span>
           </button>
         )}
