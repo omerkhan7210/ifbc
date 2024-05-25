@@ -18,7 +18,6 @@ const ListingDataContext = ({ children }) => {
   const [tCheck, setTCheck] = useState(false);
   const [formalRegCheck, setformalRegCheck] = useState(false);
   const [paginationListings, setPaginationListings] = useState();
-  const [selectedCats, setSelectedCats] = useState([]);
 
   const handleTools = (event) => {
     const value = event.target.value;
@@ -82,8 +81,6 @@ const ListingDataContext = ({ children }) => {
         setShowActiveListings,
         paginationListings,
         setPaginationListings,
-        selectedCats,
-        setSelectedCats,
       }}
     >
       {children}

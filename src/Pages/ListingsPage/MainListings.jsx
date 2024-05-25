@@ -112,7 +112,7 @@ const MainListings = () => {
   return (
     <PageTransition>
       <main
-        className="lg:max-w-7xl xl:max-w-screen-2xl	 pt-10 px-6 mx-auto grid grid-cols-12 gap-6 relative"
+        className="	 pt-10 px-6 mx-auto grid grid-cols-12 gap-6 relative"
         id="main"
       >
         <div className="col-span-12">

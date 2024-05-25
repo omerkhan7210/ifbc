@@ -15,10 +15,36 @@ const AllListings = () => {
     activeListings,
     showActiveListings,
     setFilters,
-    setSelectedCats,
   } = useContext(MyContext);
   const [filterListings, setFilterListings] = useState();
   const totalNoOfListings = window.innerWidth < 768 ? 10 : 25;
+
+  const filterKeys = [
+    "search",
+    "category",
+    "units",
+    "memberships",
+    "FranchiseFee",
+    "InvestmentRange",
+    "Item19",
+    "Liquidity",
+    "Memberships",
+    "MinimumNetWorth",
+    "MonthCash",
+    "Multiple",
+    "NationalAdvertising",
+    "NumberofEmployees",
+    "OwnedUnits",
+    "PassiveOwnership",
+    "ProjectedNewUnits",
+    "RampUp",
+    "Royalty",
+    "RoyaltyDescription",
+    "Single",
+    "Territories",
+    "TypeofBusiness",
+    "YearEstablished",
+  ];
 
   useEffect(() => {
     const searchKeyWordV = window.location.href.split("?")[1];
@@ -28,7 +54,6 @@ const AllListings = () => {
       const filterProp = searchKeyWordV.split("=")[1];
       const filterPropString = filterProp.split("%20").join(" ").trim();
       if (filterName && filterPropString) {
-        setSelectedCats([filterPropString]);
         // Update the filters state with the search keyword
         setFilters({
           ...filters,
@@ -42,47 +67,22 @@ const AllListings = () => {
     if (listings.length > 0) {
       const filteredListings = filters
         ? listings.filter((listing) => {
-            // Check if there is a search key in the filters array of objects
-            const hasSearchKey = filters.hasOwnProperty("search");
-            const hasCategoryKey = filters.hasOwnProperty("category");
-            const hasUnitKey = filters.hasOwnProperty("units");
-            const hasMembershipsKey = filters.hasOwnProperty("memberships");
-
-            // Apply your filtering logic here based on the filters prop
-            let matchesSearch = true;
-            let matchesCategory = true;
-            let matchesUnit = true;
-            let matchesMemberships = true;
-
-            if (hasSearchKey && filters.search !== "") {
-              matchesSearch = listing.name
-                ?.toLowerCase()
-                .includes(filters.search.toLowerCase());
-            }
-            if (hasCategoryKey && filters.category.length > 0) {
-              filters.category.map((filterCat) => {
-                matchesCategory = listing.category
-                  ?.toLowerCase()
-                  .includes(filterCat.toLowerCase());
-              });
-            }
-            if (hasUnitKey && filters.units !== "") {
-              matchesUnit = listing.franchisedUnits
-                ?.toLowerCase()
-                .includes(filters.units.toLowerCase());
-            }
-            if (hasMembershipsKey && filters.memberships !== "") {
-              matchesMemberships = listing.memberships
-                ?.toLowerCase()
-                .includes(filters.memberships.toLowerCase());
-            }
-
-            return (
-              matchesSearch &&
-              matchesCategory &&
-              matchesUnit &&
-              matchesMemberships
-            );
+            return filterKeys.every((key) => {
+              if (filters.hasOwnProperty(key) && filters[key] !== "") {
+                if (Array.isArray(filters[key])) {
+                  return filters[key].some((filterValue) =>
+                    listing[key]
+                      ?.toLowerCase()
+                      .includes(filterValue.toLowerCase())
+                  );
+                } else {
+                  return listing[key]
+                    ?.toLowerCase()
+                    .includes(filters[key].toLowerCase());
+                }
+              }
+              return true;
+            });
           })
         : listings;
       setFilterListings(filteredListings);
