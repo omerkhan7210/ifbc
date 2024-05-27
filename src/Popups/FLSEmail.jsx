@@ -16,11 +16,11 @@ const FLSEmail = () => {
                                 <form method="post">
                                     <div className="grid md:grid-cols-1 gap-8 mb-8">
                                         <div>
-                                            <label className htmlFor="subject"> Subject<span className>*</span></label>
+                                            <label  htmlFor="subject"> Subject<span>*</span></label>
                                             <input type="text" name="subject" id="subject" autoComplete="off" />
                                         </div>
                                         <div >
-                                            <label className htmlFor="message"> Message <span className>*</span></label>
+                                            <label htmlFor="message"> Message <span>*</span></label>
                                             <textarea name="message" rows={6} id="message" autoComplete="off" defaultValue={""} />
                                         </div>
                                     </div>

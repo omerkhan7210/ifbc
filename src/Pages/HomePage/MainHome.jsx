@@ -1,11 +1,9 @@
 import React from "react";
 import HomeBanner from "./BannerComponents/HomeBanner";
-import FranchiseSlider from "./FranchiseSlider";
-import About from "./About";
-import About2 from "./About2";
-import ServicesGrid from "./ServicesGrid";
+import About from "../GlobalPageSections/About";
+import About2 from "../GlobalPageSections/About2";
 import Services from "./Services";
-import Testimonials from "./Testimonials";
+import Testimonials from "../GlobalPageSections/Testimonials";
 import PreFooter from "src/Globals/PreFooter";
 import PageTransition from "src/Animations/PageTransition";
 
@@ -17,10 +15,8 @@ const MainHome = () => {
           <main className="w-full">
             <HomeBanner />
             <About />
-            {/* <ServicesGrid /> */}
             <About2 />
             <Services />
-            {/* <FranchiseSlider/> */}
             <Testimonials />
             <PreFooter />
           </main>

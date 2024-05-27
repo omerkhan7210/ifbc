@@ -10,7 +10,7 @@ const Testimonials = () => {
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 2,
+      items: 3,
     },
     tablet: {
       breakpoint: { max: 1024, min: 464 },
@@ -71,20 +71,16 @@ const Testimonials = () => {
         </h2>
 
         <Carousel
-          swipeable={false}
-          draggable={false}
           responsive={responsive}
-          centerMode={true}
           infinite={true}
           autoPlay={window.innerWidth > 768 ? true : false}
-          autoPlaySpeed={2000}
+          autoPlaySpeed={4000}
           transitionDuration={500}
-          itemClass="mx-10"
         >
           {reviews?.map((review, index) => (
             <div
               key={index}
-              className="flex flex-col items-center relative pt-[52px] pb-10   md:px-10 bg-white rounded-2xl h-[350px]"
+              className="flex flex-col items-center relative pt-[52px] pb-10 md:px-10 bg-white rounded-2xl  h-[350px]"
             >
               <div className="w-[240px] aspect-square rounded-full card-shape-bg absolute" />
               <svg

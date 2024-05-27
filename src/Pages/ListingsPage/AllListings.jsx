@@ -68,8 +68,13 @@ const AllListings = () => {
       const filteredListings = filters
         ? listings.filter((listing) => {
             return filterKeys.every((key) => {
-              if (filters.hasOwnProperty(key) && filters[key] !== "") {
+              if (
+                filters.hasOwnProperty(key) &&
+                filters[key] !== "" &&
+                filters[key].length > 0
+              ) {
                 if (Array.isArray(filters[key])) {
+                  console.log(filters[key]);
                   return filters[key].some((filterValue) =>
                     listing[key]
                       ?.toLowerCase()

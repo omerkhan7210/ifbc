@@ -1,20 +1,14 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 
-const CategorySearch = ({
-  property,
-  anotherText,
-  normalText,
-  selectedCats,
-  setSelectedCats,
-}) => {
+const CategorySearch = ({ property, anotherText, normalText }) => {
   const [activeDD, setActiveDD] = useState(false);
   const { listings, filters, setFilters } = useContext(MyContext);
-  const ref = useRef();
-  const [propName, setPropName] = useState("");
+  const [selectedCats, setSelectedCats] = useState(
+    (filters && filters[property]) || []
+  );
 
-  const handleSelectDD = (cat, e) => {
-    setPropName(e.target.id);
+  const handleCatSelection = (cat) => {
     const catLower = cat.toLowerCase();
     let newSelCats = [];
     const isCatSelected = selectedCats.includes(catLower);
@@ -26,26 +20,18 @@ const CategorySearch = ({
     setSelectedCats(newSelCats);
   };
 
-  // Use useEffect to log selectedCats after it updates
-  useEffect(() => {
-    // Update the filters state with the selected categories
-    if (selectedCats.length > 0) {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        [propName]: [...selectedCats],
-      }));
-    }
-  }, [selectedCats, normalText]);
-
   const handleRemoveCat = (cat) => {
-    const catLower = cat.toLowerCase();
+    setSelectedCats((prevSelectedCats) =>
+      prevSelectedCats.filter((item) => item !== cat)
+    );
+  };
 
-    // Update the filters state with the remaining selected categories
+  useEffect(() => {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [propName]: selectedCats.filter((item) => item !== catLower),
+      [property]: selectedCats,
     }));
-  };
+  }, [selectedCats, property, setFilters]);
 
   const uniqueFranchisedCats = [
     ...new Set(
@@ -58,9 +44,9 @@ const CategorySearch = ({
   ];
 
   return (
-    <div className="relative w-full group flex flex-col gap-2 mb-5 ">
+    <div className="relative w-full group flex flex-col gap-2 mb-5">
       <button
-        className="py-2.5 px-3 w-full md:text-sm text-site hover:bg-custom-heading-color hover:text-white focus:bg-custom-heading-color focus:text-white transition-all duration-300  bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold"
+        className="py-2.5 px-3 w-full md:text-sm text-site hover:bg-custom-heading-color hover:text-white focus:bg-custom-heading-color focus:text-white transition-all duration-300 bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold"
         onClick={() => setActiveDD(!activeDD)}
       >
         {selectedCats.length > 0 ? anotherText : normalText}
@@ -82,23 +68,20 @@ const CategorySearch = ({
       <div
         className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${
           activeDD ? "h-96" : "h-0 opacity-0"
-        } duration-200  bg-white dark:bg-gray-800 border border-dimmed text-sm md:text-sm  overflow-scroll`}
+        } duration-200 bg-white dark:bg-gray-800 border border-dimmed text-sm md:text-sm overflow-scroll`}
       >
         {uniqueFranchisedCats.map((cat, index) => {
-          const isActive = selectedCats.includes(cat.toLowerCase());
+          const isActive = selectedCats.includes(cat?.toLowerCase());
 
           return (
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center" key={index}>
               <div
-                key={index}
-                id={property}
-                ref={ref}
-                onClick={(e) => handleSelectDD(cat, e)}
+                onClick={() => handleCatSelection(cat)}
                 className={`${
                   isActive
                     ? "border-l-4 border-custom-heading-color"
                     : "text-black"
-                } w-full block cursor-pointer hover:bg-slate-300 dark:hover:bg-gray-900 dark:bg-gray-800 hover:text-link px-3 py-2 `}
+                } w-full block cursor-pointer hover:bg-slate-300 dark:hover:bg-gray-900 dark:bg-gray-800 hover:text-link px-3 py-2`}
               >
                 <span>
                   {cat} (

@@ -16,12 +16,10 @@ const PreFooter = () => {
                     <h1 className="text-center md:text-left py-0.5 px-5 bg-white/10 uppercase border-white/20 border rounded-[30px] font-medium text-white w-fit mx-auto">
                     How much franchise can you afford?
                     </h1>
-                    <h2 className="md:text-48 text-24 capitalize font-semibold text-white mb-[12px] mt-2.5 w-full text-center">
-                    Let our <span className='rounded-full border border-white px-5'>free</span> financial calculator tell you.
+                    <h2 className="md:text-48 text-24 uppercase font-semibold text-white mb-[12px] mt-2.5 w-full text-center">
+                    Let our free financial calculator tell you.
                     </h2>
-                    <p className="text-white mb-[15px] w-full text-center">
-                      We’ve 25+ years of experience in digital marketing
-                    </p>
+                   
                     <a href="">
                       <div className="home-two-btn-white-rev group before:bg-white after:bg-white hover:border-it-blue transition-all duration-500 w-fit">
                         <span className="text-base group-hover:text-it-blue text-white transition-all duration-300 font-semibold font-inter relative z-10 py-0.5">

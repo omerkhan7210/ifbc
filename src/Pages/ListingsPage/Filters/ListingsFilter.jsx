@@ -123,9 +123,9 @@ const ListingsFilter = () => {
         </button>
       )}
 
-      {filterData.map((filter) => (
+      {filterData.map((filter, index) => (
         <CategorySearch
-          key={filter.property}
+          key={index}
           anotherText={filter.anotherText}
           normalText={filter.normalText}
           property={filter.property}

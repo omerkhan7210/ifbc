@@ -85,8 +85,8 @@ const Header = ({ mobileActive, setMobileActive }) => {
             isMobile ? "hidden" : "flex justify-start gap-5"
           }  py-2 `}
         >
-          {socials.map((button) => (
-            <li className="flex gap-1 text-sm items-center">
+          {socials.map((button,index) => (
+            <li key={index} className="flex gap-1 text-sm items-center">
               {button.svg}
               <a
                 key={button.text}

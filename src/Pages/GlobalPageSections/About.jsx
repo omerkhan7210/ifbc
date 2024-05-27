@@ -19,7 +19,7 @@ const TextColumn = ()=>{
                     <h1 className="px-5 bg-main-gray border border-it-blue/20 text-it-blue font-medium rounded-[30px] w-fit">
                         Who we are?
                     </h1>
-                    <h2 className="font-semibold text-2xl sm:text-48 text-main-black mt-5">
+                    <h2 className="font-semibold text-2xl sm:text-48 text-custom-heading-color mt-5">
                         About IFBC
                     </h2>
                     <p className='mt-3'>
@@ -35,7 +35,7 @@ const TextColumn = ()=>{
                                     </svg>
                                 </div>
                                 <div className="flex-1">
-                                    <h1 className="text-main-black font-semibold text-2xl">
+                                    <h1 className="text-custom-heading-color font-semibold text-2xl">
                                         {item.title}
                                     </h1>
                                     <p className="text-paragraph max-w-[606px]">

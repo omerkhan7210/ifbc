@@ -24,6 +24,13 @@ h6 {
     padding: 0 20px
 }
 
+@media screen and (min-width:1330px) {
+    .theme-container {
+        max-width: 1700px;
+        padding: 0 20px
+    }
+}
+
 .shadow-style-one {
     box-shadow: 0 10px 60px 0 rgba(121, 74, 255, .2)
 }
