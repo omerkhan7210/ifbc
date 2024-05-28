@@ -1,14 +1,29 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 
-const SearchDropdown = ({ config }) => {
-  const { key, placeholder, buttonBgColor } = config;
+const SearchDropdown = ({ config, selectedCats, setSelectedCats }) => {
+  const { key, placeholder } = config;
   const [activeDD, setActiveDD] = useState(false);
   const [selectedCat, setSelectedCat] = useState("");
   const { listings } = useContext(MyContext);
 
-  const uniqueItems = [...new Set(listings.map((listing) => listing[key]))];
+  useEffect(() => {
+    setSelectedCats((prevCats) => {
+      if (selectedCat && !prevCats.includes(selectedCat)) {
+        return [...prevCats, { [key]: [selectedCat] }];
+      }
+      return prevCats;
+    });
+  }, [selectedCat]);
 
+  const uniqueItems = [...new Set(listings.map((listing) => listing[key]))];
+  const handleRemoveCat = (key, selectedCat) => {
+    setSelectedCats((prevSelectedCats) =>
+      prevSelectedCats.filter((cat) => cat[key] !== selectedCat)
+    );
+  };
   return (
     <div className="relative w-full group flex flex-col gap-2 col-span-12 md:col-span-3">
       <button
@@ -24,6 +39,7 @@ const SearchDropdown = ({ config }) => {
               onClick={() => {
                 setActiveDD(false);
                 setSelectedCat("");
+                handleRemoveCat(key, selectedCat);
               }}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -107,16 +123,43 @@ const SearchingSection = () => {
     },
   ];
 
-  const { filters, setFilters } = useContext(MyContext);
-  const [searchKeyword, setSearchKeyword] = useState("");
-
-  const handleSearchInputChange = (event) => {
-    const keyword = event.target.value;
-    setSearchKeyword(keyword);
-    setFilters({
-      ...filters,
-      search: keyword,
+  const ref = useRef();
+  const { setFilters } = useContext(MyContext);
+  const [selectedCats, setSelectedCats] = useState([]);
+  const history = useNavigate();
+  const removeDuplicates = (array) => {
+    const seen = new Set();
+    return array.filter((item) => {
+      const key = Object.keys(item)[0];
+      const value = item[key];
+      const keyValueString = `${key}:${value}`;
+      if (seen.has(keyValueString)) {
+        return false;
+      }
+      seen.add(keyValueString);
+      return true;
     });
+  };
+
+  const handleSearchInputChange = () => {
+    const searchValue = ref.current.value;
+
+    // Usage
+    // Convert the uniqueFiltersArray to a single object
+    const uniqueFilters = selectedCats.reduce((acc, current) => {
+      return { ...acc, ...current };
+    }, {});
+
+    if (searchValue === "") {
+      setFilters({ ...uniqueFilters });
+    } else {
+      setFilters({
+        ...uniqueFilters,
+        search: searchValue,
+      });
+    }
+
+    history("/listings");
   };
 
   const isMobile = window.innerWidth < 768 ? true : false;
@@ -128,8 +171,7 @@ const SearchingSection = () => {
           type="search"
           id="search-field"
           placeholder="Search Any Listing"
-          value={searchKeyword}
-          onChange={handleSearchInputChange}
+          ref={ref}
           className="block w-full px-2 py-3 text-sm   focus:border-custom-heading-color border-2 text-black pr-10 rounded-none outline-none bg-white"
         />
 
@@ -145,11 +187,17 @@ const SearchingSection = () => {
       </div>
       <div className="grid grid-cols-12 gap-2">
         {searchConfigs.map((config, index) => (
-          <SearchDropdown key={index} config={config} />
+          <SearchDropdown
+            key={index}
+            config={config}
+            selectedCats={selectedCats}
+            setSelectedCats={setSelectedCats}
+          />
         ))}
       </div>
 
       <button
+        onClick={handleSearchInputChange}
         class={`${
           isMobile ? "w-full" : "md:w-1/2"
         }  relative items-center justify-start overflow-hidden font-medium transition-all duration-500 bg-white hover:bg-custom-heading-color hover:text-white group py-1.5 px-2.5 mx-auto h-12 text-center`}

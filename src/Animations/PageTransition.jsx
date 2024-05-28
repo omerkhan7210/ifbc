@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
-import BarLoader from "./BarLoader";
 
 const PageTransition = ({ children }) => {
   const { loading } = useContext(MyContext);
@@ -36,7 +35,6 @@ const PageTransition = ({ children }) => {
           alt="KPEG"
           className="w-96"
         />
-        {loading && <BarLoader bgcolor="white" />}
       </motion.div>
     </>
   );

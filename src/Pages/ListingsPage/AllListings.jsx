@@ -14,7 +14,6 @@ const AllListings = () => {
     loading,
     activeListings,
     showActiveListings,
-    setFilters,
   } = useContext(MyContext);
   const [filterListings, setFilterListings] = useState();
   const totalNoOfListings = window.innerWidth < 768 ? 10 : 25;
@@ -47,23 +46,6 @@ const AllListings = () => {
   ];
 
   useEffect(() => {
-    const searchKeyWordV = window.location.href.split("?")[1];
-
-    if (searchKeyWordV) {
-      const filterName = searchKeyWordV.split("=")[0];
-      const filterProp = searchKeyWordV.split("=")[1];
-      const filterPropString = filterProp.split("%20").join(" ").trim();
-      if (filterName && filterPropString) {
-        // Update the filters state with the search keyword
-        setFilters({
-          ...filters,
-          [filterName]: [filterPropString],
-        });
-      }
-    }
-  }, []);
-
-  useEffect(() => {
     if (listings.length > 0) {
       const filteredListings = filters
         ? listings.filter((listing) => {
@@ -73,12 +55,16 @@ const AllListings = () => {
                 filters[key] !== "" &&
                 filters[key].length > 0
               ) {
-                if (Array.isArray(filters[key])) {
-                  console.log(filters[key]);
-                  return filters[key].some((filterValue) =>
-                    listing[key]
-                      ?.toLowerCase()
-                      .includes(filterValue.toLowerCase())
+                if (Array.isArray(filters[key]) && key === "search") {
+                  const searchString = filters["search"][0].toLowerCase();
+                  console.log(listing.name);
+                  return filters["search"].some((searchString) =>
+                    listing.name.toLowerCase().includes(searchString)
+                  );
+                } else if (Array.isArray(filters[key])) {
+                  return filters[key].some(
+                    (filterValue) =>
+                      listing[key]?.toLowerCase() === filterValue.toLowerCase()
                   );
                 } else {
                   return listing[key]
@@ -114,10 +100,22 @@ const AllListings = () => {
 
   return loading ? (
     <div className="grid place-content-center">
-      <BarLoader />
+      <BarLoader bgcolor={"blue"} />
     </div>
   ) : (
     <>
+      <div className="flex justify-between items-center">
+        <p className="ml-5 text-custom-heading-color font-bold">
+          Showing {paginationListings?.length} out of {listings.length} (FLS
+          Listings)
+        </p>{" "}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}
+          onPageChange={paginate}
+        />
+      </div>
+
       <div
         id="listing-columns"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
@@ -136,11 +134,13 @@ const AllListings = () => {
       </div>
       {/* Pagination */}
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}
-        onPageChange={paginate}
-      />
+      <div className="w-full flex justify-center">
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}
+          onPageChange={paginate}
+        />
+      </div>
     </>
   );
 };

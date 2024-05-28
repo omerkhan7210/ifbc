@@ -108,19 +108,57 @@ const ListingsFilter = () => {
     },
   ];
 
-  console.log(filters);
   const [selectedCats, setSelectedCats] = useState([]);
+  // Check if any filters are not empty
+  const hasActiveFilters =
+    filters &&
+    Object.values(filters).some((filterArray) => filterArray.length > 0);
+  // Extract active filters
+  const activeFilters =
+    filters &&
+    Object.entries(filters)?.filter(([key, value]) => value.length > 0);
+
+  const handleRemoveFilter = (key, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [key]: prevFilters[key].filter((filterValue) => filterValue !== value),
+    }));
+  };
   return (
     <div id="main-filter-container" className="sticky top-0">
-      {filters && (
-        <button
-          onClick={() => {
-            setFilters(null);
-          }}
-          className="mb-4 font-bold cursor-pointer hover:bg-red-800 hover:text-white transition flex items-center gap-1 border-2 border-red-800 px-2 justify-between w-full not-prose uppercase text-red-950 "
-        >
-          Clear Filters <span className="text-red ">X</span>
-        </button>
+      {hasActiveFilters && (
+        <div className="mb-4">
+          <button
+            onClick={() => setFilters({})}
+            className="font-bold cursor-pointer hover:bg-red-800 hover:text-white transition flex items-center gap-1 border-2 border-red-800 px-2 justify-between w-full not-prose uppercase text-red-950"
+          >
+            Clear All Filters <span className="text-red">X</span>
+          </button>
+          <div className="mt-2">
+            <h3 className="font-semibold">Active Filters:</h3>
+            <ul className="divide-y-2">
+              {activeFilters.map(([key, values]) =>
+                values.map((value) => (
+                  <li
+                    key={`${key}-${value}`}
+                    className="text-gray-700 flex items-center capitalize justify-between py-2 text-xs"
+                  >
+                    <span className="font-bold">
+                      {key.replace(/([A-Z])/g, " $1").trim()} :{" "}
+                      {value.replace(/^.*?:/, "").trim()}
+                    </span>
+                    <button
+                      className="ml-2 text-red-600 font-bold cursor-pointer"
+                      onClick={() => handleRemoveFilter(key, value)}
+                    >
+                      X
+                    </button>
+                  </li>
+                ))
+              )}
+            </ul>
+          </div>
+        </div>
       )}
 
       {filterData.map((filter, index) => (

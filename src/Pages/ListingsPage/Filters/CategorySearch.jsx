@@ -20,12 +20,6 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     setSelectedCats(newSelCats);
   };
 
-  const handleRemoveCat = (cat) => {
-    setSelectedCats((prevSelectedCats) =>
-      prevSelectedCats.filter((item) => item !== cat)
-    );
-  };
-
   useEffect(() => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -71,17 +65,11 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
         } duration-200 bg-white dark:bg-gray-800 border border-dimmed text-sm md:text-sm overflow-scroll`}
       >
         {uniqueFranchisedCats.map((cat, index) => {
-          const isActive = selectedCats.includes(cat?.toLowerCase());
-
           return (
             <div className="flex justify-between items-center" key={index}>
               <div
                 onClick={() => handleCatSelection(cat)}
-                className={`${
-                  isActive
-                    ? "border-l-4 border-custom-heading-color"
-                    : "text-black"
-                } w-full block cursor-pointer hover:bg-slate-300 dark:hover:bg-gray-900 dark:bg-gray-800 hover:text-link px-3 py-2`}
+                className={`text-black w-full block cursor-pointer hover:bg-slate-300 dark:hover:bg-gray-900 dark:bg-gray-800 hover:text-link px-3 py-2`}
               >
                 <span>
                   {cat} (
@@ -92,14 +80,6 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
                   )
                 </span>
               </div>
-              {isActive && (
-                <span
-                  className="text-red-950 font-bold cursor-pointer"
-                  onClick={() => handleRemoveCat(cat?.toLowerCase())}
-                >
-                  X
-                </span>
-              )}
             </div>
           );
         })}

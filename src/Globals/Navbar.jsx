@@ -7,6 +7,11 @@ const Navbar = () => {
     background: isActive ? "rgb(0 17 54)" : "",
   });
 
+  const innerNavLinkStyle = ({ isActive }) => ({
+    background: isActive ? "rgb(0 17 54)" : "",
+    color: isActive ? "white" : "",
+  });
+
   return (
     <div className="hidden lg:block relative">
       <div className="menu-broker-container">
@@ -76,7 +81,7 @@ const Navbar = () => {
                       >
                         <NavLink
                           to="/listings"
-                          style={style}
+                          style={innerNavLinkStyle}
                           aria-current="page"
                         >
                           Franchise Search (FLS)

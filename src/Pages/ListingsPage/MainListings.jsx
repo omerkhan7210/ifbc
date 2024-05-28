@@ -88,7 +88,7 @@ const ExtraTools = () => {
             : "justify-start"
         } `}
       >
-        <SearchingComponent homepage={false} />
+        <SearchingComponent />
 
         {activeListings && activeListings.length > 0 && (
           <button
@@ -112,7 +112,7 @@ const MainListings = () => {
   return (
     <PageTransition>
       <main
-        className="	 pt-10 px-6 mx-auto grid grid-cols-12 gap-6 relative"
+        className="	 pt-10 px-6 mx-auto w-full grid grid-cols-12 gap-6 relative"
         id="main"
       >
         <div className="col-span-12">
@@ -121,14 +121,14 @@ const MainListings = () => {
 
         <div
           id="left-sidebar"
-          className="md:col-span-3  sm:col-span-6 col-span-12 mt-5 bg-white"
+          className="md:col-span-3  sm:col-span-6 col-span-12 my-5 bg-white"
         >
           <ListingsFilter />
         </div>
 
         <div
           id="right-sidebar"
-          className="md:col-span-9 sm:col-span-6 col-span-12 "
+          className="md:col-span-9 sm:col-span-6 col-span-12 my-5"
         >
           <AllListings />
         </div>
