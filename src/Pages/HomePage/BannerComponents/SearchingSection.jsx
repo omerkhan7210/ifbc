@@ -155,7 +155,7 @@ const SearchingSection = () => {
     } else {
       setFilters({
         ...uniqueFilters,
-        search: searchValue,
+        search: [searchValue],
       });
     }
 

@@ -45,6 +45,11 @@ const AllListings = () => {
     "YearEstablished",
   ];
 
+  // Effect to reset currentPage to 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
   useEffect(() => {
     if (listings.length > 0) {
       const filteredListings = filters
@@ -56,12 +61,10 @@ const AllListings = () => {
                 filters[key].length > 0
               ) {
                 if (Array.isArray(filters[key]) && key === "search") {
-                  const searchString = filters["search"][0].toLowerCase();
-                  console.log(listing.name);
                   return filters["search"].some((searchString) =>
                     listing.name.toLowerCase().includes(searchString)
                   );
-                } else if (Array.isArray(filters[key])) {
+                } else if (Array.isArray(filters[key]) && key !== "search") {
                   return filters[key].some(
                     (filterValue) =>
                       listing[key]?.toLowerCase() === filterValue.toLowerCase()

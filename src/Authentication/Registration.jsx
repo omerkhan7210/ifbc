@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 
-const Login = ({ setIfLogin }) => {
+const Registration = ({ setIfLogin }) => {
   const ref = useRef();
   const [error, setError] = useState({
     username: "",
@@ -88,6 +88,7 @@ const Login = ({ setIfLogin }) => {
     <PageTransition>
       <div className="w-full h-screen grid place-items-center">
         <div className="w-[350px] md:w-[450px] flex justify-center flex-col items-center ">
+          <h2 className="text-5xl my-5 uppercase font-bold">Registration</h2>
           <form
             className="bg-white w-full shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded px-4 md:px-8 pt-6 pb-8 mb-4"
             ref={ref}
@@ -175,4 +176,4 @@ const Login = ({ setIfLogin }) => {
   );
 };
 
-export default Login;
+export default Registration;

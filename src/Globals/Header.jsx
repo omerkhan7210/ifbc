@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import { useContext, useState } from "react";
 import { motion } from "framer-motion";
-
+import { MyContext } from "src/Context/ListingDataContext";
 const Logo = () => {
   return (
     <Link
@@ -85,7 +86,7 @@ const Header = ({ mobileActive, setMobileActive }) => {
             isMobile ? "hidden" : "flex justify-start gap-5"
           }  py-2 `}
         >
-          {socials.map((button,index) => (
+          {socials.map((button, index) => (
             <li key={index} className="flex gap-1 text-sm items-center">
               {button.svg}
               <a
@@ -105,30 +106,8 @@ const Header = ({ mobileActive, setMobileActive }) => {
         {/* LOGO */}
         <Logo />
 
-        {/* APPOINTMENT BUTTON */}
-
-        <div className={`${isMobile ? "" : "flex justify-end items-center"}`}>
-          <button
-            className={`${
-              isMobile
-                ? "hidden"
-                : "uppercase font-semibold rounded-full hover:bg-custom-heading-color hover:text-white transition-all duration-150 bg-white text-custom-heading-color px-10  text-sm h-10"
-            } `}
-          >
-            Book an appointment
-          </button>
-          <button
-            onClick={() => setMobileActive(!mobileActive)}
-            id="toggle-button"
-            className={`flex-col items-center justify-center gap-1 ${
-              isMobile ? "flex" : "hidden"
-            }`}
-          >
-            <span className="h-1 bg-white w-7 block"></span>
-            <span className="h-1 bg-white w-7 block"></span>
-            <span className="h-1 bg-white w-7 block"></span>
-          </button>
-        </div>
+        {/* RIGHT SIDE BUTTONS CONTAINER */}
+        <RightSideButtonsContainer />
       </div>
 
       <Navbar />
@@ -136,4 +115,87 @@ const Header = ({ mobileActive, setMobileActive }) => {
   );
 };
 
+const RightSideButtonsContainer = () => {
+  const isMobile = window.innerWidth < 992 ? true : false;
+  const [active, setActive] = useState(false);
+  const { ifLogin, setIfLogin } = useContext(MyContext);
+  const history = useNavigate();
+  const elementStyle = active
+    ? {
+        position: "fixed",
+        margin: "0px",
+        transform: "translate(0px, 56px)",
+        opacity: "1",
+        display: "block",
+        right: "15px",
+        top: "10px",
+      }
+    : {};
+
+  const handleLogOut = () => {
+    localStorage.setItem("ifLogin", false);
+    setIfLogin(false);
+    history("/");
+  };
+  return (
+    <div className={`${isMobile ? "" : "flex justify-end items-center gap-2"}`}>
+      {/* BOOK AN APPOINTMENT */}
+      <button
+        className={`${
+          isMobile
+            ? "hidden"
+            : "uppercase font-semibold rounded-full hover:bg-custom-heading-color hover:text-white transition-all duration-150 bg-white text-custom-heading-color px-10  text-sm h-10"
+        } `}
+      >
+        Book an appointment
+      </button>
+
+      {/* USER BUTTON */}
+      {ifLogin && (
+        <div className="hs-dropdown relative inline-flex">
+          <button
+            id="user-icon "
+            onClick={() => setActive(!active)}
+            class="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
+          >
+            <img
+              src="/images/avatar-placeholder.png"
+              class="w-10 h-10 rounded-full"
+            />
+          </button>
+          <div
+            className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
+            style={elementStyle}
+            aria-labelledby="hs-dropdown-default"
+          >
+            <div className="flex flex-col items-start  py-2 px-3">
+              <p class="text-[15px] text-[#333] font-bold">John Doe</p>
+              <p class="text-xs text-gray-500 mt-0.5">johndoe23@gmail.com</p>
+            </div>
+            {/* logout button */}
+            <a
+              className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
+              onClick={handleLogOut}
+            >
+              Log out
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* TOGGLE BUTTON */}
+      <button
+        onClick={() => setMobileActive(!mobileActive)}
+        id="toggle-button"
+        className={`flex-col items-center justify-center gap-1 ${
+          isMobile ? "flex" : "hidden"
+        }`}
+      >
+        <span className="h-1 bg-white w-7 block"></span>
+        <span className="h-1 bg-white w-7 block"></span>
+        <span className="h-1 bg-white w-7 block"></span>
+      </button>
+    </div>
+  );
+};
 export default Header;

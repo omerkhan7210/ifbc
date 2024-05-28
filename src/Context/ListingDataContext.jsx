@@ -18,6 +18,9 @@ const ListingDataContext = ({ children }) => {
   const [tCheck, setTCheck] = useState(false);
   const [formalRegCheck, setformalRegCheck] = useState(false);
   const [paginationListings, setPaginationListings] = useState();
+  const [ifLogin, setIfLogin] = useState(
+    JSON.parse(localStorage.getItem("ifLogin")) || false
+  );
 
   const handleTools = (event) => {
     const value = event.target.value;
@@ -35,7 +38,7 @@ const ListingDataContext = ({ children }) => {
     const url =
       "https://corsproxy.io/?" +
       encodeURIComponent(
-        `http://siddiqiventures-001-site3.ktempurl.com/rests.aspx`
+        `http://siddiqiventures-001-site3.ktempurl.com/all_list.aspx`
       );
     // Make a GET request to fetch the data
     axios
@@ -81,6 +84,8 @@ const ListingDataContext = ({ children }) => {
         setShowActiveListings,
         paginationListings,
         setPaginationListings,
+        ifLogin,
+        setIfLogin,
       }}
     >
       {children}
