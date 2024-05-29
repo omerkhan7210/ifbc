@@ -21,6 +21,9 @@ const ListingDataContext = ({ children }) => {
   const [ifLogin, setIfLogin] = useState(
     JSON.parse(localStorage.getItem("ifLogin")) || false
   );
+  const [userDetails, setUserDetails] = useState(
+    JSON.parse(localStorage.getItem("userDetails")) || {}
+  );
 
   const handleTools = (event) => {
     const value = event.target.value;
@@ -35,20 +38,16 @@ const ListingDataContext = ({ children }) => {
 
   useEffect(() => {
     setLoading(true);
-    const url =
-      "https://corsproxy.io/?" +
-      encodeURIComponent(
-        `http://siddiqiventures-001-site3.ktempurl.com/all_list.aspx`
-      );
+    const url = "http://siddiqiventures-001-site3.ktempurl.com/all_list.aspx";
+
     // Make a GET request to fetch the data
     axios
       .get(url)
       .then((response) => {
         // Handle successful response
-
         if (response.data.length > 0) {
           const normalFLS = response.data.filter(
-            (data) => data.Memberships !== undefined
+            (data) => data.Memberships !== null
           );
           setListings(normalFLS);
           setLoading(false);
@@ -86,6 +85,8 @@ const ListingDataContext = ({ children }) => {
         setPaginationListings,
         ifLogin,
         setIfLogin,
+        userDetails,
+        setUserDetails,
       }}
     >
       {children}

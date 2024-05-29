@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
+import { useContext } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
+import { MyContext } from "src/Context/ListingDataContext";
 
 const Login = ({ setIfLogin }) => {
   const ref = useRef();
@@ -13,11 +15,9 @@ const Login = ({ setIfLogin }) => {
 
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
+  const { setUserDetails } = useContext(MyContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const page = "login_api.aspx";
-    const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/${page}`;
-    const proxyUrl = "https://corsproxy.io/";
 
     const user = ref.current;
 
@@ -51,18 +51,20 @@ const Login = ({ setIfLogin }) => {
     }
 
     try {
-      const url = `${proxyUrl}?${encodeURIComponent(baseUrl)}?UNAME=${
-        user.username.value
-      }&PWD=${user.password.value}`;
+      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/login_api.aspx`;
+
+      const url = `${baseUrl}?UNAME=${user.username.value}&PWD=${user.password.value}`;
       setLoading(true);
       // Send the POST request using Axios
       const response = await axios.post(url);
       console.log(response);
 
-      if (response.data === "True" && response.status === 200) {
+      if (response.data.length > 0 && response.status === 200) {
         localStorage.setItem("ifLogin", true);
         setIfLogin(true);
         setLoading(false);
+        setUserDetails(response?.data[0]);
+        localStorage.setItem("userDetails", JSON.stringify(response?.data[0]));
         history("/");
       } else {
         setError({

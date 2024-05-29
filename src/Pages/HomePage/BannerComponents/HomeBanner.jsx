@@ -2,6 +2,12 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import SearchingSection from "./SearchingSection";
 import { MyContext } from "src/Context/ListingDataContext";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+// Import Swiper styles
+import "swiper/css";
+import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 
 const ListingBox = ({ id, bgcolor, svg, min, max }) => {
   const { listings } = useContext(MyContext);
@@ -42,8 +48,6 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
 };
 
 const HomeBanner = () => {
-  const isMobile = window.innerWidth < 768 ? true : false;
-
   const listingBoxes = [
     {
       id: "Popular",
@@ -112,23 +116,66 @@ const HomeBanner = () => {
       max: 55,
     },
   ];
+  const slidesData = [
+    {
+      image: "/images/banner.png",
+      text: "The Best Franchise Opportunities Are Available For You!",
+    },
+    {
+      image: "/images/banner2.jpg",
+      text: "Discover Amazing Business Ventures Today!",
+    },
+    {
+      image: "/images/banner3.png",
+      text: "Unlock Your Entrepreneurial Potential with Our Franchise Options!",
+    },
+    {
+      image: "/images/banner4.jpg",
+      text: "Join the Fastest-Growing Brands in the Industry!",
+    },
+    {
+      image: "/images/banner5.jpg",
+      text: "Start Your Journey to Business Success Today!",
+    },
+  ];
 
   return (
     <>
       <section
-        className="w-full px-5 md:px-10  min-h-[600px]   relative flex flex-col justify-center items-center"
-        style={{
-          background: "url(/images/banner.png)",
-          backgroundPosition: "center",
-        }}
+        id="homebanner"
+        className="w-full min-h-[600px] relative flex flex-col  items-center "
       >
-        <div className="absolute w-full h-full bg-custom-heading-color/60 top-0 left-0 z-0" />
-
-        <div className="w-full mx-auto flex flex-col gap-10 z-10">
-          <h1 className="text-3xl md:text-4xl md:text-65 tracking-tight font-semibold  text-center text-white">
-            The Best Franchise Opportunities Are Available For You!
-          </h1>
-
+        <Swiper
+          modules={[Autoplay, Pagination, EffectFade]}
+          spaceBetween={30}
+          effect="fade"
+          loop
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+            stopOnLastSlide: false,
+          }}
+          className="w-full  min-h-[600px] flex h-full flex-col gap-10 z-10 relative"
+        >
+          {slidesData.map((slide, index) => (
+            <SwiperSlide key={index}>
+              <div
+                className="swiperslidehomebanner w-full  md:px-10 min-h-[600px]  flex flex-col justify-start pt-16 md:pt-32  items-center"
+                style={{
+                  background: `url(${slide.image})`,
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                }}
+              >
+                <h1 className="text-3xl z-50 relative md:text-4xl md:text-65 tracking-tight font-semibold text-center text-white">
+                  {slide.text}
+                </h1>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div className="absolute bg-transparent top-44 md:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 px-4 ">
           <SearchingSection />
         </div>
       </section>

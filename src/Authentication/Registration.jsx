@@ -7,23 +7,23 @@ const Registration = ({ setIfLogin }) => {
   const ref = useRef();
   const [error, setError] = useState({
     username: "",
+    email: "",
     password: "",
     credentials: "",
   });
 
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(null);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const page = "login_api.aspx";
-    const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/${page}`;
-    const proxyUrl = "https://corsproxy.io/";
 
     const user = ref.current;
 
-    if (!user.username.value && !user.password.value) {
+    if (!user.username.value && !user.password.value && !user.email.value) {
       setError({
         username: "Please enter a username",
+        email: "Please enter an email",
         password: "Please enter a password",
         credentials: "",
       });
@@ -31,6 +31,7 @@ const Registration = ({ setIfLogin }) => {
     } else if (!user.username.value) {
       setError({
         username: "Please enter a username",
+        email: "",
         password: "",
         credentials: "",
       });
@@ -38,6 +39,15 @@ const Registration = ({ setIfLogin }) => {
     } else if (!user.password.value) {
       setError({
         username: "",
+        email: "",
+        password: "Please enter a password",
+        credentials: "",
+      });
+      return;
+    } else if (!user.email.value) {
+      setError({
+        username: "",
+        email: "Please enter an email",
         password: "Please enter a password",
         credentials: "",
       });
@@ -45,28 +55,36 @@ const Registration = ({ setIfLogin }) => {
     } else {
       setError({
         username: "",
+        email: "",
         password: "",
         credentials: "",
       });
     }
 
     try {
-      const url = `${proxyUrl}?${encodeURIComponent(baseUrl)}?UNAME=${
+      const page = "create_account.aspx";
+      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/${page}`;
+      const proxyUrl = "https://corsproxy.io/";
+
+      const url = `${proxyUrl}?${encodeURIComponent(baseUrl)}?USERID=${
         user.username.value
-      }&PWD=${user.password.value}`;
+      }&USERNAME=${user.username.value}&PASSCODE=${user.password.value}`;
       setLoading(true);
       // Send the POST request using Axios
       const response = await axios.post(url);
-      console.log(response);
 
-      if (response.data === "True" && response.status === 200) {
+      if (
+        response.data === "Account Created Successfully." &&
+        response.status === 200
+      ) {
         localStorage.setItem("ifLogin", true);
-        setIfLogin(true);
+        setSuccessMsg(response.data);
         setLoading(false);
-        history("/");
+        history("/login");
       } else {
         setError({
           username: "",
+          email: "",
           password: "",
           credentials: "Username or password incorrect",
         });
@@ -77,6 +95,7 @@ const Registration = ({ setIfLogin }) => {
       setError({
         username: "",
         password: "",
+        email: "",
         credentials: "Server Error",
       });
 
@@ -99,6 +118,11 @@ const Registration = ({ setIfLogin }) => {
                 {error.credentials}!
               </p>
             )}
+            {successMsg && (
+              <p className="text-green-500 font-bold text-sm mb-4 border border-green-500 p-2 rounded">
+                {successMsg}!
+              </p>
+            )}
             <div className="mb-4">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -118,6 +142,28 @@ const Registration = ({ setIfLogin }) => {
               {error.username && (
                 <p className="text-red-500 text-xs italic mt-2">
                   {error.username}
+                </p>
+              )}
+            </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                className={`shadow appearance-none ${
+                  error.email ? "border-red-500" : ""
+                } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                name="email"
+                id="email"
+                type="email"
+                placeholder="Email"
+              />
+              {error.email && (
+                <p className="text-red-500 text-xs italic mt-2">
+                  {error.email}
                 </p>
               )}
             </div>
@@ -149,21 +195,15 @@ const Registration = ({ setIfLogin }) => {
                 className="bg-blue-500 hover:bg-custom-dark-blue text-white font-bold p-2 uppercase text-center rounded w-full text-xs md:text-sm focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                {loading ? "Loading.." : "Sign In"}
+                {loading ? "Loading.." : "Sign Up"}
               </button>
-              <a
-                className="inline-block bg-custom-heading-color text-white hover:bg- focus:outline-none focus:shadow-outline font-semibold text-xs md:text-sm p-2 rounded w-full text-center uppercase"
-                href="#"
-              >
-                Forgot Password?
-              </a>
             </div>
 
             <NavLink
-              to="/registration"
+              to="/login"
               className="flex justify-center mt-4 bg-custom-grey hover:bg-gray-950 text-white font-bold p-2 uppercase text-center rounded w-full text-xs md:text-sm focus:outline-none focus:shadow-outline"
             >
-              Don't have an account? Create now!
+              Already have an account? Login now!
             </NavLink>
           </form>
           {/* footer */}

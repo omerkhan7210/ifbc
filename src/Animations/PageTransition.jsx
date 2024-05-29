@@ -1,18 +1,20 @@
 import { motion } from "framer-motion";
+import { document } from "postcss";
+import { useEffect, useLayoutEffect } from "react";
 import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 
 const PageTransition = ({ children }) => {
   const { loading } = useContext(MyContext);
-
   const variants = {
     initial: {
       scaleY: 0,
     },
     animate: {
-      scaleY: [0, 1, 1, 0],
+      scaleY: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
     },
   };
+
   return (
     <>
       {children}
@@ -28,12 +30,12 @@ const PageTransition = ({ children }) => {
       >
         <motion.img
           animate={{
-            opacity: [0, 1, 1, 0],
+            opacity: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
             transition: { duration: 1, delay: 0.1 },
           }}
           src="/images/logo/IFBC 3.png"
           alt="KPEG"
-          className="w-96"
+          className="w-72 md:w-96"
         />
       </motion.div>
     </>

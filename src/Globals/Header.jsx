@@ -107,7 +107,10 @@ const Header = ({ mobileActive, setMobileActive }) => {
         <Logo />
 
         {/* RIGHT SIDE BUTTONS CONTAINER */}
-        <RightSideButtonsContainer />
+        <RightSideButtonsContainer
+          mobileActive={mobileActive}
+          setMobileActive={setMobileActive}
+        />
       </div>
 
       <Navbar />
@@ -115,10 +118,11 @@ const Header = ({ mobileActive, setMobileActive }) => {
   );
 };
 
-const RightSideButtonsContainer = () => {
+const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
   const isMobile = window.innerWidth < 992 ? true : false;
   const [active, setActive] = useState(false);
-  const { ifLogin, setIfLogin } = useContext(MyContext);
+  const { ifLogin, setIfLogin, userDetails } = useContext(MyContext);
+
   const history = useNavigate();
   const elementStyle = active
     ? {
@@ -152,7 +156,11 @@ const RightSideButtonsContainer = () => {
 
       {/* USER BUTTON */}
       {ifLogin && (
-        <div className="hs-dropdown relative inline-flex">
+        <div
+          className={`hs-dropdown relative inline-flex ${
+            isMobile ? "hidden" : ""
+          }`}
+        >
           <button
             id="user-icon "
             onClick={() => setActive(!active)}
@@ -169,8 +177,12 @@ const RightSideButtonsContainer = () => {
             aria-labelledby="hs-dropdown-default"
           >
             <div className="flex flex-col items-start  py-2 px-3">
-              <p class="text-[15px] text-[#333] font-bold">John Doe</p>
-              <p class="text-xs text-gray-500 mt-0.5">johndoe23@gmail.com</p>
+              <p class="text-[15px] text-[#333] font-bold">
+                {userDetails ? userDetails?.UserName : "John Doe"}
+              </p>
+              <p class="text-xs text-gray-500 mt-0.5">
+                {userDetails ? userDetails?.UserName : "johndoe23@gmail.com"}
+              </p>
             </div>
             {/* logout button */}
             <a

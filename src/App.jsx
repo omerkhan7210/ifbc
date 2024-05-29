@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -22,10 +22,20 @@ import { MyContext } from "src/Context/ListingDataContext";
 import Registration from "./Authentication/Registration";
 
 const App = () => {
-  const { tCheck, formalRegCheck, ifLogin, setIfLogin } = useContext(MyContext);
+  const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
+    useContext(MyContext);
   const [mobileActive, setMobileActive] = useState(false);
   const loc = useLocation();
-
+  useLayoutEffect(() => {
+    if (loading) {
+      document.querySelector("html").style.overflowY = "hidden";
+      document.querySelector("html").style.height = "100%";
+    }
+    if (!loading) {
+      document.querySelector("html").style.overflow = "auto";
+      document.querySelector("html").style.height = "auto";
+    }
+  }, [loading]);
   return (
     <AnimatePresence mode="wait">
       {ifLogin ? (
@@ -43,7 +53,6 @@ const App = () => {
             <Route path="/listings-details/:name" element={<MainDetails />} />
             <Route path="/" element={<MainHome />} />
             <Route path="*" element={<NotFoundPage />} />
-            <Route path="/registration" element={<Registration />} />
           </Routes>
 
           <RelatedListings />

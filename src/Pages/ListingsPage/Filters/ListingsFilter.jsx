@@ -20,20 +20,18 @@ const ListingsFilter = () => {
       normalText: "Investment Range",
       property: "InvestmentRange",
     },
-    {
-      anotherText: "Select Item 19",
-      normalText: "Item 19",
-      property: "Item19",
-    },
-    {
-      anotherText: "Select Liquidity",
-      normalText: "Liquidity",
-      property: "Liquidity",
-    },
+
     {
       anotherText: "Select Memberships",
       normalText: "Memberships",
       property: "Memberships",
+    },
+
+    { anotherText: "Select Single", normalText: "Single", property: "Single" },
+    {
+      anotherText: "Select Multiple",
+      normalText: "Multiple",
+      property: "Multiple",
     },
     {
       anotherText: "Select Minimum Net Worth",
@@ -45,11 +43,7 @@ const ListingsFilter = () => {
       normalText: "Monthly Cash",
       property: "MonthCash",
     },
-    {
-      anotherText: "Select Multiple",
-      normalText: "Multiple",
-      property: "Multiple",
-    },
+
     {
       anotherText: "Select National Advertising",
       normalText: "National Advertising",
@@ -90,7 +84,16 @@ const ListingsFilter = () => {
       normalText: "Royalty Description",
       property: "RoyaltyDescription",
     },
-    { anotherText: "Select Single", normalText: "Single", property: "Single" },
+    {
+      anotherText: "Select Item 19",
+      normalText: "Item 19",
+      property: "Item19",
+    },
+    {
+      anotherText: "Select Liquidity",
+      normalText: "Liquidity",
+      property: "Liquidity",
+    },
     {
       anotherText: "Select Territories",
       normalText: "Territories",
