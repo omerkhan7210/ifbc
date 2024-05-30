@@ -20,6 +20,7 @@ const MainDetails = () => {
       }
     });
   }, [listings]);
+
   return (
     <PageTransition>
       <main

@@ -1,4 +1,6 @@
 import React from "react";
+import { useContext } from "react";
+import { MyContext } from "src/Context/ListingDataContext";
 
 const TopBar = ({ listingContent }) => {
   const data = [
@@ -170,6 +172,8 @@ const TopBar = ({ listingContent }) => {
     },
   ];
 
+  const { role } = useContext(MyContext);
+
   return (
     <section className="flex flex-col w-full justify-between items-center border-b border-custom-dark-blue/10 mb-4 mt-4 ">
       <div className="lg:mb-2 flex justify-center items-center flex-col">
@@ -246,15 +250,17 @@ const TopBar = ({ listingContent }) => {
             <h2 className="text-2xl font-semibold text-custom-dark-blue uppercase">
               Listing Details
             </h2>
-            {data.map(
-              (listingLi, index) =>
-                index < 3 && (
+            {data.map((listingLi, index) => {
+              const indexLimitListing = role === "A" ? index < 3 : index === 0;
+              if (indexLimitListing) {
+                return (
                   <li key={index} className="flex items-center gap-1">
                     {listingLi.icon}
                     {listingLi.text}
                   </li>
-                )
-            )}
+                );
+              }
+            })}
           </ul>
         </div>
 
@@ -263,15 +269,17 @@ const TopBar = ({ listingContent }) => {
             <h2 className="text-2xl font-semibold text-custom-dark-blue uppercase">
               User Details
             </h2>
-            {data.map(
-              (listingLi, index) =>
-                index > 2 && (
+            {data.map((listingLi, index) => {
+              const indexLimit = role === "A" ? 2 : 6;
+              if (index > indexLimit) {
+                return (
                   <li key={index} className="flex items-center gap-1">
                     {listingLi.icon}
                     {listingLi.text}
                   </li>
-                )
-            )}
+                );
+              }
+            })}
           </ul>
         </div>
       </div>

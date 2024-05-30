@@ -21,9 +21,20 @@ const ListingDataContext = ({ children }) => {
   const [ifLogin, setIfLogin] = useState(
     JSON.parse(localStorage.getItem("ifLogin")) || false
   );
-  const [userDetails, setUserDetails] = useState(
-    JSON.parse(localStorage.getItem("userDetails")) || {}
-  );
+  const userDetailsLS = JSON.parse(localStorage.getItem("userDetails")) || {};
+  const [userDetails, setUserDetails] = useState(userDetailsLS);
+  const [role, setRole] = useState(null);
+  const [allowed, setAllowed] = useState(null);
+
+  useEffect(() => {
+    const role = userDetailsLS.UserType;
+    setRole(role);
+    const allowed =
+      role === "C" || role === "M" || role === "A" || role === "O"
+        ? true
+        : false;
+    setAllowed(allowed);
+  });
 
   const handleTools = (event) => {
     const value = event.target.value;
@@ -87,6 +98,8 @@ const ListingDataContext = ({ children }) => {
         setIfLogin,
         userDetails,
         setUserDetails,
+        role,
+        allowed,
       }}
     >
       {children}

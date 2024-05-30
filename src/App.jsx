@@ -17,9 +17,11 @@ import Login from "src/Authentication/Login";
 import MainListings from "src/Pages/ListingsPage/MainListings";
 import MainDetails from "src/Pages/ListingsDetails/MainDetails";
 import MainHome from "src/Pages/HomePage/MainHome";
-import NotFoundPage from "./Pages/NotFoundPage";
+import NotFoundPage from "src/Pages/NotFoundPage";
 import { MyContext } from "src/Context/ListingDataContext";
-import Registration from "./Authentication/Registration";
+import Registration from "src/Authentication/Registration";
+import FranchiseOwner from "src/Pages/FranchiseOwner";
+import MainAbout from "./Pages/AboutPage/MainAbout";
 
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
@@ -36,6 +38,7 @@ const App = () => {
       document.querySelector("html").style.height = "auto";
     }
   }, [loading]);
+
   return (
     <AnimatePresence mode="wait">
       {ifLogin ? (
@@ -52,6 +55,8 @@ const App = () => {
             <Route path="/listings" element={<MainListings />} />
             <Route path="/listings-details/:name" element={<MainDetails />} />
             <Route path="/" element={<MainHome />} />
+            <Route path="/about" element={<MainAbout />} />
+            <Route path="/franchise-owner" element={<FranchiseOwner />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
 

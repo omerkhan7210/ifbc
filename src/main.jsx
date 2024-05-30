@@ -9,12 +9,10 @@ import "src/assets/css/aos.css";
 import "src/assets/css/style.css";
 import "src/assets/css/swiper-bundle.min.css";
 import "src/assets/css/output.css";
-import ScrollToTop from "./Globals/ScrollToTop.jsx";
 
 ReactDOM.createRoot(document.getElementById("app")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ScrollToTop />
       <Routes>
         <Route
           path="/*"

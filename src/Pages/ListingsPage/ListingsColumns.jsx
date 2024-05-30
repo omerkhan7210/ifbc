@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 
 const ListingsColumns = ({ listing, index }) => {
-  const { activeListings, setActiveListings } = useContext(MyContext);
+  const { activeListings, setActiveListings, allowed } = useContext(MyContext);
 
   const fee = listing?.FranchiseFee?.split("Franchise")[1];
 
@@ -83,20 +83,11 @@ const ListingsColumns = ({ listing, index }) => {
               fee ? "justify-between" : "justify-end"
             } top-40 w-full`}
           >
-            {fee && (
+            {allowed && fee && (
               <p className="bg-white py-2 text-xs font-bold px-4 rounded-full shadow-lg">
                 {fee}
               </p>
             )}
-            <p
-              className={`py-2 text-xs font-bold px-4 rounded-full shadow-lg text-white ${
-                listing?.Memberships === "Member"
-                  ? "bg-custom-blue"
-                  : "bg-custom-orange"
-              }`}
-            >
-              {listing?.Memberships}
-            </p>
           </div>
         </div>
 

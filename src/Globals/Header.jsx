@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { MyContext } from "src/Context/ListingDataContext";
+import ToggleButton from "./ToggleButton";
 const Logo = () => {
   return (
     <Link
@@ -196,17 +197,10 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
       )}
 
       {/* TOGGLE BUTTON */}
-      <button
-        onClick={() => setMobileActive(!mobileActive)}
-        id="toggle-button"
-        className={`flex-col items-center justify-center gap-1 ${
-          isMobile ? "flex" : "hidden"
-        }`}
-      >
-        <span className="h-1 bg-white w-7 block"></span>
-        <span className="h-1 bg-white w-7 block"></span>
-        <span className="h-1 bg-white w-7 block"></span>
-      </button>
+      <ToggleButton
+        setMobileActive={setMobileActive}
+        mobileActive={mobileActive}
+      />
     </div>
   );
 };

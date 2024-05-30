@@ -3,6 +3,7 @@ import { document } from "postcss";
 import { useEffect, useLayoutEffect } from "react";
 import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
+import ScrollToTop from "src/Globals/ScrollToTop";
 
 const PageTransition = ({ children }) => {
   const { loading } = useContext(MyContext);
@@ -17,9 +18,10 @@ const PageTransition = ({ children }) => {
 
   return (
     <>
+      <ScrollToTop />
       {children}
       <motion.div
-        className="origin-bottom h-screen w-full fixed top-0 left-0 z-[99999] flex flex-col gap-3 justify-center items-center bg-custom-heading-color"
+        className="origin-bottom h-full w-full fixed top-0 left-0 z-[99999] flex flex-col gap-3 justify-center items-center bg-custom-heading-color"
         variants={variants}
         initial="initial"
         animate="animate"
@@ -35,7 +37,7 @@ const PageTransition = ({ children }) => {
           }}
           src="/images/logo/IFBC 3.png"
           alt="KPEG"
-          className="w-72 md:w-96"
+          className="w-72 md:w-96 fixed top-80"
         />
       </motion.div>
     </>
