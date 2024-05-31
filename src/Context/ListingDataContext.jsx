@@ -29,12 +29,15 @@ const ListingDataContext = ({ children }) => {
   useEffect(() => {
     const role = userDetailsLS.UserType;
     setRole(role);
+
+    const roleConsultant = role === "C" && "Consultant/Agent";
+    setUserDetails({ ...userDetails, role: roleConsultant });
     const allowed =
       role === "C" || role === "M" || role === "A" || role === "O"
         ? true
         : false;
     setAllowed(allowed);
-  });
+  }, []);
 
   const handleTools = (event) => {
     const value = event.target.value;

@@ -181,8 +181,12 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
               <p class="text-[15px] text-[#333] font-bold">
                 {userDetails ? userDetails?.UserName : "John Doe"}
               </p>
-              <p class="text-xs text-gray-500 mt-0.5">
+              {/* <p class="text-xs text-gray-500 mt-0.5">
                 {userDetails ? userDetails?.UserName : "johndoe23@gmail.com"}
+              </p> */}
+
+              <p class="text-xs text-gray-500 mt-0.5">
+                {userDetails ? userDetails?.role : "role"}
               </p>
             </div>
             {/* logout button */}

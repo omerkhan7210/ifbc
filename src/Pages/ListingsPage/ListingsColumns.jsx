@@ -7,7 +7,14 @@ import { MyContext } from "src/Context/ListingDataContext";
 const ListingsColumns = ({ listing, index }) => {
   const { activeListings, setActiveListings, allowed } = useContext(MyContext);
 
-  const fee = listing?.FranchiseFee?.split("Franchise")[1];
+  // Use a regular expression to find the investment range
+  const investmentRangeMatch = listing?.InvestmentRange?.match(
+    /Investment Range: \$[\d,]+ - \$[\d,]+/
+  );
+
+  const investmentRange = investmentRangeMatch
+    ? investmentRangeMatch[0]?.split(":")[1]
+    : "";
 
   const isActive = activeListings?.includes(listing.name) ? true : false;
 
@@ -79,13 +86,11 @@ const ListingsColumns = ({ listing, index }) => {
 
           <div
             id="text-content"
-            className={`absolute flex ${
-              fee ? "justify-between" : "justify-end"
-            } top-40 w-full`}
+            className="absolute flex justify-center top-40 w-full"
           >
-            {allowed && fee && (
+            {allowed && investmentRange && (
               <p className="bg-white py-2 text-xs font-bold px-4 rounded-full shadow-lg">
-                {fee}
+                Cash Required: {investmentRange}
               </p>
             )}
           </div>
