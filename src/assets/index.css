@@ -2,3 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+.candidate-btn {
+  @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white w-80 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2 mt-5;
+}
+
+.candidate-input {
+  @apply bg-gray-50 border-b border-custom-dark-blue text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
+}
+
+.candidate-label {
+  @apply text-custom-dark-blue font-bold  py-2;
+}
+
+.candidate-sub-heading {
+  @apply text-4xl font-bold text-custom-heading-color text-center uppercase my-3;
+}
+
+.candidate-sub-childs {
+  @apply flex flex-col w-full my-3;
+}
+
+.candidate-select {
+  @apply bg-gray-50 border-b-2 border-blue-100  text-custom-dark-blue font-bold text-sm  block p-2.5 mr-2 focus:outline-none focus:ring-1;
+}

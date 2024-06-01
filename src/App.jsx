@@ -22,6 +22,7 @@ import { MyContext } from "src/Context/ListingDataContext";
 import Registration from "src/Authentication/Registration";
 import FranchiseOwner from "src/Pages/FranchiseOwner";
 import MainAbout from "./Pages/AboutPage/MainAbout";
+import Form from "./Pages/CandidatePages/NewCandidate/Form";
 
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="/" element={<MainHome />} />
             <Route path="/about" element={<MainAbout />} />
             <Route path="/franchise-owner" element={<FranchiseOwner />} />
+            <Route path="/new-candidate" element={<Form />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
 

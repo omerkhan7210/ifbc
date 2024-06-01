@@ -5738,8 +5738,7 @@ input[type="email"],
 input[type="number"],
 input[type="password"],
 input[type="search"]:not(.vs__search),
-textarea,
-select:not(.ui-datepicker-month):not(.ui-datepicker-year) {
+textarea {
   margin: 0px;
   display: block;
   width: 100%;
@@ -5856,17 +5855,6 @@ input[type="search"]:not(.vs__search) {
   padding-right: 0.75rem !important;
   padding-top: 0.375rem !important;
   padding-bottom: 0.375rem !important;
-}
-
-select:not(.ui-datepicker-month):not(.ui-datepicker-year) {
-  background: #faf9f8
-    url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%206l5%205%205-5%202%201-7%207-7-7%202-1z%22%20fill%3D%22%23989184%22%2F%3E%3C%2Fsvg%3E)
-    no-repeat right 5px top 55%;
-  border-radius: 0.25rem;
-  border-width: 2px;
-  --tw-border-opacity: 1;
-  border-color: rgba(244, 243, 242, var(--tw-border-opacity));
-  --tw-text-opacity: 1;
 }
 
 label,
@@ -7394,7 +7382,7 @@ blockquote {
 
 .modal__overlay,
 .popup-background {
-  align-items: center;
+  align-items: start;
   bottom: 0;
   background: rgba(125, 141, 231, 0.568);
   display: flex;

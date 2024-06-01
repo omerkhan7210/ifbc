@@ -16,14 +16,14 @@ const Navbar = () => {
     <div className="hidden lg:block relative">
       <div className="menu-broker-container">
         <ul id="menu-broker" className="menu">
-          <li
+          {/* <li
             id="menu-item-552013"
             className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552013"
           >
             <NavLink style={style} to="/online-magazine">
               Online Magazine
             </NavLink>
-          </li>
+          </li> */}
           <li
             id="menu-item-552041"
             className={` current_page_item menu-item menu-item-type-custom menu-item-object-custom  current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552041`}
@@ -71,9 +71,10 @@ const Navbar = () => {
                     </svg>
                   </div>
                   <div className="nav-heading flex-1">
-                    <a href="/franlink-system/" aria-current="page">
+                    <NavLink to="/listings" aria-current="page">
                       Research Franchises
-                    </a>
+                    </NavLink>
+
                     <ul className="sub-menu">
                       <li
                         id="menu-item-552043"
@@ -87,7 +88,7 @@ const Navbar = () => {
                           Franchise Search (FLS)
                         </NavLink>
                       </li>
-                      <li
+                      {/* <li
                         id="menu-item-557912"
                         className="menu-item menu-item-type-post_type menu-item-object-page menu-item-557912"
                       >
@@ -104,12 +105,12 @@ const Navbar = () => {
                         className="menu-item menu-item-type-post_type menu-item-object-page menu-item-552045"
                       >
                         <a href="/send-a-referral-to-fba/">Refer a Franchise</a>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>
               </li>
-              <li
+              {/* <li
                 id="menu-item-552046"
                 className="icon-franchise-news menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552046"
               >
@@ -143,7 +144,7 @@ const Navbar = () => {
                       />
                     </svg>
                   </div>
-                  <div className="nav-heading flex-1">
+                  {/* <div className="nav-heading flex-1">
                     <a href="#">GOOD Franchise News</a>
                     <ul className="sub-menu">
                       <li
@@ -171,7 +172,7 @@ const Navbar = () => {
                         </a>
                       </li>
                     </ul>
-                  </div>
+                  </div> 
                 </div>
               </li>
               <li
@@ -216,7 +217,7 @@ const Navbar = () => {
                       />
                     </svg>
                   </div>
-                  <div className="nav-heading flex-1">
+                   <div className="nav-heading flex-1">
                     <a href="#">Resales</a>
                     <ul className="sub-menu">
                       <li
@@ -232,9 +233,9 @@ const Navbar = () => {
                         </a>
                       </li>
                     </ul>
-                  </div>
+                  </div> 
                 </div>
-              </li>
+              </li> */}
             </ul>
           </li>
           <li
@@ -245,7 +246,7 @@ const Navbar = () => {
               Candidates
             </NavLink>
           </li>
-          <li
+          {/* <li
             id="menu-item-552367"
             className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552367"
           >
@@ -276,7 +277,7 @@ const Navbar = () => {
             <NavLink to="/new-support-ticket" style={style}>
               Help
             </NavLink>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>

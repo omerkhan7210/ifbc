@@ -57,7 +57,6 @@ const Login = ({ setIfLogin }) => {
       setLoading(true);
       // Send the POST request using Axios
       const response = await axios.post(url);
-      console.log(response);
 
       if (response.data.length > 0 && response.status === 200) {
         localStorage.setItem("ifLogin", true);

@@ -118,23 +118,23 @@ const HomeBanner = () => {
   ];
   const slidesData = [
     {
-      image: "/images/banner.png",
+      image: "/images/banners/banner.png",
       text: "The Best Franchise Opportunities Are Available For You!",
     },
     {
-      image: "/images/banner2.jpg",
+      image: "/images/banners/banner2.jpg",
       text: "Discover Amazing Business Ventures Today!",
     },
     {
-      image: "/images/banner3.png",
+      image: "/images/banners/banner3.png",
       text: "Unlock Your Entrepreneurial Potential with Our Franchise Options!",
     },
     {
-      image: "/images/banner4.jpg",
+      image: "/images/banners/banner4.jpg",
       text: "Join the Fastest-Growing Brands in the Industry!",
     },
     {
-      image: "/images/banner5.jpg",
+      image: "/images/banners/banner5.jpg",
       text: "Start Your Journey to Business Success Today!",
     },
   ];

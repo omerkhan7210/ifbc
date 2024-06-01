@@ -14,7 +14,6 @@ import "swiper/css/scrollbar";
 
 const RelatedListings = () => {
   const { listings, loading } = useContext(MyContext);
-  console.log(listings);
   return loading ? (
     <div className="grid place-content-center bg-custom-dark-blue px-4 py-24">
       <BarLoader />

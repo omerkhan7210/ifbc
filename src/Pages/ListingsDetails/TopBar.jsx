@@ -172,7 +172,7 @@ const TopBar = ({ listingContent }) => {
     },
   ];
 
-  const { role } = useContext(MyContext);
+  const { role, setTCheck, setformalRegCheck } = useContext(MyContext);
 
   return (
     <section className="flex flex-col w-full justify-between items-center border-b border-custom-dark-blue/10 mb-4 mt-4 ">
@@ -227,12 +227,14 @@ const TopBar = ({ listingContent }) => {
           <button
             className="text-white bg-custom-blue p-2 cta-button w-full  md:mb-0"
             value="tc"
+            onClick={() => setTCheck(true)}
           >
             Territory Check
           </button>
           <button
             className="text-white bg-custom-blue p-2 w-full  md:mb-0"
             value="formal-registration"
+            onClick={() => setformalRegCheck(true)}
           >
             Formal Registration
           </button>

@@ -14,6 +14,7 @@ const AllListings = () => {
     loading,
     activeListings,
     showActiveListings,
+    role,
   } = useContext(MyContext);
   const [filterListings, setFilterListings] = useState();
   const totalNoOfListings = window.innerWidth < 768 ? 10 : 25;
@@ -109,8 +110,10 @@ const AllListings = () => {
     <>
       <div className="flex-col flex md:flex-row gap-5 md:gap-0 justify-between items-center">
         <p className="ml-5 text-custom-heading-color font-bold">
-          Showing {paginationListings?.length} out of {listings.length} (FLS
-          Listings)
+          Showing {paginationListings?.length}{" "}
+          {role !== "N" &&
+            `out of ${listings.length} (FLS
+          Listings)`}
         </p>{" "}
         <Pagination
           currentPage={currentPage}

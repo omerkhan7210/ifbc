@@ -37,7 +37,7 @@ const ListingDataContext = ({ children }) => {
         ? true
         : false;
     setAllowed(allowed);
-  }, []);
+  }, [role]);
 
   const handleTools = (event) => {
     const value = event.target.value;

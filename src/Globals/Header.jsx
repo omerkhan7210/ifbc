@@ -179,7 +179,10 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
           >
             <div className="flex flex-col items-start  py-2 px-3">
               <p class="text-[15px] text-[#333] font-bold">
-                {userDetails ? userDetails?.UserName : "John Doe"}
+                {userDetails
+                  ? userDetails?.UserName?.charAt(0).toUpperCase() +
+                    userDetails?.UserName?.slice(1)
+                  : "John Doe"}
               </p>
               {/* <p class="text-xs text-gray-500 mt-0.5">
                 {userDetails ? userDetails?.UserName : "johndoe23@gmail.com"}
