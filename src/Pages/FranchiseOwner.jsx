@@ -1,5 +1,6 @@
 import React from "react";
 import PageTransition from "src/Animations/PageTransition";
+import PageTitle from "src/Globals/PageTitle";
 
 const FranchiseOwner = () => {
   const steps = [
@@ -73,11 +74,12 @@ const FranchiseOwner = () => {
 
   return (
     <PageTransition>
+      <PageTitle title={"New Candidate"} />
       <div id="wrapper">
         <div
           id="top-text"
           className="py-24 mb-8 relative flex flex-col gap-2 before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/50 before:z-10"
-          style={{ background: "url(/images/banners/banner.png)" }}
+          style={{ background: "url(/images/banners/franchise-owner.jpg)" }}
         >
           <h1 className="text-5xl text-white font-bold text-center z-20">
             How To Become A Franchise Owner: Step By Step
