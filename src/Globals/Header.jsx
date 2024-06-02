@@ -175,7 +175,6 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
           <div
             className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
             style={elementStyle}
-            aria-labelledby="hs-dropdown-default"
           >
             <div className="flex flex-col items-start  py-2 px-3">
               <p class="text-[15px] text-[#333] font-bold">

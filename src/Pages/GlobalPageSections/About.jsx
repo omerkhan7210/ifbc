@@ -96,13 +96,11 @@ const ImageColumn = () => {
       <div className="flex w-full relative justify-end">
         <img
           src="/images/home-seven/business.png"
-          alt
           className="md:max-w-[85%] h-[350px] md:h-[650px] object-cover rounded"
         />
         <div className="bg-it-blue p-4 sm:p-[30px] rounded-2xl absolute z-20 bottom-16 left-2 sm:left-0 w-48 sm:w-[295px]">
           <img
             src="/images/home-five/hero/about-card-shape.webp"
-            alt
             className="absolute right-2 top-bottom-moving"
           />
           <div className="flex items-center gap-2.5">

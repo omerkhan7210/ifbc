@@ -21,7 +21,7 @@ const PageTransition = ({ children }) => {
       <ScrollToTop />
       {children}
       <motion.div
-        className="origin-bottom h-full w-full fixed top-0 left-0 z-[99999] flex flex-col gap-3 justify-center items-center bg-custom-heading-color"
+        className="origin-bottom h-full w-full fixed top-0 left-0 z-[99999] bg-custom-heading-color"
         variants={variants}
         initial="initial"
         animate="animate"
@@ -30,15 +30,20 @@ const PageTransition = ({ children }) => {
           ease: [0.22, 1, 0.36, 1],
         }}
       >
-        <motion.img
-          animate={{
-            opacity: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
-            transition: { duration: 1, delay: 0.1 },
-          }}
-          src="/images/logo/IFBC 3.png"
-          alt="KPEG"
-          className="w-72 md:w-96 fixed top-80"
-        />
+        <div
+          id="image-container-transition"
+          class="h-screen w-full grid place-items-center"
+        >
+          <motion.img
+            animate={{
+              opacity: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
+              transition: { duration: 1, delay: 0.1 },
+            }}
+            src="/images/logo/IFBC 3.png"
+            alt="KPEG"
+            className="w-72 md:w-96"
+          />
+        </div>
       </motion.div>
     </>
   );

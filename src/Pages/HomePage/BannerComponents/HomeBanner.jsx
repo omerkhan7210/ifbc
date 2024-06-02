@@ -30,7 +30,7 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
         {uniqueFranchisedCats.map((listing, index) => {
           if (index > min && index < max) {
             return (
-              <li key={index} className="text-sm text-white list-disc ">
+              <li key={listing.name} className="text-sm text-white list-disc ">
                 <Link
                   to={`/listings/?category=${listing.toLowerCase()}`}
                   className="group relative "
@@ -122,7 +122,7 @@ const HomeBanner = () => {
       text: "The Best Franchise Opportunities Are Available For You!",
     },
     {
-      image: "/images/banners/banner2.jpg",
+      image: "/images/banners/banner2.png",
       text: "Discover Amazing Business Ventures Today!",
     },
     {
@@ -130,11 +130,11 @@ const HomeBanner = () => {
       text: "Unlock Your Entrepreneurial Potential with Our Franchise Options!",
     },
     {
-      image: "/images/banners/banner4.jpg",
+      image: "/images/banners/banner4.png",
       text: "Join the Fastest-Growing Brands in the Industry!",
     },
     {
-      image: "/images/banners/banner5.jpg",
+      image: "/images/banners/banner5.png",
       text: "Start Your Journey to Business Success Today!",
     },
   ];
@@ -160,7 +160,7 @@ const HomeBanner = () => {
           {slidesData.map((slide, index) => (
             <SwiperSlide key={index}>
               <div
-                className="swiperslidehomebanner w-full  md:px-10 min-h-[600px]  flex flex-col justify-start pt-16 md:pt-32  items-center"
+                className="swiperslidehomebanner w-full  md:px-10 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-32 xl:pt-20  items-center"
                 style={{
                   background: `url(${slide.image})`,
                   backgroundPosition: "center",
@@ -168,14 +168,14 @@ const HomeBanner = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <h1 className="text-3xl z-50 relative md:text-4xl md:text-65 tracking-tight font-semibold text-center text-white">
+                <h1 className="max-md:text-3xl z-50 relative md:text-4xl xl:text-8xl tracking-tight font-semibold text-center text-white">
                   {slide.text}
                 </h1>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="absolute bg-transparent top-44 md:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 px-4 ">
+        <div className="absolute bg-transparent max-md:top-44 md:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 px-4 ">
           <SearchingSection />
         </div>
       </section>

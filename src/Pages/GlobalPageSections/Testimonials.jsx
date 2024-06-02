@@ -96,7 +96,7 @@ const Testimonials = () => {
                 <h1 className="font-medium md:text-xl text-sm text-center text-main-black mt-5 mb-8">
                   {review.text}
                 </h1>
-                <img src={review.image} alt className="mx-auto" />
+                <img src={review.image} alt={review.text} className="mx-auto" />
                 <h1 className="font-semibold text-18 text-main-black text-center mt-3">
                   {review.name}
                 </h1>

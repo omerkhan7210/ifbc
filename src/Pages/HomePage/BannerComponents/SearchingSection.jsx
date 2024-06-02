@@ -127,19 +127,6 @@ const SearchingSection = () => {
   const { setFilters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
   const history = useNavigate();
-  const removeDuplicates = (array) => {
-    const seen = new Set();
-    return array.filter((item) => {
-      const key = Object.keys(item)[0];
-      const value = item[key];
-      const keyValueString = `${key}:${value}`;
-      if (seen.has(keyValueString)) {
-        return false;
-      }
-      seen.add(keyValueString);
-      return true;
-    });
-  };
 
   const handleSearchInputChange = () => {
     const searchValue = ref.current.value;
