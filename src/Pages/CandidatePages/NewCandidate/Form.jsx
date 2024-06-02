@@ -123,13 +123,11 @@ const Form = () => {
     }
   };
 
-  console.log(formErrors, formFields);
-
   return (
     <div className="flex flex-col w-full " id="main">
       <div
         id="top-text"
-        className="py-24  relative flex flex-col gap-2 before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/50 before:z-10"
+        className=" relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 min-h-[400px] before:z-10"
         style={{
           background: "url(/images/banners/candidate-banner.jpg)",
           backgroundAttachment: "fixed",

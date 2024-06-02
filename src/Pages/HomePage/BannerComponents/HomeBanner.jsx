@@ -5,47 +5,10 @@ import { MyContext } from "src/Context/ListingDataContext";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-// Import Swiper styles
 import "swiper/css";
+
+import "swiper/css/effect-fade";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
-
-const ListingBox = ({ id, bgcolor, svg, min, max }) => {
-  const { listings } = useContext(MyContext);
-
-  const uniqueFranchisedCats = [
-    ...new Set(listings.map((listing) => listing.category)),
-  ];
-
-  return (
-    <div
-      id={id}
-      className={` w-full col-span-12 md:col-span-4 p-5`}
-      style={{ backgroundColor: `${bgcolor}` }}
-    >
-      <h3 className="text-lg font-bold text-white flex items-center gap-1 ">
-        {svg}
-        {id} Franchises
-      </h3>
-      <ul id="list-container " className="ml-7 mt-3 flex flex-col gap-2">
-        {uniqueFranchisedCats.map((listing, index) => {
-          if (index > min && index < max) {
-            return (
-              <li key={listing.name} className="text-sm text-white list-disc ">
-                <Link
-                  to={`/listings/?category=${listing.toLowerCase()}`}
-                  className="group relative "
-                >
-                  <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
-                  {listing}
-                </Link>
-              </li>
-            );
-          }
-        })}
-      </ul>
-    </div>
-  );
-};
 
 const HomeBanner = () => {
   const listingBoxes = [
@@ -150,6 +113,7 @@ const HomeBanner = () => {
           spaceBetween={30}
           effect="fade"
           loop
+          speed="1000"
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
@@ -192,6 +156,44 @@ const HomeBanner = () => {
         ))}
       </div>
     </>
+  );
+};
+
+const ListingBox = ({ id, bgcolor, svg, min, max }) => {
+  const { listings } = useContext(MyContext);
+
+  const uniqueFranchisedCats = [
+    ...new Set(listings.map((listing) => listing.category)),
+  ];
+
+  return (
+    <div
+      id={id}
+      className={` w-full col-span-12 md:col-span-4 p-5`}
+      style={{ backgroundColor: `${bgcolor}` }}
+    >
+      <h3 className="text-lg font-bold text-white flex items-center gap-1 ">
+        {svg}
+        {id} Franchises
+      </h3>
+      <ul id="list-container " className="ml-7 mt-3 flex flex-col gap-2">
+        {uniqueFranchisedCats.map((listing, index) => {
+          if (index > min && index < max) {
+            return (
+              <li key={listing.name} className="text-sm text-white list-disc ">
+                <Link
+                  to={`/listings/?category=${listing.toLowerCase()}`}
+                  className="group relative "
+                >
+                  <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
+                  {listing}
+                </Link>
+              </li>
+            );
+          }
+        })}
+      </ul>
+    </div>
   );
 };
 

@@ -12472,7 +12472,7 @@ blockquote {
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   width: 100%;
   min-height: 600px;
   z-index: 15;
