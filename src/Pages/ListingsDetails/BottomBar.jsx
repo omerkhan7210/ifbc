@@ -123,11 +123,11 @@ const BottomBar = ({ listingContent }) => {
         }
       }
 
-      //remove item button
-      const itemButtons = document.querySelectorAll(".button.tertiary-button");
-      itemButtons.forEach((btn) => {
-        btn.style.display = "none";
-      });
+      // //remove item button
+      // const itemButtons = document.querySelectorAll(".button.tertiary-button");
+      // itemButtons.forEach((btn) => {
+      //   btn.style.display = "none";
+      // });
 
       const AllTabsContainer = document.querySelectorAll(
         ".entry-content>div>div"
