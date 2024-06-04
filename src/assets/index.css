@@ -9,6 +9,9 @@
 .candidate-input {
   @apply bg-gray-50 border-b border-custom-dark-blue text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
 }
+.candidate-normal-input {
+  @apply bg-gray-50 border border-custom-grey text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
+}
 
 .candidate-label {
   @apply text-custom-dark-blue font-bold  py-2;
@@ -24,4 +27,12 @@
 
 .candidate-select {
   @apply bg-gray-50 border-b-2 border-blue-100  text-custom-dark-blue font-bold text-sm  block p-2.5 mr-2 focus:outline-none focus:ring-1;
+}
+
+.candidate-tabs-content {
+  @apply p-6 flex flex-col bg-gray-50 overflow-y-scroll h-[500px] max-w-full text-gray-500  rounded-lg w-full;
+}
+
+.candidate-input-container {
+  @apply flex flex-col w-full  my-3;
 }

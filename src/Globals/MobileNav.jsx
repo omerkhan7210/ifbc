@@ -112,14 +112,14 @@ const MobileNav = ({ setMobileActive }) => {
           <div className="flex justify-start items-center gap-2  py-2">
             <img
               src="/images/avatar-placeholder.png"
-              class="w-10 h-10 rounded-full"
+              className="w-10 h-10 rounded-full"
             />
             <div id="parasContainer">
-              <p class="text-lg text-[#333] font-bold">
+              <p className="text-lg text-[#333] font-bold">
                 {/* {userDetails ? userDetails?.username : "John Doe"} */}John
                 Doe
               </p>
-              <p class="text-md text-gray-500 mt-0.5">
+              <p className="text-md text-gray-500 mt-0.5">
                 {/* {userDetails ? userDetails?.email : "johndoe23@gmail.com"} */}
                 johndoe23@gmail.com
               </p>

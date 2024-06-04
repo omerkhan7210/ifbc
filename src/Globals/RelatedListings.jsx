@@ -4,7 +4,13 @@ import { MyContext } from "src/Context/ListingDataContext";
 import ListingsColumns from "src/Pages/ListingsPage/ListingsColumns";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
+import {
+  A11y,
+  Autoplay,
+  EffectCoverflow,
+  Navigation,
+  Pagination,
+} from "swiper/modules";
 
 // Import Swiper styles
 import "swiper/css";
@@ -27,9 +33,18 @@ const RelatedListings = () => {
 
       <div className="max-w-5xl m-auto flex items-center h-full">
         <Swiper
-          modules={[Navigation, Autoplay, Pagination, A11y]}
+          modules={[Navigation, Autoplay, Pagination, A11y, EffectCoverflow]}
           spaceBetween={20}
           slidesPerView={3}
+          centeredSlides
+          effect="coverflow"
+          coverflowEffect={{
+            rotate: 0,
+            stretch: 0,
+            depth: 100,
+            modifier: 2.5,
+            slideShadows: false,
+          }}
           navigationautoplay={{
             delay: 2500,
             disableOnInteraction: false,

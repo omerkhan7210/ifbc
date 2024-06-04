@@ -32,7 +32,7 @@ const PageTransition = ({ children }) => {
       >
         <div
           id="image-container-transition"
-          class="h-screen w-full grid place-items-center"
+          className="h-screen w-full grid place-items-center sticky top-0"
         >
           <motion.img
             animate={{

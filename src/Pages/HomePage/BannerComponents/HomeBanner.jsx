@@ -132,14 +132,14 @@ const HomeBanner = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <h1 className="max-md:text-3xl z-50 relative md:text-4xl xl:text-8xl tracking-tight font-semibold text-center text-white">
+                <h1 className="max-md:text-3xl z-50 relative md:text-7xl xl:min-md:text-8xl tracking-tight font-semibold text-center text-white">
                   {slide.text}
                 </h1>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="absolute bg-transparent max-md:top-44 md:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 px-4 ">
+        <div className="absolute bg-transparent max-md:top-44 md:top-64 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 px-4 ">
           <SearchingSection />
         </div>
       </section>
@@ -185,7 +185,7 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
                   to={`/listings/?category=${listing.toLowerCase()}`}
                   className="group relative "
                 >
-                  <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
                   {listing}
                 </Link>
               </li>

@@ -17,12 +17,13 @@ import Login from "src/Authentication/Login";
 import MainListings from "src/Pages/ListingsPage/MainListings";
 import MainDetails from "src/Pages/ListingsDetails/MainDetails";
 import MainHome from "src/Pages/HomePage/MainHome";
-import NotFoundPage from "src/Pages/NotFoundPage";
+import NotFoundPage from "src/Pages/StaticPages/NotFoundPage";
 import { MyContext } from "src/Context/ListingDataContext";
 import Registration from "src/Authentication/Registration";
-import FranchiseOwner from "src/Pages/FranchiseOwner";
+import FranchiseOwner from "src/Pages/StaticPages/FranchiseOwner";
 import MainAbout from "./Pages/AboutPage/MainAbout";
 import Form from "./Pages/CandidatePages/NewCandidate/Form";
+import MainCandList from "./Pages/CandidatePages/CandidateList/MainCandList";
 
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
@@ -58,6 +59,8 @@ const App = () => {
             <Route path="/" element={<MainHome />} />
             <Route path="/about" element={<MainAbout />} />
             <Route path="/franchise-owner" element={<FranchiseOwner />} />
+
+            <Route path="/candidate-list" element={<MainCandList />} />
             <Route path="/new-candidate" element={<Form />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

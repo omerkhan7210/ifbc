@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 
-const SearchDropdown = ({ config, selectedCats, setSelectedCats }) => {
+const SearchDropdown = ({ config, setSelectedCats }) => {
   const { key, placeholder } = config;
   const [activeDD, setActiveDD] = useState(false);
   const [selectedCat, setSelectedCat] = useState("");
@@ -177,7 +177,6 @@ const SearchingSection = () => {
           <SearchDropdown
             key={index}
             config={config}
-            selectedCats={selectedCats}
             setSelectedCats={setSelectedCats}
           />
         ))}
@@ -185,7 +184,7 @@ const SearchingSection = () => {
 
       <button
         onClick={handleSearchInputChange}
-        class={`${
+        className={`${
           isMobile ? "w-full" : "md:w-1/2"
         }  relative items-center justify-start overflow-hidden font-medium transition-all duration-500 bg-white hover:bg-custom-heading-color hover:text-white group py-1.5 px-2.5 mx-auto h-12 text-center`}
       >

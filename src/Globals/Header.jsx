@@ -165,11 +165,11 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
           <button
             id="user-icon "
             onClick={() => setActive(!active)}
-            class="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
+            className="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
           >
             <img
               src="/images/avatar-placeholder.png"
-              class="w-10 h-10 rounded-full"
+              className="w-10 h-10 rounded-full"
             />
           </button>
           <div
@@ -177,17 +177,17 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
             style={elementStyle}
           >
             <div className="flex flex-col items-start  py-2 px-3">
-              <p class="text-[15px] text-[#333] font-bold">
+              <p className="text-[15px] text-[#333] font-bold">
                 {userDetails
                   ? userDetails?.UserName?.charAt(0).toUpperCase() +
                     userDetails?.UserName?.slice(1)
                   : "John Doe"}
               </p>
-              {/* <p class="text-xs text-gray-500 mt-0.5">
+              {/* <p className="text-xs text-gray-500 mt-0.5">
                 {userDetails ? userDetails?.UserName : "johndoe23@gmail.com"}
               </p> */}
 
-              <p class="text-xs text-gray-500 mt-0.5">
+              <p className="text-xs text-gray-500 mt-0.5">
                 {userDetails ? userDetails?.role : "role"}
               </p>
             </div>

@@ -79,7 +79,11 @@ const ListingsColumns = ({ listing, index }) => {
           className="w-full h-full relative flex justify-center"
         >
           <img
-            src={"/" + listing?.imgUrl}
+            src={
+              listing.imgUrl
+                ? "/" + listing.imgUrl
+                : "/images/listing-placeholder-img.png"
+            }
             alt={listing.name}
             className="object-contain h-44 w-64"
           />

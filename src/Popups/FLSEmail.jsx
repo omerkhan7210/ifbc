@@ -70,7 +70,7 @@ const FLSEmail = () => {
                   <div className="selected-territory-zor-list">
                     <ul className="mb-4 list-none p-0 mt-0 text-sm">
                       {activeListings.map((listings) => {
-                        <li class="bg-gray-200 text-sm border-b border-white p-2">
+                        <li className="bg-gray-200 text-sm border-b border-white p-2">
                           {listings}
                         </li>;
                       })}

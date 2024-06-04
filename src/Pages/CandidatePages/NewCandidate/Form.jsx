@@ -1,14 +1,17 @@
+import axios, { formToJSON } from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import PageTransition from "src/Animations/PageTransition";
+import { twMerge } from "tailwind-merge";
+import Tabs from "../Tabs";
+import { useNavigate } from "react-router-dom";
 
 const Form = () => {
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
 
   const states = [
-    { value: "", text: "Select One" },
-    { value: " ", text: "None" },
     { value: "AL", text: "Alabama" },
     { value: "AK", text: "Alaska" },
     { value: "AZ", text: "Arizona" },
@@ -77,15 +80,23 @@ const Form = () => {
   ];
 
   const stateDD = (name) => {
+    const className = twMerge(
+      "candidate-select",
+      formErrors.territorystate && name === "territory"
+        ? "bg-red-200 text-white"
+        : ""
+    );
     return (
       <select
         onChange={handleInputChange}
         name={`${name}state`}
         id="state"
-        className="candidate-select"
+        className={className}
       >
-        {states.map((state) => (
-          <option value={state.value}>{state.text}</option>
+        {states.map((state, index) => (
+          <option key={index} value={state.value}>
+            {state.text}
+          </option>
         ))}
       </select>
     );
@@ -93,6 +104,15 @@ const Form = () => {
 
   const handleInputChange = ({ target: { name, value } }) => {
     const newName = name.toLowerCase().split(" ").join("");
+    // Remove the error for the field if there is a value
+    if (
+      formErrors &&
+      Object.keys(formErrors).length > 0 &&
+      value.trim() !== ""
+    ) {
+      setFormErrors((prev) => ({ ...prev, [name]: "" }));
+      formErrors[name] && delete formErrors[name];
+    }
 
     setFormFields((prev) => ({
       ...prev,
@@ -110,79 +130,169 @@ const Form = () => {
     }
   }, [formFields]);
 
-  const handleSubmit = () => {
-    const reqFields = ["firstname", "lastname", "state", "city"];
-    for (const [key] of Object.entries(formFields)) {
-      const newKey = key.toLowerCase().split(" ").join("");
+  const history = useNavigate();
+  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(null);
+  const handleSubmit = async () => {
+    const reqFields = [
+      "firstname",
+      "lastname",
+      "territorystate",
+      "territorycity",
+    ];
+    let allFieldsValid = true;
 
-      if (!reqFields === newKey || formFields[newKey] === "") {
+    reqFields.forEach((field) => {
+      const newKey = field.toLowerCase().split(" ").join("");
+      if (!formFields[newKey] || formFields[newKey].trim() === "") {
         setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
+        allFieldsValid = false;
       } else {
-        // submission logic here
+        setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
       }
+    });
+
+    try {
+      if (allFieldsValid) {
+        const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/candidateadd.aspx?FirstName=${
+          formFields.firstname ?? ""
+        }&LastName=${formFields.lastname ?? ""}&Phone=${
+          formFields.phone ?? ""
+        }&Email=${formFields.email ?? ""}&TerritoryCity=${
+          formFields.territorycity ?? ""
+        }&TerritoryState=${formFields.territorystate ?? ""}&TerritoryZipcode=${
+          formFields.zipcode ?? ""
+        }&CurrentCity=${formFields.currentcity ?? ""}&CurrentState=${
+          formFields.currentstate ?? ""
+        }&CurrentZipcode=${formFields.currentzipcode ?? ""}&TerritoryNotes=${
+          formFields.territorynotes ?? ""
+        }&DealSource=${formFields.dealsource ?? ""}&DealSourceCost=${
+          formFields.dealsourcecost ?? ""
+        }&ZorackleValue=${formFields.zoraclevalue ?? ""}&DealValue=${
+          formFields.dealvalue ?? ""
+        }&About=${formFields.about ?? ""}&CloseDate=${
+          formFields.closedate ?? ""
+        }`;
+
+        const url = `https://corsproxy.io/${encodeURIComponent(baseUrl)}`;
+
+        //setLoading(true);
+        // Send the POST request using Axios
+        const response = await axios.post(baseUrl, formFields, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (
+          response.status === 200 &&
+          response.data === '"Candidate Information Saved Successfully."'
+        ) {
+        }
+        console.log(response);
+      } else {
+        window.scrollTo(0, 500);
+      }
+    } catch (error) {
+      // setError({
+      //   username: "",
+      //   password: "",
+      //   email: "",
+      //   credentials: "Server Error",
+      // });
+
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col w-full " id="main">
-      <div
-        id="top-text"
-        className=" relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 min-h-[400px] before:z-10"
-        style={{
-          background: "url(/images/banners/candidate-banner.jpg)",
-          backgroundAttachment: "fixed",
-          backgroundPosition: "top center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      >
-        <h1 className="text-7xl text-white font-bold text-center z-20">
-          New Candidate
-        </h1>
-        <p className="text-center text-xl relative text-white z-50 italic">
-          Fields with a{" "}
-          <span className="border-b-2 border-custom-dark-blue">blue</span>{" "}
-          underline are included in Territory Checks submissions
-        </p>
-      </div>
-
-      <div
-        id="rows-container"
-        className="relative divide-y-2 divide-custom-dark-blue/20 grid grid-cols-12 gap-5 px-5 md:px-0 "
-      >
+    <PageTransition>
+      <section className="flex flex-col w-full " id="main">
         <div
-          id="left-side-container"
-          className="col-span-8 max-w-[90%] mx-auto my-5"
+          id="top-text"
+          className=" relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 min-h-[400px] before:z-10"
+          style={{
+            background: "url(/images/banners/candidate-banner.jpg)",
+            backgroundAttachment: "fixed",
+            backgroundPosition: "top center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
         >
-          <FormFirstRow handleInputChange={handleInputChange} />
-          <FormSecondRow
-            stateDD={stateDD}
-            handleInputChange={handleInputChange}
-          />
-          <FormThirdRow
-            stateDD={stateDD}
-            handleInputChange={handleInputChange}
-            setFormFields={setFormFields}
-          />
-
-          {/* submit button */}
-          <div id="button-container" className="w-full flex justify-center">
-            <button className="candidate-btn" onClick={handleSubmit}>
-              SUBMIT CANDIDATE INFORMATION
-            </button>
-          </div>
+          <h1 className="text-7xl text-white font-bold text-center z-20">
+            New Candidate
+          </h1>
+          <p className="text-center text-xl relative text-white z-50 italic">
+            Fields with a{" "}
+            <span className="border-b-2 border-custom-dark-blue">blue</span>{" "}
+            underline are included in Territory Checks submissions
+          </p>
         </div>
 
         <div
-          id="right-side-container"
-          className="h-full  bg-custom-dark-blue w-full col-span-4 "
-        ></div>
-      </div>
-    </div>
+          id="rows-container"
+          className="relative  grid grid-cols-12 place-items-center gap-5 px-5 md:px-0 "
+        >
+          <div
+            id="left-side-container"
+            className="col-span-12 divide-y-2 divide-custom-dark-blue/20  mx-10 my-5"
+          >
+            {formErrors && Object.keys(formErrors).length > 0 && (
+              <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
+                Please fill in all required fields!
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+                  />
+                </svg>
+              </p>
+            )}
+            <FormFirstRow
+              handleInputChange={handleInputChange}
+              formErrors={formErrors}
+            />
+            <FormSecondRow
+              stateDD={stateDD}
+              handleInputChange={handleInputChange}
+              formErrors={formErrors}
+            />
+            <FormThirdRow
+              stateDD={stateDD}
+              handleInputChange={handleInputChange}
+              setFormFields={setFormFields}
+            />
+
+            {/* tabs */}
+            <Tabs />
+            {/* submit button */}
+            <div id="button-container" className="w-full flex justify-center">
+              <button className="candidate-btn" onClick={handleSubmit}>
+                SUBMIT CANDIDATE INFORMATION
+              </button>
+            </div>
+          </div>
+
+          {/* <div
+            id="right-side-container"
+            className="h-full  bg-custom-dark-blue w-full col-span-4 "
+          ></div> */}
+        </div>
+      </section>
+    </PageTransition>
   );
 };
 
-const FormFirstRow = ({ handleInputChange }) => {
+const FormFirstRow = ({ handleInputChange, formErrors }) => {
   const [addContacts, setAddContacts] = useState(0);
   const addContactDiv = (index) => {
     return (
@@ -282,7 +392,9 @@ const FormFirstRow = ({ handleInputChange }) => {
             onChange={handleInputChange}
             type="text"
             name="firstname"
-            className="candidate-input"
+            className={`candidate-input ${
+              formErrors.firstname ? "bg-red-300" : ""
+            }`}
             required
           />
         </div>
@@ -292,7 +404,9 @@ const FormFirstRow = ({ handleInputChange }) => {
             onChange={handleInputChange}
             type="text"
             name="lastname"
-            className="candidate-input"
+            className={`candidate-input ${
+              formErrors.lastname ? "bg-red-300" : ""
+            }`}
             required
           />
         </div>
@@ -339,7 +453,7 @@ const FormFirstRow = ({ handleInputChange }) => {
   );
 };
 
-const FormSecondRow = ({ handleInputChange, stateDD }) => {
+const FormSecondRow = ({ handleInputChange, stateDD, formErrors }) => {
   return (
     <div id="second-row" className="py-5">
       <h1 className="candidate-sub-heading">
@@ -369,7 +483,9 @@ const FormSecondRow = ({ handleInputChange, stateDD }) => {
             onChange={handleInputChange}
             type="text"
             name="territorycity"
-            className="candidate-input mr-2"
+            className={`candidate-input mr-2 ${
+              formErrors.territorycity ? "bg-red-300" : ""
+            }`}
             required
           />
         </div>
@@ -515,8 +631,10 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
           name="timezone"
           className="candidate-select"
         >
-          {timezones.map((timeZone) => (
-            <option value={timeZone.value}>{timeZone.text}</option>
+          {timezones.map((timeZone, index) => (
+            <option key={index} value={timeZone.value}>
+              {timeZone.text}
+            </option>
           ))}
         </select>
       </div>

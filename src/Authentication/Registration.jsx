@@ -62,25 +62,35 @@ const Registration = ({ setIfLogin }) => {
     }
 
     try {
-      const page = "create_account.aspx";
-      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/${page}`;
-      const proxyUrl = "https://corsproxy.io/";
+      const requestData = {
+        USERID: user.username.value,
+        USERNAME: user.username.value,
+        PASSCODE: user.password.value,
+      };
+      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/newaccount.aspx`;
+      const url = `https://corsproxy.io/${encodeURIComponent(baseUrl)}`;
 
-      const url = `${proxyUrl}?${encodeURIComponent(baseUrl)}?USERID=${
-        user.username.value
-      }&USERNAME=${user.username.value}&PASSCODE=${user.password.value}`;
       setLoading(true);
+
       // Send the POST request using Axios
-      const response = await axios.post(url);
+      const response = await axios.post(url, requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (
         response.data === "Account Created Successfully." &&
         response.status === 200
       ) {
         localStorage.setItem("ifLogin", true);
-        setSuccessMsg(response.data);
+        setSuccessMsg({ success: response.data });
         setLoading(false);
-        history("/login");
+        setTimeout(() => {
+          history("/login");
+        }, 3000);
+      } else if (response.data === "Account Already Exist.") {
+        setSuccessMsg({ alreadyexist: response.data });
       } else {
         setError({
           username: "",
@@ -118,9 +128,14 @@ const Registration = ({ setIfLogin }) => {
                 {error.credentials}!
               </p>
             )}
-            {successMsg && (
+            {successMsg && successMsg.alreadyexist && (
+              <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
+                {successMsg.alreadyexist}!
+              </p>
+            )}
+            {successMsg && successMsg.success && (
               <p className="text-green-500 font-bold text-sm mb-4 border border-green-500 p-2 rounded">
-                {successMsg}!
+                {successMsg.success}!
               </p>
             )}
             <div className="mb-4">

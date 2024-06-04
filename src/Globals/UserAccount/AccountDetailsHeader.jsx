@@ -11,10 +11,10 @@ const AccountDetailsHeader = ({ active }) => {
       aria-labelledby="hs-dropdown-default"
     >
       <div className="flex flex-col items-start  py-2 px-3">
-        <p class="text-[15px] text-[#333] font-bold">
+        <p className="text-[15px] text-[#333] font-bold">
           {userDetails ? userDetails?.username : "John Doe"}
         </p>
-        <p class="text-xs text-gray-500 mt-0.5">
+        <p className="text-xs text-gray-500 mt-0.5">
           {userDetails ? userDetails?.email : "johndoe23@gmail.com"}
         </p>
       </div>
