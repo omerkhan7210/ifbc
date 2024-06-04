@@ -36,3 +36,36 @@
 .candidate-input-container {
   @apply flex flex-col w-full  my-3;
 }
+.side-bar-first-box {
+  @apply w-full h-auto bg-white rounded-lg;
+}
+.side-bar-first-heading {
+  @apply font-bold text-white;
+}
+.side-bar-main-div {
+  @apply px-2;
+}
+.side-bar-fc {
+  @apply flex flex-col justify-start;
+}
+.side-bar-sc {
+  @apply flex flex-col justify-start;
+}
+.side-bar-btn {
+  @apply bg-blue-400 text-white rounded-2xl text-sm w-20;
+}
+.columns {
+  @apply flex flex-col justify-around py-4 sm:flex-row md:flex-row;
+}
+.candidate-text {
+  @apply text-custom-dark-blue font-bold text-sm;
+}
+.Message {
+  @apply flex flex-col sm:flex-row md:flex-row;
+}
+.h {
+  @apply px-3;
+}
+.Message .candidate-text {
+  @apply underline;
+}
