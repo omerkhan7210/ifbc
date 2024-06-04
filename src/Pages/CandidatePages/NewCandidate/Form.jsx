@@ -6,6 +6,7 @@ import PageTransition from "src/Animations/PageTransition";
 import { twMerge } from "tailwind-merge";
 import Tabs from "../Tabs";
 import { useNavigate } from "react-router-dom";
+import CandidateSideBar from "src/Pages/GlobalPageSections/CandidateSideBar";
 
 const Form = () => {
   const [formFields, setFormFields] = useState({});
@@ -236,7 +237,7 @@ const Form = () => {
         >
           <div
             id="left-side-container"
-            className="col-span-12 divide-y-2 divide-custom-dark-blue/20  mx-10 my-5"
+            className="col-span-8 divide-y-2 divide-custom-dark-blue/20  mx-10 my-5"
           >
             {formErrors && Object.keys(formErrors).length > 0 && (
               <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
@@ -282,10 +283,12 @@ const Form = () => {
             </div>
           </div>
 
-          {/* <div
+          <div
             id="right-side-container"
             className="h-full  bg-custom-dark-blue w-full col-span-4 "
-          ></div> */}
+          >
+            <CandidateSideBar />
+          </div>
         </div>
       </section>
     </PageTransition>

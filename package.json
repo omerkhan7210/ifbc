@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^2.0.4",
     "axios": "^1.6.8",
     "framer-motion": "^11.1.9",
     "helmet": "^7.1.0",
