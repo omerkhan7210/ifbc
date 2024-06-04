@@ -1,27 +1,16 @@
+import axios, { formToJSON } from "axios";
+import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
+import PageTransition from "src/Animations/PageTransition";
 import { twMerge } from "tailwind-merge";
 import Tabs from "../Tabs";
-import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import CandidateSideBar from "src/Pages/GlobalPageSections/CandidateSideBar";
 
 const Form = () => {
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
-
-  const history = useNavigate();
-  const [error, setError] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState(null);
-
-  useEffect(() => {
-    for (const [key, value] of Object.entries(formFields)) {
-      if (key === "sameasterritoryrequested" && value) {
-        formFields.currentcity && delete formFields.currentcity;
-        formFields.currentzipcode && delete formFields.currentzipcode;
-        formFields.currentstate && delete formFields.currentstate;
-      }
-    }
-  }, [formFields]);
 
   const states = [
     { value: "AL", text: "Alabama" },
@@ -91,24 +80,6 @@ const Form = () => {
     { value: "YT", text: "Yukon Territory" },
   ];
 
-  const handleInputChange = ({ target: { name, value } }) => {
-    const newName = name.toLowerCase().split(" ").join("");
-    // Remove the error for the field if there is a value
-    if (
-      formErrors &&
-      Object.keys(formErrors).length > 0 &&
-      value.trim() !== ""
-    ) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }));
-      formErrors[name] && delete formErrors[name];
-    }
-
-    setFormFields((prev) => ({
-      ...prev,
-      [newName]: value,
-    }));
-  };
-
   const stateDD = (name) => {
     const className = twMerge(
       "candidate-select",
@@ -132,6 +103,38 @@ const Form = () => {
     );
   };
 
+  const handleInputChange = ({ target: { name, value } }) => {
+    const newName = name.toLowerCase().split(" ").join("");
+    // Remove the error for the field if there is a value
+    if (
+      formErrors &&
+      Object.keys(formErrors).length > 0 &&
+      value.trim() !== ""
+    ) {
+      setFormErrors((prev) => ({ ...prev, [name]: "" }));
+      formErrors[name] && delete formErrors[name];
+    }
+
+    setFormFields((prev) => ({
+      ...prev,
+      [newName]: value,
+    }));
+  };
+
+  useEffect(() => {
+    for (const [key, value] of Object.entries(formFields)) {
+      if (key === "sameasterritoryrequested" && value) {
+        formFields.currentcity && delete formFields.currentcity;
+        formFields.currentzipcode && delete formFields.currentzipcode;
+        formFields.currentstate && delete formFields.currentstate;
+      }
+    }
+  }, [formFields]);
+
+  const history = useNavigate();
+  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(null);
   const handleSubmit = async () => {
     const reqFields = [
       "firstname",
@@ -173,7 +176,10 @@ const Form = () => {
           formFields.closedate ?? ""
         }`;
 
-        setLoading(true);
+        const url = `https://corsproxy.io/${encodeURIComponent(baseUrl)}`;
+
+        //setLoading(true);
+        // Send the POST request using Axios
         const response = await axios.post(baseUrl, formFields, {
           headers: {
             "Content-Type": "application/json",
@@ -190,6 +196,13 @@ const Form = () => {
         window.scrollTo(0, 500);
       }
     } catch (error) {
+      // setError({
+      //   username: "",
+      //   password: "",
+      //   email: "",
+      //   credentials: "Server Error",
+      // });
+
       setLoading(false);
     }
   };
@@ -197,7 +210,7 @@ const Form = () => {
   return (
     <div
       id="left-side-container"
-      className="col-span-8 divide-y-2 divide-custom-dark-blue/20  mx-10 my-5"
+      className="col-span-12 divide-y-2 divide-custom-dark-blue/20  mx-10 my-5"
     >
       {formErrors && Object.keys(formErrors).length > 0 && (
         <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
