@@ -210,7 +210,7 @@ const Form = () => {
   return (
     <div
       id="left-side-container"
-      className="col-span-12 divide-y-2 divide-custom-dark-blue/20  mx-10 my-5"
+      className="col-span-12 divide-y-2 divide-custom-dark-blue/10  mx-10 my-5"
     >
       {formErrors && Object.keys(formErrors).length > 0 && (
         <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">

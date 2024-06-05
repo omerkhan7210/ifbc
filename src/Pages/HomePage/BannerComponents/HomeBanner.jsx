@@ -132,14 +132,14 @@ const HomeBanner = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <h1 className="max-md:text-3xl z-50 relative md:text-7xl xl:min-md:text-8xl tracking-tight font-semibold text-center text-white">
+                <h1 className="max-md:text-3xl z-50 relative md:max-2xl:text-7xl 2xl:text-8xl tracking-tight font-semibold text-center text-white">
                   {slide.text}
                 </h1>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="absolute bg-transparent max-md:top-44 md:top-64 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 px-4 ">
+        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-64 2xl:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 px-4 ">
           <SearchingSection />
         </div>
       </section>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .candidate-btn {
-  @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white w-80 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2 mt-5 font-semibold;
+  @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold;
 }
 
 .candidate-input {
@@ -31,6 +31,10 @@
 
 .candidate-tabs-content {
   @apply p-6 flex flex-col bg-gray-50 overflow-y-scroll h-[500px] max-w-full text-gray-500  rounded-lg w-full;
+}
+
+.candidate-pending {
+  @apply bg-custom-grey rounded-full py-2 px-4 text-sm text-white;
 }
 
 .candidate-input-container {
@@ -62,10 +66,4 @@
 }
 .Message {
   @apply flex flex-col sm:flex-row md:flex-row;
-}
-.h {
-  @apply px-3;
-}
-.Message .candidate-text {
-  @apply underline;
 }
