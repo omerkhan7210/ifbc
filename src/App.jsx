@@ -26,7 +26,7 @@ import MainCandList from "./Pages/CandidatePages/CandidateList/MainCandList";
 import MainNewCand from "./Pages/CandidatePages/NewCandidate/MainNewCand";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
-import CheckOutForm from "./Pages/HomePage/CheckOutForm";
+import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
