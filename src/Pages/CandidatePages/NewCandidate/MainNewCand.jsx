@@ -28,7 +28,7 @@ const MainNewCand = () => {
 
         <div
           id="rows-container"
-          className="relative  grid grid-cols-12 place-items-center gap-5 px-5 md:px-0 "
+          className="relative  place-items-center gap-5 px-5 md:px-0 "
         >
           <Form />
         </div>

@@ -91,7 +91,6 @@ const App = () => {
           </Routes>
 
           <CandidateSideBar />
-
           <RelatedListings />
           {tCheck && <TerritoryCheck />}
           {formalRegCheck && <FormalReg />}
@@ -101,7 +100,6 @@ const App = () => {
       ) : (
         <Routes key={loc.pathname} location={loc}>
           <Route path="*" element={<Login setIfLogin={setIfLogin} />} />
-
           <Route path="/registration" element={<Registration />} />
         </Routes>
       )}
