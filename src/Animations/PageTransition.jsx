@@ -12,7 +12,8 @@ const PageTransition = ({ children }) => {
       scaleY: 0,
     },
     animate: {
-      scaleY: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
+      // scaleY: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
+      scaleY: [0, 1, 1, 0],
     },
   };
 
@@ -36,7 +37,8 @@ const PageTransition = ({ children }) => {
         >
           <motion.img
             animate={{
-              opacity: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
+              // opacity: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
+              opacity: [0, 1, 1, 0],
               transition: { duration: 1, delay: 0.1 },
             }}
             src="/images/logo/IFBC 3.png"

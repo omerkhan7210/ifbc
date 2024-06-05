@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import { twMerge } from "tailwind-merge";
-import Tabs from "../Tabs";
+import Tabs from "./Tabs";
 import { useNavigate } from "react-router-dom";
 import CandidateSideBar from "src/Pages/GlobalPageSections/CandidateSideBar";
 

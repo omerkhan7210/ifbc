@@ -1,4 +1,3 @@
-import CandidateSideBar from "src/Pages/GlobalPageSections/CandidateSideBar";
 import PageTransition from "src/Animations/PageTransition";
 import Form from "./Form";
 
@@ -31,16 +30,7 @@ const MainNewCand = () => {
           id="rows-container"
           className="relative  grid grid-cols-12 place-items-center gap-5 px-5 md:px-0 "
         >
-          {/* leftsidecontainer */}
           <Form />
-
-          {/* right side container */}
-          <div
-            id="right-side-container"
-            className="h-full  bg-custom-dark-blue w-full col-span-4 "
-          >
-            <CandidateSideBar />
-          </div>
         </div>
       </section>
     </PageTransition>
