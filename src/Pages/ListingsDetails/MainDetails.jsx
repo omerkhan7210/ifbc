@@ -27,7 +27,7 @@ const MainDetails = () => {
         id="main"
         role="main"
         tabIndex={-1}
-        className="max-w-7xl px-6 mx-auto gap-x-10"
+        className="max-w-7xl px-6 mx-auto gap-x-10 "
       >
         <TopBar listingContent={listingContent} />
         <BottomBar listingContent={listingContent} />

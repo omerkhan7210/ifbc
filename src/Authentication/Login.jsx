@@ -56,26 +56,25 @@ const Login = ({ setIfLogin }) => {
       const url = `${baseUrl}?UNAME=${user.username.value}&PWD=${user.password.value}`;
       setLoading(true);
       // Send the POST request using Axios
-      //const response = await axios.post(url);
+      const response = await axios.post(url);
+      console.log(typeof response.data);
 
-      // if (response.data.length > 0 && response.status === 200) {
-      //   localStorage.setItem("ifLogin", true);
-      //   setIfLogin(true);
-      //   setLoading(false);
-      //   setUserDetails(response?.data[0]);
-      //   localStorage.setItem("userDetails", JSON.stringify(response?.data[0]));
-      //   history("/");
-      // } else {
-      //   setError({
-      //     username: "",
-      //     password: "",
-      //     credentials: "Username or password incorrect",
-      //   });
+      if (typeof response.data === "object" && response.status === 200) {
+        localStorage.setItem("ifLogin", true);
+        setIfLogin(true);
+        setLoading(false);
+        setUserDetails(response?.data[0]);
+        localStorage.setItem("userDetails", JSON.stringify(response?.data[0]));
+        history("/");
+      } else {
+        setError({
+          username: "",
+          password: "",
+          credentials: "Username or password incorrect",
+        });
 
-      //   setLoading(false);
-      // }
-      setIfLogin(true);
-      history("/");
+        setLoading(false);
+      }
     } catch (error) {
       setError({
         username: "",

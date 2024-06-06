@@ -1370,29 +1370,6 @@ video {
   line-height: 1.1111111;
 }
 
-.block-editor-block-list__layout :where(h2):not(:where([class~="not-prose"] *)),
-.entry-content :where(h2):not(:where([class~="not-prose"] *)) {
-  font-size: 1.5em;
-  margin-top: 2em;
-  margin-bottom: 1em;
-  line-height: 1.3333333;
-}
-
-.block-editor-block-list__layout :where(h3):not(:where([class~="not-prose"] *)),
-.entry-content :where(h3):not(:where([class~="not-prose"] *)) {
-  font-size: 1.25em;
-  margin-top: 1.6em;
-  margin-bottom: 0.6em;
-  line-height: 1.6;
-}
-
-.block-editor-block-list__layout :where(h4):not(:where([class~="not-prose"] *)),
-.entry-content :where(h4):not(:where([class~="not-prose"] *)) {
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-  line-height: 1.5;
-}
-
 .block-editor-block-list__layout
   :where(img):not(:where([class~="not-prose"] *)),
 .entry-content :where(img):not(:where([class~="not-prose"] *)) {
@@ -12469,10 +12446,11 @@ blockquote {
   transition: all 0.2s linear;
   transition-delay: 0.15s;
 }
-
+.entry-content {
+  margin-top: 20px;
+}
 .entry-content ul.tabs {
   justify-content: center;
-  margin-top: 10px;
 }
 
 .entry-content ul.tabs li {
@@ -12480,13 +12458,32 @@ blockquote {
   font-family: "Poppins", sans-serif;
   color: rgb(33 118 255);
   border: none;
+  text-align: center;
 }
 
 .entry-content ul.tabs li.activeTab {
-  border-bottom: 2px solid #005cb2;
+  background-color: #005cb2;
+  color: white;
 }
 .entry-content .text-medium-gold.text-sm {
   display: none;
+}
+
+.accordion button {
+  background-color: #005cb2 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.accordion button + div {
+  background-color: #cfd5e3;
+}
+
+.entry-content h2 {
+  font-size: 1.5rem !important;
+  color: #005cb2 !important;
+  font-weight: bolder;
 }
 
 .logo-div {

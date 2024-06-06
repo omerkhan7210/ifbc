@@ -32,16 +32,16 @@ const App = () => {
     useContext(MyContext);
   const [mobileActive, setMobileActive] = useState(false);
   const loc = useLocation();
-  // useLayoutEffect(() => {
-  //   if (loading) {
-  //     document.querySelector("html").style.overflowY = "hidden";
-  //     document.querySelector("html").style.height = "100%";
-  //   }
-  //   if (!loading) {
-  //     document.querySelector("html").style.overflow = "auto";
-  //     document.querySelector("html").style.height = "auto";
-  //   }
-  // }, [loading]);
+  useLayoutEffect(() => {
+    if (loading) {
+      document.querySelector("html").style.overflowY = "hidden";
+      document.querySelector("html").style.height = "100%";
+    }
+    if (!loading) {
+      document.querySelector("html").style.overflow = "auto";
+      document.querySelector("html").style.height = "auto";
+    }
+  }, [loading]);
 
   return (
     <AnimatePresence mode="wait">
