@@ -26,6 +26,7 @@ import MainCandList from "./Pages/CandidatePages/CandidateList/MainCandList";
 import MainNewCand from "./Pages/CandidatePages/NewCandidate/MainNewCand";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
+import Candidatelist1 from "./Pages/CandidatePages/CandidateList/Candidatelist1";
 
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
@@ -67,6 +68,14 @@ const App = () => {
               element={
                 <CandidatesDataContext>
                   <MainCandList />
+                </CandidatesDataContext>
+              }
+            />
+            <Route
+              path="/candidatelist"
+              element={
+                <CandidatesDataContext>
+                  <Candidatelist1 />
                 </CandidatesDataContext>
               }
             />
