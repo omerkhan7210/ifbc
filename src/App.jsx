@@ -27,6 +27,7 @@ import MainNewCand from "./Pages/CandidatePages/NewCandidate/MainNewCand";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
 
+
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
     useContext(MyContext);
@@ -70,6 +71,7 @@ const App = () => {
                 </CandidatesDataContext>
               }
             />
+            
             <Route
               path="/new-candidate"
               element={
