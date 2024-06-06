@@ -32,6 +32,16 @@ const BottomBar = ({ listingContent }) => {
   useEffect(() => {
     const document = window.document;
     if (typeof window !== "undefined") {
+      const entryDirectChild = document.querySelector(".entry-content>div");
+      entryDirectChild?.classList.add("flex", "items-start", "gap-5");
+      const tabsList = document.querySelector(".entry-content ul.tabs");
+      tabsList?.classList.add(
+        "flex-col",
+        "divide-y-2",
+        "divide-custom-dark-blue"
+      );
+      tabsList?.classList.remove("justify-center");
+
       const tabs = document.querySelectorAll(".entry-content ul.tabs li");
       const tabContents = {
         overview: document.querySelector(".entry-content ul.tabs")
@@ -53,6 +63,12 @@ const BottomBar = ({ listingContent }) => {
 
       if (tabs.length > 0) {
         tabs[0].classList.add("activeTab");
+        tabContents["overview"].style.display = "block";
+        tabContents["overview"].classList.add(
+          "bg-custom-heading-color/10",
+          "px-10",
+          "py-5"
+        );
         tabs.forEach((tab) => {
           tab.addEventListener("click", (e) => {
             const clickedTab = e.target;
@@ -72,6 +88,11 @@ const BottomBar = ({ listingContent }) => {
 
             if (tabContents[clickedTabText]) {
               tabContents[clickedTabText].style.display = "block";
+              tabContents[clickedTabText].classList.add(
+                "bg-custom-heading-color/10",
+                "px-10",
+                "py-5"
+              );
             }
           });
         });
@@ -123,11 +144,20 @@ const BottomBar = ({ listingContent }) => {
         }
       }
 
-      // //remove item button
-      // const itemButtons = document.querySelectorAll(".button.tertiary-button");
-      // itemButtons.forEach((btn) => {
-      //   btn.style.display = "none";
-      // });
+      //remove item button
+      const itemButtons = document.querySelectorAll(".button.tertiary-button");
+      itemButtons.forEach((btn) => {
+        if (btn.textContent === "Flag that a higher commission is available") {
+          btn.style.display = "none";
+        }
+        const url = btn.getAttribute("href");
+        if (url && url.includes("s26232.pcdn.co")) {
+          const filename = url.split("/").pop().split("?")[0];
+
+          btn.removeAttribute("href");
+          btn.setAttribute("href", `https://kingspeg.com/fba-pdfs/${filename}`);
+        }
+      });
 
       const AllTabsContainer = document.querySelectorAll(
         ".entry-content>div>div"

@@ -29,21 +29,22 @@ import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
 import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import Franchise from "./Pages/GlobalPageSections/Franchise";
 
+
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
     useContext(MyContext);
   const [mobileActive, setMobileActive] = useState(false);
   const loc = useLocation();
-  // useLayoutEffect(() => {
-  //   if (loading) {
-  //     document.querySelector("html").style.overflowY = "hidden";
-  //     document.querySelector("html").style.height = "100%";
-  //   }
-  //   if (!loading) {
-  //     document.querySelector("html").style.overflow = "auto";
-  //     document.querySelector("html").style.height = "auto";
-  //   }
-  // }, [loading]);
+  useLayoutEffect(() => {
+    if (loading) {
+      document.querySelector("html").style.overflowY = "hidden";
+      document.querySelector("html").style.height = "100%";
+    }
+    if (!loading) {
+      document.querySelector("html").style.overflow = "auto";
+      document.querySelector("html").style.height = "auto";
+    }
+  }, [loading]);
 
   return (
     <AnimatePresence mode="wait">
@@ -72,6 +73,7 @@ const App = () => {
                 </CandidatesDataContext>
               }
             />
+            
             <Route
               path="/new-candidate"
               element={
