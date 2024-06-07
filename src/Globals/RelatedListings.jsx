@@ -20,6 +20,7 @@ import "swiper/css/scrollbar";
 
 const RelatedListings = () => {
   const { listings, loading } = useContext(MyContext);
+
   return loading ? (
     <div className="grid place-content-center bg-custom-dark-blue px-4 py-24">
       <BarLoader />
@@ -27,7 +28,7 @@ const RelatedListings = () => {
     </div>
   ) : (
     <section className="hidden md:block bg-custom-dark-blue/15 p-12">
-      <h2 className="font-bold font-poppins text-4xl uppercase mb-4 text-custom-heading-color  text-center mt-0">
+      <h2 className="font-bold font-poppins text-6xl uppercase mb-4 text-custom-heading-color  text-center mt-0">
         Featured Franchises
       </h2>
 
@@ -37,6 +38,7 @@ const RelatedListings = () => {
           spaceBetween={20}
           slidesPerView={3}
           centeredSlides
+          initialSlide={12}
           effect="coverflow"
           coverflowEffect={{
             rotate: 0,

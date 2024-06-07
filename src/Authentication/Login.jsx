@@ -16,6 +16,7 @@ const Login = ({ setIfLogin }) => {
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
   const { setUserDetails } = useContext(MyContext);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -57,7 +58,6 @@ const Login = ({ setIfLogin }) => {
       setLoading(true);
       // Send the POST request using Axios
       const response = await axios.post(url);
-      console.log(typeof response.data);
 
       if (typeof response.data === "object" && response.status === 200) {
         localStorage.setItem("ifLogin", true);

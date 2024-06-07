@@ -21,6 +21,10 @@
   @apply text-4xl font-bold text-custom-heading-color text-center uppercase my-3 flex items-center gap-2 justify-center;
 }
 
+.candidate-small-heading {
+  @apply text-2xl font-bold text-custom-dark-blue text-center uppercase flex items-center gap-2 justify-center;
+}
+
 .candidate-sub-childs {
   @apply flex flex-col w-full my-3;
 }

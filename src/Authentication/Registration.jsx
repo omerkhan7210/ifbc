@@ -11,16 +11,46 @@ const Registration = ({ setIfLogin }) => {
     password: "",
     credentials: "",
   });
-
+  const [formFields, setFormFields] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: value,
+    }));
+    setError((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validatePassword = (password) => {
+    return password.length >= 8;
+  };
+
+  const validateUsername = (username) => {
+    const re = /^[A-Za-z][A-Za-z0-9]*$/;
+    return re.test(username);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { username, email, password } = formFields;
 
-    const user = ref.current;
-
-    if (!user.username.value && !user.password.value && !user.email.value) {
+    if (!username && !email && !password) {
       setError({
         username: "Please enter a username",
         email: "Please enter an email",
@@ -28,7 +58,7 @@ const Registration = ({ setIfLogin }) => {
         credentials: "",
       });
       return;
-    } else if (!user.username.value) {
+    } else if (!username) {
       setError({
         username: "Please enter a username",
         email: "",
@@ -36,7 +66,32 @@ const Registration = ({ setIfLogin }) => {
         credentials: "",
       });
       return;
-    } else if (!user.password.value) {
+    } else if (!validateUsername(username)) {
+      setError({
+        username:
+          "Username must start with a letter and contain only alphanumeric characters",
+        email: "",
+        password: "",
+        credentials: "",
+      });
+      return;
+    } else if (!email) {
+      setError({
+        username: "",
+        email: "Please enter an email",
+        password: "",
+        credentials: "",
+      });
+      return;
+    } else if (!validateEmail(email)) {
+      setError({
+        username: "",
+        email: "Please enter a valid email",
+        password: "",
+        credentials: "",
+      });
+      return;
+    } else if (!password) {
       setError({
         username: "",
         email: "",
@@ -44,11 +99,11 @@ const Registration = ({ setIfLogin }) => {
         credentials: "",
       });
       return;
-    } else if (!user.email.value) {
+    } else if (!validatePassword(password)) {
       setError({
         username: "",
-        email: "Please enter an email",
-        password: "Please enter a password",
+        email: "",
+        password: "Password must be at least 8 characters",
         credentials: "",
       });
       return;
@@ -63,17 +118,16 @@ const Registration = ({ setIfLogin }) => {
 
     try {
       const requestData = {
-        USERID: user.username.value,
-        USERNAME: user.username.value,
-        PASSCODE: user.password.value,
+        USERID: username,
+        USERNAME: username,
+        PASSCODE: password,
       };
       const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/newaccount.aspx`;
-      const url = `https://corsproxy.io/${encodeURIComponent(baseUrl)}`;
 
       setLoading(true);
 
       // Send the POST request using Axios
-      const response = await axios.post(url, requestData, {
+      const response = await axios.post(baseUrl, requestData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -117,7 +171,9 @@ const Registration = ({ setIfLogin }) => {
     <PageTransition>
       <div className="w-full h-screen grid place-items-center">
         <div className="w-[350px] md:w-[450px] flex justify-center flex-col items-center ">
-          <h2 className="text-5xl my-5 uppercase font-bold">Registration</h2>
+          <h2 className="text-5xl my-5 uppercase font-bold text-custom-heading-color">
+            Registration
+          </h2>
           <form
             className="bg-white w-full shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded px-4 md:px-8 pt-6 pb-8 mb-4"
             ref={ref}
@@ -153,6 +209,8 @@ const Registration = ({ setIfLogin }) => {
                 id="username"
                 type="text"
                 placeholder="Username"
+                value={formFields.username}
+                onChange={handleInputChange}
               />
               {error.username && (
                 <p className="text-red-500 text-xs italic mt-2">
@@ -175,6 +233,8 @@ const Registration = ({ setIfLogin }) => {
                 id="email"
                 type="email"
                 placeholder="Email"
+                value={formFields.email}
+                onChange={handleInputChange}
               />
               {error.email && (
                 <p className="text-red-500 text-xs italic mt-2">
@@ -197,6 +257,8 @@ const Registration = ({ setIfLogin }) => {
                 name="password"
                 type="password"
                 placeholder="******************"
+                value={formFields.password}
+                onChange={handleInputChange}
               />
               {error.password && (
                 <p className="text-red-500 text-xs italic mt-2">

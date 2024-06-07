@@ -2,11 +2,9 @@ import axios, { formToJSON } from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import PageTransition from "src/Animations/PageTransition";
 import { twMerge } from "tailwind-merge";
 import Tabs from "./Tabs";
 import { useNavigate } from "react-router-dom";
-import CandidateSideBar from "src/Pages/GlobalPageSections/CandidateSideBar";
 
 const Form = () => {
   const [formFields, setFormFields] = useState({});
@@ -132,10 +130,10 @@ const Form = () => {
   }, [formFields]);
 
   const history = useNavigate();
-  const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
   const handleSubmit = async () => {
+    setLoading(true);
     const reqFields = [
       "firstname",
       "lastname",
@@ -156,54 +154,69 @@ const Form = () => {
 
     try {
       if (allFieldsValid) {
-        const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/candidateadd.aspx?FirstName=${
-          formFields.firstname ?? ""
-        }&LastName=${formFields.lastname ?? ""}&Phone=${
-          formFields.phone ?? ""
-        }&Email=${formFields.email ?? ""}&TerritoryCity=${
-          formFields.territorycity ?? ""
-        }&TerritoryState=${formFields.territorystate ?? ""}&TerritoryZipcode=${
-          formFields.zipcode ?? ""
-        }&CurrentCity=${formFields.currentcity ?? ""}&CurrentState=${
-          formFields.currentstate ?? ""
-        }&CurrentZipcode=${formFields.currentzipcode ?? ""}&TerritoryNotes=${
-          formFields.territorynotes ?? ""
-        }&DealSource=${formFields.dealsource ?? ""}&DealSourceCost=${
-          formFields.dealsourcecost ?? ""
-        }&ZorackleValue=${formFields.zoraclevalue ?? ""}&DealValue=${
-          formFields.dealvalue ?? ""
-        }&About=${formFields.about ?? ""}&CloseDate=${
-          formFields.closedate ?? ""
-        }`;
+        const formData = {
+          FirstName: formFields.firstname ?? "",
+          LastName: formFields.lastname ?? "",
+          Phone: formFields.phone ?? "",
+          Email: formFields.email ?? "",
+          TerritoryCity: formFields.territorycity ?? "",
+          TerritoryState: formFields.territorystate ?? "",
+          TerritoryZipcode: formFields.zipcode ?? "",
+          CurrentCity: formFields.currentcity ?? "",
+          CurrentState: formFields.currentstate ?? "",
+          CurrentZipcode: formFields.currentzipcode ?? "",
+          TerritoryNotes: formFields.territorynotes ?? "",
+          DealSource: formFields.dealsource ?? "",
+          DealSourceCost: formFields.dealsourcecost ?? "",
+          ZorackleValue: formFields.zoraclevalue ?? "",
+          DealValue: formFields.dealvalue ?? "",
+          About: formFields.about ?? "",
+          CloseDate: formFields.closedate ?? "",
+        };
 
-        const url = `https://corsproxy.io/${encodeURIComponent(baseUrl)}`;
+        const jsonData = JSON.stringify(formData);
+        const baseUrl =
+          "http://siddiqiventures-001-site3.ktempurl.com/newcandidateadd.aspx";
 
-        //setLoading(true);
         // Send the POST request using Axios
-        const response = await axios.post(baseUrl, formFields, {
+        const response = await axios.post(baseUrl, jsonData, {
           headers: {
             "Content-Type": "application/json",
           },
         });
 
+        console.log(response);
+
         if (
           response.status === 200 &&
-          response.data === '"Candidate Information Saved Successfully."'
+          response.data === "Candidate Information Saved Successfully."
         ) {
+          setFormErrors({});
+          setSuccessMsg("Candidate Information Saved Successfully.");
+
+          setLoading(false);
+
+          setTimeout(() => {
+            history("/candidate-list");
+          }, 3000);
+        } else {
+          setFormErrors({ error: response.data });
+          setLoading(false);
+          window.scrollTo(0, 500);
+          // Handle unexpected response
         }
-        console.log(response);
       } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Please fill in all the required fields",
+        }));
+        setLoading(false);
         window.scrollTo(0, 500);
+
+        // Handle invalid fields (e.g., show validation errors)
       }
     } catch (error) {
-      // setError({
-      //   username: "",
-      //   password: "",
-      //   email: "",
-      //   credentials: "Server Error",
-      // });
-
-      setLoading(false);
+      console.error("Error:", error);
     }
   };
 
@@ -212,9 +225,9 @@ const Form = () => {
       id="left-side-container"
       className="col-span-12 divide-y-2 divide-custom-dark-blue/10  mx-10 my-5"
     >
-      {formErrors && Object.keys(formErrors).length > 0 && (
+      {formErrors.error && (
         <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
-          Please fill in all required fields!
+          {formErrors.error}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -250,8 +263,27 @@ const Form = () => {
       <Tabs />
       {/* submit button */}
       <div id="button-container" className="w-full flex justify-center">
+        {successMsg && (
+          <p className="border-2 border-green-600 text-green-600 p-4 flex justify-between">
+            {successMsg}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+              />
+            </svg>
+          </p>
+        )}
         <button className="candidate-btn" onClick={handleSubmit}>
-          SUBMIT CANDIDATE INFORMATION
+          {loading ? "Loading..." : "SUBMIT CANDIDATE INFORMATION"}
         </button>
       </div>
     </div>

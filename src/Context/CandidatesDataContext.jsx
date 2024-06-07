@@ -5,6 +5,7 @@ export const MyCandContext = createContext();
 const CandidatesDataContext = ({ children }) => {
   const [cands, setCands] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -32,6 +33,8 @@ const CandidatesDataContext = ({ children }) => {
         cands,
         setCands,
         loading,
+        filters,
+        setFilters,
       }}
     >
       {children}

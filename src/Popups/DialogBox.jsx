@@ -5,11 +5,10 @@ import {
   Transition,
   TransitionChild,
 } from "@headlessui/react";
-const DialogBox = ({ children }) => {
-  const [open, setOpen] = useState(true);
+const DialogBox = ({ children, show, setShow }) => {
   return (
-    <Transition show={open}>
-      <Dialog className="relative z-10" onClose={setOpen}>
+    <Transition show={show}>
+      <Dialog className="relative z-10" onClose={setShow}>
         <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"

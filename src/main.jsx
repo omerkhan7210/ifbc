@@ -9,6 +9,8 @@ import "src/assets/css/aos.css";
 import "src/assets/css/style.css";
 import "src/assets/css/swiper-bundle.min.css";
 import "src/assets/css/output.css";
+import { store } from "./Redux/store.jsx";
+import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("app")).render(
   <React.StrictMode>
@@ -17,9 +19,11 @@ ReactDOM.createRoot(document.getElementById("app")).render(
         <Route
           path="/*"
           element={
-            <ListingDataContext>
-              <App />
-            </ListingDataContext>
+            <Provider store={store}>
+              <ListingDataContext>
+                <App />
+              </ListingDataContext>
+            </Provider>
           }
         />
       </Routes>

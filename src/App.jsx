@@ -26,7 +26,7 @@ import MainCandList from "./Pages/CandidatePages/CandidateList/MainCandList";
 import MainNewCand from "./Pages/CandidatePages/NewCandidate/MainNewCand";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
-
+import { Counter } from "./Redux/Features/Counter/Counter";
 
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
@@ -48,7 +48,7 @@ const App = () => {
     <AnimatePresence mode="wait">
       {ifLogin ? (
         <>
-          <header id="main-header">
+          <header id="main-header" className="sticky top-0 z-50">
             <Header
               mobileActive={mobileActive}
               setMobileActive={setMobileActive}
@@ -71,7 +71,7 @@ const App = () => {
                 </CandidatesDataContext>
               }
             />
-            
+
             <Route
               path="/new-candidate"
               element={

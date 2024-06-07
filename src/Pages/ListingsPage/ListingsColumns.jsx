@@ -1,11 +1,15 @@
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
+import { useState } from "react";
 import { useContext } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
+import { increment } from "src/Redux/Features/Counter/counterSlice";
 
 const ListingsColumns = ({ listing, index }) => {
-  const { activeListings, setActiveListings, allowed } = useContext(MyContext);
+  const { activeListings, setActiveListings, allowed, role } =
+    useContext(MyContext);
 
   // Use a regular expression to find the investment range
   const investmentRangeMatch = listing?.InvestmentRange?.match(
@@ -29,6 +33,8 @@ const ListingsColumns = ({ listing, index }) => {
       }
     });
   };
+  const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <div className="relative">
@@ -111,29 +117,53 @@ const ListingsColumns = ({ listing, index }) => {
           </h1>
 
           {/* added anchor */}
-          <a
-            href={`/listings-details/${listing?.name
-              ?.toLowerCase()
-              .split(" ")
-              .join("-")}`}
-            className="bg-custom-dark-blue w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
-          >
-            <span>See More Details</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-5 h-5"
+          {/* temporary role */}
+          {role !== "M" ? (
+            <a
+              href={`/listings-details/${listing?.name
+                ?.toLowerCase()
+                .split(" ")
+                .join("-")}`}
+              className="bg-custom-dark-blue w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </a>
+              <span>See More Details</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </a>
+          ) : (
+            <a
+              onClick={() => dispatch(increment())}
+              className="bg-custom-orange w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
+            >
+              <span>Request Info</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </a>
+          )}
         </div>
       </motion.div>
     </div>

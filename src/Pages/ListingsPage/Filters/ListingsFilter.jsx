@@ -170,8 +170,6 @@ const ListingsFilter = () => {
           anotherText={filter.anotherText}
           normalText={filter.normalText}
           property={filter.property}
-          selectedCats={selectedCats}
-          setSelectedCats={setSelectedCats}
         />
       ))}
     </div>

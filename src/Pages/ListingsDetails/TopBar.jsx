@@ -1,6 +1,7 @@
 import React from "react";
 import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
+import { twMerge } from "tailwind-merge";
 
 const TopBar = ({ listingContent }) => {
   const data = [
@@ -195,29 +196,7 @@ const TopBar = ({ listingContent }) => {
           id="buttons-container"
           className="flex flex-col gap-3 w-full  justify-start items-center mb-2 col-span-12 md:col-span-4"
         >
-          <button
-            type="button"
-            className="text-green w-full  fill:green hover:text-dark-green hover:fill-dark-green transition flex items-center mt-4 md:mt-0"
-            data-custom-open="report-listing-issue"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={20}
-              height={20}
-              viewBox="0 0 24 24"
-            >
-              <g fill="none" fillRule="evenodd">
-                <path d="M24 0v24H0V0h24ZM12.593 23.258l-.011.002-.071.035-.02.004-.014-.004-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01-.017.428.005.02.01.013.104.074.015.004.012-.004.104-.074.012-.016.004-.017-.017-.427c-.002-.01-.009-.017-.017-.018Zm.265-.113-.013.002-.185.093-.01.01-.003.011.018.43.005.012.008.007.201.093c.012.004.023 0 .029-.008l.004-.014-.034-.614c-.003-.012-.01-.02-.02-.022Zm-.715.002a.023.023 0 0 0-.027.006l-.006.014-.034.614c0 .012.007.02.017.024l.015-.002.201-.093.01-.008.004-.011.017-.43-.003-.012-.01-.01-.184-.092Z" />
-                <path
-                  fill="currentColor"
-                  d="M21 3.426c0-.937-1.005-1.563-1.851-1.098-1.137.624-4.503 2.442-6.518 3.243-2.345.931-4.364 1.281-6.678 1.389C4.35 7.034 3 8.329 3 10v4c0 1.671 1.35 2.966 2.953 3.04.274.013.543.029.81.049l-.744 3.715a1 1 0 0 0 1.962.392l.773-3.868c1.263.215 2.515.56 3.877 1.101 2.015.801 5.38 2.62 6.518 3.243.846.465 1.851-.161 1.851-1.098V3.426ZM9 15.342c1.418.235 2.833.618 4.37 1.229 1.652.656 4.086 1.919 5.63 2.746V4.683c-1.544.827-3.978 2.09-5.63 2.746-1.537.61-2.952.994-4.37 1.23v6.683ZM7 8.899c-.315.024-.632.044-.954.059C5.443 8.986 5 9.462 5 10v4c0 .538.443 1.014 1.046 1.042.322.015.64.035.954.06V8.898Z"
-                />
-              </g>
-            </svg>
-            <span className="ml-2">Report an issue with this listing</span>
-          </button>
-
-          <select className="w-full">
+          <select className="candidate-select w-full">
             <option value>Concept Actions</option>
             <option value="email">Send an Email</option>
             <option value="info-sheet">Candidate Info Sheet</option>
@@ -225,21 +204,21 @@ const TopBar = ({ listingContent }) => {
             <option value="one-sheet">Download One Sheet Packets </option>
           </select>
           <button
-            className="text-white bg-custom-blue p-2 cta-button w-full  md:mb-0"
+            className="candidate-btn w-full"
             value="tc"
             onClick={() => setTCheck(true)}
           >
             Territory Check
           </button>
           <button
-            className="text-white bg-custom-blue p-2 w-full  md:mb-0"
+            className="candidate-btn w-full"
             value="formal-registration"
             onClick={() => setformalRegCheck(true)}
           >
             Formal Registration
           </button>
           <button
-            className="text-white bg-custom-blue p-2 secondary-button w-full  md:mb-0"
+            className="candidate-btn w-full"
             type="button"
             data-custom-open="rate"
           >
@@ -249,9 +228,7 @@ const TopBar = ({ listingContent }) => {
 
         <div className="col-span-12 md:col-span-4">
           <ul className="flex flex-col gap-4  items-start h-full col-span-12  md:col-span-4">
-            <h2 className="text-2xl font-semibold text-custom-dark-blue uppercase">
-              Listing Details
-            </h2>
+            <h2 className="candidate-small-heading">Listing Details</h2>
             {data.map((listingLi, index) => {
               const indexLimitListing = role === "A" ? index < 3 : index === 0;
               if (indexLimitListing) {
@@ -268,9 +245,7 @@ const TopBar = ({ listingContent }) => {
 
         <div className="col-span-12 md:col-span-4">
           <ul className="flex flex-col gap-4 items-start h-full ">
-            <h2 className="text-2xl font-semibold text-custom-dark-blue uppercase">
-              User Details
-            </h2>
+            <h2 className="candidate-small-heading">User Details</h2>
             {data.map((listingLi, index) => {
               const indexLimit = role === "A" ? 2 : 6;
               if (index > indexLimit) {

@@ -5,6 +5,8 @@ import { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { MyContext } from "src/Context/ListingDataContext";
 import ToggleButton from "./ToggleButton";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 const Logo = () => {
   return (
     <Link
@@ -64,10 +66,15 @@ const Header = ({ mobileActive, setMobileActive }) => {
     },
   ];
 
+  useEffect(() => {
+    const scrollHeight = window.scrollY;
+    console.log(scrollHeight);
+  }, [window.scrollY]);
+
   const isMobile = window.innerWidth < 992 ? true : false;
   return (
     <motion.nav
-      className={`z-50 sticky top-0 w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0 gap-3 ${
+      className={`  w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0 gap-3 ${
         isMobile ? "px-4 py-2" : " px-4 pt-2"
       }`}
       id="header-nav"
@@ -81,11 +88,10 @@ const Header = ({ mobileActive, setMobileActive }) => {
         }  md:px-0`}
       >
         {/* DETAILS */}
+
         <ul
           id="info-details-header"
-          className={`${
-            isMobile ? "hidden" : "flex justify-start gap-5"
-          }  py-2 `}
+          className={` flex items-center justify-start py-2  gap-5`}
         >
           {socials.map((button, index) => (
             <li key={index} className="flex gap-1 text-sm items-center">
@@ -120,6 +126,8 @@ const Header = ({ mobileActive, setMobileActive }) => {
 };
 
 const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
+  const count = useSelector((state) => state.counter.value);
+
   const isMobile = window.innerWidth < 992 ? true : false;
   const [active, setActive] = useState(false);
   const { ifLogin, setIfLogin, userDetails } = useContext(MyContext);
@@ -143,8 +151,10 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
     history("/");
   };
   return (
-    <div className={`${isMobile ? "" : "flex justify-end items-center gap-2"}`}>
-      {/* BOOK AN APPOINTMENT */}
+    <div
+      className={`${isMobile ? "" : "flex justify-end items-start pt-1 gap-5"}`}
+    >
+      {/* button appointment */}
       <button
         className={`${
           isMobile
@@ -154,6 +164,28 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
       >
         Book an appointment
       </button>
+      {/* cart icon */}
+      <div className="relative bg-white rounded-full w-10 h-10 flex items-center justify-center">
+        <div className="-top-1 absolute -right-3">
+          <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
+            {count}
+          </p>
+        </div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="rgb(0 17 54)"
+          className=" h-6 w-6 z-90"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+          />
+        </svg>
+      </div>
 
       {/* USER BUTTON */}
       {ifLogin && (

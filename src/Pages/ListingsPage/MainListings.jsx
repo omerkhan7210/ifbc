@@ -3,7 +3,6 @@ import AllListings from "./AllListings";
 import ListingsFilter from "./Filters/ListingsFilter";
 import { MyContext } from "src/Context/ListingDataContext";
 import SearchingComponent from "./SearchingComponent";
-import { useParams } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 
 const ExtraTools = () => {
