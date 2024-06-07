@@ -27,6 +27,8 @@ import MainNewCand from "./Pages/CandidatePages/NewCandidate/MainNewCand";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
 import { Counter } from "./Redux/Features/Counter/Counter";
+import CheckOutForm from "./Pages/CartPage/CheckOutForm";
+import Franchise from "./Pages/GlobalPageSections/Franchise";
 
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
@@ -77,6 +79,22 @@ const App = () => {
               element={
                 <CandidatesDataContext>
                   <MainNewCand />
+                </CandidatesDataContext>
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <CandidatesDataContext>
+                  <CheckOutForm />
+                </CandidatesDataContext>
+              }
+            />
+            <Route
+              path="/franchise"
+              element={
+                <CandidatesDataContext>
+                  <Franchise />
                 </CandidatesDataContext>
               }
             />
