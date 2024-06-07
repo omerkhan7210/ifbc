@@ -50,7 +50,7 @@ const App = () => {
     <AnimatePresence mode="wait">
       {ifLogin ? (
         <>
-          <header id="main-header" className="sticky top-0 z-50">
+          <header id="main-header" className="sticky top-0 z-[999]">
             <Header
               mobileActive={mobileActive}
               setMobileActive={setMobileActive}

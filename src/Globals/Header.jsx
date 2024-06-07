@@ -2,7 +2,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import { useContext, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
 import { MyContext } from "src/Context/ListingDataContext";
 import ToggleButton from "./ToggleButton";
 import { useSelector } from "react-redux";
@@ -11,7 +11,7 @@ const Logo = () => {
   return (
     <Link
       to="/"
-      className="flex shrink-0 justify-center items-center text-medium-gold my-2 mr-4"
+      className="flex shrink-0 justify-center items-center text-medium-gold "
     >
       <img
         src="/images/logo/IFBC 3.png"
@@ -25,6 +25,27 @@ const Logo = () => {
 };
 
 const Header = ({ mobileActive, setMobileActive }) => {
+  const [scrollY, setScrollY] = useState(0);
+  const controls = useAnimation();
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setScrollY(scrollY);
+      if (scrollY > 100) {
+        controls.start({ y: -100, opacity: 0 });
+        // setTimeout(() => setHidden(true), 500);
+      } else {
+        //setHidden(false);
+        //setTimeout(() => controls.start({ y: 0, opacity: 1 }), 500); // Wait for animation to complete
+        controls.start({ y: 0, opacity: 1 });
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [controls]);
   const socials = [
     {
       text: "mail@ifbc.co",
@@ -74,9 +95,7 @@ const Header = ({ mobileActive, setMobileActive }) => {
   const isMobile = window.innerWidth < 992 ? true : false;
   return (
     <motion.nav
-      className={`  w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0 gap-3 ${
-        isMobile ? "px-4 py-2" : " px-4 pt-2"
-      }`}
+      className=" w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0 gap-3 px-4 pt-2"
       id="header-nav"
     >
       <div
@@ -85,13 +104,13 @@ const Header = ({ mobileActive, setMobileActive }) => {
           isMobile
             ? "flex justify-between items-center"
             : "grid grid-cols-3 px-8"
-        }  md:px-0`}
+        }  md:px-0 py-3`}
       >
         {/* DETAILS */}
 
         <ul
           id="info-details-header"
-          className={` flex items-center justify-start py-2  gap-5`}
+          className={` flex items-center justify-start   gap-5`}
         >
           {socials.map((button, index) => (
             <li key={index} className="flex gap-1 text-sm items-center">
@@ -120,7 +139,11 @@ const Header = ({ mobileActive, setMobileActive }) => {
         />
       </div>
 
-      <Navbar />
+      <Navbar
+        animate={controls}
+        initial={{ y: 0, opacity: 1 }}
+        hidden={hidden}
+      />
     </motion.nav>
   );
 };

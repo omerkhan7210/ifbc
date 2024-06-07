@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link, NavLink, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 
-const Navbar = () => {
+const Navbar = ({ animate, initial, hidden }) => {
   const style = ({ isActive }) => ({
     background: isActive ? "rgb(0 17 54)" : "",
   });
@@ -13,7 +14,11 @@ const Navbar = () => {
   });
 
   return (
-    <div className="hidden lg:block relative">
+    <motion.div
+      className={`hidden ${hidden ? "" : "lg:block"} relative`}
+      animate={animate}
+      initial={initial}
+    >
       <div className="menu-broker-container">
         <ul id="menu-broker" className="menu">
           <li
@@ -101,7 +106,7 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
