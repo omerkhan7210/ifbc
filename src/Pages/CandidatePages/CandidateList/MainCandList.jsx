@@ -8,57 +8,7 @@ import { MyCandContext } from "src/Context/CandidatesDataContext";
 
 const MainCandList = () => {
   const { cands, loading } = useContext(MyCandContext);
-  console.log(cands);
-  const objects = [
-    {
-      name: "umer",
-      phone: "317-777-5577",
-      email: "subwaysingh1@gmail.com",
-      heading: "Initial Call Attempt",
-    },
-    {
-      name: "umer22",
-      phone: "317-777-5577",
-      email: "subwaysingh1@gmail.com",
-      heading: "Initial Call Attempt",
-    },
-    {
-      name: "umer",
-      phone: "317-777-5577",
-      email: "subwaysingh1@gmail.com",
-      heading: "Initial Call Attempt",
-    },
-    {
-      name: "umer22",
-      phone: "317-777-5577",
-      email: "subwaysingh1@gmail.com",
-      heading: "Initial Call Attempt",
-    },
-    {
-      name: "umer",
-      phone: "317-777-5577",
-      email: "subwaysingh1@gmail.com",
-      heading: "Initial Call Attempt",
-    },
-    {
-      name: "umer22",
-      phone: "317-777-5577",
-      email: "subwaysingh1@gmail.com",
-      heading: "Initial Call Attempt",
-    },
-    {
-      name: "umer",
-      phone: "317-777-5577",
-      email: "subwaysingh1@gmail.com",
-      heading: "Initial Call Attempt",
-    },
-    {
-      name: "umer22",
-      phone: "317-777-5577",
-      email: "subwaysingh1@gmail.com",
-      heading: "Initial Call Attempt",
-    },
-  ];
+
   // useEffect(() => {
   //   axios
   //     .get("http://siddiqiventures-001-site4.ktempurl.com/GetAllProduct")
@@ -174,14 +124,14 @@ const MainCandList = () => {
             <button className="candidate-btn w-full">IMPORT</button>
           </div>
         </div>
-
-        <GridFormatData />
+        <TableFormatData loading={loading} cands={cands} />
+        <GridFormatData loading={loading} cands={cands} />
       </div>
     </>
   );
 };
 
-const TableFormatData = () => {
+const TableFormatData = ({ loading, cands }) => {
   return (
     <div id="cand-table-format" className="hidden sm:block mt-2 ">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -203,20 +153,46 @@ const TableFormatData = () => {
             </tr>
           </thead>
           <tbody>
-            <tr className=" border-b text-center ">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-lg text-gray-900 whitespace-nowrap"
-              >
-                Lovedip Singh"
-              </th>
-              <td className="px-6 py-4 text-base">
-                317-777-5577 <br />
-                subwaysingh1@gmail.com
-              </td>
-              <td className="px-6 py-4 text-base">Initial Call Attempt</td>
-              <td className="px-6 py-4 text-base">Apr 19, 2024 11:31 AM</td>
-            </tr>
+            {!loading &&
+              cands.length > 0 &&
+              cands.map((cand) => {
+                const rawDate = cand.DocDate;
+                // Extract the timestamp using a regular expression
+                const match = rawDate.match(/\d+/);
+
+                const timestamp = parseInt(match[0], 10);
+
+                // Convert to Date object
+                const date = new Date(timestamp);
+
+                // Format the date
+                const formatted = new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                  second: "numeric",
+                }).format(date);
+                return (
+                  <tr className=" border-b text-center ">
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-lg text-gray-900 whitespace-nowrap"
+                    >
+                      {`${cand.FirstName} ${cand.LastName}`}
+                    </th>
+                    <td className="px-6 py-4 text-base">
+                      <a href={`tel:${cand.Phone}`}>{cand.Phone}</a> <br />
+                      <a href={`mailto:${cand.Email}`}>{cand.Email}</a>
+                    </td>
+                    <td className="px-6 py-4 text-base">
+                      Initial Call Attempt
+                    </td>
+                    <td className="px-6 py-4 text-base">{formatted}</td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
@@ -224,7 +200,57 @@ const TableFormatData = () => {
   );
 };
 
-const GridFormatData = () => {
+const GridFormatData = ({ loading, cands }) => {
+  const objects = [
+    {
+      name: "umer",
+      phone: "317-777-5577",
+      email: "subwaysingh1@gmail.com",
+      heading: "Initial Call Attempt",
+    },
+    {
+      name: "umer22",
+      phone: "317-777-5577",
+      email: "subwaysingh1@gmail.com",
+      heading: "Initial Call Attempt",
+    },
+    {
+      name: "umer",
+      phone: "317-777-5577",
+      email: "subwaysingh1@gmail.com",
+      heading: "Initial Call Attempt",
+    },
+    {
+      name: "umer22",
+      phone: "317-777-5577",
+      email: "subwaysingh1@gmail.com",
+      heading: "Initial Call Attempt",
+    },
+    {
+      name: "umer",
+      phone: "317-777-5577",
+      email: "subwaysingh1@gmail.com",
+      heading: "Initial Call Attempt",
+    },
+    {
+      name: "umer22",
+      phone: "317-777-5577",
+      email: "subwaysingh1@gmail.com",
+      heading: "Initial Call Attempt",
+    },
+    {
+      name: "umer",
+      phone: "317-777-5577",
+      email: "subwaysingh1@gmail.com",
+      heading: "Initial Call Attempt",
+    },
+    {
+      name: "umer22",
+      phone: "317-777-5577",
+      email: "subwaysingh1@gmail.com",
+      heading: "Initial Call Attempt",
+    },
+  ];
   return (
     <div
       id="container"
