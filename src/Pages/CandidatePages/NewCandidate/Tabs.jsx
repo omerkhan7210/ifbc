@@ -57,7 +57,7 @@ const TabsList = ({ activeTab, setActiveTab }) => {
   );
 };
 
-const Initial = ({ activeTab, handleInputChange }) => {
+const Initial = ({ activeTab }) => {
   return (
     <div
       id="initial-qualifying"
@@ -102,11 +102,16 @@ const Initial = ({ activeTab, handleInputChange }) => {
         </p>
       </div>
       <select
-        onChange={handleInputChange}
         name="How much money are you wanting to invest in the franchise?"
         id="money"
         className="candidate-select"
-      ></select>
+      >
+        {investmentOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div>
         <p className="text-xs font-bold text-gray-500 mt-2">
           Used as Maximum Investment
@@ -116,7 +121,6 @@ const Initial = ({ activeTab, handleInputChange }) => {
         <p className="candidate-paragraph">Do you have a need for funding?</p>
       </div>
       <select
-        onChange={handleInputChange}
         name="Do you have a need for funding?"
         id="funding"
         className="candidate-select"
@@ -127,7 +131,6 @@ const Initial = ({ activeTab, handleInputChange }) => {
         </p>
       </div>
       <select
-        onChange={handleInputChange}
         name="What is your approximate credit score?"
         id="score"
         className="candidate-select"
@@ -136,7 +139,6 @@ const Initial = ({ activeTab, handleInputChange }) => {
         <p className="candidate-label">Net Worth?</p>
       </div>
       <select
-        onChange={handleInputChange}
         name="Net Worth?"
         id="worth"
         className="candidate-select"
@@ -145,7 +147,6 @@ const Initial = ({ activeTab, handleInputChange }) => {
         <p className="candidate-label">Liquid Cash?</p>
       </div>
       <select
-        onChange={handleInputChange}
         name="Liquid Cash?"
         id="liquid-cash"
         className="candidate-select"
@@ -156,7 +157,6 @@ const Initial = ({ activeTab, handleInputChange }) => {
         </p>
       </div>
       <select
-        onChange={handleInputChange}
         name="What caused you to start looking for a franchise?"
         id="franchise"
         className="candidate-select"
@@ -167,7 +167,6 @@ const Initial = ({ activeTab, handleInputChange }) => {
         </p>
       </div>
       <select
-        onChange={handleInputChange}
         name=" What is your professional background?"
         id="background"
         className="candidate-select"
@@ -179,7 +178,7 @@ const Initial = ({ activeTab, handleInputChange }) => {
         <input
           onChange={handleInputChange}
           type="text"
-          name="What franchises are you interested in?"
+          name="FranchiseInterested"
           className="candidate-normal-input"
           required
         />
@@ -188,7 +187,6 @@ const Initial = ({ activeTab, handleInputChange }) => {
         <p className="candidate-paragraph">What is your time frame?</p>
       </div>
       <select
-        onChange={handleInputChange}
         name="What is your time frame?"
         id="time-frame"
         className="candidate-select"
@@ -201,7 +199,6 @@ const Initial = ({ activeTab, handleInputChange }) => {
           Notes
         </label>
         <textarea
-          onChange={handleInputChange}
           id="message"
           rows={3}
           className="candidate-input"
@@ -228,7 +225,6 @@ const Zoracle = ({ activeTab }) => {
           <p className="candidate-label">Competency 1?</p>
         </div>
         <select
-          onChange={handleInputChange}
           name="Competency 1?"
           id="competency1"
           className="candidate-select"
@@ -239,7 +235,6 @@ const Zoracle = ({ activeTab }) => {
           <p className="candidate-label">Competency 2?</p>
         </div>
         <select
-          onChange={handleInputChange}
           name="Competency 2?"
           id="competency2"
           className="candidate-select"
@@ -250,7 +245,6 @@ const Zoracle = ({ activeTab }) => {
           <p className="candidate-label">Competency 3?</p>
         </div>
         <select
-          onChange={handleInputChange}
           name="Competency 3?"
           id="competency3"
           className="candidate-select"
@@ -308,7 +302,6 @@ const Zoracle = ({ activeTab }) => {
           What work activities do you enjoy?
         </p>
         <input
-          onChange={handleInputChange}
           name="What work activities do you enjoy?"
           type="text"
           className="candidate-normal-input"
@@ -321,7 +314,6 @@ const Zoracle = ({ activeTab }) => {
           business?
         </p>
         <input
-          onChange={handleInputChange}
           name="Are you comfortable attending networking functions to promote your new business?"
           type="text"
           className="candidate-normal-input"
@@ -333,7 +325,6 @@ const Zoracle = ({ activeTab }) => {
           Are you interested in Multiple-Unit Operation or Masters?
         </p>
         <input
-          onChange={handleInputChange}
           name="Are you interested in Multiple-Unit Operation or Masters?"
           type="text"
           className="candidate-normal-input"
@@ -345,7 +336,6 @@ const Zoracle = ({ activeTab }) => {
           Are you planning on having a partner in the business?
         </p>
         <input
-          onChange={handleInputChange}
           name="Are you planning on having a partner in the business?"
           type="text"
           className="candidate-normal-input"
@@ -357,7 +347,6 @@ const Zoracle = ({ activeTab }) => {
           How does your family feel about your interest in this?
         </p>
         <input
-          onChange={handleInputChange}
           name="How does your family feel about your interest in this?"
           type="text"
           className="candidate-normal-input"
@@ -369,7 +358,6 @@ const Zoracle = ({ activeTab }) => {
           What types of employees would you prefer to work with (if any)?
         </p>
         <input
-          onChange={handleInputChange}
           name="What types of employees would you prefer to work with (if any)?"
           type="text"
           className="candidate-normal-input"
@@ -381,7 +369,6 @@ const Zoracle = ({ activeTab }) => {
           What size staff are you comfortable with?
         </p>
         <input
-          onChange={handleInputChange}
           name="What size staff are you comfortable with?"
           type="text"
           className="candidate-normal-input"
@@ -396,7 +383,6 @@ const Zoracle = ({ activeTab }) => {
           Summary / Notes
         </label>
         <textarea
-          onChange={handleInputChange}
           id="message"
           rows={10}
           className="candidate-input"
@@ -423,7 +409,6 @@ const Eligibility = ({ activeTab }) => {
           How do you plan on funding the business?
         </p>
         <input
-          onChange={handleInputChange}
           name="How do you plan on funding the business?"
           type="text"
           className="candidate-normal-input"
@@ -435,7 +420,6 @@ const Eligibility = ({ activeTab }) => {
           What is the value of your 401k/IRA?
         </p>
         <input
-          onChange={handleInputChange}
           name="What is the value of your 401k/IRA?"
           type="number"
           className="candidate-normal-input"
@@ -450,7 +434,6 @@ const Eligibility = ({ activeTab }) => {
           </p>
         </div>
         <select
-          onChange={handleInputChange}
           name="Have you been in the military or could you qualify for a VA loan? Do you qualify for any of these discounts"
           id="Qualify"
           className="candidate-select"
@@ -462,7 +445,6 @@ const Eligibility = ({ activeTab }) => {
           net worth?
         </p>
         <input
-          onChange={handleInputChange}
           name="Is your current net worth over $500,000? If not, what is your current net worth?"
           type="text"
           className="candidate-normal-input"
@@ -480,8 +462,7 @@ const Eligibility = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Have you or your spouse ever been convicted of something other
-          than a minor traffic violation?"
+              name="TrafficViolation"
               defaultValue="true"
             />
             <label
@@ -522,7 +503,7 @@ const Eligibility = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Are you or your spouse subject to a pending litigation or unsatisfied judgment?"
+              name="Unsatisfiedjudgment"
               defaultValue="true"
             />
             <label
@@ -555,7 +536,6 @@ const Eligibility = ({ activeTab }) => {
           discharged?
         </p>
         <input
-          onChange={handleInputChange}
           name="Have you or your spouse ever declared bankruptcy? If yes, when was it discharged?"
           type="text"
           className="candidate-normal-input"
@@ -570,7 +550,6 @@ const Eligibility = ({ activeTab }) => {
           Notes
         </label>
         <textarea
-          onChange={handleInputChange}
           id="message"
           rows={10}
           className="candidate-input"
@@ -597,7 +576,6 @@ const Experience = ({ activeTab }) => {
           Have you ever owned a business before?
         </p>
         <input
-          onChange={handleInputChange}
           name="Have you ever owned a business before?"
           type="text"
           className="candidate-normal-input"
@@ -609,7 +587,6 @@ const Experience = ({ activeTab }) => {
           Do you have any marketing experience?
         </p>
         <input
-          onChange={handleInputChange}
           name="Do you have any marketing experience?"
           type="text"
           className="candidate-normal-input"
@@ -621,7 +598,6 @@ const Experience = ({ activeTab }) => {
           Do you have any management experience?
         </p>
         <input
-          onChange={handleInputChange}
           name="Do you have any management experience?"
           type="text"
           className="candidate-normal-input"
@@ -631,7 +607,6 @@ const Experience = ({ activeTab }) => {
       <div className="candidate-input-container">
         <p className="candidate-paragraph">Do you have sales experience?</p>
         <input
-          onChange={handleInputChange}
           name="Do you have sales experience?"
           type="text"
           className="candidate-normal-input"
@@ -643,7 +618,6 @@ const Experience = ({ activeTab }) => {
           Do you have experience in reviewing financial statements?
         </p>
         <input
-          onChange={handleInputChange}
           name="Do you have experience in reviewing financial statements?"
           type="text"
           className="candidate-normal-input"
@@ -655,7 +629,6 @@ const Experience = ({ activeTab }) => {
           Do you have customer service and account management experience?
         </p>
         <input
-          onChange={handleInputChange}
           name="Do you have customer service and account management experience?"
           type="text"
           className="candidate-normal-input"
@@ -682,7 +655,6 @@ const Wants = ({ activeTab }) => {
           What do you find most attractive about being a business owner?
         </p>
         <input
-          onChange={handleInputChange}
           name="What do you find most attractive about being a business owner?"
           type="text"
           className="candidate-normal-input"
@@ -695,7 +667,6 @@ const Wants = ({ activeTab }) => {
           with your new business?
         </p>
         <input
-          onChange={handleInputChange}
           name="From your past experience is there anything you prefer not to handle with your new business?"
           type="text"
           className="candidate-normal-input"
@@ -711,7 +682,6 @@ const Wants = ({ activeTab }) => {
           are you looking to achieve?
         </label>
         <textarea
-          onChange={handleInputChange}
           id="message"
           rows={10}
           className="candidate-input"
@@ -726,7 +696,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Do you prefer B2B or B2C?"
+              name="PreferB2b"
               defaultValue="Both"
             />
             <label className="mb-2 block" htmlFor="_fba_b2b1">
@@ -769,7 +739,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name=" Do you prefer a physical location or home-based business model?"
+              name="PhysicalLocation"
               defaultValue="Both"
             />
             <label className="mb-2 block" htmlFor="Both">
@@ -812,7 +782,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="business_type"
+              name="Inventory"
               defaultValue="Both"
             />
             <label
@@ -859,7 +829,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Are you comfortable with a business that requires cold calling?"
+              name="ColdCalling"
               defaultValue="Both"
             />
             <label
@@ -874,7 +844,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Are you comfortable with a business that requires cold calling?"
+              name="ColdCallingYes"
               defaultValue="Yes"
             />
             <label
@@ -891,7 +861,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Are you comfortable with a business that requires cold calling?"
+              name="ColdCallingNo"
               defaultValue="No"
             />
             <label
@@ -917,7 +887,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Are you going to be in this business as an owner/operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)"
+              name="PassiveMode"
               defaultValue="Owner/Operator"
             />
             <label
@@ -973,7 +943,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Is working standard business hours (9am-5pm) important to you?"
+              name="BusinessHours"
               defaultValue="Both"
             />
             <label
@@ -988,7 +958,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Is working standard business hours (9am-5pm) important to you?"
+              name="BusinessHoursYes"
               defaultValue="Yes"
             />
             <label
@@ -1005,7 +975,7 @@ const Wants = ({ activeTab }) => {
               onChange={handleInputChange}
               type="radio"
               className="mr-2"
-              name="Is working standard business hours (9am-5pm) important to you?"
+              name="BusinessHoursNo"
               defaultValue="No"
             />
             <label
@@ -1027,7 +997,6 @@ const Wants = ({ activeTab }) => {
           Notes
         </label>
         <textarea
-          onChange={handleInputChange}
           id="message"
           rows={10}
           className="candidate-input"

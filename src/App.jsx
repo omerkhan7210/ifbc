@@ -29,6 +29,7 @@ import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import Franchise from "./Pages/GlobalPageSections/Franchise";
 import { useDispatch } from "react-redux";
 import { generateUuid } from "./Redux/Features/Counter/counterSlice";
+import Profile from "./Pages/CartPage/Profile";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -92,6 +93,14 @@ const App = () => {
               element={
                 <CandidatesDataContext>
                   <CheckOutForm />
+                </CandidatesDataContext>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <CandidatesDataContext>
+                  <Profile />
                 </CandidatesDataContext>
               }
             />

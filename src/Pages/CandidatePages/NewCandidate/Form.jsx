@@ -389,7 +389,7 @@ const FormFirstRow = ({ handleInputChange, formErrors }) => {
           <input
             onChange={handleInputChange}
             type="text"
-            name="firstname"
+            name="FirstName"
             className={`candidate-input ${
               formErrors.firstname ? "bg-red-300" : ""
             }`}
@@ -401,7 +401,7 @@ const FormFirstRow = ({ handleInputChange, formErrors }) => {
           <input
             onChange={handleInputChange}
             type="text"
-            name="lastname"
+            name="LastName"
             className={`candidate-input ${
               formErrors.lastname ? "bg-red-300" : ""
             }`}
@@ -486,7 +486,7 @@ const FormSecondRow = ({ handleInputChange, stateDD, formErrors }) => {
           <input
             onChange={handleInputChange}
             type="text"
-            name="territorycity"
+            name="TerritoryCity"
             className={`candidate-input mr-2 ${
               formErrors.territorycity ? "bg-red-300" : ""
             }`}
@@ -503,7 +503,7 @@ const FormSecondRow = ({ handleInputChange, stateDD, formErrors }) => {
           <p className="candidate-label">Zip / Postal Code</p>
           <input
             type="text"
-            name="territoryzipcode"
+            name="TerritoryZipcode"
             className="candidate-input"
             onChange={handleInputChange}
           />
@@ -513,7 +513,7 @@ const FormSecondRow = ({ handleInputChange, stateDD, formErrors }) => {
         <p className="candidate-label">Territory Notes</p>
         <textarea
           onChange={handleInputChange}
-          name="Territory Notes"
+          name="TerritoryNotes"
           rows={10}
           className="candidate-input"
         ></textarea>
@@ -605,7 +605,7 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
             <input
               onChange={handleInputChange}
               type="text"
-              name="currentcity"
+              name="CurrentCity"
               className="candidate-input mr-2"
               required
             />
@@ -621,7 +621,7 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
             <input
               onChange={handleInputChange}
               type="text"
-              name="currentzipcode"
+              name="CurrentZipcode"
               className="candidate-input"
               required
             />
@@ -646,7 +646,7 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
         <p className="candidate-label">About This Candidate / Email Contents</p>
         <textarea
           onChange={handleInputChange}
-          name="about"
+          name="About"
           rows={10}
           className="candidate-input"
           defaultValue={""}
@@ -654,21 +654,21 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
       </div>
       <div id="eigth-sub-row" className="flex flex-col md:flex-row gap-2">
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Deal Value</p>
+          <p className="candidate-label">Deal Source</p>
           <input
             onChange={handleInputChange}
             type="text"
-            name="dealvalue"
+            name="DealSource"
             className="candidate-input"
             required
           />
         </div>
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Lead Source Cost</p>
+          <p className="candidate-label">Deal Source Cost</p>
           <input
             onChange={handleInputChange}
             type="text"
-            name="Lead Source Cost"
+            name="DealSourceCost"
             className="candidate-input"
             required
           />
@@ -677,7 +677,7 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
           <p className="candidate-label">Close Date</p>
           <input
             onChange={handleInputChange}
-            name="Close Date"
+            name="CloseDate"
             type="date"
             className="candidate-input"
             placeholder="Select date"
