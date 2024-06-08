@@ -5,6 +5,7 @@ import BottomBar from "./BottomBar";
 import { MyContext } from "src/Context/ListingDataContext";
 import BarLoader from "src/Animations/BarLoader";
 import PageTransition from "src/Animations/PageTransition";
+import RelatedListings from "src/Globals/RelatedListings";
 
 const MainDetails = () => {
   const url = useParams();
@@ -32,6 +33,7 @@ const MainDetails = () => {
         <TopBar listingContent={listingContent} />
         <BottomBar listingContent={listingContent} />
       </main>
+      <RelatedListings />
     </PageTransition>
   );
 };

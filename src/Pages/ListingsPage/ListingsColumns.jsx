@@ -2,14 +2,14 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { useContext } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { MyContext } from "src/Context/ListingDataContext";
-import { increment } from "src/Redux/Features/Counter/counterSlice";
+import { incrementByListing } from "src/Redux/Features/Counter/counterSlice";
 
 const ListingsColumns = ({ listing, index }) => {
   const { activeListings, setActiveListings, allowed, role } =
     useContext(MyContext);
+  const cartListings = useSelector((state) => state.counter.listings);
 
   // Use a regular expression to find the investment range
   const investmentRangeMatch = listing?.InvestmentRange?.match(
@@ -48,7 +48,7 @@ const ListingsColumns = ({ listing, index }) => {
             type="checkbox"
             id="cbx2"
             style={{ display: "none" }}
-            checked={true}
+            defaultChecked={true}
           />
           <label htmlFor="cbx2" className="check scale-150 relative z-50">
             <svg
@@ -142,9 +142,29 @@ const ListingsColumns = ({ listing, index }) => {
                 />
               </svg>
             </a>
+          ) : cartListings &&
+            cartListings.length > 0 &&
+            cartListings.includes(listing.DocId) ? (
+            <a className="bg-custom-blue/80 cursor-not-allowed w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5">
+              <span>Listing Already Added</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </a>
           ) : (
             <a
-              onClick={() => dispatch(increment())}
+              onClick={() => dispatch(incrementByListing(listing.DocId))}
               className="bg-custom-orange w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
             >
               <span>Request Info</span>

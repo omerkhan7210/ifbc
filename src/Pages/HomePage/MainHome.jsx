@@ -6,6 +6,7 @@ import Services from "./Services";
 import Testimonials from "../GlobalPageSections/Testimonials";
 import PreFooter from "src/Globals/PreFooter";
 import PageTransition from "src/Animations/PageTransition";
+import RelatedListings from "src/Globals/RelatedListings";
 
 const MainHome = () => {
   return (
@@ -18,6 +19,7 @@ const MainHome = () => {
             <About2 />
             <Services />
             <Testimonials />
+            <RelatedListings />
             <PreFooter />
           </main>
         </div>

@@ -260,7 +260,7 @@ const Form = () => {
       />
 
       {/* tabs */}
-      <Tabs />
+      <Tabs handleInputChange={handleInputChange} />
       {/* submit button */}
       <div id="button-container" className="w-full flex justify-center">
         {successMsg && (

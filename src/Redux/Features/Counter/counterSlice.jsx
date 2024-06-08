@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
-  value: 0,
+  value: JSON.parse(localStorage.getItem("cartListings")).length || 0,
+  listings: JSON.parse(localStorage.getItem("cartListings")) || [],
+  uuid: localStorage.getItem("uuid") || null,
 };
 
 export const counterSlice = createSlice({
@@ -18,13 +21,25 @@ export const counterSlice = createSlice({
     decrement: (state) => {
       state.value -= 1;
     },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    incrementByListing: (state, action) => {
+      if (!state.listings.find((listing) => listing === action.payload)) {
+        state.value += 1;
+        state.listings.push(action.payload);
+        localStorage.setItem("cartListings", JSON.stringify(state.listings));
+      }
+    },
+    generateUuid: (state) => {
+      if (!state.uuid) {
+        const newUuid = uuidv4();
+        localStorage.setItem("uuid", newUuid);
+        state.uuid = newUuid;
+      }
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { increment, decrement, incrementByListing, generateUuid } =
+  counterSlice.actions;
 
 export default counterSlice.reducer;

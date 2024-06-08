@@ -4,6 +4,7 @@ import ListingsFilter from "./Filters/ListingsFilter";
 import { MyContext } from "src/Context/ListingDataContext";
 import SearchingComponent from "./SearchingComponent";
 import PageTransition from "src/Animations/PageTransition";
+import RelatedListings from "src/Globals/RelatedListings";
 
 const ExtraTools = () => {
   const {
@@ -15,6 +16,7 @@ const ExtraTools = () => {
     showActiveListings,
     setShowActiveListings,
     paginationListings,
+    role,
   } = useContext(MyContext);
 
   const selectAllListings = () => {
@@ -26,37 +28,41 @@ const ExtraTools = () => {
 
   return (
     <div className="grid grid-cols-12 gap-3 items-center">
-      <div
-        id="form-button-container"
-        className="flex flex-col gap-2 w-full justify-between h-full sm:col-span-6 col-span-12 lg:col-span-4"
-      >
-        <button
-          className="bg-custom-dark-blue py-3 text-white secondary-button  w-full"
-          value="tc"
-          onClick={() => setTCheck(true)}
+      {role == "C" && (
+        <div
+          id="form-button-container"
+          className="flex flex-col gap-2 w-full justify-between h-full sm:col-span-6 col-span-12 lg:col-span-4"
         >
-          Territory Checks
-        </button>
-        <button
-          className="bg-custom-dark-blue py-3 text-white w-full "
-          value="fr"
-          onClick={() => setformalRegCheck(true)}
-        >
-          Formal Registrations
-        </button>
-      </div>
+          <button
+            className="candidate-btn w-full"
+            value="tc"
+            onClick={() => setTCheck(true)}
+          >
+            Territory Checks
+          </button>
+          <button
+            className="candidate-btn w-full"
+            value="fr"
+            onClick={() => setformalRegCheck(true)}
+          >
+            Formal Registrations
+          </button>
+        </div>
+      )}
 
       <div className="grid grid-cols-12 col-span-12 sm:col-span-6 lg:col-span-4 w-full gap-3 sm:gap-3 ">
-        <div className="col-span-12">
-          <select onChange={handleTools} className="py-3">
-            <option value="">Tools</option>
-            <option value="email"> Email Selected Franchises </option>
-            <option value="info"> Create Information Packet </option>
-            <option value="comparison"> Create Comparison Report </option>
-            <option value="2-min"> Download 2-Min Drill Packet </option>
-            <option value="one-sheet"> Download One Sheet Packets </option>
-          </select>
-        </div>
+        {role == "C" && (
+          <div className="col-span-12">
+            <select onChange={handleTools} className="candidate-select w-full">
+              <option value="">Tools</option>
+              <option value="email"> Email Selected Franchises </option>
+              <option value="info"> Create Information Packet </option>
+              <option value="comparison"> Create Comparison Report </option>
+              <option value="2-min"> Download 2-Min Drill Packet </option>
+              <option value="one-sheet"> Download One Sheet Packets </option>
+            </select>
+          </div>
+        )}
 
         <button
           className={`${
@@ -132,6 +138,7 @@ const MainListings = () => {
           <AllListings />
         </div>
       </main>
+      <RelatedListings />
     </PageTransition>
   );
 };

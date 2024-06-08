@@ -1,4 +1,4 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -9,7 +9,6 @@ import { AnimatePresence } from "framer-motion";
 import Header from "src/Globals/Header";
 import Footer from "src/Globals/Footer";
 import MobileNav from "src/Globals/MobileNav";
-import RelatedListings from "src/Globals/RelatedListings";
 import FLSEmail from "src/Popups/FLSEmail";
 import TerritoryCheck from "src/Popups/Registrations/TerritoryCheck";
 import FormalReg from "src/Popups/Registrations/FormalReg";
@@ -26,11 +25,17 @@ import MainCandList from "./Pages/CandidatePages/CandidateList/MainCandList";
 import MainNewCand from "./Pages/CandidatePages/NewCandidate/MainNewCand";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
-import { Counter } from "./Redux/Features/Counter/Counter";
 import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import Franchise from "./Pages/GlobalPageSections/Franchise";
+import { useDispatch } from "react-redux";
+import { generateUuid } from "./Redux/Features/Counter/counterSlice";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(generateUuid());
+  }, [dispatch]);
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
     useContext(MyContext);
   const [mobileActive, setMobileActive] = useState(false);
@@ -102,7 +107,7 @@ const App = () => {
           </Routes>
 
           <CandidateSideBar />
-          <RelatedListings />
+
           {tCheck && <TerritoryCheck />}
           {formalRegCheck && <FormalReg />}
           <FLSEmail />

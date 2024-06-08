@@ -20,7 +20,7 @@ const SearchingComponent = () => {
   };
 
   return (
-    <div className="relative mb-4">
+    <div className="relative">
       <input
         type="search"
         id="search-field"
