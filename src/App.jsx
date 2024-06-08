@@ -26,6 +26,7 @@ import MainCandList from "./Pages/CandidatePages/CandidateList/MainCandList";
 import MainNewCand from "./Pages/CandidatePages/NewCandidate/MainNewCand";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
+import MainCandidateProfile from "./Pages/CandidatePages/CandidateList/MainCandidateProfile";
 
 
 const App = () => {
@@ -77,6 +78,14 @@ const App = () => {
               element={
                 <CandidatesDataContext>
                   <MainNewCand />
+                </CandidatesDataContext>
+              }
+            />
+            <Route
+              path="/profile/:name"
+              element={
+                <CandidatesDataContext>
+                  <MainCandidateProfile />
                 </CandidatesDataContext>
               }
             />
