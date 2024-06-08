@@ -52,9 +52,9 @@ const Login = ({ setIfLogin }) => {
     }
 
     try {
-      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/login_api.aspx`;
+      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/loginapi.aspx`;
 
-      const url = `${baseUrl}?UNAME=${user.username.value}&PWD=${user.password.value}`;
+      const url = `${baseUrl}?Email=${user.username.value}&Password=${user.password.value}`;
       setLoading(true);
       // Send the POST request using Axios
       const response = await axios.post(url);

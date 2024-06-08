@@ -122,7 +122,7 @@ const Registration = ({ setIfLogin }) => {
         USERNAME: username,
         PASSCODE: password,
       };
-      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/newaccount.aspx`;
+      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/new_account.aspx`;
 
       setLoading(true);
 

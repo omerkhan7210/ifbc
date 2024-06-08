@@ -128,7 +128,7 @@ const ListingsFilter = () => {
     }));
   };
   return (
-    <div id="main-filter-container" className="sticky top-0">
+    <div id="main-filter-container">
       {hasActiveFilters && (
         <div className="mb-4">
           <button

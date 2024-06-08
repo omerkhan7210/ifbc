@@ -146,13 +146,11 @@ const MainCandList = () => {
                 "There was an error parsing the CSV file. Please check the file format."
               );
             } else {
-              console.log();
               const cleanedData = cleanKeys(results.data);
               const dbData = cleanedData.map((item) =>
                 mapDataToDbColumns(item)
               );
               setJsonData(dbData);
-              console.log("Parsed and Transformed CSV data:", dbData);
             }
           },
           error: (error) => {

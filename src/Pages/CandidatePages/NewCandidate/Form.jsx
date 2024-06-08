@@ -137,6 +137,8 @@ const Form = () => {
     const reqFields = [
       "firstname",
       "lastname",
+      "phone",
+      "email",
       "territorystate",
       "territorycity",
     ];
@@ -184,8 +186,6 @@ const Form = () => {
             "Content-Type": "application/json",
           },
         });
-
-        console.log(response);
 
         if (
           response.status === 200 &&
@@ -418,8 +418,11 @@ const FormFirstRow = ({ handleInputChange, formErrors }) => {
           <input
             type="text"
             name="phone"
-            className="candidate-input"
+            className={`candidate-input ${
+              formErrors.phone ? "bg-red-300" : ""
+            }`}
             onChange={handleInputChange}
+            required
           />
         </div>
         <div className="candidate-sub-childs">
@@ -427,7 +430,10 @@ const FormFirstRow = ({ handleInputChange, formErrors }) => {
           <input
             type="text"
             name="email"
-            className="candidate-input"
+            className={`candidate-input ${
+              formErrors.email ? "bg-red-300" : ""
+            }`}
+            required
             onChange={handleInputChange}
           />
         </div>

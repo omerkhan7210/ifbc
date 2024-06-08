@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link, NavLink, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
+import { NavLink } from "react-router-dom";
 
-const Navbar = ({ hidden }) => {
-  console.log(hidden);
+const Navbar = () => {
   const style = ({ isActive }) => ({
     background: isActive ? "rgb(0 17 54)" : "",
   });
@@ -15,12 +13,8 @@ const Navbar = ({ hidden }) => {
   });
 
   return (
-    <motion.div
-      initial={{ y: 0 }}
-      animate={{ y: hidden ? "-100%" : 0 }}
-      className="lg:block w-full relative"
-    >
-      <div className="menu-broker-container flex justify-center">
+    <div className="lg:block  relative">
+      <div className="menu-broker-container mx-auto">
         <ul id="menu-broker" className="menu">
           <li
             id="menu-item-552041"
@@ -107,7 +101,7 @@ const Navbar = ({ hidden }) => {
           </li>
         </ul>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

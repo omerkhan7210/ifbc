@@ -109,17 +109,21 @@ const AllListings = () => {
   ) : (
     <>
       <div className="flex-col flex md:flex-row gap-5 md:gap-0 justify-between items-center">
-        <p className="ml-5 text-custom-heading-color font-bold">
-          Showing {paginationListings?.length}{" "}
-          {role !== "N" &&
-            `out of ${listings.length} (FLS
+        {role === "C" && (
+          <>
+            <p className="ml-5 text-custom-heading-color font-bold">
+              Showing {paginationListings?.length}{" "}
+              {role !== "N" &&
+                `out of ${listings.length} (FLS
           Listings)`}
-        </p>{" "}
-        <Pagination
-          currentPage={currentPage}
-          totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}
-          onPageChange={paginate}
-        />
+            </p>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}
+              onPageChange={paginate}
+            />
+          </>
+        )}
       </div>
 
       <div

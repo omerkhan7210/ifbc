@@ -41,7 +41,6 @@ const Header = ({ mobileActive, setMobileActive }) => {
     } else {
       setHidden(false);
     }
-    console.log(previous);
   });
 
   const socials = [
@@ -88,6 +87,8 @@ const Header = ({ mobileActive, setMobileActive }) => {
   const isMobile = window.innerWidth < 992 ? true : false;
   return (
     <motion.nav
+      initial={{ y: 0 }}
+      animate={{ y: hidden ? "-100%" : 0 }}
       className=" w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0 gap-3  "
       id="header-nav"
     >
