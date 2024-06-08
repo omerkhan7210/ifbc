@@ -97,7 +97,7 @@ const Initial = ({ activeTab }) => {
         </p>
       </div>
       <select
-        name="How much money are you wanting to invest in the franchise?"
+        name="InvestmentFranchise"
         id="money"
         className="candidate-select"
       ></select>

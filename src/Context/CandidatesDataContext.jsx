@@ -16,8 +16,8 @@ const CandidatesDataContext = ({ children }) => {
       .get(url)
       .then((response) => {
         // Handle successful response
-        if (response.data.length > 0) {
-          setCands(cands);
+        if (response.data.length > 0 && response.status === 200) {
+          setCands(response.data);
           setLoading(false);
         }
       })

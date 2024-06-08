@@ -14,7 +14,7 @@
 }
 
 .candidate-label {
-  @apply text-custom-dark-blue font-bold  py-2;
+  @apply text-custom-dark-blue font-bold py-2;
 }
 
 .candidate-sub-heading {
@@ -66,4 +66,7 @@
 }
 .Message {
   @apply flex flex-col sm:flex-row md:flex-row;
+}
+.icon-text {
+  @apply text-gray-500 font-bold text-lg;
 }

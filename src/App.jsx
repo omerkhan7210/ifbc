@@ -28,7 +28,7 @@ import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
 import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import Franchise from "./Pages/GlobalPageSections/Franchise";
-
+import Profile from "./Pages/CartPage/Profile";
 
 const App = () => {
   const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
@@ -73,7 +73,7 @@ const App = () => {
                 </CandidatesDataContext>
               }
             />
-            
+
             <Route
               path="/new-candidate"
               element={
@@ -87,6 +87,14 @@ const App = () => {
               element={
                 <CandidatesDataContext>
                   <CheckOutForm />
+                </CandidatesDataContext>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <CandidatesDataContext>
+                  <Profile />
                 </CandidatesDataContext>
               }
             />
