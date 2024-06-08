@@ -58,6 +58,24 @@ const TabsList = ({ activeTab, setActiveTab }) => {
 };
 
 const Initial = ({ activeTab }) => {
+  const investmentOptions = [
+    { value: "", label: "Select one" },
+    { value: "$5,000 - $49,999", label: "$5,000 - $49,999" },
+    { value: "$50,000 - $99,999", label: "$50,000 - $99,999" },
+    { value: "$100,000 - $199,999", label: "$100,000 - $199,999" },
+    { value: "$200,000 - $499,999", label: "$200,000 - $499,999" },
+    { value: "$500,000 - $749,999", label: "$500,000 - $749,999" },
+    { value: "More than $750,000", label: "More than $750,000" },
+  ];
+  const fundingOptions = [
+    { value: "Required to move forward", label: "Required to move forward" },
+    { value: "Looking for options", label: "Looking for options" },
+    {
+      value: "Seeking funding independently",
+      label: "Seeking funding independently",
+    },
+    { value: "No funding required", label: "No funding required" },
+  ];
   return (
     <div
       id="initial-qualifying"
@@ -102,7 +120,7 @@ const Initial = ({ activeTab }) => {
         </p>
       </div>
       <select
-        name="How much money are you wanting to invest in the franchise?"
+        name="InvestmentFranchise"
         id="money"
         className="candidate-select"
       >
@@ -120,34 +138,32 @@ const Initial = ({ activeTab }) => {
       <div>
         <p className="candidate-paragraph">Do you have a need for funding?</p>
       </div>
-      <select
-        name="Do you have a need for funding?"
-        id="funding"
-        className="candidate-select"
-      ></select>
+      <select name="Funding" id="Funding" className="candidate-select">
+        {fundingOptions.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div>
         <p className="candidate-paragraph">
           What is your approximate credit score?
         </p>
       </div>
       <select
-        name="What is your approximate credit score?"
+        name="ApproximateCredit"
         id="score"
         className="candidate-select"
       ></select>
       <div>
         <p className="candidate-label">Net Worth?</p>
       </div>
-      <select
-        name="Net Worth?"
-        id="worth"
-        className="candidate-select"
-      ></select>
+      <select name="Networth" id="worth" className="candidate-select"></select>
       <div>
         <p className="candidate-label">Liquid Cash?</p>
       </div>
       <select
-        name="Liquid Cash?"
+        name="LiquidCash"
         id="liquid-cash"
         className="candidate-select"
       ></select>
@@ -157,7 +173,7 @@ const Initial = ({ activeTab }) => {
         </p>
       </div>
       <select
-        name="What caused you to start looking for a franchise?"
+        name="FranchiseCause"
         id="franchise"
         className="candidate-select"
       ></select>
@@ -167,7 +183,7 @@ const Initial = ({ activeTab }) => {
         </p>
       </div>
       <select
-        name=" What is your professional background?"
+        name="ProfessionalBackground"
         id="background"
         className="candidate-select"
       ></select>
@@ -187,7 +203,7 @@ const Initial = ({ activeTab }) => {
         <p className="candidate-paragraph">What is your time frame?</p>
       </div>
       <select
-        name="What is your time frame?"
+        name="TimeFrame"
         id="time-frame"
         className="candidate-select"
       ></select>
@@ -199,6 +215,7 @@ const Initial = ({ activeTab }) => {
           Notes
         </label>
         <textarea
+          name="InitialQualifyingNote"
           id="message"
           rows={3}
           className="candidate-input"
@@ -225,7 +242,7 @@ const Zoracle = ({ activeTab }) => {
           <p className="candidate-label">Competency 1?</p>
         </div>
         <select
-          name="Competency 1?"
+          name="Competency1"
           id="competency1"
           className="candidate-select"
         ></select>
@@ -235,7 +252,7 @@ const Zoracle = ({ activeTab }) => {
           <p className="candidate-label">Competency 2?</p>
         </div>
         <select
-          name="Competency 2?"
+          name="Competency2"
           id="competency2"
           className="candidate-select"
         ></select>
@@ -245,7 +262,7 @@ const Zoracle = ({ activeTab }) => {
           <p className="candidate-label">Competency 3?</p>
         </div>
         <select
-          name="Competency 3?"
+          name="Competency3"
           id="competency3"
           className="candidate-select"
         ></select>
@@ -302,7 +319,7 @@ const Zoracle = ({ activeTab }) => {
           What work activities do you enjoy?
         </p>
         <input
-          name="What work activities do you enjoy?"
+          name="Activities"
           type="text"
           className="candidate-normal-input"
           required
@@ -314,7 +331,7 @@ const Zoracle = ({ activeTab }) => {
           business?
         </p>
         <input
-          name="Are you comfortable attending networking functions to promote your new business?"
+          name="AttendingNetworkFunction"
           type="text"
           className="candidate-normal-input"
           required
@@ -325,7 +342,7 @@ const Zoracle = ({ activeTab }) => {
           Are you interested in Multiple-Unit Operation or Masters?
         </p>
         <input
-          name="Are you interested in Multiple-Unit Operation or Masters?"
+          name="MultiUnitOps"
           type="text"
           className="candidate-normal-input"
           required
@@ -336,7 +353,7 @@ const Zoracle = ({ activeTab }) => {
           Are you planning on having a partner in the business?
         </p>
         <input
-          name="Are you planning on having a partner in the business?"
+          name="BusinessPartner"
           type="text"
           className="candidate-normal-input"
           required
@@ -347,7 +364,7 @@ const Zoracle = ({ activeTab }) => {
           How does your family feel about your interest in this?
         </p>
         <input
-          name="How does your family feel about your interest in this?"
+          name="FamilyFeel"
           type="text"
           className="candidate-normal-input"
           required
@@ -358,7 +375,7 @@ const Zoracle = ({ activeTab }) => {
           What types of employees would you prefer to work with (if any)?
         </p>
         <input
-          name="What types of employees would you prefer to work with (if any)?"
+          name="EmployeesPrefer"
           type="text"
           className="candidate-normal-input"
           required
@@ -369,7 +386,7 @@ const Zoracle = ({ activeTab }) => {
           What size staff are you comfortable with?
         </p>
         <input
-          name="What size staff are you comfortable with?"
+          name="StaffSize"
           type="text"
           className="candidate-normal-input"
           required
@@ -383,6 +400,7 @@ const Zoracle = ({ activeTab }) => {
           Summary / Notes
         </label>
         <textarea
+          name="ZorakleNotes"
           id="message"
           rows={10}
           className="candidate-input"
@@ -409,7 +427,7 @@ const Eligibility = ({ activeTab }) => {
           How do you plan on funding the business?
         </p>
         <input
-          name="How do you plan on funding the business?"
+          name="FundingBusiness"
           type="text"
           className="candidate-normal-input"
           required
@@ -420,7 +438,7 @@ const Eligibility = ({ activeTab }) => {
           What is the value of your 401k/IRA?
         </p>
         <input
-          name="What is the value of your 401k/IRA?"
+          name="Value"
           type="number"
           className="candidate-normal-input"
           required
@@ -434,7 +452,7 @@ const Eligibility = ({ activeTab }) => {
           </p>
         </div>
         <select
-          name="Have you been in the military or could you qualify for a VA loan? Do you qualify for any of these discounts"
+          name="VALoan"
           id="Qualify"
           className="candidate-select"
         ></select>
@@ -445,7 +463,7 @@ const Eligibility = ({ activeTab }) => {
           net worth?
         </p>
         <input
-          name="Is your current net worth over $500,000? If not, what is your current net worth?"
+          name="CurrentNetworth"
           type="text"
           className="candidate-normal-input"
           required
@@ -536,7 +554,7 @@ const Eligibility = ({ activeTab }) => {
           discharged?
         </p>
         <input
-          name="Have you or your spouse ever declared bankruptcy? If yes, when was it discharged?"
+          name="Bankruptcy"
           type="text"
           className="candidate-normal-input"
           required
@@ -550,6 +568,7 @@ const Eligibility = ({ activeTab }) => {
           Notes
         </label>
         <textarea
+          name="EligibilityNote"
           id="message"
           rows={10}
           className="candidate-input"
@@ -576,7 +595,7 @@ const Experience = ({ activeTab }) => {
           Have you ever owned a business before?
         </p>
         <input
-          name="Have you ever owned a business before?"
+          name="BusinessBefore"
           type="text"
           className="candidate-normal-input"
           required
@@ -587,7 +606,7 @@ const Experience = ({ activeTab }) => {
           Do you have any marketing experience?
         </p>
         <input
-          name="Do you have any marketing experience?"
+          name="MarketingExperience"
           type="text"
           className="candidate-normal-input"
           required
@@ -598,7 +617,7 @@ const Experience = ({ activeTab }) => {
           Do you have any management experience?
         </p>
         <input
-          name="Do you have any management experience?"
+          name="ManagementExperice"
           type="text"
           className="candidate-normal-input"
           required
@@ -607,7 +626,7 @@ const Experience = ({ activeTab }) => {
       <div className="candidate-input-container">
         <p className="candidate-paragraph">Do you have sales experience?</p>
         <input
-          name="Do you have sales experience?"
+          name="SalesExperience"
           type="text"
           className="candidate-normal-input"
           required
@@ -618,7 +637,7 @@ const Experience = ({ activeTab }) => {
           Do you have experience in reviewing financial statements?
         </p>
         <input
-          name="Do you have experience in reviewing financial statements?"
+          name="ReviewFinancialStatement"
           type="text"
           className="candidate-normal-input"
           required
@@ -629,7 +648,7 @@ const Experience = ({ activeTab }) => {
           Do you have customer service and account management experience?
         </p>
         <input
-          name="Do you have customer service and account management experience?"
+          name="CSExperience"
           type="text"
           className="candidate-normal-input"
           required
@@ -655,7 +674,7 @@ const Wants = ({ activeTab }) => {
           What do you find most attractive about being a business owner?
         </p>
         <input
-          name="What do you find most attractive about being a business owner?"
+          name="AttractiveBusinessOwner"
           type="text"
           className="candidate-normal-input"
           required
@@ -667,7 +686,7 @@ const Wants = ({ activeTab }) => {
           with your new business?
         </p>
         <input
-          name="From your past experience is there anything you prefer not to handle with your new business?"
+          name="HandleNewBusiness"
           type="text"
           className="candidate-normal-input"
           required
@@ -682,6 +701,7 @@ const Wants = ({ activeTab }) => {
           are you looking to achieve?
         </label>
         <textarea
+          name="BusinessExpectations"
           id="message"
           rows={10}
           className="candidate-input"
@@ -997,6 +1017,7 @@ const Wants = ({ activeTab }) => {
           Notes
         </label>
         <textarea
+          name="WantNote"
           id="message"
           rows={10}
           className="candidate-input"
