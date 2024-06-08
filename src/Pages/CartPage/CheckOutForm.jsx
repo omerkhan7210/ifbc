@@ -14,6 +14,7 @@ import ListingsColumns from "../ListingsPage/ListingsColumns";
 import { useEffect } from "react";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const CheckOutForm = () => {
   const { listings } = useContext(MyContext);
@@ -46,7 +47,7 @@ const CheckOutForm = () => {
         </h1>
       </div>
       {!noCartlistings ? (
-        <div class="grid grid-cols-2 my-10 px-10 gap-5">
+        <div className="grid grid-cols-2 my-10 px-10 gap-5">
           {/* form */}
           <LeftSidebar cartListings={cartListings} />
 
@@ -155,7 +156,7 @@ const LeftSidebar = ({ cartListings }) => {
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site3.ktempurl.com/checkout.aspx";
+          "http://siddiqiventures-001-site3.ktempurl.com/checkout_api.aspx";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {
@@ -163,22 +164,25 @@ const LeftSidebar = ({ cartListings }) => {
             "Content-Type": "application/json",
           },
         });
+        console.log(response);
 
-        // if (response.status === 200 && response.data === "Request Submitted.") {
-        //   setFormErrors({});
-        //   setSuccessMsg("Request Submitted.");
+        if (
+          response.status === 200 &&
+          response.data === "Checkout Information Saved Successfully."
+        ) {
+          setFormErrors({});
+          setSuccessMsg("Thank you for requesting.");
+          setLoading(false);
 
-        //   setLoading(false);
-
-        //   setTimeout(() => {
-        //     history("/");
-        //   }, 3000);
-        // } else {
-        //   setFormErrors({ error: response.data });
-        //   setLoading(false);
-        //   window.scrollTo(0, 500);
-        //   // Handle unexpected response
-        // }
+          // setTimeout(() => {
+          //   history("/");
+          // }, 3000);
+        } else {
+          setFormErrors({ error: response.data });
+          setLoading(false);
+          window.scrollTo(0, 500);
+          // Handle unexpected response
+        }
       } else {
         setFormErrors((prev) => ({
           ...prev,

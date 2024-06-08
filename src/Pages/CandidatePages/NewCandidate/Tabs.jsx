@@ -57,7 +57,7 @@ const TabsList = ({ activeTab, setActiveTab }) => {
   );
 };
 
-const Initial = ({ activeTab }) => {
+const Initial = ({ activeTab, handleInputChange }) => {
   const investmentOptions = [
     { value: "", label: "Select one" },
     { value: "$5,000 - $49,999", label: "$5,000 - $49,999" },
@@ -229,7 +229,7 @@ const Initial = ({ activeTab }) => {
   );
 };
 
-const Zoracle = ({ activeTab }) => {
+const Zoracle = ({ activeTab, handleInputChange }) => {
   return (
     <div
       id="zorakle-spoton!"
@@ -414,7 +414,7 @@ const Zoracle = ({ activeTab }) => {
   );
 };
 
-const Eligibility = ({ activeTab }) => {
+const Eligibility = ({ activeTab, handleInputChange }) => {
   return (
     <div
       id="eligibility"
@@ -582,7 +582,7 @@ const Eligibility = ({ activeTab }) => {
   );
 };
 
-const Experience = ({ activeTab }) => {
+const Experience = ({ activeTab, handleInputChange }) => {
   return (
     <div
       id="experience"
@@ -661,7 +661,7 @@ const Experience = ({ activeTab }) => {
   );
 };
 
-const Wants = ({ activeTab }) => {
+const Wants = ({ activeTab, handleInputChange }) => {
   return (
     <div
       id="wants"

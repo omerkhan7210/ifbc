@@ -118,7 +118,7 @@ const ListingsColumns = ({ listing, index }) => {
 
           {/* added anchor */}
           {/* temporary role */}
-          {role !== "M" ? (
+          {role === "C" ? (
             <a
               href={`/listings-details/${listing?.name
                 ?.toLowerCase()

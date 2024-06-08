@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
-  value: JSON.parse(localStorage.getItem("cartListings")).length || 0,
+  value: JSON.parse(localStorage.getItem("cartListings"))?.length || 0,
   listings: JSON.parse(localStorage.getItem("cartListings")) || [],
   uuid: localStorage.getItem("uuid") || null,
 };

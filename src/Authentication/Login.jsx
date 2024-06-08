@@ -54,10 +54,11 @@ const Login = ({ setIfLogin }) => {
     try {
       const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/loginapi.aspx`;
 
-      const url = `${baseUrl}?Email=${user.username.value}&Password=${user.password.value}`;
+      const url = `${baseUrl}?UNAME=${user.username.value}&PWD=${user.password.value}`;
       setLoading(true);
       // Send the POST request using Axios
       const response = await axios.post(url);
+      console.log(response);
 
       if (typeof response.data === "object" && response.status === 200) {
         localStorage.setItem("ifLogin", true);

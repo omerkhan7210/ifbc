@@ -7,7 +7,7 @@ const MobileNav = ({ setMobileActive }) => {
   const { userDetails, ifLogin } = useContext(MyContext);
   const handleLogOut = () => {
     localStorage.setItem("ifLogin", false);
-    setIfLogin(false);
+    localStorage.removeItem("userDetails");
     history("/");
   };
   return (
