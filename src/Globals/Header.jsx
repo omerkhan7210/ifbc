@@ -222,19 +222,28 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
             <div className="flex flex-col items-start  py-2 px-3">
               <p className="text-[15px] text-[#333] font-bold">
                 {userDetails
-                  ? userDetails?.UserName?.charAt(0).toUpperCase() +
-                    userDetails?.UserName?.slice(1)
+                  ? userDetails?.FirstName?.charAt(0).toUpperCase() +
+                    userDetails?.FirstName?.slice(1) +
+                    " " +
+                    userDetails?.LastName?.charAt(0).toUpperCase() +
+                    userDetails?.LastName?.slice(1)
                   : "John Doe"}
               </p>
-              {/* <p className="text-xs text-gray-500 mt-0.5">
-                {userDetails ? userDetails?.UserName : "johndoe23@gmail.com"}
-              </p> */}
+              <p className="text-xs text-gray-500 mt-0.5">
+                {userDetails ? userDetails?.Email : "johndoe23@gmail.com"}
+              </p>
 
               <p className="text-xs text-gray-500 mt-0.5">
                 {userDetails ? userDetails?.role : "role"}
               </p>
             </div>
             {/* logout button */}
+            <a
+              className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
+              onClick={handleLogOut}
+            >
+              Log out
+            </a>
             <a
               className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
               onClick={handleLogOut}
