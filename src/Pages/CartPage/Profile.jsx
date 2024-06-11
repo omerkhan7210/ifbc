@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { MyContext } from "src/Context/ListingDataContext";
 
 const Profile = () => {
   const [formFields, setFormFields] = useState({});
@@ -515,6 +516,110 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
   );
 };
 const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
+  const states = [
+    { value: "AL", text: "Alabama" },
+    { value: "AK", text: "Alaska" },
+    { value: "AZ", text: "Arizona" },
+    { value: "AR", text: "Arkansas" },
+    { value: "CA", text: "California" },
+    { value: "CO", text: "Colorado" },
+    { value: "CT", text: "Connecticut" },
+    { value: "DE", text: "Delaware" },
+    { value: "DC", text: "District Of Columbia" },
+    { value: "FL", text: "Florida" },
+    { value: "GA", text: "Georgia" },
+    { value: "HI", text: "Hawaii" },
+    { value: "ID", text: "Idaho" },
+    { value: "IL", text: "Illinois" },
+    { value: "IN", text: "Indiana" },
+    { value: "IA", text: "Iowa" },
+    { value: "KS", text: "Kansas" },
+    { value: "KY", text: "Kentucky" },
+    { value: "LA", text: "Louisiana" },
+    { value: "ME", text: "Maine" },
+    { value: "MD", text: "Maryland" },
+    { value: "MA", text: "Massachusetts" },
+    { value: "MI", text: "Michigan" },
+    { value: "MN", text: "Minnesota" },
+    { value: "MS", text: "Mississippi" },
+    { value: "MO", text: "Missouri" },
+    { value: "MT", text: "Montana" },
+    { value: "NE", text: "Nebraska" },
+    { value: "NV", text: "Nevada" },
+    { value: "NH", text: "New Hampshire" },
+    { value: "NJ", text: "New Jersey" },
+    { value: "NM", text: "New Mexico" },
+    { value: "NY", text: "New York" },
+    { value: "NC", text: "North Carolina" },
+    { value: "ND", text: "North Dakota" },
+    { value: "OH", text: "Ohio" },
+    { value: "OK", text: "Oklahoma" },
+    { value: "OR", text: "Oregon" },
+    { value: "PA", text: "Pennsylvania" },
+    { value: "RI", text: "Rhode Island" },
+    { value: "SC", text: "South Carolina" },
+    { value: "SD", text: "South Dakota" },
+    { value: "TN", text: "Tennessee" },
+    { value: "TX", text: "Texas" },
+    { value: "UT", text: "Utah" },
+    { value: "VT", text: "Vermont" },
+    { value: "VA", text: "Virginia" },
+    { value: "WA", text: "Washington" },
+    { value: "WV", text: "West Virginia" },
+    { value: "WI", text: "Wisconsin" },
+    { value: "WY", text: "Wyoming" },
+    { value: "INT", text: "International" },
+    { value: "AB", text: "Alberta" },
+    { value: "BC", text: "British Columbia" },
+    { value: "MB", text: "Manitoba" },
+    { value: "NB", text: "New Brunswick" },
+    { value: "NL", text: "Newfoundland and Labrador" },
+    { value: "NT", text: "Northwest Territories" },
+    { value: "NS", text: "Nova Scotia" },
+    { value: "NU", text: "Nunavut" },
+    { value: "ON", text: "Ontario" },
+    { value: "PE", text: "Prince Edward Island" },
+    { value: "QC", text: "Quebec" },
+    { value: "SK", text: "Saskatchewan" },
+    { value: "YT", text: "Yukon Territory" },
+  ];
+
+  const FranchiseIndustryFocus = [
+    { value: "Advertising", label: "Advertising" },
+    { value: "Automotive", label: "Automotive" },
+    { value: "Beauty & Spa", label: "Beauty & Spa" },
+    {
+      value: "Business Management & Coaching",
+      label: "Business Management & Coaching",
+    },
+    { value: "Business Services", label: "Business Services" },
+    {
+      value: "Child Education, STEM & Tutoring",
+      label: "Child Education, STEM & Tutoring",
+    },
+    { value: "Child Services & Products", label: "Child Services & Products" },
+    {
+      value: "Cleaning: Residential & Commercial",
+      label: "Cleaning: Residential & Commercial",
+    },
+    { value: "CT", label: "Computer Technology" },
+    { value: "DS", label: "Distribution Services" },
+    { value: "DC", label: "Dry Cleaning-Laundry" },
+    { value: "FS", label: "Financial Services" },
+    { value: "FT", label: "Fitness" },
+    { value: "FB", label: "Food & Beverage: Restaurant/QSR/Catering" },
+    { value: 15, label: "Food: Coffee/Tea/Smoothies/Sweets" },
+    { value: 16, label: "Food: Stores & Catering" },
+    { value: 17, label: "Health/Medical" },
+    { value: 18, label: "Health/Wellness" },
+    { value: 19, label: "Home Improvement" },
+    { value: 20, label: "Interior/Exterior Design" },
+    { value: 21, label: "Maintenance & Repair" },
+  ];
+
+  const { listings } = useContext(MyContext);
+  console.log(listings);
+
   return (
     <div
       id="right-sidebar-profile"
@@ -626,26 +731,27 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
             />
           </div>
           <div className="candidate-sub-childs">
-            <p className="candidate-label">Zip/Postal Code:</p>
+            <p className="candidate-label">State/Province:</p>
             <select
               onChange={handleInputChange}
               id="countries"
               className="candidate-input p-3"
               name="zippostalcode"
             >
-              <option selected>Select Stage</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
+              {states.map((state, index) => (
+                <option key={index} value={state.value}>
+                  {state.text}
+                </option>
+              ))}
             </select>
           </div>
           <div className="candidate-sub-childs">
-            <p className="candidate-label">Meeting Link</p>
+            <p className="candidate-label">Zip/Postal Code</p>
             <input
+              placeholder="90212"
               onChange={handleInputChange}
               type="text"
-              name="meetinglink"
+              name="zippostalcode"
               className="candidate-input"
               required
             />
