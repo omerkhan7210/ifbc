@@ -24,7 +24,7 @@ const Profile = () => {
   return (
     <div
       id="main-profile-section"
-      className="h-full w-full grid grid-cols-12 p-5 gap-5"
+      className="w-full grid grid-cols-12 p-5 gap-5 md:!flex contents h-auto "
     >
       <LeftSideBar
         formFields={formFields}
@@ -58,7 +58,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
   return (
     <div
       id="left-sidebar-profile"
-      className=" h-full w-full col-span-4 p-5 flex flex-col gap-5"
+      className=" h-full w-full col-span-3 p-5 flex flex-col gap-5"
     >
       <div
         id="user-icon-container"
@@ -516,8 +516,11 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
 };
 const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
   return (
-    <div id="right-sidebar-profile" className=" w-full col-span-8 p-5 h-auto">
-      <div id="2-column-profile-inputs" className="flex gap-10">
+    <div
+      id="right-sidebar-profile"
+      className=" w-full col-span-9 p-5 h-auto sm:co]"
+    >
+      <div id="2-column-profile-inputs" className="flex gap-6">
         <div id="left-side-inputs" className="  w-full">
           <h1 className="text-custom-heading-color font-bold text-2xl">
             Your FBA Profile Information
@@ -807,12 +810,13 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           with other brokers.
         </h2>
       </div>
-      <div id="Deal-Activity" className="h-full w-full col-span-8 p-5">
+      <div id="Deal-Activity" className="h-auto w-full col-span-8 p-5">
         <h1 className="text-custom-heading-color font-bold text-2xl">
           Deal Activity
         </h1>
         <div className="flex items-center gap-1">
           <h1 className="icon-text">Franchise Fee:</h1>
+
           <h1 className="candidate-label text-xl">1</h1>
         </div>
         <div className="flex items-center gap-1">
