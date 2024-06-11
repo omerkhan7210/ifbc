@@ -14,29 +14,6 @@ const MainCandList = () => {
   const [format, setFormat] = useState("table");
   const [filterCands, setFilterCands] = useState();
 
-  // useEffect(() => {
-  //   axios.post(
-  //     "http://siddiqiventures-001-site4.ktempurl.com/PostProduct",
-  //     {
-  //       productName: "omer",
-  //       productPrice: 200,
-  //     },
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     }
-  //   );
-  //   axios
-  //     .get("/GetAllProduct")
-  //     .then((response) => {
-  //       console.log("Response:", response);
-  //     })
-  //     .catch((error) => {
-  //       console.error("There was an error fetching the data:", error);
-  //     });
-  // }, []);
-
   const candData = [
     {
       anotherText: "Bulk Actions",
@@ -498,9 +475,9 @@ const TableFormatData = ({ cands, format }) => {
                       scope="row"
                       className="px-6 py-4 font-medium text-lg text-gray-900 whitespace-nowrap capitalize"
                     >
-                      <a
-                        href={`/profile/${cand.FirstName} `}
-                      >{`${cand.FirstName} ${cand.LastName}`}</a>
+                      <NavLink
+                        to={`/candidate-profile/${cand.FirstName} `}
+                      >{`${cand.FirstName} ${cand.LastName}`}</NavLink>
                     </th>
                     <td className="px-6 py-4 text-base">
                       <a href={`tel:${cand.Phone}`}>{cand.Phone}</a> <br />
