@@ -1,13 +1,36 @@
 import React from "react";
 import CandidateProfileTabs from "./CandidateProfileTabs";
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const MainCandidateProfile = () => {
-  const { name } = useParams();
-  console.log(name);
+  const { id } = useParams();
+  const { cands } = useContext(MyCandContext);
+  const [candDetails, setCandDetails] = useState();
+
+  useEffect(() => {
+    if (cands && cands.length > 0) {
+      const filteredArray = cands.filter((cand) => cand.DocId == id);
+      const filtered = filteredArray.length > 0 ? filteredArray : null;
+      setCandDetails(filtered || null);
+    }
+  }, [cands]);
+
   return (
     <div className="grid grid-cols-12 gap-10 max-w-7xl pt-10 pb-10 px-6 mx-auto">
-      {/* card start */}
+      {/* card end */}
+      <LeftSideCardContainer candDetails={candDetails} />
+      <RightSideDetailsContainer candDetails={candDetails} />
+    </div>
+  );
+};
+
+const LeftSideCardContainer = ({ candDetails }) => {
+  return (
+    candDetails && (
       <div className="md:col-span-3 flex items-start col-span-12">
         <div className="div w-[17em] bg-white  rounded-[1em] overflow-hidden relative group p-4 z-0 border-[#2176ff] border-2 ">
           <div className="circle absolute h-[5em] w-[5em] -top-[2.5em] -right-[3.5em] rounded-full bg-[#2176ff] group-hover:scale-[1270%] duration-500 z-[-1] op " />
@@ -200,54 +223,25 @@ const MainCandidateProfile = () => {
           </div>
         </div>
       </div>
-      {/* card end */}
+    )
+  );
+};
 
-      <div className="grid md:col-span-9 col-span-12  ">
-        {/* top section start */}
-        <div className=" grid grid-cols-2 flex-col md:flex-row">
-          <div id="Container-1" className="flex w-full">
-            <div>
-              <h1 className="font-semibold text-base"> Candidate Stage</h1>
-              <div className="mr-3">
-                <p className="text-slate-500 text-sm font-semibold mb-2">
-                  Deal Stage
-                </p>
-                <select
-                  id="countries"
-                  className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select Stage</option>
-                  <option value="US">United States</option>
-                  <option value="CA">Canada</option>
-                  <option value="FR">France</option>
-                  <option value="DE">Germany</option>
-                </select>
-                <p className="text-sm mb-1 font-medium">
-                  To update the deal stage please update the contact's deal in
-                  HubSpot.
-                </p>
-                <div className=" flex items-center w-[100%]">
-                  <input type="checkbox" id="archived" defaultValue={1} />
-                  <label
-                    className="text-sm mb-2 text-medium-gold font-serif ml-2 mb-0"
-                    htmlFor="archived"
-                  >
-                    Archived Candidates
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="container-2" className="w-full">
-            <h1 className="font-semibold text-base"> CoBrokers</h1>
+const RightSideDetailsContainer = () => {
+  return (
+    <div className="grid md:col-span-9 col-span-12  ">
+      {/* top section start */}
+      <div className=" grid grid-cols-2 flex-col md:flex-row">
+        <div id="Container-1" className="flex w-full">
+          <div>
+            <h1 className="font-semibold text-base"> Candidate Stage</h1>
             <div className="mr-3">
               <p className="text-slate-500 text-sm font-semibold mb-2">
-                Brokers
+                Deal Stage
               </p>
               <select
                 id="countries"
-                className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm   block w-full p-2 pr-3 mb-3"
+                className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
               >
                 <option selected>Select Stage</option>
                 <option value="US">United States</option>
@@ -255,11 +249,41 @@ const MainCandidateProfile = () => {
                 <option value="FR">France</option>
                 <option value="DE">Germany</option>
               </select>
+              <p className="text-sm mb-1 font-medium">
+                To update the deal stage please update the contact's deal in
+                HubSpot.
+              </p>
+              <div className=" flex items-center w-[100%]">
+                <input type="checkbox" id="archived" defaultValue={1} />
+                <label
+                  className="text-sm mb-2 text-medium-gold font-serif ml-2 mb-0"
+                  htmlFor="archived"
+                >
+                  Archived Candidates
+                </label>
+              </div>
             </div>
           </div>
         </div>
-        <CandidateProfileTabs />
+
+        <div id="container-2" className="w-full">
+          <h1 className="font-semibold text-base"> CoBrokers</h1>
+          <div className="mr-3">
+            <p className="text-slate-500 text-sm font-semibold mb-2">Brokers</p>
+            <select
+              id="countries"
+              className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm   block w-full p-2 pr-3 mb-3"
+            >
+              <option selected>Select Stage</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="FR">France</option>
+              <option value="DE">Germany</option>
+            </select>
+          </div>
+        </div>
       </div>
+      <CandidateProfileTabs />
     </div>
   );
 };

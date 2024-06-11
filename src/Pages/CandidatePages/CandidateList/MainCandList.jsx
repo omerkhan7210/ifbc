@@ -476,7 +476,7 @@ const TableFormatData = ({ cands, format }) => {
                       className="px-6 py-4 font-medium text-lg text-gray-900 whitespace-nowrap capitalize"
                     >
                       <NavLink
-                        to={`/candidate-profile/${cand.FirstName} `}
+                        to={`/candidate-profile/${cand.DocId} `}
                       >{`${cand.FirstName} ${cand.LastName}`}</NavLink>
                     </th>
                     <td className="px-6 py-4 text-base">

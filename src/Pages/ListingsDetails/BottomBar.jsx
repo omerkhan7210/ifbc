@@ -10,12 +10,8 @@ const BottomBar = ({ listingContent }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const page = `listing_details.aspx?fn=${listingContent?.name}`;
-      const url =
-        "https://corsproxy.io/?" +
-        encodeURIComponent(
-          `http://siddiqiventures-001-site3.ktempurl.com/${page}`
-        );
+      const url = `http://siddiqiventures-001-site3.ktempurl.com/listing_details.aspx?fn=${listingContent?.name}`;
+
       try {
         const response = await axios.get(url);
         if (response.data !== "") {

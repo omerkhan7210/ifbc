@@ -97,7 +97,7 @@ const App = () => {
             />
             <Route path="/checkout" element={<CheckOutForm />} />
             <Route
-              path="/candidate-profile/:name"
+              path="/candidate-profile/:id"
               element={
                 <CandidatesDataContext>
                   <MainCandidateProfile />
