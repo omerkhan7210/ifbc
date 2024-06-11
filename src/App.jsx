@@ -29,7 +29,8 @@ import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import Franchise from "./Pages/GlobalPageSections/Franchise";
 import { useDispatch } from "react-redux";
 import { generateUuid } from "./Redux/Features/Counter/counterSlice";
-import Profile from "./Pages/CartPage/Profile";
+import Profile from "./Pages/UserAccount/Profile";
+import MainCandidateProfile from "./Pages/CandidatePages/CandidateList/MainCandidateProfile";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -70,7 +71,6 @@ const App = () => {
             <Route path="/" element={<MainHome />} />
             <Route path="/about" element={<MainAbout />} />
             <Route path="/franchise-owner" element={<FranchiseOwner />} />
-
             <Route
               path="/candidate-list"
               element={
@@ -79,20 +79,11 @@ const App = () => {
                 </CandidatesDataContext>
               }
             />
-
             <Route
               path="/new-candidate"
               element={
                 <CandidatesDataContext>
                   <MainNewCand />
-                </CandidatesDataContext>
-              }
-            />
-            <Route
-              path="/checkout"
-              element={
-                <CandidatesDataContext>
-                  <CheckOutForm />
                 </CandidatesDataContext>
               }
             />
@@ -104,11 +95,12 @@ const App = () => {
                 </CandidatesDataContext>
               }
             />
+            <Route path="/checkout" element={<CheckOutForm />} />
             <Route
-              path="/franchise"
+              path="/candidate-profile/:id"
               element={
                 <CandidatesDataContext>
-                  <Franchise />
+                  <MainCandidateProfile />
                 </CandidatesDataContext>
               }
             />

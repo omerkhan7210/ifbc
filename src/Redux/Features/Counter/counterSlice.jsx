@@ -28,6 +28,23 @@ export const counterSlice = createSlice({
         localStorage.setItem("cartListings", JSON.stringify(state.listings));
       }
     },
+    decrementByListing: (state, action) => {
+      // Find the index of the listing to be removed
+      const index = state.listings.findIndex(
+        (listing) => listing === action.payload
+      );
+
+      // If the listing is found, proceed to remove it
+      if (index !== -1) {
+        state.value -= 1; // Decrement the value
+        state.listings = state.listings.filter(
+          (listing) => listing !== action.payload
+        ); // Remove the listing
+
+        // Update localStorage with the new listings array
+        localStorage.setItem("cartListings", JSON.stringify(state.listings));
+      }
+    },
     generateUuid: (state) => {
       if (!state.uuid) {
         const newUuid = uuidv4();
@@ -39,7 +56,12 @@ export const counterSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByListing, generateUuid } =
-  counterSlice.actions;
+export const {
+  increment,
+  decrement,
+  incrementByListing,
+  generateUuid,
+  decrementByListing,
+} = counterSlice.actions;
 
 export default counterSlice.reducer;

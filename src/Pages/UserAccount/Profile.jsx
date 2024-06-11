@@ -25,7 +25,7 @@ const Profile = () => {
   return (
     <div
       id="main-profile-section"
-      className="w-full grid grid-cols-12 p-5 gap-5 md:!flex contents h-auto "
+      className="w-full grid grid-cols-12 p-5 gap-5 md:flex h-auto "
     >
       <LeftSideBar
         formFields={formFields}

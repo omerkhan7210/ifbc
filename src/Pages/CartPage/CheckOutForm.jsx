@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 import ListingsColumns from "../ListingsPage/ListingsColumns";
@@ -15,6 +15,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
+import DialogBox from "src/Popups/DialogBox";
+import PageTransition from "src/Animations/PageTransition";
+import { decrementByListing } from "src/Redux/Features/Counter/counterSlice";
+import { twMerge } from "tailwind-merge";
 
 const CheckOutForm = () => {
   const { listings } = useContext(MyContext);
@@ -30,7 +34,7 @@ const CheckOutForm = () => {
   }, [cartListings]);
 
   return (
-    <>
+    <PageTransition>
       <div
         id="top-text"
         className=" relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 min-h-[400px] before:z-10"
@@ -47,59 +51,148 @@ const CheckOutForm = () => {
         </h1>
       </div>
       {!noCartlistings ? (
-        <div className="grid grid-cols-2 my-10 px-10 gap-5">
+        <div className="grid grid-cols-12 max-w-7xl mx-auto my-20 gap-10">
           {/* form */}
-          <LeftSidebar cartListings={cartListings} />
+          <LeftSidebar cartListings={cartListings} listings={listings} />
 
           {/* slider */}
-          <RightSibebar listings={listings} cartListings={cartListings} />
+          {/* <RightSibebar listings={listings} cartListings={cartListings} /> */}
+          <ShoppingCart cartListings={cartListings} listings={listings} />
         </div>
       ) : (
         <NoListingsFound />
       )}
-    </>
+    </PageTransition>
   );
 };
 
-const RightSibebar = ({ listings, cartListings }) => {
+const ShoppingCart = ({ cartListings, listings }) => {
+  const dispatch = useDispatch();
+
   return (
-    <div id="right-side-checkout-form" className="flex h-full items-center">
-      <Swiper
-        modules={[Navigation, Autoplay, Pagination, A11y]}
-        spaceBetween={5}
-        slidesPerView={2}
-        navigationautoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
+    <div id="main-right-container" className="h-full w-full col-span-5">
+      <div>
+        <h1 className="text-3xl font-bold capitalize text-custom-heading-color">
+          Review Franchises
+        </h1>
+      </div>
+
+      <div
+        id="sub-container"
+        className="divide-y-2 divide-custom-heading-color/10 w-full h-[330px] overflow-y-scroll "
       >
-        {listings &&
-          listings.length > 0 &&
+        {/* items-row */}
+        {cartListings &&
+          cartListings.length > 0 &&
           listings
             .filter((listing) => cartListings.includes(listing.DocId))
             .map((listing, index) => {
-              if (index < 25) {
-                return (
-                  <SwiperSlide key={index}>
-                    <ListingsColumns listing={listing} active="" />
-                  </SwiperSlide>
-                );
-              }
+              // Use a regular expression to find the investment range
+              const investmentRangeMatch = listing?.InvestmentRange?.match(
+                /Investment Range: \$[\d,]+ - \$[\d,]+/
+              );
+
+              const investmentRange = investmentRangeMatch
+                ? investmentRangeMatch[0]?.split(":")[1]
+                : "";
+
+              return (
+                <div
+                  key={index}
+                  className=" flex flex-col sm:flex-row justify-between  items-center py-3 relative"
+                >
+                  <div
+                    id="item-side"
+                    className="flex flex-col sm:flex-row gap-1 items-center w-full"
+                  >
+                    <div>
+                      <img
+                        src={`./${listing.imgUrl}`}
+                        alt=""
+                        className="rounded-lg"
+                        width={100}
+                      />
+                    </div>
+                    <div
+                      id="content-side"
+                      className="flex flex-col max-sm:items-center"
+                    >
+                      <h2 className="text-md font-bold">{listing.name}</h2>
+
+                      <h2 className="text-xs">
+                        Cash Required: <b>{investmentRange}</b>
+                      </h2>
+                    </div>
+                  </div>
+                  <div
+                    onClick={() => dispatch(decrementByListing(listing.DocId))}
+                    id="btn-side"
+                    className="sm:px-6 max-sm:absolute max-sm:top-[0px] max-sm:right-[40px] max-sm:rounded-full max-sm:w-16 max-sm:h-16 max-sm:bg-red-700 max-sm:text-white max-sm:flex max-sm:justify-center max-sm:items-center sm:text-red-800 cursor-pointer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="size-5"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              );
             })}
-      </Swiper>
+      </div>
+
+      {/* btn row */}
+      <div
+        id="button-container"
+        className="flex max-sm:justify-center sm:justify-start items-center py-5 gap-5 "
+      >
+        <NavLink
+          to="/listings"
+          className="candidate-btn flex items-center w-64 justify-between"
+        >
+          See More Listings
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+            />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+            />
+          </svg>
+        </NavLink>
+      </div>
     </div>
   );
 };
 
-const LeftSidebar = ({ cartListings }) => {
+const LeftSidebar = ({ cartListings, listings }) => {
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+
   const handleInputChange = ({ target: { name, value } }) => {
     const newName = name.toLowerCase().split(" ").join("");
     // Remove the error for the field if there is a value
@@ -118,8 +211,7 @@ const LeftSidebar = ({ cartListings }) => {
     }));
   };
 
-  const handleSubmit = async () => {
-    setLoading(true);
+  const validateFields = () => {
     const reqFields = [
       "name",
       "city",
@@ -132,72 +224,126 @@ const LeftSidebar = ({ cartListings }) => {
     let allFieldsValid = true;
 
     reqFields.forEach((field) => {
-      const newKey = field.toLowerCase().split(" ").join("");
+      const newKey = field.toLowerCase();
       if (!formFields[newKey] || formFields[newKey].trim() === "") {
-        setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
+        setFormErrors((prev) => ({
+          ...prev,
+          [newKey]: "This field is required",
+        }));
         allFieldsValid = false;
       } else {
         setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
       }
     });
 
+    // Regex for email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!emailRegex.test(formFields.email)) {
+      setFormErrors((prev) => ({ ...prev, email: "Invalid email format" }));
+      allFieldsValid = false;
+    }
+
+    return allFieldsValid;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
     try {
-      if (allFieldsValid) {
-        const formData = {
-          name: formFields.name,
-          phone: formFields.phone,
-          email: formFields.email,
-          city: formFields.city,
-          country: formFields.country,
-          zipcode: formFields.zipcode,
-          state: formFields.state,
-          cartListings: JSON.stringify(cartListings),
-        };
-
-        const jsonData = JSON.stringify(formData);
-        const baseUrl =
-          "http://siddiqiventures-001-site3.ktempurl.com/checkout_api.aspx";
-
-        // Send the POST request using Axios
-        const response = await axios.post(baseUrl, jsonData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        console.log(response);
-
-        if (
-          response.status === 200 &&
-          response.data === "Checkout Information Saved Successfully."
-        ) {
-          setFormErrors({});
-          setSuccessMsg("Thank you for requesting.");
-          setLoading(false);
-
-          // setTimeout(() => {
-          //   history("/");
-          // }, 3000);
-        } else {
-          setFormErrors({ error: response.data });
-          setLoading(false);
-          window.scrollTo(0, 500);
-          // Handle unexpected response
-        }
-      } else {
+      const allFieldsValid = validateFields();
+      if (!allFieldsValid) {
         setFormErrors((prev) => ({
           ...prev,
-          error: "Please fill in all the required fields",
+          error: "Please fill in all the required fields correctly",
         }));
         setLoading(false);
         window.scrollTo(0, 500);
+        return;
+      }
+      const formData = {
+        name: formFields.name,
+        phone: formFields.phone,
+        email: formFields.email,
+        city: formFields.city,
+        country: formFields.country,
+        zipcode: formFields.zipcode,
+        state: formFields.state,
+        cartListings: JSON.stringify(cartListings),
+      };
+
+      const jsonData = JSON.stringify(formData);
+      const baseUrl =
+        "http://siddiqiventures-001-site3.ktempurl.com/checkout_api.aspx";
+
+      // Send the POST request using Axios
+      const response = await axios.post(baseUrl, jsonData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (
+        response.status === 200 &&
+        response.data === "Checkout Information Saved Successfully."
+      ) {
+        setFormErrors({});
+        setSuccessMsg("Thank you for requesting!");
+        setLoading(false);
+        setShow(true);
+
+        setTimeout(() => {
+          setShow(false);
+          listings
+            .filter((listing) => cartListings.includes(listing.DocId))
+            .map((listing) => {
+              dispatch(decrementByListing(listing.DocId));
+            });
+          history("/");
+        }, 2000);
+
+        // setTimeout(() => {
+        //   history("/");
+        // }, 3000);
+      } else {
+        setFormErrors({ error: response.data });
+        setLoading(false);
+        window.scrollTo(0, 500);
+        // Handle unexpected response
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
   return (
-    <div id="left-side-checkout-form">
-      <div className="flex flex-col rounded-lg shadow-sm ">
+    <div id="left-side-checkout-form" className="col-span-7">
+      <DialogBox setShow={setShow} show={show}>
+        <button
+          className="absolute top-5 right-10"
+          onClick={() => setShow(false)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="red"
+            className="size-9"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+        </button>
+        <div className="bg-white p-10 flex flex-col gap-3">
+          <h1 className="text-3xl uppercase text-center">{successMsg}</h1>
+          <p className="text-xl text-center">We will contact you soon.</p>
+        </div>
+      </DialogBox>
+      <div className="flex flex-col rounded-lg ">
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
             {formErrors.error}
@@ -217,6 +363,13 @@ const LeftSidebar = ({ cartListings }) => {
             </svg>
           </p>
         )}
+
+        <div>
+          <h1 className="text-3xl font-bold capitalize text-custom-heading-color">
+            Fill in your details
+          </h1>
+        </div>
+
         <div className="mt-4">
           <label className="text-custom-heading-color" htmlFor="name">
             Name
@@ -240,9 +393,10 @@ const LeftSidebar = ({ cartListings }) => {
               onChange={handleInputChange}
               name="email"
               placeholder="Your email"
-              className={`candidate-input ${
+              className={twMerge(
+                `candidate-input`,
                 formErrors.email ? "bg-red-300" : ""
-              }`}
+              )}
               id="email"
               type="email"
             />
@@ -356,11 +510,25 @@ const LeftSidebar = ({ cartListings }) => {
 
         <div className="mt-4 flex justify-center">
           <button
-            className="candidate-btn"
+            className="candidate-btn w-64 flex justify-between items-center"
             type="submit"
             onClick={handleSubmit}
           >
             {loading ? "Loading..." : "Request Now"}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"
+              />
+            </svg>
           </button>
         </div>
       </div>
