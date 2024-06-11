@@ -498,9 +498,9 @@ const TableFormatData = ({ cands, format }) => {
                       scope="row"
                       className="px-6 py-4 font-medium text-lg text-gray-900 whitespace-nowrap capitalize"
                     >
-                      <a href="/">
-                        {cand.FirstName} {cand.LastName}
-                      </a>
+                      <a
+                        href={`/profile/${cand.FirstName} `}
+                      >{`${cand.FirstName} ${cand.LastName}`}</a>
                     </th>
                     <td className="px-6 py-4 text-base">
                       <a href={`tel:${cand.Phone}`}>{cand.Phone}</a> <br />
