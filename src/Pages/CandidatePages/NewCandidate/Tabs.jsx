@@ -76,6 +76,110 @@ const Initial = ({ activeTab, handleInputChange }) => {
     },
     { value: "No funding required", label: "No funding required" },
   ];
+  const creditScoreOptions = [
+    { value: "", label: "Select one" },
+    { value: "Excellent - 780 to 850", label: "Excellent - 780 to 850" },
+    { value: "Very good - 740 to 779", label: "Very good - 740 to 779" },
+    {
+      value: "Above average - 720 to 739",
+      label: "Above average - 720 to 739",
+    },
+    { value: "Average - 680 to 719", label: "Average - 680 to 719" },
+    {
+      value: "Below average - 620 to 679",
+      label: "Below average - 620 to 679",
+    },
+    { value: "Poor - 580 to 619", label: "Poor - 580 to 619" },
+    { value: "Very poor - Under 580", label: "Very poor - Under 580" },
+    { value: "I do not know", label: "I do not know" },
+  ];
+  const netWorthOptions = [
+    { value: "", label: "Select one" },
+    { value: "$0 or Negative", label: "$0 or Negative" },
+    { value: "$100,000 or less", label: "$100,000 or less" },
+    { value: "$100,001 to $250,000", label: "$100,001 to $250,000" },
+    { value: "$250,001 to $500,000", label: "$250,001 to $500,000" },
+    { value: "$500,001 to $750,000", label: "$500,001 to $750,000" },
+    { value: "$750,001 to $1,000,000", label: "$750,001 to $1,000,000" },
+    { value: "$1,000,001 to $2,000,000", label: "$1,000,001 to $2,000,000" },
+    { value: "$2,000,001 to $5,000,000", label: "$2,000,001 to $5,000,000" },
+    { value: "$5,000,001 to $10,000,000", label: "$5,000,001 to $10,000,000" },
+    { value: "$10,000,001 or more", label: "$10,000,001 or more" },
+    { value: "I prefer not to answer", label: "I prefer not to answer" },
+  ];
+  const liquidCashOptions = [
+    { value: "", label: "Select one" },
+    { value: "$0", label: "$0" },
+    { value: "$10,000 or under", label: "$10,000 or under" },
+    { value: "$10,001 to $30,000", label: "$10,001 to $30,000" },
+    { value: "$30,001 to $50,000", label: "$30,001 to $50,000" },
+    { value: "$50,001 to $75,000", label: "$50,001 to $75,000" },
+    { value: "$75,001 to $100,000", label: "$75,001 to $100,000" },
+    { value: "$100,001 to $125,000", label: "$100,001 to $125,000" },
+    { value: "$125,001 to $150,000", label: "$125,001 to $150,000" },
+    { value: "$150,001 to $200,000", label: "$150,001 to $200,000" },
+    { value: "$200,001 to $300,000", label: "$200,001 to $300,000" },
+    { value: "$300,001 to $500,000", label: "$300,001 to $500,000" },
+    { value: "$500,001 to $1,000,000", label: "$500,001 to $1,000,000" },
+    { value: "$1,000,001 to $2,500,000", label: "$1,000,001 to $2,500,000" },
+    { value: "$2,500,001 or more", label: "$2,500,001 or more" },
+    { value: "I prefer not to answer", label: "I prefer not to answer" },
+  ];
+  const reasonOptions = [
+    { value: "", label: "Select one" },
+    {
+      value: "I want to own my own business",
+      label: "I want to own my own business",
+    },
+    {
+      value: "I want to transition out of my job",
+      label: "I want to transition out of my job",
+    },
+    {
+      value: "I need more flexibility in my life",
+      label: "I need more flexibility in my life",
+    },
+    {
+      value: "I am looking for a side hustle while I'm still employed",
+      label: "I am looking for a side hustle while I'm still employed",
+    },
+    {
+      value: "I'm seeking another investment to add to my portfolio",
+      label: "I'm seeking another investment to add to my portfolio",
+    },
+    {
+      value: "I want to find a business for a family member",
+      label: "I want to find a business for a family member",
+    },
+  ];
+  const backgroundOptions = [
+    { value: "", label: "Select one" },
+    { value: "No Preference", label: "No Preference" },
+    { value: "Sales", label: "Sales" },
+    { value: "Executive", label: "Executive" },
+    { value: "Manager", label: "Manager" },
+    { value: "IT", label: "IT" },
+    { value: "Admin", label: "Admin" },
+    { value: "Finance", label: "Finance" },
+    { value: "HR", label: "HR" },
+    { value: "Marketing", label: "Marketing" },
+    { value: "Operations", label: "Operations" },
+    { value: "Trades", label: "Trades" },
+    { value: "Laborer", label: "Laborer" },
+    { value: "Logistics", label: "Logistics" },
+  ];
+  const timeFrameOptions = [
+    { value: "", label: "Select one" },
+    { value: "As soon as possible", label: "As soon as possible" },
+    { value: "1 to 3 months", label: "1 to 3 months" },
+    { value: "4 to 6 months", label: "4 to 6 months" },
+    { value: "6 to 12 months", label: "6 to 12 months" },
+    { value: "7 to 9 months", label: "7 to 9 months" },
+    { value: "10 to 12 months", label: "10 to 12 months" },
+    { value: "More than a year away", label: "More than a year away" },
+    { value: "Unsure at the moment", label: "Unsure at the moment" },
+  ];
+
   return (
     <div
       id="initial-qualifying"
@@ -119,33 +223,46 @@ const Initial = ({ activeTab, handleInputChange }) => {
           What is your approximate credit score?
         </p>
       </div>
-      <select
-        name="ApproximateCredit"
-        id="score"
-        className="candidate-select"
-      ></select>
+      <select name="ApproximateCredit" id="score" className="candidate-select">
+        {creditScoreOptions.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div>
         <p className="candidate-label">Net Worth?</p>
       </div>
-      <select name="Networth" id="worth" className="candidate-select"></select>
+      <select name="Networth" id="worth" className="candidate-select">
+        {netWorthOptions.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div>
         <p className="candidate-label">Liquid Cash?</p>
       </div>
-      <select
-        name="LiquidCash"
-        id="liquid-cash"
-        className="candidate-select"
-      ></select>
+      <select name="LiquidCash" id="liquid-cash" className="candidate-select">
+        {liquidCashOptions.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div>
         <p className="candidate-paragraph">
           What caused you to start looking for a franchise?
         </p>
       </div>
-      <select
-        name="FranchiseCause"
-        id="franchise"
-        className="candidate-select"
-      ></select>
+      <select name="FranchiseCause" id="franchise" className="candidate-select">
+        {" "}
+        {reasonOptions.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div>
         <p className="candidate-paragraph">
           What is your professional background?
@@ -155,7 +272,13 @@ const Initial = ({ activeTab, handleInputChange }) => {
         name="ProfessionalBackground"
         id="background"
         className="candidate-select"
-      ></select>
+      >
+        {backgroundOptions.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div className="candidate-input-container">
         <p className="candidate-paragraph">
           What franchises are you interested in?
@@ -171,11 +294,13 @@ const Initial = ({ activeTab, handleInputChange }) => {
       <div>
         <p className="candidate-paragraph">What is your time frame?</p>
       </div>
-      <select
-        name="TimeFrame"
-        id="time-frame"
-        className="candidate-select"
-      ></select>
+      <select name="TimeFrame" id="time-frame" className="candidate-select">
+        {timeFrameOptions.map((option, index) => (
+          <option key={index} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
       <div className="mt-4">
         <label
           htmlFor="message"
@@ -199,6 +324,66 @@ const Initial = ({ activeTab, handleInputChange }) => {
 };
 
 const Zoracle = ({ activeTab, handleInputChange }) => {
+  const competencyOptions1 = [
+    { value: "", label: "Select one" },
+    { value: "Leadership-Vision", label: "Leadership & Vision" },
+    { value: "Sales-Channel-Planning", label: "Sales & Channel Planning" },
+    {
+      value: "Marketing-Public-Relations",
+      label: "Marketing & Public Relations",
+    },
+    { value: "Executive-Management", label: "Executive & Management" },
+    { value: "Human-Resources-Training", label: "Human Resources & Training" },
+    { value: "Admin-Customer-Service", label: "Admin & Customer Service" },
+    { value: "Finance-Operations", label: "Finance & Operations" },
+    { value: "R-D-Technical", label: "R&D & Technical" },
+  ];
+  const competencyOptions2 = [
+    { value: "", label: "Select one" },
+    { value: "Leadership-Vision", label: "Leadership & Vision" },
+    { value: "Sales-Channel-Planning", label: "Sales & Channel Planning" },
+    {
+      value: "Marketing-Public-Relations",
+      label: "Marketing & Public Relations",
+    },
+    { value: "Executive-Management", label: "Executive & Management" },
+    { value: "Human-Resources-Training", label: "Human Resources & Training" },
+    { value: "Admin-Customer-Service", label: "Admin & Customer Service" },
+    { value: "Finance-Operations", label: "Finance & Operations" },
+    { value: "R-D-Technical", label: "R&D & Technical" },
+  ];
+  const competencyOptions3 = [
+    { value: "", label: "Select one" },
+    { value: "Leadership-Vision", label: "Leadership & Vision" },
+    { value: "Sales-Channel-Planning", label: "Sales & Channel Planning" },
+    {
+      value: "Marketing-Public-Relations",
+      label: "Marketing & Public Relations",
+    },
+    { value: "Executive-Management", label: "Executive & Management" },
+    { value: "Human-Resources-Training", label: "Human Resources & Training" },
+    { value: "Admin-Customer-Service", label: "Admin & Customer Service" },
+    { value: "Finance-Operations", label: "Finance & Operations" },
+    { value: "R-D-Technical", label: "R&D & Technical" },
+  ];
+  const growth = [
+    { value: "", label: "Select Stage" },
+    {
+      value: "Emerging / Entrepreneur(1-19)",
+      label: "Emerging / Entrepreneur(1-19)",
+    },
+    { value: "Partner(20-99)", label: "Partner(20-99)" },
+    { value: "Plug and Play(100-499)", label: "Plug and Play(100-499)" },
+    { value: "Empire(1,000+)", label: "Empire(1,000+)" },
+    { value: "Hybrid", label: "Hybrid" },
+  ];
+  const valueOptions = [
+    { value: "", label: "Select one" },
+    { value: "Emulator", label: "Emulator" },
+    { value: "Belonger", label: "Belonger" },
+    { value: "Achiever", label: "Achiever" },
+    { value: "Societal", label: "Societal" },
+  ];
   return (
     <div
       id="zorakle-spoton!"
@@ -213,8 +398,14 @@ const Zoracle = ({ activeTab, handleInputChange }) => {
         <select
           name="Competency1"
           id="competency1"
-          className="candidate-select"
-        ></select>
+          className="candidate-select w-full"
+        >
+          {competencyOptions1.map((option, index) => (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <div>
@@ -223,8 +414,14 @@ const Zoracle = ({ activeTab, handleInputChange }) => {
         <select
           name="Competency2"
           id="competency2"
-          className="candidate-select"
-        ></select>
+          className="candidate-select w-full"
+        >
+          {competencyOptions2.map((option, index) => (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <div>
@@ -233,8 +430,14 @@ const Zoracle = ({ activeTab, handleInputChange }) => {
         <select
           name="Competency3"
           id="competency3"
-          className="candidate-select"
-        ></select>
+          className="candidate-select w-full"
+        >
+          {competencyOptions3.map((option, index) => (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <div>
@@ -244,8 +447,14 @@ const Zoracle = ({ activeTab, handleInputChange }) => {
           onChange={handleInputChange}
           name="Stage of Growth"
           id="stage-of-growth"
-          className="candidate-select"
-        ></select>
+          className="candidate-select w-full"
+        >
+          {growth.map((option, index) => (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <div>
@@ -255,8 +464,14 @@ const Zoracle = ({ activeTab, handleInputChange }) => {
           onChange={handleInputChange}
           name="Value"
           id="value"
-          className="candidate-select"
-        ></select>
+          className="candidate-select w-full"
+        >
+          {valueOptions.map((option, index) => (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
         <p className="candidate-paragraph">
@@ -384,6 +599,15 @@ const Zoracle = ({ activeTab, handleInputChange }) => {
 };
 
 const Eligibility = ({ activeTab, handleInputChange }) => {
+  const militaryOptions = [
+    { value: "", label: "Select one" },
+    { value: "Veteran", label: "Veteran" },
+    { value: "First Responder", label: "First Responder" },
+    { value: "Minority", label: "Minority" },
+    { value: "Woman", label: "Woman" },
+    { value: "Conversion", label: "Conversion" },
+    { value: "Existing Franchisee", label: "Existing Franchisee" },
+  ];
   return (
     <div
       id="eligibility"
@@ -420,11 +644,13 @@ const Eligibility = ({ activeTab, handleInputChange }) => {
             you qualify for any of these discounts
           </p>
         </div>
-        <select
-          name="VALoan"
-          id="Qualify"
-          className="candidate-select"
-        ></select>
+        <select name="VALoan" id="Qualify" className="candidate-select w-full">
+          {militaryOptions.map((option, index) => (
+            <option key={index} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
       </div>
       <div className="candidate-input-container">
         <p className="candidate-paragraph">
