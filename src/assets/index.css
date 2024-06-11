@@ -6,6 +6,10 @@
   @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold;
 }
 
+.candidate-secondary-btn {
+  @apply border-2 border-custom-dark-blue bg-custom-dark-blue  text-white px-5 rounded hover:bg-white hover:text-custom-dark-blue transition-all duration-500 py-2  font-semibold;
+}
+
 .candidate-input {
   @apply bg-gray-50 border-b border-custom-dark-blue text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
 }

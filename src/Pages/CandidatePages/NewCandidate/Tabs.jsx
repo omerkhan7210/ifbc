@@ -83,37 +83,6 @@ const Initial = ({ activeTab, handleInputChange }) => {
         activeTab.toLowerCase() === "initial qualifying" ? "" : "hidden"
       }`}
     >
-      <div className="flex justify-between flex-col sm:flex-row">
-        <div>
-          <h3 className="font-bold text-black dark:text-white mb-2">
-            Section Settings
-          </h3>
-        </div>
-        <div>
-          <label className="flex items-center gap-2">
-            <input
-              onChange={handleInputChange}
-              type="checkbox"
-              className="accent-custom-heading-color"
-              name="hide-section"
-            />
-            <text className="text-gray-500 font-bold first-letter:text-1xl">
-              Hide Section
-            </text>
-          </label>
-          <label className="flex  items-center gap-2">
-            <input
-              onChange={handleInputChange}
-              type="checkbox"
-              className="accent-custom-heading-color"
-              name="lock-section"
-            />
-            <text className="text-gray-500 font-bold first-letter:text-1xl">
-              Lock Section
-            </text>
-          </label>
-        </div>
-      </div>
       <div>
         <p className="candidate-label">
           How much money are you wanting to invest in the franchise?

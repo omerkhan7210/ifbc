@@ -272,48 +272,50 @@ const Form = () => {
   };
 
   return (
-    <div
-      id="left-side-container"
-      className="col-span-12 divide-y-2 divide-custom-dark-blue/10  mx-10 my-5"
-    >
-      {formErrors.error && (
-        <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
-          {formErrors.error}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
-            />
-          </svg>
-        </p>
-      )}
-      <FormFirstRow
-        handleInputChange={handleInputChange}
-        formErrors={formErrors}
-      />
-      <FormSecondRow
-        stateDD={stateDD}
-        handleInputChange={handleInputChange}
-        formErrors={formErrors}
-      />
-      <FormThirdRow
-        stateDD={stateDD}
-        handleInputChange={handleInputChange}
-        setFormFields={setFormFields}
-      />
+    <>
+      <div
+        id="main-new-candidate-form-container"
+        className="col-span-12 divide-y-2 divide-custom-dark-blue/10  max-w-7xl mx-auto my-10 "
+      >
+        {formErrors.error && (
+          <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
+            {formErrors.error}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+              />
+            </svg>
+          </p>
+        )}
+        <FormFirstRow
+          handleInputChange={handleInputChange}
+          formErrors={formErrors}
+        />
+        <FormSecondRow
+          stateDD={stateDD}
+          handleInputChange={handleInputChange}
+          formErrors={formErrors}
+        />
+        <FormThirdRow
+          stateDD={stateDD}
+          handleInputChange={handleInputChange}
+          setFormFields={setFormFields}
+        />
 
-      {/* tabs */}
-      <Tabs handleInputChange={handleInputChange} />
-      {/* submit button */}
-      <div id="button-container" className="w-full flex justify-center">
+        {/* tabs */}
+        <Tabs handleInputChange={handleInputChange} />
+        {/* submit button */}
+      </div>
+      <div id="button-container" className="w-full flex justify-center my-10">
         {successMsg && (
           <p className="border-2 border-green-600 text-green-600 p-4 flex justify-between">
             {successMsg}
@@ -337,7 +339,7 @@ const Form = () => {
           {loading ? "Loading..." : "SUBMIT CANDIDATE INFORMATION"}
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

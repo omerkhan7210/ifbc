@@ -2,16 +2,10 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import { useContext, useState } from "react";
-import {
-  motion,
-  useAnimation,
-  useMotionValueEvent,
-  useScroll,
-} from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { MyContext } from "src/Context/ListingDataContext";
 import ToggleButton from "./ToggleButton";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 const Logo = () => {
   return (
     <Link
@@ -30,7 +24,6 @@ const Logo = () => {
 };
 
 const Header = ({ mobileActive, setMobileActive }) => {
-  const controls = useAnimation();
   const [hidden, setHidden] = useState(false);
 
   const { scrollY } = useScroll();
@@ -88,11 +81,13 @@ const Header = ({ mobileActive, setMobileActive }) => {
   return (
     <motion.nav
       initial={{ y: 0 }}
-      animate={{ y: hidden ? "-100%" : 0 }}
+      animate={{ y: hidden ? "-50%" : 0 }}
       className=" w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0 gap-3  "
       id="header-nav"
     >
-      <div
+      <motion.div
+        initial={{ y: 0 }}
+        animate={{ y: hidden ? "-100%" : 0 }}
         id="navbar-centered"
         className={`w-full  ${
           isMobile
@@ -131,9 +126,9 @@ const Header = ({ mobileActive, setMobileActive }) => {
           mobileActive={mobileActive}
           setMobileActive={setMobileActive}
         />
-      </div>
+      </motion.div>
 
-      <Navbar hidden={hidden} />
+      <Navbar />
     </motion.nav>
   );
 };

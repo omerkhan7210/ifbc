@@ -459,7 +459,7 @@ const TableFormatData = ({ cands, format }) => {
       id="cand-table-format"
       className={`${format === "table" ? "block" : "hidden"} mt-2 `}
     >
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="relative overflow-x-auto shadow-md ">
         <table className="w-full text-sm text-left rtl:text-right text-black ">
           <thead className="text-md text-center text-white uppercase bg-[#2176ff]">
             <tr>
@@ -481,15 +481,9 @@ const TableFormatData = ({ cands, format }) => {
             {cands.length > 0 &&
               cands.map((cand) => {
                 const rawDate = cand.DocDate;
-                // Extract the timestamp using a regular expression
                 const match = rawDate.match(/\d+/);
-
                 const timestamp = parseInt(match[0], 10);
-
-                // Convert to Date object
                 const date = new Date(timestamp);
-
-                // Format the date
                 const formatted = new Intl.DateTimeFormat("en-US", {
                   year: "numeric",
                   month: "long",
@@ -504,7 +498,9 @@ const TableFormatData = ({ cands, format }) => {
                       scope="row"
                       className="px-6 py-4 font-medium text-lg text-gray-900 whitespace-nowrap capitalize"
                     >
-                      {cand.FirstName} {cand.LastName}
+                      <a href="/">
+                        {cand.FirstName} {cand.LastName}
+                      </a>
                     </th>
                     <td className="px-6 py-4 text-base">
                       <a href={`tel:${cand.Phone}`}>{cand.Phone}</a> <br />
