@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { MyContext } from "src/Context/ListingDataContext";
 
 const Profile = () => {
   const [formFields, setFormFields] = useState({});
@@ -21,11 +22,19 @@ const Profile = () => {
       [newName]: value,
     }));
   };
+  const freelancer = [
+    { name: "basit", skills: "react" },
+    { name: "umer", skills: "javascript" },
+    { name: "raza", skills: "wordpres" },
+  ];
+  const filter_freelancer = freelancer.filter((a) => a.skills === "javascript");
+  console.log("freeeeelancer", filter_freelancer);
   return (
     <div
       id="main-profile-section"
-      className="w-full grid grid-cols-12 p-5 gap-5 md:!flex contents h-auto "
+      className="w-full grid grid-cols-12 p-5 gap-5 h-auto "
     >
+      {}
       <LeftSideBar
         formFields={formFields}
         formErrors={formErrors}
@@ -72,14 +81,6 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               className="rounded-full"
             />
           </div>
-          <div id="profile-details-container">
-            <h1 className="candidate-label">Harjeet Tiwana</h1>
-            <h1 className="candidate-label">IFBC.CO</h1>
-            <h1 className="candidate-label">Member Since September 10, 2023</h1>
-            <h1 className="candidate-label border border-custom-dark-blue w-20 px-3">
-              Broker
-            </h1>
-          </div>
         </div>
 
         <div id="language-container" className="h-full w-full py-5">
@@ -89,7 +90,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6 "
             >
               <path
@@ -108,7 +109,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -127,7 +128,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -146,7 +147,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -165,7 +166,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -184,7 +185,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -203,8 +204,8 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
-              class="size-6"
+              stroke="rgb(33, 118, 255)"
+              class="size-16"
             >
               <path
                 stroke-linecap="round"
@@ -221,6 +222,30 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
             <h1 className="icon-text">
               9350 Wilshire Blvd, Suite 203 Wilshire Blvd, Suite 203 Beverly
               Hills, CA 90212
+            </h1>
+          </div>
+          <div>
+            <div className="flex gap-2 ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="rgb(33, 118, 255)"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+
+              <h1 className="icon-text">Member Since September 10, 2023</h1>
+            </div>
+
+            <h1 className="candidate-label border border-custom-dark-blue w-20 px-3">
+              Broker
             </h1>
           </div>
         </div>
@@ -515,11 +540,112 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
   );
 };
 const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
+  const states = [
+    { value: "AL", text: "Alabama" },
+    { value: "AK", text: "Alaska" },
+    { value: "AZ", text: "Arizona" },
+    { value: "AR", text: "Arkansas" },
+    { value: "CA", text: "California" },
+    { value: "CO", text: "Colorado" },
+    { value: "CT", text: "Connecticut" },
+    { value: "DE", text: "Delaware" },
+    { value: "DC", text: "District Of Columbia" },
+    { value: "FL", text: "Florida" },
+    { value: "GA", text: "Georgia" },
+    { value: "HI", text: "Hawaii" },
+    { value: "ID", text: "Idaho" },
+    { value: "IL", text: "Illinois" },
+    { value: "IN", text: "Indiana" },
+    { value: "IA", text: "Iowa" },
+    { value: "KS", text: "Kansas" },
+    { value: "KY", text: "Kentucky" },
+    { value: "LA", text: "Louisiana" },
+    { value: "ME", text: "Maine" },
+    { value: "MD", text: "Maryland" },
+    { value: "MA", text: "Massachusetts" },
+    { value: "MI", text: "Michigan" },
+    { value: "MN", text: "Minnesota" },
+    { value: "MS", text: "Mississippi" },
+    { value: "MO", text: "Missouri" },
+    { value: "MT", text: "Montana" },
+    { value: "NE", text: "Nebraska" },
+    { value: "NV", text: "Nevada" },
+    { value: "NH", text: "New Hampshire" },
+    { value: "NJ", text: "New Jersey" },
+    { value: "NM", text: "New Mexico" },
+    { value: "NY", text: "New York" },
+    { value: "NC", text: "North Carolina" },
+    { value: "ND", text: "North Dakota" },
+    { value: "OH", text: "Ohio" },
+    { value: "OK", text: "Oklahoma" },
+    { value: "OR", text: "Oregon" },
+    { value: "PA", text: "Pennsylvania" },
+    { value: "RI", text: "Rhode Island" },
+    { value: "SC", text: "South Carolina" },
+    { value: "SD", text: "South Dakota" },
+    { value: "TN", text: "Tennessee" },
+    { value: "TX", text: "Texas" },
+    { value: "UT", text: "Utah" },
+    { value: "VT", text: "Vermont" },
+    { value: "VA", text: "Virginia" },
+    { value: "WA", text: "Washington" },
+    { value: "WV", text: "West Virginia" },
+    { value: "WI", text: "Wisconsin" },
+    { value: "WY", text: "Wyoming" },
+    { value: "INT", text: "International" },
+    { value: "AB", text: "Alberta" },
+    { value: "BC", text: "British Columbia" },
+    { value: "MB", text: "Manitoba" },
+    { value: "NB", text: "New Brunswick" },
+    { value: "NL", text: "Newfoundland and Labrador" },
+    { value: "NT", text: "Northwest Territories" },
+    { value: "NS", text: "Nova Scotia" },
+    { value: "NU", text: "Nunavut" },
+    { value: "ON", text: "Ontario" },
+    { value: "PE", text: "Prince Edward Island" },
+    { value: "QC", text: "Quebec" },
+    { value: "SK", text: "Saskatchewan" },
+    { value: "YT", text: "Yukon Territory" },
+  ];
+
+  const FranchiseIndustryFocus = [
+    { value: "Advertising", label: "Advertising" },
+    { value: "Automotive", label: "Automotive" },
+    { value: "Beauty & Spa", label: "Beauty & Spa" },
+    {
+      value: "Business Management & Coaching",
+      label: "Business Management & Coaching",
+    },
+    { value: "Business Services", label: "Business Services" },
+    {
+      value: "Child Education, STEM & Tutoring",
+      label: "Child Education, STEM & Tutoring",
+    },
+    { value: "Child Services & Products", label: "Child Services & Products" },
+    {
+      value: "Cleaning: Residential & Commercial",
+      label: "Cleaning: Residential & Commercial",
+    },
+    { value: "CT", label: "Computer Technology" },
+    { value: "DS", label: "Distribution Services" },
+    { value: "DC", label: "Dry Cleaning-Laundry" },
+    { value: "FS", label: "Financial Services" },
+    { value: "FT", label: "Fitness" },
+    { value: "FB", label: "Food & Beverage: Restaurant/QSR/Catering" },
+    { value: 15, label: "Food: Coffee/Tea/Smoothies/Sweets" },
+    { value: 16, label: "Food: Stores & Catering" },
+    { value: 17, label: "Health/Medical" },
+    { value: 18, label: "Health/Wellness" },
+    { value: 19, label: "Home Improvement" },
+    { value: 20, label: "Interior/Exterior Design" },
+    { value: 21, label: "Maintenance & Repair" },
+  ];
+
+  const { listings } = useContext(MyContext);
+  console.log(listings);
+
   return (
-    <div
-      id="right-sidebar-profile"
-      className=" w-full col-span-9 p-5 h-auto sm:co]"
-    >
+    <div id="right-sidebar-profile" className=" w-full col-span-9 p-5 h-auto">
       <div id="2-column-profile-inputs" className="flex gap-6">
         <div id="left-side-inputs" className="  w-full">
           <h1 className="text-custom-heading-color font-bold text-2xl">
@@ -528,6 +654,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">First Name</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="firstname"
               className="candidate-input"
@@ -537,6 +664,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">Last Name</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="lastname"
               className="candidate-input"
@@ -546,6 +674,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">Email</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="email"
               className="candidate-input"
@@ -555,6 +684,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">Website URL</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="websiteurl"
               className="candidate-input"
@@ -564,6 +694,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">LinkedIn URL</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="linkedinurl"
               className="candidate-input"
@@ -573,6 +704,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">Meeting Link</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="meetinglink"
               className="candidate-input"
@@ -626,26 +758,27 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
             />
           </div>
           <div className="candidate-sub-childs">
-            <p className="candidate-label">Zip/Postal Code:</p>
+            <p className="candidate-label">State/Province:</p>
             <select
               onChange={handleInputChange}
               id="countries"
               className="candidate-input p-3"
               name="zippostalcode"
             >
-              <option selected>Select Stage</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
+              {states.map((state, index) => (
+                <option key={index} value={state.value}>
+                  {state.text}
+                </option>
+              ))}
             </select>
           </div>
           <div className="candidate-sub-childs">
-            <p className="candidate-label">Meeting Link</p>
+            <p className="candidate-label">Zip/Postal Code</p>
             <input
+              placeholder="90212"
               onChange={handleInputChange}
               type="text"
-              name="meetinglink"
+              name="zippostalcode"
               className="candidate-input"
               required
             />

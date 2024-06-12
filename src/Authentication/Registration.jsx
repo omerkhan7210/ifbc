@@ -12,9 +12,42 @@ const Registration = ({ setIfLogin }) => {
     credentials: "",
   });
   const [formFields, setFormFields] = useState({
-    username: "",
+    firstname: "",
+    lastname: "",
     email: "",
+    websiteurl: "",
+    linkedinurl: "",
+    meetinglink: "",
+    companyname: "",
+    companyphonenumber: "",
+    companyaddress: "",
+    city: "",
+    zippostalcode: "",
+    unitsuite: "",
+    notes: "",
+    shortdescription: "",
+    consulting: "",
+    franchiseindustryfocus: "",
+    businessbroker: "",
+    registeredin: "",
+    openforgroup: "",
     password: "",
+    confirmpassword: "",
+    territorycheck: "",
+    disablelogo: "",
+    disablecover: "",
+    disableprofile: "",
+    disablebio: "",
+    hidename: "",
+    broker: "",
+    allcandidates: "",
+    allpastclient: "",
+    sharefranchise: "",
+    leademail: "",
+    fbabadges: "",
+    usertype: "",
+    profileimage: "",
+    coverimage: "",
   });
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -48,90 +81,56 @@ const Registration = ({ setIfLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { username, email, password } = formFields;
-
-    if (!username && !email && !password) {
-      setError({
-        username: "Please enter a username",
-        email: "Please enter an email",
-        password: "Please enter a password",
-        credentials: "",
-      });
-      return;
-    } else if (!username) {
-      setError({
-        username: "Please enter a username",
-        email: "",
-        password: "",
-        credentials: "",
-      });
-      return;
-    } else if (!validateUsername(username)) {
-      setError({
-        username:
-          "Username must start with a letter and contain only alphanumeric characters",
-        email: "",
-        password: "",
-        credentials: "",
-      });
-      return;
-    } else if (!email) {
-      setError({
-        username: "",
-        email: "Please enter an email",
-        password: "",
-        credentials: "",
-      });
-      return;
-    } else if (!validateEmail(email)) {
-      setError({
-        username: "",
-        email: "Please enter a valid email",
-        password: "",
-        credentials: "",
-      });
-      return;
-    } else if (!password) {
-      setError({
-        username: "",
-        email: "",
-        password: "Please enter a password",
-        credentials: "",
-      });
-      return;
-    } else if (!validatePassword(password)) {
-      setError({
-        username: "",
-        email: "",
-        password: "Password must be at least 8 characters",
-        credentials: "",
-      });
-      return;
-    } else {
-      setError({
-        username: "",
-        email: "",
-        password: "",
-        credentials: "",
-      });
-    }
-
+    console.log("INSIDE");
     try {
       const requestData = {
-        USERID: username,
-        USERNAME: username,
-        PASSCODE: password,
+        firstname: formFields.firstname ?? "",
+        lastname: formFields.lastname ?? "",
+        email: formFields.email ?? "",
+        websiteurl: formFields.websiteurl ?? "",
+        linkedinurl: formFields.linkedinurl ?? "",
+        meetinglink: formFields.meetinglink ?? "",
+        companyname: formFields.companyname ?? "",
+        companyphonenumber: formFields.companyphonenumber ?? "",
+        companyaddress: formFields.companyaddress ?? "",
+        city: formFields.city ?? "",
+        zippostalcode: formFields.zippostalcode ?? "",
+        unitsuite: formFields.unitsuite ?? "",
+        notes: formFields.notes ?? "",
+        shortdescription: formFields.shortdescription ?? "",
+        consulting: formFields.consulting ?? "",
+        franchiseindustryfocus: formFields.franchiseindustryfocus ?? "",
+        businessbroker: formFields.businessbroker ?? "",
+        registeredin: formFields.registeredin ?? "",
+        openforgroup: formFields.openforgroup ?? "",
+        password: formFields.password ?? "",
+        confirmpassword: formFields.confirmpassword ?? "",
+        territorycheck: formFields.territorycheck ?? "",
+        disablelogo: formFields.disablelogo ?? "",
+        disablecover: formFields.disablecover ?? "",
+        disableprofile: formFields.disableprofile ?? "",
+        disablebio: formFields.disablebio ?? "",
+        hidename: formFields.hidename ?? "",
+        broker: formFields.broker ?? "",
+        allcandidates: formFields.allcandidates ?? "",
+        allpastclient: formFields.allpastclient ?? "",
+        sharefranchise: formFields.sharefranchise ?? "",
+        leademail: formFields.leademail ?? "",
+        fbabadges: formFields.fbabadges ?? "",
+        usertype: "N",
+        profileimage: formFields.profileimage ?? "",
+        coverimage: formFields.coverimage ?? "",
       };
       const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/new_account.aspx`;
-
+      console.log(requestData);
       setLoading(true);
 
       // Send the POST request using Axios
-      const response = await axios.post(baseUrl, requestData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      // const response = await axios.post(baseUrl, requestData, {
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
 
       if (
         response.data === "Account Created Successfully." &&
@@ -169,34 +168,39 @@ const Registration = ({ setIfLogin }) => {
 
   return (
     <PageTransition>
-      <div className="w-full h-screen grid place-items-center">
-        <div className="w-[350px] md:w-[450px] flex justify-center flex-col items-center ">
-          <h2 className="text-5xl my-5 uppercase font-bold text-custom-heading-color">
-            Registration
-          </h2>
-          <form
-            className="bg-white w-full shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded px-4 md:px-8 pt-6 pb-8 mb-4"
-            ref={ref}
-            onSubmit={handleSubmit}
-          >
-            {error.credentials && (
-              <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
-                {error.credentials}!
-              </p>
-            )}
-            {successMsg && successMsg.alreadyexist && (
-              <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
-                {successMsg.alreadyexist}!
-              </p>
-            )}
-            {successMsg && successMsg.success && (
-              <p className="text-green-500 font-bold text-sm mb-4 border border-green-500 p-2 rounded">
-                {successMsg.success}!
-              </p>
-            )}
+      <div className="flex justify-center flex-col items-center ">
+        <h2 className="text-5xl my-5 uppercase font-bold text-custom-heading-color">
+          Registration
+        </h2>
+        <form
+          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[65%] mx-auto"
+          ref={ref}
+        >
+          {error.credentials && (
+            <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
+              {error.credentials}!
+            </p>
+          )}
+          {successMsg && successMsg.alreadyexist && (
+            <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
+              {successMsg.alreadyexist}!
+            </p>
+          )}
+          {successMsg && successMsg.success && (
+            <p className="text-green-500 font-bold text-sm mb-4 border border-green-500 p-2 rounded">
+              {successMsg.success}!
+            </p>
+          )}
 
+          <div className="flex justify-center items-center">
+            <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color">
+              Your FBA Profile Information
+            </h2>
+          </div>
+
+          <div className="flex gap-2">
             {/* First Name */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="firstname"
@@ -222,7 +226,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Last Name */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="lastname"
@@ -246,9 +250,10 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+            {/* Last Name */}
 
             {/* Email */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="email"
@@ -272,35 +277,11 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
-            {/* Website URL */}
-            <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="websiteurl"
-              >
-                Website URL
-              </label>
-              <input
-                className={`shadow appearance-none ${
-                  error.websiteurl ? "border-red-500" : ""
-                } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                name="websiteurl"
-                id="websiteurl"
-                type="url"
-                placeholder="Website URL"
-                value={formFields.websiteurl}
-                onChange={handleInputChange}
-              />
-              {error.websiteurl && (
-                <p className="text-red-500 text-xs italic mt-2">
-                  {error.websiteurl}
-                </p>
-              )}
-            </div>
-
+          <div className="flex gap-2">
             {/* LinkedIn URL */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="linkedinurl"
@@ -326,7 +307,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Meeting Link */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="meetinglink"
@@ -350,9 +331,68 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+            {/* Website URL */}
+            <div className="mb-4 w-full">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="websiteurl"
+              >
+                Website URL
+              </label>
+              <input
+                className={`shadow appearance-none ${
+                  error.websiteurl ? "border-red-500" : ""
+                } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                name="websiteurl"
+                id="websiteurl"
+                type="url"
+                placeholder="Website URL"
+                value={formFields.websiteurl}
+                onChange={handleInputChange}
+              />
+              {error.websiteurl && (
+                <p className="text-red-500 text-xs italic mt-2">
+                  {error.websiteurl}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="flex justify-around">
+            <div class="w-full max-w-xs items-center gap-1.5">
+              <label class="text-sm text-custom-heading-color font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Profile Picture
+              </label>
+              <input
+                onChange={handleInputChange}
+                name="profileimage"
+                class="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
+                type="file"
+                id="picture"
+              />
+            </div>
+            <div class="w-full max-w-xs items-center gap-1.5">
+              <label class="text-sm text-custom-heading-color font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                Cover Picture
+              </label>
+              <input
+                onChange={handleInputChange}
+                name="coverimage"
+                class="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
+                type="file"
+                id="picture"
+              />
+            </div>
+          </div>
 
+          <div className="flex justify-center items-center">
+            <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color">
+              Your Company Information
+            </h2>
+          </div>
+
+          <div className="flex gap-2">
             {/* Company Name */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="companyname"
@@ -378,7 +418,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Company Phone Number */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="companyphonenumber"
@@ -404,7 +444,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Company Address */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="companyaddress"
@@ -428,9 +468,11 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
+          <div className="flex gap-2">
             {/* City */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="city"
@@ -452,9 +494,8 @@ const Registration = ({ setIfLogin }) => {
                 <p className="text-red-500 text-xs italic mt-2">{error.city}</p>
               )}
             </div>
-
             {/* Zip/Postal Code */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="zippostalcode"
@@ -480,7 +521,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Unit/Suite */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="unitsuite"
@@ -504,9 +545,11 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
+          <div className="flex gap-2">
             {/* Notes */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="notes"
@@ -530,9 +573,10 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
-
+          </div>
+          <div>
             {/* Short Description */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="shortdescription"
@@ -556,9 +600,16 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
+          <div className="flex justify-center items-center">
+            <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color">
+              Your Experience
+            </h2>
+          </div>
+          <div className="flex gap-2">
             {/* Consulting */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="consulting"
@@ -584,7 +635,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Franchise Industry Focus */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="franchiseindustryfocus"
@@ -608,9 +659,10 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
-
+          </div>
+          <div className="flex gap-2">
             {/* Business Broker */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="businessbroker"
@@ -636,7 +688,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Registered In */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="registeredin"
@@ -660,87 +712,43 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
-
             {/* Open For Group */}
-            <div className="mb-4">
+            <div className="mb-4 w-full flex flex-col items-center justify-center">
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className=" text-gray-700 text-sm font-bold mb-2 flex items-center"
                 htmlFor="openforgroup"
               >
+                {" "}
+                <input
+                  className={`shadow appearance-none ${
+                    error.openforgroup ? "border-red-500" : ""
+                  } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+                  name="openforgroup"
+                  id="openforgroup"
+                  type="checkbox"
+                  placeholder="Open For Group"
+                  value={formFields.openforgroup}
+                  onChange={handleInputChange}
+                />
                 Open For Group
               </label>
-              <input
-                className={`shadow appearance-none ${
-                  error.openforgroup ? "border-red-500" : ""
-                } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                name="openforgroup"
-                id="openforgroup"
-                type="text"
-                placeholder="Open For Group"
-                value={formFields.openforgroup}
-                onChange={handleInputChange}
-              />
+
               {error.openforgroup && (
                 <p className="text-red-500 text-xs italic mt-2">
                   {error.openforgroup}
                 </p>
               )}
             </div>
+          </div>
 
-            {/* Password */}
-            <div className="mb-6">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="password"
-              >
-                Password
-              </label>
-              <input
-                className={`shadow appearance-none border ${
-                  error.password ? "border-red-500" : ""
-                } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
-                id="password"
-                name="password"
-                type="password"
-                placeholder="******************"
-                value={formFields.password}
-                onChange={handleInputChange}
-              />
-              {error.password && (
-                <p className="text-red-500 text-xs italic mt-2">
-                  {error.password}
-                </p>
-              )}
-            </div>
-
-            {/* Confirm Password */}
-            <div className="mb-6">
-              <label
-                className="block text-gray-700 text-sm font-bold mb-2"
-                htmlFor="confirmpassword"
-              >
-                Confirm Password
-              </label>
-              <input
-                className={`shadow appearance-none border ${
-                  error.confirmpassword ? "border-red-500" : ""
-                } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
-                id="confirmpassword"
-                name="confirmpassword"
-                type="password"
-                placeholder="******************"
-                value={formFields.confirmpassword}
-                onChange={handleInputChange}
-              />
-              {error.confirmpassword && (
-                <p className="text-red-500 text-xs italic mt-2">
-                  {error.confirmpassword}
-                </p>
-              )}
-            </div>
-
+          <div className="flex justify-center items-center">
+            <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color">
+              Your Settings
+            </h2>
+          </div>
+          <div className="flex gap-2">
             {/* Territory Check */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="territorycheck"
@@ -764,9 +772,8 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
-
             {/* Disable Logo */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="disablelogo"
@@ -792,7 +799,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Disable Cover */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="disablecover"
@@ -816,9 +823,11 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
+          <div className="flex gap-2">
             {/* Disable Profile */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="disableprofile"
@@ -844,7 +853,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Disable Bio */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="disablebio"
@@ -868,9 +877,8 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
-
             {/* Hide Name */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="hidename"
@@ -894,9 +902,11 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
+          <div className="flex gap-2">
             {/* Broker */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="broker"
@@ -920,9 +930,8 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
-
             {/* All Candidates */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="allcandidates"
@@ -948,7 +957,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* All Past Client */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="allpastclient"
@@ -972,9 +981,11 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
+          <div className="flex gap-2">
             {/* Share Franchise */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="sharefranchise"
@@ -1000,7 +1011,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Lead Email */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="leademail"
@@ -1024,9 +1035,8 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
-
             {/* FBA Badges */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="fbabadges"
@@ -1050,9 +1060,10 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
-
+          </div>
+          <div className="flex gap-2">
             {/* Phone 2 */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="phone2"
@@ -1076,9 +1087,8 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
-
             {/* Phone 3 */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="phone3"
@@ -1104,7 +1114,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Secondary Email */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="secondaryemail"
@@ -1128,9 +1138,11 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
+          <div className="flex gap-2">
             {/* Final Step */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="finalstep"
@@ -1156,7 +1168,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Final Notes */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="finalnotes"
@@ -1180,9 +1192,11 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
+          <div className="flex gap-2">
             {/* Business Entity */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="businessentity"
@@ -1208,7 +1222,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Business Phone */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="businessphone"
@@ -1232,9 +1246,11 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
+          <div className="flex gap-2">
             {/* Team ID */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="teamid"
@@ -1260,7 +1276,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Group Leader */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="groupleader"
@@ -1286,7 +1302,7 @@ const Registration = ({ setIfLogin }) => {
             </div>
 
             {/* Billing Email */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label
                 className="block text-gray-700 text-sm font-bold mb-2"
                 htmlFor="billingemail"
@@ -1310,24 +1326,78 @@ const Registration = ({ setIfLogin }) => {
                 </p>
               )}
             </div>
+          </div>
 
-            {/* Button */}
-            <div className="flex items-center justify-between">
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="submit"
+          <div className="flex gap-2">
+            {/* Password */}
+            <div className="mb-4 w-full">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="password"
               >
-                Sign Up
-              </button>
-              <Link
-                to="/"
-                className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-              >
-                Already have an account?
-              </Link>
+                Password
+              </label>
+              <input
+                className={`shadow appearance-none border ${
+                  error.password ? "border-red-500" : ""
+                } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
+                id="password"
+                name="password"
+                type="password"
+                placeholder="******************"
+                value={formFields.password}
+                onChange={handleInputChange}
+              />
+              {error.password && (
+                <p className="text-red-500 text-xs italic mt-2">
+                  {error.password}
+                </p>
+              )}
             </div>
-          </form>
-        </div>
+            {/* Confirm Password */}
+            <div className="mb-4 w-full">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="confirmpassword"
+              >
+                Confirm Password
+              </label>
+              <input
+                className={`shadow appearance-none border ${
+                  error.confirmpassword ? "border-red-500" : ""
+                } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
+                id="confirmpassword"
+                name="confirmpassword"
+                type="password"
+                placeholder="******************"
+                value={formFields.confirmpassword}
+                onChange={handleInputChange}
+              />
+              {error.confirmpassword && (
+                <p className="text-red-500 text-xs italic mt-2">
+                  {error.confirmpassword}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Button */}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={handleSubmit}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              type="submit"
+            >
+              Sign Up
+            </button>
+            <Link
+              to="/"
+              className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+            >
+              Already have an account?
+            </Link>
+          </div>
+        </form>
       </div>
     </PageTransition>
   );

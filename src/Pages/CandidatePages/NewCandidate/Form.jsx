@@ -1,4 +1,4 @@
-import axios, { formToJSON } from "axios";
+import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -220,10 +220,10 @@ const Form = () => {
           FranchiseInterested: formFields.franchiseinterested ?? "",
           TimeFrame: formFields.timeframe ?? "",
           Status: formFields.status ?? "",
-          PipelineStep: formFields.pipelinestep ?? "",
+          PipelineStep: formFields.pipelinestep ?? "Initial Call Attempt",
           LostReason: formFields.lostreason ?? "",
           CategoryRating: formFields.categoryrating ?? "",
-          AgentUserId: 1,
+          AgentUserId: userDetails.Id,
         };
         console.log(formData);
 
