@@ -13,7 +13,7 @@ const Navbar = () => {
   });
 
   return (
-    <div className="lg:block  relative">
+    <div className="max-md:hidden md:block  relative">
       <div className="menu-broker-container mx-auto">
         <ul id="menu-broker" className="menu">
           <li

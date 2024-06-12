@@ -76,71 +76,130 @@ const Header = ({ mobileActive, setMobileActive }) => {
       ),
     },
   ];
-
-  const isMobile = window.innerWidth < 992 ? true : false;
   return (
-    <motion.nav
+    <motion.header
       initial={{ y: 0 }}
-      animate={{ y: hidden ? "-50%" : 0 }}
-      className=" w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0 gap-3  "
-      id="header-nav"
+      animate={{ y: hidden && window.innerWidth > 768 ? "-50%" : 0 }}
+      id="main-header"
+      className="sticky top-0 z-[999]"
     >
-      <motion.div
-        initial={{ y: 0 }}
-        animate={{ y: hidden ? "-100%" : 0 }}
-        id="navbar-centered"
-        className={`w-full  ${
-          isMobile
-            ? "flex justify-between items-center"
-            : "grid grid-cols-3 px-8"
-        } py-3 `}
+      <nav
+        className=" w-full flex flex-col items-center justify-center text-white bg-custom-dark-blue border-b-2 border-color-custom-dark-blue xl:border-0 gap-3  "
+        id="header-nav"
       >
-        {/* DETAILS */}
-
-        <ul
-          id="info-details-header"
-          className={` flex items-center justify-start   gap-5`}
+        <motion.div
+          initial={{ y: 0 }}
+          animate={{ y: hidden && window.innerWidth > 768 ? "-100%" : 0 }}
+          id="navbar-centered"
+          className="w-full max-md:flex max-md:justify-between max-md:items-center md:grid grid-cols-3 px-8 py-3 "
         >
-          {socials.map((button, index) => (
-            <li key={index} className="flex gap-1 text-sm items-center">
-              {button.svg}
-              <a
-                key={button.text}
-                href={
-                  button.text.includes("mail")
-                    ? "mailto:" + button.text
-                    : "tel:" + button.text
-                }
-              >
-                {button.text}
-              </a>
-            </li>
-          ))}
-        </ul>
+          {/* DETAILS */}
+          <ul
+            id="info-details-header"
+            className="max-md:hidden md:flex items-center justify-start gap-5"
+          >
+            {socials.map((button, index) => (
+              <li key={index} className="flex gap-1 text-sm items-center">
+                {button.svg}
+                <a
+                  key={button.text}
+                  href={
+                    button.text.includes("mail")
+                      ? "mailto:" + button.text
+                      : "tel:" + button.text
+                  }
+                >
+                  {button.text}
+                </a>
+              </li>
+            ))}
+          </ul>
 
-        {/* LOGO */}
-        <Logo />
+          {/* LOGO */}
+          <Logo />
 
-        {/* RIGHT SIDE BUTTONS CONTAINER */}
-        <RightSideButtonsContainer
-          mobileActive={mobileActive}
-          setMobileActive={setMobileActive}
-        />
-      </motion.div>
+          {/* RIGHT SIDE BUTTONS CONTAINER */}
+          <RightSideButtonsContainer
+            mobileActive={mobileActive}
+            setMobileActive={setMobileActive}
+          />
+        </motion.div>
 
-      <Navbar />
-    </motion.nav>
+        <Navbar />
+      </nav>
+    </motion.header>
   );
 };
 
 const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
-  const count = useSelector((state) => state.counter.value);
-
-  const isMobile = window.innerWidth < 992 ? true : false;
-  const [active, setActive] = useState(false);
   const { ifLogin, setIfLogin, userDetails } = useContext(MyContext);
 
+  return (
+    <div className="sm:flex sm:justify-end sm:items-start sm:pt-1 sm:gap-5">
+      {/* button appointment */}
+      <button className="max-sm:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color hover:text-white transition-all duration-150 bg-white text-custom-heading-color px-10  text-sm h-10">
+        Book an appointment
+      </button>
+
+      {/* cart icon */}
+      <CartIcon />
+
+      {/* USER BUTTON */}
+      <AccountDD
+        ifLogin={ifLogin}
+        userDetails={userDetails}
+        setIfLogin={setIfLogin}
+      />
+
+      {/* TOGGLE BUTTON */}
+      <ToggleButton
+        setMobileActive={setMobileActive}
+        mobileActive={mobileActive}
+      />
+    </div>
+  );
+};
+
+const CartIcon = () => {
+  const count = useSelector((state) => state.counter.value);
+
+  return (
+    <NavLink
+      to="/checkout"
+      className="relative bg-white rounded-full w-10 h-10 md:flex items-center justify-center max-md:hidden"
+    >
+      <div className="-top-1 absolute -right-3">
+        <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
+          {count}
+        </p>
+      </div>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth="1.5"
+        stroke="rgb(0 17 54)"
+        className=" h-6 w-6 z-90"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+        />
+      </svg>
+    </NavLink>
+  );
+};
+
+const AccountDD = ({ ifLogin, userDetails, setIfLogin }) => {
+  const [active, setActive] = useState(false);
   const history = useNavigate();
+
+  const handleLogOut = () => {
+    localStorage.setItem("ifLogin", false);
+    setIfLogin(false);
+    history("/");
+  };
   const elementStyle = active
     ? {
         position: "fixed",
@@ -152,114 +211,58 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
         top: "10px",
       }
     : {};
-
-  const handleLogOut = () => {
-    localStorage.setItem("ifLogin", false);
-    setIfLogin(false);
-    history("/");
-  };
   return (
-    <div
-      className={`${isMobile ? "" : "flex justify-end items-start pt-1 gap-5"}`}
-    >
-      {/* button appointment */}
-      <button
-        className={`${
-          isMobile
-            ? "hidden"
-            : "uppercase font-semibold rounded-full hover:bg-custom-heading-color hover:text-white transition-all duration-150 bg-white text-custom-heading-color px-10  text-sm h-10"
-        } `}
-      >
-        Book an appointment
-      </button>
-      {/* cart icon */}
-      <NavLink
-        to="/checkout"
-        className="relative bg-white rounded-full w-10 h-10 flex items-center justify-center"
-      >
-        <div className="-top-1 absolute -right-3">
-          <p className="flex h-2 w-2 items-center justify-center rounded-full bg-red-500 p-3 text-xs text-white">
-            {count}
-          </p>
-        </div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth="1.5"
-          stroke="rgb(0 17 54)"
-          className=" h-6 w-6 z-90"
+    ifLogin && (
+      <div className="hs-dropdown relative md:inline-flex max-sm:hidden">
+        <button
+          id="user-icon "
+          onClick={() => setActive(!active)}
+          className="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
+          <img
+            src="/images/avatar-placeholder.png"
+            className="w-10 h-10 rounded-full"
           />
-        </svg>
-      </NavLink>
-
-      {/* USER BUTTON */}
-      {ifLogin && (
+        </button>
         <div
-          className={`hs-dropdown relative inline-flex ${
-            isMobile ? "hidden" : ""
-          }`}
+          className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
+          style={elementStyle}
         >
-          <button
-            id="user-icon "
-            onClick={() => setActive(!active)}
-            className="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
-          >
-            <img
-              src="/images/avatar-placeholder.png"
-              className="w-10 h-10 rounded-full"
-            />
-          </button>
-          <div
-            className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
-            style={elementStyle}
-          >
-            <div className="flex flex-col items-start  py-2 px-3">
-              <p className="text-[15px] text-[#333] font-bold">
-                {userDetails
-                  ? userDetails?.FirstName?.charAt(0).toUpperCase() +
-                    userDetails?.FirstName?.slice(1) +
-                    " " +
-                    userDetails?.LastName?.charAt(0).toUpperCase() +
-                    userDetails?.LastName?.slice(1)
-                  : "John Doe"}
-              </p>
-              <p className="text-xs text-gray-500 mt-0.5">
-                {userDetails ? userDetails?.Email : "johndoe23@gmail.com"}
-              </p>
+          <div className="flex flex-col items-start  py-2 px-3">
+            <p className="text-[15px] text-[#333] font-bold">
+              {userDetails
+                ? userDetails?.FirstName?.charAt(0).toUpperCase() +
+                  userDetails?.FirstName?.slice(1) +
+                  " " +
+                  userDetails?.LastName?.charAt(0).toUpperCase() +
+                  userDetails?.LastName?.slice(1)
+                : "John Doe"}
+            </p>
+            <p className="text-xs text-gray-500 mt-0.5">
+              {userDetails ? userDetails?.Email : "johndoe23@gmail.com"}
+            </p>
 
-              <p className="text-xs text-gray-500 mt-0.5">
-                {userDetails ? userDetails?.role : "role"}
-              </p>
-            </div>
-            {/* logout button */}
-            <a
-              className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
-              onClick={handleLogOut}
-            >
-              Log out
-            </a>
-            <a
-              className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
-              onClick={handleLogOut}
-            >
-              Log out
-            </a>
+            <p className="text-xs text-gray-500 mt-0.5">
+              {userDetails ? userDetails?.role : "role"}
+            </p>
           </div>
-        </div>
-      )}
+          {/* logout button */}
+          <NavLink
+            to="/profile"
+            className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
+          >
+            My Profile
+          </NavLink>
 
-      {/* TOGGLE BUTTON */}
-      <ToggleButton
-        setMobileActive={setMobileActive}
-        mobileActive={mobileActive}
-      />
-    </div>
+          <a
+            className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
+            onClick={handleLogOut}
+          >
+            Log out
+          </a>
+        </div>
+      </div>
+    )
   );
 };
 export default Header;

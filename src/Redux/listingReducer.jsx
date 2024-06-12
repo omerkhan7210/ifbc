@@ -7,7 +7,7 @@ const initialState = {
   uuid: localStorage.getItem("uuid") || null,
 };
 
-export const counterSlice = createSlice({
+export const listingReducer = createSlice({
   name: "counter",
   initialState,
   reducers: {
@@ -62,6 +62,6 @@ export const {
   incrementByListing,
   generateUuid,
   decrementByListing,
-} = counterSlice.actions;
+} = listingReducer.actions;
 
-export default counterSlice.reducer;
+export default listingReducer.reducer;

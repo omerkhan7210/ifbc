@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MyContext } from "src/Context/ListingDataContext";
-import { incrementByListing } from "src/Redux/Features/Counter/counterSlice";
+import { incrementByListing } from "src/Redux/listingReducer";
 
 const ListingsColumns = ({ listing, index }) => {
   const { activeListings, setActiveListings, allowed, role } =

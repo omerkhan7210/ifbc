@@ -9,6 +9,9 @@ import { useNavigate } from "react-router-dom";
 const Form = () => {
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const history = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(null);
 
   const states = [
     { value: "AL", text: "Alabama" },
@@ -129,9 +132,6 @@ const Form = () => {
     }
   }, [formFields]);
 
-  const history = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState(null);
   const handleSubmit = async () => {
     setLoading(true);
     const reqFields = [

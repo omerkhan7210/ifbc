@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { useRoutes } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Header from "src/Globals/Header";
 import Footer from "src/Globals/Footer";
@@ -26,22 +21,97 @@ import MainNewCand from "./Pages/CandidatePages/NewCandidate/MainNewCand";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
 import CheckOutForm from "./Pages/CartPage/CheckOutForm";
-import Franchise from "./Pages/GlobalPageSections/Franchise";
 import { useDispatch } from "react-redux";
-import { generateUuid } from "./Redux/Features/Counter/counterSlice";
+import { generateUuid } from "./Redux/listingReducer";
 import Profile from "./Pages/UserAccount/Profile";
 import MainCandidateProfile from "./Pages/CandidatePages/CandidateList/MainCandidateProfile";
 
+const RouteRenderer = ({ isAuthenticated }) => {
+  const authenticatedRoutes = [
+    {
+      path: "/",
+      element: <MainHome />,
+    },
+    {
+      path: "/listings",
+      element: <MainListings />,
+    },
+    {
+      path: "/listings-details/:name",
+      element: <MainDetails />,
+    },
+    {
+      path: "/about",
+      element: <MainAbout />,
+    },
+    {
+      path: "/franchise-owner",
+      element: <FranchiseOwner />,
+    },
+    {
+      path: "/candidate-list",
+      element: (
+        <CandidatesDataContext>
+          <MainCandList />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+      path: "/new-candidate",
+      element: (
+        <CandidatesDataContext>
+          <MainNewCand />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+      path: "/profile",
+      element: (
+        <CandidatesDataContext>
+          <Profile />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+      path: "/candidate-profile/:id",
+      element: (
+        <CandidatesDataContext>
+          <MainCandidateProfile />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+      path: "/checkout",
+      element: <CheckOutForm />,
+    },
+    { path: "*", element: <NotFoundPage /> },
+  ];
+
+  const unauthenticatedRoutes = [
+    {
+      path: "*",
+      element: <Login />,
+    },
+    {
+      path: "/registration",
+      element: <Registration />,
+    },
+  ];
+  const routes = useRoutes(
+    isAuthenticated ? authenticatedRoutes : unauthenticatedRoutes
+  );
+  return routes;
+};
+
 const App = () => {
   const dispatch = useDispatch();
+  const { tCheck, formalRegCheck, ifLogin, loading } = useContext(MyContext);
+  const [mobileActive, setMobileActive] = useState(false);
 
   useEffect(() => {
     dispatch(generateUuid());
   }, [dispatch]);
-  const { tCheck, formalRegCheck, ifLogin, setIfLogin, loading } =
-    useContext(MyContext);
-  const [mobileActive, setMobileActive] = useState(false);
-  const loc = useLocation();
+
   useLayoutEffect(() => {
     if (loading) {
       document.querySelector("html").style.overflowY = "hidden";
@@ -55,71 +125,21 @@ const App = () => {
 
   return (
     <AnimatePresence mode="wait">
-      {ifLogin ? (
+      {ifLogin && (
         <>
-          <header id="main-header" className="sticky top-0 z-[999]">
-            <Header
-              mobileActive={mobileActive}
-              setMobileActive={setMobileActive}
-            />
-            {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
-          </header>
-
-          <Routes key={loc.pathname} location={loc}>
-            <Route path="/listings" element={<MainListings />} />
-            <Route path="/listings-details/:name" element={<MainDetails />} />
-            <Route path="/" element={<MainHome />} />
-            <Route path="/about" element={<MainAbout />} />
-            <Route path="/franchise-owner" element={<FranchiseOwner />} />
-            <Route
-              path="/candidate-list"
-              element={
-                <CandidatesDataContext>
-                  <MainCandList />
-                </CandidatesDataContext>
-              }
-            />
-            <Route
-              path="/new-candidate"
-              element={
-                <CandidatesDataContext>
-                  <MainNewCand />
-                </CandidatesDataContext>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <CandidatesDataContext>
-                  <Profile />
-                </CandidatesDataContext>
-              }
-            />
-            <Route path="/checkout" element={<CheckOutForm />} />
-            <Route
-              path="/candidate-profile/:id"
-              element={
-                <CandidatesDataContext>
-                  <MainCandidateProfile />
-                </CandidatesDataContext>
-              }
-            />
-            <Route path="*" element={<NotFoundPage />} />
-          </Routes>
-
-          <CandidateSideBar />
-
-          {tCheck && <TerritoryCheck />}
-          {formalRegCheck && <FormalReg />}
-          <FLSEmail />
-          <Footer />
+          <Header
+            mobileActive={mobileActive}
+            setMobileActive={setMobileActive}
+          />
+          {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
         </>
-      ) : (
-        <Routes key={loc.pathname} location={loc}>
-          <Route path="*" element={<Login setIfLogin={setIfLogin} />} />
-          <Route path="/registration" element={<Registration />} />
-        </Routes>
       )}
+      <RouteRenderer isAuthenticated={ifLogin} />
+      <CandidateSideBar />
+      {tCheck && <TerritoryCheck />}
+      {formalRegCheck && <FormalReg />}
+      <FLSEmail />
+      {ifLogin && <Footer />}
     </AnimatePresence>
   );
 };

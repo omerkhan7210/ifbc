@@ -17,7 +17,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import DialogBox from "src/Popups/DialogBox";
 import PageTransition from "src/Animations/PageTransition";
-import { decrementByListing } from "src/Redux/Features/Counter/counterSlice";
+import { decrementByListing } from "src/Redux/listingReducer";
 import { twMerge } from "tailwind-merge";
 
 const CheckOutForm = () => {
@@ -37,7 +37,7 @@ const CheckOutForm = () => {
     <PageTransition>
       <div
         id="top-text"
-        className=" relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 min-h-[400px] before:z-10"
+        className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
           background: "url(/images/banners/checkout.jpg)",
           backgroundAttachment: "fixed",
@@ -46,7 +46,7 @@ const CheckOutForm = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="text-7xl text-white font-bold text-center z-20">
+        <h1 className="max-md:text-4xl md:text-7xl text-white font-bold text-center z-20">
           CHECKOUT
         </h1>
       </div>
@@ -538,14 +538,14 @@ const LeftSidebar = ({ cartListings, listings }) => {
 
 const NoListingsFound = () => {
   return (
-    <div className="flex flex-col justify-center items-center gap-6 my-20">
+    <div className="flex flex-col justify-center items-center gap-6 md:my-20 max-md:m-5">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="rgb(0, 17, 54)"
-        className="size-64"
+        className="max-md:size-32 md:size-64"
       >
         <path
           strokeLinecap="round"
@@ -554,7 +554,7 @@ const NoListingsFound = () => {
         />
       </svg>
 
-      <h1 className="text-5xl font-bold text-custom-heading-color">
+      <h1 className="max-md:text-3xl md:text-5xl text-center font-bold text-custom-heading-color">
         NO LISTINGS ADDED TO CART
       </h1>
       <NavLink to="/listings" className="candidate-btn capitalize">

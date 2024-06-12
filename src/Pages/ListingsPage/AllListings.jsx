@@ -138,9 +138,13 @@ const AllListings = () => {
               <ListingsColumns key={index} index={index} listing={listing} />
             ))}
         {!showActiveListings &&
-          paginationListings?.map((listing, index) => (
-            <ListingsColumns key={index} index={index} listing={listing} />
-          ))}
+          paginationListings?.map(
+            (listing, index) =>
+              window.innerWidth < 768 &&
+              index < 10 && (
+                <ListingsColumns key={index} index={index} listing={listing} />
+              )
+          )}
       </div>
       {/* Pagination */}
 

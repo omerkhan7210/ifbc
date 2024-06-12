@@ -130,7 +130,7 @@ const MainListings = () => {
     <PageTransition>
       <div
         id="top-text"
-        className=" relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 min-h-[400px] before:z-10"
+        className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
           background: "url(/images/banners/alllistings.jpg)",
           backgroundAttachment: "fixed",
@@ -139,7 +139,7 @@ const MainListings = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="text-7xl text-white font-bold text-center z-20">
+        <h1 className="max-md:text-4xl md:text-7xl text-white font-bold text-center z-20">
           FRANCHISES SEARCH
         </h1>
       </div>
