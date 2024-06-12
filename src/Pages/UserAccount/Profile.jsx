@@ -22,11 +22,19 @@ const Profile = () => {
       [newName]: value,
     }));
   };
+  const freelancer = [
+    { name: "basit", skills: "react" },
+    { name: "umer", skills: "javascript" },
+    { name: "raza", skills: "wordpres" },
+  ];
+  const filter_freelancer = freelancer.filter((a) => a.skills === "javascript");
+  console.log("freeeeelancer", filter_freelancer);
   return (
     <div
       id="main-profile-section"
-      className="w-full grid grid-cols-12 p-5 gap-5 md:flex h-auto "
+      className="w-full grid grid-cols-12 p-5 gap-5 h-auto "
     >
+      {}
       <LeftSideBar
         formFields={formFields}
         formErrors={formErrors}
@@ -73,14 +81,6 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               className="rounded-full"
             />
           </div>
-          <div id="profile-details-container">
-            <h1 className="candidate-label">Harjeet Tiwana</h1>
-            <h1 className="candidate-label">IFBC.CO</h1>
-            <h1 className="candidate-label">Member Since September 10, 2023</h1>
-            <h1 className="candidate-label border border-custom-dark-blue w-20 px-3">
-              Broker
-            </h1>
-          </div>
         </div>
 
         <div id="language-container" className="h-full w-full py-5">
@@ -90,7 +90,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6 "
             >
               <path
@@ -109,7 +109,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -128,7 +128,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -147,7 +147,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -166,7 +166,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -185,7 +185,7 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
+              stroke="rgb(33, 118, 255)"
               class="size-6"
             >
               <path
@@ -204,8 +204,8 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
-              stroke="blue"
-              class="size-6"
+              stroke="rgb(33, 118, 255)"
+              class="size-16"
             >
               <path
                 stroke-linecap="round"
@@ -222,6 +222,30 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
             <h1 className="icon-text">
               9350 Wilshire Blvd, Suite 203 Wilshire Blvd, Suite 203 Beverly
               Hills, CA 90212
+            </h1>
+          </div>
+          <div>
+            <div className="flex gap-2 ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="rgb(33, 118, 255)"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+
+              <h1 className="icon-text">Member Since September 10, 2023</h1>
+            </div>
+
+            <h1 className="candidate-label border border-custom-dark-blue w-20 px-3">
+              Broker
             </h1>
           </div>
         </div>
@@ -621,10 +645,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
   console.log(listings);
 
   return (
-    <div
-      id="right-sidebar-profile"
-      className=" w-full col-span-9 p-5 h-auto sm:co]"
-    >
+    <div id="right-sidebar-profile" className=" w-full col-span-9 p-5 h-auto">
       <div id="2-column-profile-inputs" className="flex gap-6">
         <div id="left-side-inputs" className="  w-full">
           <h1 className="text-custom-heading-color font-bold text-2xl">
@@ -633,6 +654,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">First Name</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="firstname"
               className="candidate-input"
@@ -642,6 +664,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">Last Name</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="lastname"
               className="candidate-input"
@@ -651,6 +674,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">Email</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="email"
               className="candidate-input"
@@ -660,6 +684,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">Website URL</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="websiteurl"
               className="candidate-input"
@@ -669,6 +694,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">LinkedIn URL</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="linkedinurl"
               className="candidate-input"
@@ -678,6 +704,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           <div className="candidate-sub-childs">
             <p className="candidate-label">Meeting Link</p>
             <input
+              onChange={handleInputChange}
               type="text"
               name="meetinglink"
               className="candidate-input"
