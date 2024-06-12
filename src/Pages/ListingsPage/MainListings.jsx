@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import AllListings from "./AllListings";
 import ListingsFilter from "./Filters/ListingsFilter";
 import { MyContext } from "src/Context/ListingDataContext";
@@ -6,13 +6,11 @@ import SearchingComponent from "./SearchingComponent";
 import PageTransition from "src/Animations/PageTransition";
 import RelatedListings from "src/Globals/RelatedListings";
 
-const ExtraTools = () => {
+const ExtraTools = ({ setShow, show }) => {
   const {
     handleTools,
     activeListings,
     setActiveListings,
-    setTCheck,
-    setformalRegCheck,
     showActiveListings,
     setShowActiveListings,
     paginationListings,
@@ -125,7 +123,20 @@ const ExtraTools = () => {
   );
 };
 
-const MainListings = () => {
+const MainListings = ({ setShow, show }) => {
+  const { loading } = useContext(MyContext);
+
+  useLayoutEffect(() => {
+    if (loading) {
+      document.querySelector("html").style.overflowY = "hidden";
+      document.querySelector("html").style.height = "100%";
+    }
+    if (!loading) {
+      document.querySelector("html").style.overflow = "auto";
+      document.querySelector("html").style.height = "auto";
+    }
+  }, [loading]);
+
   return (
     <PageTransition>
       <div
@@ -148,7 +159,7 @@ const MainListings = () => {
         id="main"
       >
         <div className="col-span-12">
-          <ExtraTools />
+          <ExtraTools setShow={setShow} show={show} />
         </div>
 
         <div

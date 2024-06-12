@@ -131,19 +131,19 @@ const AllListings = () => {
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
       >
         {showActiveListings &&
-          paginationListings &&
           paginationListings
-            .filter((listing) => activeListings?.includes(listing.name))
+            ?.filter((listing) => activeListings?.includes(listing.name))
             .map((listing, index) => (
               <ListingsColumns key={index} index={index} listing={listing} />
             ))}
+
         {!showActiveListings &&
-          paginationListings?.map(
-            (listing, index) =>
-              window.innerWidth < 768 &&
-              index < 10 && (
-                <ListingsColumns key={index} index={index} listing={listing} />
-              )
+          paginationListings?.map((listing, index) =>
+            window.innerWidth < 768 && index < 10 ? (
+              <ListingsColumns key={index} index={index} listing={listing} />
+            ) : (
+              <ListingsColumns key={index} index={index} listing={listing} />
+            )
           )}
       </div>
       {/* Pagination */}

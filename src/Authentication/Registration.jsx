@@ -1,9 +1,8 @@
-import axios from "axios";
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 
-const Registration = ({ setIfLogin }) => {
+const Registration = () => {
   const ref = useRef();
   const [error, setError] = useState({
     username: "",

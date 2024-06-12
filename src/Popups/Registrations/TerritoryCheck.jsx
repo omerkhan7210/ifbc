@@ -3,11 +3,11 @@ import { MyContext } from "src/Context/ListingDataContext";
 import ListingsColumns from "src/Pages/ListingsPage/ListingsColumns";
 import DialogBox from "../DialogBox";
 
-const TerritoryCheck = () => {
+const TerritoryCheck = ({ setShow, show }) => {
   const { activeListings, tCheck, setTCheck, listings } = useContext(MyContext);
   const [active, setActive] = useState("candidate");
   return (
-    <DialogBox>
+    <DialogBox setShow={setShow} show={show}>
       <div
         id="territoryModal"
         className="bg-white overflow-y-scroll h-[500px] rounded-lg shadow-md p-[30px]"

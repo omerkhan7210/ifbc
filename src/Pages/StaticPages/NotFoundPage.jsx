@@ -1,6 +1,5 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import RelatedListings from "src/Globals/RelatedListings";
 
 const NotFoundPage = () => {
   return (
@@ -327,7 +326,6 @@ const NotFoundPage = () => {
           </div>
         </div>
       </div>
-      <RelatedListings />
     </div>
   );
 };

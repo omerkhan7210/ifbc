@@ -1,9 +1,13 @@
 import React, { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { MyContext } from "src/Context/ListingDataContext";
+import DialogBox from "src/Popups/DialogBox";
+import FormatRawDate from "src/Utils/FormatRawDate";
 
 const Profile = () => {
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const userDetails = useSelector((state) => state.counter.userDetails);
 
   const handleInputChange = ({ target: { name, value } }) => {
     const newName = name.toLowerCase().split(" ").join("");
@@ -22,69 +26,63 @@ const Profile = () => {
       [newName]: value,
     }));
   };
-  const freelancer = [
-    { name: "basit", skills: "react" },
-    { name: "umer", skills: "javascript" },
-    { name: "raza", skills: "wordpres" },
-  ];
-  const filter_freelancer = freelancer.filter((a) => a.skills === "javascript");
-  console.log("freeeeelancer", filter_freelancer);
+
   return (
     <div
       id="main-profile-section"
-      className="w-full grid grid-cols-12 p-5 gap-5 h-auto "
+      className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5  "
     >
       {}
       <LeftSideBar
         formFields={formFields}
         formErrors={formErrors}
         handleInputChange={handleInputChange}
+        userDetails={userDetails}
       />
       <RightSideBar
         formFields={formFields}
         formErrors={formErrors}
         handleInputChange={handleInputChange}
+        userDetails={userDetails}
       />
-
-      {/* <div
-        id="main-bottom-container"
-        className=" h-full w-full border border-green-700 p-5 gap-5 col-span-12 flex"
-      >
-        <div
-          id="left-bottom-container"
-          className="border border-green-700 h-[400px] w-full p-5 flex flex-col gap-5"
-        ></div>
-        <div
-          id="right-bottom-container"
-          className="border border-green-700 h-[400px] w-full  p-5 flex flex-col gap-5"
-        ></div>
-      </div> */}
     </div>
   );
 };
 
-const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
+const LeftSideBar = ({
+  formFields,
+  formErrors,
+  handleInputChange,
+  userDetails,
+}) => {
+  const [settingsOn, setSettingsOn] = useState(false);
+  const [expOn, setExpOn] = useState(false);
+  const [dealOn, setDealOn] = useState(false);
   return (
-    <div
-      id="left-sidebar-profile"
-      className=" h-full w-full col-span-3 p-5 flex flex-col gap-5"
-    >
+    <div id="left-sidebar-profile" className=" h-full w-full col-span-3 p-5 ">
       <div
-        id="user-icon-container"
-        className="p-5 w-full col-span-4 flex flex-col "
+        id="user-container"
+        className=" w-full col-span-4 flex flex-col max-md:items-center "
       >
         <div className="flex items-center gap-5">
           <div id="image-container-profile">
             <img
-              src="/images/accounts/harjeet.jpeg"
+              src={
+                userDetails.ProfileImage
+                  ? `/images/uploads/${userDetails.ProfileImage}`
+                  : "/images/avatar-placeholder.png"
+              }
               alt=""
-              className="rounded-full"
+              className="rounded-full w-32 h-32"
             />
           </div>
         </div>
 
-        <div id="language-container" className="h-full w-full py-5">
-          <div className="flex gap-2">
+        <div
+          id="user-details-container"
+          className="h-full w-full flex flex-col  gap-3 py-5"
+        >
+          <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -100,10 +98,12 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               />
             </svg>
 
-            <h1 className="icon-text">Harjeet Tiwana</h1>
+            <h1 className="icon-text">
+              {userDetails.FirstName} {userDetails.LastName}
+            </h1>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -119,10 +119,10 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               />
             </svg>
 
-            <h1 className="icon-text">559-313-1123</h1>
+            <h1 className="icon-text">{userDetails.CompanyPhoneNumber}</h1>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -138,10 +138,10 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               />
             </svg>
 
-            <h1 className="icon-text">ht@ifbc.co</h1>
+            <h1 className="icon-text">{userDetails.Email}</h1>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -157,10 +157,12 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               />
             </svg>
 
-            <h1 className="icon-text">http://www.ifbc.co</h1>
+            <h1 className="icon-text">
+              <a href={userDetails.WebsiteUrl}>{userDetails.WebsiteUrl}</a>
+            </h1>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -175,11 +177,12 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
                 d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
               />
             </svg>
-
-            <h1 className="icon-text">LinkedIn</h1>
+            <h1 className="icon-text">
+              <a href={userDetails.LinkedInUrl}>{userDetails.LinkedInUrl}</a>
+            </h1>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -195,17 +198,20 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               />
             </svg>
 
-            <h1 className="icon-text">Meeting Link</h1>
+            <h1 className="icon-text">
+              {" "}
+              <a href={userDetails.MeetingLink}>{userDetails.MeetingLink}</a>
+            </h1>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="rgb(33, 118, 255)"
-              class="size-16"
+              class="size-6"
             >
               <path
                 stroke-linecap="round"
@@ -219,13 +225,10 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
               />
             </svg>
 
-            <h1 className="icon-text">
-              9350 Wilshire Blvd, Suite 203 Wilshire Blvd, Suite 203 Beverly
-              Hills, CA 90212
-            </h1>
+            <h1 className="icon-text">{userDetails.CompanyAddress}</h1>
           </div>
           <div>
-            <div className="flex gap-2 ">
+            <div className="flex gap-2 items-center ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -241,304 +244,583 @@ const LeftSideBar = ({ formFields, formErrors, handleInputChange }) => {
                 />
               </svg>
 
-              <h1 className="icon-text">Member Since September 10, 2023</h1>
+              <h1 className="icon-text">
+                Member Since {FormatRawDate(userDetails)}
+              </h1>
             </div>
 
-            <h1 className="candidate-label border border-custom-dark-blue w-20 px-3">
+            <h1 className="candidate-label border bg-custom-dark-blue w-full text-white text-center rounded-full px-3 mt-5">
               Broker
             </h1>
           </div>
         </div>
       </div>
-
-      <div id="settings" className="w-full col-span-4 p-4 flex flex-col gap-3">
-        <h1 className="text-custom-heading-color font-bold text-2xl">
-          Your Settings
-        </h1>
-        <div id="password">
-          <div className="candidate-sub-childs">
-            <p className="icon-text">New Password</p>
-            <input
-              onChange={handleInputChange}
-              type="text"
-              placeholder="Create New Password"
-              name="password"
-              className="candidate-input"
-              required
-            />
-          </div>
-        </div>
-
-        <div id="confirmpassword">
-          <div className="candidate-sub-childs">
-            <p className="icon-text">Confirm New Password</p>
-            <input
-              onChange={handleInputChange}
-              type="text"
-              placeholder="Confirm New Password"
-              name="confirmpassword"
-              className="candidate-input"
-              required
-            />
-          </div>
-        </div>
-
-        <div>
-          <input
-            name="territorycheck"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+      {/* profile settings */}
+      <button
+        className="candidate-btn w-full"
+        onClick={() => setSettingsOn(true)}
+      >
+        Edit Settings
+      </button>
+      {settingsOn && (
+        <DialogBox setShow={setSettingsOn} show={settingsOn}>
+          <Settings
+            handleInputChange={handleInputChange}
+            setShow={setSettingsOn}
           />
-          <label htmlFor="default-checkbox" className="font-bold text-sm">
-            Receive an email for each Territory Check or Formal Registration
-            that is sent. (Default is to get a single email receipt for all TC's
-            or FR's that are sent.)
-          </label>
-        </div>
+        </DialogBox>
+      )}
 
-        <h1 className="text-custom-heading-color font-bold text-2xl">
-          System Settings
-        </h1>
-        <h1 className="font-bold text-sm">Client Info Sheet Settings</h1>
+      {/* experience settings */}
+      <button
+        className="candidate-btn w-full mt-5"
+        onClick={() => setExpOn(true)}
+      >
+        Edit Experience
+      </button>
+      {expOn && (
+        <DialogBox setShow={setExpOn} show={expOn}>
+          <Experience
+            handleInputChange={handleInputChange}
+            setShow={setExpOn}
+          />
+        </DialogBox>
+      )}
 
-        <div className="flex items-center">
-          <input
-            name="disablelogo"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+      {/* deal and activity settings */}
+      <button
+        className="candidate-btn w-full mt-5"
+        onClick={() => setDealOn(true)}
+      >
+        Edit Deal and Activity Settings
+      </button>
+      {expOn && (
+        <DialogBox setShow={setDealOn} show={dealOn}>
+          <DealActivity
+            handleInputChange={handleInputChange}
+            setShow={setDealOn}
           />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500"
-          >
-            Disable logo on client sheet
-          </label>
-        </div>
-        <div className="flex items-center">
-          <input
-            name="disablecover"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Disable Cover Sheet
-          </label>
-        </div>
-        <div className="flex items-center">
-          <input
-            name="disableprofile"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Disable profile image on client sheet
-          </label>
-        </div>
-        <div className="flex items-center">
-          <input
-            name="disablebio"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Disable Bio sheet
-          </label>
-        </div>
-        <div className="flex items-center">
-          <input
-            name="hidename"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Hide my name on the leaderboard
-          </label>
-        </div>
-
-        <h1 className="text-custom-heading-color font-bold text-2xl">
-          Candidates and CoBroker Settings
-        </h1>
-        <div className="candidate-sub-childs">
-          <p className="ms-2 text-sm font-bold text-slate-500">
-            Share all candidates w/ sub accounts
-          </p>
-          <select
-            id="countries"
-            className="candidate-input p-3"
-            name="broker"
-            onChange={handleInputChange}
-          >
-            <option selected>Select Stage</option>
-            <option value="US">Search for broker</option>
-          </select>
-        </div>
-
-        <div className="flex items-center">
-          <input
-            name="allcandidates"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Share all candidates with sub-accounts
-          </label>
-        </div>
-
-        <div className="flex items-center">
-          <input
-            name="allpastclient"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Share all past client
-          </label>
-        </div>
-        <h2 className="font-bold italic text-sm mt-2">
-          By default only new client will be shared with your co-brokers. In
-          order to share all your past candidates check the box above and click
-          save.
-        </h2>
-
-        <div className="flex items-center">
-          <input
-            name="sharefranchise"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Share all private franchise notes with sub-accounts
-          </label>
-        </div>
-
-        <h1 className="text-custom-heading-color font-bold text-2xl">
-          System Integrations
-        </h1>
-
-        <div className="candidate-sub-childs" id="leademail">
-          <p className="icon-text">FBAMembers.com Lead Email</p>
-          <input
-            name="leademail"
-            onChange={handleInputChange}
-            type="text"
-            readOnly
-            placeholder="aa7ba8cbc02ffe5d77ad0a9fe4d815bf@reply.fbamembers.com"
-            className="candidate-input"
-            required
-          />
-        </div>
-
-        <div className="candidate-sub-childs" id="leadendpoint">
-          <p className="icon-text">Hubspot Lead Endpoint</p>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            readOnly
-            placeholder="https://fbamembers.com/hubspot-contact/RDZpMzBGTEppb1htQ1VoWUdaMk1Udz09"
-            name="leadendpoint"
-            className="candidate-input"
-            required
-          />
-        </div>
-        <h1 className="text-custom-heading-color font-bold text-2xl">
-          Communication Settings
-        </h1>
-        <p className="ms-2 text-sm font-bold text-slate-500">
-          FBA Certification and Badges
-        </p>
-        <div className="flex items-center">
-          <input
-            name="fbabadges"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Include your FBA badges and certificate in your signature.
-          </label>
-        </div>
-        <p className="icon-text">Signature:</p>
-        <div id="musicbtn">
-          <button type="submit" className="candidate-btn inline-flex">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="size-5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z"
-              />
-            </svg>
-            ADD MEDIA
-          </button>
-        </div>
-      </div>
-
-      {/* <div
-        id="other-accounts-container"
-        className="border border-red-400 h-[600px]  w-full col-span-4 shadow-2xl"
-      ></div> */}
+        </DialogBox>
+      )}
     </div>
   );
 };
+
+const Settings = ({ handleInputChange, setShow }) => {
+  return (
+    <div id="settings" className="w-full col-span-4 p-8 flex flex-col gap-3">
+      <button
+        className="absolute top-5 right-10"
+        onClick={() => setShow(false)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="red"
+          className="size-9"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+      </button>
+      <h1 className="text-custom-heading-color font-bold text-2xl">
+        Your Settings
+      </h1>
+      <div id="password">
+        <div className="candidate-sub-childs">
+          <p className="icon-text">New Password</p>
+          <input
+            onChange={handleInputChange}
+            type="text"
+            placeholder="Create New Password"
+            name="password"
+            className="candidate-input"
+            required
+          />
+        </div>
+      </div>
+
+      <div id="confirmpassword">
+        <div className="candidate-sub-childs">
+          <p className="icon-text">Confirm New Password</p>
+          <input
+            onChange={handleInputChange}
+            type="text"
+            placeholder="Confirm New Password"
+            name="confirmpassword"
+            className="candidate-input"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <input
+          name="territorycheck"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label htmlFor="default-checkbox" className="font-bold text-sm">
+          Receive an email for each Territory Check or Formal Registration that
+          is sent. (Default is to get a single email receipt for all TC's or
+          FR's that are sent.)
+        </label>
+      </div>
+
+      <h1 className="text-custom-heading-color font-bold text-2xl">
+        System Settings
+      </h1>
+      <h1 className="font-bold text-sm">Client Info Sheet Settings</h1>
+
+      <div className="flex items-center">
+        <input
+          name="disablelogo"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500"
+        >
+          Disable logo on client sheet
+        </label>
+      </div>
+      <div className="flex items-center">
+        <input
+          name="disablecover"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Disable Cover Sheet
+        </label>
+      </div>
+      <div className="flex items-center">
+        <input
+          name="disableprofile"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Disable profile image on client sheet
+        </label>
+      </div>
+      <div className="flex items-center">
+        <input
+          name="disablebio"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Disable Bio sheet
+        </label>
+      </div>
+      <div className="flex items-center">
+        <input
+          name="hidename"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Hide my name on the leaderboard
+        </label>
+      </div>
+
+      <h1 className="text-custom-heading-color font-bold text-2xl">
+        Candidates and CoBroker Settings
+      </h1>
+      <div className="candidate-sub-childs">
+        <p className="ms-2 text-sm font-bold text-slate-500">
+          Share all candidates w/ sub accounts
+        </p>
+        <select
+          id="countries"
+          className="candidate-input p-3"
+          name="broker"
+          onChange={handleInputChange}
+        >
+          <option selected>Select Stage</option>
+          <option value="US">Search for broker</option>
+        </select>
+      </div>
+
+      <div className="flex items-center">
+        <input
+          name="allcandidates"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Share all candidates with sub-accounts
+        </label>
+      </div>
+
+      <div className="flex items-center">
+        <input
+          name="allpastclient"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Share all past client
+        </label>
+      </div>
+      <h2 className="font-bold italic text-sm mt-2">
+        By default only new client will be shared with your co-brokers. In order
+        to share all your past candidates check the box above and click save.
+      </h2>
+
+      <div className="flex items-center">
+        <input
+          name="sharefranchise"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Share all private franchise notes with sub-accounts
+        </label>
+      </div>
+
+      <h1 className="text-custom-heading-color font-bold text-2xl">
+        System Integrations
+      </h1>
+
+      <div className="candidate-sub-childs" id="leademail">
+        <p className="icon-text">FBAMembers.com Lead Email</p>
+        <input
+          name="leademail"
+          onChange={handleInputChange}
+          type="text"
+          readOnly
+          placeholder="aa7ba8cbc02ffe5d77ad0a9fe4d815bf@reply.fbamembers.com"
+          className="candidate-input"
+          required
+        />
+      </div>
+
+      <div className="candidate-sub-childs" id="leadendpoint">
+        <p className="icon-text">Hubspot Lead Endpoint</p>
+        <input
+          onChange={handleInputChange}
+          type="text"
+          readOnly
+          placeholder="https://fbamembers.com/hubspot-contact/RDZpMzBGTEppb1htQ1VoWUdaMk1Udz09"
+          name="leadendpoint"
+          className="candidate-input"
+          required
+        />
+      </div>
+      <h1 className="text-custom-heading-color font-bold text-2xl">
+        Communication Settings
+      </h1>
+      <p className="ms-2 text-sm font-bold text-slate-500">
+        FBA Certification and Badges
+      </p>
+      <div className="flex items-center">
+        <input
+          name="fbabadges"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Include your FBA badges and certificate in your signature.
+        </label>
+      </div>
+
+      <div id="musicbtn" className="flex gap-5 items-center">
+        <p className="icon-text">Signature:</p>
+        <button type="submit" className="candidate-secondary-btn inline-flex">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z"
+            />
+          </svg>
+          ADD MEDIA
+        </button>
+      </div>
+
+      <div id="settings-save-btn" className="flex justify-center w-full mt-5">
+        <button
+          type="submit"
+          className="candidate-btn inline-flex w-64 text-center justify-center"
+        >
+          SAVE
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const Experience = ({ handleInputChange, setShow }) => {
+  return (
+    <div id="experience" className="h-auto w-full col-span-8 p-5">
+      <button
+        className="absolute top-5 right-10"
+        onClick={() => setShow(false)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="red"
+          className="size-9"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+      </button>
+      <h1 className="text-custom-heading-color font-bold text-2xl">
+        Your Experience
+      </h1>
+
+      <div className="mt-3">
+        <label className="icon-text mt-2" htmlFor="consulting">
+          Consulting Specialties
+        </label>
+        <select
+          name="consulting"
+          className="candidate-input w-full"
+          id="consulting"
+          onChange={handleInputChange}
+        >
+          <option value="CB">Co-Breaking</option>
+          <option value="EB">Emerging Brands</option>
+          <option value="IF">International Franchises</option>
+          <option value="FS">Financial Services & Analysis</option>
+          ...
+          <option value="FD">Franchise Development</option>
+          <option value="IT">Information Technology</option>
+          <option value="LC">Low Cost Franchises</option>
+          <option value="MS">Management Skills</option>
+          ...
+          <option value="MA">Masters / Area Development</option>
+          <option value="NS">Negotiation Skills</option>
+          <option value="PF">Passive Franchises</option>
+          <option value="PI">Process Improvemnet</option>
+          ...
+          <option value="PM">Project Management</option>
+          ...
+        </select>
+      </div>
+
+      <div className="mt-3">
+        <label className="icon-text" htmlFor="franchiseindustryfocus">
+          Franchise Industry Focus
+        </label>
+        <select
+          name="franchiseindustryfocus"
+          className="candidate-input w-full"
+          id="franchiseindustryfocus"
+          onChange={handleInputChange}
+        >
+          <option value="EB">Emerging Brands</option>
+          <option value="CB">Co-Breaking</option>
+          <option value="IF">International Franchises</option>
+          <option value="FS">Financial Services & Analysis</option>
+          ...
+          <option value="FD">Franchise Development</option>
+          <option value="IT">Information Technology</option>
+          <option value="LC">Low Cost Franchises</option>
+          <option value="MS">Management Skills</option>
+          ...
+          <option value="MA">Masters / Area Development</option>
+          <option value="NS">Negotiation Skills</option>
+          <option value="PF">Passive Franchises</option>
+          <option value="PI">Process Improvemnet</option>
+          ...
+          <option value="PM">Project Management</option>
+          ...
+        </select>
+      </div>
+      <h1 className="text-custom-heading-color font-bold text-lg mt-3">
+        Professions and Registrations
+      </h1>
+      <div className="mt-3 flex items-center">
+        <input
+          name="businessbroker"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Business Broker
+        </label>
+      </div>
+
+      <div className="mt-3">
+        <label className="icon-text" htmlFor="registered">
+          Registered In
+        </label>
+        <select
+          name="registeredin"
+          className="candidate-input w-full"
+          id="registered"
+          onChange={handleInputChange}
+        >
+          <option value="N">None</option>
+          <option value="NY">New York</option>
+          <option value="W">Washington</option>
+          <option value="B">Both</option>
+        </select>
+      </div>
+
+      <div className="mt-3 flex items-center">
+        <input
+          name="openforgroup"
+          onChange={handleInputChange}
+          id="default-checkbox"
+          type="checkbox"
+          defaultValue
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+        />
+        <label
+          htmlFor="default-checkbox"
+          className="ms-2 text-sm font-bold text-slate-500 "
+        >
+          Open for Group
+        </label>
+      </div>
+      <h2 className="font-bold italic text-sm mt-2">
+        The "Open for Group" setting signals your willingness to engage with
+        fellow brokers in a collaborative way. This expresses your willingness
+        to participate in discussions, share insights, and foster cooperation
+        with other brokers.
+      </h2>
+    </div>
+  );
+};
+
+const DealActivity = ({ handleInputChange, setShow }) => {
+  return (
+    <div id="Deal-Activity" className="h-auto w-full col-span-8 p-5">
+      <button
+        className="absolute top-5 right-10"
+        onClick={() => setShow(false)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="red"
+          className="size-9"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+      </button>
+      <h1 className="text-custom-heading-color font-bold text-2xl">
+        Deal Activity
+      </h1>
+      <div className="flex items-center gap-1">
+        <h1 className="icon-text">Franchise Fee:</h1>
+
+        <h1 className="candidate-label text-xl">1</h1>
+      </div>
+      <div className="flex items-center gap-1">
+        <h1 className="icon-text">Deals:</h1>
+        <h1 className="candidate-label text-xl">1</h1>
+      </div>
+      <div className="flex items-center gap-1">
+        <h1 className="icon-text">Units:</h1>
+        <h1 className="candidate-label text-xl">1</h1>
+      </div>
+      <h1 className="text-custom-heading-color font-bold text-2xl">
+        Research Activity
+      </h1>
+      <div className="flex items-center gap-1">
+        <h1 className="icon-text">Territory Checks:</h1>
+        <h1 className="candidate-label text-xl">129</h1>
+      </div>
+      <div className="flex items-center gap-1">
+        <h1 className="icon-text">Formal Registrations:</h1>
+        <h1 className="candidate-label text-xl">25</h1>
+      </div>
+      <button className="candidate-btn mt-3">EDIT YOUR DEALS</button>
+    </div>
+  );
+};
+
 const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
   const states = [
     { value: "AL", text: "Alabama" },
@@ -608,45 +890,9 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
     { value: "YT", text: "Yukon Territory" },
   ];
 
-  const FranchiseIndustryFocus = [
-    { value: "Advertising", label: "Advertising" },
-    { value: "Automotive", label: "Automotive" },
-    { value: "Beauty & Spa", label: "Beauty & Spa" },
-    {
-      value: "Business Management & Coaching",
-      label: "Business Management & Coaching",
-    },
-    { value: "Business Services", label: "Business Services" },
-    {
-      value: "Child Education, STEM & Tutoring",
-      label: "Child Education, STEM & Tutoring",
-    },
-    { value: "Child Services & Products", label: "Child Services & Products" },
-    {
-      value: "Cleaning: Residential & Commercial",
-      label: "Cleaning: Residential & Commercial",
-    },
-    { value: "CT", label: "Computer Technology" },
-    { value: "DS", label: "Distribution Services" },
-    { value: "DC", label: "Dry Cleaning-Laundry" },
-    { value: "FS", label: "Financial Services" },
-    { value: "FT", label: "Fitness" },
-    { value: "FB", label: "Food & Beverage: Restaurant/QSR/Catering" },
-    { value: 15, label: "Food: Coffee/Tea/Smoothies/Sweets" },
-    { value: 16, label: "Food: Stores & Catering" },
-    { value: 17, label: "Health/Medical" },
-    { value: 18, label: "Health/Wellness" },
-    { value: 19, label: "Home Improvement" },
-    { value: 20, label: "Interior/Exterior Design" },
-    { value: 21, label: "Maintenance & Repair" },
-  ];
-
-  const { listings } = useContext(MyContext);
-  console.log(listings);
-
   return (
-    <div id="right-sidebar-profile" className=" w-full col-span-9 p-5 h-auto">
-      <div id="2-column-profile-inputs" className="flex gap-6">
+    <div id="right-sidebar-profile" className=" w-full col-span-9 p-5 ">
+      <div id="2-column-profile-inputs" className="flex max-md:flex-col gap-6">
         <div id="left-side-inputs" className="  w-full">
           <h1 className="text-custom-heading-color font-bold text-2xl">
             Your FBA Profile Information
@@ -818,160 +1064,6 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           className="candidate-input"
           required
         />
-      </div>
-      <div id="experience" className="h-auto w-full col-span-8 p-5">
-        <h1 className="text-custom-heading-color font-bold text-2xl">
-          Your Experience
-        </h1>
-
-        <div className="mt-3">
-          <label className="icon-text mt-2" htmlFor="consulting">
-            Consulting Specialties
-          </label>
-          <select
-            name="consulting"
-            className="candidate-input w-full"
-            id="consulting"
-            onChange={handleInputChange}
-          >
-            <option value="CB">Co-Breaking</option>
-            <option value="EB">Emerging Brands</option>
-            <option value="IF">International Franchises</option>
-            <option value="FS">Financial Services & Analysis</option>
-            ...
-            <option value="FD">Franchise Development</option>
-            <option value="IT">Information Technology</option>
-            <option value="LC">Low Cost Franchises</option>
-            <option value="MS">Management Skills</option>
-            ...
-            <option value="MA">Masters / Area Development</option>
-            <option value="NS">Negotiation Skills</option>
-            <option value="PF">Passive Franchises</option>
-            <option value="PI">Process Improvemnet</option>
-            ...
-            <option value="PM">Project Management</option>
-            ...
-          </select>
-        </div>
-
-        <div className="mt-3">
-          <label className="icon-text" htmlFor="franchiseindustryfocus">
-            Franchise Industry Focus
-          </label>
-          <select
-            name="franchiseindustryfocus"
-            className="candidate-input w-full"
-            id="franchiseindustryfocus"
-            onChange={handleInputChange}
-          >
-            <option value="EB">Emerging Brands</option>
-            <option value="CB">Co-Breaking</option>
-            <option value="IF">International Franchises</option>
-            <option value="FS">Financial Services & Analysis</option>
-            ...
-            <option value="FD">Franchise Development</option>
-            <option value="IT">Information Technology</option>
-            <option value="LC">Low Cost Franchises</option>
-            <option value="MS">Management Skills</option>
-            ...
-            <option value="MA">Masters / Area Development</option>
-            <option value="NS">Negotiation Skills</option>
-            <option value="PF">Passive Franchises</option>
-            <option value="PI">Process Improvemnet</option>
-            ...
-            <option value="PM">Project Management</option>
-            ...
-          </select>
-        </div>
-        <h1 className="text-custom-heading-color font-bold text-lg mt-3">
-          Professions and Registrations
-        </h1>
-        <div className="mt-3 flex items-center">
-          <input
-            name="businessbroker"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Business Broker
-          </label>
-        </div>
-
-        <div className="mt-3">
-          <label className="icon-text" htmlFor="registered">
-            Registered In
-          </label>
-          <select
-            name="registeredin"
-            className="candidate-input w-full"
-            id="registered"
-            onChange={handleInputChange}
-          >
-            <option value="N">None</option>
-            <option value="NY">New York</option>
-            <option value="W">Washington</option>
-            <option value="B">Both</option>
-          </select>
-        </div>
-
-        <div className="mt-3 flex items-center">
-          <input
-            name="openforgroup"
-            onChange={handleInputChange}
-            id="default-checkbox"
-            type="checkbox"
-            defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
-          />
-          <label
-            htmlFor="default-checkbox"
-            className="ms-2 text-sm font-bold text-slate-500 "
-          >
-            Open for Group
-          </label>
-        </div>
-        <h2 className="font-bold italic text-sm mt-2">
-          The "Open for Group" setting signals your willingness to engage with
-          fellow brokers in a collaborative way. This expresses your willingness
-          to participate in discussions, share insights, and foster cooperation
-          with other brokers.
-        </h2>
-      </div>
-      <div id="Deal-Activity" className="h-auto w-full col-span-8 p-5">
-        <h1 className="text-custom-heading-color font-bold text-2xl">
-          Deal Activity
-        </h1>
-        <div className="flex items-center gap-1">
-          <h1 className="icon-text">Franchise Fee:</h1>
-
-          <h1 className="candidate-label text-xl">1</h1>
-        </div>
-        <div className="flex items-center gap-1">
-          <h1 className="icon-text">Deals:</h1>
-          <h1 className="candidate-label text-xl">1</h1>
-        </div>
-        <div className="flex items-center gap-1">
-          <h1 className="icon-text">Units:</h1>
-          <h1 className="candidate-label text-xl">1</h1>
-        </div>
-        <h1 className="text-custom-heading-color font-bold text-2xl">
-          Research Activity
-        </h1>
-        <div className="flex items-center gap-1">
-          <h1 className="icon-text">Territory Checks:</h1>
-          <h1 className="candidate-label text-xl">129</h1>
-        </div>
-        <div className="flex items-center gap-1">
-          <h1 className="icon-text">Formal Registrations:</h1>
-          <h1 className="candidate-label text-xl">25</h1>
-        </div>
-        <button className="candidate-btn mt-3">EDIT YOUR DEALS</button>
       </div>
     </div>
   );

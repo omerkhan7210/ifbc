@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 import { twMerge } from "tailwind-merge";
 
-const TopBar = ({ listingContent }) => {
+const TopBar = ({ listingContent, setShow, show }) => {
   const data = [
     {
       icon: (
@@ -173,7 +173,7 @@ const TopBar = ({ listingContent }) => {
     },
   ];
 
-  const { role, setTCheck, setformalRegCheck } = useContext(MyContext);
+  const { role } = useContext(MyContext);
 
   return (
     <section className="flex flex-col w-full justify-between items-center border-b border-custom-dark-blue/10 mb-4 mt-4 ">

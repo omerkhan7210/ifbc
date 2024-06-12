@@ -76,5 +76,5 @@
   @apply flex flex-col sm:flex-row md:flex-row;
 }
 .icon-text {
-  @apply text-gray-500 font-bold text-lg;
+  @apply text-gray-500 font-bold text-sm;
 }

@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 // Step 1: Create a new context
 export const MyContext = createContext();
@@ -15,29 +16,9 @@ const ListingDataContext = ({ children }) => {
   const [showInfoPopup, setShowInfoPopup] = useState(false);
   const [showComparisonPopup, setShowComparisonPopup] = useState(false);
   const [activeListings, setActiveListings] = useState([]);
-  const [tCheck, setTCheck] = useState(false);
-  const [formalRegCheck, setformalRegCheck] = useState(false);
   const [paginationListings, setPaginationListings] = useState();
-  const [ifLogin, setIfLogin] = useState(
-    JSON.parse(localStorage.getItem("ifLogin")) || false
-  );
-  const userDetailsLS = JSON.parse(localStorage.getItem("userDetails")) || {};
-  const [userDetails, setUserDetails] = useState(userDetailsLS);
-  const [role, setRole] = useState(null);
-  const [allowed, setAllowed] = useState(null);
-
-  useEffect(() => {
-    const role = userDetailsLS.UserType;
-    setRole(role);
-
-    const roleConsultant = role === "C" && "Consultant/Agent";
-    setUserDetails({ ...userDetails, role: roleConsultant });
-    const allowed =
-      role === "C" || role === "M" || role === "A" || role === "O"
-        ? true
-        : false;
-    setAllowed(allowed);
-  }, [role]);
+  const userDetails = useSelector((state) => state.counter.userDetails);
+  const ifLogin = useSelector((state) => state.counter.ifLogin);
 
   const handleTools = (event) => {
     const value = event.target.value;
@@ -76,6 +57,7 @@ const ListingDataContext = ({ children }) => {
   return (
     <MyContext.Provider
       value={{
+        userDetails,
         setShowComparisonPopup,
         setShowInfoPopup,
         showInfoPopup,
@@ -87,10 +69,6 @@ const ListingDataContext = ({ children }) => {
         showEmailPopup,
         activeListings,
         setActiveListings,
-        tCheck,
-        setTCheck,
-        formalRegCheck,
-        setformalRegCheck,
         filters,
         setFilters,
         showActiveListings,
@@ -98,11 +76,6 @@ const ListingDataContext = ({ children }) => {
         paginationListings,
         setPaginationListings,
         ifLogin,
-        setIfLogin,
-        userDetails,
-        setUserDetails,
-        role,
-        allowed,
       }}
     >
       {children}

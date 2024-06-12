@@ -28,7 +28,7 @@ const RelatedListings = () => {
     </div>
   ) : (
     <section className="hidden md:block bg-custom-dark-blue/15 p-12">
-      <h2 className="font-bold font-poppins text-6xl uppercase mb-4 text-custom-heading-color  text-center mt-0">
+      <h2 className="font-bold font-poppins text-5xl capitalize mb-4 text-custom-heading-color  text-center mt-0">
         Featured Franchises
       </h2>
 

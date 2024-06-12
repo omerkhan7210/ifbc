@@ -6,6 +6,7 @@ import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { MyContext } from "src/Context/ListingDataContext";
 import ToggleButton from "./ToggleButton";
 import { useSelector } from "react-redux";
+import { setIfLogin } from "src/Redux/listingReducer";
 const Logo = () => {
   return (
     <Link
@@ -132,7 +133,7 @@ const Header = ({ mobileActive, setMobileActive }) => {
 };
 
 const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
-  const { ifLogin, setIfLogin, userDetails } = useContext(MyContext);
+  const { ifLogin, userDetails } = useContext(MyContext);
 
   return (
     <div className="sm:flex sm:justify-end sm:items-start sm:pt-1 sm:gap-5">
@@ -145,11 +146,7 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
       <CartIcon />
 
       {/* USER BUTTON */}
-      <AccountDD
-        ifLogin={ifLogin}
-        userDetails={userDetails}
-        setIfLogin={setIfLogin}
-      />
+      <AccountDD ifLogin={ifLogin} userDetails={userDetails} />
 
       {/* TOGGLE BUTTON */}
       <ToggleButton
@@ -191,13 +188,14 @@ const CartIcon = () => {
   );
 };
 
-const AccountDD = ({ ifLogin, userDetails, setIfLogin }) => {
+const AccountDD = ({ userDetails, ifLogin }) => {
   const [active, setActive] = useState(false);
   const history = useNavigate();
 
   const handleLogOut = () => {
     localStorage.setItem("ifLogin", false);
-    setIfLogin(false);
+    localStorage.removeItem("userDetails");
+    dispatch(setIfLogin(false));
     history("/");
   };
   const elementStyle = active
@@ -220,7 +218,11 @@ const AccountDD = ({ ifLogin, userDetails, setIfLogin }) => {
           className="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
         >
           <img
-            src="/images/avatar-placeholder.png"
+            src={
+              userDetails.ProfileImage
+                ? `/images/uploads/${userDetails.ProfileImage}`
+                : "/images/avatar-placeholder.png"
+            }
             className="w-10 h-10 rounded-full"
           />
         </button>

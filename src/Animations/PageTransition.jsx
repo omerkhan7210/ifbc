@@ -1,18 +1,41 @@
 import { motion } from "framer-motion";
-import { document } from "postcss";
-import { useEffect, useLayoutEffect } from "react";
-import { useContext } from "react";
+import { useState } from "react";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 import ScrollToTop from "src/Globals/ScrollToTop";
 
 const PageTransition = ({ children }) => {
-  const { loading } = useContext(MyContext);
+  const { loading } = useContext(MyContext) || { loading: false }; // Default to false if loading is undefined
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setError(true);
+    }, 8000);
+
+    if (!loading) {
+      clearTimeout(timer);
+    }
+
+    return () => clearTimeout(timer);
+  }, [loading]);
+
+  useEffect(() => {
+    if (error) {
+      document.querySelector("html").style.overflow = "auto";
+      document.querySelector("html").style.height = "auto";
+
+      navigate("/error");
+    }
+  }, [error, navigate]);
   const variants = {
     initial: {
       scaleY: 0,
     },
     animate: {
-      scaleY: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
+      scaleY: loading && loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
       //scaleY: [0, 1, 1, 0],
     },
   };

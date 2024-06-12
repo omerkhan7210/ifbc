@@ -8,7 +8,7 @@ import {
 const DialogBox = ({ children, show, setShow }) => {
   return (
     <Transition show={show}>
-      <Dialog className="relative z-10" onClose={setShow}>
+      <Dialog className="relative z-[9999999999999999]" onClose={setShow}>
         <TransitionChild
           enter="ease-out duration-300"
           enterFrom="opacity-0"

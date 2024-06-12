@@ -3,14 +3,12 @@ import { MyContext } from "src/Context/ListingDataContext";
 import ListingsColumns from "src/Pages/ListingsPage/ListingsColumns";
 import DialogBox from "../DialogBox";
 import Form from "src/Pages/CandidatePages/NewCandidate/Form";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
 
-const FormalReg = () => {
-  const { activeListings, formalRegCheck, setformalRegCheck, listings } =
-    useContext(MyContext);
-  const [active, setActive] = useState("candidate");
-
+const FormalReg = ({ setShow, show }) => {
+  const { cands } = useContext(MyCandContext);
   return (
-    <DialogBox>
+    <DialogBox setShow={setShow} show={show}>
       <Form />
     </DialogBox>
   );

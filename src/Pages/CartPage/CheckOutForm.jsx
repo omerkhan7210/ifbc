@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
 
@@ -10,7 +10,6 @@ import "swiper/css/scrollbar";
 import { useDispatch, useSelector } from "react-redux";
 import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
-import ListingsColumns from "../ListingsPage/ListingsColumns";
 import { useEffect } from "react";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -21,7 +20,7 @@ import { decrementByListing } from "src/Redux/listingReducer";
 import { twMerge } from "tailwind-merge";
 
 const CheckOutForm = () => {
-  const { listings } = useContext(MyContext);
+  const { listings, loading } = useContext(MyContext);
   const cartListings = useSelector((state) => state.counter.listings);
   const [noCartlistings, setNoCartListings] = useState(true);
 
@@ -32,6 +31,17 @@ const CheckOutForm = () => {
       setNoCartListings(true);
     }
   }, [cartListings]);
+
+  useLayoutEffect(() => {
+    if (loading) {
+      document.querySelector("html").style.overflowY = "hidden";
+      document.querySelector("html").style.height = "100%";
+    }
+    if (!loading) {
+      document.querySelector("html").style.overflow = "auto";
+      document.querySelector("html").style.height = "auto";
+    }
+  }, [loading]);
 
   return (
     <PageTransition>
@@ -51,7 +61,7 @@ const CheckOutForm = () => {
         </h1>
       </div>
       {!noCartlistings ? (
-        <div className="grid grid-cols-12 max-w-7xl mx-auto my-20 gap-10">
+        <div className="max-md:flex max-md:m-6 flex-col-reverse md:grid grid-cols-12 max-w-7xl md:mx-auto md:my-20 gap-10">
           {/* form */}
           <LeftSidebar cartListings={cartListings} listings={listings} />
 
@@ -72,7 +82,7 @@ const ShoppingCart = ({ cartListings, listings }) => {
   return (
     <div id="main-right-container" className="h-full w-full col-span-5">
       <div>
-        <h1 className="text-3xl font-bold capitalize text-custom-heading-color">
+        <h1 className="max-md:text-center text-3xl font-bold capitalize text-custom-heading-color">
           Review Franchises
         </h1>
       </div>
@@ -127,7 +137,7 @@ const ShoppingCart = ({ cartListings, listings }) => {
                   <div
                     onClick={() => dispatch(decrementByListing(listing.DocId))}
                     id="btn-side"
-                    className="sm:px-6 max-sm:absolute max-sm:top-[0px] max-sm:right-[40px] max-sm:rounded-full max-sm:w-16 max-sm:h-16 max-sm:bg-red-700 max-sm:text-white max-sm:flex max-sm:justify-center max-sm:items-center sm:text-red-800 cursor-pointer"
+                    className="sm:px-6 max-sm:absolute max-sm:top-[10px] max-sm:right-[40px] max-sm:rounded-full max-sm:w-8 max-sm:h-8 max-sm:bg-red-700 max-sm:text-white max-sm:flex max-sm:justify-center max-sm:items-center sm:text-red-800 cursor-pointer"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -152,7 +162,7 @@ const ShoppingCart = ({ cartListings, listings }) => {
       {/* btn row */}
       <div
         id="button-container"
-        className="flex max-sm:justify-center sm:justify-start items-center py-5 gap-5 "
+        className="flex max-sm:justify-center sm:justify-center items-center py-5 gap-5 "
       >
         <NavLink
           to="/listings"
@@ -365,7 +375,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
         )}
 
         <div>
-          <h1 className="text-3xl font-bold capitalize text-custom-heading-color">
+          <h1 className="text-3xl font-bold capitalize text-custom-heading-color max-md:text-center">
             Fill in your details
           </h1>
         </div>

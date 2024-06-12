@@ -5,6 +5,8 @@ const initialState = {
   value: JSON.parse(localStorage.getItem("cartListings"))?.length || 0,
   listings: JSON.parse(localStorage.getItem("cartListings")) || [],
   uuid: localStorage.getItem("uuid") || null,
+  ifLogin: JSON.parse(localStorage.getItem("ifLogin")) || false,
+  userDetails: JSON.parse(localStorage.getItem("userDetails")) || null,
 };
 
 export const listingReducer = createSlice({
@@ -12,10 +14,6 @@ export const listingReducer = createSlice({
   initialState,
   reducers: {
     increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
       state.value += 1;
     },
     decrement: (state) => {
@@ -40,8 +38,6 @@ export const listingReducer = createSlice({
         state.listings = state.listings.filter(
           (listing) => listing !== action.payload
         ); // Remove the listing
-
-        // Update localStorage with the new listings array
         localStorage.setItem("cartListings", JSON.stringify(state.listings));
       }
     },
@@ -50,6 +46,16 @@ export const listingReducer = createSlice({
         const newUuid = uuidv4();
         localStorage.setItem("uuid", newUuid);
         state.uuid = newUuid;
+      }
+    },
+    setIfLogin: (state, action) => {
+      state.ifLogin = action.payload;
+    },
+    setUserDetails: (state, action) => {
+      if (state.userDetails) {
+        localStorage.removeItem("userDetails");
+      } else {
+        localStorage.setItem("userDetails", JSON.stringify(action.payload));
       }
     },
   },
@@ -62,6 +68,7 @@ export const {
   incrementByListing,
   generateUuid,
   decrementByListing,
+  setIfLogin,
 } = listingReducer.actions;
 
 export default listingReducer.reducer;

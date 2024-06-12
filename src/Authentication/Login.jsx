@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useContext } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 import { MyContext } from "src/Context/ListingDataContext";
 
-const Login = ({ setIfLogin }) => {
+const Login = () => {
   const ref = useRef();
   const [error, setError] = useState({
     username: "",
@@ -15,7 +16,8 @@ const Login = ({ setIfLogin }) => {
 
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { setUserDetails } = useContext(MyContext);
+  const { userDetails, setUserDetails, setIfLogin } = useContext(MyContext);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -58,13 +60,12 @@ const Login = ({ setIfLogin }) => {
       setLoading(true);
       // Send the POST request using Axios
       const response = await axios.post(url);
-      console.log(response);
 
       if (typeof response.data === "object" && response.status === 200) {
         localStorage.setItem("ifLogin", true);
         setIfLogin(true);
         setLoading(false);
-        setUserDetails(response?.data[0]);
+        dispatch(setUserDetails(response?.data[0]));
         localStorage.setItem("userDetails", JSON.stringify(response?.data[0]));
         history("/");
       } else {

@@ -38,32 +38,6 @@ const ListingsColumns = ({ listing, index }) => {
 
   return (
     <div className="relative">
-      {isActive && (
-        <div
-          className={`container absolute ${
-            isActive ? "" : "left-3 top-1"
-          } w-16 p-4`}
-        >
-          <input
-            type="checkbox"
-            id="cbx2"
-            style={{ display: "none" }}
-            defaultChecked={true}
-          />
-          <label htmlFor="cbx2" className="check scale-150 relative z-50">
-            <svg
-              width="30px"
-              className="border-green-200 border-2 bg-white rounded-full"
-              height="30px"
-              viewBox="0 0 18 18"
-            >
-              <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z" />
-              <polyline points="1 9 7 14 15 4" />
-            </svg>
-          </label>
-        </div>
-      )}
-
       <motion.div
         initial={{
           opacity: 0,
