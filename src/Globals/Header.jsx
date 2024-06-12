@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { MyContext } from "src/Context/ListingDataContext";
 import ToggleButton from "./ToggleButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setIfLogin } from "src/Redux/listingReducer";
 const Logo = () => {
   return (
@@ -191,6 +191,7 @@ const CartIcon = () => {
 const AccountDD = ({ userDetails, ifLogin }) => {
   const [active, setActive] = useState(false);
   const history = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogOut = () => {
     localStorage.setItem("ifLogin", false);

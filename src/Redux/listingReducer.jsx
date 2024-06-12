@@ -49,13 +49,17 @@ export const listingReducer = createSlice({
       }
     },
     setIfLogin: (state, action) => {
+      localStorage.setItem("ifLogin", action.payload);
+
       state.ifLogin = action.payload;
     },
     setUserDetails: (state, action) => {
-      if (state.userDetails) {
-        localStorage.removeItem("userDetails");
-      } else {
+      if (action.payload) {
+        state.userDetails = action.payload;
         localStorage.setItem("userDetails", JSON.stringify(action.payload));
+      } else {
+        state.userDetails = null;
+        localStorage.removeItem("userDetails");
       }
     },
   },
@@ -69,6 +73,7 @@ export const {
   generateUuid,
   decrementByListing,
   setIfLogin,
+  setUserDetails,
 } = listingReducer.actions;
 
 export default listingReducer.reducer;

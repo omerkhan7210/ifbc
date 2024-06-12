@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 import { MyContext } from "src/Context/ListingDataContext";
+import { setIfLogin, setUserDetails } from "src/Redux/listingReducer";
 
 const Login = () => {
   const ref = useRef();
@@ -16,7 +17,6 @@ const Login = () => {
 
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { userDetails, setUserDetails, setIfLogin } = useContext(MyContext);
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
@@ -62,11 +62,9 @@ const Login = () => {
       const response = await axios.post(url);
 
       if (typeof response.data === "object" && response.status === 200) {
-        localStorage.setItem("ifLogin", true);
-        setIfLogin(true);
         setLoading(false);
+        dispatch(setIfLogin(true));
         dispatch(setUserDetails(response?.data[0]));
-        localStorage.setItem("userDetails", JSON.stringify(response?.data[0]));
         history("/");
       } else {
         setError({
