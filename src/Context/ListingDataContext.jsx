@@ -12,6 +12,7 @@ const ListingDataContext = ({ children }) => {
   const [filters, setFilters] = useState(null);
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState();
+  const [loadingError, setLoadingError] = useState(false);
   const [showEmailPopup, setShowEmailPopup] = useState(false);
   const [showInfoPopup, setShowInfoPopup] = useState(false);
   const [showComparisonPopup, setShowComparisonPopup] = useState(false);
@@ -54,6 +55,7 @@ const ListingDataContext = ({ children }) => {
       })
       .catch((error) => {
         // Handle error
+        setLoadingError(true);
         console.error("Error fetching data:", error);
       });
   }, []); // Empty dependency array to run once on component mount
@@ -68,6 +70,7 @@ const ListingDataContext = ({ children }) => {
         showComparisonPopup,
         listings,
         loading,
+        loadingError,
         handleTools,
         setShowEmailPopup,
         showEmailPopup,

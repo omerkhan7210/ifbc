@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { generateUuid } from "./Redux/listingReducer";
 import Profile from "./Pages/UserAccount/Profile";
 import MainCandidateProfile from "./Pages/CandidatePages/CandidateList/MainCandidateProfile";
+import ForgotPassword from "./Authentication/ForgotPassword";
 
 const RouteRenderer = ({ isAuthenticated, show, setShow }) => {
   const authenticatedRoutes = [
@@ -112,6 +113,10 @@ const RouteRenderer = ({ isAuthenticated, show, setShow }) => {
       path: "/registration",
       element: <Registration />,
     },
+    {
+      path: "/forgot-password",
+      element: <ForgotPassword />,
+    },
   ];
   const routes = useRoutes(
     isAuthenticated ? authenticatedRoutes : unauthenticatedRoutes
@@ -131,7 +136,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <AnimatePresence mode="wait">
+    <>
       {ifLogin && (
         <ListingDataContext>
           <Header
@@ -141,8 +146,13 @@ const App = () => {
           {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
         </ListingDataContext>
       )}
-      <RouteRenderer isAuthenticated={ifLogin} setShow={setShow} show={show} />
-
+      <AnimatePresence mode="wait">
+        <RouteRenderer
+          isAuthenticated={ifLogin}
+          setShow={setShow}
+          show={show}
+        />
+      </AnimatePresence>
       <ListingDataContext>
         <CandidateSideBar />
         <TerritoryCheck setShow={setShow} show={show} />
@@ -152,7 +162,7 @@ const App = () => {
         <FLSEmail />
       </ListingDataContext>
       {ifLogin && <Footer />}
-    </AnimatePresence>
+    </>
   );
 };
 

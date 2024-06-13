@@ -2,40 +2,29 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { MyContext } from "src/Context/ListingDataContext";
 import ScrollToTop from "src/Globals/ScrollToTop";
 
 const PageTransition = ({ children }) => {
-  const { loading } = useContext(MyContext) || { loading: false }; // Default to false if loading is undefined
-  const [error, setError] = useState(false);
+  const { loading, loadingError } = useContext(MyContext) ||
+    useContext(MyCandContext) || { loading: false }; // Default to false if loading is undefined
   const navigate = useNavigate();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setError(true);
-    }, 8000);
-
-    if (!loading) {
-      clearTimeout(timer);
-    }
-
-    return () => clearTimeout(timer);
-  }, [loading]);
-
-  useEffect(() => {
-    if (error) {
+    if (loadingError) {
       document.querySelector("html").style.overflow = "auto";
       document.querySelector("html").style.height = "auto";
 
       navigate("/error");
     }
-  }, [error, navigate]);
+  }, [loadingError, navigate]);
   const variants = {
     initial: {
       scaleY: 0,
     },
     animate: {
-      scaleY: loading && loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
+      scaleY: loading ? [0, 1, 1, 1] : [0, 1, 1, 0],
       //scaleY: [0, 1, 1, 0],
     },
   };

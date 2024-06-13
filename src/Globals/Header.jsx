@@ -7,6 +7,7 @@ import { MyContext } from "src/Context/ListingDataContext";
 import ToggleButton from "./ToggleButton";
 import { useDispatch, useSelector } from "react-redux";
 import { setIfLogin } from "src/Redux/listingReducer";
+import { useEffect } from "react";
 const Logo = () => {
   return (
     <Link
@@ -133,7 +134,7 @@ const Header = ({ mobileActive, setMobileActive }) => {
 };
 
 const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
-  const { ifLogin, userDetails } = useContext(MyContext);
+  const { ifLogin, userDetails, role } = useContext(MyContext);
 
   return (
     <div className="sm:flex sm:justify-end sm:items-start sm:pt-1 sm:gap-5">
@@ -143,8 +144,8 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
       </button>
 
       {/* cart icon */}
-      <CartIcon />
-
+      {console.log(role)}
+      {role === "N" && <CartIcon />}
       {/* USER BUTTON */}
       <AccountDD ifLogin={ifLogin} userDetails={userDetails} />
 
@@ -192,6 +193,24 @@ const AccountDD = ({ userDetails, ifLogin }) => {
   const [active, setActive] = useState(false);
   const history = useNavigate();
   const dispatch = useDispatch();
+  const { role } = useContext(MyContext);
+  const [roleName, setRoleName] = useState("Member");
+
+  useEffect(() => {
+    if (role) {
+      if (role === "N") {
+        setRoleName("Member");
+      } else if (role === "M") {
+        setRoleName("Ambassador");
+      } else if (role === "O") {
+        setRoleName("Company");
+      } else if (role === "C") {
+        setRoleName("Consultant/Agent");
+      } else if (role === "A") {
+        setRoleName("Admin");
+      }
+    }
+  }, [role]);
 
   const handleLogOut = () => {
     localStorage.setItem("ifLogin", false);
@@ -244,10 +263,7 @@ const AccountDD = ({ userDetails, ifLogin }) => {
             <p className="text-xs text-gray-500 mt-0.5">
               {userDetails ? userDetails?.Email : "johndoe23@gmail.com"}
             </p>
-
-            <p className="text-xs text-gray-500 mt-0.5">
-              {userDetails ? userDetails?.role : "role"}
-            </p>
+            <p className="text-xs text-gray-500 mt-0.5">{roleName}</p>
           </div>
           {/* logout button */}
           <NavLink

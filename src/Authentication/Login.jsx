@@ -152,12 +152,12 @@ const Login = () => {
               >
                 {loading ? "Loading.." : "Sign In"}
               </button>
-              <a
+              <NavLink
                 className="inline-block bg-custom-heading-color text-white hover:bg- focus:outline-none focus:shadow-outline font-semibold text-xs md:text-sm p-2 rounded w-full text-center uppercase"
-                href="#"
+                to="/forgot-password"
               >
                 Forgot Password?
-              </a>
+              </NavLink>
             </div>
 
             <NavLink
