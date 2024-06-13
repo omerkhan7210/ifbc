@@ -3,6 +3,7 @@ import Form from "../NewCandidate/Form";
 
 const CandidateProfileTabs = () => {
   const [activeTab, setActiveTab] = useState("profile");
+
   return (
     <div className="md:flex mt-6">
       {/* Tabs list  */}
@@ -137,6 +138,31 @@ const Activity = ({ activeTab }) => {
   );
 };
 
+const Select = ({ name }) => {
+  return (
+    <div className="mt-2">
+      <div className="mr-4 w-full">
+        <select
+          id={name}
+          name={name}
+          className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+        >
+          <option selected>Select a rating</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
+      </div>
+    </div>
+  );
+};
 const Flscriteria = ({ activeTab }) => {
   return (
     <div
@@ -185,26 +211,7 @@ const Flscriteria = ({ activeTab }) => {
                 <span className="text-black">Advertising</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"advertising"} />
           </div>
           <div className="w-full">
             <div className=" mt-2">
@@ -213,26 +220,7 @@ const Flscriteria = ({ activeTab }) => {
                 <span className="text-black">Automotive</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"automotive"} />
           </div>
         </div>
         <div id="inner1" className="flex w-full">
@@ -243,26 +231,7 @@ const Flscriteria = ({ activeTab }) => {
                 <span className="text-black">Beauty & Spa</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"beautyspa"} />
           </div>
           <div className="w-full">
             <div className=" mt-2">
@@ -273,26 +242,7 @@ const Flscriteria = ({ activeTab }) => {
                 </span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"businessmanagement"} />
           </div>
         </div>
         <div id="inner1" className="flex w-full">
@@ -303,26 +253,7 @@ const Flscriteria = ({ activeTab }) => {
                 <span className="text-black">Business Services</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"businessservices"} />
           </div>
           <div className="w-full">
             <div className=" mt-2">
@@ -333,26 +264,7 @@ const Flscriteria = ({ activeTab }) => {
                 </span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"childeducation"} />
           </div>
         </div>
         <div id="inner1" className="flex w-full">
@@ -363,26 +275,7 @@ const Flscriteria = ({ activeTab }) => {
                 <span className="text-black">Child Services & Products</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"childservices"} />
           </div>
           <div className="w-full">
             <div className=" mt-2">
@@ -393,26 +286,7 @@ const Flscriteria = ({ activeTab }) => {
                 </span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"cleaningresidential"} />
           </div>
         </div>
         <div id="inner1" className="flex w-full">
@@ -423,26 +297,7 @@ const Flscriteria = ({ activeTab }) => {
                 <span className="text-black">Computer Technology</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"computertechnology"} />
           </div>
           <div className="w-full">
             <div className=" mt-2">
@@ -453,26 +308,7 @@ const Flscriteria = ({ activeTab }) => {
                 </span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"ratingdistribution"} />
           </div>
         </div>
         <div id="inner1" className="flex w-full">
@@ -483,26 +319,7 @@ const Flscriteria = ({ activeTab }) => {
                 <span className="text-black">Dry Cleaning-Laundry</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"drycleaning"} />
           </div>
           <div className="w-full">
             <div className=" mt-2">
@@ -511,26 +328,7 @@ const Flscriteria = ({ activeTab }) => {
                 <span className="text-black">Financial Services</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"financialservices"} />
           </div>
         </div>
         <div id="inner1" className="flex w-full">
@@ -541,26 +339,7 @@ const Flscriteria = ({ activeTab }) => {
                 <span className="text-black">Fitness</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={"fitness"} />
           </div>
           <div className="w-full">
             <div className=" mt-2">
@@ -571,26 +350,279 @@ const Flscriteria = ({ activeTab }) => {
                 </span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
+            <Select name={"foodbeverage"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">
+                  Food: Coffee/Tea/Smoothies/Sweets
+                </span>
+              </label>
             </div>
+            <Select name={"foodcoffee"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Food: Stores & Catering</span>
+              </label>
+            </div>
+            <Select name={"foodstores"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Health/Medical</span>
+              </label>
+            </div>
+            <Select name={"healthmedical"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Health/Wellness</span>
+              </label>
+            </div>
+            <Select name={"healthwellness"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Home Improvement</span>
+              </label>
+            </div>
+            <Select name={"homeimprovement"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Interior/Exterior Design</span>
+              </label>
+            </div>
+            <Select name={"design"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Maintenance & Repair</span>
+              </label>
+            </div>
+            <Select name={"maintenance"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">
+                  Moving, Storage & Junk Removal
+                </span>
+              </label>
+            </div>
+            <Select name={"moving"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Painting</span>
+              </label>
+            </div>
+            <Select name={"painting"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Pest Control</span>
+              </label>
+            </div>
+            <Select name={"pestcontrol"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Pet Care & Grooming</span>
+              </label>
+            </div>
+            <Select name={"petcare"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Print, Copy & Mailing</span>
+              </label>
+            </div>
+            <Select name={"print"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Real Estate</span>
+              </label>
+            </div>
+            <Select name={"realstate"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Restoration</span>
+              </label>
+            </div>
+            <Select name={"restoration"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Retail</span>
+              </label>
+            </div>
+            <Select name={"retail"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Security</span>
+              </label>
+            </div>
+            <Select name={"security"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">
+                  Senior Care: Medical/Non-Medical
+                </span>
+              </label>
+            </div>
+            <Select name={"seniorcare"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">
+                  senior-care-medical-non-medical-option
+                </span>
+              </label>
+            </div>
+            <Select name={"seniorcareoption"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Signs</span>
+              </label>
+            </div>
+            <Select name={"signs"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Special Event Planning</span>
+              </label>
+            </div>
+            <Select name={"eventplanning"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Sports & Recreation</span>
+              </label>
+            </div>
+            <Select name={"sportsrecreation"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Staffing</span>
+              </label>
+            </div>
+            <Select name={"staffing"} />
+          </div>
+        </div>
+
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Travel Planning</span>
+              </label>
+            </div>
+            <Select name={"travelplanning"} />
+          </div>
+
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Vending</span>
+              </label>
+            </div>
+            <Select name={"vending"} />
           </div>
         </div>
       </div>
