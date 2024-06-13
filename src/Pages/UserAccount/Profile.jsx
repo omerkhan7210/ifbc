@@ -5,6 +5,9 @@ import { MyCandContext } from "src/Context/CandidatesDataContext";
 import DialogBox from "src/Popups/DialogBox";
 import FormatRawDate from "src/Utils/FormatRawDate";
 import { convertKeysToLowercase } from "src/Utils/ObjectMethods";
+import Uploady, { useUploady } from "@rpldy/uploady";
+import UploadButton from "@rpldy/upload-button";
+import UploadPreview from "@rpldy/upload-preview";
 
 const Profile = () => {
   const [formErrors, setFormErrors] = useState({});
@@ -122,17 +125,23 @@ const Profile = () => {
     >
       {userDetails ? (
         <>
-          <LeftSideBar
-            formFields={formFields}
-            formErrors={formErrors}
-            handleInputChange={handleInputChange}
-            userDetails={userDetails}
-            successMsg={successMsg}
-            handleSubmit={handleSubmit}
-            loading={loading}
-            role={role}
-            haveChanges={haveChanges}
-          />
+          <Uploady
+            destination={{ url: "http://localhost:5173/images/" }}
+            accept="image/*"
+          >
+            <LeftSideBar
+              formFields={formFields}
+              formErrors={formErrors}
+              handleInputChange={handleInputChange}
+              userDetails={userDetails}
+              successMsg={successMsg}
+              handleSubmit={handleSubmit}
+              loading={loading}
+              role={role}
+              haveChanges={haveChanges}
+              setFormFields={setFormFields}
+            />
+          </Uploady>
           <RightSideBar
             formFields={formFields}
             formErrors={formErrors}
@@ -159,6 +168,7 @@ const LeftSideBar = ({
   loading,
   role,
   haveChanges,
+  setFormFields,
 }) => {
   const [settingsOn, setSettingsOn] = useState(false);
   const [expOn, setExpOn] = useState(false);
@@ -181,23 +191,47 @@ const LeftSideBar = ({
     bgcolor = "rgb(247, 152, 36)";
     roleName = "Company";
   }
+
+  const [image, setImage] = useState("");
+
+  // // Function to handle image change
+  // const handleChangeImage = (event) => {
+  //   const selectedImage = event.target.files[0];
+  //   setImage(selectedImage);
+  //   const imageURL = URL.createObjectURL(selectedImage);
+
+  //   // Display the URL
+  //   console.log("Image URL:", imageURL);
+  //   setFormFields((prev) => ({ ...prev, ProfileImage: selectedImage }));
+  // };
+  const uploady = useUploady();
+
+  const handleChangeImage = () => {
+    uploady.showFileUpload();
+  };
   return (
     <div id="left-sidebar-profile" className=" h-full w-full col-span-3 p-5 ">
       <div
         id="user-container"
         className=" w-full col-span-4 flex flex-col max-md:items-center "
       >
-        <div className="flex items-center gap-5">
-          <div id="image-container-profile">
-            <img
-              src={
-                userDetails.ProfileImage
-                  ? `/images/uploads/${userDetails.ProfileImage}`
-                  : "/images/avatar-placeholder.png"
-              }
-              alt=""
-              className="rounded-full w-32 h-32"
-            />
+        <div id="image-container-profile" className="flex items-center gap-5">
+          <div>
+            <label htmlFor="profile-image-upload">
+              <img
+                src={
+                  userDetails.ProfileImage
+                    ? image === ""
+                      ? `/images/uploads/${userDetails.ProfileImage}`
+                      : image
+                    : "/images/avatar-placeholder.png"
+                }
+                alt=""
+                className="rounded-full w-32 h-32 cursor-pointer"
+              />
+              <UploadButton />
+              <UploadPreview />
+            </label>
             <h1
               style={{ background: bgcolor }}
               className="candidate-label  w-full text-white text-center rounded-full px-3 mt-5"

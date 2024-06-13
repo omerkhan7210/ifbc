@@ -26,7 +26,9 @@ const MainCandidateProfile = () => {
       <div className="grid grid-cols-12 gap-10 max-w-7xl   mx-auto my-10">
         {/* card end */}
         <LeftSideCardContainer candDetails={candDetails} />
-        <RightSideDetailsContainer candDetails={candDetails} />
+        <div className="grid md:col-span-9 col-span-12  ">
+          <Form candDetails={candDetails} />
+        </div>
       </div>
     </PageTransition>
   );
@@ -238,8 +240,57 @@ const Activity = ({ setShow }) => {
   );
 };
 const Flscriteria = ({ setShow }) => {
+  const selectData = [
+    { name: "advertising", label: "Advertising" },
+    { name: "automotive", label: "Automotive" },
+    { name: "beautyspa", label: "Beauty & Spa" },
+    { name: "businessmanagement", label: "Business Management & Coaching" },
+    { name: "businessservices", label: "Business Services" },
+    { name: "childeducation", label: "Child Education, STEM & Tutoring" },
+    { name: "childservices", label: "Child Services & Products" },
+    {
+      name: "cleaningresidential",
+      label: "Cleaning: Residential & Commercial",
+    },
+    { name: "computertechnology", label: "Computer Technology" },
+    {
+      name: "ratingdistribution",
+      label: "Select a rating Distribution Services",
+    },
+    { name: "drycleaning", label: "Dry Cleaning-Laundry" },
+    { name: "financialservices", label: "Financial Services" },
+    { name: "fitness", label: "Fitness" },
+    { name: "foodbeverage", label: "Food & Beverage: Restaurant/QSR/Catering" },
+    { name: "foodcoffee", label: "Food: Coffee/Tea/Smoothies/Sweets" },
+    { name: "foodstores", label: "Food: Stores & Catering" },
+    { name: "healthmedical", label: "Health/Medical" },
+    { name: "healthwellness", label: "Health/Wellness" },
+    { name: "homeimprovement", label: "Home Improvement" },
+    { name: "design", label: "Interior/Exterior Design" },
+    { name: "maintenance", label: "Maintenance & Repair" },
+    { name: "moving", label: "Moving, Storage & Junk Removal" },
+    { name: "painting", label: "Painting" },
+    { name: "pestcontrol", label: "Pest Control" },
+    { name: "petcare", label: "Pet Care & Grooming" },
+    { name: "print", label: "Print, Copy & Mailing" },
+    { name: "realstate", label: "Real Estate" },
+    { name: "restoration", label: "Restoration" },
+    { name: "retail", label: "Retail" },
+    { name: "security", label: "Security" },
+    { name: "seniorcare", label: "Senior Care: Medical/Non-Medical" },
+    {
+      name: "seniorcareoption",
+      label: "Senior Care: Medical/Non-Medical Option",
+    },
+    { name: "signs", label: "Signs" },
+    { name: "eventplanning", label: "Special Event Planning" },
+    { name: "sportsrecreation", label: "Sports & Recreation" },
+    { name: "staffing", label: "Staffing" },
+    { name: "travelplanning", label: "Travel Planning" },
+    { name: "vending", label: "Vending" },
+  ];
   return (
-    <div id="fls-criteria" className="candidate-tabs-content p-5">
+    <div id="fls-criteria" className="candidate-tabs-content p-10">
       <button
         className="absolute top-5 right-10"
         onClick={() => setShow(false)}
@@ -259,26 +310,6 @@ const Flscriteria = ({ setShow }) => {
           />
         </svg>
       </button>
-      <div
-        id="container1"
-        className="flex justify-between border-b border-gray-300 pb-4"
-      >
-        <div>
-          <h2 className="text-black font-semibold text-base">
-            Section Settings
-          </h2>
-        </div>
-        <div>
-          <label className='class="flex gap-x-1 items-center mr-6 '>
-            <input type="checkbox" name="Hide Section" />
-            <span className="text-black">Hide Section</span>
-          </label>
-          <label className='class="flex gap-x-1 items-center'>
-            <input type="checkbox" name="Hide Section" />
-            <span className="text-black">Hide Section</span>
-          </label>
-        </div>
-      </div>
 
       <div id="container2" className="py-4 mb-2">
         <h1 className="text-lg text-[#2176ff] font-bold mb-2">
@@ -290,427 +321,49 @@ const Flscriteria = ({ setShow }) => {
         </p>
       </div>
 
-      <div id="container3" className="border-b border-gray-300 py-2">
-        <div id="inner1" className="flex w-full">
-          <div className="w-full mr-4">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
+      <div
+        id="container3"
+        className="border-b border-gray-300  grid grid-cols-2 gap-x-10"
+      >
+        {selectData.map((item, index) => (
+          <div key={index} className="w-full mr-4">
+            <div className="mt-2">
+              <label className="flex gap-x-1 items-center mr-6">
                 <input type="checkbox" name="Hide Section" />
-                <span className="text-black">Advertising</span>
+                <span className="text-black">{item.label}</span>
               </label>
             </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
+            <Select name={item.name} />
           </div>
-          <div className="w-full">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">Automotive</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="inner1" className="flex w-full">
-          <div className="w-full mr-4">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">Beauty & Spa</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="w-full">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">
-                  Business Management & Coaching
-                </span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="inner1" className="flex w-full">
-          <div className="w-full mr-4">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">Business Services</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="w-full">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">
-                  Child Education, STEM & Tutoring
-                </span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="inner1" className="flex w-full">
-          <div className="w-full mr-4">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">Child Services & Products</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="w-full">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">
-                  Cleaning: Residential & Commercial
-                </span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="inner1" className="flex w-full">
-          <div className="w-full mr-4">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">Computer Technology</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="w-full">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">
-                  Select a rating Distribution Services
-                </span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="inner1" className="flex w-full">
-          <div className="w-full mr-4">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">Dry Cleaning-Laundry</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="w-full">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">Financial Services</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="inner1" className="flex w-full">
-          <div className="w-full mr-4">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">Fitness</span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="w-full">
-            <div className=" mt-2">
-              <label className='class="flex gap-x-1 items-center mr-6 '>
-                <input type="checkbox" name="Hide Section" />
-                <span className="text-black">
-                  Food & Beverage: Restaurant/QSR/Catering
-                </span>
-              </label>
-            </div>
-            <div className="mt-2">
-              <div className="mr-4 w-full">
-                <select
-                  id="countries"
-                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-                >
-                  <option selected>Select a rating</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="container4" className="my-4">
+        ))}
         <h1 className="text-lg text-[#2176ff] font-bold">FLS Filters</h1>
         {/* Yahn Tabs Ayainge Fls filtes ke */}
+      </div>
+    </div>
+  );
+};
+
+const Select = ({ name }) => {
+  return (
+    <div className="mt-2">
+      <div className="mr-4 w-full">
+        <select
+          id={name}
+          name={name}
+          className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+        >
+          <option selected>Select a rating</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
       </div>
     </div>
   );
@@ -907,14 +560,6 @@ const Registerations = ({ setShow }) => {
           <p className="text-black font-bold text-sm">Pending</p>
         </div>
       </div>
-    </div>
-  );
-};
-
-const RightSideDetailsContainer = ({ candDetails }) => {
-  return (
-    <div className="grid md:col-span-9 col-span-12  ">
-      <Form candDetails={candDetails} />
     </div>
   );
 };
