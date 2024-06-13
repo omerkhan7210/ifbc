@@ -196,7 +196,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
     { value: "More than a year away", label: "More than a year away" },
     { value: "Unsure at the moment", label: "Unsure at the moment" },
   ];
-
+  console.log(candDetails);
   return (
     <div
       id="initial-qualifying"
@@ -214,6 +214,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="InvestmentFranchise"
         id="money"
         className="candidate-select"
+        defaultValue={candDetails?.InvestmentFranchise}
       >
         {investmentOptions.map((option) => (
           <option key={option.value} value={option.value}>
@@ -234,6 +235,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="Funding"
         id="Funding"
         className="candidate-select"
+        defaultValue={candDetails?.Funding}
       >
         {fundingOptions.map((option) => (
           <option key={option.value} value={option.value}>
@@ -251,6 +253,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="CreditScore"
         id="score"
         className="candidate-select"
+        defaultValue={candDetails?.CreditScore}
       >
         {creditScoreOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -266,6 +269,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="Networth"
         id="worth"
         className="candidate-select"
+        defaultValue={candDetails?.Networth}
       >
         {netWorthOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -281,6 +285,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="LiquidCash"
         id="liquid-cash"
         className="candidate-select"
+        defaultValue={candDetails?.LiquidCash}
       >
         {liquidCashOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -298,6 +303,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="FranchiseCause"
         id="franchise"
         className="candidate-select"
+        defaultValue={candDetails?.FranchiseCause}
       >
         {reasonOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -315,6 +321,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="ProfessionalBackground"
         id="background"
         className="candidate-select"
+        defaultValue={candDetails?.ProfessionalBackground}
       >
         {backgroundOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -332,6 +339,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
           name="FranchiseInterested"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.FranchiseInterested}
         />
       </div>
       <div>
@@ -342,6 +350,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="TimeFrame"
         id="time-frame"
         className="candidate-select"
+        defaultValue={candDetails?.TimeFrame}
       >
         {timeFrameOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -362,7 +371,7 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
           id="message"
           rows={3}
           className="candidate-input"
-          defaultValue={""}
+          defaultValue={candDetails?.InitialQualifyingNote}
         />
       </div>
       <div>
@@ -449,6 +458,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           name="Competency1"
           id="competency1"
           className="candidate-select w-full"
+          defaultValue={candDetails?.Competency1}
         >
           {competencyOptions1.map((option, index) => (
             <option key={index} value={option.value}>
@@ -466,6 +476,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           name="Competency2"
           id="competency2"
           className="candidate-select w-full"
+          defaultValue={candDetails?.Competency2}
         >
           {competencyOptions2.map((option, index) => (
             <option key={index} value={option.value}>
@@ -483,6 +494,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           name="Competency3"
           id="competency3"
           className="candidate-select w-full"
+          defaultValue={candDetails?.Competency3}
         >
           {competencyOptions3.map((option, index) => (
             <option key={index} value={option.value}>
@@ -497,9 +509,10 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
         </div>
         <select
           onChange={handleInputChange}
-          name="Stage of Growth"
+          name="StageofGrowth"
           id="stage-of-growth"
           className="candidate-select w-full"
+          defaultValue={candDetails?.StageofGrowth}
         >
           {growth.map((option, index) => (
             <option key={index} value={option.value}>
@@ -517,6 +530,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           name="Value"
           id="value"
           className="candidate-select w-full"
+          defaultValue={candDetails?.Value}
         >
           {valueOptions.map((option, index) => (
             <option key={index} value={option.value}>
@@ -560,6 +574,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.Activities}
         />
       </div>
       <div className="candidate-input-container">
@@ -573,6 +588,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.AttendingNetworkFunction}
         />
       </div>
       <div className="candidate-input-container">
@@ -585,6 +601,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.MultiUnitOps}
         />
       </div>
       <div className="candidate-input-container">
@@ -597,6 +614,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.BusinessPartner}
         />
       </div>
       <div className="candidate-input-container">
@@ -609,6 +627,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.FamilyFeel}
         />
       </div>
       <div className="candidate-input-container">
@@ -621,6 +640,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.EmployeesPrefer}
         />
       </div>
       <div className="candidate-input-container">
@@ -633,6 +653,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.StaffSize}
         />
       </div>
       <div className="mt-5">
@@ -648,7 +669,7 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           id="message"
           rows={10}
           className="candidate-input"
-          defaultValue={""}
+          defaultValue={candDetails?.ZorakleNotes}
         />
       </div>
       <div>
@@ -685,6 +706,7 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.FundingBusiness}
         />
       </div>
       <div className="candidate-input-container">
@@ -693,10 +715,11 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
         </p>
         <input
           onChange={handleInputChange}
-          name="Value"
+          name="EligibilityValue"
           type="number"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.EligibilityValue}
         />
       </div>
       <div>
@@ -711,6 +734,7 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           name="VALoan"
           id="Qualify"
           className="candidate-select w-full"
+          defaultValue={candDetails?.VALoan}
         >
           {militaryOptions.map((option, index) => (
             <option key={index} value={option.value}>
@@ -730,6 +754,7 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.CurrentNetworth}
         />
       </div>
       <div className="flex flex-col">
