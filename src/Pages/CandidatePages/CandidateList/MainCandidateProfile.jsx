@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { useEffect } from "react";
@@ -23,7 +23,7 @@ const MainCandidateProfile = () => {
 
   return (
     <PageTransition>
-      <div className="grid grid-cols-12 gap-10 max-w-7xl pt-10 pb-10 px-6 mx-auto">
+      <div className="grid grid-cols-12 gap-10 max-w-7xl   mx-auto my-10">
         {/* card end */}
         <LeftSideCardContainer candDetails={candDetails} />
         <RightSideDetailsContainer candDetails={candDetails} />
@@ -61,56 +61,44 @@ const LeftSideCardContainer = ({ candDetails }) => {
   return (
     candDetails && (
       <div className="md:col-span-3 flex flex-col gap-5 items-start col-span-12">
-        <div>
-          <h1 className="font-semibold text-base"> Candidate Stage</h1>
-          <div className="mr-3">
-            <p className="text-slate-500 text-sm font-semibold mb-2">
-              Deal Stage
-            </p>
-            <select
-              id="countries"
-              className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-            >
-              <option selected>Select Stage</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
-            </select>
-            <p className="text-sm mb-1 font-medium">
-              To update the deal stage please update the contact's deal in
-              HubSpot.
-            </p>
-            <div className=" flex items-center w-[100%]">
-              <input type="checkbox" id="archived" defaultValue={1} />
-              <label
-                className="text-sm text-medium-gold font-serif ml-2 mb-0"
-                htmlFor="archived"
-              >
-                Archived Candidates
-              </label>
-            </div>
-          </div>
+        <div className="mr-3 w-full">
+          <p className="text-slate-500 text-sm font-semibold mb-2">
+            Deal Stage
+          </p>
+          <select id="countries" className="candidate-select w-full">
+            <option selected>Select Stage</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+          </select>
+          <p className="text-sm mb-1 font-medium ">
+            To update the deal stage please update the contact's deal in
+            HubSpot.
+          </p>
+        </div>
+        <div className=" flex items-center">
+          <input type="checkbox" id="archived" defaultValue={1} />
+          <label
+            className="text-sm text-medium-gold font-serif ml-2 mb-0"
+            htmlFor="archived"
+          >
+            Archived Candidates
+          </label>
         </div>
 
-        <div id="container-2" className="w-full">
-          <h1 className="font-semibold text-base"> CoBrokers</h1>
-          <div className="mr-3">
-            <p className="text-slate-500 text-sm font-semibold mb-2">Brokers</p>
-            <select
-              id="countries"
-              className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm   block w-full p-2 pr-3 mb-3"
-            >
-              <option selected>Select Stage</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
-            </select>
-          </div>
+        <div className="mr-3 w-full">
+          <p className="text-slate-500 text-sm font-semibold mb-2">Brokers</p>
+          <select id="countries" className="candidate-select w-full">
+            <option selected>Select Stage</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+          </select>
         </div>
 
-        <div className="div w-[17em] bg-white  rounded-[1em] overflow-hidden relative group p-4 z-0 border-[#2176ff] border-2 ">
+        <div className=" w-[17em] bg-white  rounded-[1em] overflow-hidden relative group p-4 z-0 border-[#2176ff] border-2 ">
           <div className="circle absolute h-[5em] w-[5em] -top-[2.5em] -right-[3.5em] rounded-full bg-[#2176ff] group-hover:scale-[1270%] duration-500 z-[-1] op " />
 
           {/* icons */}
@@ -147,6 +135,10 @@ const LeftSideCardContainer = ({ candDetails }) => {
         <DialogBox setShow={setRegOn} show={regOn}>
           <Registerations setShow={setRegOn} />
         </DialogBox>
+
+        <Link className="candidate-btn  w-full text-center">
+          View Candidate in FLS
+        </Link>
 
         <button className="candidate-btn w-full" onClick={handleEdit}>
           {/* {loading ? "Loading..." : "SAVE CANDIDATE INFORMATION"} */}

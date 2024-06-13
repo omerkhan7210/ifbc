@@ -32,33 +32,36 @@ const Registration = () => {
     shortdescription: "",
     consulting: "",
     franchiseindustryfocus: "",
-    businessbroker: "",
+    businessbroker: false,
     registeredin: "",
-    openforgroup: "",
+    openforgroup: false,
     password: "",
     confirmpassword: "",
-    territorycheck: "",
-    disablelogo: "",
-    disablecover: "",
-    disableprofile: "",
-    disablebio: "",
-    hidename: "",
+    territorycheck: false,
+    disablelogo: false,
+    disablecover: false,
+    disableprofile: false,
+    disablebio: false,
+    hidename: false,
     broker: "",
-    allcandidates: "",
-    allpastclient: "",
-    sharefranchise: "",
+    allcandidates: false,
+    allpastclient: false,
+    sharefranchise: false,
     leademail: "",
-    fbabadges: "",
+    fbabadges: false,
     usertype: "",
     profileimage: "",
     coverimage: "",
   });
+  const [formErrors, setFormErrors] = useState({});
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
     setFormFields((prevFields) => ({
       ...prevFields,
-      [name]: value,
+      [name]: inputValue,
     }));
     setError((prevErrors) => ({
       ...prevErrors,
@@ -82,59 +85,59 @@ const Registration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("INSIDE");
+    const requestData = {
+      firstname: formFields.firstname ?? "",
+      lastname: formFields.lastname ?? "",
+      email: formFields.email ?? "",
+      websiteurl: formFields.websiteurl ?? "",
+      linkedinurl: formFields.linkedinurl ?? "",
+      meetinglink: formFields.meetinglink ?? "",
+      companyname: formFields.companyname ?? "",
+      companyphonenumber: formFields.companyphonenumber ?? "",
+      companyaddress: formFields.companyaddress ?? "",
+      city: formFields.city ?? "",
+      zippostalcode: formFields.zippostalcode ?? "",
+      unitsuite: formFields.unitsuite ?? "",
+      notes: formFields.notes ?? "",
+      shortdescription: formFields.shortdescription ?? "",
+      consulting: formFields.consulting ?? "",
+      franchiseindustryfocus: formFields.franchiseindustryfocus ?? "",
+      businessbroker: formFields.businessbroker ?? "",
+      registeredin: formFields.registeredin ?? "",
+      openforgroup: formFields.openforgroup ?? "",
+      password: formFields.password ?? "",
+      confirmpassword: formFields.confirmpassword ?? "",
+      territorycheck: formFields.territorycheck ?? "",
+      disablelogo: formFields.disablelogo ?? "",
+      disablecover: formFields.disablecover ?? "",
+      disableprofile: formFields.disableprofile ?? "",
+      disablebio: formFields.disablebio ?? "",
+      hidename: formFields.hidename ?? "",
+      broker: formFields.broker ?? "",
+      allcandidates: formFields.allcandidates ?? "",
+      allpastclient: formFields.allpastclient ?? "",
+      sharefranchise: formFields.sharefranchise ?? "",
+      leademail: formFields.leademail ?? "",
+      fbabadges: formFields.fbabadges ?? "",
+      usertype: "N",
+      profileimage: formFields.profileimage ?? "",
+      coverimage: formFields.coverimage ?? "",
+    };
+
     try {
-      const requestData = {
-        firstname: formFields.firstname ?? "",
-        lastname: formFields.lastname ?? "",
-        email: formFields.email ?? "",
-        websiteurl: formFields.websiteurl ?? "",
-        linkedinurl: formFields.linkedinurl ?? "",
-        meetinglink: formFields.meetinglink ?? "",
-        companyname: formFields.companyname ?? "",
-        companyphonenumber: formFields.companyphonenumber ?? "",
-        companyaddress: formFields.companyaddress ?? "",
-        city: formFields.city ?? "",
-        zippostalcode: formFields.zippostalcode ?? "",
-        unitsuite: formFields.unitsuite ?? "",
-        notes: formFields.notes ?? "",
-        shortdescription: formFields.shortdescription ?? "",
-        consulting: formFields.consulting ?? "",
-        franchiseindustryfocus: formFields.franchiseindustryfocus ?? "",
-        businessbroker: formFields.businessbroker ?? "",
-        registeredin: formFields.registeredin ?? "",
-        openforgroup: formFields.openforgroup ?? "",
-        password: formFields.password ?? "",
-        confirmpassword: formFields.confirmpassword ?? "",
-        territorycheck: formFields.territorycheck ?? "",
-        disablelogo: formFields.disablelogo ?? "",
-        disablecover: formFields.disablecover ?? "",
-        disableprofile: formFields.disableprofile ?? "",
-        disablebio: formFields.disablebio ?? "",
-        hidename: formFields.hidename ?? "",
-        broker: formFields.broker ?? "",
-        allcandidates: formFields.allcandidates ?? "",
-        allpastclient: formFields.allpastclient ?? "",
-        sharefranchise: formFields.sharefranchise ?? "",
-        leademail: formFields.leademail ?? "",
-        fbabadges: formFields.fbabadges ?? "",
-        usertype: "N",
-        profileimage: formFields.profileimage ?? "",
-        coverimage: formFields.coverimage ?? "",
-      };
       const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/new_account.aspx`;
-      console.log(requestData);
+
       setLoading(true);
 
-      // Send the POST request using Axios
-      // const response = await axios.post(baseUrl, requestData, {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      // });
+      console.log(requestData);
+      const response = await axios.post(baseUrl, requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (
-        response.data === "Account Created Successfully." &&
+        response.data === "Data inserted Successfully." &&
         response.status === 200
       ) {
         localStorage.setItem("ifLogin", true);
@@ -155,17 +158,26 @@ const Registration = () => {
 
         setLoading(false);
       }
-    } catch (error) {
-      setError({
-        username: "",
-        password: "",
-        email: "",
-        credentials: "Server Error",
-      });
-
+    } catch (err) {
+      //setError({ credentials: err });
       setLoading(false);
     }
   };
+
+  const checkboxInputs = [
+    { name: "businessbroker", label: "Business Broker" },
+    { name: "openforgroup", label: "Open For Group" },
+    { name: "territorycheck", label: "Territory Check" },
+    { name: "disablelogo", label: "Disable Logo" },
+    { name: "disablecover", label: "Disable Cover" },
+    { name: "disableprofile", label: "Disable Profile" },
+    { name: "disablebio", label: "Disable Bio" },
+    { name: "hidename", label: "Hide Name" },
+    { name: "allcandidates", label: "All Candidates" },
+    { name: "allpastclient", label: "All Past Client" },
+    { name: "sharefranchise", label: "Share Franchise" },
+    { name: "fbabadges", label: "FBA Badges" },
+  ];
 
   return (
     <PageTransition>
@@ -174,7 +186,7 @@ const Registration = () => {
           Registration
         </h2>
         <form
-          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[75%] mx-auto grid grid-cols-12 gap-10"
+          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[90%] mx-auto grid grid-cols-12 gap-10"
           ref={ref}
         >
           <div id="left-form-container" className="col-span-9">
@@ -215,318 +227,19 @@ const Registration = () => {
             />
           </div>
           <div od="right-side-container" className="col-span-3 p-5 relative">
-            <div id="sticky-container" className="top-10 sticky ">
-              {/* Business Broker */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="text-gray-700 text-sm font-bold mb-2 flex items-center"
-                  htmlFor="businessbroker"
-                >
-                  {""}
-                  <input
-                    className={`shadow appearance-none ${
-                      error.businessbroker ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="businessbroker"
-                    id="businessbroker"
-                    type="checkbox"
-                    placeholder="Business Broker"
-                    value={formFields.businessbroker}
-                    onChange={handleInputChange}
-                  />
-                  Business Broker
-                </label>
-                {error.businessbroker && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.businessbroker}
-                  </p>
-                )}
-              </div>
-              {/* Open For Group */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className=" text-gray-700 text-sm font-bold mb-2 flex items-center"
-                  htmlFor="openforgroup"
-                >
-                  {" "}
-                  <input
-                    className={`shadow appearance-none ${
-                      error.openforgroup ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="openforgroup"
-                    id="openforgroup"
-                    type="checkbox"
-                    placeholder="Open For Group"
-                    value={formFields.openforgroup}
-                    onChange={handleInputChange}
-                  />
-                  Open For Group
-                </label>
-
-                {error.openforgroup && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.openforgroup}
-                  </p>
-                )}
-              </div>
-              {/* Territory Check */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="territorycheck"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.territorycheck ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="territorycheck"
-                    id="territorycheck"
-                    type="checkbox"
-                    placeholder="Territory Check"
-                    value={formFields.territorycheck}
-                    onChange={handleInputChange}
-                  />
-                  Territory Check
-                </label>
-                {error.territorycheck && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.territorycheck}
-                  </p>
-                )}
-              </div>
-              {/* Disable Logo */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="disablelogo"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.disablelogo ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="disablelogo"
-                    id="disablelogo"
-                    type="checkbox"
-                    placeholder="Disable Logo"
-                    value={formFields.disablelogo}
-                    onChange={handleInputChange}
-                  />
-                  Disable Logo
-                </label>
-                {error.disablelogo && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.disablelogo}
-                  </p>
-                )}
-              </div>
-
-              {/* Disable Cover */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="disablecover"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.disablecover ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="disablecover"
-                    id="disablecover"
-                    type="checkbox"
-                    placeholder="Disable Cover"
-                    value={formFields.disablecover}
-                    onChange={handleInputChange}
-                  />
-                  Disable Cover
-                </label>
-                {error.disablecover && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.disablecover}
-                  </p>
-                )}
-              </div>
-              {/* Disable Profile */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="disableprofile"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.disableprofile ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="disableprofile"
-                    id="disableprofile"
-                    type="checkbox"
-                    placeholder="Disable Profile"
-                    value={formFields.disableprofile}
-                    onChange={handleInputChange}
-                  />
-                  Disable Profile
-                </label>
-                {error.disableprofile && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.disableprofile}
-                  </p>
-                )}
-              </div>
-
-              {/* Disable Bio */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="disablebio"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.disablebio ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="disablebio"
-                    id="disablebio"
-                    type="checkbox"
-                    placeholder="Disable Bio"
-                    value={formFields.disablebio}
-                    onChange={handleInputChange}
-                  />
-                  Disable Bio
-                </label>
-                {error.disablebio && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.disablebio}
-                  </p>
-                )}
-              </div>
-              {/* Hide Name */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="hidename"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.hidename ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="hidename"
-                    id="hidename"
-                    type="checkbox"
-                    placeholder="Hide Name"
-                    value={formFields.hidename}
-                    onChange={handleInputChange}
-                  />
-                  Hide Name
-                </label>
-                {error.hidename && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.hidename}
-                  </p>
-                )}
-              </div>
-              {/* All Candidates */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="allcandidates"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.allcandidates ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="allcandidates"
-                    id="allcandidates"
-                    type="checkbox"
-                    placeholder="All Candidates"
-                    value={formFields.allcandidates}
-                    onChange={handleInputChange}
-                  />
-                  All Candidates
-                </label>
-                {error.allcandidates && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.allcandidates}
-                  </p>
-                )}
-              </div>
-
-              {/* All Past Client */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="allpastclient"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.allpastclient ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="allpastclient"
-                    id="allpastclient"
-                    type="checkbox"
-                    placeholder="All Past Client"
-                    value={formFields.allpastclient}
-                    onChange={handleInputChange}
-                  />
-                  All Past Client
-                </label>
-                {error.allpastclient && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.allpastclient}
-                  </p>
-                )}
-              </div>
-
-              {/* Share Franchise */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="sharefranchise"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.sharefranchise ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="sharefranchise"
-                    id="sharefranchise"
-                    type="checkbox"
-                    placeholder="Share Franchise"
-                    value={formFields.sharefranchise}
-                    onChange={handleInputChange}
-                  />
-                  Share Franchise
-                </label>
-                {error.sharefranchise && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.sharefranchise}
-                  </p>
-                )}
-              </div>
-
-              {/* FBA Badges */}
-              <div className="mb-4 w-full flex flex-col items-start">
-                <label
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                  htmlFor="fbabadges"
-                >
-                  <input
-                    className={`shadow appearance-none ${
-                      error.fbabadges ? "border-red-500" : ""
-                    } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-                    name="fbabadges"
-                    id="fbabadges"
-                    type="checkbox"
-                    placeholder="FBA Badges"
-                    value={formFields.fbabadges}
-                    onChange={handleInputChange}
-                  />
-                  FBA Badges
-                </label>
-                {error.fbabadges && (
-                  <p className="text-red-500 text-xs italic mt-2">
-                    {error.fbabadges}
-                  </p>
-                )}
-              </div>
+            <div id="sticky-container" className="top-10 sticky">
+              {checkboxInputs.map(({ name, label }) => (
+                <CheckboxInput
+                  key={name}
+                  name={name}
+                  label={label}
+                  formFields={formFields}
+                  error={formErrors}
+                  handleInputChange={handleInputChange}
+                />
+              ))}
             </div>
           </div>
-
           {/* Button */}
           <div className="flex items-center gap-5 justify-center col-span-12 ">
             <button
@@ -1164,4 +877,37 @@ const Settings = ({ formFields, handleInputChange, error }) => {
     </>
   );
 };
+
+const CheckboxInput = ({
+  name,
+  label,
+  formFields,
+  error,
+  handleInputChange,
+}) => {
+  return (
+    <div className="mb-4 w-full flex flex-col items-start">
+      <label
+        className="text-gray-700 text-sm font-bold mb-2 flex items-center"
+        htmlFor={name}
+      >
+        <input
+          className={`shadow appearance-none ${
+            error[name] ? "border-red-500" : ""
+          } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+          name={name}
+          id={name}
+          type="checkbox"
+          defaultChecked={formFields[name]}
+          onChange={handleInputChange}
+        />
+        {label}
+      </label>
+      {error[name] && (
+        <p className="text-red-500 text-xs italic mt-2">{error[name]}</p>
+      )}
+    </div>
+  );
+};
+
 export default Registration;

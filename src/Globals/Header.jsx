@@ -134,7 +134,7 @@ const Header = ({ mobileActive, setMobileActive }) => {
 };
 
 const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
-  const { ifLogin, userDetails } = useContext(MyContext);
+  const { ifLogin, userDetails, role } = useContext(MyContext);
 
   return (
     <div className="sm:flex sm:justify-end sm:items-start sm:pt-1 sm:gap-5">
@@ -144,8 +144,8 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
       </button>
 
       {/* cart icon */}
-      <CartIcon />
-
+      {console.log(role)}
+      {role === "N" && <CartIcon />}
       {/* USER BUTTON */}
       <AccountDD ifLogin={ifLogin} userDetails={userDetails} />
 

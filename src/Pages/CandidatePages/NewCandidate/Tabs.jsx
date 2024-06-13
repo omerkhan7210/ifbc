@@ -1,24 +1,41 @@
 import { useState } from "react";
 
-const Tabs = ({ handleInputChange }) => {
+const Tabs = ({ handleInputChange, candDetails }) => {
   const [activeTab, setActiveTab] = useState("initial qualifying");
   return (
     <div className="md:flex mt-6">
       {/* Tabs list  */}
       <TabsList activeTab={activeTab} setActiveTab={setActiveTab} />
       {/* Fist tab description */}
-      <Initial activeTab={activeTab} handleInputChange={handleInputChange} />
+      <Initial
+        activeTab={activeTab}
+        handleInputChange={handleInputChange}
+        candDetails={candDetails}
+      />
       {/* 2nd Tab Description */}
-      <Zoracle activeTab={activeTab} handleInputChange={handleInputChange} />
+      <Zoracle
+        activeTab={activeTab}
+        handleInputChange={handleInputChange}
+        candDetails={candDetails}
+      />
       {/* 3rd Tab Description */}
       <Eligibility
         activeTab={activeTab}
         handleInputChange={handleInputChange}
+        candDetails={candDetails}
       />
       {/* 4th Tab Description */}
-      <Experience activeTab={activeTab} handleInputChange={handleInputChange} />
+      <Experience
+        activeTab={activeTab}
+        handleInputChange={handleInputChange}
+        candDetails={candDetails}
+      />
       {/* 5th Tab Description */}
-      <Wants activeTab={activeTab} handleInputChange={handleInputChange} />
+      <Wants
+        activeTab={activeTab}
+        handleInputChange={handleInputChange}
+        candDetails={candDetails}
+      />
     </div>
   );
 };
@@ -57,7 +74,7 @@ const TabsList = ({ activeTab, setActiveTab }) => {
   );
 };
 
-const Initial = ({ activeTab, handleInputChange }) => {
+const Initial = ({ activeTab, handleInputChange, candDetails }) => {
   const investmentOptions = [
     { value: "", label: "Select one" },
     { value: "$5,000 - $49,999", label: "$5,000 - $49,999" },
@@ -355,7 +372,7 @@ const Initial = ({ activeTab, handleInputChange }) => {
   );
 };
 
-const Zoracle = ({ activeTab, handleInputChange }) => {
+const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
   const competencyOptions1 = [
     { value: "", label: "Select one" },
     { value: "Leadership-Vision", label: "Leadership & Vision" },
@@ -641,7 +658,7 @@ const Zoracle = ({ activeTab, handleInputChange }) => {
   );
 };
 
-const Eligibility = ({ activeTab, handleInputChange }) => {
+const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
   const militaryOptions = [
     { value: "", label: "Select one" },
     { value: "Veteran", label: "Veteran" },
@@ -829,7 +846,7 @@ const Eligibility = ({ activeTab, handleInputChange }) => {
   );
 };
 
-const Experience = ({ activeTab, handleInputChange }) => {
+const Experience = ({ activeTab, handleInputChange, candDetails }) => {
   return (
     <div
       id="experience"
@@ -914,7 +931,7 @@ const Experience = ({ activeTab, handleInputChange }) => {
   );
 };
 
-const Wants = ({ activeTab, handleInputChange }) => {
+const Wants = ({ activeTab, handleInputChange, candDetails }) => {
   return (
     <div
       id="wants"

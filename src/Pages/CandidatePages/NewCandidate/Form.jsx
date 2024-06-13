@@ -5,9 +5,6 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Tabs from "./Tabs";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
-import FormatRawDate from "src/Utils/FormatRawDate";
 
 const Form = ({ candDetails }) => {
   const [formFields, setFormFields] = useState(candDetails ? candDetails : {});
@@ -273,13 +270,12 @@ const Form = ({ candDetails }) => {
       console.error("Error:", error);
     }
   };
-  const handleEdit = async () => {};
 
   return (
     <>
       <div
         id="main-new-candidate-form-container"
-        className={`col-span-12 divide-y-2 divide-custom-dark-blue/10  max-w-7xl mx-auto ${candDetails ? "" : "my-10"} `}
+        className={`col-span-12 divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10"} `}
       >
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
@@ -427,7 +423,7 @@ const FormFirstRow = ({ handleInputChange, formErrors, candDetails }) => {
     );
   };
   return (
-    <div id="first-row" className="py-5">
+    <div id="first-row" className={`${candDetails ? "" : "py-10"}`}>
       <h1 className="candidate-sub-heading ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
