@@ -1,11 +1,12 @@
 import React from "react";
-import CandidateProfileTabs from "./CandidateProfileTabs";
 import { useParams } from "react-router-dom";
 import { useContext } from "react";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { useEffect } from "react";
 import { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
+import DialogBox from "src/Popups/DialogBox";
+import Form from "../NewCandidate/Form";
 
 const MainCandidateProfile = () => {
   const { id } = useParams();
@@ -32,164 +33,62 @@ const MainCandidateProfile = () => {
 };
 
 const LeftSideCardContainer = ({ candDetails }) => {
-  console.log(candDetails);
+  const [activityOn, setActivityOn] = useState(false);
+  const [flsOn, setFlsOn] = useState(false);
+  const [resourcesOn, setResourcesOn] = useState(false);
+  const [regOn, setRegOn] = useState(false);
+
+  const profileButtons = [
+    {
+      text: "Activity",
+      setShow: setActivityOn,
+    },
+    {
+      text: "FLS Criteria",
+      setShow: setFlsOn,
+    },
+    {
+      text: "Resources",
+      setShow: setResourcesOn,
+    },
+    {
+      text: "Registrations",
+      setShow: setRegOn,
+    },
+  ];
+  const handleEdit = async () => {};
+
   return (
     candDetails && (
-      <div className="md:col-span-3 flex items-start col-span-12">
-        <div className="div w-[17em] bg-white  rounded-[1em] overflow-hidden relative group p-4 z-0 border-[#2176ff] border-2 ">
-          <div className="circle absolute h-[5em] w-[5em] -top-[2.5em] -right-[3.5em] rounded-full bg-[#2176ff] group-hover:scale-[1270%] duration-500 z-[-1] op " />
-
-          <div className="flex justify-between">
-            <h1 className="z-20 font-bold font-Poppin group-hover:text-white duration-500 text-[1.4em]">
-              {candDetails.FirstName} {candDetails.LastName}
-            </h1>
-            {/* drop down menu */}
-            <div>
-              <button
-                id="dropdownMenuIconButton"
-                data-dropdown-toggle="dropdownDots"
-                className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900  rounded-lg  "
-                type="button"
-              >
-                <svg
-                  className="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 4 15"
-                >
-                  <path d="M3.5 1.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 6.041a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm0 5.959a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
-                </svg>
-              </button>
-              <div
-                id="dropdownDots"
-                className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
-              >
-                <ul
-                  className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                  aria-labelledby="dropdownMenuIconButton"
-                >
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Dashboard
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Settings
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      Earnings
-                    </a>
-                  </li>
-                </ul>
-                <div className="py-2">
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Separated link
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <p className="text-xs font-semibold group-hover:text-white mb-6">
-            Last Updated:Apr 19, 2024 11:31 AM
-          </p>
-
-          {/* details */}
-          <div className="mb-4">
-            <p className="text-sm font-semibold group-hover:text-white mb-1">
-              Email: {candDetails.Email}
+      <div className="md:col-span-3 flex flex-col gap-5 items-start col-span-12">
+        <div>
+          <h1 className="font-semibold text-base"> Candidate Stage</h1>
+          <div className="mr-3">
+            <p className="text-slate-500 text-sm font-semibold mb-2">
+              Deal Stage
             </p>
-            <p className="text-sm font-semibold group-hover:text-white mb-1">
-              Phone: {candDetails.Phone}
+            <select
+              id="countries"
+              className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+            >
+              <option selected>Select Stage</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="FR">France</option>
+              <option value="DE">Germany</option>
+            </select>
+            <p className="text-sm mb-1 font-medium">
+              To update the deal stage please update the contact's deal in
+              HubSpot.
             </p>
-            {candDetails.ZorackleValue && (
-              <p className="text-sm font-semibold group-hover:text-white mb-1">
-                Zorakle Value: {candDetails.ZorackleValue}
-              </p>
-            )}
-          </div>
-          {/* icons */}
-          <ExtraButtonIcons />
-          {/* button */}
-          <div className="flex  align-middle">
-            <button className="p-1 px-4 w-full font-semibold border-2 border-[#2176ff] group-hover:bg-white rounded-md mr-2 mb-3 mt-3">
-              View Contact
-            </button>
-          </div>
-
-          {/* <div className="align-middle justify-center mt-1">
-            <input
-              type="checkbox"
-              id="auto-sync"
-              defaultValue="true"
-              className="text-sm"
-            />
-            <label htmlFor="auto-sync">
-              <span className="text-black text-sm font-semibold group-hover:text-white">
-                {" "}
-                Auto Sync{" "}
-              </span>
-            </label>
-            <p className="text-xs font-semibold ml-7 group-hover:text-white">
-              Jun 7th, 2024 1:57 pm
-            </p>
-          </div> */}
-        </div>
-      </div>
-    )
-  );
-};
-
-const RightSideDetailsContainer = () => {
-  return (
-    <div className="grid md:col-span-9 col-span-12  ">
-      {/* top section start */}
-      <div className=" grid grid-cols-2 flex-col md:flex-row">
-        <div id="Container-1" className="flex w-full">
-          <div>
-            <h1 className="font-semibold text-base"> Candidate Stage</h1>
-            <div className="mr-3">
-              <p className="text-slate-500 text-sm font-semibold mb-2">
-                Deal Stage
-              </p>
-              <select
-                id="countries"
-                className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+            <div className=" flex items-center w-[100%]">
+              <input type="checkbox" id="archived" defaultValue={1} />
+              <label
+                className="text-sm text-medium-gold font-serif ml-2 mb-0"
+                htmlFor="archived"
               >
-                <option selected>Select Stage</option>
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
-              </select>
-              <p className="text-sm mb-1 font-medium">
-                To update the deal stage please update the contact's deal in
-                HubSpot.
-              </p>
-              <div className=" flex items-center w-[100%]">
-                <input type="checkbox" id="archived" defaultValue={1} />
-                <label
-                  className="text-sm mb-2 text-medium-gold font-serif ml-2 mb-0"
-                  htmlFor="archived"
-                >
-                  Archived Candidates
-                </label>
-              </div>
+                Archived Candidates
+              </label>
             </div>
           </div>
         </div>
@@ -210,8 +109,820 @@ const RightSideDetailsContainer = () => {
             </select>
           </div>
         </div>
+
+        <div className="div w-[17em] bg-white  rounded-[1em] overflow-hidden relative group p-4 z-0 border-[#2176ff] border-2 ">
+          <div className="circle absolute h-[5em] w-[5em] -top-[2.5em] -right-[3.5em] rounded-full bg-[#2176ff] group-hover:scale-[1270%] duration-500 z-[-1] op " />
+
+          {/* icons */}
+          <ExtraButtonIcons />
+          {/* button */}
+          <div className="flex  align-middle">
+            <button className="p-1 px-4 w-full font-semibold border-2 border-[#2176ff] group-hover:bg-white rounded-md mr-2 mb-3 mt-3">
+              View Contact
+            </button>
+          </div>
+        </div>
+
+        {/* buttons */}
+        {profileButtons.map((btn) => (
+          <button
+            className="candidate-btn w-full"
+            onClick={() => btn.setShow(true)}
+          >
+            {btn.text}
+          </button>
+        ))}
+        <DialogBox setShow={setActivityOn} show={activityOn}>
+          <Activity setShow={setActivityOn} />
+        </DialogBox>
+
+        <DialogBox setShow={setFlsOn} show={flsOn}>
+          <Flscriteria setShow={setFlsOn} />
+        </DialogBox>
+
+        <DialogBox setShow={setResourcesOn} show={resourcesOn}>
+          <Resources setShow={setResourcesOn} />
+        </DialogBox>
+
+        <DialogBox setShow={setRegOn} show={regOn}>
+          <Registerations setShow={setRegOn} />
+        </DialogBox>
+
+        <button className="candidate-btn w-full" onClick={handleEdit}>
+          {/* {loading ? "Loading..." : "SAVE CANDIDATE INFORMATION"} */}
+          Save
+        </button>
       </div>
-      <CandidateProfileTabs />
+    )
+  );
+};
+
+const Activity = ({ setShow }) => {
+  return (
+    <div id="activity" className="candidate-tabs-content">
+      <button
+        className="absolute top-5 right-10"
+        onClick={() => setShow(false)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="red"
+          className="size-9"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+      </button>
+      <div className="flex w-full mt-5">
+        <div className="mr-3 w-full">
+          <select
+            id="countries"
+            className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+          >
+            <option selected>Select Stage</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+          </select>
+        </div>
+        <div className="mr-3 w-full">
+          <select
+            id="countries"
+            className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+          >
+            <option selected>Select Stage</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+          </select>
+        </div>
+        <div className="w-full">
+          <input
+            type="text"
+            name="activity-search"
+            id="activity-search"
+            placeholder="Search Activity"
+            className="p-[6px] mb-2 bg-gray-50 border-gray-300 border rounded-sm placeholder-[#2176ff] placeholder:text-sm placeholder:font-bold text-black"
+          />
+        </div>
+      </div>
+      <div id="container2" className="mt-4">
+        <div className="flex border-2 border-gray-300  rounded-md">
+          <div className=" border-r-2 border-gray-300 p-2">
+            <h1 className="text-[#2176ff] text-sm font-bold ">
+              Formal Registration
+            </h1>
+            <p className="text-xs font-medium">Apr 19, 2024 at 11:31AM</p>
+          </div>
+          <div className="text-black align-middle justify-center flex p-2">
+            <p className="aligm-middle justify-center py-2 font-normal text-base">
+              Sent a Formal Registration to Teriyaki Madness for AVON IN 46123
+            </p>
+          </div>
+        </div>
+        <div className="flex border-2 border-gray-300  rounded-md mt-3">
+          <div className=" border-r-2 border-gray-300 p-2">
+            <h1 className="text-[#2176ff] text-sm font-bold ">
+              Updated Profile
+            </h1>
+            <p className="text-xs font-medium">Apr 19, 2024 at 11:31AM</p>
+          </div>
+          <div className="text-black align-middle justify-center flex p-2">
+            <p className="aligm-middle justify-center py-2 font-normal text-base">
+              The client was updated by Harjeet Tiwana
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+const Flscriteria = ({ setShow }) => {
+  return (
+    <div id="fls-criteria" className="candidate-tabs-content p-5">
+      <button
+        className="absolute top-5 right-10"
+        onClick={() => setShow(false)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="red"
+          className="size-9"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+      </button>
+      <div
+        id="container1"
+        className="flex justify-between border-b border-gray-300 pb-4"
+      >
+        <div>
+          <h2 className="text-black font-semibold text-base">
+            Section Settings
+          </h2>
+        </div>
+        <div>
+          <label className='class="flex gap-x-1 items-center mr-6 '>
+            <input type="checkbox" name="Hide Section" />
+            <span className="text-black">Hide Section</span>
+          </label>
+          <label className='class="flex gap-x-1 items-center'>
+            <input type="checkbox" name="Hide Section" />
+            <span className="text-black">Hide Section</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="container2" className="py-4 mb-2">
+        <h1 className="text-lg text-[#2176ff] font-bold mb-2">
+          Franchise Categories
+        </h1>
+        <p className="text-sm text-black font-semibold">
+          Rank the Franchise Categories in order of preference, with 1 being the
+          least favorite and 10 being the most favorite.
+        </p>
+      </div>
+
+      <div id="container3" className="border-b border-gray-300 py-2">
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Advertising</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Automotive</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Beauty & Spa</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">
+                  Business Management & Coaching
+                </span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Business Services</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">
+                  Child Education, STEM & Tutoring
+                </span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Child Services & Products</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">
+                  Cleaning: Residential & Commercial
+                </span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Computer Technology</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">
+                  Select a rating Distribution Services
+                </span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Dry Cleaning-Laundry</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Financial Services</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="inner1" className="flex w-full">
+          <div className="w-full mr-4">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">Fitness</span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="w-full">
+            <div className=" mt-2">
+              <label className='class="flex gap-x-1 items-center mr-6 '>
+                <input type="checkbox" name="Hide Section" />
+                <span className="text-black">
+                  Food & Beverage: Restaurant/QSR/Catering
+                </span>
+              </label>
+            </div>
+            <div className="mt-2">
+              <div className="mr-4 w-full">
+                <select
+                  id="countries"
+                  className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
+                >
+                  <option selected>Select a rating</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
+                  <option value="9">9</option>
+                  <option value="10">10</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="container4" className="my-4">
+        <h1 className="text-lg text-[#2176ff] font-bold">FLS Filters</h1>
+        {/* Yahn Tabs Ayainge Fls filtes ke */}
+      </div>
+    </div>
+  );
+};
+
+const Resources = ({ setShow }) => {
+  return (
+    <div id="resources" className="candidate-tabs-content p-5">
+      <button
+        className="absolute top-5 right-10"
+        onClick={() => setShow(false)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="red"
+          className="size-9"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+      </button>
+      <h1 className="text-lg font-bold text-[#2176ff]">
+        No resources available
+      </h1>
+    </div>
+  );
+};
+
+const Registerations = ({ setShow }) => {
+  return (
+    <div id="registerations" className="candidate-tabs-content p-5">
+      <button
+        className="absolute top-5 right-10"
+        onClick={() => setShow(false)}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="red"
+          className="size-9"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+          />
+        </svg>
+      </button>
+      <div id="container1" className="flex">
+        {/* first 2 inputs */}
+        <div className="flex w-full">
+          {/* input 1 */}
+          <div className="mr-3 w-full">
+            <select
+              id="countries"
+              className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-md focus:font-semibold focus:text-black block w-full p-2 mb-2"
+            >
+              <option selected>Select Stage</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="FR">France</option>
+              <option value="DE">Germany</option>
+            </select>
+          </div>
+          {/* input 2 */}
+          <div className="mr-3 w-full">
+            <select
+              id="countries"
+              className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-md focus:font-semibold focus:text-black block w-full p-2 mb-2"
+            >
+              <option selected>Select Stage</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="FR">France</option>
+              <option value="DE">Germany</option>
+            </select>
+          </div>
+        </div>
+
+        {/* second 2 inputs */}
+        <div className="flex w-full">
+          {/* input 1 */}
+          <div className="mr-3 w-full">
+            <select
+              id="countries"
+              className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-md focus:font-semibold focus:text-black block w-full p-2 mb-2"
+            >
+              <option selected>Select Stage</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="FR">France</option>
+              <option value="DE">Germany</option>
+            </select>
+          </div>
+          {/* input 2 */}
+          <div className="mr-3 w-full">
+            <div className="date-range">
+              <div className="dp__main dp__theme_light">
+                <div
+                  aria-label="Datepicker input"
+                  role="textbox"
+                  aria-multiline="false"
+                  aria-disabled="false"
+                  aria-readonly="false"
+                >
+                  <div className="dp__input_wrap">
+                    <input
+                      className="dp__pointer dp__input_readonly dp__input dp__input_icon_pad dp__input_reg"
+                      inputMode="none"
+                      placeholder
+                      autoComplete="off"
+                    />
+                    <svg
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={32}
+                      height={32}
+                      viewBox="0 0 32 32"
+                      className="dp__icon dp__input_icon dp__input_icons"
+                    >
+                      <path d="M29.333 8c0-2.208-1.792-4-4-4h-18.667c-2.208 0-4 1.792-4 4v18.667c0 2.208 1.792 4 4 4h18.667c2.208 0 4-1.792 4-4v-18.667zM26.667 8v18.667c0 0.736-0.597 1.333-1.333 1.333 0 0-18.667 0-18.667 0-0.736 0-1.333-0.597-1.333-1.333 0 0 0-18.667 0-18.667 0-0.736 0.597-1.333 1.333-1.333 0 0 18.667 0 18.667 0 0.736 0 1.333 0.597 1.333 1.333z" />
+                      <path d="M20 2.667v5.333c0 0.736 0.597 1.333 1.333 1.333s1.333-0.597 1.333-1.333v-5.333c0-0.736-0.597-1.333-1.333-1.333s-1.333 0.597-1.333 1.333z" />
+                      <path d="M9.333 2.667v5.333c0 0.736 0.597 1.333 1.333 1.333s1.333-0.597 1.333-1.333v-5.333c0-0.736-0.597-1.333-1.333-1.333s-1.333 0.597-1.333 1.333z" />
+                      <path d="M4 14.667h24c0.736 0 1.333-0.597 1.333-1.333s-0.597-1.333-1.333-1.333h-24c-0.736 0-1.333 0.597-1.333 1.333s0.597 1.333 1.333 1.333z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* container 1 end */}
+
+      {/* container 2 */}
+      <div
+        id="container2"
+        className="grid grid-cols-12 divide-x-2 justify-center align-middle mt-4"
+      >
+        {/* column 1 */}
+        <div className=" col-span-6 p-3 bg-[#2176ff] border-l rounded-l-lg">
+          <div className="mr-3 w-full">
+            <select
+              id="countries"
+              className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-md focus:font-semibold focus:text-black block w-full p-2 mb-2"
+            >
+              <option selected>Select Stage</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="FR">France</option>
+              <option value="DE">Germany</option>
+            </select>
+          </div>
+        </div>
+        {/* column 2 */}
+        <div className="col-span-2 p-4 bg-[#2176ff] align-middle">
+          <h1 className="text-white font-bold text-sm">Type</h1>
+        </div>
+        {/* column3 */}
+        <div className="col-span-2 p-4 bg-[#2176ff] align-middle">
+          <h1 className="text-white font-bold text-sm">Sent Date</h1>
+        </div>
+        {/* column 4 */}
+        <div className="col-span-2 p-4 bg-[#2176ff] align-middle border-r rounded-r-lg">
+          <h1 className="text-white font-bold text-sm">Status</h1>
+        </div>
+      </div>
+      {/* container 3  */}
+      <div
+        id="container 3"
+        className="grid grid-cols-12 divide-x-2 mt-3 rounded-lg"
+      >
+        <div className="col-span-6 p-1  bg-gray-200 border-l rounded-l-lg align-middle justify-center">
+          <label className='class="flex gap-x-1 items-center mr-6 '>
+            <input type="checkbox" name="Hide Section" />
+            <span className="text-black">Advertising</span>
+          </label>
+        </div>
+        <div className="col-span-2 p-1 bg-gray-200">
+          <p className="text-black font-bold text-sm">Formal Registeration</p>
+        </div>
+        <div className="col-span-2 p-1 bg-gray-200">
+          <p className="text-black font-bold text-sm">04/19/2024 11:31 am</p>
+        </div>
+        <div className="col-span-2 p-1 bg-gray-200 border-r rounded-r-lg">
+          <p className="text-black font-bold text-sm">Pending</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const RightSideDetailsContainer = ({ candDetails }) => {
+  return (
+    <div className="grid md:col-span-9 col-span-12  ">
+      <Form candDetails={candDetails} />
     </div>
   );
 };

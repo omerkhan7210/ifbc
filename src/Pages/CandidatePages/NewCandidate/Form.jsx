@@ -5,9 +5,12 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Tabs from "./Tabs";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
+import FormatRawDate from "src/Utils/FormatRawDate";
 
-const Form = () => {
-  const [formFields, setFormFields] = useState({});
+const Form = ({ candDetails }) => {
+  const [formFields, setFormFields] = useState(candDetails ? candDetails : {});
   const [formErrors, setFormErrors] = useState({});
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -270,12 +273,13 @@ const Form = () => {
       console.error("Error:", error);
     }
   };
+  const handleEdit = async () => {};
 
   return (
     <>
       <div
         id="main-new-candidate-form-container"
-        className="col-span-12 divide-y-2 divide-custom-dark-blue/10  max-w-7xl mx-auto my-10 "
+        className={`col-span-12 divide-y-2 divide-custom-dark-blue/10  max-w-7xl mx-auto ${candDetails ? "" : "my-10"} `}
       >
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
@@ -299,23 +303,29 @@ const Form = () => {
         <FormFirstRow
           handleInputChange={handleInputChange}
           formErrors={formErrors}
+          candDetails={candDetails}
         />
         <FormSecondRow
           stateDD={stateDD}
           handleInputChange={handleInputChange}
           formErrors={formErrors}
+          candDetails={candDetails}
         />
         <FormThirdRow
           stateDD={stateDD}
           handleInputChange={handleInputChange}
           setFormFields={setFormFields}
+          candDetails={candDetails}
         />
 
         {/* tabs */}
-        <Tabs handleInputChange={handleInputChange} />
+        <Tabs handleInputChange={handleInputChange} candDetails={candDetails} />
         {/* submit button */}
       </div>
-      <div id="button-container" className="w-full flex justify-center my-10">
+      <div
+        id="button-container"
+        className="w-full flex justify-center my-10 col-span-12"
+      >
         {successMsg && (
           <p className="border-2 border-green-600 text-green-600 p-4 flex justify-between">
             {successMsg}
@@ -335,15 +345,17 @@ const Form = () => {
             </svg>
           </p>
         )}
-        <button className="candidate-btn" onClick={handleSubmit}>
-          {loading ? "Loading..." : "SUBMIT CANDIDATE INFORMATION"}
-        </button>
+        {candDetails && (
+          <button className="candidate-btn " onClick={handleSubmit}>
+            {loading ? "Loading..." : "SUBMIT CANDIDATE INFORMATION"}
+          </button>
+        )}
       </div>
     </>
   );
 };
 
-const FormFirstRow = ({ handleInputChange, formErrors }) => {
+const FormFirstRow = ({ handleInputChange, formErrors, candDetails }) => {
   const [addContacts, setAddContacts] = useState(0);
   const addContactDiv = (index) => {
     return (
@@ -447,6 +459,7 @@ const FormFirstRow = ({ handleInputChange, formErrors }) => {
               formErrors.firstname ? "bg-red-300" : ""
             }`}
             required
+            defaultValue={candDetails?.FirstName}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -459,6 +472,7 @@ const FormFirstRow = ({ handleInputChange, formErrors }) => {
               formErrors.lastname ? "bg-red-300" : ""
             }`}
             required
+            defaultValue={candDetails?.LastName}
           />
         </div>
       </div>
@@ -476,6 +490,7 @@ const FormFirstRow = ({ handleInputChange, formErrors }) => {
             }`}
             onChange={handleInputChange}
             required
+            defaultValue={candDetails?.Phone}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -488,6 +503,7 @@ const FormFirstRow = ({ handleInputChange, formErrors }) => {
             }`}
             required
             onChange={handleInputChange}
+            defaultValue={candDetails?.Email}
           />
         </div>
       </div>
@@ -510,7 +526,12 @@ const FormFirstRow = ({ handleInputChange, formErrors }) => {
   );
 };
 
-const FormSecondRow = ({ handleInputChange, stateDD, formErrors }) => {
+const FormSecondRow = ({
+  handleInputChange,
+  stateDD,
+  formErrors,
+  candDetails,
+}) => {
   return (
     <div id="second-row" className="py-5">
       <h1 className="candidate-sub-heading">
@@ -544,6 +565,7 @@ const FormSecondRow = ({ handleInputChange, stateDD, formErrors }) => {
               formErrors.territorycity ? "bg-red-300" : ""
             }`}
             required
+            defaultValue={candDetails?.TerritoryCity}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -554,11 +576,13 @@ const FormSecondRow = ({ handleInputChange, stateDD, formErrors }) => {
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">Zip / Postal Code</p>
+          {console.log(candDetails)}
           <input
             type="text"
             name="TerritoryZipcode"
             className="candidate-input"
             onChange={handleInputChange}
+            defaultValue={candDetails?.TerritoryZipcode}
           />
         </div>
       </div>
@@ -569,6 +593,7 @@ const FormSecondRow = ({ handleInputChange, stateDD, formErrors }) => {
           name="TerritoryNotes"
           rows={10}
           className="candidate-input"
+          defaultValue={candDetails?.TerritoryNotes}
         ></textarea>
       </div>
       <div id="button-container" className="w-full flex justify-center">
@@ -578,7 +603,12 @@ const FormSecondRow = ({ handleInputChange, stateDD, formErrors }) => {
   );
 };
 
-const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
+const FormThirdRow = ({
+  handleInputChange,
+  stateDD,
+  setFormFields,
+  candDetails,
+}) => {
   const [check, setChecked] = useState(false);
 
   const timezones = [
@@ -661,6 +691,7 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
               name="CurrentCity"
               className="candidate-input mr-2"
               required
+              defaultValue={candDetails?.CurrentCity}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -677,24 +708,12 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
               name="CurrentZipcode"
               className="candidate-input"
               required
+              defaultValue={candDetails?.CurrentZipcode}
             />
           </div>
         </div>
       )}
-      <div id="sixth-sub-row" className="candidate-sub-childs">
-        <p className="candidate-label">Timezone</p>
-        <select
-          onChange={handleInputChange}
-          name="timezone"
-          className="candidate-select"
-        >
-          {timezones.map((timeZone, index) => (
-            <option key={index} value={timeZone.value}>
-              {timeZone.text}
-            </option>
-          ))}
-        </select>
-      </div>
+
       <div id="seventh-sub-row" className="candidate-sub-childs">
         <p className="candidate-label">About This Candidate / Email Contents</p>
         <textarea
@@ -702,7 +721,7 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
           name="About"
           rows={10}
           className="candidate-input"
-          defaultValue={""}
+          defaultValue={candDetails?.About}
         />
       </div>
       <div id="eigth-sub-row" className="flex flex-col md:flex-row gap-2">
@@ -714,6 +733,7 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
             name="DealSource"
             className="candidate-input"
             required
+            defaultValue={candDetails?.DealSource}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -724,6 +744,7 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
             name="DealSourceCost"
             className="candidate-input"
             required
+            defaultValue={candDetails?.DealSourceCost}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -734,6 +755,7 @@ const FormThirdRow = ({ handleInputChange, stateDD, setFormFields }) => {
             type="date"
             className="candidate-input"
             placeholder="Select date"
+            defaultValue={candDetails?.CloseDate}
           />
         </div>
       </div>
