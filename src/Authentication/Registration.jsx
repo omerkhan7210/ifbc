@@ -1,3 +1,4 @@
+import { Select } from "@headlessui/react";
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
@@ -742,7 +743,7 @@ const Experience = ({ formFields, handleInputChange, error }) => {
           >
             Registered In
           </label>
-          <input
+          <Select
             className={`shadow appearance-none ${
               error.registeredin ? "border-red-500" : ""
             } border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
@@ -752,7 +753,12 @@ const Experience = ({ formFields, handleInputChange, error }) => {
             placeholder="Registered In"
             value={formFields.registeredin}
             onChange={handleInputChange}
-          />
+          >
+            <option value="N">None</option>
+            <option value="NY">New York</option>
+            <option value="W">Washington</option>
+            <option value="B">Both</option>
+          </Select>
           {error.registeredin && (
             <p className="text-red-500 text-xs italic mt-2">
               {error.registeredin}
