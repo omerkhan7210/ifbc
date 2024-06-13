@@ -1,9 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
 
 const Registration = () => {
   const ref = useRef();
+  const history = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(null);
+
   const [error, setError] = useState({
     username: "",
     email: "",
@@ -48,9 +53,6 @@ const Registration = () => {
     profileimage: "",
     coverimage: "",
   });
-  const history = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [successMsg, setSuccessMsg] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;

@@ -19,6 +19,10 @@ const ListingDataContext = ({ children }) => {
   const [paginationListings, setPaginationListings] = useState();
   const userDetails = useSelector((state) => state.counter.userDetails);
   const ifLogin = useSelector((state) => state.counter.ifLogin);
+  const role =
+    userDetails && typeof userDetails === "object"
+      ? userDetails.UserType
+      : null;
 
   const handleTools = (event) => {
     const value = event.target.value;
@@ -76,6 +80,7 @@ const ListingDataContext = ({ children }) => {
         paginationListings,
         setPaginationListings,
         ifLogin,
+        role,
       }}
     >
       {children}

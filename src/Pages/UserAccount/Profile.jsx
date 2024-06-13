@@ -1,13 +1,29 @@
-import React, { useContext, useState } from "react";
-import { useSelector } from "react-redux";
-import { MyContext } from "src/Context/ListingDataContext";
+import _ from "lodash";
+import React, { useContext, useEffect, useState } from "react";
+import BarLoader from "src/Animations/BarLoader";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
 import DialogBox from "src/Popups/DialogBox";
 import FormatRawDate from "src/Utils/FormatRawDate";
+import { convertKeysToLowercase } from "src/Utils/ObjectMethods";
 
 const Profile = () => {
-  const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
-  const userDetails = useSelector((state) => state.counter.userDetails);
+  const { userDetails, role } = useContext(MyCandContext);
+  const [formFields, setFormFields] = useState(
+    userDetails ? convertKeysToLowercase(userDetails) : {}
+  );
+  const [successMsg, setSuccessMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [haveChanges, setHaveChanges] = useState(false);
+
+  useEffect(() => {
+    if (!_.isEqual(convertKeysToLowercase(userDetails), formFields)) {
+      setHaveChanges(true);
+      // proceed with form submission
+    } else {
+      setHaveChanges(false);
+    }
+  }, [formFields]);
 
   const handleInputChange = ({ target: { name, value } }) => {
     const newName = name.toLowerCase().split(" ").join("");
@@ -27,24 +43,108 @@ const Profile = () => {
     }));
   };
 
+  const handleSubmit = async () => {
+    setLoading(true);
+    const reqFields = [
+      "firstname",
+      "lastname",
+      "companyphonenumber",
+      "email",
+      "state",
+      "city",
+      "zippostalcode",
+      "address",
+    ];
+    let allFieldsValid = true;
+
+    reqFields.forEach((field) => {
+      const newKey = field.toLowerCase().split(" ").join("");
+      if (!formFields[newKey] || formFields[newKey].trim() === "") {
+        setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
+        allFieldsValid = false;
+      } else {
+        setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
+      }
+    });
+
+    try {
+      if (allFieldsValid) {
+        // formdata
+
+        const jsonData = JSON.stringify(formData);
+        const baseUrl =
+          "http://siddiqiventures-001-site3.ktempurl.com/userdetailsedit.aspx";
+
+        // Send the PUT request using Axios
+        const response = await axios.put(baseUrl, jsonData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (
+          response.status === 200 &&
+          response.data === "User Information Updated Successfully."
+        ) {
+          setFormErrors({});
+          setSuccessMsg("User Information Updated Successfully.");
+
+          setLoading(false);
+
+          setTimeout(() => {
+            history("/profile");
+          }, 3000);
+        } else {
+          setFormErrors({ error: response.data });
+          setLoading(false);
+          window.scrollTo(0, 500);
+          // Handle unexpected response
+        }
+      } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Please fill in all the required fields",
+        }));
+        setLoading(false);
+        window.scrollTo(0, 500);
+
+        // Handle invalid fields (e.g., show validation errors)
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div
       id="main-profile-section"
-      className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5  "
+      className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5 min-h-screen "
     >
-      {}
-      <LeftSideBar
-        formFields={formFields}
-        formErrors={formErrors}
-        handleInputChange={handleInputChange}
-        userDetails={userDetails}
-      />
-      <RightSideBar
-        formFields={formFields}
-        formErrors={formErrors}
-        handleInputChange={handleInputChange}
-        userDetails={userDetails}
-      />
+      {userDetails ? (
+        <>
+          <LeftSideBar
+            formFields={formFields}
+            formErrors={formErrors}
+            handleInputChange={handleInputChange}
+            userDetails={userDetails}
+            successMsg={successMsg}
+            handleSubmit={handleSubmit}
+            loading={loading}
+            role={role}
+            haveChanges={haveChanges}
+          />
+          <RightSideBar
+            formFields={formFields}
+            formErrors={formErrors}
+            handleInputChange={handleInputChange}
+            userDetails={userDetails}
+          />
+        </>
+      ) : (
+        <div className="h-full grid place-items-center col-span-12">
+          <BarLoader bgcolor={"blue"} />
+        </div>
+      )}
     </div>
   );
 };
@@ -54,10 +154,33 @@ const LeftSideBar = ({
   formErrors,
   handleInputChange,
   userDetails,
+  successMsg,
+  handleSubmit,
+  loading,
+  role,
+  haveChanges,
 }) => {
   const [settingsOn, setSettingsOn] = useState(false);
   const [expOn, setExpOn] = useState(false);
   const [dealOn, setDealOn] = useState(false);
+  let bgcolor = "rgb(33, 118, 255)";
+  let roleName = "Member";
+  if (role === "N") {
+    bgcolor = "rgb(247, 152, 36)";
+    roleName = "Member";
+  } else if (role === "A") {
+    bgcolor = "rgb(247, 152, 36)";
+    roleName = "Admin";
+  } else if (role === "C") {
+    bgcolor = "rgb(247, 152, 36)";
+    roleName = "Consultant/Broker";
+  } else if (role === "M") {
+    bgcolor = "rgb(247, 152, 36)";
+    roleName = "Ambassador";
+  } else if (role === "O") {
+    bgcolor = "rgb(247, 152, 36)";
+    roleName = "Company";
+  }
   return (
     <div id="left-sidebar-profile" className=" h-full w-full col-span-3 p-5 ">
       <div
@@ -75,6 +198,12 @@ const LeftSideBar = ({
               alt=""
               className="rounded-full w-32 h-32"
             />
+            <h1
+              style={{ background: bgcolor }}
+              className="candidate-label  w-full text-white text-center rounded-full px-3 mt-5"
+            >
+              {roleName}
+            </h1>
           </div>
         </div>
 
@@ -87,13 +216,13 @@ const LeftSideBar = ({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="rgb(33, 118, 255)"
-              class="size-6 "
+              className="size-6 "
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
               />
             </svg>
@@ -108,13 +237,13 @@ const LeftSideBar = ({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="rgb(33, 118, 255)"
-              class="size-6"
+              className="size-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
               />
             </svg>
@@ -127,119 +256,125 @@ const LeftSideBar = ({
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="rgb(33, 118, 255)"
-              class="size-6"
+              className="size-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
               />
             </svg>
 
             <h1 className="icon-text">{userDetails.Email}</h1>
           </div>
+          {userDetails?.WebsiteUrl !== "" && (
+            <div className="flex gap-2 items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="rgb(33, 118, 255)"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
+                />
+              </svg>
+
+              <h1 className="icon-text">
+                <a href={userDetails.WebsiteUrl}>{userDetails.WebsiteUrl}</a>
+              </h1>
+            </div>
+          )}
+
+          {userDetails?.LinkedInUrl !== "" && (
+            <div className="flex gap-2 items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="rgb(33, 118, 255)"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
+                />
+              </svg>
+              <h1 className="icon-text">
+                <a href={userDetails.LinkedInUrl}>{userDetails.LinkedInUrl}</a>
+              </h1>
+            </div>
+          )}
+
+          {userDetails?.MeetingLink !== "" && (
+            <div className="flex gap-2 items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="rgb(33, 118, 255)"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
+                />
+              </svg>
+
+              <h1 className="icon-text">
+                {" "}
+                <a href={userDetails.MeetingLink}>{userDetails.MeetingLink}</a>
+              </h1>
+            </div>
+          )}
 
           <div className="flex gap-2 items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              stroke-width="1.5"
+              strokeWidth="1.5"
               stroke="rgb(33, 118, 255)"
-              class="size-6"
+              className="size-6"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"
-              />
-            </svg>
-
-            <h1 className="icon-text">
-              <a href={userDetails.WebsiteUrl}>{userDetails.WebsiteUrl}</a>
-            </h1>
-          </div>
-
-          <div className="flex gap-2 items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="rgb(33, 118, 255)"
-              class="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"
-              />
-            </svg>
-            <h1 className="icon-text">
-              <a href={userDetails.LinkedInUrl}>{userDetails.LinkedInUrl}</a>
-            </h1>
-          </div>
-
-          <div className="flex gap-2 items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="rgb(33, 118, 255)"
-              class="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"
-              />
-            </svg>
-
-            <h1 className="icon-text">
-              {" "}
-              <a href={userDetails.MeetingLink}>{userDetails.MeetingLink}</a>
-            </h1>
-          </div>
-
-          <div className="flex gap-2 items-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="rgb(33, 118, 255)"
-              class="size-6"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
               />
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
               />
             </svg>
 
             <h1 className="icon-text">{userDetails.CompanyAddress}</h1>
           </div>
+
           <div>
             <div className="flex gap-2 items-center ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="rgb(33, 118, 255)"
-                class="size-6"
+                className="size-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
@@ -248,65 +383,92 @@ const LeftSideBar = ({
                 Member Since {FormatRawDate(userDetails)}
               </h1>
             </div>
-
-            <h1 className="candidate-label border bg-custom-dark-blue w-full text-white text-center rounded-full px-3 mt-5">
-              Broker
-            </h1>
           </div>
         </div>
       </div>
-      {/* profile settings */}
-      <button
-        className="candidate-btn w-full"
-        onClick={() => setSettingsOn(true)}
-      >
-        Edit Settings
-      </button>
-      {settingsOn && (
-        <DialogBox setShow={setSettingsOn} show={settingsOn}>
-          <Settings
-            handleInputChange={handleInputChange}
-            setShow={setSettingsOn}
-          />
-        </DialogBox>
-      )}
 
-      {/* experience settings */}
-      <button
-        className="candidate-btn w-full mt-5"
-        onClick={() => setExpOn(true)}
-      >
-        Edit Experience
-      </button>
-      {expOn && (
-        <DialogBox setShow={setExpOn} show={expOn}>
-          <Experience
-            handleInputChange={handleInputChange}
-            setShow={setExpOn}
-          />
-        </DialogBox>
-      )}
+      <div className="left-siderbar-buttons-container">
+        {/* profile settings */}
+        <button
+          className="candidate-secondary-btn w-full"
+          onClick={() => setSettingsOn(true)}
+        >
+          Edit Settings
+        </button>
+        {settingsOn && (
+          <DialogBox setShow={setSettingsOn} show={settingsOn}>
+            <Settings
+              handleInputChange={handleInputChange}
+              setShow={setSettingsOn}
+              userDetails={userDetails}
+            />
+          </DialogBox>
+        )}
 
-      {/* deal and activity settings */}
-      <button
-        className="candidate-btn w-full mt-5"
-        onClick={() => setDealOn(true)}
-      >
-        Edit Deal and Activity Settings
-      </button>
-      {expOn && (
-        <DialogBox setShow={setDealOn} show={dealOn}>
-          <DealActivity
-            handleInputChange={handleInputChange}
-            setShow={setDealOn}
-          />
-        </DialogBox>
+        {/* experience settings */}
+        <button
+          className="candidate-secondary-btn w-full mt-5"
+          onClick={() => setExpOn(true)}
+        >
+          Edit Experience
+        </button>
+        {expOn && (
+          <DialogBox setShow={setExpOn} show={expOn}>
+            <Experience
+              handleInputChange={handleInputChange}
+              setShow={setExpOn}
+              userDetails={userDetails}
+            />
+          </DialogBox>
+        )}
+
+        {/* deal and activity settings */}
+        <button
+          className="candidate-secondary-btn w-full mt-5"
+          onClick={() => setDealOn(true)}
+        >
+          Edit Deal and Activity Settings
+        </button>
+        {expOn && (
+          <DialogBox setShow={setDealOn} show={dealOn}>
+            <DealActivity
+              handleInputChange={handleInputChange}
+              setShow={setDealOn}
+              userDetails={userDetails}
+            />
+          </DialogBox>
+        )}
+      </div>
+
+      {successMsg && (
+        <p className="border-2 border-green-600 text-green-600 p-4 flex justify-between">
+          {successMsg}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+            />
+          </svg>
+        </p>
+      )}
+      {haveChanges && (
+        <button className="candidate-btn w-full mt-5" onClick={handleSubmit}>
+          {loading ? "Loading..." : "SAVE YOUR PROFILE INFORMATION"}
+        </button>
       )}
     </div>
   );
 };
 
-const Settings = ({ handleInputChange, setShow }) => {
+const Settings = ({ handleInputChange, setShow, userDetails }) => {
   return (
     <div id="settings" className="w-full col-span-4 p-8 flex flex-col gap-3">
       <button
@@ -365,7 +527,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.TerritoryCheck === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label htmlFor="default-checkbox" className="font-bold text-sm">
@@ -386,7 +548,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.DisableLogo === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -402,7 +564,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.DisableCover === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -418,7 +580,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.DisableProfile === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -434,7 +596,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.DisableBio === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -450,7 +612,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.HideName === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -461,31 +623,13 @@ const Settings = ({ handleInputChange, setShow }) => {
         </label>
       </div>
 
-      <h1 className="text-custom-heading-color font-bold text-2xl">
-        Candidates and CoBroker Settings
-      </h1>
-      <div className="candidate-sub-childs">
-        <p className="ms-2 text-sm font-bold text-slate-500">
-          Share all candidates w/ sub accounts
-        </p>
-        <select
-          id="countries"
-          className="candidate-input p-3"
-          name="broker"
-          onChange={handleInputChange}
-        >
-          <option selected>Select Stage</option>
-          <option value="US">Search for broker</option>
-        </select>
-      </div>
-
       <div className="flex items-center">
         <input
           name="allcandidates"
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.AllCandidates === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -502,7 +646,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.AllPastClient === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -523,7 +667,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.ShareFranchise === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -545,7 +689,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           type="text"
           readOnly
-          placeholder="aa7ba8cbc02ffe5d77ad0a9fe4d815bf@reply.fbamembers.com"
+          defaultValue={userDetails?.LeadEmail}
           className="candidate-input"
           required
         />
@@ -556,9 +700,9 @@ const Settings = ({ handleInputChange, setShow }) => {
         <input
           onChange={handleInputChange}
           type="text"
+          name="leadendpoint"
           readOnly
           placeholder="https://fbamembers.com/hubspot-contact/RDZpMzBGTEppb1htQ1VoWUdaMk1Udz09"
-          name="leadendpoint"
           className="candidate-input"
           required
         />
@@ -575,7 +719,7 @@ const Settings = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.FbaBadges === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -593,13 +737,13 @@ const Settings = ({ handleInputChange, setShow }) => {
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
-            class="size-5"
+            className="size-5"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="m9 9 10.5-3m0 6.553v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 1 1-.99-3.467l2.31-.66a2.25 2.25 0 0 0 1.632-2.163Zm0 0V2.25L9 5.25v10.303m0 0v3.75a2.25 2.25 0 0 1-1.632 2.163l-1.32.377a1.803 1.803 0 0 1-.99-3.467l2.31-.66A2.25 2.25 0 0 0 9 15.553Z"
             />
           </svg>
@@ -619,7 +763,7 @@ const Settings = ({ handleInputChange, setShow }) => {
   );
 };
 
-const Experience = ({ handleInputChange, setShow }) => {
+const Experience = ({ handleInputChange, setShow, userDetails }) => {
   return (
     <div id="experience" className="h-auto w-full col-span-8 p-5">
       <button
@@ -653,6 +797,7 @@ const Experience = ({ handleInputChange, setShow }) => {
           name="consulting"
           className="candidate-input w-full"
           id="consulting"
+          defaultValue={userDetails?.Consulting}
           onChange={handleInputChange}
         >
           <option value="CB">Co-Breaking</option>
@@ -683,6 +828,7 @@ const Experience = ({ handleInputChange, setShow }) => {
           name="franchiseindustryfocus"
           className="candidate-input w-full"
           id="franchiseindustryfocus"
+          defaultValue={userDetails?.FranchiseIndustryFocus}
           onChange={handleInputChange}
         >
           <option value="EB">Emerging Brands</option>
@@ -713,7 +859,7 @@ const Experience = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.BusinessBroker === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -733,6 +879,7 @@ const Experience = ({ handleInputChange, setShow }) => {
           className="candidate-input w-full"
           id="registered"
           onChange={handleInputChange}
+          defaultValue={userDetails?.RegisteredIn}
         >
           <option value="N">None</option>
           <option value="NY">New York</option>
@@ -747,7 +894,7 @@ const Experience = ({ handleInputChange, setShow }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultValue
+          defaultChecked={userDetails?.OpenForGroup === "Yes" ? true : false}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -767,7 +914,7 @@ const Experience = ({ handleInputChange, setShow }) => {
   );
 };
 
-const DealActivity = ({ handleInputChange, setShow }) => {
+const DealActivity = ({ handleInputChange, setShow, userDetails }) => {
   return (
     <div id="Deal-Activity" className="h-auto w-full col-span-8 p-5">
       <button
@@ -821,7 +968,12 @@ const DealActivity = ({ handleInputChange, setShow }) => {
   );
 };
 
-const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
+const RightSideBar = ({
+  formFields,
+  formErrors,
+  handleInputChange,
+  userDetails,
+}) => {
   const states = [
     { value: "AL", text: "Alabama" },
     { value: "AK", text: "Alaska" },
@@ -892,6 +1044,25 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
 
   return (
     <div id="right-sidebar-profile" className=" w-full col-span-9 p-5 ">
+      {formErrors.error && (
+        <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
+          {formErrors.error}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+            />
+          </svg>
+        </p>
+      )}
       <div id="2-column-profile-inputs" className="flex max-md:flex-col gap-6">
         <div id="left-side-inputs" className="  w-full">
           <h1 className="text-custom-heading-color font-bold text-2xl">
@@ -905,6 +1076,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="firstname"
               className="candidate-input"
               required
+              defaultValue={userDetails?.FirstName}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -915,6 +1087,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="lastname"
               className="candidate-input"
               required
+              defaultValue={userDetails?.LastName}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -925,6 +1098,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="email"
               className="candidate-input"
               required
+              defaultValue={userDetails?.Email}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -935,6 +1109,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="websiteurl"
               className="candidate-input"
               required
+              defaultValue={userDetails?.WebsiteUrl}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -945,6 +1120,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="linkedinurl"
               className="candidate-input"
               required
+              defaultValue={userDetails?.LinkedInUrl}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -955,6 +1131,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="meetinglink"
               className="candidate-input"
               required
+              defaultValue={userDetails?.MeetingLink}
             />
           </div>
         </div>
@@ -971,6 +1148,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="companyname"
               className="candidate-input"
               required
+              defaultValue={userDetails?.CompanyName}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -981,6 +1159,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="companyphonenumber"
               className="candidate-input"
               required
+              defaultValue={userDetails?.CompanyPhoneNumber}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -991,6 +1170,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="companyaddress"
               className="candidate-input"
               required
+              defaultValue={userDetails?.CompanyAddress}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1001,15 +1181,17 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="city"
               className="candidate-input"
               required
+              defaultValue={userDetails?.City}
             />
           </div>
           <div className="candidate-sub-childs">
             <p className="candidate-label">State/Province:</p>
             <select
               onChange={handleInputChange}
-              id="countries"
+              id="state"
               className="candidate-input p-3"
-              name="zippostalcode"
+              name="state"
+              defaultValue={userDetails?.State}
             >
               {states.map((state, index) => (
                 <option key={index} value={state.value}>
@@ -1027,6 +1209,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
               name="zippostalcode"
               className="candidate-input"
               required
+              defaultValue={userDetails?.ZipPostalCode}
             />
           </div>
         </div>
@@ -1039,6 +1222,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           name="unitsuite"
           className="candidate-input"
           required
+          defaultValue={userDetails?.UnitSuite}
         />
       </div>
       <div>
@@ -1050,9 +1234,8 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           onChange={handleInputChange}
           id="message"
           rows={5}
-          defaultValue={
-            "An International Franchise Business Consultant is a professional who provides guidance and advice to individuals or companies interested in franchising their business or investing in a franchise. They help clients navigate the complex process of franchising, from developing a business plan to finding the right franchise opportunity."
-          }
+          className="candidate-input"
+          defaultValue={userDetails?.Notes}
         />
       </div>
       <div className="candidate-sub-childs">
@@ -1063,6 +1246,7 @@ const RightSideBar = ({ formFields, formErrors, handleInputChange }) => {
           name="shortdescription"
           className="candidate-input"
           required
+          defaultValue={userDetails?.ShortDescription}
         />
       </div>
     </div>

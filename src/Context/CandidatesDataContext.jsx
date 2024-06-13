@@ -1,11 +1,17 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 export const MyCandContext = createContext();
 
 const CandidatesDataContext = ({ children }) => {
   const [cands, setCands] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(null);
+  const userDetails = useSelector((state) => state.counter.userDetails);
+  const role =
+    userDetails && typeof userDetails === "object"
+      ? userDetails.UserType
+      : null;
 
   useEffect(() => {
     setLoading(true);
@@ -30,11 +36,13 @@ const CandidatesDataContext = ({ children }) => {
   return (
     <MyCandContext.Provider
       value={{
+        role,
         cands,
         setCands,
         loading,
         filters,
         setFilters,
+        userDetails,
       }}
     >
       {children}
