@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 import ListingsColumns from "src/Pages/ListingsPage/ListingsColumns";
-import DialogBox from "../DialogBox";
+import DialogBox from "./DialogBox";
 
 const TerritoryCheck = ({ setShow, show }) => {
-  const { activeListings, tCheck, setTCheck, listings } = useContext(MyContext);
+  const { activeListings, listings } = useContext(MyContext);
   const [active, setActive] = useState("candidate");
   return (
     <DialogBox setShow={setShow} show={show}>

@@ -68,10 +68,11 @@ const CandidateSideBar = () => {
 const Card = () => {
   return (
     <div className=" bg-white rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md">
-      <div id="status-container" className="flex justify-end">
+      <div id="status-container" className="flex justify-between">
+        <h1 className="candidate-territory">Territory Check</h1>
         <h1 className="candidate-pending">Status</h1>
       </div>
-      <div className="flex justify-center flex-col items-center">
+      <div className="flex justify-center flex-col items-center w-full">
         <img
           src="/public/images/SmashMyTrash.png"
           alt="smash"
