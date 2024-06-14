@@ -20,7 +20,8 @@ const App = () => {
   const ifLogin = useSelector((state) => state.counter.ifLogin);
   const role = useSelector((state) => state.counter.role);
 
-  const [show, setShow] = useState("");
+  const [showF, setShowF] = useState("");
+  const [showT, setShowT] = useState("");
   const loc = useLocation();
 
   useEffect(() => {
@@ -42,17 +43,19 @@ const App = () => {
       <AnimatePresence mode="wait">
         <RouteRenderer
           isAuthenticated={ifLogin}
-          setShow={setShow}
-          show={show}
+          setShowF={setShowF}
+          setShowT={setShowT}
+          showF={showF}
+          showT={showT}
         />
       </AnimatePresence>
       <ListingDataContext>
         {(loc.pathname.includes("listings") ||
           loc.pathname.includes("candidate")) &&
           role !== "C" && <CandidateSideBar />}
-        <TerritoryCheck setShow={setShow} show={show} />
         <CandidatesDataContext>
-          <FormalReg setShow={setShow} show={show} />
+          <TerritoryCheck setShow={setShowT} show={showT} />
+          <FormalReg setShow={setShowF} show={showF} />
         </CandidatesDataContext>
         <FLSEmail />
       </ListingDataContext>

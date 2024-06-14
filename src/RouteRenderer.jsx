@@ -16,7 +16,13 @@ import { useRoutes } from "react-router-dom";
 import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 
-const RouteRenderer = ({ isAuthenticated, show, setShow }) => {
+const RouteRenderer = ({
+  isAuthenticated,
+  showF,
+  setShowF,
+  showT,
+  setShowT,
+}) => {
   const authenticatedRoutes = [
     {
       path: "/",
@@ -30,7 +36,7 @@ const RouteRenderer = ({ isAuthenticated, show, setShow }) => {
       path: "/listings",
       element: (
         <ListingDataContext>
-          <MainListings setShow={setShow} show={show} />
+          <MainListings setShowF={setShowF} setShowT={setShowT} />
         </ListingDataContext>
       ),
     },
@@ -38,7 +44,7 @@ const RouteRenderer = ({ isAuthenticated, show, setShow }) => {
       path: "/listings-details/:name",
       element: (
         <ListingDataContext>
-          <MainDetails setShow={setShow} show={show} />
+          <MainDetails setShowF={setShowF} setShowT={setShowT} />
         </ListingDataContext>
       ),
     },

@@ -9,7 +9,9 @@ const FormalReg = ({ setShow, show }) => {
   const { cands } = useContext(MyCandContext);
   return (
     <DialogBox setShow={setShow} show={show}>
-      <Form />
+      <div id="popup-container" className="p-10">
+        <Form />
+      </div>
     </DialogBox>
   );
 };
