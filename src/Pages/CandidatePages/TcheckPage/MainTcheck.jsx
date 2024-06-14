@@ -22,7 +22,7 @@ const MainTcheck = () => {
       <div className=" my-20 max-w-7xl mx-auto flex flex-col gap-5">
         <div
           id="filter-options"
-          className="grid grid-cols-3 gap-3 content-center"
+          className="grid grid-cols-1 md:grid-cols-3 gap-3 content-center"
         >
           <div id="compose-btn-container">
             <button className=" flex justify-center items-center gap-3 w-full candidate-btn">
@@ -68,7 +68,10 @@ const MainTcheck = () => {
             </select>
           </div>
         </div>
-        <div id="buttons-container" className="grid grid-cols-3 gap-10">
+        <div
+          id="buttons-container"
+          className="grid grid-cols-1 md:grid-cols-3 gap-10"
+        >
           <div
             id="bulkaction-container"
             className="flex gap-5 items-center justify-center"
@@ -155,7 +158,10 @@ const MainTcheck = () => {
           </div>
         </div>
 
-        <div id="cards-container" className="grid grid-cols-3 gap-10">
+        <div
+          id="cards-container"
+          className="grid grid-cols-1 md:grid-cols-3 gap-10"
+        >
           <Card />
           <Card />
           <Card />
