@@ -26,6 +26,7 @@ import { generateUuid } from "./Redux/listingReducer";
 import Profile from "./Pages/UserAccount/Profile";
 import MainCandidateProfile from "./Pages/CandidatePages/CandidateList/MainCandidateProfile";
 import ForgotPassword from "./Authentication/ForgotPassword";
+import MainTcheck from "./Pages/CandidatePages/TcheckPage/MainTcheck";
 
 const RouteRenderer = ({ isAuthenticated, show, setShow }) => {
   const authenticatedRoutes = [
@@ -74,6 +75,14 @@ const RouteRenderer = ({ isAuthenticated, show, setShow }) => {
       element: (
         <CandidatesDataContext>
           <MainNewCand />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+      path: "/territory-checks",
+      element: (
+        <CandidatesDataContext>
+          <MainTcheck />
         </CandidatesDataContext>
       ),
     },
