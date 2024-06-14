@@ -42,7 +42,7 @@
 }
 
 .candidate-pending {
-  @apply bg-custom-grey rounded-full py-2 px-4 text-sm text-white;
+  @apply bg-custom-grey rounded-full py-1 px-4 text-xs text-white;
 }
 
 .candidate-input-container {
