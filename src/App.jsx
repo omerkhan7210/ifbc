@@ -12,7 +12,6 @@ import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { generateUuid } from "./Redux/listingReducer";
-import RouteRenderer from "./RouteRenderer";
 
 const App = () => {
   const dispatch = useDispatch();

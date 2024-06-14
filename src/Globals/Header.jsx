@@ -239,8 +239,8 @@ const AccountDD = ({ userDetails, ifLogin }) => {
         >
           <img
             src={
-              userDetails.ProfileImage
-                ? `/images/uploads/${userDetails.ProfileImage}`
+              userDetails?.ProfileImage
+                ? `/images/uploads/${userDetails?.ProfileImage}`
                 : "/images/avatar-placeholder.png"
             }
             className="w-10 h-10 rounded-full"
