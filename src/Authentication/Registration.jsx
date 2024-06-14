@@ -130,7 +130,6 @@ const Registration = () => {
 
       setLoading(true);
 
-      console.log(requestData);
       const response = await axios.post(baseUrl, requestData, {
         headers: {
           "Content-Type": "application/json",

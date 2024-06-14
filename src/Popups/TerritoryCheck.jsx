@@ -93,7 +93,6 @@ const TerritoryCheck = ({ setShow, show }) => {
                 defaultValue={selectedDetails?.TerritoryState}
               ></select>
             </div>
-            {console.log(cands)}
             <div className="flex flex-col w-full">
               <p className="candidate-paragraph">ZIP/Postal Code</p>
               <input

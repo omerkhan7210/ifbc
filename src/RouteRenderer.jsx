@@ -74,7 +74,7 @@ const RouteRenderer = ({
       ),
     },
     {
-      path: "/territory-checks",
+      path: "/messages/:name",
       element: (
         <CandidatesDataContext>
           <MainTcheck />

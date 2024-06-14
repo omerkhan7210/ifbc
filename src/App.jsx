@@ -51,8 +51,9 @@ const App = () => {
       </AnimatePresence>
       <ListingDataContext>
         {(loc.pathname.includes("listings") ||
-          loc.pathname.includes("candidate")) &&
-          role !== "C" && <CandidateSideBar />}
+          loc.pathname.includes("candidate") ||
+          loc.pathname.includes("messages")) &&
+          role !== "N" && <CandidateSideBar />}
         <CandidatesDataContext>
           <TerritoryCheck setShow={setShowT} show={showT} />
           <FormalReg setShow={setShowF} show={showF} />
