@@ -35,7 +35,10 @@ const MainTcheck = () => {
       <div className=" my-20 max-w-7xl mx-auto flex flex-col gap-5">
         <FirstRow formalReg={formalReg} tCheck={tCheck} />
         <SecondRow />
-        <div id="cards-container" className="grid grid-cols-3 gap-5">
+        <div
+          id="cards-container"
+          className="grid grid-cols-1 md:grid-cols-3 gap-5"
+        >
           <Card />
           <Card />
           <Card />
@@ -88,7 +91,10 @@ const Card = () => {
 
 const FirstRow = ({ formalReg, tCheck }) => {
   return (
-    <div id="filter-options" className="grid grid-cols-3 gap-5 content-center">
+    <div
+      id="filter-options"
+      className="grid grid-cols-1 md:grid-cols-3 gap-5 content-center"
+    >
       <div id="compose-btn-container">
         <button className=" flex justify-center items-center gap-3 w-full candidate-btn">
           COMPOSE
@@ -143,7 +149,10 @@ const FirstRow = ({ formalReg, tCheck }) => {
 
 const SecondRow = () => {
   return (
-    <div id="buttons-container" className="grid grid-cols-3 gap-5">
+    <div
+      id="buttons-container"
+      className="grid grid-cols-1 md:grid-cols-3 gap-5"
+    >
       <div
         id="bulkaction-container"
         className="flex gap-5 items-center justify-center"
