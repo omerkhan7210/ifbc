@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { MyTCFRContext } from "src/Context/TCFRDataContext";
 
 const CandidateSideBar = () => {
   const [active, setActive] = useState(false);
+  const { all } = useContext(MyTCFRContext);
 
+  useEffect;
   return (
     <>
       <motion.div
@@ -52,12 +55,7 @@ const CandidateSideBar = () => {
           <h2 className="side-bar-first-heading text-2xl">Recent Activity</h2>
 
           <div id="activity-grid-container" className="grid grid-cols-4 gap-3">
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            {all && all.length > 0 && all.map((card) => <Card card={card} />)}
           </div>
         </motion.div>
       </motion.div>
@@ -65,7 +63,7 @@ const CandidateSideBar = () => {
   );
 };
 
-const Card = () => {
+const Card = ({ card }) => {
   return (
     <div className=" bg-white rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md">
       <div id="status-container" className="flex justify-between">

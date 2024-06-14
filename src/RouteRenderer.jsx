@@ -15,7 +15,7 @@ import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import { useRoutes } from "react-router-dom";
 import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
-import MainTcheck from "./Pages/CandidatePages/TcheckPage/MainTcheck";
+import MainTcheck from "./Pages/CandidatePages/Messages/MainTcheck";
 
 const RouteRenderer = ({
   isAuthenticated,

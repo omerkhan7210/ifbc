@@ -4,7 +4,10 @@ import { useState } from "react";
 import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MyContext } from "src/Context/ListingDataContext";
-import { incrementByListing } from "src/Redux/listingReducer";
+import {
+  incrementActiveListing,
+  incrementByListing,
+} from "src/Redux/listingReducer";
 
 const ListingsColumns = ({ listing, index }) => {
   const { activeListings, setActiveListings, allowed, role } =
@@ -23,15 +26,7 @@ const ListingsColumns = ({ listing, index }) => {
   const isActive = activeListings?.includes(listing.name) ? true : false;
 
   const handleCardClick = () => {
-    setActiveListings((prevActiveListings) => {
-      const isListingActive = prevActiveListings.includes(listing.name);
-
-      if (isListingActive) {
-        return prevActiveListings.filter((item) => item !== listing.name);
-      } else {
-        return [...prevActiveListings, listing.name];
-      }
-    });
+    dispatch(incrementActiveListing(listing.DocId));
   };
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
