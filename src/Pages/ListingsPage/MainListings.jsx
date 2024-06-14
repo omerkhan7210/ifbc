@@ -6,7 +6,7 @@ import SearchingComponent from "./SearchingComponent";
 import PageTransition from "src/Animations/PageTransition";
 import RelatedListings from "src/Globals/RelatedListings";
 
-const ExtraTools = ({ setShow, show }) => {
+const ExtraTools = ({ setShowF, setShowT }) => {
   const {
     handleTools,
     activeListings,
@@ -26,34 +26,34 @@ const ExtraTools = ({ setShow, show }) => {
 
   return (
     <div className="grid grid-cols-12 gap-3 items-center">
-      {role == "C" && (
-        <div
-          id="form-button-container"
-          className="flex flex-col gap-2 w-full justify-between h-full sm:col-span-6 col-span-12 lg:col-span-4"
+      {/* {role !== "N" && ( */}
+      <div
+        id="form-button-container"
+        className="flex flex-col gap-2 w-full justify-between h-full sm:col-span-6 col-span-12 lg:col-span-4"
+      >
+        <button
+          className="candidate-btn w-full"
+          value="tc"
+          onClick={() => setShowT(true)}
         >
-          <button
-            className="candidate-btn w-full"
-            value="tc"
-            onClick={() => setTCheck(true)}
-          >
-            Territory Checks
-          </button>
-          <button
-            className="candidate-btn w-full"
-            value="fr"
-            onClick={() => setformalRegCheck(true)}
-          >
-            Formal Registrations
-          </button>
-        </div>
-      )}
+          Territory Checks
+        </button>
+        <button
+          className="candidate-btn w-full"
+          value="fr"
+          onClick={() => setShowF(true)}
+        >
+          Formal Registrations
+        </button>
+      </div>
+      {/* )} */}
 
       <div
         className={`grid grid-cols-12 col-span-12 sm:col-span-6 ${
-          role === "C" ? "lg:col-span-4" : "lg:col-span-6"
+          role !== "N" ? "lg:col-span-4" : "lg:col-span-6"
         } w-full gap-3 sm:gap-3 `}
       >
-        {role == "C" && (
+        {role !== "N" && (
           <div className="col-span-12">
             <select onChange={handleTools} className="candidate-select w-full">
               <option value="">Tools</option>
@@ -69,7 +69,7 @@ const ExtraTools = ({ setShow, show }) => {
         <button
           className={`${
             activeListings.length > 0
-              ? role == "C"
+              ? role !== "N"
                 ? "col-span-6"
                 : "col-span-12"
               : "col-span-12"
@@ -82,7 +82,7 @@ const ExtraTools = ({ setShow, show }) => {
         {activeListings.length > 0 && (
           <button
             className={`${
-              role == "C" ? "col-span-6" : "col-span-12"
+              role !== "N" ? "col-span-6" : "col-span-12"
             } border-2 border-red-900 hover:bg-red-900 hover:text-white transition-all duration-500 py-2 px-5  w-full md:w-auto tertiary-button text-red-900`}
             onClick={() => {
               setShowActiveListings(false);
@@ -96,7 +96,7 @@ const ExtraTools = ({ setShow, show }) => {
 
       <div
         className={`col-span-12 ${
-          role === "C" ? "lg:col-span-4" : "lg:col-span-6"
+          role !== "N" ? "lg:col-span-4" : "lg:col-span-6"
         } md:flex md:mb-4 mb-0 flex-col h-full ${
           activeListings && activeListings.length > 0
             ? "justify-between "
@@ -123,7 +123,7 @@ const ExtraTools = ({ setShow, show }) => {
   );
 };
 
-const MainListings = ({ setShow, show }) => {
+const MainListings = ({ showF, setShowF, showT, setShowT }) => {
   const { loading } = useContext(MyContext);
 
   useLayoutEffect(() => {
@@ -159,7 +159,7 @@ const MainListings = ({ setShow, show }) => {
         id="main"
       >
         <div className="col-span-12">
-          <ExtraTools setShow={setShow} show={show} />
+          <ExtraTools setShowF={setShowF} setShowT={setShowT} />
         </div>
 
         <div
@@ -176,6 +176,7 @@ const MainListings = ({ setShow, show }) => {
           <AllListings />
         </div>
       </main>
+
       <RelatedListings />
     </PageTransition>
   );

@@ -1,31 +1,62 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 import ListingsColumns from "src/Pages/ListingsPage/ListingsColumns";
-import DialogBox from "../DialogBox";
+import DialogBox from "./DialogBox";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
 
 const TerritoryCheck = ({ setShow, show }) => {
-  const { activeListings, tCheck, setTCheck, listings } = useContext(MyContext);
+  const { activeListings, listings } = useContext(MyContext);
+  const { cands } = useContext(MyCandContext);
   const [active, setActive] = useState("candidate");
+  const [candNames, setNames] = useState();
+  const [selectedDocId, setSelectedDocId] = useState("");
+  const [selectedDetails, setSelectedDetails] = useState(null);
+  useEffect(() => {
+    if (cands && cands.length > 0) {
+      let names = cands.map((cand) => ({
+        name: cand.FirstName,
+        DocId: cand.DocId,
+      }));
+      setNames(names);
+    }
+  }, [cands]);
+
+  useEffect(() => {
+    if (selectedDocId !== "") {
+      const filtered = cands.filter((cand) => cand.DocId == selectedDocId);
+
+      setSelectedDetails(filtered.length > 0 ? filtered[0] : null);
+    }
+  }, [selectedDocId, cands]);
+
   return (
     <DialogBox setShow={setShow} show={show}>
       <div
         id="territoryModal"
-        className="bg-white overflow-y-scroll h-[500px] rounded-lg shadow-md p-[30px]"
+        className="bg-white overflow-y-scroll h-[500px] rounded-lg shadow-md p-10"
       >
-        <h2 className="text-green-600 font-bold text-3xl mt-0 text-center">
+        <h2 className="text-custom-heading-color font-bold text-5xl uppercase text-center">
           Territory Check
         </h2>
 
         <div id="fr-tcheck-popup" class="mt-10">
-          <h2 className="candidate-sub-heading">Candidates Name*</h2>
+          <h2 className="candidate-sub-heading">Candidate Name*</h2>
           <div class="flex justify-between w-full">
             <div className="flex flex-col mr-5 w-[50%]">
               <p className="candidate-paragraph">First Name</p>
               <select
                 id="firstname"
                 name="firstname"
-                className="candidate-select"
-              ></select>
+                className="candidate-select capitalize"
+                onChange={(e) => setSelectedDocId(e.target.value)}
+              >
+                {candNames &&
+                  candNames.map((cand, index) => (
+                    <option key={index} value={cand.DocId}>
+                      {cand.name}
+                    </option>
+                  ))}
+              </select>
             </div>
             <div className="flex flex-col w-[50%]">
               <p className="candidate-paragraph">Last Name*</p>
@@ -34,6 +65,7 @@ const TerritoryCheck = ({ setShow, show }) => {
                 type="text"
                 className="candidate-input"
                 required
+                defaultValue={selectedDetails?.LastName}
               />
             </div>
           </div>
@@ -49,6 +81,7 @@ const TerritoryCheck = ({ setShow, show }) => {
                 type="text"
                 className="candidate-input"
                 required
+                defaultValue={selectedDetails?.TerritoryCity}
               />
             </div>
             <div className="flex flex-col w-full">
@@ -57,14 +90,17 @@ const TerritoryCheck = ({ setShow, show }) => {
                 id="region"
                 name="State/Province/Region"
                 className="candidate-select"
+                defaultValue={selectedDetails?.TerritoryState}
               ></select>
             </div>
+            {console.log(cands)}
             <div className="flex flex-col w-full">
               <p className="candidate-paragraph">ZIP/Postal Code</p>
               <input
                 name="ZIP/Postal Code"
                 type="text"
                 className="candidate-input"
+                defaultValue={selectedDetails?.TerritoryZipcode}
                 required
               />
             </div>
@@ -81,7 +117,7 @@ const TerritoryCheck = ({ setShow, show }) => {
             id="message"
             rows={6}
             className="candidate-input"
-            defaultValue={""}
+            defaultValue={selectedDetails?.TerritoryNotes}
           />
         </div>
         <div>

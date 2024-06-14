@@ -44,6 +44,9 @@
 .candidate-pending {
   @apply bg-custom-grey rounded-full py-1 px-4 text-xs text-white;
 }
+.candidate-territory {
+  @apply bg-custom-dark-blue rounded-full py-1 px-4 text-xs text-white;
+}
 
 .candidate-input-container {
   @apply flex flex-col w-full  my-3;
