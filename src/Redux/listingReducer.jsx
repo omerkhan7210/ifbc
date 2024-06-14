@@ -7,6 +7,11 @@ const initialState = {
   uuid: localStorage.getItem("uuid") || null,
   ifLogin: JSON.parse(localStorage.getItem("ifLogin")) || false,
   userDetails: JSON.parse(localStorage.getItem("userDetails")) || null,
+  role:
+    JSON.parse(localStorage.getItem("userDetails")) &&
+    typeof JSON.parse(localStorage.getItem("userDetails")) === "object"
+      ? JSON.parse(localStorage.getItem("userDetails"))?.UserType
+      : null,
 };
 
 export const listingReducer = createSlice({

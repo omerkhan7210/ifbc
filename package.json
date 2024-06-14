@@ -13,6 +13,9 @@
   "dependencies": {
     "@headlessui/react": "^2.0.4",
     "@reduxjs/toolkit": "^2.2.5",
+    "@rpldy/upload-button": "^1.8.1",
+    "@rpldy/upload-preview": "^1.8.1",
+    "@rpldy/uploady": "^1.8.1",
     "axios": "^1.6.8",
     "framer-motion": "^11.1.9",
     "helmet": "^7.1.0",

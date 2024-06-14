@@ -1,5 +1,4 @@
 import React, { useContext, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 
 const SearchingComponent = () => {

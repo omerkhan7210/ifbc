@@ -2,6 +2,7 @@ import { useState } from "react";
 
 const Tabs = ({ handleInputChange, candDetails }) => {
   const [activeTab, setActiveTab] = useState("initial qualifying");
+  console.log(candDetails?.ColdCalling === "Yes");
   return (
     <div className="md:flex mt-6">
       {/* Tabs list  */}
@@ -770,6 +771,7 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="TrafficViolation"
               defaultValue="true"
+              checked={candDetails?.TrafficViolation === "true"}
             />
             <label
               className="mb-2 block"
@@ -786,6 +788,7 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="TrafficViolation"
               defaultValue="false"
+              checked={candDetails?.TrafficViolation === "false"}
             />
             <label
               className="mb-2 block"
@@ -810,6 +813,7 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Unsatisfiedjudgment"
               defaultValue="true"
+              checked={candDetails?.Unsatisfiedjudgment === "true"}
             />
             <label
               className="mb-2 block"
@@ -825,6 +829,7 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Unsatisfiedjudgment"
               defaultValue="false"
+              checked={candDetails?.Unsatisfiedjudgment === "false"}
             />
             <label
               className="mb-2 block"
@@ -846,6 +851,7 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.Bankruptcy}
         />
       </div>
       <div className="mt-5">
@@ -861,7 +867,7 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           id="message"
           rows={10}
           className="candidate-input"
-          defaultValue={""}
+          defaultValue={candDetails?.EligibilityNote}
         />
       </div>
       <div>
@@ -889,6 +895,7 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.BusinessBefore}
         />
       </div>
       <div className="candidate-input-container">
@@ -901,6 +908,7 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.MarketingExperience}
         />
       </div>
       <div className="candidate-input-container">
@@ -913,6 +921,7 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.ManagementExperience}
         />
       </div>
       <div className="candidate-input-container">
@@ -923,6 +932,7 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.SalesExperience}
         />
       </div>
       <div className="candidate-input-container">
@@ -935,6 +945,7 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.ReviewFinancialStatement}
         />
       </div>
       <div className="candidate-input-container">
@@ -947,6 +958,7 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.CSExperience}
         />
       </div>
       <div>
@@ -974,6 +986,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.AttractiveBusinessOwner}
         />
       </div>
       <div className="candidate-input-container">
@@ -987,6 +1000,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
+          defaultValue={candDetails?.HandleNewBusiness}
         />
       </div>
       <div className="mt-5">
@@ -1003,7 +1017,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
           id="message"
           rows={10}
           className="candidate-input"
-          defaultValue={""}
+          defaultValue={candDetails?.BusinessExpectations}
         />
       </div>
       <div className="flex flex-col">
@@ -1016,6 +1030,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PreferB2b"
               defaultValue="Both"
+              checked={candDetails?.PreferB2b === "Both"}
             />
             <label className="mb-2 block" htmlFor="_fba_b2b1">
               Both
@@ -1028,6 +1043,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PreferB2b"
               defaultValue="B2B"
+              checked={candDetails?.PreferB2b === "B2B"}
             />
             <label className="mb-2 block" htmlFor="_fba_b2b2">
               B2B
@@ -1040,6 +1056,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PreferB2b"
               defaultValue="B2C"
+              checked={candDetails?.PreferB2b === "B2C"}
             />
             <label className="mb-2 block" htmlFor="_fba_b2b3">
               B2C
@@ -1059,6 +1076,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PhysicalLocation"
               defaultValue="Both"
+              checked={candDetails?.PhysicalLocation === "Both"}
             />
             <label className="mb-2 block" htmlFor="Both">
               Both
@@ -1071,6 +1089,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PhysicalLocation"
               defaultValue="Home-based"
+              checked={candDetails?.PhysicalLocation === "Home-based"}
             />
             <label className="mb-2 block" htmlFor="Home-based">
               Home-based
@@ -1083,6 +1102,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PhysicalLocation"
               defaultValue="Physical"
+              checked={candDetails?.PhysicalLocation === "Physical"}
             />
             <label className="mb-2 block" htmlFor="Physical">
               Physical
@@ -1102,6 +1122,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Inventory"
               defaultValue="Both"
+              checked={candDetails?.Inventory === "Both"}
             />
             <label
               className="mb-2 block"
@@ -1118,6 +1139,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Inventory"
               defaultValue="Inventory"
+              checked={candDetails?.Inventory === "Inventory"}
             />
             <label className="mb-2 block" htmlFor="type1">
               Inventory
@@ -1130,6 +1152,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Inventory"
               defaultValue="Service"
+              checked={candDetails?.Inventory === "Service"}
             />
             <label className="mb-2 block" htmlFor="type2">
               Service
@@ -1149,6 +1172,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="ColdCalling"
               defaultValue="Both"
+              checked={candDetails?.ColdCalling === "Both"}
             />
             <label
               className="mb-2 block"
@@ -1164,6 +1188,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="ColdCalling"
               defaultValue="Yes"
+              checked={candDetails?.ColdCalling === "Yes"}
             />
             <label
               className="mb-2 block"
@@ -1181,6 +1206,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="ColdCalling"
               defaultValue="No"
+              checked={candDetails?.ColdCalling === "No"}
             />
             <label
               className="mb-2 block"
@@ -1207,6 +1233,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PassiveMode"
               defaultValue="Owner/Operator"
+              checked={candDetails?.PassiveMode === "Owner/Operator"}
             />
             <label
               className="mb-2 block"
@@ -1222,6 +1249,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PassiveMode"
               defaultValue="Passive"
+              checked={candDetails?.PassiveMode === "Passive"}
             />
             <label
               className="mb-2 block"
@@ -1239,6 +1267,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PassiveMode"
               defaultValue="Semi"
+              checked={candDetails?.PassiveMode === "Semi"}
             />
             <label
               className="mb-2 block"
@@ -1263,6 +1292,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="BusinessHours"
               defaultValue="Both"
+              checked={candDetails?.BusinessHours === "Both"}
             />
             <label
               className="mb-2 block"
@@ -1278,6 +1308,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="BusinessHours"
               defaultValue="Yes"
+              checked={candDetails?.BusinessHours === "Yes"}
             />
             <label
               className="mb-2 block"
@@ -1295,6 +1326,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="BusinessHours"
               defaultValue="No"
+              checked={candDetails?.BusinessHours === "No"}
             />
             <label
               className="mb-2 block"
@@ -1320,7 +1352,7 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
           id="message"
           rows={10}
           className="candidate-input"
-          defaultValue={""}
+          defaultValue={candDetails?.WantNote}
         />
       </div>
       <div>

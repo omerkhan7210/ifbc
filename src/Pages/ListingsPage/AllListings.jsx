@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import ListingsColumns from "./ListingsColumns";
 import BarLoader from "src/Animations/BarLoader";
-import Pagination from "./Pagination";
+import Pagination from "../GlobalPageSections/Pagination";
 import { MyContext } from "src/Context/ListingDataContext";
 
 const AllListings = () => {
@@ -109,13 +109,11 @@ const AllListings = () => {
   ) : (
     <>
       <div className="flex-col flex md:flex-row gap-5 md:gap-0 justify-between items-center">
-        {role === "C" && (
+        {role !== "N" && (
           <>
             <p className="ml-5 text-custom-heading-color font-bold">
-              Showing {paginationListings?.length}{" "}
-              {role !== "N" &&
-                `out of ${listings.length} (FLS
-          Listings)`}
+              Showing {paginationListings?.length} out of ${listings.length}
+              (FLS Listings)
             </p>
             <Pagination
               currentPage={currentPage}
