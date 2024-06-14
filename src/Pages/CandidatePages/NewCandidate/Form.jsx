@@ -225,7 +225,6 @@ const Form = ({ candDetails }) => {
           CategoryRating: formFields.categoryrating ?? "",
           AgentUserId: userDetails.Id,
         };
-        console.log(formData);
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
@@ -572,7 +571,6 @@ const FormSecondRow = ({
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">Zip / Postal Code</p>
-          {console.log(candDetails)}
           <input
             type="text"
             name="TerritoryZipcode"

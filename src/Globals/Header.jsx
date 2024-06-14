@@ -144,7 +144,6 @@ const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
       </button>
 
       {/* cart icon */}
-      {console.log(role)}
       {role === "N" && <CartIcon />}
       {/* USER BUTTON */}
       <AccountDD ifLogin={ifLogin} userDetails={userDetails} />
