@@ -399,6 +399,40 @@ const Resources = ({ setShow }) => {
 };
 
 const Registerations = ({ setShow }) => {
+  const tools = [
+    { value: "", label: "Tools" },
+    { value: "info", label: "Create Information Packet" },
+    { value: "comparison", label: "Create Comparison Report" },
+    { value: "2-min", label: "Download 2-Min Drill Packet" },
+    { value: "one-sheet", label: "Download One Sheet Packets" },
+  ];
+  const allFilters = [
+    { value: "", label: "All Filters" },
+    { value: "available", label: "Available" },
+    { value: "accepted", label: "Accepted" },
+    { value: "notavailable", label: "Not Available" },
+    { value: "alternate", label: "Alternate Areas Available" },
+    { value: "responded", label: "Not Responded" },
+    { value: "territorychecks", label: "Territory Checks" },
+    { value: "formalregistrations", label: "Formal Registrations" },
+  ];
+  const allTerritories = [
+    { value: "", label: "All Territories" },
+    { value: "46123", label: "AVON IN 46123" },
+  ];
+
+  const updateSelected = [
+    { value: "", label: "Update Selected" },
+
+    { value: "territorycheck", label: "Territory Check" },
+
+    { value: "available", label: "Available" },
+    { value: "not-available", label: "Not Available" },
+    { value: "alternate", label: "Alternate Areas Available" },
+    { value: "formalregistration", label: "Formal Registration" },
+    { value: "accepted", label: "Accepted" },
+  ];
+
   return (
     <div id="registerations" className="candidate-tabs-content p-5">
       <button
@@ -421,83 +455,67 @@ const Registerations = ({ setShow }) => {
         </svg>
       </button>
       <div id="container1" className="flex">
-        {/* first 2 inputs */}
-        <div className="flex w-full">
-          {/* input 1 */}
-          <div className="mr-3 w-full">
-            <select
-              id="countries"
-              className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-md focus:font-semibold focus:text-black block w-full p-2 mb-2"
-            >
-              <option selected>Select Stage</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
-            </select>
-          </div>
-          {/* input 2 */}
-          <div className="mr-3 w-full">
-            <select
-              id="countries"
-              className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-md focus:font-semibold focus:text-black block w-full p-2 mb-2"
-            >
-              <option selected>Select Stage</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
-            </select>
-          </div>
+        {/* input 1 */}
+        <div className="w-full">
+          <select id="countries" className="candidate-select">
+            {tools.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
-
-        {/* second 2 inputs */}
-        <div className="flex w-full">
-          {/* input 1 */}
-          <div className="mr-3 w-full">
-            <select
-              id="countries"
-              className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-md focus:font-semibold focus:text-black block w-full p-2 mb-2"
-            >
-              <option selected>Select Stage</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
-            </select>
-          </div>
-          {/* input 2 */}
-          <div className="mr-3 w-full">
-            <div className="date-range">
-              <div className="dp__main dp__theme_light">
-                <div
-                  aria-label="Datepicker input"
-                  role="textbox"
-                  aria-multiline="false"
-                  aria-disabled="false"
-                  aria-readonly="false"
-                >
-                  <div className="dp__input_wrap">
-                    <input
-                      className="dp__pointer dp__input_readonly dp__input dp__input_icon_pad dp__input_reg"
-                      inputMode="none"
-                      placeholder
-                      autoComplete="off"
-                    />
-                    <svg
-                      version="1.1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width={32}
-                      height={32}
-                      viewBox="0 0 32 32"
-                      className="dp__icon dp__input_icon dp__input_icons"
-                    >
-                      <path d="M29.333 8c0-2.208-1.792-4-4-4h-18.667c-2.208 0-4 1.792-4 4v18.667c0 2.208 1.792 4 4 4h18.667c2.208 0 4-1.792 4-4v-18.667zM26.667 8v18.667c0 0.736-0.597 1.333-1.333 1.333 0 0-18.667 0-18.667 0-0.736 0-1.333-0.597-1.333-1.333 0 0 0-18.667 0-18.667 0-0.736 0.597-1.333 1.333-1.333 0 0 18.667 0 18.667 0 0.736 0 1.333 0.597 1.333 1.333z" />
-                      <path d="M20 2.667v5.333c0 0.736 0.597 1.333 1.333 1.333s1.333-0.597 1.333-1.333v-5.333c0-0.736-0.597-1.333-1.333-1.333s-1.333 0.597-1.333 1.333z" />
-                      <path d="M9.333 2.667v5.333c0 0.736 0.597 1.333 1.333 1.333s1.333-0.597 1.333-1.333v-5.333c0-0.736-0.597-1.333-1.333-1.333s-1.333 0.597-1.333 1.333z" />
-                      <path d="M4 14.667h24c0.736 0 1.333-0.597 1.333-1.333s-0.597-1.333-1.333-1.333h-24c-0.736 0-1.333 0.597-1.333 1.333s0.597 1.333 1.333 1.333z" />
-                    </svg>
-                  </div>
+        {/* input 2 */}
+        <div className="w-full">
+          <select id="countries" className="candidate-select">
+            {allFilters.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* input 3 */}
+        <div className="w-full">
+          <select id="countries" className="candidate-select">
+            {allTerritories.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* input 4 */}
+        <div className=" w-full">
+          <div className="date-range">
+            <div className="dp__main dp__theme_light">
+              <div
+                aria-label="Datepicker input"
+                role="textbox"
+                aria-multiline="false"
+                aria-disabled="false"
+                aria-readonly="false"
+              >
+                <div className="dp__input_wrap">
+                  <input
+                    className="dp__pointer dp__input_readonly dp__input dp__input_icon_pad dp__input_reg"
+                    inputMode="none"
+                    placeholder
+                    autoComplete="off"
+                  />
+                  <svg
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={32}
+                    height={32}
+                    viewBox="0 0 32 32"
+                    className="dp__icon dp__input_icon dp__input_icons"
+                  >
+                    <path d="M29.333 8c0-2.208-1.792-4-4-4h-18.667c-2.208 0-4 1.792-4 4v18.667c0 2.208 1.792 4 4 4h18.667c2.208 0 4-1.792 4-4v-18.667zM26.667 8v18.667c0 0.736-0.597 1.333-1.333 1.333 0 0-18.667 0-18.667 0-0.736 0-1.333-0.597-1.333-1.333 0 0 0-18.667 0-18.667 0-0.736 0.597-1.333 1.333-1.333 0 0 18.667 0 18.667 0 0.736 0 1.333 0.597 1.333 1.333z" />
+                    <path d="M20 2.667v5.333c0 0.736 0.597 1.333 1.333 1.333s1.333-0.597 1.333-1.333v-5.333c0-0.736-0.597-1.333-1.333-1.333s-1.333 0.597-1.333 1.333z" />
+                    <path d="M9.333 2.667v5.333c0 0.736 0.597 1.333 1.333 1.333s1.333-0.597 1.333-1.333v-5.333c0-0.736-0.597-1.333-1.333-1.333s-1.333 0.597-1.333 1.333z" />
+                    <path d="M4 14.667h24c0.736 0 1.333-0.597 1.333-1.333s-0.597-1.333-1.333-1.333h-24c-0.736 0-1.333 0.597-1.333 1.333s0.597 1.333 1.333 1.333z" />
+                  </svg>
                 </div>
               </div>
             </div>
@@ -506,43 +524,44 @@ const Registerations = ({ setShow }) => {
       </div>
       {/* container 1 end */}
 
-      {/* container 2 */}
+      {/* Second Row Start */}
+      <div className="w-full flex gap-6 my-4">
+        <button className="candidate-btn w-full">Select All</button>
+        <select id="countries" className="candidate-select w-full">
+          {updateSelected.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* container 3 */}
       <div
         id="container2"
-        className="grid grid-cols-12 divide-x-2 justify-center align-middle mt-4"
+        className="grid grid-cols-12 divide-x-2 justify-center align-middle my-5"
       >
         {/* column 1 */}
-        <div className=" col-span-6 p-3 bg-[#2176ff] border-l rounded-l-lg">
-          <div className="mr-3 w-full">
-            <select
-              id="countries"
-              className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-md focus:font-semibold focus:text-black block w-full p-2 mb-2"
-            >
-              <option selected>Select Stage</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
-            </select>
-          </div>
+        <div className="col-span-3 p-4 bg-[#2176ff] align-middle">
+          <h1 className="text-white font-bold text-sm">Franchise Name</h1>
         </div>
         {/* column 2 */}
-        <div className="col-span-2 p-4 bg-[#2176ff] align-middle">
+        <div className="col-span-3  p-4 bg-[#2176ff] align-middle">
           <h1 className="text-white font-bold text-sm">Type</h1>
         </div>
         {/* column3 */}
-        <div className="col-span-2 p-4 bg-[#2176ff] align-middle">
+        <div className="col-span-3 p-4 bg-[#2176ff] align-middle">
           <h1 className="text-white font-bold text-sm">Sent Date</h1>
         </div>
         {/* column 4 */}
-        <div className="col-span-2 p-4 bg-[#2176ff] align-middle border-r rounded-r-lg">
+        <div className="col-span-3 p-4 bg-[#2176ff] align-middle border-r rounded-r-lg">
           <h1 className="text-white font-bold text-sm">Status</h1>
         </div>
       </div>
       {/* container 3  */}
       <div
         id="container 3"
-        className="grid grid-cols-12 divide-x-2 mt-3 rounded-lg"
+        className="grid grid-cols-12 divide-x-2 mt-3 rounded-lg my-4"
       >
         <div className="col-span-6 p-1  bg-gray-200 border-l rounded-l-lg align-middle justify-center">
           <label className='class="flex gap-x-1 items-center mr-6 '>
