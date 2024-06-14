@@ -15,6 +15,7 @@ import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import { useRoutes } from "react-router-dom";
 import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
+import MainTcheck from "./Pages/CandidatePages/TcheckPage/MainTcheck";
 
 const RouteRenderer = ({
   isAuthenticated,
@@ -69,6 +70,14 @@ const RouteRenderer = ({
       element: (
         <CandidatesDataContext>
           <MainNewCand />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+      path: "/territory-checks",
+      element: (
+        <CandidatesDataContext>
+          <MainTcheck />
         </CandidatesDataContext>
       ),
     },
