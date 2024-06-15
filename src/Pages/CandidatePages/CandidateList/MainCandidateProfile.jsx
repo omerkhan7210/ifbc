@@ -67,7 +67,7 @@ const LeftSideCardContainer = ({ candDetails }) => {
           <p className="text-slate-500 text-sm font-semibold mb-2">
             Deal Stage
           </p>
-          <select id="countries" className="candidate-select w-full">
+          <select className="candidate-select w-full">
             <option selected>Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
@@ -91,7 +91,7 @@ const LeftSideCardContainer = ({ candDetails }) => {
 
         <div className="mr-3 w-full">
           <p className="text-slate-500 text-sm font-semibold mb-2">Brokers</p>
-          <select id="countries" className="candidate-select w-full">
+          <select className="candidate-select w-full">
             <option selected>Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
@@ -175,10 +175,7 @@ const Activity = ({ setShow }) => {
       </button>
       <div className="flex w-full mt-5">
         <div className="mr-3 w-full">
-          <select
-            id="countries"
-            className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-          >
+          <select className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2">
             <option selected>Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
@@ -187,10 +184,7 @@ const Activity = ({ setShow }) => {
           </select>
         </div>
         <div className="mr-3 w-full">
-          <select
-            id="countries"
-            className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-          >
+          <select className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2">
             <option selected>Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
@@ -457,7 +451,7 @@ const Registerations = ({ setShow }) => {
       <div id="container1" className="flex">
         {/* input 1 */}
         <div className="w-full">
-          <select id="countries" className="candidate-select">
+          <select className="candidate-select">
             {tools.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -467,7 +461,7 @@ const Registerations = ({ setShow }) => {
         </div>
         {/* input 2 */}
         <div className="w-full">
-          <select id="countries" className="candidate-select">
+          <select className="candidate-select">
             {allFilters.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -477,7 +471,7 @@ const Registerations = ({ setShow }) => {
         </div>
         {/* input 3 */}
         <div className="w-full">
-          <select id="countries" className="candidate-select">
+          <select className="candidate-select">
             {allTerritories.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
@@ -527,7 +521,7 @@ const Registerations = ({ setShow }) => {
       {/* Second Row Start */}
       <div className="w-full flex gap-6 my-4">
         <button className="candidate-btn w-full">Select All</button>
-        <select id="countries" className="candidate-select w-full">
+        <select className="candidate-select w-full">
           {updateSelected.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}

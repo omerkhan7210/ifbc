@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import DialogBox from "./DialogBox";
 
-const MessagePopup = () => {
-  const [show, setShow] = useState(false);
+const MessagePopup = ({ setShow, show }) => {
   const data = [
     { label: "Candidate Name", value: "Lovedeip Singh" },
     { label: "Territory", value: "AVON IN, 46123" },
