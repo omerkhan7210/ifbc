@@ -66,6 +66,14 @@ const RouteRenderer = ({
       ),
     },
     {
+      path: "/message-popup",
+      element: (
+        <CandidatesDataContext>
+          <MainCandList />
+        </CandidatesDataContext>
+      ),
+    },
+    {
       path: "/new-candidate",
       element: (
         <CandidatesDataContext>
