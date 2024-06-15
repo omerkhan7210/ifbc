@@ -74,7 +74,7 @@ const MessagePopup = () => {
               id="heading-formal-registration"
               className="flex justify-center items-center mt-8"
             >
-              <h2 className="text-2xl font-bold text-custom-heading-color border-b-2 border-gray-300 pb-2">
+              <h2 className=" md:text-2xl text-xl font-bold text-custom-heading-color border-b-2 border-gray-300 pb-2">
                 Formal Registration
               </h2>
             </div>
@@ -82,8 +82,11 @@ const MessagePopup = () => {
               <table className="min-w-full divide-y divide-gray-300 border border-gray-400 rounded-lg overflow-hidden">
                 <tbody className="bg-white divide-y divide-gray-200">
                   {data.map((item, index) => (
-                    <tr key={index} className="bg-gray-50 even:bg-white">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900 border-r border-gray-300">
+                    <tr
+                      key={index}
+                      className="bg-gray-50 even:bg-white sm:flex sm:flex-col md:table-row lg:table-row"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900  border-r-0 md:border-r border-gray-300">
                         {item.label}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
