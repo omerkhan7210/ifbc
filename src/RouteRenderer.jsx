@@ -16,6 +16,7 @@ import { useRoutes } from "react-router-dom";
 import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import MainTcheck from "./Pages/CandidatePages/Messages/MainTcheck";
+import MessagePopup from "./Popups/MessagePopup";
 
 const RouteRenderer = ({
   isAuthenticated,
@@ -69,7 +70,7 @@ const RouteRenderer = ({
       path: "/message-popup",
       element: (
         <CandidatesDataContext>
-          <MainCandList />
+          <MessagePopup />
         </CandidatesDataContext>
       ),
     },
