@@ -17,6 +17,7 @@ import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import MainTcheck from "./Pages/CandidatePages/Messages/MainTcheck";
 import MessagePopup from "./Popups/MessagePopup";
+import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
 
 const RouteRenderer = ({
   isAuthenticated,
@@ -87,6 +88,14 @@ const RouteRenderer = ({
       element: (
         <CandidatesDataContext>
           <MainTcheck />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+      path: "/inbox",
+      element: (
+        <CandidatesDataContext>
+          <Inbox />
         </CandidatesDataContext>
       ),
     },
