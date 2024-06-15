@@ -12,6 +12,7 @@ const initialState = {
     typeof JSON.parse(localStorage.getItem("userDetails")) === "object"
       ? JSON.parse(localStorage.getItem("userDetails"))?.UserType
       : null,
+  activeListings: JSON.parse(localStorage.getItem("activeListings")) || [],
 };
 
 export const listingReducer = createSlice({
@@ -67,6 +68,16 @@ export const listingReducer = createSlice({
         localStorage.removeItem("userDetails");
       }
     },
+    incrementActiveListing: (state, action) => {
+      if (!state.activeListings.find((listing) => listing === action.payload)) {
+        state.value += 1;
+        state.activeListings.push(action.payload);
+        localStorage.setItem(
+          "activeListings",
+          JSON.stringify(state.activeListings)
+        );
+      }
+    },
   },
 });
 
@@ -79,6 +90,7 @@ export const {
   decrementByListing,
   setIfLogin,
   setUserDetails,
+  incrementActiveListing,
 } = listingReducer.actions;
 
 export default listingReducer.reducer;

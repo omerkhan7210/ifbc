@@ -8,6 +8,7 @@ import { convertKeysToLowercase } from "src/Utils/ObjectMethods";
 import Uploady, { useUploady } from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
+import PageTransition from "src/Animations/PageTransition";
 
 const Profile = () => {
   const [formErrors, setFormErrors] = useState({});
@@ -119,42 +120,44 @@ const Profile = () => {
   };
 
   return (
-    <div
-      id="main-profile-section"
-      className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5 min-h-screen "
-    >
-      {userDetails ? (
-        <>
-          <Uploady
-            destination={{ url: "http://localhost:5173/images/" }}
-            accept="image/*"
-          >
-            <LeftSideBar
+    <PageTransition>
+      <div
+        id="main-profile-section"
+        className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5 min-h-screen "
+      >
+        {userDetails ? (
+          <>
+            <Uploady
+              destination={{ url: "http://localhost:5173/images/" }}
+              accept="image/*"
+            >
+              <LeftSideBar
+                formFields={formFields}
+                formErrors={formErrors}
+                handleInputChange={handleInputChange}
+                userDetails={userDetails}
+                successMsg={successMsg}
+                handleSubmit={handleSubmit}
+                loading={loading}
+                role={role}
+                haveChanges={haveChanges}
+                setFormFields={setFormFields}
+              />
+            </Uploady>
+            <RightSideBar
               formFields={formFields}
               formErrors={formErrors}
               handleInputChange={handleInputChange}
               userDetails={userDetails}
-              successMsg={successMsg}
-              handleSubmit={handleSubmit}
-              loading={loading}
-              role={role}
-              haveChanges={haveChanges}
-              setFormFields={setFormFields}
             />
-          </Uploady>
-          <RightSideBar
-            formFields={formFields}
-            formErrors={formErrors}
-            handleInputChange={handleInputChange}
-            userDetails={userDetails}
-          />
-        </>
-      ) : (
-        <div className="h-full grid place-items-center col-span-12">
-          <BarLoader bgcolor={"blue"} />
-        </div>
-      )}
-    </div>
+          </>
+        ) : (
+          <div className="h-full grid place-items-center col-span-12">
+            <BarLoader bgcolor={"blue"} />
+          </div>
+        )}
+      </div>
+    </PageTransition>
   );
 };
 

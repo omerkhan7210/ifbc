@@ -16,7 +16,7 @@ const ListingDataContext = ({ children }) => {
   const [showEmailPopup, setShowEmailPopup] = useState(false);
   const [showInfoPopup, setShowInfoPopup] = useState(false);
   const [showComparisonPopup, setShowComparisonPopup] = useState(false);
-  const [activeListings, setActiveListings] = useState([]);
+  const activeListings = useSelector((state) => state.counter.activeListings);
   const [paginationListings, setPaginationListings] = useState();
   const userDetails = useSelector((state) => state.counter.userDetails);
   const ifLogin = useSelector((state) => state.counter.ifLogin);
@@ -75,7 +75,6 @@ const ListingDataContext = ({ children }) => {
         setShowEmailPopup,
         showEmailPopup,
         activeListings,
-        setActiveListings,
         filters,
         setFilters,
         showActiveListings,

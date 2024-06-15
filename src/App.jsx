@@ -13,6 +13,7 @@ import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { generateUuid } from "./Redux/listingReducer";
 import RouteRenderer from "./RouteRenderer";
+import TCFRDataContext from "./Context/TCFRDataContext";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -50,13 +51,15 @@ const App = () => {
         />
       </AnimatePresence>
       <ListingDataContext>
-        {(loc.pathname.includes("listings") ||
-          loc.pathname.includes("candidate") ||
-          loc.pathname.includes("messages")) &&
-          role !== "N" && <CandidateSideBar />}
         <CandidatesDataContext>
-          <TerritoryCheck setShow={setShowT} show={showT} />
-          <FormalReg setShow={setShowF} show={showF} />
+          <TCFRDataContext>
+            {(loc.pathname.includes("listings") ||
+              loc.pathname.includes("candidate") ||
+              loc.pathname.includes("messages")) &&
+              role !== "A" && <CandidateSideBar />}
+            <TerritoryCheck setShow={setShowT} show={showT} />
+            <FormalReg setShow={setShowF} show={showF} />
+          </TCFRDataContext>
         </CandidatesDataContext>
         <FLSEmail />
       </ListingDataContext>
