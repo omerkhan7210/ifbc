@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -11,6 +11,21 @@ import "src/assets/css/output.css";
 import { store } from "./Redux/store.jsx";
 import { Provider } from "react-redux";
 
+// ErrorBoundary functional component
+const ErrorBoundary = ({ children }) => {
+  const [hasError, setHasError] = useState(false);
+
+  const handleOnError = () => {
+    setHasError(true);
+  };
+
+  if (hasError) {
+    return <h1>Something went wrong. Please try again later.</h1>;
+  }
+
+  return children;
+};
+
 ReactDOM.createRoot(document.getElementById("app")).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -18,9 +33,11 @@ ReactDOM.createRoot(document.getElementById("app")).render(
         <Route
           path="/*"
           element={
-            <Provider store={store}>
-              <App />
-            </Provider>
+            <ErrorBoundary>
+              <Provider store={store}>
+                <App />
+              </Provider>
+            </ErrorBoundary>
           }
         />
       </Routes>
