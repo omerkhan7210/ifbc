@@ -3,6 +3,7 @@ import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
+import handleInputChange from "src/Utils/handleInputChange";
 
 const Registration = () => {
   const ref = useRef();
@@ -55,20 +56,6 @@ const Registration = () => {
     coverimage: "",
   });
   const [formErrors, setFormErrors] = useState({});
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
-
-    setFormFields((prevFields) => ({
-      ...prevFields,
-      [name]: inputValue,
-    }));
-    setError((prevErrors) => ({
-      ...prevErrors,
-      [name]: "",
-    }));
-  };
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

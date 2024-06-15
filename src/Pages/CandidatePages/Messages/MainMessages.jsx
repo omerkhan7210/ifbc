@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 
-const MainTcheck = () => {
+const MainMessages = () => {
   const { name } = useParams();
   const [formalReg, setFormalReg] = useState(false);
   const [tCheck, setTCheck] = useState(false);
@@ -280,4 +280,4 @@ const SearchingInput = () => {
     </div>
   );
 };
-export default MainTcheck;
+export default MainMessages;

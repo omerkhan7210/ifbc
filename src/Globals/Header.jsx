@@ -81,7 +81,7 @@ const Header = ({ mobileActive, setMobileActive }) => {
   return (
     <motion.header
       initial={{ y: 0 }}
-      animate={{ y: hidden && window.innerWidth > 768 ? "-50%" : 0 }}
+      animate={{ y: hidden && window.innerWidth > 768 ? "-52%" : 0 }}
       id="main-header"
       className="sticky top-0 z-[999]"
     >

@@ -123,7 +123,7 @@ const ExtraTools = ({ setShowF, setShowT }) => {
   );
 };
 
-const MainListings = ({ showF, setShowF, showT, setShowT }) => {
+const MainListings = ({ setShowF, setShowT }) => {
   const { loading } = useContext(MyContext);
 
   useLayoutEffect(() => {

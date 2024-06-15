@@ -34,7 +34,7 @@ const PageTransition = ({ children }) => {
       <ScrollToTop />
       {children}
       <motion.div
-        className="origin-bottom h-full w-full fixed top-0 left-0 z-[99999] bg-custom-heading-color"
+        className="origin-bottom h-full w-full fixed top-0 left-0 z-[99999999] bg-custom-heading-color"
         variants={variants}
         initial="initial"
         animate="animate"

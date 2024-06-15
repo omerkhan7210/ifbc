@@ -12,10 +12,7 @@ const ListingDataContext = ({ children }) => {
   const [filters, setFilters] = useState(null);
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState();
-  const [loadingError, setLoadingError] = useState(false);
-  const [showEmailPopup, setShowEmailPopup] = useState(false);
-  const [showInfoPopup, setShowInfoPopup] = useState(false);
-  const [showComparisonPopup, setShowComparisonPopup] = useState(false);
+  const [loadingError, setLoadingError] = useState();
   const activeListings = useSelector((state) => state.counter.activeListings);
   const [paginationListings, setPaginationListings] = useState();
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -24,17 +21,6 @@ const ListingDataContext = ({ children }) => {
     userDetails && typeof userDetails === "object"
       ? userDetails.UserType
       : null;
-
-  const handleTools = (event) => {
-    const value = event.target.value;
-    if (value === "email") {
-      setShowEmailPopup(true);
-    } else if (value === "info") {
-      setShowInfoPopup(true);
-    } else if (value === "comparison") {
-      setShowComparisonPopup(true);
-    }
-  };
 
   useEffect(() => {
     setLoading(true);
@@ -64,16 +50,9 @@ const ListingDataContext = ({ children }) => {
     <MyContext.Provider
       value={{
         userDetails,
-        setShowComparisonPopup,
-        setShowInfoPopup,
-        showInfoPopup,
-        showComparisonPopup,
         listings,
         loading,
         loadingError,
-        handleTools,
-        setShowEmailPopup,
-        showEmailPopup,
         activeListings,
         filters,
         setFilters,

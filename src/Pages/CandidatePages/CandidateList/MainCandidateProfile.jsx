@@ -7,6 +7,7 @@ import { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
 import Form from "../NewCandidate/Form";
+import MessagePopup from "src/Popups/MessagePopup";
 
 const MainCandidateProfile = () => {
   const { id } = useParams();
@@ -428,7 +429,7 @@ const Registerations = ({ setShow }) => {
   ];
 
   return (
-    <div id="registerations" className="candidate-tabs-content p-24 mt-5">
+    <div id="registerations" className="candidate-tabs-content p-24 mt-10">
       <button
         className="absolute top-5 right-10"
         onClick={() => setShow(false)}
@@ -450,49 +451,39 @@ const Registerations = ({ setShow }) => {
       </button>
       <div id="top-registration" className="grid grid-cols-4 gap-3">
         {/* input 1 */}
-        <div className="w-full">
-          <select className="candidate-select">
-            {tools.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {/* input 2 */}
-        <div className="w-full">
-          <select className="candidate-select">
-            {allFilters.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {/* input 3 */}
-        <div className="w-full">
-          <select className="candidate-select">
-            {allTerritories.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {/* input 4 */}
-        <div className=" w-full">
-          <input
-            type="datetime-local"
-            name=""
-            id=""
-            className="candidate-input w-full"
-          />
-        </div>
-      </div>
-      {/* container 1 end */}
+        <select className="candidate-select w-full">
+          {tools.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
 
-      {/* Second Row Start */}
-      <div className="w-full flex gap-6 my-4">
+        <select className="candidate-select">
+          {allFilters.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+
+        <select className="candidate-select">
+          {allTerritories.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+
+        <input
+          type="datetime-local"
+          name=""
+          id=""
+          className="candidate-input w-full"
+        />
+      </div>
+
+      <div id="second-row" className="w-full flex gap-6 my-4">
         <button className="candidate-btn w-full">Select All</button>
         <select className="candidate-select w-full">
           {updateSelected.map((option) => (
@@ -503,9 +494,8 @@ const Registerations = ({ setShow }) => {
         </select>
       </div>
 
-      {/* container 3 */}
       <div
-        id="container2"
+        id="headings-row"
         className="grid grid-cols-4 divide-x-2 justify-center align-middle "
       >
         {/* column 1 */}
@@ -532,13 +522,26 @@ const Registerations = ({ setShow }) => {
 };
 
 const Description = () => {
+  const [show, setShow] = useState(false);
   return (
     <div id="description-row" className="grid grid-cols-4 divide-x-2">
       <div className=" p-3  bg-gray-200 justify-center">
-        <label className="flex items-center">
-          <input type="checkbox" name="Hide Section" />
-          <span className="text-black">Advertising</span>
-        </label>
+        <div id="listing-name-container" className="flex items-center gap-1">
+          <label className="flex items-center">
+            <input type="checkbox" name="Hide Section" />
+          </label>
+
+          <button
+            id="listing-name"
+            className="text-custom-heading-color underline font-bold text-sm"
+            onClick={() => setShow(true)}
+          >
+            Advertising
+          </button>
+        </div>
+        <DialogBox show={show} setShow={setShow}>
+          <MessagePopup setShow={setShow} />
+        </DialogBox>
       </div>
       <div className=" p-3 bg-gray-200">
         <p className="text-black font-bold text-sm">Formal Registeration</p>

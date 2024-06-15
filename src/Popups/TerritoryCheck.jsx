@@ -4,6 +4,7 @@ import DialogBox from "./DialogBox";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { twMerge } from "tailwind-merge";
 import axios from "axios";
+import handleInputChange from "src/Utils/handleInputChange";
 
 const TerritoryCheck = ({ setShow, show }) => {
   const { cands, userDetails } = useContext(MyCandContext);
@@ -25,6 +26,8 @@ const TerritoryCheck = ({ setShow, show }) => {
   const [formErrors, setFormErrors] = useState({});
   const [searchOn, setSearchOn] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+  const [showsuccess, setShowSuccess] = useState(false);
   const states = [
     { value: "AL", text: "Alabama" },
     { value: "AK", text: "Alaska" },
@@ -92,23 +95,6 @@ const TerritoryCheck = ({ setShow, show }) => {
     { value: "SK", text: "Saskatchewan" },
     { value: "YT", text: "Yukon Territory" },
   ];
-  const handleInputChange = ({ target: { name, value, type, checked } }) => {
-    const inputValue = type === "checkbox" ? checked : value;
-
-    if (
-      formErrors &&
-      Object.keys(formErrors).length > 0 &&
-      value.trim() !== ""
-    ) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }));
-      formErrors[name] && delete formErrors[name];
-    }
-
-    setSelectedDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: inputValue,
-    }));
-  };
 
   useEffect(() => {
     if (cands && cands.length > 0) {
@@ -239,7 +225,6 @@ const TerritoryCheck = ({ setShow, show }) => {
         setFormErrors((prev) => ({ ...prev, [field]: "" }));
       }
     });
-    console.log(formErrors);
 
     try {
       if (allFieldsValid) {
@@ -263,13 +248,12 @@ const TerritoryCheck = ({ setShow, show }) => {
             "Content-Type": "application/json",
           },
         });
-        console.log(response);
         if (
           response.status === 200 &&
-          response.data === "Candidate Information Saved Successfully."
+          response.data === "Bridge Information Saved Successfully."
         ) {
           setFormErrors({});
-          setSuccessMsg("Candidate Information Saved Successfully.");
+          setSuccessMsg("Territory Check Send Successfully.");
 
           setLoading(false);
 

@@ -2,7 +2,6 @@ import { useState } from "react";
 
 const Tabs = ({ handleInputChange, candDetails }) => {
   const [activeTab, setActiveTab] = useState("initial qualifying");
-  console.log(candDetails?.ColdCalling === "Yes");
   return (
     <div className="md:flex mt-6">
       {/* Tabs list  */}
@@ -197,7 +196,6 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
     { value: "More than a year away", label: "More than a year away" },
     { value: "Unsure at the moment", label: "Unsure at the moment" },
   ];
-  console.log(candDetails);
   return (
     <div
       id="initial-qualifying"

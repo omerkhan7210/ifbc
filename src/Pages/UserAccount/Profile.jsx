@@ -10,6 +10,7 @@ import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
 import PageTransition from "src/Animations/PageTransition";
 import axios from "axios";
+import handleInputChange from "src/Utils/handleInputChange";
 
 const Profile = () => {
   const [formErrors, setFormErrors] = useState({});
@@ -29,24 +30,6 @@ const Profile = () => {
       setHaveChanges(false);
     }
   }, [formFields]);
-
-  const handleInputChange = ({ target: { name, value } }) => {
-    const newName = name.toLowerCase().split(" ").join("");
-    // Remove the error for the field if there is a value
-    if (
-      formErrors &&
-      Object.keys(formErrors).length > 0 &&
-      value.trim() !== ""
-    ) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }));
-      formErrors[name] && delete formErrors[name];
-    }
-
-    setFormFields((prev) => ({
-      ...prev,
-      [newName]: value,
-    }));
-  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -212,7 +195,6 @@ const LeftSideBar = ({
       );
       setImage(response.data.url);
       localStorage.setItem("dpImageUrl", response.data.url);
-      console.log(response.data.url);
     } catch (err) {
       console.error(err);
     }

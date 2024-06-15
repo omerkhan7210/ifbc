@@ -14,9 +14,6 @@ const Inbox = ({ handleInputChange, userDetails }) => {
     { value: "alternate", label: "Alternate Territory" },
     { value: "not-available", label: "NOT Available" },
   ];
-  const handleMediaInsertion = () => {
-    console.log("Inserting media...");
-  };
 
   const modules = {
     toolbar: [
@@ -74,18 +71,6 @@ const Inbox = ({ handleInputChange, userDetails }) => {
               </option>
             ))}
           </select>
-        </div>
-
-        <div>
-          <button
-            type="button"
-            id="insert-media-button"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            data-editor="response"
-            onClick={handleMediaInsertion}
-          >
-            <span></span> Add Media
-          </button>
         </div>
 
         <div>

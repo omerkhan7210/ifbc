@@ -5,6 +5,7 @@ import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Tabs from "./Tabs";
 import { useNavigate } from "react-router-dom";
+import handleInputChange from "src/Utils/handleInputChange";
 
 const Form = ({ candDetails }) => {
   const [formFields, setFormFields] = useState(candDetails ? candDetails : {});
@@ -102,24 +103,6 @@ const Form = ({ candDetails }) => {
         ))}
       </select>
     );
-  };
-
-  const handleInputChange = ({ target: { name, value } }) => {
-    const newName = name.toLowerCase().split(" ").join("");
-    // Remove the error for the field if there is a value
-    if (
-      formErrors &&
-      Object.keys(formErrors).length > 0 &&
-      value.trim() !== ""
-    ) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }));
-      formErrors[name] && delete formErrors[name];
-    }
-
-    setFormFields((prev) => ({
-      ...prev,
-      [newName]: value,
-    }));
   };
 
   useEffect(() => {
