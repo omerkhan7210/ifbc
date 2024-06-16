@@ -7,6 +7,7 @@ import { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
 import Form from "../NewCandidate/Form";
+import MessagePopup from "src/Popups/MessagePopup";
 
 const MainCandidateProfile = () => {
   const { id } = useParams();
@@ -23,7 +24,7 @@ const MainCandidateProfile = () => {
 
   return (
     <PageTransition>
-      <div className="grid grid-cols-12 gap-10 max-w-7xl   mx-auto my-10">
+      <div className="grid grid-cols-12 gap-30 max-w-7xl gap-10 mx-auto my-10">
         {/* card end */}
         <LeftSideCardContainer candDetails={candDetails} />
         <div className="grid md:col-span-9 col-span-12  ">
@@ -62,12 +63,12 @@ const LeftSideCardContainer = ({ candDetails }) => {
 
   return (
     candDetails && (
-      <div className="md:col-span-3 flex flex-col gap-5 items-start col-span-12">
+      <div className="md: flex flex-col gap-5 items-start col-span-3">
         <div className="mr-3 w-full">
           <p className="text-slate-500 text-sm font-semibold mb-2">
             Deal Stage
           </p>
-          <select id="countries" className="candidate-select w-full">
+          <select className="candidate-select w-full">
             <option selected>Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
@@ -91,7 +92,7 @@ const LeftSideCardContainer = ({ candDetails }) => {
 
         <div className="mr-3 w-full">
           <p className="text-slate-500 text-sm font-semibold mb-2">Brokers</p>
-          <select id="countries" className="candidate-select w-full">
+          <select className="candidate-select w-full">
             <option selected>Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
@@ -107,7 +108,7 @@ const LeftSideCardContainer = ({ candDetails }) => {
           <ExtraButtonIcons />
           {/* button */}
           <div className="flex  align-middle">
-            <button className="p-1 px-4 w-full font-semibold border-2 border-[#2176ff] group-hover:bg-white rounded-md mr-2 mb-3 mt-3">
+            <button className="p-3 px-4 w-full font-semibold border-2 border-[#2176ff] group-hover:bg-white rounded-md mr-2 mb-3 mt-3">
               View Contact
             </button>
           </div>
@@ -175,10 +176,7 @@ const Activity = ({ setShow }) => {
       </button>
       <div className="flex w-full mt-5">
         <div className="mr-3 w-full">
-          <select
-            id="countries"
-            className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-          >
+          <select className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2">
             <option selected>Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
@@ -187,10 +185,7 @@ const Activity = ({ setShow }) => {
           </select>
         </div>
         <div className="mr-3 w-full">
-          <select
-            id="countries"
-            className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-          >
+          <select className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2">
             <option selected>Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
@@ -290,7 +285,7 @@ const Flscriteria = ({ setShow }) => {
     { name: "vending", label: "Vending" },
   ];
   return (
-    <div id="fls-criteria" className="candidate-tabs-content p-10">
+    <div id="fls-criteria" className="candidate-tabs-content p-30">
       <button
         className="absolute top-5 right-10"
         onClick={() => setShow(false)}
@@ -434,7 +429,7 @@ const Registerations = ({ setShow }) => {
   ];
 
   return (
-    <div id="registerations" className="candidate-tabs-content p-5">
+    <div id="registerations" className="candidate-tabs-content p-24 mt-10">
       <button
         className="absolute top-5 right-10"
         onClick={() => setShow(false)}
@@ -454,80 +449,43 @@ const Registerations = ({ setShow }) => {
           />
         </svg>
       </button>
-      <div id="container1" className="flex">
+      <div id="top-registration" className="grid grid-cols-4 gap-3">
         {/* input 1 */}
-        <div className="w-full">
-          <select id="countries" className="candidate-select">
-            {tools.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {/* input 2 */}
-        <div className="w-full">
-          <select id="countries" className="candidate-select">
-            {allFilters.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {/* input 3 */}
-        <div className="w-full">
-          <select id="countries" className="candidate-select">
-            {allTerritories.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {/* input 4 */}
-        <div className=" w-full">
-          <div className="date-range">
-            <div className="dp__main dp__theme_light">
-              <div
-                aria-label="Datepicker input"
-                role="textbox"
-                aria-multiline="false"
-                aria-disabled="false"
-                aria-readonly="false"
-              >
-                <div className="dp__input_wrap">
-                  <input
-                    className="dp__pointer dp__input_readonly dp__input dp__input_icon_pad dp__input_reg"
-                    inputMode="none"
-                    placeholder
-                    autoComplete="off"
-                  />
-                  <svg
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={32}
-                    height={32}
-                    viewBox="0 0 32 32"
-                    className="dp__icon dp__input_icon dp__input_icons"
-                  >
-                    <path d="M29.333 8c0-2.208-1.792-4-4-4h-18.667c-2.208 0-4 1.792-4 4v18.667c0 2.208 1.792 4 4 4h18.667c2.208 0 4-1.792 4-4v-18.667zM26.667 8v18.667c0 0.736-0.597 1.333-1.333 1.333 0 0-18.667 0-18.667 0-0.736 0-1.333-0.597-1.333-1.333 0 0 0-18.667 0-18.667 0-0.736 0.597-1.333 1.333-1.333 0 0 18.667 0 18.667 0 0.736 0 1.333 0.597 1.333 1.333z" />
-                    <path d="M20 2.667v5.333c0 0.736 0.597 1.333 1.333 1.333s1.333-0.597 1.333-1.333v-5.333c0-0.736-0.597-1.333-1.333-1.333s-1.333 0.597-1.333 1.333z" />
-                    <path d="M9.333 2.667v5.333c0 0.736 0.597 1.333 1.333 1.333s1.333-0.597 1.333-1.333v-5.333c0-0.736-0.597-1.333-1.333-1.333s-1.333 0.597-1.333 1.333z" />
-                    <path d="M4 14.667h24c0.736 0 1.333-0.597 1.333-1.333s-0.597-1.333-1.333-1.333h-24c-0.736 0-1.333 0.597-1.333 1.333s0.597 1.333 1.333 1.333z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* container 1 end */}
+        <select className="candidate-select w-full">
+          {tools.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
 
-      {/* Second Row Start */}
-      <div className="w-full flex gap-6 my-4">
+        <select className="candidate-select">
+          {allFilters.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+
+        <select className="candidate-select">
+          {allTerritories.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+
+        <input
+          type="datetime-local"
+          name=""
+          id=""
+          className="candidate-input w-full"
+        />
+      </div>
+
+      <div id="second-row" className="w-full flex gap-6 my-4">
         <button className="candidate-btn w-full">Select All</button>
-        <select id="countries" className="candidate-select w-full">
+        <select className="candidate-select w-full">
           {updateSelected.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -536,48 +494,63 @@ const Registerations = ({ setShow }) => {
         </select>
       </div>
 
-      {/* container 3 */}
       <div
-        id="container2"
-        className="grid grid-cols-12 divide-x-2 justify-center align-middle my-5"
+        id="headings-row"
+        className="grid grid-cols-4 divide-x-2 justify-center align-middle "
       >
         {/* column 1 */}
-        <div className="col-span-3 p-4 bg-[#2176ff] align-middle">
+        <div className=" p-4 bg-[#2176ff] align-middle">
           <h1 className="text-white font-bold text-sm">Franchise Name</h1>
         </div>
         {/* column 2 */}
-        <div className="col-span-3  p-4 bg-[#2176ff] align-middle">
+        <div className="  p-4 bg-[#2176ff] align-middle">
           <h1 className="text-white font-bold text-sm">Type</h1>
         </div>
         {/* column3 */}
-        <div className="col-span-3 p-4 bg-[#2176ff] align-middle">
+        <div className=" p-4 bg-[#2176ff] align-middle">
           <h1 className="text-white font-bold text-sm">Sent Date</h1>
         </div>
         {/* column 4 */}
-        <div className="col-span-3 p-4 bg-[#2176ff] align-middle border-r rounded-r-lg">
+        <div className=" p-4 bg-[#2176ff] align-middle border-r ">
           <h1 className="text-white font-bold text-sm">Status</h1>
         </div>
       </div>
       {/* container 3  */}
-      <div
-        id="container 3"
-        className="grid grid-cols-12 divide-x-2 mt-3 rounded-lg my-4"
-      >
-        <div className="col-span-6 p-1  bg-gray-200 border-l rounded-l-lg align-middle justify-center">
-          <label className='class="flex gap-x-1 items-center mr-6 '>
+      <Description />
+    </div>
+  );
+};
+
+const Description = () => {
+  const [show, setShow] = useState(false);
+  return (
+    <div id="description-row" className="grid grid-cols-4 divide-x-2">
+      <div className=" p-3  bg-gray-200 justify-center">
+        <div id="listing-name-container" className="flex items-center gap-1">
+          <label className="flex items-center">
             <input type="checkbox" name="Hide Section" />
-            <span className="text-black">Advertising</span>
           </label>
+
+          <button
+            id="listing-name"
+            className="text-custom-heading-color underline font-bold text-sm"
+            onClick={() => setShow(true)}
+          >
+            Advertising
+          </button>
         </div>
-        <div className="col-span-2 p-1 bg-gray-200">
-          <p className="text-black font-bold text-sm">Formal Registeration</p>
-        </div>
-        <div className="col-span-2 p-1 bg-gray-200">
-          <p className="text-black font-bold text-sm">04/19/2024 11:31 am</p>
-        </div>
-        <div className="col-span-2 p-1 bg-gray-200 border-r rounded-r-lg">
-          <p className="text-black font-bold text-sm">Pending</p>
-        </div>
+        <DialogBox show={show} setShow={setShow}>
+          <MessagePopup setShow={setShow} />
+        </DialogBox>
+      </div>
+      <div className=" p-3 bg-gray-200">
+        <p className="text-black font-bold text-sm">Formal Registeration</p>
+      </div>
+      <div className=" p-3 bg-gray-200">
+        <p className="text-black font-bold text-sm">04/19/2024 11:31 am</p>
+      </div>
+      <div className=" p-3 bg-gray-200 ">
+        <p className="text-black font-bold text-sm">Pending</p>
       </div>
     </div>
   );

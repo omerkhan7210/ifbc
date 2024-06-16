@@ -70,8 +70,24 @@ export const listingReducer = createSlice({
     },
     incrementActiveListing: (state, action) => {
       if (!state.activeListings.find((listing) => listing === action.payload)) {
-        state.value += 1;
         state.activeListings.push(action.payload);
+        localStorage.setItem(
+          "activeListings",
+          JSON.stringify(state.activeListings)
+        );
+      }
+    },
+    decrementActiveListing: (state, action) => {
+      // Find the index of the listing to be removed
+      const index = state.activeListings.findIndex(
+        (listingid) => listingid === action.payload
+      );
+
+      // If the listing is found, proceed to remove it
+      if (index !== -1) {
+        state.activeListings = state.activeListings.filter(
+          (listingid) => listingid !== action.payload
+        ); // Remove the listing
         localStorage.setItem(
           "activeListings",
           JSON.stringify(state.activeListings)
@@ -91,6 +107,7 @@ export const {
   setIfLogin,
   setUserDetails,
   incrementActiveListing,
+  decrementActiveListing,
 } = listingReducer.actions;
 
 export default listingReducer.reducer;

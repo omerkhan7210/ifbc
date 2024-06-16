@@ -5,13 +5,13 @@ import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MyContext } from "src/Context/ListingDataContext";
 import {
+  decrementActiveListing,
   incrementActiveListing,
   incrementByListing,
 } from "src/Redux/listingReducer";
 
 const ListingsColumns = ({ listing, index }) => {
-  const { activeListings, setActiveListings, allowed, role } =
-    useContext(MyContext);
+  const { activeListings, allowed, role } = useContext(MyContext);
   const cartListings = useSelector((state) => state.counter.listings);
 
   // Use a regular expression to find the investment range
@@ -23,11 +23,22 @@ const ListingsColumns = ({ listing, index }) => {
     ? investmentRangeMatch[0]?.split(":")[1]
     : "";
 
-  const isActive = activeListings?.includes(listing.name) ? true : false;
+  const isActive = activeListings?.includes(listing.DocId) ? true : false;
 
   const handleCardClick = () => {
-    dispatch(incrementActiveListing(listing.DocId));
+    // Find the index of the listing to be removed
+    const index = activeListings.findIndex(
+      (listingId) => listingId === listing.DocId
+    );
+
+    // If the listing is found, proceed to remove it
+    if (index !== -1) {
+      dispatch(decrementActiveListing(listing.DocId));
+    } else {
+      dispatch(incrementActiveListing(listing.DocId));
+    }
   };
+
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 

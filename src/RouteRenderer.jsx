@@ -15,16 +15,10 @@ import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import { useRoutes } from "react-router-dom";
 import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
-import MainTcheck from "./Pages/CandidatePages/Messages/MainTcheck";
-import MessagePopup from "./Popups/MessagePopup";
+import MainMessages from "./Pages/CandidatePages/Messages/MainMessages";
+import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
 
-const RouteRenderer = ({
-  isAuthenticated,
-  showF,
-  setShowF,
-  showT,
-  setShowT,
-}) => {
+const RouteRenderer = ({ isAuthenticated, setShowF, setShowT }) => {
   const authenticatedRoutes = [
     {
       path: "/",
@@ -66,14 +60,7 @@ const RouteRenderer = ({
         </CandidatesDataContext>
       ),
     },
-    {
-      path: "/message-popup",
-      element: (
-        <CandidatesDataContext>
-          <MessagePopup />
-        </CandidatesDataContext>
-      ),
-    },
+
     {
       path: "/new-candidate",
       element: (
@@ -86,7 +73,15 @@ const RouteRenderer = ({
       path: "/messages/:name",
       element: (
         <CandidatesDataContext>
-          <MainTcheck />
+          <MainMessages />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+      path: "/inbox",
+      element: (
+        <CandidatesDataContext>
+          <Inbox />
         </CandidatesDataContext>
       ),
     },

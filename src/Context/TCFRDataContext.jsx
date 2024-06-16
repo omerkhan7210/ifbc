@@ -7,8 +7,29 @@ const TCFRDataContext = ({ children }) => {
   const [tcs, setTcs] = useState([]);
   const [frs, setFrs] = useState([]);
   const [all, setAll] = useState([]);
-  const [loading, setLoading] = useState();
+  const [loadingTCFR, setLoading] = useState();
   const [loadingError, setLoadingError] = useState(false);
+  const [newData, setNewData] = useState();
+
+  useEffect(() => {
+    if (all && all.length > 0) {
+      const sanitizeListingsIds = (listingsIds) => {
+        // Remove any non-numeric and non-comma characters
+        const sanitized = listingsIds.replace(/[^0-9,]/g, "");
+        return sanitized.split(",").filter((id) => id.trim() !== "");
+      };
+
+      const transformedData = all.flatMap((item) => {
+        const listingsIdsArray = sanitizeListingsIds(item.ListingsIds);
+
+        return listingsIdsArray.map((listingId) => ({
+          ...item,
+          ListingsIds: listingId,
+        }));
+      });
+      setNewData(transformedData);
+    }
+  }, [all]);
 
   useEffect(() => {
     setLoading(true);
@@ -37,7 +58,16 @@ const TCFRDataContext = ({ children }) => {
 
   return (
     <MyTCFRContext.Provider
-      value={{ all, frs, loadingError, loading, tcs, filters, setFilters }}
+      value={{
+        newData,
+        all,
+        frs,
+        loadingError,
+        loadingTCFR,
+        tcs,
+        filters,
+        setFilters,
+      }}
     >
       {children}
     </MyTCFRContext.Provider>

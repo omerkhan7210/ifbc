@@ -18,6 +18,7 @@ import DialogBox from "src/Popups/DialogBox";
 import PageTransition from "src/Animations/PageTransition";
 import { decrementByListing } from "src/Redux/listingReducer";
 import { twMerge } from "tailwind-merge";
+import handleInputChange from "src/Utils/handleInputChange";
 
 const CheckOutForm = () => {
   const { listings, loading } = useContext(MyContext);
@@ -202,24 +203,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
   const [formErrors, setFormErrors] = useState({});
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-
-  const handleInputChange = ({ target: { name, value } }) => {
-    const newName = name.toLowerCase().split(" ").join("");
-    // Remove the error for the field if there is a value
-    if (
-      formErrors &&
-      Object.keys(formErrors).length > 0 &&
-      value.trim() !== ""
-    ) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }));
-      formErrors[name] && delete formErrors[name];
-    }
-
-    setFormFields((prev) => ({
-      ...prev,
-      [newName]: value,
-    }));
-  };
 
   const validateFields = () => {
     const reqFields = [

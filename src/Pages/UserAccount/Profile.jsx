@@ -9,6 +9,8 @@ import Uploady, { useUploady } from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
 import PageTransition from "src/Animations/PageTransition";
+import axios from "axios";
+import handleInputChange from "src/Utils/handleInputChange";
 
 const Profile = () => {
   const [formErrors, setFormErrors] = useState({});
@@ -28,24 +30,6 @@ const Profile = () => {
       setHaveChanges(false);
     }
   }, [formFields]);
-
-  const handleInputChange = ({ target: { name, value } }) => {
-    const newName = name.toLowerCase().split(" ").join("");
-    // Remove the error for the field if there is a value
-    if (
-      formErrors &&
-      Object.keys(formErrors).length > 0 &&
-      value.trim() !== ""
-    ) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }));
-      formErrors[name] && delete formErrors[name];
-    }
-
-    setFormFields((prev) => ({
-      ...prev,
-      [newName]: value,
-    }));
-  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -127,23 +111,18 @@ const Profile = () => {
       >
         {userDetails ? (
           <>
-            <Uploady
-              destination={{ url: "http://localhost:5173/images/" }}
-              accept="image/*"
-            >
-              <LeftSideBar
-                formFields={formFields}
-                formErrors={formErrors}
-                handleInputChange={handleInputChange}
-                userDetails={userDetails}
-                successMsg={successMsg}
-                handleSubmit={handleSubmit}
-                loading={loading}
-                role={role}
-                haveChanges={haveChanges}
-                setFormFields={setFormFields}
-              />
-            </Uploady>
+            <LeftSideBar
+              formFields={formFields}
+              formErrors={formErrors}
+              handleInputChange={handleInputChange}
+              userDetails={userDetails}
+              successMsg={successMsg}
+              handleSubmit={handleSubmit}
+              loading={loading}
+              role={role}
+              haveChanges={haveChanges}
+              setFormFields={setFormFields}
+            />
             <RightSideBar
               formFields={formFields}
               formErrors={formErrors}
@@ -195,23 +174,33 @@ const LeftSideBar = ({
     roleName = "Company";
   }
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(localStorage.getItem("dpImageUrl") || "");
 
-  // // Function to handle image change
-  // const handleChangeImage = (event) => {
-  //   const selectedImage = event.target.files[0];
-  //   setImage(selectedImage);
-  //   const imageURL = URL.createObjectURL(selectedImage);
-
-  //   // Display the URL
-  //   console.log("Image URL:", imageURL);
-  //   setFormFields((prev) => ({ ...prev, ProfileImage: selectedImage }));
-  // };
-  const uploady = useUploady();
-
-  const handleChangeImage = () => {
-    uploady.showFileUpload();
+  // Function to handle image change
+  const handleChangeImage = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "ml_default");
+    formData.append("api_key", "626796268695765");
+    try {
+      const response = await axios.post(
+        "https://api-ap.cloudinary.com/v1_1/dsbplltmw/image/upload/",
+        formData,
+        {
+          headers: {
+            // Content-Type header will be automatically set to multipart/form-data
+          },
+        }
+      );
+      setImage(response.data.url);
+      localStorage.setItem("dpImageUrl", response.data.url);
+    } catch (err) {
+      console.error(err);
+    }
+    //setFormFields((prev) => ({ ...prev, ProfileImage: selectedImage }));
   };
+
   return (
     <div id="left-sidebar-profile" className=" h-full w-full col-span-3 p-5 ">
       <div
@@ -227,13 +216,14 @@ const LeftSideBar = ({
                     ? image === ""
                       ? `/images/uploads/${userDetails.ProfileImage}`
                       : image
-                    : "/images/avatar-placeholder.png"
+                    : image === ""
+                      ? "/images/avatar-placeholder.png"
+                      : image
                 }
                 alt=""
                 className="rounded-full w-32 h-32 cursor-pointer"
               />
-              <UploadButton />
-              <UploadPreview />
+              <input type="file" name="" onChange={handleChangeImage} id="" />
             </label>
             <h1
               style={{ background: bgcolor }}

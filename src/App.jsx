@@ -46,8 +46,6 @@ const App = () => {
           isAuthenticated={ifLogin}
           setShowF={setShowF}
           setShowT={setShowT}
-          showF={showF}
-          showT={showT}
         />
       </AnimatePresence>
       <ListingDataContext>

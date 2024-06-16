@@ -130,7 +130,7 @@ const AllListings = () => {
       >
         {showActiveListings &&
           paginationListings
-            ?.filter((listing) => activeListings?.includes(listing.name))
+            ?.filter((listing) => activeListings?.includes(listing.DocId))
             .map((listing, index) => (
               <ListingsColumns key={index} index={index} listing={listing} />
             ))}
