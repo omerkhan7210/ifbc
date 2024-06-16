@@ -168,15 +168,22 @@ const Registration = () => {
 
   return (
     <PageTransition>
-      <div className="flex justify-center flex-col items-center ">
-        <h2 className="text-5xl my-5 uppercase font-bold text-custom-heading-color">
+      <div
+        id="main-page-wrapper"
+        className="flex justify-center flex-col items-center "
+      >
+        <h2 className="text-4xl sm:text-5xl my-5 uppercase font-bold text-custom-heading-color">
           Registration
         </h2>
         <form
-          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[90%] mx-auto grid grid-cols-12 gap-10"
+          id="main-form"
+          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[90%] mx-auto flex flex-col sm:grid grid-cols-12 gap-0 sm:gap-10"
           ref={ref}
         >
-          <div id="left-form-container" className="col-span-9">
+          <div
+            id="left-form-container"
+            className="col-span-9 order-2 sm:order-1"
+          >
             {error.credentials && (
               <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
                 {error.credentials}!
@@ -213,7 +220,10 @@ const Registration = () => {
               error={error}
             />
           </div>
-          <div od="right-side-container" className="col-span-3 p-5 relative">
+          <div
+            id="right-side-container"
+            className="col-span-3 p-5 relative order-1 sm:order-2"
+          >
             <div id="sticky-container" className="top-10 sticky">
               {checkboxInputs.map(({ name, label }) => (
                 <CheckboxInput
@@ -228,15 +238,18 @@ const Registration = () => {
             </div>
           </div>
           {/* Button */}
-          <div className="flex items-center gap-5 justify-center col-span-12 ">
+          <div
+            id="button-container"
+            className="flex flex-col sm:flex-row items-center gap-5 justify-center col-span-12 order-3 "
+          >
             <button
               onClick={handleSubmit}
-              className="candidate-btn"
+              className="candidate-btn w-full sm:w-auto"
               type="submit"
             >
               Sign Up
             </button>
-            <Link to="/" className="candidate-secondary-btn">
+            <Link to="/" className="candidate-secondary-btn w-full sm:w-auto">
               Already have an account?
             </Link>
           </div>
@@ -249,12 +262,12 @@ const Profile = ({ formFields, handleInputChange, error }) => {
   return (
     <>
       <div className="flex justify-center items-center">
-        <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color">
+        <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color text-center">
           Your FBA Profile Information
         </h2>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex-col flex sm:flex-row gap-2">
         {/* First Name */}
         <div className="mb-4 w-full">
           <label
@@ -331,7 +344,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
         </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex-col flex sm:flex-row gap-2">
         {/* LinkedIn URL */}
         <div className="mb-4 w-full">
           <label
@@ -409,7 +422,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
           )}
         </div>
       </div>
-      <div className="flex justify-around">
+      <div className="flex flex-col sm:flex-row justify-around gap-2">
         <div class="w-full max-w-xs items-center gap-1.5">
           <label class="block text-gray-700 text-sm font-bold mb-2">
             Profile Picture
@@ -442,12 +455,12 @@ const Company = ({ formFields, handleInputChange, error }) => {
   return (
     <>
       <div className="flex justify-center items-center">
-        <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color">
+        <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color text-center">
           Your Company Information
         </h2>
       </div>
-
-      <div className="flex gap-2">
+      {/* company field container */}
+      <div className="flex-col flex sm:flex-row gap-2">
         {/* Company Name */}
         <div className="mb-4 w-full">
           <label
@@ -527,7 +540,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
         </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex-col flex sm:flex-row gap-2">
         {/* City */}
         <div className="mb-4 w-full">
           <label
@@ -604,7 +617,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
         </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex-col flex sm:flex-row gap-2">
         {/* Notes */}
         <div className="mb-4 w-full">
           <label
@@ -668,7 +681,7 @@ const Experience = ({ formFields, handleInputChange, error }) => {
         </h2>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex-col flex sm:flex-row gap-2">
         {/* Consulting */}
         <div className="mb-4 w-full">
           <label
@@ -764,7 +777,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
         </h2>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex-col flex sm:flex-row gap-2">
         {/* Broker */}
         <div className="mb-4 w-full">
           <label
@@ -816,7 +829,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
         </div>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex-col flex sm:flex-row gap-2">
         {/* Password */}
         <div className="mb-4 w-full">
           <label
