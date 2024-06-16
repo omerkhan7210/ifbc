@@ -459,7 +459,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
           Your Company Information
         </h2>
       </div>
-
+      {/* company field container */}
       <div className="flex-col flex sm:flex-row gap-2">
         {/* Company Name */}
         <div className="mb-4 w-full">
