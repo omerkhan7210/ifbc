@@ -11,7 +11,7 @@ import {
 } from "src/Redux/listingReducer";
 
 const ListingsColumns = ({ listing, index }) => {
-  const { activeListings, allowed, role } = useContext(MyContext);
+  const { activeListings, role } = useContext(MyContext);
   const cartListings = useSelector((state) => state.counter.listings);
 
   // Use a regular expression to find the investment range
@@ -78,7 +78,7 @@ const ListingsColumns = ({ listing, index }) => {
             id="text-content"
             className="absolute flex justify-center top-40 w-full"
           >
-            {allowed && investmentRange && (
+            {investmentRange && (
               <p className="bg-white py-2 text-xs font-bold px-4 rounded-full shadow-lg">
                 Cash Required: {investmentRange}
               </p>
@@ -91,12 +91,15 @@ const ListingsColumns = ({ listing, index }) => {
           className="flex flex-col items-center justify-center"
         >
           <h1
-            className={`text-custom-heading-color font-bold text-center text-sm lg:text-lg`}
+            className={`text-custom-heading-color font-bold text-center text-md lg:text-lg`}
           >
             {listing.name}
           </h1>
+          <p className="text-sm text-black/80 text-center">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Dignissimos, accusamus. Lorem ipsum dolor sit amet.
+          </p>
 
-          {/* added anchor */}
           {/* temporary role */}
           {role === "C" ? (
             <a

@@ -154,10 +154,7 @@ const MainListings = ({ setShowF, setShowT }) => {
           FRANCHISES SEARCH
         </h1>
       </div>
-      <main
-        className="	 pt-10 px-6 mx-auto w-full grid grid-cols-12 gap-6 relative"
-        id="main"
-      >
+      <main className="	 p-10  grid grid-cols-12 gap-6 relative" id="main">
         <div className="col-span-12">
           <ExtraTools setShowF={setShowF} setShowT={setShowT} />
         </div>
