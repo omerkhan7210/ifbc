@@ -4,7 +4,7 @@ import { MyTCFRContext } from "src/Context/TCFRDataContext";
 import { MyContext } from "src/Context/ListingDataContext";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import FormatRawDate from "src/Utils/FormatRawDate";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import BarLoader from "src/Animations/BarLoader";
 
 const CandidateSideBar = () => {
@@ -35,59 +35,136 @@ const CandidateSideBar = () => {
         id="right-side-container"
         className={`bg-custom-heading-color fixed bottom-0  right-0 w-full h-[60%] transition-[width] z-[99999] drop-shadow-md`}
       >
-        <button
-          onClick={() => setActive(!active)}
-          className={`absolute -top-16 right-0 bg-custom-heading-color px-4 py-5 flex items-center justify-center rounded-tl w-64 text-white z-[99999]`}
-        >
-          <div class="text-white text-base font-bold flex items-center">
-            No Candidate Selected{" "}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="100%"
-              height="100%"
-              viewBox="-0.5 0 25 25"
-              class="w-4 h-4 stroke-white ml-2"
-              fill="none"
-            >
-              <path
-                d="M2.5 8.1728L11.4706 16.6434C11.75 16.9081 12.1912 16.9081 12.4853 16.6434L21.5 8.15808"
-                stroke="currentColor"
-                stroke-miterlimit="10"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              ></path>
-            </svg>
-          </div>
-        </button>
-        {!loading && !loadingTCFR ? (
-          <motion.div
-            initial={{ opacity: 1 }}
-            animate={{
-              opacity: 1,
-              transition: { duration: 1, delay: 1, ease: "backInOut" },
-            }}
-            className="side-bar-main-div p-10 flex flex-col gap-4 text-center h-full overflow-y-scroll"
-          >
-            <h2 className="side-bar-first-heading text-2xl">Recent Activity</h2>
-
-            <div
-              id="activity-grid-container"
-              className="max-lg:block grid lg:max-xl:grid-cols-2 xl:max-2xl:grid-cols-3 2xl:grid-cols-4 gap-3"
-            >
-              {newData &&
-                newData.length > 0 &&
-                newData.map((card) => (
-                  <Card card={card} listings={listings} cands={cands} />
-                ))}
-            </div>
-          </motion.div>
-        ) : (
-          <div className="w-full flex justify-center h-full items-center">
-            <BarLoader bgcolor={"white"} />
-          </div>
-        )}
+        <ToggleButton active={active} setActive={setActive} />
+        <ActivityGridContainer
+          listings={listings}
+          cands={cands}
+          newData={newData}
+          active={active}
+          loading={loading}
+          loadingTCFR={loadingTCFR}
+        />
       </motion.div>
     </>
+  );
+};
+
+const ToggleButton = ({ active, setActive }) => {
+  return (
+    <button
+      onClick={() => setActive(!active)}
+      className={`absolute -top-16 right-0 bg-custom-heading-color px-4 py-5 flex items-center justify-center rounded-tl w-64 text-white z-[99999]`}
+    >
+      <div class="text-white text-base font-bold flex items-center">
+        No Candidate Selected
+        <motion.svg
+          initial={{ rotate: 180 }}
+          animate={{ rotate: active ? 0 : 180 }}
+          xmlns="http://www.w3.org/2000/svg"
+          width="100%"
+          height="100%"
+          viewBox="-0.5 0 25 25"
+          class="w-4 h-4 stroke-white ml-2"
+          fill="none"
+        >
+          <path
+            d="M2.5 8.1728L11.4706 16.6434C11.75 16.9081 12.1912 16.9081 12.4853 16.6434L21.5 8.15808"
+            stroke="currentColor"
+            stroke-miterlimit="10"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+        </motion.svg>
+      </div>
+    </button>
+  );
+};
+
+const ActivityGridContainer = ({
+  loading,
+  loadingTCFR,
+  active,
+  newData,
+  cands,
+  listings,
+}) => {
+  const [newDataNames, setNewDataNames] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedCandId, setSelectedCandId] = useState("");
+
+  useEffect(() => {
+    const candids = new Set(newData.map((data) => data.CandidateId));
+    const uniqueids = Array.from(candids);
+    const filteredCands = cands.filter((cand) =>
+      uniqueids.includes(cand.DocId)
+    );
+    const names = filteredCands.map((filteredCand) => ({
+      value: filteredCand.DocId,
+      name: filteredCand.FirstName + " " + filteredCand.LastName,
+    }));
+    setNewDataNames(names);
+  }, [newData]);
+
+  useEffect(() => {
+    if (selectedCandId && selectedCandId !== "0") {
+      const filteredData = newData.filter(
+        (data) => data.CandidateId == selectedCandId
+      );
+      setFilteredData(filteredData.length > 0 ? filteredData : newData);
+    } else {
+      setFilteredData(newData);
+    }
+  }, [newData, selectedCandId]);
+
+  return !loading && !loadingTCFR ? (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{
+        opacity: active ? 1 : 0,
+        transition: { duration: 1, ease: "backInOut" },
+      }}
+      className="side-bar-main-div p-10 flex flex-col gap-6 text-center h-full overflow-y-scroll"
+    >
+      <div id="top-candidate-sidebar" className="flex justify-between ">
+        <h2 className="side-bar-first-heading text-3xl">Recent Activity</h2>
+
+        <div id="select-candidate-container" className="flex gap-5">
+          <NavLink to="/new-candidate" className="candidate-inverted-btn">
+            Add New Candidate
+          </NavLink>
+          <select
+            className="w-64 px-2 candidate-select"
+            name="candidate-names"
+            id="candidate-names"
+            onChange={(e) => setSelectedCandId(e.target.value)}
+          >
+            <option value="0">No Candidates Selected</option>
+            {newDataNames &&
+              newDataNames.length > 0 &&
+              newDataNames.map((name) => (
+                <option value={name.value}>{name.name}</option>
+              ))}
+          </select>
+        </div>
+      </div>
+
+      <div
+        id="activity-grid-container"
+        className="max-lg:block grid lg:max-xl:grid-cols-2 xl:max-2xl:grid-cols-3 2xl:grid-cols-4 gap-3"
+      >
+        {filteredData && filteredData.length > 0 ? (
+          filteredData.map((card) => (
+            <Card card={card} listings={listings} cands={cands} />
+          ))
+        ) : (
+          <h1>No Registrations</h1>
+        )}
+      </div>
+    </motion.div>
+  ) : (
+    <div className="w-full flex justify-center h-full items-center">
+      <BarLoader bgcolor={"white"} />
+    </div>
   );
 };
 
@@ -96,26 +173,26 @@ const Card = ({ card, cands, listings }) => {
   const [filteredCand, setFilteredCand] = useState();
   useEffect(() => {
     if (listings && listings.length > 0) {
-      const filtered = listings.filter(
+      const filtered = listings.find(
         (listing) => listing.DocId == card.ListingsIds
       );
-      if (filtered) {
-        setFilteredListing(filtered[0]);
-      }
+      setFilteredListing(filtered || null);
     }
-  }, [listings]);
+  }, [listings, card.ListingsIds]);
+
   useEffect(() => {
     if (cands && cands.length > 0) {
-      const filteredCand = cands.filter(
-        (cand) => cand.DocId === card.CandidateId
-      );
-      if (filteredCand) {
-        setFilteredCand(filteredCand[0]);
-      }
+      const filtered = cands.find((cand) => cand.DocId === card.CandidateId);
+      setFilteredCand(filtered || null);
     }
-  }, [cands]);
+  }, [cands, card.CandidateId]);
+  console.log(card);
+
   return (
-    <div className=" bg-white rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md">
+    <div
+      key={card}
+      className=" bg-white rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md"
+    >
       <div id="status-container" className="flex justify-between">
         <h1 className="candidate-territory">
           {card.DocType.trim() === "TC"
