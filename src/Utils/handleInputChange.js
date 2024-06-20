@@ -1,4 +1,4 @@
-const handleInputChange = (e) => {
+const handleInputChange = (e, setFormFields, setError) => {
   const { name, value, type, checked } = e.target;
   const inputValue = type === "checkbox" ? checked : value;
 

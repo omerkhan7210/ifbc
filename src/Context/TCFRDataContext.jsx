@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addAllRegistrations } from "src/Redux/listingReducer";
 export const MyTCFRContext = createContext();
 
 const TCFRDataContext = ({ children }) => {
@@ -7,33 +9,39 @@ const TCFRDataContext = ({ children }) => {
   const [tcs, setTcs] = useState([]);
   const [frs, setFrs] = useState([]);
   const [all, setAll] = useState([]);
+  const reduxRegistrations = useSelector(
+    (state) => state.counter.registrations
+  );
   const [loadingTCFR, setLoading] = useState();
   const [loadingError, setLoadingError] = useState(false);
   const [newData, setNewData] = useState();
-
+  const [userDetails, setUserDetails] = useState();
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.counter.userDetails);
+  console.log(token);
   useEffect(() => {
     if (all && all.length > 0) {
-      const sanitizeListingsIds = (listingsIds) => {
+      const sanitizelistingsIds = (listingsIds) => {
         // Remove any non-numeric and non-comma characters
         const sanitized = listingsIds.replace(/[^0-9,]/g, "");
         return sanitized.split(",").filter((id) => id.trim() !== "");
       };
-
       const transformedData = all.flatMap((item) => {
-        const listingsIdsArray = sanitizeListingsIds(item.ListingsIds);
+        const listingsIdsArray = sanitizelistingsIds(item.listingsIds);
 
         return listingsIdsArray.map((listingId) => ({
           ...item,
-          ListingsIds: listingId,
+          listingsIds: listingId,
         }));
       });
+
       setNewData(transformedData);
     }
   }, [all]);
 
-  useEffect(() => {
+  const getAllRegistrations = async () => {
     setLoading(true);
-    const url = "http://siddiqiventures-001-site3.ktempurl.com/cfalist.aspx";
+    const url = "https://omerkhan7210-001-site1.ltempurl.com/api/registrations";
 
     // Make a GET request to fetch the data
     axios
@@ -41,8 +49,9 @@ const TCFRDataContext = ({ children }) => {
       .then((response) => {
         // Handle successful response
         if (response.data.length > 0) {
-          const TC = response.data.filter((data) => data.DocType === "TC");
-          const FR = response.data.filter((data) => data.DocType === "FR");
+          const TC = response.data.filter((data) => data.docType === "TC");
+          const FR = response.data.filter((data) => data.docType === "FR");
+          dispatch(addAllRegistrations(response.data));
           setAll(response.data);
           setTcs(TC);
           setFrs(FR);
@@ -54,7 +63,15 @@ const TCFRDataContext = ({ children }) => {
         setLoadingError(true);
         console.error("Error fetching data:", error);
       });
-  }, []); // Empty dependency array to run once on component mount
+  };
+
+  useEffect(() => {
+    if (reduxRegistrations && reduxRegistrations.length > 0) {
+      setNewData(reduxRegistrations);
+    } else {
+      getAllRegistrations();
+    }
+  }, [reduxRegistrations]); // Empty dependency array to run once on component mount
 
   return (
     <MyTCFRContext.Provider

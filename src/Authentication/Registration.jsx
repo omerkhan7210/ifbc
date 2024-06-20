@@ -2,8 +2,6 @@ import { Select } from "@headlessui/react";
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
-import handleInputChange from "src/Utils/handleInputChange";
 
 const Registration = () => {
   const ref = useRef();
@@ -113,7 +111,7 @@ const Registration = () => {
     };
 
     try {
-      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/new_account.aspx`;
+      const baseUrl = `https://omerkhan7210-001-site1.ltempurl.com/api/users`;
 
       setLoading(true);
 
@@ -151,6 +149,20 @@ const Registration = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
   const checkboxInputs = [
     { name: "businessbroker", label: "Business Broker" },
     { name: "openforgroup", label: "Open For Group" },
@@ -172,18 +184,15 @@ const Registration = () => {
         id="main-page-wrapper"
         className="flex justify-center flex-col items-center "
       >
-        <h2 className="text-4xl sm:text-5xl my-5 uppercase font-bold text-custom-heading-color">
+        <h2 className="text-4xl md:text-5xl my-5 uppercase font-bold text-custom-heading-color">
           Registration
         </h2>
         <form
           id="main-form"
-          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[90%] mx-auto flex flex-col sm:grid grid-cols-12 gap-0 sm:gap-10"
+          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[90%] mx-auto max-md:flex flex-col md:grid grid-cols-12 gap-0 md:gap-10"
           ref={ref}
         >
-          <div
-            id="left-form-container"
-            className="col-span-9 order-2 sm:order-1"
-          >
+          <div id="left-form-container" className="col-span-9 max-md:order-2">
             {error.credentials && (
               <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
                 {error.credentials}!
@@ -222,7 +231,7 @@ const Registration = () => {
           </div>
           <div
             id="right-side-container"
-            className="col-span-3 p-5 relative order-1 sm:order-2"
+            className="col-span-3 p-5 relative max-md:order-1"
           >
             <div id="sticky-container" className="top-10 sticky">
               {checkboxInputs.map(({ name, label }) => (
@@ -284,7 +293,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="firstname"
             type="text"
             placeholder="First Name"
-            value={formFields.firstname}
+            defaultValue={formFields.firstname}
             onChange={handleInputChange}
           />
           {error.firstname && (
@@ -310,7 +319,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="lastname"
             type="text"
             placeholder="Last Name"
-            value={formFields.lastname}
+            defaultValue={formFields.lastname}
             onChange={handleInputChange}
           />
           {error.lastname && (
@@ -335,7 +344,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="email"
             type="email"
             placeholder="Email"
-            value={formFields.email}
+            defaultValue={formFields.email}
             onChange={handleInputChange}
           />
           {error.email && (
@@ -361,7 +370,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="linkedinurl"
             type="url"
             placeholder="LinkedIn URL"
-            value={formFields.linkedinurl}
+            defaultValue={formFields.linkedinurl}
             onChange={handleInputChange}
           />
           {error.linkedinurl && (
@@ -387,7 +396,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="meetinglink"
             type="url"
             placeholder="Meeting Link"
-            value={formFields.meetinglink}
+            defaultValue={formFields.meetinglink}
             onChange={handleInputChange}
           />
           {error.meetinglink && (
@@ -412,7 +421,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="websiteurl"
             type="url"
             placeholder="Website URL"
-            value={formFields.websiteurl}
+            defaultValue={formFields.websiteurl}
             onChange={handleInputChange}
           />
           {error.websiteurl && (
@@ -423,26 +432,26 @@ const Profile = ({ formFields, handleInputChange, error }) => {
         </div>
       </div>
       <div className="flex flex-col sm:flex-row justify-around gap-2">
-        <div class="w-full max-w-xs items-center gap-1.5">
-          <label class="block text-gray-700 text-sm font-bold mb-2">
+        <div className="w-full max-w-xs items-center gap-1.5">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
             Profile Picture
           </label>
           <input
             onChange={handleInputChange}
             name="profileimage"
-            class="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
+            className="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
             type="file"
             id="picture"
           />
         </div>
-        <div class="w-full max-w-xs items-center gap-1.5">
-          <label class="block text-gray-700 text-sm font-bold mb-2">
+        <div className="w-full max-w-xs items-center gap-1.5">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
             Cover Picture
           </label>
           <input
             onChange={handleInputChange}
             name="coverimage"
-            class="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
+            className="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
             type="file"
             id="picture"
           />
@@ -477,7 +486,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="companyname"
             type="text"
             placeholder="Company Name"
-            value={formFields.companyname}
+            defaultValue={formFields.companyname}
             onChange={handleInputChange}
           />
           {error.companyname && (
@@ -503,7 +512,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="companyphonenumber"
             type="tel"
             placeholder="Company Phone Number"
-            value={formFields.companyphonenumber}
+            defaultValue={formFields.companyphonenumber}
             onChange={handleInputChange}
           />
           {error.companyphonenumber && (
@@ -529,7 +538,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="companyaddress"
             type="text"
             placeholder="Company Address"
-            value={formFields.companyaddress}
+            defaultValue={formFields.companyaddress}
             onChange={handleInputChange}
           />
           {error.companyaddress && (
@@ -557,7 +566,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="city"
             type="text"
             placeholder="City"
-            value={formFields.city}
+            defaultValue={formFields.city}
             onChange={handleInputChange}
           />
           {error.city && (
@@ -580,7 +589,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="zippostalcode"
             type="text"
             placeholder="Zip/Postal Code"
-            value={formFields.zippostalcode}
+            defaultValue={formFields.zippostalcode}
             onChange={handleInputChange}
           />
           {error.zippostalcode && (
@@ -606,7 +615,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="unitsuite"
             type="text"
             placeholder="Unit/Suite"
-            value={formFields.unitsuite}
+            defaultValue={formFields.unitsuite}
             onChange={handleInputChange}
           />
           {error.unitsuite && (
@@ -634,7 +643,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="notes"
             type="text"
             placeholder="Notes"
-            value={formFields.notes}
+            defaultValue={formFields.notes}
             onChange={handleInputChange}
           />
           {error.notes && (
@@ -659,7 +668,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="shortdescription"
             type="text"
             placeholder="Short Description"
-            value={formFields.shortdescription}
+            defaultValue={formFields.shortdescription}
             onChange={handleInputChange}
           />
           {error.shortdescription && (
@@ -698,7 +707,7 @@ const Experience = ({ formFields, handleInputChange, error }) => {
             id="consulting"
             type="text"
             placeholder="Consulting"
-            value={formFields.consulting}
+            defaultValue={formFields.consulting}
             onChange={handleInputChange}
           />
           {error.consulting && (
@@ -724,7 +733,7 @@ const Experience = ({ formFields, handleInputChange, error }) => {
             id="franchiseindustryfocus"
             type="text"
             placeholder="Franchise Industry Focus"
-            value={formFields.franchiseindustryfocus}
+            defaultValue={formFields.franchiseindustryfocus}
             onChange={handleInputChange}
           />
           {error.franchiseindustryfocus && (
@@ -750,13 +759,13 @@ const Experience = ({ formFields, handleInputChange, error }) => {
             id="registeredin"
             type="text"
             placeholder="Registered In"
-            value={formFields.registeredin}
+            defaultValue={formFields.registeredin}
             onChange={handleInputChange}
           >
-            <option value="N">None</option>
-            <option value="NY">New York</option>
-            <option value="W">Washington</option>
-            <option value="B">Both</option>
+            <option defaultValue="N">None</option>
+            <option defaultValue="NY">New York</option>
+            <option defaultValue="W">Washington</option>
+            <option defaultValue="B">Both</option>
           </Select>
           {error.registeredin && (
             <p className="text-red-500 text-xs italic mt-2">
@@ -794,7 +803,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
             id="broker"
             type="text"
             placeholder="Broker"
-            value={formFields.broker}
+            defaultValue={formFields.broker}
             onChange={handleInputChange}
           />
           {error.broker && (
@@ -818,7 +827,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
             id="leademail"
             type="email"
             placeholder="Lead Email"
-            value={formFields.leademail}
+            defaultValue={formFields.leademail}
             onChange={handleInputChange}
           />
           {error.leademail && (
@@ -846,7 +855,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
             name="password"
             type="password"
             placeholder="******************"
-            value={formFields.password}
+            defaultValue={formFields.password}
             onChange={handleInputChange}
           />
           {error.password && (
@@ -869,7 +878,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
             name="confirmpassword"
             type="password"
             placeholder="******************"
-            value={formFields.confirmpassword}
+            defaultValue={formFields.confirmpassword}
             onChange={handleInputChange}
           />
           {error.confirmpassword && (

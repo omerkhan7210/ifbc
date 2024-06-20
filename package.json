@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://siddiqiventures-001-site4.ktempurl.com",
+  "proxy": "https://omerkhan7210-001-site1.ltempurl.com",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { useEffect } from "react";
@@ -11,6 +11,7 @@ import MessagePopup from "src/Popups/MessagePopup";
 import { MyTCFRContext } from "src/Context/TCFRDataContext";
 import BarLoader from "src/Animations/BarLoader";
 import { MyContext } from "src/Context/ListingDataContext";
+import FormatRawDate from "src/Utils/FormatRawDate";
 
 const MainCandidateProfile = () => {
   const { id } = useParams();
@@ -19,10 +20,11 @@ const MainCandidateProfile = () => {
   const { newData } = useContext(MyTCFRContext);
   const { listings, loading } = useContext(MyContext);
   const [filteredData, setFilteredData] = useState();
+  const history = useNavigate();
   useEffect(() => {
     if (newData && newData.length > 0) {
       const filterData = newData.filter(
-        (card) => card.CandidateId === candDetails.DocId
+        (card) => card.candidateId === candDetails.docId
       );
       setFilteredData(filterData);
     }
@@ -30,9 +32,13 @@ const MainCandidateProfile = () => {
 
   useEffect(() => {
     if (cands && cands.length > 0) {
-      const filteredArray = cands.filter((cand) => cand.DocId == id);
-      const filtered = filteredArray.length > 0 ? filteredArray[0] : null;
-      setCandDetails(filtered || null);
+      const filteredArray = cands.filter((cand) => cand.docId == id);
+      if (filteredArray.length > 0) {
+        const filtered = filteredArray[0];
+        setCandDetails(filtered || null);
+      } else {
+        history("/candidate-not-found");
+      }
     }
   }, [cands]);
 
@@ -93,7 +99,7 @@ const LeftSideCardContainer = ({
             Deal Stage
           </p>
           <select className="candidate-select w-full">
-            <option selected>Select Stage</option>
+            <option value="">Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
             <option value="FR">France</option>
@@ -139,8 +145,9 @@ const LeftSideCardContainer = ({
         </div>
 
         {/* buttons */}
-        {profileButtons.map((btn) => (
+        {profileButtons.map((btn, index) => (
           <button
+            key={index}
             className="candidate-btn w-full"
             onClick={() => btn.setShow(true)}
           >
@@ -579,7 +586,7 @@ const Description = ({ card, listings }) => {
   useEffect(() => {
     if (listings && listings.length > 0) {
       const filtered = listings.filter(
-        (listing) => listing.DocId == card.ListingsIds
+        (listing) => listing.docId == card.listingsIds
       );
       if (filtered) {
         setFilteredListing(filtered[0]);
@@ -597,7 +604,7 @@ const Description = ({ card, listings }) => {
 
           <button
             id="listing-name"
-            className="text-custom-heading-color underline font-bold text-sm"
+            className="text-custom-heading-color text-left underline font-bold text-sm"
             onClick={() => setShow(true)}
           >
             {filteredListing?.name}
@@ -609,16 +616,18 @@ const Description = ({ card, listings }) => {
       </div>
       <div className=" p-3 bg-gray-200">
         <p className="text-black font-bold text-sm">
-          {card.DocType.trim() === "TC"
+          {card.docType.trim() === "TC"
             ? "Territory Check"
             : "Formal Registeration"}
         </p>
       </div>
       <div className=" p-3 bg-gray-200">
-        <p className="text-black font-bold text-sm">04/19/2024 11:31 am</p>
+        <p className="text-black font-bold text-sm">
+          {FormatRawDate(card, true)}
+        </p>
       </div>
       <div className=" p-3 bg-gray-200 ">
-        <p className="text-black font-bold text-sm">{card.Status}</p>
+        <p className="text-black font-bold text-sm">{card.status}</p>
       </div>
     </div>
   );

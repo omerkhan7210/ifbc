@@ -246,8 +246,8 @@ const AccountDD = ({ userDetails, ifLogin }) => {
         >
           <img
             src={
-              userDetails?.ProfileImage
-                ? `/images/uploads/${userDetails?.ProfileImage}`
+              userDetails?.profileImage
+                ? `/images/uploads/${userDetails?.profileImage}`
                 : "/images/avatar-placeholder.png"
             }
             className="w-10 h-10 rounded-full"
@@ -260,11 +260,11 @@ const AccountDD = ({ userDetails, ifLogin }) => {
           <div className="flex flex-col items-start  py-2 px-3">
             <p className="text-[15px] text-[#333] font-bold">
               {userDetails
-                ? userDetails?.FirstName?.charAt(0).toUpperCase() +
-                  userDetails?.FirstName?.slice(1) +
+                ? userDetails?.firstName?.charAt(0).toUpperCase() +
+                  userDetails?.firstName?.slice(1) +
                   " " +
-                  userDetails?.LastName?.charAt(0).toUpperCase() +
-                  userDetails?.LastName?.slice(1)
+                  userDetails?.lastName?.charAt(0).toUpperCase() +
+                  userDetails?.lastName?.slice(1)
                 : "John Doe"}
             </p>
             <p className="text-xs text-gray-500 mt-0.5">

@@ -55,7 +55,7 @@ const ToggleButton = ({ active, setActive }) => {
       onClick={() => setActive(!active)}
       className={`absolute -top-16 right-0 bg-custom-heading-color px-4 py-5 flex items-center justify-center rounded-tl w-64 text-white z-[99999]`}
     >
-      <div class="text-white text-base font-bold flex items-center">
+      <div className="text-white text-base font-bold flex items-center">
         No Candidate Selected
         <motion.svg
           initial={{ rotate: 180 }}
@@ -64,15 +64,15 @@ const ToggleButton = ({ active, setActive }) => {
           width="100%"
           height="100%"
           viewBox="-0.5 0 25 25"
-          class="w-4 h-4 stroke-white ml-2"
+          className="w-4 h-4 stroke-white ml-2"
           fill="none"
         >
           <path
             d="M2.5 8.1728L11.4706 16.6434C11.75 16.9081 12.1912 16.9081 12.4853 16.6434L21.5 8.15808"
             stroke="currentColor"
-            stroke-miterlimit="10"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeMiterlimit="10"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           ></path>
         </motion.svg>
       </div>
@@ -93,22 +93,24 @@ const ActivityGridContainer = ({
   const [selectedCandId, setSelectedCandId] = useState("");
 
   useEffect(() => {
-    const candids = new Set(newData.map((data) => data.CandidateId));
-    const uniqueids = Array.from(candids);
-    const filteredCands = cands.filter((cand) =>
-      uniqueids.includes(cand.DocId)
-    );
-    const names = filteredCands.map((filteredCand) => ({
-      value: filteredCand.DocId,
-      name: filteredCand.FirstName + " " + filteredCand.LastName,
-    }));
-    setNewDataNames(names);
+    if (newData && newData.length > 0) {
+      const candids = new Set(newData.map((data) => data.candidateId));
+      const uniqueids = Array.from(candids);
+      const filteredCands = cands.filter((cand) =>
+        uniqueids.includes(cand.docId)
+      );
+      const names = filteredCands.map((filteredCand) => ({
+        value: filteredCand.docId,
+        name: filteredCand.firstName + " " + filteredCand.lastName,
+      }));
+      setNewDataNames(names);
+    }
   }, [newData]);
 
   useEffect(() => {
     if (selectedCandId && selectedCandId !== "0") {
       const filteredData = newData.filter(
-        (data) => data.CandidateId == selectedCandId
+        (data) => data.candidateId == selectedCandId
       );
       setFilteredData(filteredData.length > 0 ? filteredData : newData);
     } else {
@@ -133,7 +135,7 @@ const ActivityGridContainer = ({
             Add New Candidate
           </NavLink>
           <select
-            className="w-64 px-2 candidate-select"
+            className="w-64 px-2 candidate-select capitalize"
             name="candidate-names"
             id="candidate-names"
             onChange={(e) => setSelectedCandId(e.target.value)}
@@ -141,8 +143,10 @@ const ActivityGridContainer = ({
             <option value="0">No Candidates Selected</option>
             {newDataNames &&
               newDataNames.length > 0 &&
-              newDataNames.map((name) => (
-                <option value={name.value}>{name.name}</option>
+              newDataNames.map((name, index) => (
+                <option key={index} value={name.value}>
+                  {name.name}
+                </option>
               ))}
           </select>
         </div>
@@ -153,8 +157,8 @@ const ActivityGridContainer = ({
         className="max-lg:block grid lg:max-xl:grid-cols-2 xl:max-2xl:grid-cols-3 2xl:grid-cols-4 gap-3"
       >
         {filteredData && filteredData.length > 0 ? (
-          filteredData.map((card) => (
-            <Card card={card} listings={listings} cands={cands} />
+          filteredData.map((card, index) => (
+            <Card key={index} card={card} listings={listings} cands={cands} />
           ))
         ) : (
           <h1>No Registrations</h1>
@@ -174,19 +178,18 @@ const Card = ({ card, cands, listings }) => {
   useEffect(() => {
     if (listings && listings.length > 0) {
       const filtered = listings.find(
-        (listing) => listing.DocId == card.ListingsIds
+        (listing) => listing.docId == card.listingsIds
       );
       setFilteredListing(filtered || null);
     }
-  }, [listings, card.ListingsIds]);
+  }, [listings, card.listingsIds]);
 
   useEffect(() => {
     if (cands && cands.length > 0) {
-      const filtered = cands.find((cand) => cand.DocId === card.CandidateId);
+      const filtered = cands.find((cand) => cand.docId === card.candidateId);
       setFilteredCand(filtered || null);
     }
-  }, [cands, card.CandidateId]);
-  console.log(card);
+  }, [cands, card.candidateId]);
 
   return (
     <div
@@ -195,14 +198,14 @@ const Card = ({ card, cands, listings }) => {
     >
       <div id="status-container" className="flex justify-between">
         <h1 className="candidate-territory">
-          {card.DocType.trim() === "TC"
+          {card.docType.trim() === "TC"
             ? "Territory Check"
             : "Formal Registration"}
         </h1>
         <h1
-          className={`${card.Status.toLowerCase() === "pending" ? "candidate-pending" : "candidate-available"}`}
+          className={`${card.status.toLowerCase() === "pending" ? "candidate-pending" : "candidate-available"}`}
         >
-          {card.Status}
+          {card.status}
         </h1>
       </div>
       <div className="flex justify-center items-center w-full mt-4 gap-3">
@@ -218,11 +221,11 @@ const Card = ({ card, cands, listings }) => {
           </p>
           <ul>
             <li className="text-sm text-custom-grey">
-              {filteredCand?.FirstName} {filteredCand?.LastName}
+              {filteredCand?.firstName} {filteredCand?.lastName}
             </li>
             <li className="text-sm text-custom-grey">
-              {filteredCand?.TerritoryCity} {filteredCand?.TerritoryState},{" "}
-              {filteredCand?.TerritoryZipcode}
+              {filteredCand?.territoryCity} {filteredCand?.territoryState},{" "}
+              {filteredCand?.territoryZipcode}
             </li>
             <li className="text-sm text-custom-grey"> {FormatRawDate(card)}</li>
           </ul>
@@ -244,7 +247,7 @@ const Card = ({ card, cands, listings }) => {
         </div>
       </div>
       <div className="text-sm flex gap-2 items-center justify-between">
-        <Link to={`/inbox/${card?.DocId}`} className="candidate-btn w-full">
+        <Link to={`/inbox/${card?.docId}`} className="candidate-btn w-full">
           MESSAGE
         </Link>
         <button className="candidate-btn w-full">SEND RE-CHECK</button>
