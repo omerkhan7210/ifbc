@@ -1,12 +1,14 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Tabs from "./Tabs";
 import { useNavigate } from "react-router-dom";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
 
-const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
+const Form = ({ candDetails, candNames, activeListings }) => {
+  const { userDetails } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState(candDetails ? candDetails : {});
   const [formErrors, setFormErrors] = useState({});
   const history = useNavigate();
@@ -239,7 +241,7 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
         });
         console.log(response);
 
-        if (response.status === 200) {
+        if (response.status === 201) {
           setFormErrors({});
           setSuccessMsg("Candidate Information Saved Successfully.");
 
@@ -249,7 +251,8 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
             history("/candidate-list");
           }, 3000);
         } else {
-          setFormErrors({ error: response.data });
+          console.log(response);
+          // setFormErrors({  });
           setLoading(false);
           window.scrollTo(0, 500);
           // Handle unexpected response
@@ -268,6 +271,7 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
       console.error("Error:", error);
     }
   };
+  const handleEdit = () => {};
 
   const handleSubmitRegistration = async () => {
     setLoading(true);
