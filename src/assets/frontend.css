@@ -6177,7 +6177,7 @@ input:checked[type="checkbox"]:checked,
 
 input:checked[type="checkbox"],
 .cmb2-wrap input:focus[type="checkbox"] {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e") !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' strokeLinecap='round' strokeLinejoin='round' strokeWidth='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e") !important;
 }
 
 input:checked[type="radio"],
@@ -10181,7 +10181,7 @@ blockquote {
 }
 
 .stroke-2 {
-  stroke-width: 2;
+  strokewidth: 2;
 }
 
 .object-contain {
@@ -11877,7 +11877,7 @@ blockquote {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  stroke-width: 0;
+  strokewidth: 0;
   font-size: 1rem;
   line-height: 1.5rem;
   padding: 6px 12px;
@@ -12659,7 +12659,7 @@ blockquote {
 }
 
 .swiper-wrapper {
-  height: 345px !important;
+  height: 430px !important;
 }
 
 /* Variation of work by @mrhyddenn for Radios */
@@ -12694,7 +12694,7 @@ blockquote {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke: #c8ccd4;
-  stroke-width: 1.5;
+  strokewidth: 1.5;
   transform: translate3d(0, 0, 0);
   transition: all 0.2s ease;
 }

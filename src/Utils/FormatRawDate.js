@@ -1,13 +1,23 @@
-const FormatRawDate = (cand) => {
-  const rawDate = cand.DocDate ? cand.DocDate : cand.CreatedAt;
+const FormatRawDate = (cand, time = false) => {
+  const rawDate = cand.docDate ? cand.docDate : cand.CreatedAt;
   const match = rawDate.match(/\d+/);
   const timestamp = parseInt(match[0], 10);
   const date = new Date(timestamp);
-  const formatted = new Intl.DateTimeFormat("en-US", {
+  const formatted = time ? new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
-  }).format(date);
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(date)
+    :
+    new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }).format(date);
+
   return formatted;
 };
 

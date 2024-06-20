@@ -19,6 +19,33 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const getUserDetails = async (token) => {
+    const url =
+      "https://omerkhan7210-001-site1.ltempurl.com/api/users/userdata";
+
+    try {
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Handle successful response
+      if (response.status === 200) {
+        const someUserDetails = response.data;
+        return {
+          firstName: someUserDetails.firstName,
+          lastName: someUserDetails.lastName,
+          email: someUserDetails.email,
+          profileImage: someUserDetails.profileImage,
+          userType: someUserDetails.userType,
+        };
+      } else {
+        console.log("No user details found");
+      }
+    } catch (error) {
+      // Handle error
+      console.error("Error fetching data:", error);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -54,17 +81,26 @@ const Login = () => {
     }
 
     try {
-      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/loginapi.aspx`;
+      const baseUrl = `https://omerkhan7210-001-site1.ltempurl.com/api/login`;
+      const requestData = {
+        email: user.username.value,
+        password: user.password.value,
+      };
 
-      const url = `${baseUrl}?UNAME=${user.username.value}&PWD=${user.password.value}`;
       setLoading(true);
-      // Send the POST request using Axios
-      const response = await axios.post(url);
+      const response = await axios.post(baseUrl, requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      if (typeof response.data === "object" && response.status === 200) {
+      if (response.status === 200) {
         setLoading(false);
+        const someUserDetails = await getUserDetails(response.data.token);
         dispatch(setIfLogin(true));
-        dispatch(setUserDetails(response?.data[0]));
+        dispatch(setUserDetails(someUserDetails));
+        setUserDetails(someUserDetails);
+        setLoading(false);
         history("/");
       } else {
         setError({

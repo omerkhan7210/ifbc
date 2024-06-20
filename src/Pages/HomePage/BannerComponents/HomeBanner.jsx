@@ -145,8 +145,9 @@ const HomeBanner = () => {
       </section>
 
       <div id="popular-cats" className="w-full grid grid-cols-12 z-50">
-        {listingBoxes.map((box) => (
+        {listingBoxes.map((box, index) => (
           <ListingBox
+            key={index}
             id={box.id}
             bgcolor={box.bgcolor}
             svg={box.svg}

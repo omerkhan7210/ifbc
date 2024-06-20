@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 import { twMerge } from "tailwind-merge";
 
-const TopBar = ({ listingContent, setShow, show }) => {
+const TopBar = ({ listingContent, setShow, show, setRegistrationType }) => {
   const data = [
     {
       icon: (
@@ -88,7 +88,7 @@ const TopBar = ({ listingContent, setShow, show }) => {
           />
         </svg>
       ),
-      text: "Avg Response Time: " + listingContent?.avgresponsetime,
+      text: "Avg Response Time: " + listingContent?.avgResponseTime,
       isLink: null,
     },
     {
@@ -172,9 +172,12 @@ const TopBar = ({ listingContent, setShow, show }) => {
       isLink: listingContent?.website,
     },
   ];
-
   const { role } = useContext(MyContext);
 
+  const handleOpenRegistration = (type) => {
+    setRegistrationType(type);
+    setShow(true);
+  };
   return (
     <section className="flex flex-col w-full justify-between items-center border-b border-custom-dark-blue/10 mb-4 mt-4 ">
       <div className="lg:mb-2 flex justify-center items-center flex-col">
@@ -206,14 +209,14 @@ const TopBar = ({ listingContent, setShow, show }) => {
           <button
             className="candidate-btn w-full"
             value="tc"
-            onClick={() => setTCheck(true)}
+            onClick={() => handleOpenRegistration("TC")}
           >
             Territory Check
           </button>
           <button
             className="candidate-btn w-full"
             value="formal-registration"
-            onClick={() => setformalRegCheck(true)}
+            onClick={() => handleOpenRegistration("FR")}
           >
             Formal Registration
           </button>

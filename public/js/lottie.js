@@ -1,6 +1,6 @@
-(typeof navigator !== "undefined") && (function(global, factory) {
+(typeof navigator !== "undefined") && (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.lottie = factory());
-})(this, (function() {
+})(this, (function () {
     'use strict';
     var svgNS = 'http://www.w3.org/2000/svg';
     var locationHref = '';
@@ -40,11 +40,11 @@
     }
 
     function createProxyFunction(prototype) {
-        function ProxyFunction() {}
+        function ProxyFunction() { }
         ProxyFunction.prototype = prototype;
         return ProxyFunction;
     }
-    var audioControllerFactory = function() {
+    var audioControllerFactory = function () {
         function AudioController(audioFactory) {
             this.audios = [];
             this.audioFactory = audioFactory;
@@ -93,9 +93,9 @@
                     seek: function seek() {
                         this.isPlaying = false;
                     },
-                    playing: function playing() {},
-                    rate: function rate() {},
-                    setVolume: function setVolume() {}
+                    playing: function playing() { },
+                    rate: function rate() { },
+                    setVolume: function setVolume() { }
                 };
             },
             setAudioFactory: function setAudioFactory(audioFactory) {
@@ -124,11 +124,11 @@
                 }
             }
         };
-        return function() {
+        return function () {
             return new AudioController();
         };
     }();
-    var createTypedArray = function() {
+    var createTypedArray = function () {
         function createRegularArray(type, len) {
             var i = 0;
             var arr = [];
@@ -197,7 +197,7 @@
     var bmMax = Math.max;
     var bmMin = Math.min;
     var BMMath = {};
-    (function() {
+    (function () {
         var propertyNames = ['abs', 'acos', 'acosh', 'asin', 'asinh', 'atan', 'atanh', 'atan2', 'ceil', 'cbrt', 'expm1', 'clz32', 'cos', 'cosh', 'exp', 'floor', 'fround', 'hypot', 'imul', 'log', 'log1p', 'log2', 'log10', 'max', 'min', 'pow', 'random', 'round', 'sign', 'sin', 'sinh', 'sqrt', 'tan', 'tanh', 'trunc', 'E', 'LN10', 'LN2', 'LOG10E', 'LOG2E', 'PI', 'SQRT1_2', 'SQRT2'];
         var i;
         var len = propertyNames.length;
@@ -210,7 +210,7 @@
         return {};
     }
     BMMath.random = Math.random;
-    BMMath.abs = function(val) {
+    BMMath.abs = function (val) {
         var tOfVal = _typeof$6(val);
         if (tOfVal === 'object' && val.length) {
             var absArr = createSizedArray(val.length);
@@ -297,7 +297,7 @@
         this.type = type;
         this.nativeError = nativeError;
     }
-    var createElementID = function() {
+    var createElementID = function () {
         var _count = 0;
         return function createID() {
             _count += 1;
@@ -417,7 +417,7 @@
         }
         return HSVtoRGB(hsv[0], hsv[1], hsv[2]);
     }
-    var rgbToHex = function() {
+    var rgbToHex = function () {
         var colorMap = [];
         var i;
         var hex;
@@ -425,7 +425,7 @@
             hex = i.toString(16);
             colorMap[i] = hex.length === 1 ? '0' + hex : hex;
         }
-        return function(r, g, b) {
+        return function (r, g, b) {
             if (r < 0) {
                 r = 0;
             }
@@ -486,13 +486,13 @@
         }
         return _typeof$5(obj);
     }
-    var dataManager = function() {
+    var dataManager = function () {
         var _counterId = 1;
         var processes = [];
         var workerFn;
         var workerInstance;
         var workerProxy = {
-            onmessage: function onmessage() {},
+            onmessage: function onmessage() { },
             postMessage: function postMessage(path) {
                 workerFn({
                     data: path
@@ -662,7 +662,7 @@
                             }
                             return null;
                         }
-                        var checkText = function() {
+                        var checkText = function () {
                             var minimumVersion = [4, 4, 14];
 
                             function updateTextLayer(textLayer) {
@@ -684,7 +684,7 @@
                                     }
                                 }
                             }
-                            return function(animationData) {
+                            return function (animationData) {
                                 if (checkVersion(minimumVersion, animationData.v)) {
                                     iterateLayers(animationData.layers);
                                     if (animationData.assets) {
@@ -699,9 +699,9 @@
                                 }
                             };
                         }();
-                        var checkChars = function() {
+                        var checkChars = function () {
                             var minimumVersion = [4, 7, 99];
-                            return function(animationData) {
+                            return function (animationData) {
                                 if (animationData.chars && !checkVersion(minimumVersion, animationData.v)) {
                                     var i;
                                     var len = animationData.chars.length;
@@ -776,7 +776,7 @@
                                 }
                             };
                         }();
-                        var checkPathProperties = function() {
+                        var checkPathProperties = function () {
                             var minimumVersion = [5, 7, 15];
 
                             function updateTextLayer(textLayer) {
@@ -810,7 +810,7 @@
                                     }
                                 }
                             }
-                            return function(animationData) {
+                            return function (animationData) {
                                 if (checkVersion(minimumVersion, animationData.v)) {
                                     iterateLayers(animationData.layers);
                                     if (animationData.assets) {
@@ -825,7 +825,7 @@
                                 }
                             };
                         }();
-                        var checkColors = function() {
+                        var checkColors = function () {
                             var minimumVersion = [4, 1, 9];
 
                             function iterateShapes(shapes) {
@@ -872,7 +872,7 @@
                                     }
                                 }
                             }
-                            return function(animationData) {
+                            return function (animationData) {
                                 if (checkVersion(minimumVersion, animationData.v)) {
                                     iterateLayers(animationData.layers);
                                     if (animationData.assets) {
@@ -887,7 +887,7 @@
                                 }
                             };
                         }();
-                        var checkShapes = function() {
+                        var checkShapes = function () {
                             var minimumVersion = [4, 4, 18];
 
                             function completeClosingShapes(arr) {
@@ -950,7 +950,7 @@
                                     }
                                 }
                             }
-                            return function(animationData) {
+                            return function (animationData) {
                                 if (checkVersion(minimumVersion, animationData.v)) {
                                     iterateLayers(animationData.layers);
                                     if (animationData.assets) {
@@ -981,7 +981,7 @@
                         }
 
                         function completeText(data) {
-                            if (data.t.a.length === 0 && !('m' in data.t.p)) {}
+                            if (data.t.a.length === 0 && !('m' in data.t.p)) { }
                         }
                         var moduleOb = {};
                         moduleOb.completeData = completeData;
@@ -996,7 +996,7 @@
                         _workerSelf.dataManager = dataFunctionManager();
                     }
                     if (!_workerSelf.assetLoader) {
-                        _workerSelf.assetLoader = function() {
+                        _workerSelf.assetLoader = function () {
                             function formatResponse(xhr) {
                                 var contentTypeHeader = xhr.getResponseHeader('content-type');
                                 if (contentTypeHeader && xhr.responseType === 'json' && contentTypeHeader.indexOf('json') !== -1) {
@@ -1019,8 +1019,8 @@
                                 var xhr = new XMLHttpRequest();
                                 try {
                                     xhr.responseType = 'json';
-                                } catch (err) {}
-                                xhr.onreadystatechange = function() {
+                                } catch (err) { }
+                                xhr.onreadystatechange = function () {
                                     if (xhr.readyState === 4) {
                                         if (xhr.status === 200) {
                                             response = formatResponse(xhr);
@@ -1050,14 +1050,14 @@
                         }();
                     }
                     if (e.data.type === 'loadAnimation') {
-                        _workerSelf.assetLoader.load(e.data.path, e.data.fullPath, function(data) {
+                        _workerSelf.assetLoader.load(e.data.path, e.data.fullPath, function (data) {
                             _workerSelf.dataManager.completeData(data);
                             _workerSelf.postMessage({
                                 id: e.data.id,
                                 payload: data,
                                 status: 'success'
                             });
-                        }, function() {
+                        }, function () {
                             _workerSelf.postMessage({
                                 id: e.data.id,
                                 status: 'error'
@@ -1072,13 +1072,13 @@
                             status: 'success'
                         });
                     } else if (e.data.type === 'loadData') {
-                        _workerSelf.assetLoader.load(e.data.path, e.data.fullPath, function(data) {
+                        _workerSelf.assetLoader.load(e.data.path, e.data.fullPath, function (data) {
                             _workerSelf.postMessage({
                                 id: e.data.id,
                                 payload: data,
                                 status: 'success'
                             });
-                        }, function() {
+                        }, function () {
                             _workerSelf.postMessage({
                                 id: e.data.id,
                                 status: 'error'
@@ -1086,7 +1086,7 @@
                         });
                     }
                 });
-                workerInstance.onmessage = function(event) {
+                workerInstance.onmessage = function (event) {
                     var data = event.data;
                     var id = data.id;
                     var process = processes[id];
@@ -1147,8 +1147,8 @@
             completeAnimation: completeAnimation
         };
     }();
-    var ImagePreloader = function() {
-        var proxyImage = function() {
+    var ImagePreloader = function () {
+        var proxyImage = function () {
             var canvas = createTag('canvas');
             canvas.width = 1;
             canvas.height = 1;
@@ -1196,7 +1196,7 @@
 
         function testImageLoaded(img) {
             var _count = 0;
-            var intervalId = setInterval(function() {
+            var intervalId = setInterval(function () {
                 var box = img.getBBox();
                 if (box.width || _count > 500) {
                     this._imageLoaded();
@@ -1214,7 +1214,7 @@
             } else {
                 img.addEventListener('load', this._imageLoaded, false);
             }
-            img.addEventListener('error', function() {
+            img.addEventListener('error', function () {
                 ob.img = proxyImage;
                 this._imageLoaded();
             }.bind(this), false);
@@ -1236,7 +1236,7 @@
             var img = createTag('img');
             img.crossOrigin = 'anonymous';
             img.addEventListener('load', this._imageLoaded, false);
-            img.addEventListener('error', function() {
+            img.addEventListener('error', function () {
                 ob.img = proxyImage;
                 this._imageLoaded();
             }.bind(this), false);
@@ -1253,10 +1253,10 @@
                 assetData: data
             };
             var path = getAssetsPath(data, this.assetsPath, this.path);
-            dataManager.loadData(path, function(footageData) {
+            dataManager.loadData(path, function (footageData) {
                 ob.img = footageData;
                 this._footageLoaded();
-            }.bind(this), function() {
+            }.bind(this), function () {
                 ob.img = {};
                 this._footageLoaded();
             }.bind(this));
@@ -1353,7 +1353,7 @@
         return ImagePreloaderFactory;
     }();
 
-    function BaseEvent() {}
+    function BaseEvent() { }
     BaseEvent.prototype = {
         triggerEvent: function triggerEvent(eventName, args) {
             if (this._cbs[eventName]) {
@@ -1368,7 +1368,7 @@
                 this._cbs[eventName] = [];
             }
             this._cbs[eventName].push(callback);
-            return function() {
+            return function () {
                 this.removeEventListener(eventName, callback);
             }.bind(this);
         },
@@ -1392,7 +1392,7 @@
             }
         }
     };
-    var markerParser = function() {
+    var markerParser = function () {
         function parsePayloadLines(payload) {
             var lines = payload.split('\r\n');
             var keys = {};
@@ -1410,7 +1410,7 @@
             }
             return keys;
         }
-        return function(_markers) {
+        return function (_markers) {
             var markers = [];
             for (var i = 0; i < _markers.length; i += 1) {
                 var _marker = _markers[i];
@@ -1434,11 +1434,11 @@
             return markers;
         };
     }();
-    var ProjectInterface = function() {
+    var ProjectInterface = function () {
         function registerComposition(comp) {
             this.compositions.push(comp);
         }
-        return function() {
+        return function () {
             function _thisProjectFunction(name) {
                 var i = 0;
                 var len = this.compositions.length;
@@ -1532,7 +1532,7 @@
         this.expressionsPlugin = getExpressionsPlugin();
     };
     extendPrototype([BaseEvent], AnimationItem);
-    AnimationItem.prototype.setParams = function(params) {
+    AnimationItem.prototype.setParams = function (params) {
         if (params.wrapper || params.container) {
             this.wrapper = params.wrapper || params.container;
         }
@@ -1575,13 +1575,13 @@
             dataManager.loadAnimation(params.path, this.configAnimation, this.onSetupError);
         }
     };
-    AnimationItem.prototype.onSetupError = function() {
+    AnimationItem.prototype.onSetupError = function () {
         this.trigger('data_failed');
     };
-    AnimationItem.prototype.setupAnimation = function(data) {
+    AnimationItem.prototype.setupAnimation = function (data) {
         dataManager.completeAnimation(data, this.configAnimation);
     };
-    AnimationItem.prototype.setData = function(wrapper, animationData) {
+    AnimationItem.prototype.setData = function (wrapper, animationData) {
         if (animationData) {
             if (_typeof$4(animationData) !== 'object') {
                 animationData = JSON.parse(animationData);
@@ -1615,7 +1615,7 @@
             this.setParams(params);
         }
     };
-    AnimationItem.prototype.includeLayers = function(data) {
+    AnimationItem.prototype.includeLayers = function (data) {
         if (data.op > this.animationData.op) {
             this.animationData.op = data.op;
             this.totalFrames = Math.floor(data.op - this.animationData.ip);
@@ -1649,7 +1649,7 @@
         this.animationData.__complete = false;
         dataManager.completeAnimation(this.animationData, this.onSegmentComplete);
     };
-    AnimationItem.prototype.onSegmentComplete = function(data) {
+    AnimationItem.prototype.onSegmentComplete = function (data) {
         this.animationData = data;
         var expressionsPlugin = getExpressionsPlugin();
         if (expressionsPlugin) {
@@ -1657,7 +1657,7 @@
         }
         this.loadNextSegment();
     };
-    AnimationItem.prototype.loadNextSegment = function() {
+    AnimationItem.prototype.loadNextSegment = function () {
         var segments = this.animationData.segments;
         if (!segments || segments.length === 0 || !this.autoloadSegments) {
             this.trigger('data_ready');
@@ -1668,27 +1668,27 @@
         this.timeCompleted = segment.time * this.frameRate;
         var segmentPath = this.path + this.fileName + '_' + this.segmentPos + '.json';
         this.segmentPos += 1;
-        dataManager.loadData(segmentPath, this.includeLayers.bind(this), function() {
+        dataManager.loadData(segmentPath, this.includeLayers.bind(this), function () {
             this.trigger('data_failed');
         }.bind(this));
     };
-    AnimationItem.prototype.loadSegments = function() {
+    AnimationItem.prototype.loadSegments = function () {
         var segments = this.animationData.segments;
         if (!segments) {
             this.timeCompleted = this.totalFrames;
         }
         this.loadNextSegment();
     };
-    AnimationItem.prototype.imagesLoaded = function() {
+    AnimationItem.prototype.imagesLoaded = function () {
         this.trigger('loaded_images');
         this.checkLoaded();
     };
-    AnimationItem.prototype.preloadImages = function() {
+    AnimationItem.prototype.preloadImages = function () {
         this.imagePreloader.setAssetsPath(this.assetsPath);
         this.imagePreloader.setPath(this.path);
         this.imagePreloader.loadAssets(this.animationData.assets, this.imagesLoaded.bind(this));
     };
-    AnimationItem.prototype.configAnimation = function(animData) {
+    AnimationItem.prototype.configAnimation = function (animData) {
         if (!this.renderer) {
             return;
         }
@@ -1722,7 +1722,7 @@
             this.triggerConfigError(error);
         }
     };
-    AnimationItem.prototype.waitForFontsLoaded = function() {
+    AnimationItem.prototype.waitForFontsLoaded = function () {
         if (!this.renderer) {
             return;
         }
@@ -1732,7 +1732,7 @@
             setTimeout(this.waitForFontsLoaded.bind(this), 20);
         }
     };
-    AnimationItem.prototype.checkLoaded = function() {
+    AnimationItem.prototype.checkLoaded = function () {
         if (!this.isLoaded && this.renderer.globalData.fontManager.isLoaded && (this.imagePreloader.loadedImages() || this.renderer.rendererType !== 'canvas') && this.imagePreloader.loadedFootages()) {
             this.isLoaded = true;
             var expressionsPlugin = getExpressionsPlugin();
@@ -1740,7 +1740,7 @@
                 expressionsPlugin.initExpressions(this);
             }
             this.renderer.initItems();
-            setTimeout(function() {
+            setTimeout(function () {
                 this.trigger('DOMLoaded');
             }.bind(this), 0);
             this.gotoFrame();
@@ -1749,15 +1749,15 @@
             }
         }
     };
-    AnimationItem.prototype.resize = function(width, height) {
+    AnimationItem.prototype.resize = function (width, height) {
         var _width = typeof width === 'number' ? width : undefined;
         var _height = typeof height === 'number' ? height : undefined;
         this.renderer.updateContainerSize(_width, _height);
     };
-    AnimationItem.prototype.setSubframe = function(flag) {
+    AnimationItem.prototype.setSubframe = function (flag) {
         this.isSubframeEnabled = !!flag;
     };
-    AnimationItem.prototype.gotoFrame = function() {
+    AnimationItem.prototype.gotoFrame = function () {
         this.currentFrame = this.isSubframeEnabled ? this.currentRawFrame : ~~this.currentRawFrame;
         if (this.timeCompleted !== this.totalFrames && this.currentFrame > this.timeCompleted) {
             this.currentFrame = this.timeCompleted;
@@ -1766,7 +1766,7 @@
         this.renderFrame();
         this.trigger('drawnFrame');
     };
-    AnimationItem.prototype.renderFrame = function() {
+    AnimationItem.prototype.renderFrame = function () {
         if (this.isLoaded === false || !this.renderer) {
             return;
         }
@@ -1779,7 +1779,7 @@
             this.triggerRenderFrameError(error);
         }
     };
-    AnimationItem.prototype.play = function(name) {
+    AnimationItem.prototype.play = function (name) {
         if (name && this.name !== name) {
             return;
         }
@@ -1793,7 +1793,7 @@
             }
         }
     };
-    AnimationItem.prototype.pause = function(name) {
+    AnimationItem.prototype.pause = function (name) {
         if (name && this.name !== name) {
             return;
         }
@@ -1805,7 +1805,7 @@
             this.audioController.pause();
         }
     };
-    AnimationItem.prototype.togglePause = function(name) {
+    AnimationItem.prototype.togglePause = function (name) {
         if (name && this.name !== name) {
             return;
         }
@@ -1815,7 +1815,7 @@
             this.pause();
         }
     };
-    AnimationItem.prototype.stop = function(name) {
+    AnimationItem.prototype.stop = function (name) {
         if (name && this.name !== name) {
             return;
         }
@@ -1824,7 +1824,7 @@
         this._completedLoop = false;
         this.setCurrentRawFrameValue(0);
     };
-    AnimationItem.prototype.getMarkerData = function(markerName) {
+    AnimationItem.prototype.getMarkerData = function (markerName) {
         var marker;
         for (var i = 0; i < this.markers.length; i += 1) {
             marker = this.markers[i];
@@ -1834,7 +1834,7 @@
         }
         return null;
     };
-    AnimationItem.prototype.goToAndStop = function(value, isFrame, name) {
+    AnimationItem.prototype.goToAndStop = function (value, isFrame, name) {
         if (name && this.name !== name) {
             return;
         }
@@ -1851,7 +1851,7 @@
         }
         this.pause();
     };
-    AnimationItem.prototype.goToAndPlay = function(value, isFrame, name) {
+    AnimationItem.prototype.goToAndPlay = function (value, isFrame, name) {
         if (name && this.name !== name) {
             return;
         }
@@ -1870,7 +1870,7 @@
         }
         this.play();
     };
-    AnimationItem.prototype.advanceTime = function(value) {
+    AnimationItem.prototype.advanceTime = function (value) {
         if (this.isPaused === true || this.isLoaded === false) {
             return;
         }
@@ -1915,7 +1915,7 @@
             this.trigger('complete');
         }
     };
-    AnimationItem.prototype.adjustSegment = function(arr, offset) {
+    AnimationItem.prototype.adjustSegment = function (arr, offset) {
         this.playCount = 0;
         if (arr[1] < arr[0]) {
             if (this.frameModifier > 0) {
@@ -1944,7 +1944,7 @@
         }
         this.trigger('segmentStart');
     };
-    AnimationItem.prototype.setSegment = function(init, end) {
+    AnimationItem.prototype.setSegment = function (init, end) {
         var pendingFrame = -1;
         if (this.isPaused) {
             if (this.currentRawFrame + this.firstFrame < init) {
@@ -1960,7 +1960,7 @@
             this.goToAndStop(pendingFrame, true);
         }
     };
-    AnimationItem.prototype.playSegments = function(arr, forceFlag) {
+    AnimationItem.prototype.playSegments = function (arr, forceFlag) {
         if (forceFlag) {
             this.segments.length = 0;
         }
@@ -1980,21 +1980,21 @@
             this.play();
         }
     };
-    AnimationItem.prototype.resetSegments = function(forceFlag) {
+    AnimationItem.prototype.resetSegments = function (forceFlag) {
         this.segments.length = 0;
         this.segments.push([this.animationData.ip, this.animationData.op]);
         if (forceFlag) {
             this.checkSegments(0);
         }
     };
-    AnimationItem.prototype.checkSegments = function(offset) {
+    AnimationItem.prototype.checkSegments = function (offset) {
         if (this.segments.length) {
             this.adjustSegment(this.segments.shift(), offset);
             return true;
         }
         return false;
     };
-    AnimationItem.prototype.destroy = function(name) {
+    AnimationItem.prototype.destroy = function (name) {
         if (name && this.name !== name || !this.renderer) {
             return;
         }
@@ -2012,50 +2012,50 @@
         this.imagePreloader = null;
         this.projectInterface = null;
     };
-    AnimationItem.prototype.setCurrentRawFrameValue = function(value) {
+    AnimationItem.prototype.setCurrentRawFrameValue = function (value) {
         this.currentRawFrame = value;
         this.gotoFrame();
     };
-    AnimationItem.prototype.setSpeed = function(val) {
+    AnimationItem.prototype.setSpeed = function (val) {
         this.playSpeed = val;
         this.updaFrameModifier();
     };
-    AnimationItem.prototype.setDirection = function(val) {
+    AnimationItem.prototype.setDirection = function (val) {
         this.playDirection = val < 0 ? -1 : 1;
         this.updaFrameModifier();
     };
-    AnimationItem.prototype.setLoop = function(isLooping) {
+    AnimationItem.prototype.setLoop = function (isLooping) {
         this.loop = isLooping;
     };
-    AnimationItem.prototype.setVolume = function(val, name) {
+    AnimationItem.prototype.setVolume = function (val, name) {
         if (name && this.name !== name) {
             return;
         }
         this.audioController.setVolume(val);
     };
-    AnimationItem.prototype.getVolume = function() {
+    AnimationItem.prototype.getVolume = function () {
         return this.audioController.getVolume();
     };
-    AnimationItem.prototype.mute = function(name) {
+    AnimationItem.prototype.mute = function (name) {
         if (name && this.name !== name) {
             return;
         }
         this.audioController.mute();
     };
-    AnimationItem.prototype.unmute = function(name) {
+    AnimationItem.prototype.unmute = function (name) {
         if (name && this.name !== name) {
             return;
         }
         this.audioController.unmute();
     };
-    AnimationItem.prototype.updaFrameModifier = function() {
+    AnimationItem.prototype.updaFrameModifier = function () {
         this.frameModifier = this.frameMult * this.playSpeed * this.playDirection;
         this.audioController.setRate(this.playSpeed * this.playDirection);
     };
-    AnimationItem.prototype.getPath = function() {
+    AnimationItem.prototype.getPath = function () {
         return this.path;
     };
-    AnimationItem.prototype.getAssetsPath = function(assetData) {
+    AnimationItem.prototype.getAssetsPath = function (assetData) {
         var path = '';
         if (assetData.e) {
             path = assetData.p;
@@ -2072,7 +2072,7 @@
         }
         return path;
     };
-    AnimationItem.prototype.getAssetData = function(id) {
+    AnimationItem.prototype.getAssetData = function (id) {
         var i = 0;
         var len = this.assets.length;
         while (i < len) {
@@ -2083,22 +2083,22 @@
         }
         return null;
     };
-    AnimationItem.prototype.hide = function() {
+    AnimationItem.prototype.hide = function () {
         this.renderer.hide();
     };
-    AnimationItem.prototype.show = function() {
+    AnimationItem.prototype.show = function () {
         this.renderer.show();
     };
-    AnimationItem.prototype.getDuration = function(isFrame) {
+    AnimationItem.prototype.getDuration = function (isFrame) {
         return isFrame ? this.totalFrames : this.totalFrames / this.frameRate;
     };
-    AnimationItem.prototype.updateDocumentData = function(path, documentData, index) {
+    AnimationItem.prototype.updateDocumentData = function (path, documentData, index) {
         try {
             var element = this.renderer.getElementByPath(path);
             element.updateDocumentData(documentData, index);
-        } catch (error) {}
+        } catch (error) { }
     };
-    AnimationItem.prototype.trigger = function(name) {
+    AnimationItem.prototype.trigger = function (name) {
         if (this._cbs && this._cbs[name]) {
             switch (name) {
                 case 'enterFrame':
@@ -2142,21 +2142,21 @@
             this.onDestroy.call(this, new BMDestroyEvent(name, this));
         }
     };
-    AnimationItem.prototype.triggerRenderFrameError = function(nativeError) {
+    AnimationItem.prototype.triggerRenderFrameError = function (nativeError) {
         var error = new BMRenderFrameErrorEvent(nativeError, this.currentFrame);
         this.triggerEvent('error', error);
         if (this.onError) {
             this.onError.call(this, error);
         }
     };
-    AnimationItem.prototype.triggerConfigError = function(nativeError) {
+    AnimationItem.prototype.triggerConfigError = function (nativeError) {
         var error = new BMConfigErrorEvent(nativeError, this.currentFrame);
         this.triggerEvent('error', error);
         if (this.onError) {
             this.onError.call(this, error);
         }
     };
-    var animationManager = function() {
+    var animationManager = function () {
         var moduleOb = {};
         var registeredAnimations = [];
         var initTime = 0;
@@ -2400,7 +2400,7 @@
         moduleOb.getRegisteredAnimations = getRegisteredAnimations;
         return moduleOb;
     }();
-    var BezierFactory = function() {
+    var BezierFactory = function () {
         var ob = {};
         ob.getBezierEasing = getBezierEasing;
         var beziers = {};
@@ -2526,7 +2526,7 @@
         };
         return ob;
     }();
-    var pooling = function() {
+    var pooling = function () {
         function _double(arr) {
             return arr.concat(createSizedArray(arr.length));
         }
@@ -2534,8 +2534,8 @@
             "double": _double
         };
     }();
-    var poolFactory = function() {
-        return function(initialLength, _create, _release) {
+    var poolFactory = function () {
+        return function (initialLength, _create, _release) {
             var _length = 0;
             var _maxLength = initialLength;
             var pool = createSizedArray(_maxLength);
@@ -2569,7 +2569,7 @@
             return ob;
         };
     }();
-    var bezierLengthPool = function() {
+    var bezierLengthPool = function () {
         function create() {
             return {
                 addedLength: 0,
@@ -2579,7 +2579,7 @@
         }
         return poolFactory(8, create);
     }();
-    var segmentsLengthPool = function() {
+    var segmentsLengthPool = function () {
         function create() {
             return {
                 lengths: [],
@@ -2627,8 +2627,8 @@
             }
             return diffDist > -0.0001 && diffDist < 0.0001;
         }
-        var getBezierLength = function() {
-            return function(pt1, pt2, pt3, pt4) {
+        var getBezierLength = function () {
+            return function (pt1, pt2, pt3, pt4) {
                 var curveSegments = getDefaultCurveSegments();
                 var k;
                 var i;
@@ -2695,9 +2695,9 @@
             this.partialLength = partial;
             this.point = point;
         }
-        var buildBezierData = function() {
+        var buildBezierData = function () {
             var storedData = {};
-            return function(pt1, pt2, pt3, pt4) {
+            return function (pt1, pt2, pt3, pt4) {
                 var bezierName = (pt1[0] + '_' + pt1[1] + '_' + pt2[0] + '_' + pt2[1] + '_' + pt3[0] + '_' + pt3[1] + '_' + pt4[0] + '_' + pt4[1]).replace(/\./g, 'p');
                 if (!storedData[bezierName]) {
                     var curveSegments = getDefaultCurveSegments();
@@ -3259,7 +3259,7 @@
         };
         this.addEffect = addEffect;
     }
-    var PropertyFactory = function() {
+    var PropertyFactory = function () {
         function getProp(elem, data, type, mult, container) {
             if (data.sid) {
                 data = elem.globalData.slotManager.getProp(data);
@@ -3292,7 +3292,7 @@
         return ob;
     }();
 
-    function DynamicPropertyContainer() {}
+    function DynamicPropertyContainer() { }
     DynamicPropertyContainer.prototype = {
         addDynamicProperty: function addDynamicProperty(prop) {
             if (this.dynamicProperties.indexOf(prop) === -1) {
@@ -3319,7 +3319,7 @@
             this._isAnimated = false;
         }
     };
-    var pointPool = function() {
+    var pointPool = function () {
         function create() {
             return createTypedArray('float32', 2);
         }
@@ -3334,7 +3334,7 @@
         this.o = createSizedArray(this._maxLength);
         this.i = createSizedArray(this._maxLength);
     }
-    ShapePath.prototype.setPathData = function(closed, len) {
+    ShapePath.prototype.setPathData = function (closed, len) {
         this.c = closed;
         this.setLength(len);
         var i = 0;
@@ -3345,19 +3345,19 @@
             i += 1;
         }
     };
-    ShapePath.prototype.setLength = function(len) {
+    ShapePath.prototype.setLength = function (len) {
         while (this._maxLength < len) {
             this.doubleArrayLength();
         }
         this._length = len;
     };
-    ShapePath.prototype.doubleArrayLength = function() {
+    ShapePath.prototype.doubleArrayLength = function () {
         this.v = this.v.concat(createSizedArray(this._maxLength));
         this.i = this.i.concat(createSizedArray(this._maxLength));
         this.o = this.o.concat(createSizedArray(this._maxLength));
         this._maxLength *= 2;
     };
-    ShapePath.prototype.setXYAt = function(x, y, type, pos, replace) {
+    ShapePath.prototype.setXYAt = function (x, y, type, pos, replace) {
         var arr;
         this._length = Math.max(this._length, pos + 1);
         if (this._length >= this._maxLength) {
@@ -3383,12 +3383,12 @@
         arr[pos][0] = x;
         arr[pos][1] = y;
     };
-    ShapePath.prototype.setTripleAt = function(vX, vY, oX, oY, iX, iY, pos, replace) {
+    ShapePath.prototype.setTripleAt = function (vX, vY, oX, oY, iX, iY, pos, replace) {
         this.setXYAt(vX, vY, 'v', pos, replace);
         this.setXYAt(oX, oY, 'o', pos, replace);
         this.setXYAt(iX, iY, 'i', pos, replace);
     };
-    ShapePath.prototype.reverse = function() {
+    ShapePath.prototype.reverse = function () {
         var newPath = new ShapePath();
         newPath.setPathData(this.c, this._length);
         var vertices = this.v;
@@ -3408,10 +3408,10 @@
         }
         return newPath;
     };
-    ShapePath.prototype.length = function() {
+    ShapePath.prototype.length = function () {
         return this._length;
     };
-    var shapePool = function() {
+    var shapePool = function () {
         function create() {
             return new ShapePath();
         }
@@ -3452,7 +3452,7 @@
         this._maxLength = 4;
         this.shapes = createSizedArray(this._maxLength);
     }
-    ShapeCollection.prototype.addShape = function(shapeData) {
+    ShapeCollection.prototype.addShape = function (shapeData) {
         if (this._length === this._maxLength) {
             this.shapes = this.shapes.concat(createSizedArray(this._maxLength));
             this._maxLength *= 2;
@@ -3460,14 +3460,14 @@
         this.shapes[this._length] = shapeData;
         this._length += 1;
     };
-    ShapeCollection.prototype.releaseShapes = function() {
+    ShapeCollection.prototype.releaseShapes = function () {
         var i;
         for (i = 0; i < this._length; i += 1) {
             shapePool.release(this.shapes[i]);
         }
         this._length = 0;
     };
-    var shapeCollectionPool = function() {
+    var shapeCollectionPool = function () {
         var ob = {
             newShapeCollection: newShapeCollection,
             release: release
@@ -3503,7 +3503,7 @@
         }
         return ob;
     }();
-    var ShapePropertyFactory = function() {
+    var ShapePropertyFactory = function () {
         var initFrame = -999999;
 
         function interpolateShape(frameNum, previousValue, caching) {
@@ -3711,7 +3711,7 @@
         KeyframedShapeProperty.prototype.interpolateShape = interpolateShape;
         KeyframedShapeProperty.prototype.setVValue = setVValue;
         KeyframedShapeProperty.prototype.addEffect = addEffect;
-        var EllShapeProperty = function() {
+        var EllShapeProperty = function () {
             var cPoint = roundCorner;
 
             function EllShapePropertyFactory(elem, data) {
@@ -3782,7 +3782,7 @@
             extendPrototype([DynamicPropertyContainer], EllShapePropertyFactory);
             return EllShapePropertyFactory;
         }();
-        var StarShapeProperty = function() {
+        var StarShapeProperty = function () {
             function StarShapePropertyFactory(elem, data) {
                 this.v = shapePool.newElement();
                 this.v.setPathData(true, 0);
@@ -3887,7 +3887,7 @@
             extendPrototype([DynamicPropertyContainer], StarShapePropertyFactory);
             return StarShapePropertyFactory;
         }();
-        var RectShapeProperty = function() {
+        var RectShapeProperty = function () {
             function RectShapePropertyFactory(elem, data) {
                 this.v = shapePool.newElement();
                 this.v.c = true;
@@ -4009,7 +4009,7 @@
     Contributions by leeoniya.
     License: MIT, header required.
     */
-    var Matrix = function() {
+    var Matrix = function () {
         var _cos = Math.cos;
         var _sin = Math.sin;
         var _tan = Math.tan;
@@ -4336,7 +4336,7 @@
             var _f = roundMatrixProperty(props[13]);
             return 'matrix(' + _a + ',' + _b + ',' + _c + ',' + _d + ',' + _e + ',' + _f + ')';
         }
-        return function() {
+        return function () {
             this.reset = reset;
             this.rotate = rotate;
             this.rotateX = rotateX;
@@ -4525,8 +4525,8 @@
         if (!((typeof exports === "undefined" ? "undefined" : _typeof$3(exports)) === 'object' && typeof module !== 'undefined') && !(typeof define === 'function' && define.amd)) {
             window.bodymovin = lottie;
         }
-    } catch (err) {}
-    var ShapeModifiers = function() {
+    } catch (err) { }
+    var ShapeModifiers = function () {
         var ob = {};
         var modifiers = {};
         ob.registerModifier = registerModifier;
@@ -4544,10 +4544,10 @@
         return ob;
     }();
 
-    function ShapeModifier() {}
-    ShapeModifier.prototype.initModifierProperties = function() {};
-    ShapeModifier.prototype.addShapeToModifier = function() {};
-    ShapeModifier.prototype.addShape = function(data) {
+    function ShapeModifier() { }
+    ShapeModifier.prototype.initModifierProperties = function () { };
+    ShapeModifier.prototype.addShapeToModifier = function () { };
+    ShapeModifier.prototype.addShape = function (data) {
         if (!this.closed) {
             data.sh.container.addDynamicProperty(data.sh);
             var shapeData = {
@@ -4562,7 +4562,7 @@
             }
         }
     };
-    ShapeModifier.prototype.init = function(elem, data) {
+    ShapeModifier.prototype.init = function (elem, data) {
         this.shapes = [];
         this.elem = elem;
         this.initDynamicPropertyContainer(elem);
@@ -4576,7 +4576,7 @@
             this.getValue(true);
         }
     };
-    ShapeModifier.prototype.processKeys = function() {
+    ShapeModifier.prototype.processKeys = function () {
         if (this.elem.globalData.frameId === this.frameId) {
             return;
         }
@@ -4585,9 +4585,9 @@
     };
     extendPrototype([DynamicPropertyContainer], ShapeModifier);
 
-    function TrimModifier() {}
+    function TrimModifier() { }
     extendPrototype([ShapeModifier], TrimModifier);
-    TrimModifier.prototype.initModifierProperties = function(elem, data) {
+    TrimModifier.prototype.initModifierProperties = function (elem, data) {
         this.s = PropertyFactory.getProp(elem, data.s, 0, 0.01, this);
         this.e = PropertyFactory.getProp(elem, data.e, 0, 0.01, this);
         this.o = PropertyFactory.getProp(elem, data.o, 0, 0, this);
@@ -4597,10 +4597,10 @@
         this.m = data.m;
         this._isAnimated = !!this.s.effectsSequence.length || !!this.e.effectsSequence.length || !!this.o.effectsSequence.length;
     };
-    TrimModifier.prototype.addShapeToModifier = function(shapeData) {
+    TrimModifier.prototype.addShapeToModifier = function (shapeData) {
         shapeData.pathsData = [];
     };
-    TrimModifier.prototype.calculateShapeEdges = function(s, e, shapeLength, addedLength, totalModifierLength) {
+    TrimModifier.prototype.calculateShapeEdges = function (s, e, shapeLength, addedLength, totalModifierLength) {
         var segments = [];
         if (e <= 1) {
             segments.push({
@@ -4649,7 +4649,7 @@
         }
         return shapeSegments;
     };
-    TrimModifier.prototype.releasePathsData = function(pathsData) {
+    TrimModifier.prototype.releasePathsData = function (pathsData) {
         var i;
         var len = pathsData.length;
         for (i = 0; i < len; i += 1) {
@@ -4658,7 +4658,7 @@
         pathsData.length = 0;
         return pathsData;
     };
-    TrimModifier.prototype.processShapes = function(_isFirstFrame) {
+    TrimModifier.prototype.processShapes = function (_isFirstFrame) {
         var s;
         var e;
         if (this._mdf || _isFirstFrame) {
@@ -4807,14 +4807,14 @@
             }
         }
     };
-    TrimModifier.prototype.addPaths = function(newPaths, localShapeCollection) {
+    TrimModifier.prototype.addPaths = function (newPaths, localShapeCollection) {
         var i;
         var len = newPaths.length;
         for (i = 0; i < len; i += 1) {
             localShapeCollection.addShape(newPaths[i]);
         }
     };
-    TrimModifier.prototype.addSegment = function(pt1, pt2, pt3, pt4, shapePath, pos, newShape) {
+    TrimModifier.prototype.addSegment = function (pt1, pt2, pt3, pt4, shapePath, pos, newShape) {
         shapePath.setXYAt(pt2[0], pt2[1], 'o', pos);
         shapePath.setXYAt(pt3[0], pt3[1], 'i', pos + 1);
         if (newShape) {
@@ -4822,7 +4822,7 @@
         }
         shapePath.setXYAt(pt4[0], pt4[1], 'v', pos + 1);
     };
-    TrimModifier.prototype.addSegmentFromArray = function(points, shapePath, pos, newShape) {
+    TrimModifier.prototype.addSegmentFromArray = function (points, shapePath, pos, newShape) {
         shapePath.setXYAt(points[1], points[5], 'o', pos);
         shapePath.setXYAt(points[2], points[6], 'i', pos + 1);
         if (newShape) {
@@ -4830,7 +4830,7 @@
         }
         shapePath.setXYAt(points[3], points[7], 'v', pos + 1);
     };
-    TrimModifier.prototype.addShapes = function(shapeData, shapeSegment, shapePath) {
+    TrimModifier.prototype.addShapes = function (shapeData, shapeSegment, shapePath) {
         var pathsData = shapeData.pathsData;
         var shapePaths = shapeData.shape.paths.shapes;
         var i;
@@ -4916,14 +4916,14 @@
         return shapes;
     };
 
-    function PuckerAndBloatModifier() {}
+    function PuckerAndBloatModifier() { }
     extendPrototype([ShapeModifier], PuckerAndBloatModifier);
-    PuckerAndBloatModifier.prototype.initModifierProperties = function(elem, data) {
+    PuckerAndBloatModifier.prototype.initModifierProperties = function (elem, data) {
         this.getValue = this.processKeys;
         this.amount = PropertyFactory.getProp(elem, data.a, 0, null, this);
         this._isAnimated = !!this.amount.effectsSequence.length;
     };
-    PuckerAndBloatModifier.prototype.processPath = function(path, amount) {
+    PuckerAndBloatModifier.prototype.processPath = function (path, amount) {
         var percent = amount / 100;
         var centerPoint = [0, 0];
         var pathLength = path._length;
@@ -4953,7 +4953,7 @@
         }
         return clonedPath;
     };
-    PuckerAndBloatModifier.prototype.processShapes = function(_isFirstFrame) {
+    PuckerAndBloatModifier.prototype.processShapes = function (_isFirstFrame) {
         var shapePaths;
         var i;
         var len = this.shapes.length;
@@ -4982,7 +4982,7 @@
             this._mdf = false;
         }
     };
-    var TransformPropertyFactory = function() {
+    var TransformPropertyFactory = function () {
         var defaultVector = [0, 0];
 
         function applyToMatrix(mat) {
@@ -5128,7 +5128,7 @@
             }
         }
 
-        function autoOrient() {}
+        function autoOrient() { }
 
         function addDynamicProperty(prop) {
             this._addDynamicProperty(prop);
@@ -5216,9 +5216,9 @@
         };
     }();
 
-    function RepeaterModifier() {}
+    function RepeaterModifier() { }
     extendPrototype([ShapeModifier], RepeaterModifier);
-    RepeaterModifier.prototype.initModifierProperties = function(elem, data) {
+    RepeaterModifier.prototype.initModifierProperties = function (elem, data) {
         this.getValue = this.processKeys;
         this.c = PropertyFactory.getProp(elem, data.c, 0, null, this);
         this.o = PropertyFactory.getProp(elem, data.o, 0, null, this);
@@ -5236,7 +5236,7 @@
         this.tMatrix = new Matrix();
         this.matrix = new Matrix();
     };
-    RepeaterModifier.prototype.applyTransforms = function(pMatrix, rMatrix, sMatrix, transform, perc, inv) {
+    RepeaterModifier.prototype.applyTransforms = function (pMatrix, rMatrix, sMatrix, transform, perc, inv) {
         var dir = inv ? -1 : 1;
         var scaleX = transform.s.v[0] + (1 - transform.s.v[0]) * (1 - perc);
         var scaleY = transform.s.v[1] + (1 - transform.s.v[1]) * (1 - perc);
@@ -5248,7 +5248,7 @@
         sMatrix.scale(inv ? 1 / scaleX : scaleX, inv ? 1 / scaleY : scaleY);
         sMatrix.translate(transform.a.v[0], transform.a.v[1], transform.a.v[2]);
     };
-    RepeaterModifier.prototype.init = function(elem, arr, pos, elemsData) {
+    RepeaterModifier.prototype.init = function (elem, arr, pos, elemsData) {
         this.elem = elem;
         this.arr = arr;
         this.pos = pos;
@@ -5269,7 +5269,7 @@
             this.getValue(true);
         }
     };
-    RepeaterModifier.prototype.resetElements = function(elements) {
+    RepeaterModifier.prototype.resetElements = function (elements) {
         var i;
         var len = elements.length;
         for (i = 0; i < len; i += 1) {
@@ -5279,12 +5279,12 @@
             }
         }
     };
-    RepeaterModifier.prototype.cloneElements = function(elements) {
+    RepeaterModifier.prototype.cloneElements = function (elements) {
         var newElements = JSON.parse(JSON.stringify(elements));
         this.resetElements(newElements);
         return newElements;
     };
-    RepeaterModifier.prototype.changeGroupRender = function(elements, renderFlag) {
+    RepeaterModifier.prototype.changeGroupRender = function (elements, renderFlag) {
         var i;
         var len = elements.length;
         for (i = 0; i < len; i += 1) {
@@ -5294,7 +5294,7 @@
             }
         }
     };
-    RepeaterModifier.prototype.processShapes = function(_isFirstFrame) {
+    RepeaterModifier.prototype.processShapes = function (_isFirstFrame) {
         var items;
         var itemsTransform;
         var i;
@@ -5461,16 +5461,16 @@
         }
         return hasReloaded;
     };
-    RepeaterModifier.prototype.addShape = function() {};
+    RepeaterModifier.prototype.addShape = function () { };
 
-    function RoundCornersModifier() {}
+    function RoundCornersModifier() { }
     extendPrototype([ShapeModifier], RoundCornersModifier);
-    RoundCornersModifier.prototype.initModifierProperties = function(elem, data) {
+    RoundCornersModifier.prototype.initModifierProperties = function (elem, data) {
         this.getValue = this.processKeys;
         this.rd = PropertyFactory.getProp(elem, data.r, 0, null, this);
         this._isAnimated = !!this.rd.effectsSequence.length;
     };
-    RoundCornersModifier.prototype.processPath = function(path, round) {
+    RoundCornersModifier.prototype.processPath = function (path, round) {
         var clonedPath = shapePool.newElement();
         clonedPath.c = path.c;
         var i;
@@ -5535,7 +5535,7 @@
         }
         return clonedPath;
     };
-    RoundCornersModifier.prototype.processShapes = function(_isFirstFrame) {
+    RoundCornersModifier.prototype.processShapes = function (_isFirstFrame) {
         var shapePaths;
         var i;
         var len = this.shapes.length;
@@ -5614,21 +5614,21 @@
         this.d = [coeffx[3], coeffy[3]];
         this.points = [p0, p1, p2, p3];
     }
-    PolynomialBezier.prototype.point = function(t) {
+    PolynomialBezier.prototype.point = function (t) {
         return [((this.a[0] * t + this.b[0]) * t + this.c[0]) * t + this.d[0], ((this.a[1] * t + this.b[1]) * t + this.c[1]) * t + this.d[1]];
     };
-    PolynomialBezier.prototype.derivative = function(t) {
+    PolynomialBezier.prototype.derivative = function (t) {
         return [(3 * t * this.a[0] + 2 * this.b[0]) * t + this.c[0], (3 * t * this.a[1] + 2 * this.b[1]) * t + this.c[1]];
     };
-    PolynomialBezier.prototype.tangentAngle = function(t) {
+    PolynomialBezier.prototype.tangentAngle = function (t) {
         var p = this.derivative(t);
         return Math.atan2(p[1], p[0]);
     };
-    PolynomialBezier.prototype.normalAngle = function(t) {
+    PolynomialBezier.prototype.normalAngle = function (t) {
         var p = this.derivative(t);
         return Math.atan2(p[0], p[1]);
     };
-    PolynomialBezier.prototype.inflectionPoints = function() {
+    PolynomialBezier.prototype.inflectionPoints = function () {
         var denom = this.a[1] * this.b[0] - this.a[0] * this.b[1];
         if (floatZero(denom)) return [];
         var tcusp = -0.5 * (this.a[1] * this.c[0] - this.a[0] * this.c[1]) / denom;
@@ -5639,11 +5639,11 @@
             if (root > 0 && root < 1) return [tcusp];
             return [];
         }
-        return [tcusp - root, tcusp + root].filter(function(r) {
+        return [tcusp - root, tcusp + root].filter(function (r) {
             return r > 0 && r < 1;
         });
     };
-    PolynomialBezier.prototype.split = function(t) {
+    PolynomialBezier.prototype.split = function (t) {
         if (t <= 0) return [singlePoint(this.points[0]), this];
         if (t >= 1) return [this, singlePoint(this.points[this.points.length - 1])];
         var p10 = lerpPoint(this.points[0], this.points[1], t);
@@ -5676,13 +5676,13 @@
             max: max
         };
     }
-    PolynomialBezier.prototype.bounds = function() {
+    PolynomialBezier.prototype.bounds = function () {
         return {
             x: extrema(this, 0),
             y: extrema(this, 1)
         };
     };
-    PolynomialBezier.prototype.boundingBox = function() {
+    PolynomialBezier.prototype.boundingBox = function () {
         var bounds = this.bounds();
         return {
             left: bounds.x.min,
@@ -5732,18 +5732,18 @@
         intersectsImpl(d1s[1], d2s[0], depth + 1, tolerance, intersections, maxRecursion);
         intersectsImpl(d1s[1], d2s[1], depth + 1, tolerance, intersections, maxRecursion);
     }
-    PolynomialBezier.prototype.intersections = function(other, tolerance, maxRecursion) {
+    PolynomialBezier.prototype.intersections = function (other, tolerance, maxRecursion) {
         if (tolerance === undefined) tolerance = 2;
         if (maxRecursion === undefined) maxRecursion = 7;
         var intersections = [];
         intersectsImpl(intersectData(this, 0, 1), intersectData(other, 0, 1), 0, tolerance, intersections, maxRecursion);
         return intersections;
     };
-    PolynomialBezier.shapeSegment = function(shapePath, index) {
+    PolynomialBezier.shapeSegment = function (shapePath, index) {
         var nextIndex = (index + 1) % shapePath.length();
         return new PolynomialBezier(shapePath.v[index], shapePath.o[index], shapePath.i[nextIndex], shapePath.v[nextIndex], true);
     };
-    PolynomialBezier.shapeSegmentInverted = function(shapePath, index) {
+    PolynomialBezier.shapeSegmentInverted = function (shapePath, index) {
         var nextIndex = (index + 1) % shapePath.length();
         return new PolynomialBezier(shapePath.v[nextIndex], shapePath.i[nextIndex], shapePath.o[index], shapePath.v[index], true);
     };
@@ -5774,9 +5774,9 @@
         return floatEqual(p1[0], p2[0]) && floatEqual(p1[1], p2[1]);
     }
 
-    function ZigZagModifier() {}
+    function ZigZagModifier() { }
     extendPrototype([ShapeModifier], ZigZagModifier);
-    ZigZagModifier.prototype.initModifierProperties = function(elem, data) {
+    ZigZagModifier.prototype.initModifierProperties = function (elem, data) {
         this.getValue = this.processKeys;
         this.amplitude = PropertyFactory.getProp(elem, data.s, 0, null, this);
         this.frequency = PropertyFactory.getProp(elem, data.r, 0, null, this);
@@ -5829,7 +5829,7 @@
         }
         return direction;
     }
-    ZigZagModifier.prototype.processPath = function(path, amplitude, frequency, pointType) {
+    ZigZagModifier.prototype.processPath = function (path, amplitude, frequency, pointType) {
         var count = path._length;
         var clonedPath = shapePool.newElement();
         clonedPath.c = path.c;
@@ -5851,7 +5851,7 @@
         }
         return clonedPath;
     };
-    ZigZagModifier.prototype.processShapes = function(_isFirstFrame) {
+    ZigZagModifier.prototype.processShapes = function (_isFirstFrame) {
         var shapePaths;
         var i;
         var len = this.shapes.length;
@@ -6004,16 +6004,16 @@
         return [offsetSegment(left, amount), offsetSegment(mid, amount), offsetSegment(right, amount)];
     }
 
-    function OffsetPathModifier() {}
+    function OffsetPathModifier() { }
     extendPrototype([ShapeModifier], OffsetPathModifier);
-    OffsetPathModifier.prototype.initModifierProperties = function(elem, data) {
+    OffsetPathModifier.prototype.initModifierProperties = function (elem, data) {
         this.getValue = this.processKeys;
         this.amount = PropertyFactory.getProp(elem, data.a, 0, null, this);
         this.miterLimit = PropertyFactory.getProp(elem, data.ml, 0, null, this);
         this.lineJoin = data.lj;
         this._isAnimated = this.amount.effectsSequence.length !== 0;
     };
-    OffsetPathModifier.prototype.processPath = function(inputBezier, amount, lineJoin, miterLimit) {
+    OffsetPathModifier.prototype.processPath = function (inputBezier, amount, lineJoin, miterLimit) {
         var outputBezier = shapePool.newElement();
         outputBezier.c = inputBezier.c;
         var count = inputBezier.length();
@@ -6055,7 +6055,7 @@
         if (multiSegments.length) joinLines(outputBezier, lastSeg, multiSegments[0][0], lineJoin, miterLimit);
         return outputBezier;
     };
-    OffsetPathModifier.prototype.processShapes = function(_isFirstFrame) {
+    OffsetPathModifier.prototype.processShapes = function (_isFirstFrame) {
         var shapePaths;
         var i;
         var len = this.shapes.length;
@@ -6125,7 +6125,7 @@
             weight: fontData.fWeight || fWeight
         };
     }
-    var FontManager = function() {
+    var FontManager = function () {
         var maxWaitingTime = 5000;
         var emptyChar = {
             w: 0,
@@ -6272,7 +6272,7 @@
             }
             if (!document.body) {
                 this.isLoaded = true;
-                fontData.list.forEach(function(data) {
+                fontData.list.forEach(function (data) {
                     data.helper = createHelper(data);
                     data.cache = {};
                 });
@@ -6518,7 +6518,7 @@
     function SlotManager(animationData) {
         this.animationData = animationData;
     }
-    SlotManager.prototype.getProp = function(data) {
+    SlotManager.prototype.getProp = function (data) {
         if (this.animationData.slots && this.animationData.slots[data.sid]) {
             return Object.assign(data, this.animationData.slots[data.sid].p);
         }
@@ -6529,7 +6529,7 @@
         return new SlotManager(animationData);
     }
 
-    function RenderableElement() {}
+    function RenderableElement() { }
     RenderableElement.prototype = {
         initRenderable: function initRenderable() {
             this.isInRange = false;
@@ -6603,7 +6603,7 @@
             };
         }
     };
-    var getBlendMode = function() {
+    var getBlendMode = function () {
         var blendModeEnums = {
             0: 'source-over',
             1: 'multiply',
@@ -6622,7 +6622,7 @@
             14: 'color',
             15: 'luminosity'
         };
-        return function(mode) {
+        return function (mode) {
             return blendModeEnums[mode] || '';
         };
     }();
@@ -6676,7 +6676,7 @@
     }
     extendPrototype([DynamicPropertyContainer], GroupEffect);
     GroupEffect.prototype.getValue = GroupEffect.prototype.iterateDynamicProperties;
-    GroupEffect.prototype.init = function(data, element) {
+    GroupEffect.prototype.init = function (data, element) {
         this.data = data;
         this.effectElements = [];
         this.initDynamicPropertyContainer(element);
@@ -6722,7 +6722,7 @@
         }
     };
 
-    function BaseElement() {}
+    function BaseElement() { }
     BaseElement.prototype = {
         checkMasks: function checkMasks() {
             if (!this.data.hasMask) {
@@ -6782,10 +6782,10 @@
         getType: function getType() {
             return this.type;
         },
-        sourceRectAtTime: function sourceRectAtTime() {}
+        sourceRectAtTime: function sourceRectAtTime() { }
     };
 
-    function FrameElement() {}
+    function FrameElement() { }
     FrameElement.prototype = {
         initFrame: function initFrame() {
             this._isFirstFrame = false;
@@ -6819,14 +6819,14 @@
         this.footageData = globalData.imageLoader.getAsset(this.assetData);
         this.initBaseData(data, globalData, comp);
     }
-    FootageElement.prototype.prepareFrame = function() {};
+    FootageElement.prototype.prepareFrame = function () { };
     extendPrototype([RenderableElement, BaseElement, FrameElement], FootageElement);
-    FootageElement.prototype.getBaseElement = function() {
+    FootageElement.prototype.getBaseElement = function () {
         return null;
     };
-    FootageElement.prototype.renderFrame = function() {};
-    FootageElement.prototype.destroy = function() {};
-    FootageElement.prototype.initExpressions = function() {
+    FootageElement.prototype.renderFrame = function () { };
+    FootageElement.prototype.destroy = function () { };
+    FootageElement.prototype.initExpressions = function () {
         var expressionsInterfaces = getExpressionInterfaces();
         if (!expressionsInterfaces) {
             return;
@@ -6834,7 +6834,7 @@
         var FootageInterface = expressionsInterfaces('footage');
         this.layerInterface = FootageInterface(this);
     };
-    FootageElement.prototype.getFootageData = function() {
+    FootageElement.prototype.getFootageData = function () {
         return this.footageData;
     };
 
@@ -6859,7 +6859,7 @@
             k: [100]
         }, 1, 0.01, this);
     }
-    AudioElement.prototype.prepareFrame = function(num) {
+    AudioElement.prototype.prepareFrame = function (num) {
         this.prepareRenderableFrame(num, true);
         this.prepareProperties(num, true);
         if (!this.tm._placeholder) {
@@ -6876,7 +6876,7 @@
         }
     };
     extendPrototype([RenderableElement, BaseElement, FrameElement], AudioElement);
-    AudioElement.prototype.renderFrame = function() {
+    AudioElement.prototype.renderFrame = function () {
         if (this.isInRange && this._canPlay) {
             if (!this._isPlaying) {
                 this.audio.play();
@@ -6887,36 +6887,36 @@
             }
         }
     };
-    AudioElement.prototype.show = function() {};
-    AudioElement.prototype.hide = function() {
+    AudioElement.prototype.show = function () { };
+    AudioElement.prototype.hide = function () {
         this.audio.pause();
         this._isPlaying = false;
     };
-    AudioElement.prototype.pause = function() {
+    AudioElement.prototype.pause = function () {
         this.audio.pause();
         this._isPlaying = false;
         this._canPlay = false;
     };
-    AudioElement.prototype.resume = function() {
+    AudioElement.prototype.resume = function () {
         this._canPlay = true;
     };
-    AudioElement.prototype.setRate = function(rateValue) {
+    AudioElement.prototype.setRate = function (rateValue) {
         this.audio.rate(rateValue);
     };
-    AudioElement.prototype.volume = function(volumeValue) {
+    AudioElement.prototype.volume = function (volumeValue) {
         this._volumeMultiplier = volumeValue;
         this._previousVolume = volumeValue * this._volume;
         this.audio.volume(this._previousVolume);
     };
-    AudioElement.prototype.getBaseElement = function() {
+    AudioElement.prototype.getBaseElement = function () {
         return null;
     };
-    AudioElement.prototype.destroy = function() {};
-    AudioElement.prototype.sourceRectAtTime = function() {};
-    AudioElement.prototype.initExpressions = function() {};
+    AudioElement.prototype.destroy = function () { };
+    AudioElement.prototype.sourceRectAtTime = function () { };
+    AudioElement.prototype.initExpressions = function () { };
 
-    function BaseRenderer() {}
-    BaseRenderer.prototype.checkLayers = function(num) {
+    function BaseRenderer() { }
+    BaseRenderer.prototype.checkLayers = function (num) {
         var i;
         var len = this.layers.length;
         var data;
@@ -6932,7 +6932,7 @@
         }
         this.checkPendingElements();
     };
-    BaseRenderer.prototype.createItem = function(layer) {
+    BaseRenderer.prototype.createItem = function (layer) {
         switch (layer.ty) {
             case 2:
                 return this.createImage(layer);
@@ -6956,16 +6956,16 @@
                 return this.createNull(layer);
         }
     };
-    BaseRenderer.prototype.createCamera = function() {
+    BaseRenderer.prototype.createCamera = function () {
         throw new Error('You\'re using a 3d camera. Try the html renderer.');
     };
-    BaseRenderer.prototype.createAudio = function(data) {
+    BaseRenderer.prototype.createAudio = function (data) {
         return new AudioElement(data, this.globalData, this);
     };
-    BaseRenderer.prototype.createFootage = function(data) {
+    BaseRenderer.prototype.createFootage = function (data) {
         return new FootageElement(data, this.globalData, this);
     };
-    BaseRenderer.prototype.buildAllItems = function() {
+    BaseRenderer.prototype.buildAllItems = function () {
         var i;
         var len = this.layers.length;
         for (i = 0; i < len; i += 1) {
@@ -6973,7 +6973,7 @@
         }
         this.checkPendingElements();
     };
-    BaseRenderer.prototype.includeLayers = function(newLayers) {
+    BaseRenderer.prototype.includeLayers = function (newLayers) {
         this.completeLayers = false;
         var i;
         var len = newLayers.length;
@@ -6990,15 +6990,15 @@
             }
         }
     };
-    BaseRenderer.prototype.setProjectInterface = function(pInterface) {
+    BaseRenderer.prototype.setProjectInterface = function (pInterface) {
         this.globalData.projectInterface = pInterface;
     };
-    BaseRenderer.prototype.initItems = function() {
+    BaseRenderer.prototype.initItems = function () {
         if (!this.globalData.progressiveLoad) {
             this.buildAllItems();
         }
     };
-    BaseRenderer.prototype.buildElementParenting = function(element, parentName, hierarchy) {
+    BaseRenderer.prototype.buildElementParenting = function (element, parentName, hierarchy) {
         var elements = this.elements;
         var layers = this.layers;
         var i = 0;
@@ -7021,10 +7021,10 @@
             i += 1;
         }
     };
-    BaseRenderer.prototype.addPendingElement = function(element) {
+    BaseRenderer.prototype.addPendingElement = function (element) {
         this.pendingElements.push(element);
     };
-    BaseRenderer.prototype.searchExtraCompositions = function(assets) {
+    BaseRenderer.prototype.searchExtraCompositions = function (assets) {
         var i;
         var len = assets.length;
         for (i = 0; i < len; i += 1) {
@@ -7035,7 +7035,7 @@
             }
         }
     };
-    BaseRenderer.prototype.getElementById = function(ind) {
+    BaseRenderer.prototype.getElementById = function (ind) {
         var i;
         var len = this.elements.length;
         for (i = 0; i < len; i += 1) {
@@ -7045,7 +7045,7 @@
         }
         return null;
     };
-    BaseRenderer.prototype.getElementByPath = function(path) {
+    BaseRenderer.prototype.getElementByPath = function (path) {
         var pathValue = path.shift();
         var element;
         if (typeof pathValue === 'number') {
@@ -7065,7 +7065,7 @@
         }
         return element.getElementByPath(path);
     };
-    BaseRenderer.prototype.setupGlobalData = function(animData, fontsContainer) {
+    BaseRenderer.prototype.setupGlobalData = function (animData, fontsContainer) {
         this.globalData.fontManager = new FontManager();
         this.globalData.slotManager = slotFactory(animData);
         this.globalData.fontManager.addChars(animData.chars);
@@ -7086,7 +7086,7 @@
         TRANSFORM_EFFECT: 'transformEFfect'
     };
 
-    function TransformElement() {}
+    function TransformElement() { }
     TransformElement.prototype = {
         initTransform: function initTransform() {
             var mat = new Matrix();
@@ -7104,7 +7104,7 @@
             if (this.data.ao) {
                 this.finalTransform.mProp.autoOriented = true;
             }
-            if (this.data.ty !== 11) {}
+            if (this.data.ty !== 11) { }
         },
         renderTransform: function renderTransform() {
             this.finalTransform._opMdf = this.finalTransform.mProp.o._mdf || this._isFirstFrame;
@@ -7340,10 +7340,10 @@
             this.element.addRenderableComponent(this);
         }
     }
-    MaskElement.prototype.getMaskProperty = function(pos) {
+    MaskElement.prototype.getMaskProperty = function (pos) {
         return this.viewData[pos].prop;
     };
-    MaskElement.prototype.renderFrame = function(isFirstFrame) {
+    MaskElement.prototype.renderFrame = function (isFirstFrame) {
         var finalMat = this.element.finalTransform.mat;
         var i;
         var len = this.masksProperties.length;
@@ -7371,16 +7371,16 @@
                             this.storedData[i].lastOperator = 'dilate';
                             this.storedData[i].elem.setAttribute('filter', null);
                         }
-                        this.storedData[i].elem.setAttribute('stroke-width', this.storedData[i].x.v * 2);
+                        this.storedData[i].elem.setAttribute('strokeWidth', this.storedData[i].x.v * 2);
                     }
                 }
             }
         }
     };
-    MaskElement.prototype.getMaskelement = function() {
+    MaskElement.prototype.getMaskelement = function () {
         return this.maskElement;
     };
-    MaskElement.prototype.createLayerSolidPath = function() {
+    MaskElement.prototype.createLayerSolidPath = function () {
         var path = 'M0,0 ';
         path += ' h' + this.globalData.compSize.w;
         path += ' v' + this.globalData.compSize.h;
@@ -7388,7 +7388,7 @@
         path += ' v-' + this.globalData.compSize.h + ' ';
         return path;
     };
-    MaskElement.prototype.drawPath = function(pathData, pathNodes, viewData) {
+    MaskElement.prototype.drawPath = function (pathData, pathNodes, viewData) {
         var pathString = ' M' + pathNodes.v[0][0] + ',' + pathNodes.v[0][1];
         var i;
         var len;
@@ -7410,14 +7410,14 @@
             viewData.lastPath = pathString;
         }
     };
-    MaskElement.prototype.destroy = function() {
+    MaskElement.prototype.destroy = function () {
         this.element = null;
         this.globalData = null;
         this.maskElement = null;
         this.data = null;
         this.masksProperties = null;
     };
-    var filtersFactory = function() {
+    var filtersFactory = function () {
         var ob = {};
         ob.createFilter = createFilter;
         ob.createAlphaToLuminanceFilter = createAlphaToLuminanceFilter;
@@ -7444,7 +7444,7 @@
         }
         return ob;
     }();
-    var featureSupport = function() {
+    var featureSupport = function () {
         var ob = {
             maskType: true,
             svgLumaHidden: true,
@@ -7493,14 +7493,14 @@
             elem.addRenderableComponent(this);
         }
     }
-    SVGEffects.prototype.renderFrame = function(_isFirstFrame) {
+    SVGEffects.prototype.renderFrame = function (_isFirstFrame) {
         var i;
         var len = this.filters.length;
         for (i = 0; i < len; i += 1) {
             this.filters[i].renderFrame(_isFirstFrame);
         }
     };
-    SVGEffects.prototype.getEffects = function(type) {
+    SVGEffects.prototype.getEffects = function (type) {
         var i;
         var len = this.filters.length;
         var effects = [];
@@ -7519,7 +7519,7 @@
         };
     }
 
-    function SVGBaseElement() {}
+    function SVGBaseElement() { }
     SVGBaseElement.prototype = {
         initRendererElement: function initRendererElement() {
             this.layerElement = createNS('g');
@@ -7679,7 +7679,7 @@
         }
     };
 
-    function HierarchyElement() {}
+    function HierarchyElement() { }
     HierarchyElement.prototype = {
         initHierarchy: function initHierarchy() {
             this.hierarchy = [];
@@ -7699,8 +7699,8 @@
         }
     };
 
-    function RenderableDOMElement() {}
-    (function() {
+    function RenderableDOMElement() { }
+    (function () {
         var _prototype = {
             initElement: function initElement(data, globalData, comp) {
                 this.initFrame();
@@ -7744,7 +7744,7 @@
                     this._isFirstFrame = false;
                 }
             },
-            renderInnerContent: function renderInnerContent() {},
+            renderInnerContent: function renderInnerContent() { },
             prepareFrame: function prepareFrame(num) {
                 this._mdf = false;
                 this.prepareRenderableFrame(num);
@@ -7773,7 +7773,7 @@
         };
     }
     extendPrototype([BaseElement, TransformElement, SVGBaseElement, HierarchyElement, FrameElement, RenderableDOMElement], IImageElement);
-    IImageElement.prototype.createContent = function() {
+    IImageElement.prototype.createContent = function () {
         var assetPath = this.globalData.getAssetsPath(this.assetData);
         this.innerElem = createNS('image');
         this.innerElem.setAttribute('width', this.assetData.w + 'px');
@@ -7782,7 +7782,7 @@
         this.innerElem.setAttributeNS('http://www.w3.org/1999/xlink', 'href', assetPath);
         this.layerElement.appendChild(this.innerElem);
     };
-    IImageElement.prototype.sourceRectAtTime = function() {
+    IImageElement.prototype.sourceRectAtTime = function () {
         return this.sourceRect;
     };
 
@@ -7791,7 +7791,7 @@
         this.pos = position;
     }
 
-    function IShapeElement() {}
+    function IShapeElement() { }
     IShapeElement.prototype = {
         addShapeToModifiers: function addShapeToModifiers(data) {
             var i;
@@ -7886,7 +7886,7 @@
             i += 1;
         }
     }
-    SVGShapeData.prototype.setAsAnimated = function() {
+    SVGShapeData.prototype.setAsAnimated = function () {
         this._isAnimated = true;
     };
 
@@ -7900,7 +7900,7 @@
         this.pElem = createNS('path');
         this.msElem = null;
     }
-    SVGStyleData.prototype.reset = function() {
+    SVGStyleData.prototype.reset = function () {
         this.d = '';
         this._mdf = false;
     };
@@ -7931,7 +7931,7 @@
         }
         this._isAnimated = this.k;
     }
-    DashProperty.prototype.getValue = function(forceRender) {
+    DashProperty.prototype.getValue = function (forceRender) {
         if (this.elem.globalData.frameId === this.frameId && !forceRender) {
             return;
         }
@@ -8001,7 +8001,7 @@
         this.k = this.prop.k;
         this.getValue(true);
     }
-    GradientProperty.prototype.comparePoints = function(values, points) {
+    GradientProperty.prototype.comparePoints = function (values, points) {
         var i = 0;
         var len = this.o.length / 2;
         var diff;
@@ -8014,7 +8014,7 @@
         }
         return true;
     };
-    GradientProperty.prototype.checkCollapsable = function() {
+    GradientProperty.prototype.checkCollapsable = function () {
         if (this.o.length / 2 !== this.c.length / 4) {
             return false;
         }
@@ -8032,7 +8032,7 @@
         }
         return true;
     };
-    GradientProperty.prototype.getValue = function(forceRender) {
+    GradientProperty.prototype.getValue = function (forceRender) {
         this.prop.getValue();
         this._mdf = false;
         this._cmdf = false;
@@ -8071,7 +8071,7 @@
         this.getValue = this.iterateDynamicProperties;
         this.initGradientData(elem, data, styleOb);
     }
-    SVGGradientFillStyleData.prototype.initGradientData = function(elem, data, styleOb) {
+    SVGGradientFillStyleData.prototype.initGradientData = function (elem, data, styleOb) {
         this.o = PropertyFactory.getProp(elem, data.o, 0, 0.01, this);
         this.s = PropertyFactory.getProp(elem, data.s, 1, null, this);
         this.e = PropertyFactory.getProp(elem, data.e, 1, null, this);
@@ -8088,7 +8088,7 @@
         this.setGradientOpacity(data, styleOb);
         this._isAnimated = !!this._isAnimated;
     };
-    SVGGradientFillStyleData.prototype.setGradientData = function(pathElement, data) {
+    SVGGradientFillStyleData.prototype.setGradientData = function (pathElement, data) {
         var gradientId = createElementID();
         var gfill = createNS(data.t === 1 ? 'linearGradient' : 'radialGradient');
         gfill.setAttribute('id', gradientId);
@@ -8108,7 +8108,7 @@
         this.gf = gfill;
         this.cst = stops;
     };
-    SVGGradientFillStyleData.prototype.setGradientOpacity = function(data, styleOb) {
+    SVGGradientFillStyleData.prototype.setGradientOpacity = function (data, styleOb) {
         if (this.g._hasOpacity && !this.g._collapsable) {
             var stop;
             var j;
@@ -8191,7 +8191,7 @@
         }
         return shapeString;
     };
-    var SVGElementsRenderer = function() {
+    var SVGElementsRenderer = function () {
         var _identityMatrix = new Matrix();
         var _matrixHelper = new Matrix();
         var ob = {
@@ -8231,7 +8231,7 @@
             }
         }
 
-        function renderNoop() {}
+        function renderNoop() { }
 
         function renderPath(styleData, itemData, isFirstFrame) {
             var j;
@@ -8408,9 +8408,9 @@
                 styleElem.pElem.setAttribute('stroke-opacity', itemData.o.v);
             }
             if (itemData.w._mdf || isFirstFrame) {
-                styleElem.pElem.setAttribute('stroke-width', itemData.w.v);
+                styleElem.pElem.setAttribute('strokeWidth', itemData.w.v);
                 if (styleElem.msElem) {
-                    styleElem.msElem.setAttribute('stroke-width', itemData.w.v);
+                    styleElem.msElem.setAttribute('strokeWidth', itemData.w.v);
                 }
             }
         }
@@ -8429,14 +8429,14 @@
         this.prevViewData = [];
     }
     extendPrototype([BaseElement, TransformElement, SVGBaseElement, IShapeElement, HierarchyElement, FrameElement, RenderableDOMElement], SVGShapeElement);
-    SVGShapeElement.prototype.initSecondaryElement = function() {};
+    SVGShapeElement.prototype.initSecondaryElement = function () { };
     SVGShapeElement.prototype.identityMatrix = new Matrix();
-    SVGShapeElement.prototype.buildExpressionInterface = function() {};
-    SVGShapeElement.prototype.createContent = function() {
+    SVGShapeElement.prototype.buildExpressionInterface = function () { };
+    SVGShapeElement.prototype.createContent = function () {
         this.searchShapes(this.shapesData, this.itemsData, this.prevViewData, this.layerElement, 0, [], true);
         this.filterUniqueShapes();
     };
-    SVGShapeElement.prototype.filterUniqueShapes = function() {
+    SVGShapeElement.prototype.filterUniqueShapes = function () {
         var i;
         var len = this.shapes.length;
         var shape;
@@ -8461,14 +8461,14 @@
             }
         }
     };
-    SVGShapeElement.prototype.setShapesAsAnimated = function(shapes) {
+    SVGShapeElement.prototype.setShapesAsAnimated = function (shapes) {
         var i;
         var len = shapes.length;
         for (i = 0; i < len; i += 1) {
             shapes[i].setAsAnimated();
         }
     };
-    SVGShapeElement.prototype.createStyleElement = function(data, level) {
+    SVGShapeElement.prototype.createStyleElement = function (data, level) {
         var elementData;
         var styleOb = new SVGStyleData(data, level);
         var pathElement = styleOb.pElem;
@@ -8512,7 +8512,7 @@
         this.addToAnimatedContents(data, elementData);
         return elementData;
     };
-    SVGShapeElement.prototype.createGroupElement = function(data) {
+    SVGShapeElement.prototype.createGroupElement = function (data) {
         var elementData = new ShapeGroupData();
         if (data.ln) {
             elementData.gr.setAttribute('id', data.ln);
@@ -8525,13 +8525,13 @@
         }
         return elementData;
     };
-    SVGShapeElement.prototype.createTransformElement = function(data, container) {
+    SVGShapeElement.prototype.createTransformElement = function (data, container) {
         var transformProperty = TransformPropertyFactory.getTransformProperty(this, data, this);
         var elementData = new SVGTransformData(transformProperty, transformProperty.o, container);
         this.addToAnimatedContents(data, elementData);
         return elementData;
     };
-    SVGShapeElement.prototype.createShapeElement = function(data, ownTransformers, level) {
+    SVGShapeElement.prototype.createShapeElement = function (data, ownTransformers, level) {
         var ty = 4;
         if (data.ty === 'rc') {
             ty = 5;
@@ -8547,7 +8547,7 @@
         this.addToAnimatedContents(data, elementData);
         return elementData;
     };
-    SVGShapeElement.prototype.addToAnimatedContents = function(data, element) {
+    SVGShapeElement.prototype.addToAnimatedContents = function (data, element) {
         var i = 0;
         var len = this.animatedContents.length;
         while (i < len) {
@@ -8562,7 +8562,7 @@
             data: data
         });
     };
-    SVGShapeElement.prototype.setElementStyles = function(elementData) {
+    SVGShapeElement.prototype.setElementStyles = function (elementData) {
         var arr = elementData.styles;
         var j;
         var jLen = this.stylesList.length;
@@ -8572,7 +8572,7 @@
             }
         }
     };
-    SVGShapeElement.prototype.reloadShapes = function() {
+    SVGShapeElement.prototype.reloadShapes = function () {
         this._isFirstFrame = true;
         var i;
         var len = this.itemsData.length;
@@ -8587,7 +8587,7 @@
         }
         this.renderModifiers();
     };
-    SVGShapeElement.prototype.searchShapes = function(arr, itemsData, prevViewData, container, level, transformers, render) {
+    SVGShapeElement.prototype.searchShapes = function (arr, itemsData, prevViewData, container, level, transformers, render) {
         var ownTransformers = [].concat(transformers);
         var i;
         var len = arr.length - 1;
@@ -8678,7 +8678,7 @@
             ownModifiers[i].closed = true;
         }
     };
-    SVGShapeElement.prototype.renderInnerContent = function() {
+    SVGShapeElement.prototype.renderInnerContent = function () {
         this.renderModifiers();
         var i;
         var len = this.stylesList.length;
@@ -8696,7 +8696,7 @@
             }
         }
     };
-    SVGShapeElement.prototype.renderShape = function() {
+    SVGShapeElement.prototype.renderShape = function () {
         var i;
         var len = this.animatedContents.length;
         var animatedContent;
@@ -8707,7 +8707,7 @@
             }
         }
     };
-    SVGShapeElement.prototype.destroy = function() {
+    SVGShapeElement.prototype.destroy = function () {
         this.destroyBaseElement();
         this.shapesData = null;
         this.itemsData = null;
@@ -8729,7 +8729,7 @@
             p: true
         };
     }
-    LetterProps.prototype.update = function(o, sw, sc, fc, m, p) {
+    LetterProps.prototype.update = function (o, sw, sc, fc, m, p) {
         this._mdf.o = false;
         this._mdf.sw = false;
         this._mdf.sc = false;
@@ -8823,7 +8823,7 @@
         }
     }
     TextProperty.prototype.defaultBoxWidth = [0, 0];
-    TextProperty.prototype.copyData = function(obj, data) {
+    TextProperty.prototype.copyData = function (obj, data) {
         for (var s in data) {
             if (Object.prototype.hasOwnProperty.call(data, s)) {
                 obj[s] = data[s];
@@ -8831,7 +8831,7 @@
         }
         return obj;
     };
-    TextProperty.prototype.setCurrentData = function(data) {
+    TextProperty.prototype.setCurrentData = function (data) {
         if (!data.__complete) {
             this.completeTextData(data);
         }
@@ -8839,21 +8839,21 @@
         this.currentData.boxWidth = this.currentData.boxWidth || this.defaultBoxWidth;
         this._mdf = true;
     };
-    TextProperty.prototype.searchProperty = function() {
+    TextProperty.prototype.searchProperty = function () {
         return this.searchKeyframes();
     };
-    TextProperty.prototype.searchKeyframes = function() {
+    TextProperty.prototype.searchKeyframes = function () {
         this.kf = this.data.d.k.length > 1;
         if (this.kf) {
             this.addEffect(this.getKeyframeValue.bind(this));
         }
         return this.kf;
     };
-    TextProperty.prototype.addEffect = function(effectFunction) {
+    TextProperty.prototype.addEffect = function (effectFunction) {
         this.effectsSequence.push(effectFunction);
         this.elem.addDynamicProperty(this);
     };
-    TextProperty.prototype.getValue = function(_finalValue) {
+    TextProperty.prototype.getValue = function (_finalValue) {
         if ((this.elem.globalData.frameId === this.frameId || !this.effectsSequence.length) && !_finalValue) {
             return;
         }
@@ -8884,7 +8884,7 @@
         this.lock = false;
         this.frameId = this.elem.globalData.frameId;
     };
-    TextProperty.prototype.getKeyframeValue = function() {
+    TextProperty.prototype.getKeyframeValue = function () {
         var textKeys = this.data.d.k;
         var frameNum = this.elem.comp.renderedFrame;
         var i = 0;
@@ -8900,7 +8900,7 @@
         }
         return this.data.d.k[this.keysIndex].s;
     };
-    TextProperty.prototype.buildFinalText = function(text) {
+    TextProperty.prototype.buildFinalText = function (text) {
         var charactersArray = [];
         var i = 0;
         var len = text.length;
@@ -8951,7 +8951,7 @@
         }
         return charactersArray;
     };
-    TextProperty.prototype.completeTextData = function(documentData) {
+    TextProperty.prototype.completeTextData = function (documentData) {
         documentData.__complete = true;
         var fontManager = this.elem.globalData.fontManager;
         var data = this.data;
@@ -9182,7 +9182,7 @@
         documentData.ls = documentData.ls || 0;
         documentData.ascent = fontData.ascent * documentData.finalSize / 100;
     };
-    TextProperty.prototype.updateDocumentData = function(newData, index) {
+    TextProperty.prototype.updateDocumentData = function (newData, index) {
         index = index === undefined ? this.keysIndex : index;
         var dData = this.copyData({}, this.data.d.k[index].s);
         dData = this.copyData(dData, newData);
@@ -9191,24 +9191,24 @@
         this.setCurrentData(dData);
         this.elem.addDynamicProperty(this);
     };
-    TextProperty.prototype.recalculate = function(index) {
+    TextProperty.prototype.recalculate = function (index) {
         var dData = this.data.d.k[index].s;
         dData.__complete = false;
         this.keysIndex = 0;
         this._isFirstFrame = true;
         this.getValue(dData);
     };
-    TextProperty.prototype.canResizeFont = function(_canResize) {
+    TextProperty.prototype.canResizeFont = function (_canResize) {
         this.canResize = _canResize;
         this.recalculate(this.keysIndex);
         this.elem.addDynamicProperty(this);
     };
-    TextProperty.prototype.setMinimumFontSize = function(_fontValue) {
+    TextProperty.prototype.setMinimumFontSize = function (_fontValue) {
         this.minimumFontSize = Math.floor(_fontValue) || 1;
         this.recalculate(this.keysIndex);
         this.elem.addDynamicProperty(this);
     };
-    var TextSelectorProp = function() {
+    var TextSelectorProp = function () {
         var max = Math.max;
         var min = Math.min;
         var floor = Math.floor;
@@ -9419,7 +9419,7 @@
         this.lettersChangedFlag = false;
         this.initDynamicPropertyContainer(elem);
     }
-    TextAnimatorProperty.prototype.searchProperties = function() {
+    TextAnimatorProperty.prototype.searchProperties = function () {
         var i;
         var len = this._textData.a.length;
         var animatorProps;
@@ -9443,7 +9443,7 @@
         }
         this._moreOptions.alignment = getProp(this._elem, this._textData.m.a, 1, 0, this);
     };
-    TextAnimatorProperty.prototype.getMeasures = function(documentData, lettersChangedFlag) {
+    TextAnimatorProperty.prototype.getMeasures = function (documentData, lettersChangedFlag) {
         this.lettersChangedFlag = lettersChangedFlag;
         if (!this._mdf && !this._isFirstFrame && !lettersChangedFlag && (!this._hasMaskedPath || !this._pathData.m._mdf)) {
             return;
@@ -9950,7 +9950,7 @@
             }
         }
     };
-    TextAnimatorProperty.prototype.getValue = function() {
+    TextAnimatorProperty.prototype.getValue = function () {
         if (this._elem.globalData.frameId === this._frameId) {
             return;
         }
@@ -9961,8 +9961,8 @@
     TextAnimatorProperty.prototype.defaultPropsArray = [];
     extendPrototype([DynamicPropertyContainer], TextAnimatorProperty);
 
-    function ITextElement() {}
-    ITextElement.prototype.initElement = function(data, globalData, comp) {
+    function ITextElement() { }
+    ITextElement.prototype.initElement = function (data, globalData, comp) {
         this.lettersChangedFlag = true;
         this.initFrame();
         this.initBaseData(data, globalData, comp);
@@ -9978,12 +9978,12 @@
         this.hide();
         this.textAnimator.searchProperties(this.dynamicProperties);
     };
-    ITextElement.prototype.prepareFrame = function(num) {
+    ITextElement.prototype.prepareFrame = function (num) {
         this._mdf = false;
         this.prepareRenderableFrame(num);
         this.prepareProperties(num, this.isInRange);
     };
-    ITextElement.prototype.createPathShape = function(matrixHelper, shapes) {
+    ITextElement.prototype.createPathShape = function (matrixHelper, shapes) {
         var j;
         var jLen = shapes.length;
         var pathNodes;
@@ -9996,16 +9996,16 @@
         }
         return shapeStr;
     };
-    ITextElement.prototype.updateDocumentData = function(newData, index) {
+    ITextElement.prototype.updateDocumentData = function (newData, index) {
         this.textProperty.updateDocumentData(newData, index);
     };
-    ITextElement.prototype.canResizeFont = function(_canResize) {
+    ITextElement.prototype.canResizeFont = function (_canResize) {
         this.textProperty.canResizeFont(_canResize);
     };
-    ITextElement.prototype.setMinimumFontSize = function(_fontSize) {
+    ITextElement.prototype.setMinimumFontSize = function (_fontSize) {
         this.textProperty.setMinimumFontSize(_fontSize);
     };
-    ITextElement.prototype.applyTextPropertiesToMatrix = function(documentData, matrixHelper, lineNumber, xPos, yPos) {
+    ITextElement.prototype.applyTextPropertiesToMatrix = function (documentData, matrixHelper, lineNumber, xPos, yPos) {
         if (documentData.ps) {
             matrixHelper.translate(documentData.ps[0], documentData.ps[1] + documentData.ascent, 0);
         }
@@ -10022,12 +10022,12 @@
         }
         matrixHelper.translate(xPos, yPos, 0);
     };
-    ITextElement.prototype.buildColor = function(colorData) {
+    ITextElement.prototype.buildColor = function (colorData) {
         return 'rgb(' + Math.round(colorData[0] * 255) + ',' + Math.round(colorData[1] * 255) + ',' + Math.round(colorData[2] * 255) + ')';
     };
     ITextElement.prototype.emptyProp = new LetterProps();
-    ITextElement.prototype.destroy = function() {};
-    ITextElement.prototype.validateText = function() {
+    ITextElement.prototype.destroy = function () { };
+    ITextElement.prototype.validateText = function () {
         if (this.textProperty._mdf || this.textProperty._isFirstFrame) {
             this.buildNewText();
             this.textProperty._isFirstFrame = false;
@@ -10044,12 +10044,12 @@
         this.initElement(data, globalData, comp);
     }
     extendPrototype([BaseElement, TransformElement, SVGBaseElement, HierarchyElement, FrameElement, RenderableDOMElement, ITextElement], SVGTextLottieElement);
-    SVGTextLottieElement.prototype.createContent = function() {
+    SVGTextLottieElement.prototype.createContent = function () {
         if (this.data.singleShape && !this.globalData.fontManager.chars) {
             this.textContainer = createNS('text');
         }
     };
-    SVGTextLottieElement.prototype.buildTextContents = function(textArray) {
+    SVGTextLottieElement.prototype.buildTextContents = function (textArray) {
         var i = 0;
         var len = textArray.length;
         var textContents = [];
@@ -10066,7 +10066,7 @@
         textContents.push(currentTextContent);
         return textContents;
     };
-    SVGTextLottieElement.prototype.buildShapeData = function(data, scale) {
+    SVGTextLottieElement.prototype.buildShapeData = function (data, scale) {
         if (data.shapes && data.shapes.length) {
             var shape = data.shapes[0];
             if (shape.it) {
@@ -10079,7 +10079,7 @@
         }
         return data;
     };
-    SVGTextLottieElement.prototype.buildNewText = function() {
+    SVGTextLottieElement.prototype.buildNewText = function () {
         this.addDynamicProperty(this);
         var i;
         var len;
@@ -10092,7 +10092,7 @@
         }
         if (documentData.sc) {
             this.layerElement.setAttribute('stroke', this.buildColor(documentData.sc));
-            this.layerElement.setAttribute('stroke-width', documentData.sw);
+            this.layerElement.setAttribute('strokeWidth', documentData.sw);
         }
         this.layerElement.setAttribute('font-size', documentData.finalSize);
         var fontData = this.globalData.fontManager.getFontByName(documentData.f);
@@ -10236,7 +10236,7 @@
         }
         this._sizeChanged = true;
     };
-    SVGTextLottieElement.prototype.sourceRectAtTime = function() {
+    SVGTextLottieElement.prototype.sourceRectAtTime = function () {
         this.prepareFrame(this.comp.renderedFrame - this.data.st);
         this.renderInnerContent();
         if (this._sizeChanged) {
@@ -10251,7 +10251,7 @@
         }
         return this.bbox;
     };
-    SVGTextLottieElement.prototype.getValue = function() {
+    SVGTextLottieElement.prototype.getValue = function () {
         var i;
         var len = this.textSpans.length;
         var glyphElement;
@@ -10266,7 +10266,7 @@
             }
         }
     };
-    SVGTextLottieElement.prototype.renderInnerContent = function() {
+    SVGTextLottieElement.prototype.renderInnerContent = function () {
         this.validateText();
         if (!this.data.singleShape || this._mdf) {
             this.textAnimator.getMeasures(this.textProperty.currentData, this.lettersChangedFlag);
@@ -10295,7 +10295,7 @@
                             textSpan.setAttribute('opacity', renderedLetter.o);
                         }
                         if (renderedLetter._mdf.sw) {
-                            textSpan.setAttribute('stroke-width', renderedLetter.sw);
+                            textSpan.setAttribute('strokeWidth', renderedLetter.sw);
                         }
                         if (renderedLetter._mdf.sc) {
                             textSpan.setAttribute('stroke', renderedLetter.sc);
@@ -10313,7 +10313,7 @@
         this.initElement(data, globalData, comp);
     }
     extendPrototype([IImageElement], ISolidElement);
-    ISolidElement.prototype.createContent = function() {
+    ISolidElement.prototype.createContent = function () {
         var rect = createNS('rect');
         rect.setAttribute('width', this.data.sw);
         rect.setAttribute('height', this.data.sh);
@@ -10328,36 +10328,36 @@
         this.initTransform(data, globalData, comp);
         this.initHierarchy();
     }
-    NullElement.prototype.prepareFrame = function(num) {
+    NullElement.prototype.prepareFrame = function (num) {
         this.prepareProperties(num, true);
     };
-    NullElement.prototype.renderFrame = function() {};
-    NullElement.prototype.getBaseElement = function() {
+    NullElement.prototype.renderFrame = function () { };
+    NullElement.prototype.getBaseElement = function () {
         return null;
     };
-    NullElement.prototype.destroy = function() {};
-    NullElement.prototype.sourceRectAtTime = function() {};
-    NullElement.prototype.hide = function() {};
+    NullElement.prototype.destroy = function () { };
+    NullElement.prototype.sourceRectAtTime = function () { };
+    NullElement.prototype.hide = function () { };
     extendPrototype([BaseElement, TransformElement, HierarchyElement, FrameElement], NullElement);
 
-    function SVGRendererBase() {}
+    function SVGRendererBase() { }
     extendPrototype([BaseRenderer], SVGRendererBase);
-    SVGRendererBase.prototype.createNull = function(data) {
+    SVGRendererBase.prototype.createNull = function (data) {
         return new NullElement(data, this.globalData, this);
     };
-    SVGRendererBase.prototype.createShape = function(data) {
+    SVGRendererBase.prototype.createShape = function (data) {
         return new SVGShapeElement(data, this.globalData, this);
     };
-    SVGRendererBase.prototype.createText = function(data) {
+    SVGRendererBase.prototype.createText = function (data) {
         return new SVGTextLottieElement(data, this.globalData, this);
     };
-    SVGRendererBase.prototype.createImage = function(data) {
+    SVGRendererBase.prototype.createImage = function (data) {
         return new IImageElement(data, this.globalData, this);
     };
-    SVGRendererBase.prototype.createSolid = function(data) {
+    SVGRendererBase.prototype.createSolid = function (data) {
         return new ISolidElement(data, this.globalData, this);
     };
-    SVGRendererBase.prototype.configAnimation = function(animData) {
+    SVGRendererBase.prototype.configAnimation = function (animData) {
         this.svgElement.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         this.svgElement.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
         if (this.renderConfig.viewBoxSize) {
@@ -10408,7 +10408,7 @@
         this.layers = animData.layers;
         this.elements = createSizedArray(animData.layers.length);
     };
-    SVGRendererBase.prototype.destroy = function() {
+    SVGRendererBase.prototype.destroy = function () {
         if (this.animationItem.wrapper) {
             this.animationItem.wrapper.innerText = '';
         }
@@ -10425,8 +10425,8 @@
         this.destroyed = true;
         this.animationItem = null;
     };
-    SVGRendererBase.prototype.updateContainerSize = function() {};
-    SVGRendererBase.prototype.findIndexByInd = function(ind) {
+    SVGRendererBase.prototype.updateContainerSize = function () { };
+    SVGRendererBase.prototype.findIndexByInd = function (ind) {
         var i = 0;
         var len = this.layers.length;
         for (i = 0; i < len; i += 1) {
@@ -10436,7 +10436,7 @@
         }
         return -1;
     };
-    SVGRendererBase.prototype.buildItem = function(pos) {
+    SVGRendererBase.prototype.buildItem = function (pos) {
         var elements = this.elements;
         if (elements[pos] || this.layers[pos].ty === 99) {
             return;
@@ -10466,7 +10466,7 @@
             }
         }
     };
-    SVGRendererBase.prototype.checkPendingElements = function() {
+    SVGRendererBase.prototype.checkPendingElements = function () {
         while (this.pendingElements.length) {
             var element = this.pendingElements.pop();
             element.checkParenting();
@@ -10486,7 +10486,7 @@
             }
         }
     };
-    SVGRendererBase.prototype.renderFrame = function(num) {
+    SVGRendererBase.prototype.renderFrame = function (num) {
         if (this.renderedFrame === num || this.destroyed) {
             return;
         }
@@ -10517,7 +10517,7 @@
             }
         }
     };
-    SVGRendererBase.prototype.appendElementInPos = function(element, pos) {
+    SVGRendererBase.prototype.appendElementInPos = function (element, pos) {
         var newElement = element.getBaseElement();
         if (!newElement) {
             return;
@@ -10536,16 +10536,16 @@
             this.layerElement.appendChild(newElement);
         }
     };
-    SVGRendererBase.prototype.hide = function() {
+    SVGRendererBase.prototype.hide = function () {
         this.layerElement.style.display = 'none';
     };
-    SVGRendererBase.prototype.show = function() {
+    SVGRendererBase.prototype.show = function () {
         this.layerElement.style.display = 'block';
     };
 
-    function ICompElement() {}
+    function ICompElement() { }
     extendPrototype([BaseElement, TransformElement, HierarchyElement, FrameElement, RenderableDOMElement], ICompElement);
-    ICompElement.prototype.initElement = function(data, globalData, comp) {
+    ICompElement.prototype.initElement = function (data, globalData, comp) {
         this.initFrame();
         this.initBaseData(data, globalData, comp);
         this.initTransform(data, globalData, comp);
@@ -10559,7 +10559,7 @@
         }
         this.hide();
     };
-    ICompElement.prototype.prepareFrame = function(num) {
+    ICompElement.prototype.prepareFrame = function (num) {
         this._mdf = false;
         this.prepareRenderableFrame(num);
         this.prepareProperties(num, this.isInRange);
@@ -10589,7 +10589,7 @@
             }
         }
     };
-    ICompElement.prototype.renderInnerContent = function() {
+    ICompElement.prototype.renderInnerContent = function () {
         var i;
         var len = this.layers.length;
         for (i = 0; i < len; i += 1) {
@@ -10598,13 +10598,13 @@
             }
         }
     };
-    ICompElement.prototype.setElements = function(elems) {
+    ICompElement.prototype.setElements = function (elems) {
         this.elements = elems;
     };
-    ICompElement.prototype.getElements = function() {
+    ICompElement.prototype.getElements = function () {
         return this.elements;
     };
-    ICompElement.prototype.destroyElements = function() {
+    ICompElement.prototype.destroyElements = function () {
         var i;
         var len = this.layers.length;
         for (i = 0; i < len; i += 1) {
@@ -10613,7 +10613,7 @@
             }
         }
     };
-    ICompElement.prototype.destroy = function() {
+    ICompElement.prototype.destroy = function () {
         this.destroyElements();
         this.destroyBaseElement();
     };
@@ -10630,7 +10630,7 @@
         };
     }
     extendPrototype([SVGRendererBase, ICompElement, SVGBaseElement], SVGCompElement);
-    SVGCompElement.prototype.createComp = function(data) {
+    SVGCompElement.prototype.createComp = function (data) {
         return new SVGCompElement(data, this.globalData, this);
     };
 
@@ -10697,7 +10697,7 @@
         this.rendererType = 'svg';
     }
     extendPrototype([SVGRendererBase], SVGRenderer);
-    SVGRenderer.prototype.createComp = function(data) {
+    SVGRenderer.prototype.createComp = function (data) {
         return new SVGCompElement(data, this.globalData, this);
     };
 
@@ -10816,7 +10816,7 @@
         canvas.height = height;
         return canvas;
     }
-    var assetLoader = function() {
+    var assetLoader = function () {
         return {
             loadLumaCanvas: lumaLoader.load,
             getLumaCanvas: lumaLoader.get,
@@ -10845,14 +10845,14 @@
             elem.addRenderableComponent(this);
         }
     }
-    CVEffects.prototype.renderFrame = function(_isFirstFrame) {
+    CVEffects.prototype.renderFrame = function (_isFirstFrame) {
         var i;
         var len = this.filters.length;
         for (i = 0; i < len; i += 1) {
             this.filters[i].renderFrame(_isFirstFrame);
         }
     };
-    CVEffects.prototype.getEffects = function(type) {
+    CVEffects.prototype.getEffects = function (type) {
         var i;
         var len = this.filters.length;
         var effects = [];
@@ -10889,7 +10889,7 @@
             this.element.addRenderableComponent(this);
         }
     }
-    CVMaskElement.prototype.renderFrame = function() {
+    CVMaskElement.prototype.renderFrame = function () {
         if (!this.hasMasks) {
             return;
         }
@@ -10927,11 +10927,11 @@
         ctx.clip();
     };
     CVMaskElement.prototype.getMaskProperty = MaskElement.prototype.getMaskProperty;
-    CVMaskElement.prototype.destroy = function() {
+    CVMaskElement.prototype.destroy = function () {
         this.element = null;
     };
 
-    function CVBaseElement() {}
+    function CVBaseElement() { }
     var operationsMap = {
         1: 'source-in',
         2: 'source-out',
@@ -10939,8 +10939,8 @@
         4: 'source-out'
     };
     CVBaseElement.prototype = {
-        createElements: function createElements() {},
-        initRendererElement: function initRendererElement() {},
+        createElements: function createElements() { },
+        initRendererElement: function initRendererElement() { },
         createContainerElements: function createContainerElements() {
             if (this.data.tt >= 1) {
                 this.buffers = [];
@@ -10958,7 +10958,7 @@
             this.renderableEffectsManager = new CVEffects(this);
             this.searchEffectTransforms();
         },
-        createContent: function createContent() {},
+        createContent: function createContent() { },
         setBlendMode: function setBlendMode() {
             var globalData = this.globalData;
             if (globalData.blendMode !== this.data.bm) {
@@ -11108,10 +11108,10 @@
         _opMdf: false
     };
     CVShapeElement.prototype.dashResetter = [];
-    CVShapeElement.prototype.createContent = function() {
+    CVShapeElement.prototype.createContent = function () {
         this.searchShapes(this.shapesData, this.itemsData, this.prevViewData, true, []);
     };
-    CVShapeElement.prototype.createStyleElement = function(data, transforms) {
+    CVShapeElement.prototype.createStyleElement = function (data, transforms) {
         var styleElem = {
             data: data,
             type: data.ty,
@@ -11163,14 +11163,14 @@
         elementData.style = styleElem;
         return elementData;
     };
-    CVShapeElement.prototype.createGroupElement = function() {
+    CVShapeElement.prototype.createGroupElement = function () {
         var elementData = {
             it: [],
             prevViewData: []
         };
         return elementData;
     };
-    CVShapeElement.prototype.createTransformElement = function(data) {
+    CVShapeElement.prototype.createTransformElement = function (data) {
         var elementData = {
             transform: {
                 opacity: 1,
@@ -11182,13 +11182,13 @@
         };
         return elementData;
     };
-    CVShapeElement.prototype.createShapeElement = function(data) {
+    CVShapeElement.prototype.createShapeElement = function (data) {
         var elementData = new CVShapeData(this, data, this.stylesList, this.transformsManager);
         this.shapes.push(elementData);
         this.addShapeToModifiers(elementData);
         return elementData;
     };
-    CVShapeElement.prototype.reloadShapes = function() {
+    CVShapeElement.prototype.reloadShapes = function () {
         this._isFirstFrame = true;
         var i;
         var len = this.itemsData.length;
@@ -11203,7 +11203,7 @@
         this.renderModifiers();
         this.transformsManager.processSequences(this._isFirstFrame);
     };
-    CVShapeElement.prototype.addTransformToStyleList = function(transform) {
+    CVShapeElement.prototype.addTransformToStyleList = function (transform) {
         var i;
         var len = this.stylesList.length;
         for (i = 0; i < len; i += 1) {
@@ -11212,7 +11212,7 @@
             }
         }
     };
-    CVShapeElement.prototype.removeTransformFromStyleList = function() {
+    CVShapeElement.prototype.removeTransformFromStyleList = function () {
         var i;
         var len = this.stylesList.length;
         for (i = 0; i < len; i += 1) {
@@ -11221,14 +11221,14 @@
             }
         }
     };
-    CVShapeElement.prototype.closeStyles = function(styles) {
+    CVShapeElement.prototype.closeStyles = function (styles) {
         var i;
         var len = styles.length;
         for (i = 0; i < len; i += 1) {
             styles[i].closed = true;
         }
     };
-    CVShapeElement.prototype.searchShapes = function(arr, itemsData, prevViewData, shouldRender, transforms) {
+    CVShapeElement.prototype.searchShapes = function (arr, itemsData, prevViewData, shouldRender, transforms) {
         var i;
         var len = arr.length - 1;
         var j;
@@ -11307,21 +11307,21 @@
             ownModifiers[i].closed = true;
         }
     };
-    CVShapeElement.prototype.renderInnerContent = function() {
+    CVShapeElement.prototype.renderInnerContent = function () {
         this.transformHelper.opacity = 1;
         this.transformHelper._opMdf = false;
         this.renderModifiers();
         this.transformsManager.processSequences(this._isFirstFrame);
         this.renderShape(this.transformHelper, this.shapesData, this.itemsData, true);
     };
-    CVShapeElement.prototype.renderShapeTransform = function(parentTransform, groupTransform) {
+    CVShapeElement.prototype.renderShapeTransform = function (parentTransform, groupTransform) {
         if (parentTransform._opMdf || groupTransform.op._mdf || this._isFirstFrame) {
             groupTransform.opacity = parentTransform.opacity;
             groupTransform.opacity *= groupTransform.op.v;
             groupTransform._opMdf = true;
         }
     };
-    CVShapeElement.prototype.drawLayer = function() {
+    CVShapeElement.prototype.drawLayer = function () {
         var i;
         var len = this.stylesList.length;
         var j;
@@ -11388,7 +11388,7 @@
             }
         }
     };
-    CVShapeElement.prototype.renderShape = function(parentTransform, items, data, isMain) {
+    CVShapeElement.prototype.renderShape = function (parentTransform, items, data, isMain) {
         var i;
         var len = items.length - 1;
         var groupTransform;
@@ -11407,13 +11407,13 @@
                 this.renderGradientFill(items[i], data[i], groupTransform);
             } else if (items[i].ty === 'gr') {
                 this.renderShape(groupTransform, items[i].it, data[i].it);
-            } else if (items[i].ty === 'tm') {}
+            } else if (items[i].ty === 'tm') { }
         }
         if (isMain) {
             this.drawLayer();
         }
     };
-    CVShapeElement.prototype.renderStyledShape = function(styledShape, shape) {
+    CVShapeElement.prototype.renderStyledShape = function (styledShape, shape) {
         if (this._isFirstFrame || shape._mdf || styledShape.transforms._mdf) {
             var shapeNodes = styledShape.trNodes;
             var paths = shape.paths;
@@ -11459,7 +11459,7 @@
             styledShape.trNodes = shapeNodes;
         }
     };
-    CVShapeElement.prototype.renderPath = function(pathData, itemData) {
+    CVShapeElement.prototype.renderPath = function (pathData, itemData) {
         if (pathData.hd !== true && pathData._shouldRender) {
             var i;
             var len = itemData.styledShapes.length;
@@ -11468,7 +11468,7 @@
             }
         }
     };
-    CVShapeElement.prototype.renderFill = function(styleData, itemData, groupTransform) {
+    CVShapeElement.prototype.renderFill = function (styleData, itemData, groupTransform) {
         var styleElem = itemData.style;
         if (itemData.c._mdf || this._isFirstFrame) {
             styleElem.co = 'rgb(' + bmFloor(itemData.c.v[0]) + ',' + bmFloor(itemData.c.v[1]) + ',' + bmFloor(itemData.c.v[2]) + ')';
@@ -11477,7 +11477,7 @@
             styleElem.coOp = itemData.o.v * groupTransform.opacity;
         }
     };
-    CVShapeElement.prototype.renderGradientFill = function(styleData, itemData, groupTransform) {
+    CVShapeElement.prototype.renderGradientFill = function (styleData, itemData, groupTransform) {
         var styleElem = itemData.style;
         var grd;
         if (!styleElem.grd || itemData.g._mdf || itemData.s._mdf || itemData.e._mdf || styleData.t !== 1 && (itemData.h._mdf || itemData.a._mdf)) {
@@ -11514,7 +11514,7 @@
         }
         styleElem.coOp = itemData.o.v * groupTransform.opacity;
     };
-    CVShapeElement.prototype.renderStroke = function(styleData, itemData, groupTransform) {
+    CVShapeElement.prototype.renderStroke = function (styleData, itemData, groupTransform) {
         var styleElem = itemData.style;
         var d = itemData.d;
         if (d && (d._mdf || this._isFirstFrame)) {
@@ -11531,7 +11531,7 @@
             styleElem.wi = itemData.w.v;
         }
     };
-    CVShapeElement.prototype.destroy = function() {
+    CVShapeElement.prototype.destroy = function () {
         this.shapesData = null;
         this.globalData = null;
         this.canvasContext = null;
@@ -11560,7 +11560,7 @@
     }
     extendPrototype([BaseElement, TransformElement, CVBaseElement, HierarchyElement, FrameElement, RenderableElement, ITextElement], CVTextElement);
     CVTextElement.prototype.tHelper = createTag('canvas').getContext('2d');
-    CVTextElement.prototype.buildNewText = function() {
+    CVTextElement.prototype.buildNewText = function () {
         var documentData = this.textProperty.currentData;
         this.renderedLetters = createSizedArray(documentData.l ? documentData.l.length : 0);
         var hasFill = false;
@@ -11649,7 +11649,7 @@
             cnt += 1;
         }
     };
-    CVTextElement.prototype.renderInnerContent = function() {
+    CVTextElement.prototype.renderInnerContent = function () {
         this.validateText();
         var ctx = this.canvasContext;
         ctx.font = this.values.fValue;
@@ -11755,7 +11755,7 @@
     extendPrototype([BaseElement, TransformElement, CVBaseElement, HierarchyElement, FrameElement, RenderableElement], CVImageElement);
     CVImageElement.prototype.initElement = SVGShapeElement.prototype.initElement;
     CVImageElement.prototype.prepareFrame = IImageElement.prototype.prepareFrame;
-    CVImageElement.prototype.createContent = function() {
+    CVImageElement.prototype.createContent = function () {
         if (this.img.width && (this.assetData.w !== this.img.width || this.assetData.h !== this.img.height)) {
             var canvas = createTag('canvas');
             canvas.width = this.assetData.w;
@@ -11779,10 +11779,10 @@
             this.img = canvas;
         }
     };
-    CVImageElement.prototype.renderInnerContent = function() {
+    CVImageElement.prototype.renderInnerContent = function () {
         this.canvasContext.drawImage(this.img, 0, 0);
     };
-    CVImageElement.prototype.destroy = function() {
+    CVImageElement.prototype.destroy = function () {
         this.img = null;
     };
 
@@ -11792,73 +11792,73 @@
     extendPrototype([BaseElement, TransformElement, CVBaseElement, HierarchyElement, FrameElement, RenderableElement], CVSolidElement);
     CVSolidElement.prototype.initElement = SVGShapeElement.prototype.initElement;
     CVSolidElement.prototype.prepareFrame = IImageElement.prototype.prepareFrame;
-    CVSolidElement.prototype.renderInnerContent = function() {
+    CVSolidElement.prototype.renderInnerContent = function () {
         this.globalData.renderer.ctxFillStyle(this.data.sc);
         this.globalData.renderer.ctxFillRect(0, 0, this.data.sw, this.data.sh);
     };
 
-    function CanvasRendererBase() {}
+    function CanvasRendererBase() { }
     extendPrototype([BaseRenderer], CanvasRendererBase);
-    CanvasRendererBase.prototype.createShape = function(data) {
+    CanvasRendererBase.prototype.createShape = function (data) {
         return new CVShapeElement(data, this.globalData, this);
     };
-    CanvasRendererBase.prototype.createText = function(data) {
+    CanvasRendererBase.prototype.createText = function (data) {
         return new CVTextElement(data, this.globalData, this);
     };
-    CanvasRendererBase.prototype.createImage = function(data) {
+    CanvasRendererBase.prototype.createImage = function (data) {
         return new CVImageElement(data, this.globalData, this);
     };
-    CanvasRendererBase.prototype.createSolid = function(data) {
+    CanvasRendererBase.prototype.createSolid = function (data) {
         return new CVSolidElement(data, this.globalData, this);
     };
     CanvasRendererBase.prototype.createNull = SVGRenderer.prototype.createNull;
-    CanvasRendererBase.prototype.ctxTransform = function(props) {
+    CanvasRendererBase.prototype.ctxTransform = function (props) {
         if (props[0] === 1 && props[1] === 0 && props[4] === 0 && props[5] === 1 && props[12] === 0 && props[13] === 0) {
             return;
         }
         this.canvasContext.transform(props[0], props[1], props[4], props[5], props[12], props[13]);
     };
-    CanvasRendererBase.prototype.ctxOpacity = function(op) {
+    CanvasRendererBase.prototype.ctxOpacity = function (op) {
         this.canvasContext.globalAlpha *= op < 0 ? 0 : op;
     };
-    CanvasRendererBase.prototype.ctxFillStyle = function(value) {
+    CanvasRendererBase.prototype.ctxFillStyle = function (value) {
         this.canvasContext.fillStyle = value;
     };
-    CanvasRendererBase.prototype.ctxStrokeStyle = function(value) {
+    CanvasRendererBase.prototype.ctxStrokeStyle = function (value) {
         this.canvasContext.strokeStyle = value;
     };
-    CanvasRendererBase.prototype.ctxLineWidth = function(value) {
+    CanvasRendererBase.prototype.ctxLineWidth = function (value) {
         this.canvasContext.lineWidth = value;
     };
-    CanvasRendererBase.prototype.ctxLineCap = function(value) {
+    CanvasRendererBase.prototype.ctxLineCap = function (value) {
         this.canvasContext.lineCap = value;
     };
-    CanvasRendererBase.prototype.ctxLineJoin = function(value) {
+    CanvasRendererBase.prototype.ctxLineJoin = function (value) {
         this.canvasContext.lineJoin = value;
     };
-    CanvasRendererBase.prototype.ctxMiterLimit = function(value) {
+    CanvasRendererBase.prototype.ctxMiterLimit = function (value) {
         this.canvasContext.miterLimit = value;
     };
-    CanvasRendererBase.prototype.ctxFill = function(rule) {
+    CanvasRendererBase.prototype.ctxFill = function (rule) {
         this.canvasContext.fill(rule);
     };
-    CanvasRendererBase.prototype.ctxFillRect = function(x, y, w, h) {
+    CanvasRendererBase.prototype.ctxFillRect = function (x, y, w, h) {
         this.canvasContext.fillRect(x, y, w, h);
     };
-    CanvasRendererBase.prototype.ctxStroke = function() {
+    CanvasRendererBase.prototype.ctxStroke = function () {
         this.canvasContext.stroke();
     };
-    CanvasRendererBase.prototype.reset = function() {
+    CanvasRendererBase.prototype.reset = function () {
         if (!this.renderConfig.clearCanvas) {
             this.canvasContext.restore();
             return;
         }
         this.contextData.reset();
     };
-    CanvasRendererBase.prototype.save = function() {
+    CanvasRendererBase.prototype.save = function () {
         this.canvasContext.save();
     };
-    CanvasRendererBase.prototype.restore = function(actionFlag) {
+    CanvasRendererBase.prototype.restore = function (actionFlag) {
         if (!this.renderConfig.clearCanvas) {
             this.canvasContext.restore();
             return;
@@ -11868,7 +11868,7 @@
         }
         this.contextData.restore(actionFlag);
     };
-    CanvasRendererBase.prototype.configAnimation = function(animData) {
+    CanvasRendererBase.prototype.configAnimation = function (animData) {
         if (this.animationItem.wrapper) {
             this.animationItem.container = createTag('canvas');
             var containerStyle = this.animationItem.container.style;
@@ -11911,7 +11911,7 @@
         this.elements = createSizedArray(animData.layers.length);
         this.updateContainerSize();
     };
-    CanvasRendererBase.prototype.updateContainerSize = function(width, height) {
+    CanvasRendererBase.prototype.updateContainerSize = function (width, height) {
         this.reset();
         var elementWidth;
         var elementHeight;
@@ -11981,7 +11981,7 @@
         this.canvasContext.clip();
         this.renderFrame(this.renderedFrame, true);
     };
-    CanvasRendererBase.prototype.destroy = function() {
+    CanvasRendererBase.prototype.destroy = function () {
         if (this.renderConfig.clearCanvas && this.animationItem.wrapper) {
             this.animationItem.wrapper.innerText = '';
         }
@@ -11997,7 +11997,7 @@
         this.animationItem.container = null;
         this.destroyed = true;
     };
-    CanvasRendererBase.prototype.renderFrame = function(num, forceRender) {
+    CanvasRendererBase.prototype.renderFrame = function (num, forceRender) {
         if (this.renderedFrame === num && this.renderConfig.clearCanvas === true && !forceRender || this.destroyed || num === -1) {
             return;
         }
@@ -12032,7 +12032,7 @@
             }
         }
     };
-    CanvasRendererBase.prototype.buildItem = function(pos) {
+    CanvasRendererBase.prototype.buildItem = function (pos) {
         var elements = this.elements;
         if (elements[pos] || this.layers[pos].ty === 99) {
             return;
@@ -12041,16 +12041,16 @@
         elements[pos] = element;
         element.initExpressions();
     };
-    CanvasRendererBase.prototype.checkPendingElements = function() {
+    CanvasRendererBase.prototype.checkPendingElements = function () {
         while (this.pendingElements.length) {
             var element = this.pendingElements.pop();
             element.checkParenting();
         }
     };
-    CanvasRendererBase.prototype.hide = function() {
+    CanvasRendererBase.prototype.hide = function () {
         this.animationItem.container.style.display = 'none';
     };
-    CanvasRendererBase.prototype.show = function() {
+    CanvasRendererBase.prototype.show = function () {
         this.animationItem.container.style.display = 'block';
     };
 
@@ -12093,7 +12093,7 @@
         this.appliedMiterLimit = '';
         this.currentMiterLimit = '';
     }
-    CVContextData.prototype.duplicate = function() {
+    CVContextData.prototype.duplicate = function () {
         var newLength = this._length * 2;
         var i = 0;
         for (i = this._length; i < newLength; i += 1) {
@@ -12101,12 +12101,12 @@
         }
         this._length = newLength;
     };
-    CVContextData.prototype.reset = function() {
+    CVContextData.prototype.reset = function () {
         this.cArrPos = 0;
         this.cTr.reset();
         this.stack[this.cArrPos].opacity = 1;
     };
-    CVContextData.prototype.restore = function(forceRestore) {
+    CVContextData.prototype.restore = function (forceRestore) {
         this.cArrPos -= 1;
         var currentContext = this.stack[this.cArrPos];
         var transform = currentContext.transform;
@@ -12137,7 +12137,7 @@
         this.currentLineJoin = currentContext.lineJoin;
         this.currentMiterLimit = currentContext.miterLimit;
     };
-    CVContextData.prototype.save = function(saveOnNativeFlag) {
+    CVContextData.prototype.save = function (saveOnNativeFlag) {
         if (saveOnNativeFlag) {
             this.nativeContext.save();
         }
@@ -12160,49 +12160,49 @@
         newStack.lineJoin = currentStack.lineJoin;
         newStack.miterLimit = currentStack.miterLimit;
     };
-    CVContextData.prototype.setOpacity = function(value) {
+    CVContextData.prototype.setOpacity = function (value) {
         this.stack[this.cArrPos].opacity = value;
     };
-    CVContextData.prototype.setContext = function(value) {
+    CVContextData.prototype.setContext = function (value) {
         this.nativeContext = value;
     };
-    CVContextData.prototype.fillStyle = function(value) {
+    CVContextData.prototype.fillStyle = function (value) {
         if (this.stack[this.cArrPos].fillStyle !== value) {
             this.currentFillStyle = value;
             this.stack[this.cArrPos].fillStyle = value;
         }
     };
-    CVContextData.prototype.strokeStyle = function(value) {
+    CVContextData.prototype.strokeStyle = function (value) {
         if (this.stack[this.cArrPos].strokeStyle !== value) {
             this.currentStrokeStyle = value;
             this.stack[this.cArrPos].strokeStyle = value;
         }
     };
-    CVContextData.prototype.lineWidth = function(value) {
+    CVContextData.prototype.lineWidth = function (value) {
         if (this.stack[this.cArrPos].lineWidth !== value) {
             this.currentLineWidth = value;
             this.stack[this.cArrPos].lineWidth = value;
         }
     };
-    CVContextData.prototype.lineCap = function(value) {
+    CVContextData.prototype.lineCap = function (value) {
         if (this.stack[this.cArrPos].lineCap !== value) {
             this.currentLineCap = value;
             this.stack[this.cArrPos].lineCap = value;
         }
     };
-    CVContextData.prototype.lineJoin = function(value) {
+    CVContextData.prototype.lineJoin = function (value) {
         if (this.stack[this.cArrPos].lineJoin !== value) {
             this.currentLineJoin = value;
             this.stack[this.cArrPos].lineJoin = value;
         }
     };
-    CVContextData.prototype.miterLimit = function(value) {
+    CVContextData.prototype.miterLimit = function (value) {
         if (this.stack[this.cArrPos].miterLimit !== value) {
             this.currentMiterLimit = value;
             this.stack[this.cArrPos].miterLimit = value;
         }
     };
-    CVContextData.prototype.transform = function(props) {
+    CVContextData.prototype.transform = function (props) {
         this.transformMat.cloneFromProps(props);
         var currentTransform = this.cTr;
         this.transformMat.multiply(currentTransform);
@@ -12210,7 +12210,7 @@
         var trProps = currentTransform.props;
         this.nativeContext.setTransform(trProps[0], trProps[1], trProps[4], trProps[5], trProps[12], trProps[13]);
     };
-    CVContextData.prototype.opacity = function(op) {
+    CVContextData.prototype.opacity = function (op) {
         var currentOpacity = this.stack[this.cArrPos].opacity;
         currentOpacity *= op < 0 ? 0 : op;
         if (this.stack[this.cArrPos].opacity !== currentOpacity) {
@@ -12221,21 +12221,21 @@
             this.stack[this.cArrPos].opacity = currentOpacity;
         }
     };
-    CVContextData.prototype.fill = function(rule) {
+    CVContextData.prototype.fill = function (rule) {
         if (this.appliedFillStyle !== this.currentFillStyle) {
             this.appliedFillStyle = this.currentFillStyle;
             this.nativeContext.fillStyle = this.appliedFillStyle;
         }
         this.nativeContext.fill(rule);
     };
-    CVContextData.prototype.fillRect = function(x, y, w, h) {
+    CVContextData.prototype.fillRect = function (x, y, w, h) {
         if (this.appliedFillStyle !== this.currentFillStyle) {
             this.appliedFillStyle = this.currentFillStyle;
             this.nativeContext.fillStyle = this.appliedFillStyle;
         }
         this.nativeContext.fillRect(x, y, w, h);
     };
-    CVContextData.prototype.stroke = function() {
+    CVContextData.prototype.stroke = function () {
         if (this.appliedStrokeStyle !== this.currentStrokeStyle) {
             this.appliedStrokeStyle = this.currentStrokeStyle;
             this.nativeContext.strokeStyle = this.appliedStrokeStyle;
@@ -12270,7 +12270,7 @@
         };
     }
     extendPrototype([CanvasRendererBase, ICompElement, CVBaseElement], CVCompElement);
-    CVCompElement.prototype.renderInnerContent = function() {
+    CVCompElement.prototype.renderInnerContent = function () {
         var ctx = this.canvasContext;
         ctx.beginPath();
         ctx.moveTo(0, 0);
@@ -12287,7 +12287,7 @@
             }
         }
     };
-    CVCompElement.prototype.destroy = function() {
+    CVCompElement.prototype.destroy = function () {
         var i;
         var len = this.layers.length;
         for (i = len - 1; i >= 0; i -= 1) {
@@ -12298,7 +12298,7 @@
         this.layers = null;
         this.elements = null;
     };
-    CVCompElement.prototype.createComp = function(data) {
+    CVCompElement.prototype.createComp = function (data) {
         return new CVCompElement(data, this.globalData, this);
     };
 
@@ -12348,13 +12348,13 @@
         }
     }
     extendPrototype([CanvasRendererBase], CanvasRenderer);
-    CanvasRenderer.prototype.createComp = function(data) {
+    CanvasRenderer.prototype.createComp = function (data) {
         return new CVCompElement(data, this.globalData, this);
     };
 
-    function HBaseElement() {}
+    function HBaseElement() { }
     HBaseElement.prototype = {
-        checkBlendMode: function checkBlendMode() {},
+        checkBlendMode: function checkBlendMode() { },
         initRendererElement: function initRendererElement() {
             this.baseElement = createTag(this.data.tg || 'div');
             if (this.data.hasMask) {
@@ -12419,8 +12419,8 @@
         createRenderableComponents: function createRenderableComponents() {
             this.maskManager = new MaskElement(this.data, this, this.globalData);
         },
-        addEffects: function addEffects() {},
-        setMatte: function setMatte() {}
+        addEffects: function addEffects() { },
+        setMatte: function setMatte() { }
     };
     HBaseElement.prototype.getBaseElement = SVGBaseElement.prototype.getBaseElement;
     HBaseElement.prototype.destroyBaseElement = HBaseElement.prototype.destroy;
@@ -12430,7 +12430,7 @@
         this.initElement(data, globalData, comp);
     }
     extendPrototype([BaseElement, TransformElement, HBaseElement, HierarchyElement, FrameElement, RenderableDOMElement], HSolidElement);
-    HSolidElement.prototype.createContent = function() {
+    HSolidElement.prototype.createContent = function () {
         var rect;
         if (this.data.hasMask) {
             rect = createNS('rect');
@@ -12468,7 +12468,7 @@
     }
     extendPrototype([BaseElement, TransformElement, HSolidElement, SVGShapeElement, HBaseElement, HierarchyElement, FrameElement, RenderableElement], HShapeElement);
     HShapeElement.prototype._renderShapeFrame = HShapeElement.prototype.renderInnerContent;
-    HShapeElement.prototype.createContent = function() {
+    HShapeElement.prototype.createContent = function () {
         var cont;
         this.baseElement.style.fontSize = 0;
         if (this.data.hasMask) {
@@ -12486,7 +12486,7 @@
         this.filterUniqueShapes();
         this.shapeCont = cont;
     };
-    HShapeElement.prototype.getTransformedPoint = function(transformers, point) {
+    HShapeElement.prototype.getTransformedPoint = function (transformers, point) {
         var i;
         var len = transformers.length;
         for (i = 0; i < len; i += 1) {
@@ -12494,7 +12494,7 @@
         }
         return point;
     };
-    HShapeElement.prototype.calculateShapeBoundingBox = function(item, boundingBox) {
+    HShapeElement.prototype.calculateShapeBoundingBox = function (item, boundingBox) {
         var shape = item.sh.v;
         var transformers = item.transformers;
         var i;
@@ -12521,7 +12521,7 @@
             this.checkBounds(vPoint, oPoint, nextIPoint, nextVPoint, boundingBox);
         }
     };
-    HShapeElement.prototype.checkBounds = function(vPoint, oPoint, nextIPoint, nextVPoint, boundingBox) {
+    HShapeElement.prototype.checkBounds = function (vPoint, oPoint, nextIPoint, nextVPoint, boundingBox) {
         this.getBoundsOfCurve(vPoint, oPoint, nextIPoint, nextVPoint);
         var bounds = this.shapeBoundingBox;
         boundingBox.x = bmMin(bounds.left, boundingBox.x);
@@ -12543,7 +12543,7 @@
         width: 0,
         height: 0
     };
-    HShapeElement.prototype.getBoundsOfCurve = function(p0, p1, p2, p3) {
+    HShapeElement.prototype.getBoundsOfCurve = function (p0, p1, p2, p3) {
         var bounds = [
             [p0[0], p3[0]],
             [p0[1], p3[1]]
@@ -12555,7 +12555,7 @@
             b |= 0;
             a |= 0;
             c |= 0;
-            if (a === 0 && b === 0) {} else if (a === 0) {
+            if (a === 0 && b === 0) { } else if (a === 0) {
                 t = -c / b;
                 if (t > 0 && t < 1) {
                     bounds[i].push(this.calculateF(t, p0, p1, p2, p3, i));
@@ -12575,10 +12575,10 @@
         this.shapeBoundingBox.right = bmMax.apply(null, bounds[0]);
         this.shapeBoundingBox.bottom = bmMax.apply(null, bounds[1]);
     };
-    HShapeElement.prototype.calculateF = function(t, p0, p1, p2, p3, i) {
+    HShapeElement.prototype.calculateF = function (t, p0, p1, p2, p3, i) {
         return bmPow(1 - t, 3) * p0[i] + 3 * bmPow(1 - t, 2) * t * p1[i] + 3 * (1 - t) * bmPow(t, 2) * p2[i] + bmPow(t, 3) * p3[i];
     };
-    HShapeElement.prototype.calculateBoundingBox = function(itemsData, boundingBox) {
+    HShapeElement.prototype.calculateBoundingBox = function (itemsData, boundingBox) {
         var i;
         var len = itemsData.length;
         for (i = 0; i < len; i += 1) {
@@ -12591,7 +12591,7 @@
             }
         }
     };
-    HShapeElement.prototype.expandStrokeBoundingBox = function(widthProperty, boundingBox) {
+    HShapeElement.prototype.expandStrokeBoundingBox = function (widthProperty, boundingBox) {
         var width = 0;
         if (widthProperty.keyframes) {
             for (var i = 0; i < widthProperty.keyframes.length; i += 1) {
@@ -12609,10 +12609,10 @@
         boundingBox.y -= width;
         boundingBox.yMax += width;
     };
-    HShapeElement.prototype.currentBoxContains = function(box) {
+    HShapeElement.prototype.currentBoxContains = function (box) {
         return this.currentBBox.x <= box.x && this.currentBBox.y <= box.y && this.currentBBox.width + this.currentBBox.x >= box.x + box.width && this.currentBBox.height + this.currentBBox.y >= box.y + box.height;
     };
-    HShapeElement.prototype.renderInnerContent = function() {
+    HShapeElement.prototype.renderInnerContent = function () {
         this._renderShapeFrame();
         if (!this.hidden && (this._isFirstFrame || this._mdf)) {
             var tempBoundingBox = this.tempBoundingBox;
@@ -12666,7 +12666,7 @@
         this.initElement(data, globalData, comp);
     }
     extendPrototype([BaseElement, TransformElement, HBaseElement, HierarchyElement, FrameElement, RenderableDOMElement, ITextElement], HTextElement);
-    HTextElement.prototype.createContent = function() {
+    HTextElement.prototype.createContent = function () {
         this.isMasked = this.checkMasks();
         if (this.isMasked) {
             this.renderType = 'svg';
@@ -12683,7 +12683,7 @@
         }
         this.checkParenting();
     };
-    HTextElement.prototype.buildNewText = function() {
+    HTextElement.prototype.buildNewText = function () {
         var documentData = this.textProperty.currentData;
         this.renderedLetters = createSizedArray(documentData.l ? documentData.l.length : 0);
         var innerElemStyle = this.innerElem.style;
@@ -12818,7 +12818,7 @@
             cnt += 1;
         }
     };
-    HTextElement.prototype.renderInnerContent = function() {
+    HTextElement.prototype.renderInnerContent = function () {
         this.validateText();
         var svgStyle;
         if (this.data.singleShape) {
@@ -12864,7 +12864,7 @@
                 }
                 textSpan.style.opacity = renderedLetter.o;
                 if (renderedLetter.sw && renderedLetter._mdf.sw) {
-                    textPath.setAttribute('stroke-width', renderedLetter.sw);
+                    textPath.setAttribute('strokeWidth', renderedLetter.sw);
                 }
                 if (renderedLetter.sc && renderedLetter._mdf.sc) {
                     textPath.setAttribute('stroke', renderedLetter.sc);
@@ -12937,7 +12937,7 @@
         };
     }
     extendPrototype([BaseElement, FrameElement, HierarchyElement], HCameraElement);
-    HCameraElement.prototype.setup = function() {
+    HCameraElement.prototype.setup = function () {
         var i;
         var len = this.comp.threeDElements.length;
         var comp;
@@ -12961,9 +12961,9 @@
             }
         }
     };
-    HCameraElement.prototype.createElements = function() {};
-    HCameraElement.prototype.hide = function() {};
-    HCameraElement.prototype.renderFrame = function() {
+    HCameraElement.prototype.createElements = function () { };
+    HCameraElement.prototype.hide = function () { };
+    HCameraElement.prototype.renderFrame = function () {
         var _mdf = this._isFirstFrame;
         var i;
         var len;
@@ -13036,11 +13036,11 @@
         }
         this._isFirstFrame = false;
     };
-    HCameraElement.prototype.prepareFrame = function(num) {
+    HCameraElement.prototype.prepareFrame = function (num) {
         this.prepareProperties(num, true);
     };
-    HCameraElement.prototype.destroy = function() {};
-    HCameraElement.prototype.getBaseElement = function() {
+    HCameraElement.prototype.destroy = function () { };
+    HCameraElement.prototype.getBaseElement = function () {
         return null;
     };
 
@@ -13049,7 +13049,7 @@
         this.initElement(data, globalData, comp);
     }
     extendPrototype([BaseElement, TransformElement, HBaseElement, HSolidElement, HierarchyElement, FrameElement, RenderableElement], HImageElement);
-    HImageElement.prototype.createContent = function() {
+    HImageElement.prototype.createContent = function () {
         var assetPath = this.globalData.getAssetsPath(this.assetData);
         var img = new Image();
         if (this.data.hasMask) {
@@ -13100,13 +13100,13 @@
     }
     extendPrototype([BaseRenderer], HybridRendererBase);
     HybridRendererBase.prototype.buildItem = SVGRenderer.prototype.buildItem;
-    HybridRendererBase.prototype.checkPendingElements = function() {
+    HybridRendererBase.prototype.checkPendingElements = function () {
         while (this.pendingElements.length) {
             var element = this.pendingElements.pop();
             element.checkParenting();
         }
     };
-    HybridRendererBase.prototype.appendElementInPos = function(element, pos) {
+    HybridRendererBase.prototype.appendElementInPos = function (element, pos) {
         var newDOMElement = element.getBaseElement();
         if (!newDOMElement) {
             return;
@@ -13140,36 +13140,36 @@
             this.addTo3dContainer(newDOMElement, pos);
         }
     };
-    HybridRendererBase.prototype.createShape = function(data) {
+    HybridRendererBase.prototype.createShape = function (data) {
         if (!this.supports3d) {
             return new SVGShapeElement(data, this.globalData, this);
         }
         return new HShapeElement(data, this.globalData, this);
     };
-    HybridRendererBase.prototype.createText = function(data) {
+    HybridRendererBase.prototype.createText = function (data) {
         if (!this.supports3d) {
             return new SVGTextLottieElement(data, this.globalData, this);
         }
         return new HTextElement(data, this.globalData, this);
     };
-    HybridRendererBase.prototype.createCamera = function(data) {
+    HybridRendererBase.prototype.createCamera = function (data) {
         this.camera = new HCameraElement(data, this.globalData, this);
         return this.camera;
     };
-    HybridRendererBase.prototype.createImage = function(data) {
+    HybridRendererBase.prototype.createImage = function (data) {
         if (!this.supports3d) {
             return new IImageElement(data, this.globalData, this);
         }
         return new HImageElement(data, this.globalData, this);
     };
-    HybridRendererBase.prototype.createSolid = function(data) {
+    HybridRendererBase.prototype.createSolid = function (data) {
         if (!this.supports3d) {
             return new ISolidElement(data, this.globalData, this);
         }
         return new HSolidElement(data, this.globalData, this);
     };
     HybridRendererBase.prototype.createNull = SVGRenderer.prototype.createNull;
-    HybridRendererBase.prototype.getThreeDContainerByPos = function(pos) {
+    HybridRendererBase.prototype.getThreeDContainerByPos = function (pos) {
         var i = 0;
         var len = this.threeDElements.length;
         while (i < len) {
@@ -13180,7 +13180,7 @@
         }
         return null;
     };
-    HybridRendererBase.prototype.createThreeDContainer = function(pos, type) {
+    HybridRendererBase.prototype.createThreeDContainer = function (pos, type) {
         var perspectiveElem = createTag('div');
         var style;
         var containerStyle;
@@ -13211,7 +13211,7 @@
         this.threeDElements.push(threeDContainerData);
         return threeDContainerData;
     };
-    HybridRendererBase.prototype.build3dContainers = function() {
+    HybridRendererBase.prototype.build3dContainers = function () {
         var i;
         var len = this.layers.length;
         var lastThreeDContainerData;
@@ -13236,7 +13236,7 @@
             this.resizerElem.appendChild(this.threeDElements[i].perspectiveElem);
         }
     };
-    HybridRendererBase.prototype.addTo3dContainer = function(elem, pos) {
+    HybridRendererBase.prototype.addTo3dContainer = function (elem, pos) {
         var i = 0;
         var len = this.threeDElements.length;
         while (i < len) {
@@ -13259,7 +13259,7 @@
             i += 1;
         }
     };
-    HybridRendererBase.prototype.configAnimation = function(animData) {
+    HybridRendererBase.prototype.configAnimation = function (animData) {
         var resizerElem = createTag('div');
         var wrapper = this.animationItem.wrapper;
         var style = resizerElem.style;
@@ -13290,7 +13290,7 @@
         this.build3dContainers();
         this.updateContainerSize();
     };
-    HybridRendererBase.prototype.destroy = function() {
+    HybridRendererBase.prototype.destroy = function () {
         if (this.animationItem.wrapper) {
             this.animationItem.wrapper.innerText = '';
         }
@@ -13307,7 +13307,7 @@
         this.destroyed = true;
         this.animationItem = null;
     };
-    HybridRendererBase.prototype.updateContainerSize = function() {
+    HybridRendererBase.prototype.updateContainerSize = function () {
         var elementWidth = this.animationItem.wrapper.offsetWidth;
         var elementHeight = this.animationItem.wrapper.offsetHeight;
         var elementRel = elementWidth / elementHeight;
@@ -13332,13 +13332,13 @@
         style.transform = style.webkitTransform;
     };
     HybridRendererBase.prototype.renderFrame = SVGRenderer.prototype.renderFrame;
-    HybridRendererBase.prototype.hide = function() {
+    HybridRendererBase.prototype.hide = function () {
         this.resizerElem.style.display = 'none';
     };
-    HybridRendererBase.prototype.show = function() {
+    HybridRendererBase.prototype.show = function () {
         this.resizerElem.style.display = 'block';
     };
-    HybridRendererBase.prototype.initItems = function() {
+    HybridRendererBase.prototype.initItems = function () {
         this.buildAllItems();
         if (this.camera) {
             this.camera.setup();
@@ -13354,7 +13354,7 @@
             }
         }
     };
-    HybridRendererBase.prototype.searchExtraCompositions = function(assets) {
+    HybridRendererBase.prototype.searchExtraCompositions = function (assets) {
         var i;
         var len = assets.length;
         var floatingContainer = createTag('div');
@@ -13380,7 +13380,7 @@
     }
     extendPrototype([HybridRendererBase, ICompElement, HBaseElement], HCompElement);
     HCompElement.prototype._createBaseContainerElements = HCompElement.prototype.createContainerElements;
-    HCompElement.prototype.createContainerElements = function() {
+    HCompElement.prototype.createContainerElements = function () {
         this._createBaseContainerElements();
         if (this.data.hasMask) {
             this.svgElement.setAttribute('width', this.data.w);
@@ -13390,7 +13390,7 @@
             this.transformedElement = this.layerElement;
         }
     };
-    HCompElement.prototype.addTo3dContainer = function(elem, pos) {
+    HCompElement.prototype.addTo3dContainer = function (elem, pos) {
         var j = 0;
         var nextElement;
         while (j < pos) {
@@ -13405,7 +13405,7 @@
             this.layerElement.appendChild(elem);
         }
     };
-    HCompElement.prototype.createComp = function(data) {
+    HCompElement.prototype.createComp = function (data) {
         if (!this.supports3d) {
             return new SVGCompElement(data, this.globalData, this);
         }
@@ -13442,14 +13442,14 @@
         this.rendererType = 'html';
     }
     extendPrototype([HybridRendererBase], HybridRenderer);
-    HybridRenderer.prototype.createComp = function(data) {
+    HybridRenderer.prototype.createComp = function (data) {
         if (!this.supports3d) {
             return new SVGCompElement(data, this.globalData, this);
         }
         return new HCompElement(data, this.globalData, this);
     };
-    var CompExpressionInterface = function() {
-        return function(comp) {
+    var CompExpressionInterface = function () {
+        return function (comp) {
             function _thisLayerFunction(name) {
                 var i = 0;
                 var len = comp.layers.length;
@@ -13525,20 +13525,20 @@
                 }
                 return (n + x) / d;
             };
-            prng.int32 = function() {
+            prng.int32 = function () {
                 return arc4.g(4) | 0;
             };
-            prng.quick = function() {
+            prng.quick = function () {
                 return arc4.g(4) / 0x100000000;
             };
             prng["double"] = prng;
             mixkey(tostring(arc4.S), pool);
-            return (options.pass || callback || function(prng, seed, is_math_call, state) {
+            return (options.pass || callback || function (prng, seed, is_math_call, state) {
                 if (state) {
                     if (state.S) {
                         copy(state, arc4);
                     }
-                    prng.state = function() {
+                    prng.state = function () {
                         return copy(arc4, {});
                     };
                 }
@@ -13566,7 +13566,7 @@
                 s[i] = s[j = mask & j + key[i % keylen] + (t = s[i])];
                 s[j] = t;
             }
-            me.g = function(count) {
+            me.g = function (count) {
                 var t, r = 0,
                     i = me.i,
                     j = me.j,
@@ -13596,7 +13596,7 @@
                 for (prop in obj) {
                     try {
                         result.push(flatten(obj[prop], depth - 1));
-                    } catch (e) {}
+                    } catch (e) { }
                 }
             }
             return result.length ? result : typ == 'string' ? obj : obj + '\0';
@@ -13652,7 +13652,7 @@
         }
         return _typeof$1(obj);
     }
-    var ExpressionManager = function() {
+    var ExpressionManager = function () {
         'use strict';
         var ob = {};
         var Math = BMMath;
@@ -14359,7 +14359,7 @@
         ob.resetFrame = resetFrame;
         return ob;
     }();
-    var Expressions = function() {
+    var Expressions = function () {
         var ob = {};
         ob.initExpressions = initExpressions;
         ob.resetFrame = ExpressionManager.resetFrame;
@@ -14401,7 +14401,7 @@
         }
         return ob;
     }();
-    var MaskManagerInterface = function() {
+    var MaskManagerInterface = function () {
         function MaskInterface(mask, data) {
             this._mask = mask;
             this._data = data;
@@ -14443,7 +14443,7 @@
         };
         return MaskManager;
     }();
-    var ExpressionPropertyInterface = function() {
+    var ExpressionPropertyInterface = function () {
         var defaultUnidimensionalValue = {
             pv: 0,
             v: 0,
@@ -14462,7 +14462,7 @@
                 }
             });
             expressionValue.numKeys = property.keyframes ? property.keyframes.length : 0;
-            expressionValue.key = function(pos) {
+            expressionValue.key = function (pos) {
                 if (!expressionValue.numKeys) {
                     return 0;
                 }
@@ -14494,7 +14494,7 @@
             var expressionValue = new Number(val);
             expressionValue.value = val;
             completeProperty(expressionValue, property, 'unidimensional');
-            return function() {
+            return function () {
                 if (property.k) {
                     property.getValue();
                 }
@@ -14518,7 +14518,7 @@
             var arrValue = createTypedArray('float32', len);
             expressionValue.value = arrValue;
             completeProperty(expressionValue, property, 'multidimensional');
-            return function() {
+            return function () {
                 if (property.k) {
                     property.getValue();
                 }
@@ -14533,7 +14533,7 @@
         function defaultGetter() {
             return defaultUnidimensionalValue;
         }
-        return function(property) {
+        return function (property) {
             if (!property) {
                 return defaultGetter;
             }
@@ -14543,8 +14543,8 @@
             return MultidimensionalPropertyInterface(property);
         };
     }();
-    var TransformExpressionInterface = function() {
-        return function(transform) {
+    var TransformExpressionInterface = function () {
+        return function (transform) {
             function _thisFunction(name) {
                 switch (name) {
                     case 'scale':
@@ -14650,7 +14650,7 @@
             return _thisFunction;
         };
     }();
-    var LayerExpressionInterface = function() {
+    var LayerExpressionInterface = function () {
         function getMatrix(time) {
             var toWorldMat = new Matrix();
             if (time !== undefined) {
@@ -14729,7 +14729,7 @@
         function sampleImage() {
             return [1, 1, 1, 1];
         }
-        return function(elem) {
+        return function (elem) {
             var transformInterface;
 
             function _registerMaskInterface(maskManager) {
@@ -14818,9 +14818,9 @@
             return _thisLayerFunction;
         };
     }();
-    var propertyGroupFactory = function() {
-        return function(interfaceFunction, parentPropertyGroup) {
-            return function(val) {
+    var propertyGroupFactory = function () {
+        return function (interfaceFunction, parentPropertyGroup) {
+            return function (val) {
                 val = val === undefined ? 1 : val;
                 if (val <= 0) {
                     return interfaceFunction;
@@ -14829,8 +14829,8 @@
             };
         };
     }();
-    var PropertyInterface = function() {
-        return function(propertyName, propertyGroup) {
+    var PropertyInterface = function () {
+        return function (propertyName, propertyGroup) {
             var interfaceFunction = {
                 _name: propertyName
             };
@@ -14845,7 +14845,7 @@
             return _propertyGroup;
         };
     }();
-    var EffectsExpressionInterface = function() {
+    var EffectsExpressionInterface = function () {
         var ob = {
             createEffectsInterface: createEffectsInterface
         };
@@ -14949,7 +14949,7 @@
         }
         return ob;
     }();
-    var ShapePathInterface = function() {
+    var ShapePathInterface = function () {
         return function pathInterfaceFactory(shape, view, propertyGroup) {
             var prop = view.sh;
 
@@ -14997,7 +14997,7 @@
             return interfaceFunction;
         };
     }();
-    var ShapeExpressionInterface = function() {
+    var ShapeExpressionInterface = function () {
         function iterateElements(shapes, view, propertyGroup) {
             var arr = [];
             var i;
@@ -15011,7 +15011,7 @@
                     arr.push(strokeInterfaceFactory(shapes[i], view[i], propertyGroup));
                 } else if (shapes[i].ty === 'tm') {
                     arr.push(trimInterfaceFactory(shapes[i], view[i], propertyGroup));
-                } else if (shapes[i].ty === 'tr') {} else if (shapes[i].ty === 'el') {
+                } else if (shapes[i].ty === 'tr') { } else if (shapes[i].ty === 'el') {
                     arr.push(ellipseInterfaceFactory(shapes[i], view[i], propertyGroup));
                 } else if (shapes[i].ty === 'sr') {
                     arr.push(starInterfaceFactory(shapes[i], view[i], propertyGroup));
@@ -15512,7 +15512,7 @@
             interfaceFunction.mn = shape.mn;
             return interfaceFunction;
         }
-        return function(shapes, view, propertyGroup) {
+        return function (shapes, view, propertyGroup) {
             var interfaces;
 
             function _interfaceFunction(value) {
@@ -15544,8 +15544,8 @@
             return _interfaceFunction;
         };
     }();
-    var TextExpressionInterface = function() {
-        return function(elem) {
+    var TextExpressionInterface = function () {
+        return function (elem) {
             var _sourceText;
 
             function _thisLayerFunction(name) {
@@ -15591,7 +15591,7 @@
         }
         return _typeof(obj);
     }
-    var FootageInterface = function() {
+    var FootageInterface = function () {
         var outlineInterfaceFactory = function outlineInterfaceFactory(elem) {
             var currentPropertyName = '';
             var currentProperty = elem.getFootageData();
@@ -15635,7 +15635,7 @@
             interfaceFunction.outlineInterface = outlineInterfaceFactory(elem);
             return interfaceFunction;
         };
-        return function(elem) {
+        return function (elem) {
             function _interfaceFunction(value) {
                 if (value === 'Data') {
                     return _interfaceFunction.dataInterface;
@@ -15659,7 +15659,7 @@
     function getInterface(type) {
         return interfaces[type] || null;
     }
-    var expressionHelpers = function() {
+    var expressionHelpers = function () {
         function searchExpressions(elem, data, prop) {
             if (data.x) {
                 prop.k = true;
@@ -15959,7 +15959,7 @@
             return this.v.clone(new Matrix());
         }
         var getTransformProperty = TransformPropertyFactory.getTransformProperty;
-        TransformPropertyFactory.getTransformProperty = function(elem, data, container) {
+        TransformPropertyFactory.getTransformProperty = function (elem, data, container) {
             var prop = getTransformProperty(elem, data, container);
             if (prop.dynamicProperties.length) {
                 prop.getValueAtTime = getTransformValueAtTime.bind(prop);
@@ -15970,7 +15970,7 @@
             return prop;
         };
         var propertyGetProp = PropertyFactory.getProp;
-        PropertyFactory.getProp = function(elem, data, type, mult, container) {
+        PropertyFactory.getProp = function (elem, data, type, mult, container) {
             var prop = propertyGetProp(elem, data, type, mult, container);
             if (prop.kf) {
                 prop.getValueAtTime = expressionHelpers.getValueAtTime.bind(prop);
@@ -16021,7 +16021,7 @@
         var ShapePropertyConstructorFunction = ShapePropertyFactory.getConstructorFunction();
         var KeyframedShapePropertyConstructorFunction = ShapePropertyFactory.getKeyframedConstructorFunction();
 
-        function ShapeExpressions() {}
+        function ShapeExpressions() { }
         ShapeExpressions.prototype = {
             vertices: function vertices(prop, time) {
                 if (this.k) {
@@ -16120,7 +16120,7 @@
         KeyframedShapePropertyConstructorFunction.prototype.getValueAtTime = getShapeValueAtTime;
         KeyframedShapePropertyConstructorFunction.prototype.initiateExpression = ExpressionManager.initiateExpression;
         var propertyGetShapeProp = ShapePropertyFactory.getShapeProp;
-        ShapePropertyFactory.getShapeProp = function(elem, data, type, arr, trims) {
+        ShapePropertyFactory.getShapeProp = function (elem, data, type, arr, trims) {
             var prop = propertyGetShapeProp(elem, data, type, arr, trims);
             prop.propertyIndex = data.ix;
             prop.lock = false;
@@ -16149,7 +16149,7 @@
             }
             return null;
         }
-        TextProperty.prototype.getExpressionValue = function(currentValue, text) {
+        TextProperty.prototype.getExpressionValue = function (currentValue, text) {
             var newValue = this.calculateExpression(text);
             if (currentValue.t !== newValue) {
                 var newData = {};
@@ -16160,7 +16160,7 @@
             }
             return currentValue;
         };
-        TextProperty.prototype.searchProperty = function() {
+        TextProperty.prototype.searchProperty = function () {
             var isKeyframed = this.searchKeyframes();
             var hasExpressions = this.searchExpressions();
             this.kf = isKeyframed || hasExpressions;
@@ -16173,7 +16173,7 @@
         addDecorator();
     }
 
-    function SVGComposableEffect() {}
+    function SVGComposableEffect() { }
     SVGComposableEffect.prototype = {
         createMergeNode: function createMergeNode(resultId, ins) {
             var feMerge = createNS('feMerge');
@@ -16211,7 +16211,7 @@
         filter.appendChild(feMerge);
     }
     extendPrototype([SVGComposableEffect], SVGTintFilter);
-    SVGTintFilter.prototype.renderFrame = function(forceRender) {
+    SVGTintFilter.prototype.renderFrame = function (forceRender) {
         if (forceRender || this.filterManager._mdf) {
             var colorBlack = this.filterManager.effectElements[0].p.v;
             var colorWhite = this.filterManager.effectElements[1].p.v;
@@ -16231,7 +16231,7 @@
         filter.appendChild(feColorMatrix);
         this.matrixFilter = feColorMatrix;
     }
-    SVGFillFilter.prototype.renderFrame = function(forceRender) {
+    SVGFillFilter.prototype.renderFrame = function (forceRender) {
         if (forceRender || this.filterManager._mdf) {
             var color = this.filterManager.effectElements[2].p.v;
             var opacity = this.filterManager.effectElements[6].p.v;
@@ -16245,7 +16245,7 @@
         this.elem = elem;
         this.paths = [];
     }
-    SVGStrokeEffect.prototype.initialize = function() {
+    SVGStrokeEffect.prototype.initialize = function () {
         var elemChildren = this.elem.layerElement.children || this.elem.layerElement.childNodes;
         var path;
         var groupPath;
@@ -16299,7 +16299,7 @@
         this.initialized = true;
         this.pathMasker = groupPath;
     };
-    SVGStrokeEffect.prototype.renderFrame = function(forceRender) {
+    SVGStrokeEffect.prototype.renderFrame = function (forceRender) {
         if (!this.initialized) {
             this.initialize();
         }
@@ -16337,7 +16337,7 @@
             }
         }
         if (forceRender || this.filterManager.effectElements[4].p._mdf) {
-            this.pathMasker.setAttribute('stroke-width', this.filterManager.effectElements[4].p.v * 2);
+            this.pathMasker.setAttribute('strokeWidth', this.filterManager.effectElements[4].p.v * 2);
         }
         if (forceRender || this.filterManager.effectElements[6].p._mdf) {
             this.pathMasker.setAttribute('opacity', this.filterManager.effectElements[6].p.v);
@@ -16375,7 +16375,7 @@
         this.feFuncB = feFuncB;
         filter.appendChild(feComponentTransfer);
     }
-    SVGTritoneFilter.prototype.renderFrame = function(forceRender) {
+    SVGTritoneFilter.prototype.renderFrame = function (forceRender) {
         if (forceRender || this.filterManager._mdf) {
             var color1 = this.filterManager.effectElements[0].p.v;
             var color2 = this.filterManager.effectElements[1].p.v;
@@ -16419,13 +16419,13 @@
             this.feFuncBComposed = this.createFeFunc('feFuncB', feComponentTransfer);
         }
     }
-    SVGProLevelsFilter.prototype.createFeFunc = function(type, feComponentTransfer) {
+    SVGProLevelsFilter.prototype.createFeFunc = function (type, feComponentTransfer) {
         var feFunc = createNS(type);
         feFunc.setAttribute('type', 'table');
         feComponentTransfer.appendChild(feFunc);
         return feFunc;
     };
-    SVGProLevelsFilter.prototype.getTableValue = function(inputBlack, inputWhite, gamma, outputBlack, outputWhite) {
+    SVGProLevelsFilter.prototype.getTableValue = function (inputBlack, inputWhite, gamma, outputBlack, outputWhite) {
         var cnt = 0;
         var segments = 256;
         var perc;
@@ -16453,7 +16453,7 @@
         }
         return table.join(' ');
     };
-    SVGProLevelsFilter.prototype.renderFrame = function(forceRender) {
+    SVGProLevelsFilter.prototype.renderFrame = function (forceRender) {
         if (forceRender || this.filterManager._mdf) {
             var val;
             var effectElements = this.filterManager.effectElements;
@@ -16519,7 +16519,7 @@
         filter.appendChild(feMerge);
     }
     extendPrototype([SVGComposableEffect], SVGDropShadowEffect);
-    SVGDropShadowEffect.prototype.renderFrame = function(forceRender) {
+    SVGDropShadowEffect.prototype.renderFrame = function (forceRender) {
         if (forceRender || this.filterManager._mdf) {
             if (forceRender || this.filterManager.effectElements[4].p._mdf) {
                 this.feGaussianBlur.setAttribute('stdDeviation', this.filterManager.effectElements[4].p.v / 4);
@@ -16553,7 +16553,7 @@
         elem.matteElement.appendChild(elem.transformedElement);
         elem.baseElement = elem.matteElement;
     }
-    SVGMatte3Effect.prototype.findSymbol = function(mask) {
+    SVGMatte3Effect.prototype.findSymbol = function (mask) {
         var i = 0;
         var len = _svgMatteSymbols.length;
         while (i < len) {
@@ -16564,7 +16564,7 @@
         }
         return null;
     };
-    SVGMatte3Effect.prototype.replaceInParent = function(mask, symbolId) {
+    SVGMatte3Effect.prototype.replaceInParent = function (mask, symbolId) {
         var parentNode = mask.layerElement.parentNode;
         if (!parentNode) {
             return;
@@ -16590,7 +16590,7 @@
             parentNode.appendChild(useElem);
         }
     };
-    SVGMatte3Effect.prototype.setElementAsMask = function(elem, mask) {
+    SVGMatte3Effect.prototype.setElementAsMask = function (elem, mask) {
         if (!this.findSymbol(mask)) {
             var symbolId = createElementID();
             var masker = createNS('mask');
@@ -16612,7 +16612,7 @@
         }
         elem.setMatte(mask.layerId);
     };
-    SVGMatte3Effect.prototype.initialize = function() {
+    SVGMatte3Effect.prototype.initialize = function () {
         var ind = this.filterManager.effectElements[0].p.v;
         var elements = this.elem.comp.elements;
         var i = 0;
@@ -16625,7 +16625,7 @@
         }
         this.initialized = true;
     };
-    SVGMatte3Effect.prototype.renderFrame = function() {
+    SVGMatte3Effect.prototype.renderFrame = function () {
         if (!this.initialized) {
             this.initialize();
         }
@@ -16642,7 +16642,7 @@
         filter.appendChild(feGaussianBlur);
         this.feGaussianBlur = feGaussianBlur;
     }
-    SVGGaussianBlurEffect.prototype.renderFrame = function(forceRender) {
+    SVGGaussianBlurEffect.prototype.renderFrame = function (forceRender) {
         if (forceRender || this.filterManager._mdf) {
             var kBlurrinessToSigma = 0.3;
             var sigma = this.filterManager.effectElements[0].p.v * kBlurrinessToSigma;
@@ -16655,8 +16655,8 @@
         }
     };
 
-    function TransformEffect() {}
-    TransformEffect.prototype.init = function(effectsManager) {
+    function TransformEffect() { }
+    TransformEffect.prototype.init = function (effectsManager) {
         this.effectsManager = effectsManager;
         this.type = effectTypes.TRANSFORM_EFFECT;
         this.matrix = new Matrix();
@@ -16664,7 +16664,7 @@
         this._mdf = false;
         this._opMdf = false;
     };
-    TransformEffect.prototype.renderFrame = function(forceFrame) {
+    TransformEffect.prototype.renderFrame = function (forceFrame) {
         this._opMdf = false;
         this._mdf = false;
         if (forceFrame || this.effectsManager._mdf) {

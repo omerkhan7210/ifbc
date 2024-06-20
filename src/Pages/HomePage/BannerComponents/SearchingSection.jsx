@@ -107,7 +107,7 @@ const SearchingSection = () => {
       buttonBgColor: "#4d85ff",
     },
     {
-      key: "FranchiseFee",
+      key: "franchiseFee",
       placeholder: "Select Investment Fee",
       buttonBgColor: "#1a62ff",
     },
@@ -117,7 +117,7 @@ const SearchingSection = () => {
       buttonBgColor: "#0048e6",
     },
     {
-      key: "Single",
+      key: "single",
       placeholder: "Select Single",
       buttonBgColor: "#0038b3",
     },

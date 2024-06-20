@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { useEffect } from "react";
@@ -8,17 +8,37 @@ import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
 import Form from "../NewCandidate/Form";
 import MessagePopup from "src/Popups/MessagePopup";
+import { MyTCFRContext } from "src/Context/TCFRDataContext";
+import BarLoader from "src/Animations/BarLoader";
+import { MyContext } from "src/Context/ListingDataContext";
+import FormatRawDate from "src/Utils/FormatRawDate";
 
 const MainCandidateProfile = () => {
   const { id } = useParams();
   const { cands } = useContext(MyCandContext);
   const [candDetails, setCandDetails] = useState();
+  const { newData } = useContext(MyTCFRContext);
+  const { listings, loading } = useContext(MyContext);
+  const [filteredData, setFilteredData] = useState();
+  const history = useNavigate();
+  useEffect(() => {
+    if (newData && newData.length > 0) {
+      const filterData = newData.filter(
+        (card) => card.candidateId === candDetails.docId
+      );
+      setFilteredData(filterData);
+    }
+  }, [candDetails]);
 
   useEffect(() => {
     if (cands && cands.length > 0) {
-      const filteredArray = cands.filter((cand) => cand.DocId == id);
-      const filtered = filteredArray.length > 0 ? filteredArray[0] : null;
-      setCandDetails(filtered || null);
+      const filteredArray = cands.filter((cand) => cand.docId == id);
+      if (filteredArray.length > 0) {
+        const filtered = filteredArray[0];
+        setCandDetails(filtered || null);
+      } else {
+        history("/candidate-not-found");
+      }
     }
   }, [cands]);
 
@@ -26,7 +46,12 @@ const MainCandidateProfile = () => {
     <PageTransition>
       <div className="grid grid-cols-12 gap-30 max-w-7xl gap-10 mx-auto my-10">
         {/* card end */}
-        <LeftSideCardContainer candDetails={candDetails} />
+        <LeftSideCardContainer
+          candDetails={candDetails}
+          listings={listings}
+          filteredData={filteredData}
+          loading={loading}
+        />
         <div className="grid md:col-span-9 col-span-12  ">
           <Form candDetails={candDetails} />
         </div>
@@ -35,7 +60,12 @@ const MainCandidateProfile = () => {
   );
 };
 
-const LeftSideCardContainer = ({ candDetails }) => {
+const LeftSideCardContainer = ({
+  candDetails,
+  listings,
+  filteredData,
+  loading,
+}) => {
   const [activityOn, setActivityOn] = useState(false);
   const [flsOn, setFlsOn] = useState(false);
   const [resourcesOn, setResourcesOn] = useState(false);
@@ -69,7 +99,7 @@ const LeftSideCardContainer = ({ candDetails }) => {
             Deal Stage
           </p>
           <select className="candidate-select w-full">
-            <option selected>Select Stage</option>
+            <option value="">Select Stage</option>
             <option value="US">United States</option>
             <option value="CA">Canada</option>
             <option value="FR">France</option>
@@ -115,8 +145,9 @@ const LeftSideCardContainer = ({ candDetails }) => {
         </div>
 
         {/* buttons */}
-        {profileButtons.map((btn) => (
+        {profileButtons.map((btn, index) => (
           <button
+            key={index}
             className="candidate-btn w-full"
             onClick={() => btn.setShow(true)}
           >
@@ -136,7 +167,12 @@ const LeftSideCardContainer = ({ candDetails }) => {
         </DialogBox>
 
         <DialogBox setShow={setRegOn} show={regOn}>
-          <Registerations setShow={setRegOn} />
+          <Registerations
+            setShow={setRegOn}
+            listings={listings}
+            filteredData={filteredData}
+            loading={loading}
+          />
         </DialogBox>
 
         <Link className="candidate-btn  w-full text-center">
@@ -233,6 +269,7 @@ const Activity = ({ setShow }) => {
     </div>
   );
 };
+
 const Flscriteria = ({ setShow }) => {
   const selectData = [
     { name: "advertising", label: "Advertising" },
@@ -392,7 +429,7 @@ const Resources = ({ setShow }) => {
   );
 };
 
-const Registerations = ({ setShow }) => {
+const Registerations = ({ setShow, listings, filteredData, loading }) => {
   const tools = [
     { value: "", label: "Tools" },
     { value: "info", label: "Create Information Packet" },
@@ -428,7 +465,7 @@ const Registerations = ({ setShow }) => {
   ];
 
   return (
-    <div id="registerations" className="candidate-tabs-content p-24 mt-10">
+    <>
       <button
         className="absolute top-5 right-10"
         onClick={() => setShow(false)}
@@ -448,80 +485,114 @@ const Registerations = ({ setShow }) => {
           />
         </svg>
       </button>
-      <div id="top-registration" className="grid grid-cols-4 gap-3">
-        {/* input 1 */}
-        <select className="candidate-select w-full">
-          {tools.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+      {!loading ? (
+        filteredData.length > 0 ? (
+          <div
+            id="registerations"
+            className="candidate-tabs-content p-24 mt-10"
+          >
+            <div id="top-registration" className="grid grid-cols-4 gap-3">
+              {/* input 1 */}
+              <select className="candidate-select w-full">
+                {tools.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
 
-        <select className="candidate-select">
-          {allFilters.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+              <select className="candidate-select">
+                {allFilters.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
 
-        <select className="candidate-select">
-          {allTerritories.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+              <select className="candidate-select">
+                {allTerritories.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
 
-        <input
-          type="datetime-local"
-          name=""
-          id=""
-          className="candidate-input w-full"
-        />
-      </div>
+              <input
+                type="datetime-local"
+                name=""
+                id=""
+                className="candidate-input w-full"
+              />
+            </div>
 
-      <div id="second-row" className="w-full flex gap-6 my-4">
-        <button className="candidate-btn w-full">Select All</button>
-        <select className="candidate-select w-full">
-          {updateSelected.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
+            <div id="second-row" className="w-full flex gap-6 my-4">
+              <button className="candidate-btn w-full">Select All</button>
+              <select className="candidate-select w-full">
+                {updateSelected.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-      <div
-        id="headings-row"
-        className="grid grid-cols-4 divide-x-2 justify-center align-middle "
-      >
-        {/* column 1 */}
-        <div className=" p-4 bg-[#2176ff] align-middle">
-          <h1 className="text-white font-bold text-sm">Franchise Name</h1>
+            <div
+              id="headings-row"
+              className="grid grid-cols-4 divide-x-2 justify-center align-middle "
+            >
+              {/* column 1 */}
+              <div className=" p-4 bg-[#2176ff] align-middle">
+                <h1 className="text-white font-bold text-sm">Franchise Name</h1>
+              </div>
+              {/* column 2 */}
+              <div className="  p-4 bg-[#2176ff] align-middle">
+                <h1 className="text-white font-bold text-sm">Type</h1>
+              </div>
+              {/* column3 */}
+              <div className=" p-4 bg-[#2176ff] align-middle">
+                <h1 className="text-white font-bold text-sm">Sent Date</h1>
+              </div>
+              {/* column 4 */}
+              <div className=" p-4 bg-[#2176ff] align-middle border-r ">
+                <h1 className="text-white font-bold text-sm">Status</h1>
+              </div>
+            </div>
+            {/* container 3  */}
+            {filteredData?.map((card) => (
+              <Description card={card} listings={listings} />
+            ))}
+          </div>
+        ) : (
+          <div className="p-10 grid place-items-center">
+            <h1 className="font-bold text-4xl text-custom-heading-color">
+              No Registrations
+            </h1>
+          </div>
+        )
+      ) : (
+        <div className="w-full grid place-items-center">
+          <BarLoader bgcolor={"blue"} />
         </div>
-        {/* column 2 */}
-        <div className="  p-4 bg-[#2176ff] align-middle">
-          <h1 className="text-white font-bold text-sm">Type</h1>
-        </div>
-        {/* column3 */}
-        <div className=" p-4 bg-[#2176ff] align-middle">
-          <h1 className="text-white font-bold text-sm">Sent Date</h1>
-        </div>
-        {/* column 4 */}
-        <div className=" p-4 bg-[#2176ff] align-middle border-r ">
-          <h1 className="text-white font-bold text-sm">Status</h1>
-        </div>
-      </div>
-      {/* container 3  */}
-      <Description />
-    </div>
+      )}
+    </>
   );
 };
 
-const Description = () => {
+const Description = ({ card, listings }) => {
   const [show, setShow] = useState(false);
+
+  const [filteredListing, setFilteredListing] = useState();
+  useEffect(() => {
+    if (listings && listings.length > 0) {
+      const filtered = listings.filter(
+        (listing) => listing.docId == card.listingsIds
+      );
+      if (filtered) {
+        setFilteredListing(filtered[0]);
+      }
+    }
+  }, [listings]);
+
   return (
     <div id="description-row" className="grid grid-cols-4 divide-x-2">
       <div className=" p-3  bg-gray-200 justify-center">
@@ -532,10 +603,10 @@ const Description = () => {
 
           <button
             id="listing-name"
-            className="text-custom-heading-color underline font-bold text-sm"
+            className="text-custom-heading-color text-left underline font-bold text-sm"
             onClick={() => setShow(true)}
           >
-            Advertising
+            {filteredListing?.name}
           </button>
         </div>
         <DialogBox show={show} setShow={setShow}>
@@ -543,13 +614,19 @@ const Description = () => {
         </DialogBox>
       </div>
       <div className=" p-3 bg-gray-200">
-        <p className="text-black font-bold text-sm">Formal Registeration</p>
+        <p className="text-black font-bold text-sm">
+          {card.docType.trim() === "TC"
+            ? "Territory Check"
+            : "Formal Registeration"}
+        </p>
       </div>
       <div className=" p-3 bg-gray-200">
-        <p className="text-black font-bold text-sm">04/19/2024 11:31 am</p>
+        <p className="text-black font-bold text-sm">
+          {FormatRawDate(card, true)}
+        </p>
       </div>
       <div className=" p-3 bg-gray-200 ">
-        <p className="text-black font-bold text-sm">Pending</p>
+        <p className="text-black font-bold text-sm">{card.status}</p>
       </div>
     </div>
   );

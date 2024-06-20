@@ -6,8 +6,13 @@
   @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold;
 }
 
+.candidate-inverted-btn {
+  @apply border-2 border-white bg-white  text-custom-dark-blue px-5  hover:text-white hover:bg-custom-heading-color transition-all duration-500 py-2  font-semibold text-sm;
+}
+
 .candidate-secondary-btn {
-  @apply border-2 border-custom-dark-blue bg-custom-dark-blue  text-white px-5 rounded hover:bg-white hover:text-custom-dark-blue transition-all duration-500 py-2  font-semibold;
+  @apply border-2 
+  text-center border-custom-dark-blue bg-custom-dark-blue  text-white px-5 rounded hover:bg-white hover:text-custom-dark-blue transition-all duration-500 py-2  font-semibold;
 }
 
 .candidate-input {

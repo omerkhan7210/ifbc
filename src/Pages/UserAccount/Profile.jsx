@@ -10,7 +10,6 @@ import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
 import PageTransition from "src/Animations/PageTransition";
 import axios from "axios";
-import handleInputChange from "src/Utils/handleInputChange";
 
 const Profile = () => {
   const [formErrors, setFormErrors] = useState({});
@@ -60,8 +59,7 @@ const Profile = () => {
         // formdata
 
         const jsonData = JSON.stringify(formData);
-        const baseUrl =
-          "http://siddiqiventures-001-site3.ktempurl.com/userdetailsedit.aspx";
+        const baseUrl = "https://omerkhan7210-001-site1.ltempurl.com/api/users";
 
         // Send the PUT request using Axios
         const response = await axios.put(baseUrl, jsonData, {
@@ -101,6 +99,20 @@ const Profile = () => {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   return (
@@ -198,7 +210,7 @@ const LeftSideBar = ({
     } catch (err) {
       console.error(err);
     }
-    //setFormFields((prev) => ({ ...prev, ProfileImage: selectedImage }));
+    //setFormFields((prev) => ({ ...prev, profileImage: selectedImage }));
   };
 
   return (
@@ -212,9 +224,9 @@ const LeftSideBar = ({
             <label htmlFor="profile-image-upload">
               <img
                 src={
-                  userDetails.ProfileImage
+                  userDetails.profileImage
                     ? image === ""
-                      ? `/images/uploads/${userDetails.ProfileImage}`
+                      ? `/images/uploads/${userDetails.profileImage}`
                       : image
                     : image === ""
                       ? "/images/avatar-placeholder.png"
@@ -255,7 +267,7 @@ const LeftSideBar = ({
             </svg>
 
             <h1 className="icon-text">
-              {userDetails.FirstName} {userDetails.LastName}
+              {userDetails.firstName} {userDetails.lastName}
             </h1>
           </div>
 
@@ -1103,7 +1115,7 @@ const RightSideBar = ({
               name="firstname"
               className="candidate-input"
               required
-              defaultValue={userDetails?.FirstName}
+              defaultValue={userDetails?.firstName}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1114,7 +1126,7 @@ const RightSideBar = ({
               name="lastname"
               className="candidate-input"
               required
-              defaultValue={userDetails?.LastName}
+              defaultValue={userDetails?.lastName}
             />
           </div>
           <div className="candidate-sub-childs">

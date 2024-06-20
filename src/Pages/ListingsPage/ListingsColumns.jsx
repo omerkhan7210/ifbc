@@ -11,11 +11,11 @@ import {
 } from "src/Redux/listingReducer";
 
 const ListingsColumns = ({ listing, index }) => {
-  const { activeListings, allowed, role } = useContext(MyContext);
-  const cartListings = useSelector((state) => state.counter.listings);
+  const { activeListings, role } = useContext(MyContext);
+  const cartListings = useSelector((state) => state.counter.cartListings);
 
   // Use a regular expression to find the investment range
-  const investmentRangeMatch = listing?.InvestmentRange?.match(
+  const investmentRangeMatch = listing?.investmentRange?.match(
     /Investment Range: \$[\d,]+ - \$[\d,]+/
   );
 
@@ -23,19 +23,19 @@ const ListingsColumns = ({ listing, index }) => {
     ? investmentRangeMatch[0]?.split(":")[1]
     : "";
 
-  const isActive = activeListings?.includes(listing.DocId) ? true : false;
+  const isActive = activeListings?.includes(listing.docId) ? true : false;
 
   const handleCardClick = () => {
     // Find the index of the listing to be removed
     const index = activeListings.findIndex(
-      (listingId) => listingId === listing.DocId
+      (listingId) => listingId === listing.docId
     );
 
     // If the listing is found, proceed to remove it
     if (index !== -1) {
-      dispatch(decrementActiveListing(listing.DocId));
+      dispatch(decrementActiveListing(listing.docId));
     } else {
-      dispatch(incrementActiveListing(listing.DocId));
+      dispatch(incrementActiveListing(listing.docId));
     }
   };
 
@@ -78,8 +78,8 @@ const ListingsColumns = ({ listing, index }) => {
             id="text-content"
             className="absolute flex justify-center top-40 w-full"
           >
-            {allowed && investmentRange && (
-              <p className="bg-white py-2 text-xs font-bold px-4 rounded-full shadow-lg">
+            {investmentRange && (
+              <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg">
                 Cash Required: {investmentRange}
               </p>
             )}
@@ -91,12 +91,15 @@ const ListingsColumns = ({ listing, index }) => {
           className="flex flex-col items-center justify-center"
         >
           <h1
-            className={`text-custom-heading-color font-bold text-center text-sm lg:text-lg`}
+            className={`text-custom-heading-color font-bold text-center text-md lg:text-lg`}
           >
             {listing.name}
           </h1>
+          <p className="text-sm text-black/80 text-center">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Dignissimos, accusamus. Lorem ipsum dolor sit amet.
+          </p>
 
-          {/* added anchor */}
           {/* temporary role */}
           {role === "C" ? (
             <a
@@ -124,7 +127,7 @@ const ListingsColumns = ({ listing, index }) => {
             </a>
           ) : cartListings &&
             cartListings.length > 0 &&
-            cartListings.includes(listing.DocId) ? (
+            cartListings.includes(listing.docId) ? (
             <a className="bg-custom-blue/80 cursor-not-allowed w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5">
               <span>Listing Already Added</span>
               <svg
@@ -144,7 +147,7 @@ const ListingsColumns = ({ listing, index }) => {
             </a>
           ) : (
             <a
-              onClick={() => dispatch(incrementByListing(listing.DocId))}
+              onClick={() => dispatch(incrementByListing(listing.docId))}
               className="bg-custom-orange w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
             >
               <span>Request Info</span>
