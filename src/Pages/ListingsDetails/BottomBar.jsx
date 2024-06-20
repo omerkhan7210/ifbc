@@ -10,7 +10,7 @@ const BottomBar = ({ listingContent }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = `https://omerkhan7210-001-site1.ltempurl.com/api/listings/${listingContent?.docId}`;
+      const url = `http://siddiqiventures-001-site4.ktempurl.com/api/listings/${listingContent?.docId}`;
 
       try {
         const response = await axios.get(url);

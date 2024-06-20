@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "https://omerkhan7210-001-site1.ltempurl.com",
+  "proxy": "http://siddiqiventures-001-site4.ktempurl.com",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -16,6 +16,7 @@
     "@rpldy/upload-button": "^1.8.1",
     "@rpldy/upload-preview": "^1.8.1",
     "@rpldy/uploady": "^1.8.1",
+    "@vercel/speed-insights": "^1.0.12",
     "axios": "^1.6.8",
     "framer-motion": "^11.1.9",
     "helmet": "^7.1.0",

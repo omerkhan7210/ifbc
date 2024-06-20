@@ -146,6 +146,8 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
     reqFields.forEach((field) => {
       const newKey = field.toLowerCase().split(" ").join("");
       if (!formFields[newKey] || formFields[newKey].trim() === "") {
+        console.log(newKey);
+
         setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
         allFieldsValid = false;
       } else {
@@ -227,7 +229,7 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "https://omerkhan7210-001-site1.ltempurl.com/api/candidates";
+          "http://siddiqiventures-001-site4.ktempurl.com/api/candidates";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {
@@ -235,148 +237,9 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
             "Content-Type": "application/json",
           },
         });
+        console.log(response);
 
-        if (
-          response.status === 200 &&
-          response.data === "Candidate Information Saved Successfully."
-        ) {
-          setFormErrors({});
-          setSuccessMsg("Candidate Information Saved Successfully.");
-
-          setLoading(false);
-
-          setTimeout(() => {
-            history("/candidate-list");
-          }, 3000);
-        } else {
-          setFormErrors({ error: response.data });
-          setLoading(false);
-          window.scrollTo(0, 500);
-          // Handle unexpected response
-        }
-      } else {
-        setFormErrors((prev) => ({
-          ...prev,
-          error: "Please fill in all the required fields",
-        }));
-        setLoading(false);
-        window.scrollTo(0, 500);
-
-        // Handle invalid fields (e.g., show validation errors)
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-  const handleEdit = async () => {
-    setLoading(true);
-    const reqFields = [
-      "firstname",
-      "lastname",
-      "phone",
-      "email",
-      "territorystate",
-      "territorycity",
-    ];
-    let allFieldsValid = true;
-
-    reqFields.forEach((field) => {
-      const newKey = field.toLowerCase().split(" ").join("");
-      if (!formFields[newKey] || formFields[newKey].trim() === "") {
-        setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
-        allFieldsValid = false;
-      } else {
-        setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
-      }
-    });
-
-    try {
-      if (allFieldsValid) {
-        const formData = {
-          closeDate: formFields.closedate ?? "",
-          firstName: formFields.firstname ?? "",
-          lastName: formFields.lastname ?? "",
-          Phone: formFields.phone ?? "",
-          Email: formFields.email ?? "",
-          territoryCity: formFields.territorycity ?? "",
-          territoryState: formFields.territorystate ?? "",
-          territoryZipcode: formFields.territoryzipcode ?? "",
-          currentCity: formFields.currentcity ?? "",
-          currentState: formFields.currentstate ?? "",
-          currentZipcode: formFields.currentzipcode ?? "",
-          territoryNotes: formFields.territorynotes ?? "",
-          DealSource: formFields.dealsource ?? "",
-          DealSourceCost: formFields.dealsourcecost ?? "",
-          ZorackleValue: formFields.zoraclevalue ?? "",
-          DealValue: formFields.dealvalue ?? "",
-          About: formFields.about ?? "",
-          InvestmentFranchise: formFields.investmentfranchise ?? "",
-          Funding: formFields.funding ?? "",
-          CreditScore: formFields.creditscore ?? "",
-          InitialQualifyingNote: formFields.initialqualifyingnote ?? "",
-          Activities: formFields.activities ?? "",
-          AttendingNetworkFunction: formFields.attendingnetworkfunction ?? "",
-          MultiUnitOps: formFields.multiunitops ?? "",
-          BusinessPartner: formFields.businesspartner ?? "",
-          FamilyFeel: formFields.familyfeel ?? "",
-          EmployeesPrefer: formFields.employeesprefer ?? "",
-          StaffSize: formFields.staffsize ?? "",
-          ZorakleNotes: formFields.zoraklenotes ?? "",
-          FundingBusiness: formFields.fundingbusiness ?? "",
-          RetirementPlan: formFields.retirementplan ?? "",
-          VALoan: formFields.valoan ?? "",
-          CurrentNetworth: formFields.currentnetworth ?? "",
-          TrafficViolation: formFields.trafficviolation ?? "",
-          Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
-          Bankruptcy: formFields.bankruptcy ?? "",
-          EligibilityNote: formFields.eligibilitynote ?? "",
-          BusinessBefore: formFields.businessbefore ?? "",
-          MarketingExperience: formFields.marketingexperience ?? "",
-          ManagementExperice: formFields.managementexperience ?? "",
-          SalesExperience: formFields.salesexperience ?? "",
-          ReviewFinancialStatement: formFields.reviewfinancialstatement ?? "",
-          CSExperience: formFields.csexperience ?? "",
-          AttractiveBusinessOwner: formFields.attractivebusinessowner ?? "",
-          HandleNewBusiness: formFields.handlenewbusiness ?? "",
-          BusinessExpectations: formFields.businessexpectations ?? "",
-          WantNote: formFields.wantnote ?? "",
-          PreferB2b: formFields.preferb2b ?? "",
-          PhysicalLocation: formFields.physicallocation ?? "",
-          Inventory: formFields.inventory ?? "",
-          ColdCalling: formFields.coldcalling ?? "",
-          PassiveMode: formFields.passivemode ?? "",
-          BusinessHours: formFields.businesshours ?? "",
-          Networth: formFields.networth ?? "",
-          LiquidCash: formFields.liquidcash ?? "",
-          Competency1: formFields.competency1 ?? "",
-          Competency2: formFields.competency2 ?? "",
-          Competency3: formFields.competency3 ?? "",
-          FranchiseCause: formFields.franchisecause ?? "",
-          ProfessionalBackground: formFields.professionalbackground ?? "",
-          FranchiseInterested: formFields.franchiseinterested ?? "",
-          TimeFrame: formFields.timeframe ?? "",
-          Status: formFields.status ?? "",
-          PipelineStep: formFields.pipelinestep ?? "",
-          LostReason: formFields.lostreason ?? "",
-          CategoryRating: formFields.categoryrating ?? "",
-          AgentUserId: userDetails.docId,
-        };
-
-        const jsonData = JSON.stringify(formData);
-        const baseUrl =
-          "https://omerkhan7210-001-site1.ltempurl.com/api/candidates";
-
-        // Send the POST request using Axios
-        const response = await axios.put(baseUrl, jsonData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (
-          response.status === 200 &&
-          response.data === "Candidate Information Saved Successfully."
-        ) {
+        if (response.status === 200) {
           setFormErrors({});
           setSuccessMsg("Candidate Information Saved Successfully.");
 
@@ -728,7 +591,7 @@ const FormFirstRow = ({
           {searchOn ? (
             <select
               id="firstname"
-              name="firstName"
+              name="firstname"
               className={`candidate-select capitalize${
                 formErrors.firstname ? "bg-red-300" : ""
               }`}
@@ -748,7 +611,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="firstName"
+              name="firstname"
               className={`candidate-input ${
                 formErrors.firstname ? "bg-red-300" : ""
               }`}
@@ -762,7 +625,7 @@ const FormFirstRow = ({
           <input
             onChange={handleInputChange}
             type="text"
-            name="lastName"
+            name="lastname"
             className={`candidate-input ${formErrors.lastname ? "bg-red-300" : ""}`}
             required
             {...(candNames && candNames.length > 0
@@ -861,7 +724,7 @@ const FormSecondRow = ({
           <input
             onChange={handleInputChange}
             type="text"
-            name="territoryCity"
+            name="territorycity"
             className={`candidate-input mr-2 ${
               formErrors.territorycity ? "bg-red-300" : ""
             }`}
@@ -881,7 +744,7 @@ const FormSecondRow = ({
           <p className="candidate-label">Zip / Postal Code</p>
           <input
             type="text"
-            name="territoryZipcode"
+            name="territoryzipcode"
             className="candidate-input"
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
