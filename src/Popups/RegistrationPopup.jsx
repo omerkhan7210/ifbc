@@ -30,7 +30,7 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
     if (cands && cands.length > 0) {
       let names = cands.map((cand) => ({
         name: cand.firstName,
-        DocId: cand.docId,
+        docId: cand.docId,
       }));
       setNames(names);
     }

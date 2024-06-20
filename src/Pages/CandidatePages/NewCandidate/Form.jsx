@@ -20,6 +20,7 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
       const filtered = candDetails.filter(
         (cand) => cand.docId == selectedDocId
       );
+      console.log(selectedDocId, filtered);
       if (filtered) {
         const selectedCand = filtered[0];
         setSelectedDetails(selectedCand);
@@ -568,7 +569,12 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
         />
 
         {/* tabs */}
-        <Tabs handleInputChange={handleInputChange} candDetails={candDetails} />
+        <Tabs
+          handleInputChange={handleInputChange}
+          candDetails={candDetails}
+          candNames={candNames}
+          selectedDetails={selectedDetails}
+        />
         {/* submit button */}
       </div>
 
@@ -629,7 +635,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalfirstname"
+              name="additionalFirstName"
               className="candidate-input"
               required
             />
@@ -639,7 +645,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionallastname"
+              name="additionalLastName"
               className="candidate-input"
               required
             />
@@ -654,7 +660,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalphone"
+              name="additionalPhone"
               className="candidate-input"
               required
             />
@@ -664,7 +670,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalemail"
+              name="additionalEmail"
               className="candidate-input"
               required
             />
@@ -780,8 +786,8 @@ const FormFirstRow = ({
             onChange={handleInputChange}
             required
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.Phone }
-              : { defaultValue: candDetails?.Phone })}
+              ? { value: selectedDetails?.phone }
+              : { defaultValue: candDetails?.phone })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -795,8 +801,8 @@ const FormFirstRow = ({
             required
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.Email }
-              : { defaultValue: candDetails?.Email })}
+              ? { value: selectedDetails?.email }
+              : { defaultValue: candDetails?.email })}
           />
         </div>
       </div>
@@ -879,8 +885,8 @@ const FormSecondRow = ({
             className="candidate-input"
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.territoryZipcode }
-              : { defaultValue: candDetails?.territoryZipcode })}
+              ? { value: selectedDetails?.territoryZipCode }
+              : { defaultValue: candDetails?.territoryZipCode })}
           />
         </div>
       </div>
@@ -987,8 +993,8 @@ const FormThirdRow = ({
               className="candidate-input"
               required
               {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.currentZipcode }
-                : { defaultValue: candDetails?.currentZipcode })}
+                ? { value: selectedDetails?.currentZipCode }
+                : { defaultValue: candDetails?.currentZipCode })}
             />
           </div>
         </div>
@@ -1002,8 +1008,8 @@ const FormThirdRow = ({
           rows={10}
           className="candidate-input"
           {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.About }
-            : { defaultValue: candDetails?.About })}
+            ? { value: selectedDetails?.about }
+            : { defaultValue: candDetails?.about })}
         />
       </div>
       <div id="eigth-sub-row" className="flex flex-col md:flex-row gap-2">
@@ -1016,8 +1022,8 @@ const FormThirdRow = ({
             className="candidate-input"
             required
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.DealSource }
-              : { defaultValue: candDetails?.DealSource })}
+              ? { value: selectedDetails?.dealSource }
+              : { defaultValue: candDetails?.dealSource })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -1029,8 +1035,8 @@ const FormThirdRow = ({
             className="candidate-input"
             required
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.DealSourceCost }
-              : { defaultValue: candDetails?.DealSourceCost })}
+              ? { value: selectedDetails?.dealSourceCost }
+              : { defaultValue: candDetails?.dealSourceCost })}
           />
         </div>
         <div className="candidate-sub-childs">

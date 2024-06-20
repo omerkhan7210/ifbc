@@ -722,7 +722,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
       </h1>
 
       <div className="candidate-sub-childs" id="leademail">
-        <p className="icon-text">FBAMembers.com Lead Email</p>
+        <p className="icon-text">IFBCMembers.com Lead Email</p>
         <input
           name="leademail"
           onChange={handleInputChange}
@@ -741,7 +741,6 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           type="text"
           name="leadendpoint"
           readOnly
-          placeholder="https://fbamembers.com/hubspot-contact/RDZpMzBGTEppb1htQ1VoWUdaMk1Udz09"
           className="candidate-input"
           required
         />
@@ -750,7 +749,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
         Communication Settings
       </h1>
       <p className="ms-2 text-sm font-bold text-slate-500">
-        FBA Certification and Badges
+        IFBC Certification and Badges
       </p>
       <div className="flex items-center">
         <input
@@ -765,7 +764,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           htmlFor="default-checkbox"
           className="ms-2 text-sm font-bold text-slate-500 "
         >
-          Include your FBA badges and certificate in your signature.
+          Include your IFBC badges and certificate in your signature.
         </label>
       </div>
 
@@ -1105,7 +1104,7 @@ const RightSideBar = ({
       <div id="2-column-profile-inputs" className="flex max-md:flex-col gap-6">
         <div id="left-side-inputs" className="  w-full">
           <h1 className="text-custom-heading-color font-bold text-2xl">
-            Your FBA Profile Information
+            Your IFBC Profile Information
           </h1>
           <div className="candidate-sub-childs">
             <p className="candidate-label">First Name</p>
