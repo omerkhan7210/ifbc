@@ -4,8 +4,7 @@ import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
-import { MyContext } from "src/Context/ListingDataContext";
-import { setIfLogin, setUserDetails } from "src/Redux/listingReducer";
+import { setToken, setUserDetails } from "src/Redux/listingReducer";
 
 const Login = () => {
   const ref = useRef();
@@ -21,7 +20,7 @@ const Login = () => {
 
   const getUserDetails = async (token) => {
     const url =
-      "https://omerkhan7210-001-site1.ltempurl.com/api/users/userdata";
+      "http://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -32,6 +31,7 @@ const Login = () => {
       if (response.status === 200) {
         const someUserDetails = response.data;
         return {
+          docId: someUserDetails.docId,
           firstName: someUserDetails.firstName,
           lastName: someUserDetails.lastName,
           email: someUserDetails.email,
@@ -81,7 +81,7 @@ const Login = () => {
     }
 
     try {
-      const baseUrl = `https://omerkhan7210-001-site1.ltempurl.com/api/login`;
+      const baseUrl = `http://siddiqiventures-001-site4.ktempurl.com/api/login`;
       const requestData = {
         email: user.username.value,
         password: user.password.value,
@@ -97,7 +97,10 @@ const Login = () => {
       if (response.status === 200) {
         setLoading(false);
         const someUserDetails = await getUserDetails(response.data.token);
-        dispatch(setIfLogin(true));
+        const userToken = response.data.token;
+
+        localStorage.setItem("token", userToken);
+        dispatch(setToken(true));
         dispatch(setUserDetails(someUserDetails));
         setUserDetails(someUserDetails);
         setLoading(false);

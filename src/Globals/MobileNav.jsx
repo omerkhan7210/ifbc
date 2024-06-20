@@ -4,9 +4,9 @@ import { MyContext } from "src/Context/ListingDataContext";
 
 const MobileNav = ({ setMobileActive }) => {
   const [submenuactive, setsubmenuactive] = useState(false);
-  const { userDetails, ifLogin } = useContext(MyContext);
+  const { userDetails, token } = useContext(MyContext);
   const handleLogOut = () => {
-    localStorage.setItem("ifLogin", false);
+    localStorage.setItem("token", false);
     localStorage.removeItem("userDetails");
     history("/");
   };
@@ -104,7 +104,7 @@ const MobileNav = ({ setMobileActive }) => {
           </li>
         </ul>
       </div>
-      {ifLogin && (
+      {token && (
         <div
           className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100  p-4 mt-2 flex-col flex gap-3"
           aria-labelledby="hs-dropdown-default"

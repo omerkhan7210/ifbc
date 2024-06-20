@@ -8,7 +8,6 @@ const initialState = {
   registrations: [],
   cartListings: JSON.parse(localStorage.getItem("cartListings")) || [],
   uuid: localStorage.getItem("uuid") || null,
-  ifLogin: JSON.parse(localStorage.getItem("ifLogin")) || false,
   userDetails: JSON.parse(localStorage.getItem("userDetails")) || null,
   role:
     JSON.parse(localStorage.getItem("userDetails")) &&
@@ -16,6 +15,10 @@ const initialState = {
       ? JSON.parse(localStorage.getItem("userDetails"))?.userType
       : null,
   activeListings: JSON.parse(localStorage.getItem("activeListings")) || [],
+  token:
+    localStorage.getItem("token") && localStorage.getItem("token") !== ""
+      ? true
+      : false,
 };
 
 export const listingReducer = createSlice({
@@ -72,10 +75,8 @@ export const listingReducer = createSlice({
         state.uuid = newUuid;
       }
     },
-    setIfLogin: (state, action) => {
-      localStorage.setItem("ifLogin", action.payload);
-
-      state.ifLogin = action.payload;
+    setToken: (state, action) => {
+      state.token = action.payload;
     },
     setUserDetails: (state, action) => {
       if (action.payload) {
@@ -129,7 +130,6 @@ export const {
   incrementByListing,
   generateUuid,
   decrementByListing,
-  setIfLogin,
   setUserDetails,
   incrementActiveListing,
   decrementActiveListing,
@@ -137,6 +137,7 @@ export const {
   addAllListings,
   addAllCandidates,
   addAllRegistrations,
+  setToken,
 } = listingReducer.actions;
 
 export default listingReducer.reducer;

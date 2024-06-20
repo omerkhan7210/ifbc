@@ -2,6 +2,7 @@ import { Select } from "@headlessui/react";
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
+import { setToken } from "src/Redux/listingReducer";
 
 const Registration = () => {
   const ref = useRef();
@@ -111,7 +112,7 @@ const Registration = () => {
     };
 
     try {
-      const baseUrl = `https://omerkhan7210-001-site1.ltempurl.com/api/users`;
+      const baseUrl = `http://siddiqiventures-001-site4.ktempurl.com/api/users`;
 
       setLoading(true);
 
@@ -121,15 +122,14 @@ const Registration = () => {
         },
       });
 
-      if (
-        response.data === "Data inserted Successfully." &&
-        response.status === 200
-      ) {
-        localStorage.setItem("ifLogin", true);
-        setSuccessMsg({ success: response.data });
-        setLoading(false);
+      if (response.status === 200) {
+        const userToken = response.data.token;
+        localStorage.setItem("token", userToken);
+        dispatch(setToken(true));
+        setSuccessMsg("Registered Successfully!");
         setTimeout(() => {
-          history("/login");
+          setLoading(false);
+          history("/");
         }, 3000);
       } else if (response.data === "Account Already Exist.") {
         setSuccessMsg({ alreadyexist: response.data });

@@ -17,7 +17,7 @@ import RegisterationPopup from "./Popups/RegistrationPopup";
 const App = () => {
   const dispatch = useDispatch();
   const [mobileActive, setMobileActive] = useState(false);
-  const ifLogin = useSelector((state) => state.counter.ifLogin);
+  const token = useSelector((state) => state.counter.token);
   const role = useSelector((state) => state.counter.role);
 
   const [show, setShow] = useState("");
@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <>
-      {ifLogin && (
+      {token && (
         <ListingDataContext>
           <Header
             mobileActive={mobileActive}
@@ -42,7 +42,7 @@ const App = () => {
       )}
       <AnimatePresence mode="wait">
         <RouteRenderer
-          isAuthenticated={ifLogin}
+          isAuthenticated={token}
           setShow={setShow}
           setRegistrationType={setRegistrationType}
         />
@@ -63,7 +63,7 @@ const App = () => {
         </CandidatesDataContext>
         <FLSEmail />
       </ListingDataContext>
-      {ifLogin && <Footer />}
+      {token && <Footer />}
     </>
   );
 };
