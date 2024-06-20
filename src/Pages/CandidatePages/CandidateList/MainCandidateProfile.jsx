@@ -144,8 +144,7 @@ const LeftSideCardContainer = ({ candDetails }) => {
         </Link>
 
         <button className="candidate-btn w-full" onClick={handleEdit}>
-          {/* {loading ? "Loading..." : "SAVE CANDIDATE INFORMATION"} */}
-          Save
+          {loading ? "Loading..." : "SAVE CANDIDATE INFORMATION"}
         </button>
       </div>
     )
