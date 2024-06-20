@@ -322,7 +322,7 @@ const CandidateSearch = ({ property, anotherText, normalText }) => {
     } else if (normalText === "CoBroker or Agent") {
       uniqueFranchisedCands = ["Agent"];
     } else if (normalText === "Candidate Lead Source") {
-      uniqueFranchisedCands = ["FBA", "Website", "Networking", "Calendly"];
+      uniqueFranchisedCands = ["IFBC", "Website", "Networking", "Calendly"];
     }
   }
   const [selectedCands, setSelectedCands] = useState(

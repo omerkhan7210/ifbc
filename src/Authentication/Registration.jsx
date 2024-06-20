@@ -175,7 +175,7 @@ const Registration = () => {
     { name: "allcandidates", label: "All Candidates" },
     { name: "allpastclient", label: "All Past Client" },
     { name: "sharefranchise", label: "Share Franchise" },
-    { name: "fbabadges", label: "FBA Badges" },
+    { name: "fbabadges", label: "IFBC Badges" },
   ];
 
   return (
@@ -272,7 +272,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
     <>
       <div className="flex justify-center items-center">
         <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color text-center">
-          Your FBA Profile Information
+          Your IFBC Profile Information
         </h2>
       </div>
 
