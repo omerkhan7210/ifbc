@@ -5,25 +5,36 @@ import { MyContext } from "src/Context/ListingDataContext";
 import SearchingComponent from "./SearchingComponent";
 import PageTransition from "src/Animations/PageTransition";
 import RelatedListings from "src/Globals/RelatedListings";
+import { useDispatch } from "react-redux";
+import {
+  decrementAllActiveListing,
+  incrementActiveListing,
+} from "src/Redux/listingReducer";
 
-const ExtraTools = ({ setShowF, setShowT }) => {
+const ExtraTools = ({ setShow, setRegistrationType }) => {
   const {
     handleTools,
     activeListings,
-    setActiveListings,
     showActiveListings,
     setShowActiveListings,
     paginationListings,
     role,
   } = useContext(MyContext);
+  const dispatch = useDispatch();
 
   const selectAllListings = () => {
     // Get an array of all listing names currently displayed on the page
-    const allListingNames = paginationListings?.map((listing) => listing.name);
+    paginationListings?.map((listing) =>
+      dispatch(incrementActiveListing(listing.docId))
+    );
+
     // Update the activeListings state to include all listing names
-    setActiveListings(allListingNames);
   };
 
+  const handleOpenRegistration = (type) => {
+    setRegistrationType(type);
+    setShow(true);
+  };
   return (
     <div className="grid grid-cols-12 gap-3 items-center">
       {/* {role !== "N" && ( */}
@@ -34,14 +45,14 @@ const ExtraTools = ({ setShowF, setShowT }) => {
         <button
           className="candidate-btn w-full"
           value="tc"
-          onClick={() => setShowT(true)}
+          onClick={() => handleOpenRegistration("TC")}
         >
           Territory Checks
         </button>
         <button
           className="candidate-btn w-full"
           value="fr"
-          onClick={() => setShowF(true)}
+          onClick={() => handleOpenRegistration("FR")}
         >
           Formal Registrations
         </button>
@@ -86,7 +97,7 @@ const ExtraTools = ({ setShowF, setShowT }) => {
             } border-2 border-red-900 hover:bg-red-900 hover:text-white transition-all duration-500 py-2 px-5  w-full md:w-auto tertiary-button text-red-900`}
             onClick={() => {
               setShowActiveListings(false);
-              setActiveListings([]);
+              dispatch(decrementAllActiveListing());
             }}
           >
             Clear All
@@ -123,7 +134,7 @@ const ExtraTools = ({ setShowF, setShowT }) => {
   );
 };
 
-const MainListings = ({ showF, setShowF, showT, setShowT }) => {
+const MainListings = ({ setShow, setRegistrationType }) => {
   const { loading } = useContext(MyContext);
 
   useLayoutEffect(() => {
@@ -154,12 +165,12 @@ const MainListings = ({ showF, setShowF, showT, setShowT }) => {
           FRANCHISES SEARCH
         </h1>
       </div>
-      <main
-        className="	 pt-10 px-6 mx-auto w-full grid grid-cols-12 gap-6 relative"
-        id="main"
-      >
+      <main className="	 p-10  grid grid-cols-12 gap-6 relative" id="main">
         <div className="col-span-12">
-          <ExtraTools setShowF={setShowF} setShowT={setShowT} />
+          <ExtraTools
+            setShow={setShow}
+            setRegistrationType={setRegistrationType}
+          />
         </div>
 
         <div

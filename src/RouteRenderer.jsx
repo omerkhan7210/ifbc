@@ -15,16 +15,11 @@ import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import { useRoutes } from "react-router-dom";
 import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
-import MainTcheck from "./Pages/CandidatePages/TcheckPage/MainTcheck";
+import MainMessages from "./Pages/CandidatePages/Messages/MainMessages";
 import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
+import TCFRDataContext from "./Context/TCFRDataContext";
 
-const RouteRenderer = ({
-  isAuthenticated,
-  showF,
-  setShowF,
-  showT,
-  setShowT,
-}) => {
+const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const authenticatedRoutes = [
     {
       path: "/",
@@ -38,7 +33,10 @@ const RouteRenderer = ({
       path: "/listings",
       element: (
         <ListingDataContext>
-          <MainListings setShowF={setShowF} setShowT={setShowT} />
+          <MainListings
+            setShow={setShow}
+            setRegistrationType={setRegistrationType}
+          />
         </ListingDataContext>
       ),
     },
@@ -46,7 +44,10 @@ const RouteRenderer = ({
       path: "/listings-details/:name",
       element: (
         <ListingDataContext>
-          <MainDetails setShowF={setShowF} setShowT={setShowT} />
+          <MainDetails
+            setShow={setShow}
+            setRegistrationType={setRegistrationType}
+          />
         </ListingDataContext>
       ),
     },
@@ -66,6 +67,7 @@ const RouteRenderer = ({
         </CandidatesDataContext>
       ),
     },
+
     {
       path: "/new-candidate",
       element: (
@@ -78,7 +80,7 @@ const RouteRenderer = ({
       path: "/messages/:name",
       element: (
         <CandidatesDataContext>
-          <MainTcheck />
+          <MainMessages />
         </CandidatesDataContext>
       ),
     },
@@ -101,9 +103,13 @@ const RouteRenderer = ({
     {
       path: "/candidate-profile/:id",
       element: (
-        <CandidatesDataContext>
-          <MainCandidateProfile />
-        </CandidatesDataContext>
+        <TCFRDataContext>
+          <ListingDataContext>
+            <CandidatesDataContext>
+              <MainCandidateProfile />
+            </CandidatesDataContext>
+          </ListingDataContext>
+        </TCFRDataContext>
       ),
     },
     {

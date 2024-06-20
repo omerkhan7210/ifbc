@@ -23,12 +23,10 @@ const AllListings = () => {
     "search",
     "category",
     "units",
-    "memberships",
-    "FranchiseFee",
-    "InvestmentRange",
+    "franchiseFee",
+    "investmentRange",
     "Item19",
     "Liquidity",
-    "Memberships",
     "MinimumNetWorth",
     "MonthCash",
     "Multiple",
@@ -126,11 +124,11 @@ const AllListings = () => {
 
       <div
         id="listing-columns"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+        className="max-md:block grid md:max-lg:grid-cols-2 lg:max-2xl:grid-cols-3 2xl:grid-cols-4"
       >
         {showActiveListings &&
           paginationListings
-            ?.filter((listing) => activeListings?.includes(listing.name))
+            ?.filter((listing) => activeListings?.includes(listing.docId))
             .map((listing, index) => (
               <ListingsColumns key={index} index={index} listing={listing} />
             ))}

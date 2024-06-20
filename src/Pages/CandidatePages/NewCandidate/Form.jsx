@@ -6,12 +6,28 @@ import { twMerge } from "tailwind-merge";
 import Tabs from "./Tabs";
 import { useNavigate } from "react-router-dom";
 
-const Form = ({ candDetails }) => {
+const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
   const [formFields, setFormFields] = useState(candDetails ? candDetails : {});
   const [formErrors, setFormErrors] = useState({});
   const history = useNavigate();
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
+  const [selectedDocId, setSelectedDocId] = useState();
+  const [selectedDetails, setSelectedDetails] = useState({});
+  const [showsuccess, setShowSuccess] = useState(false);
+  useEffect(() => {
+    if (selectedDocId && selectedDocId !== "") {
+      const filtered = candDetails.filter(
+        (cand) => cand.docId == selectedDocId
+      );
+      if (filtered) {
+        const selectedCand = filtered[0];
+        setSelectedDetails(selectedCand);
+      } else {
+        setSelectedDetails({});
+      }
+    }
+  }, [selectedDocId, candDetails]);
 
   const states = [
     { value: "AL", text: "Alabama" },
@@ -104,24 +120,6 @@ const Form = ({ candDetails }) => {
     );
   };
 
-  const handleInputChange = ({ target: { name, value } }) => {
-    const newName = name.toLowerCase().split(" ").join("");
-    // Remove the error for the field if there is a value
-    if (
-      formErrors &&
-      Object.keys(formErrors).length > 0 &&
-      value.trim() !== ""
-    ) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }));
-      formErrors[name] && delete formErrors[name];
-    }
-
-    setFormFields((prev) => ({
-      ...prev,
-      [newName]: value,
-    }));
-  };
-
   useEffect(() => {
     for (const [key, value] of Object.entries(formFields)) {
       if (key === "sameasterritoryrequested" && value) {
@@ -157,18 +155,18 @@ const Form = ({ candDetails }) => {
     try {
       if (allFieldsValid) {
         const formData = {
-          CloseDate: formFields.closedate ?? "",
-          FirstName: formFields.firstname ?? "",
-          LastName: formFields.lastname ?? "",
+          closeDate: formFields.closedate ?? "",
+          firstName: formFields.firstname ?? "",
+          lastName: formFields.lastname ?? "",
           Phone: formFields.phone ?? "",
           Email: formFields.email ?? "",
-          TerritoryCity: formFields.territorycity ?? "",
-          TerritoryState: formFields.territorystate ?? "",
-          TerritoryZipcode: formFields.territoryzipcode ?? "",
-          CurrentCity: formFields.currentcity ?? "",
-          CurrentState: formFields.currentstate ?? "",
-          CurrentZipcode: formFields.currentzipcode ?? "",
-          TerritoryNotes: formFields.territorynotes ?? "",
+          territoryCity: formFields.territorycity ?? "",
+          territoryState: formFields.territorystate ?? "",
+          territoryZipcode: formFields.territoryzipcode ?? "",
+          currentCity: formFields.currentcity ?? "",
+          currentState: formFields.currentstate ?? "",
+          currentZipcode: formFields.currentzipcode ?? "",
+          territoryNotes: formFields.territorynotes ?? "",
           DealSource: formFields.dealsource ?? "",
           DealSourceCost: formFields.dealsourcecost ?? "",
           ZorackleValue: formFields.zoraclevalue ?? "",
@@ -220,15 +218,15 @@ const Form = ({ candDetails }) => {
           FranchiseInterested: formFields.franchiseinterested ?? "",
           TimeFrame: formFields.timeframe ?? "",
           Status: formFields.status ?? "",
-          PipelineStep: formFields.pipelinestep ?? "Initial Call Attempt",
+          PipelineStep: formFields.pipelinestep ?? "",
           LostReason: formFields.lostreason ?? "",
           CategoryRating: formFields.categoryrating ?? "",
-          AgentUserId: userDetails.Id,
+          AgentUserId: userDetails.docId,
         };
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site3.ktempurl.com/newcandidateadd.aspx";
+          "https://omerkhan7210-001-site1.ltempurl.com/api/candidates";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {
@@ -269,8 +267,256 @@ const Form = ({ candDetails }) => {
       console.error("Error:", error);
     }
   };
+  const handleEdit = async () => {
+    setLoading(true);
+    const reqFields = [
+      "firstname",
+      "lastname",
+      "phone",
+      "email",
+      "territorystate",
+      "territorycity",
+    ];
+    let allFieldsValid = true;
 
-  return (
+    reqFields.forEach((field) => {
+      const newKey = field.toLowerCase().split(" ").join("");
+      if (!formFields[newKey] || formFields[newKey].trim() === "") {
+        setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
+        allFieldsValid = false;
+      } else {
+        setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
+      }
+    });
+
+    try {
+      if (allFieldsValid) {
+        const formData = {
+          closeDate: formFields.closedate ?? "",
+          firstName: formFields.firstname ?? "",
+          lastName: formFields.lastname ?? "",
+          Phone: formFields.phone ?? "",
+          Email: formFields.email ?? "",
+          territoryCity: formFields.territorycity ?? "",
+          territoryState: formFields.territorystate ?? "",
+          territoryZipcode: formFields.territoryzipcode ?? "",
+          currentCity: formFields.currentcity ?? "",
+          currentState: formFields.currentstate ?? "",
+          currentZipcode: formFields.currentzipcode ?? "",
+          territoryNotes: formFields.territorynotes ?? "",
+          DealSource: formFields.dealsource ?? "",
+          DealSourceCost: formFields.dealsourcecost ?? "",
+          ZorackleValue: formFields.zoraclevalue ?? "",
+          DealValue: formFields.dealvalue ?? "",
+          About: formFields.about ?? "",
+          InvestmentFranchise: formFields.investmentfranchise ?? "",
+          Funding: formFields.funding ?? "",
+          CreditScore: formFields.creditscore ?? "",
+          InitialQualifyingNote: formFields.initialqualifyingnote ?? "",
+          Activities: formFields.activities ?? "",
+          AttendingNetworkFunction: formFields.attendingnetworkfunction ?? "",
+          MultiUnitOps: formFields.multiunitops ?? "",
+          BusinessPartner: formFields.businesspartner ?? "",
+          FamilyFeel: formFields.familyfeel ?? "",
+          EmployeesPrefer: formFields.employeesprefer ?? "",
+          StaffSize: formFields.staffsize ?? "",
+          ZorakleNotes: formFields.zoraklenotes ?? "",
+          FundingBusiness: formFields.fundingbusiness ?? "",
+          RetirementPlan: formFields.retirementplan ?? "",
+          VALoan: formFields.valoan ?? "",
+          CurrentNetworth: formFields.currentnetworth ?? "",
+          TrafficViolation: formFields.trafficviolation ?? "",
+          Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
+          Bankruptcy: formFields.bankruptcy ?? "",
+          EligibilityNote: formFields.eligibilitynote ?? "",
+          BusinessBefore: formFields.businessbefore ?? "",
+          MarketingExperience: formFields.marketingexperience ?? "",
+          ManagementExperice: formFields.managementexperience ?? "",
+          SalesExperience: formFields.salesexperience ?? "",
+          ReviewFinancialStatement: formFields.reviewfinancialstatement ?? "",
+          CSExperience: formFields.csexperience ?? "",
+          AttractiveBusinessOwner: formFields.attractivebusinessowner ?? "",
+          HandleNewBusiness: formFields.handlenewbusiness ?? "",
+          BusinessExpectations: formFields.businessexpectations ?? "",
+          WantNote: formFields.wantnote ?? "",
+          PreferB2b: formFields.preferb2b ?? "",
+          PhysicalLocation: formFields.physicallocation ?? "",
+          Inventory: formFields.inventory ?? "",
+          ColdCalling: formFields.coldcalling ?? "",
+          PassiveMode: formFields.passivemode ?? "",
+          BusinessHours: formFields.businesshours ?? "",
+          Networth: formFields.networth ?? "",
+          LiquidCash: formFields.liquidcash ?? "",
+          Competency1: formFields.competency1 ?? "",
+          Competency2: formFields.competency2 ?? "",
+          Competency3: formFields.competency3 ?? "",
+          FranchiseCause: formFields.franchisecause ?? "",
+          ProfessionalBackground: formFields.professionalbackground ?? "",
+          FranchiseInterested: formFields.franchiseinterested ?? "",
+          TimeFrame: formFields.timeframe ?? "",
+          Status: formFields.status ?? "",
+          PipelineStep: formFields.pipelinestep ?? "",
+          LostReason: formFields.lostreason ?? "",
+          CategoryRating: formFields.categoryrating ?? "",
+          AgentUserId: userDetails.docId,
+        };
+
+        const jsonData = JSON.stringify(formData);
+        const baseUrl =
+          "https://omerkhan7210-001-site1.ltempurl.com/api/candidates";
+
+        // Send the POST request using Axios
+        const response = await axios.put(baseUrl, jsonData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (
+          response.status === 200 &&
+          response.data === "Candidate Information Saved Successfully."
+        ) {
+          setFormErrors({});
+          setSuccessMsg("Candidate Information Saved Successfully.");
+
+          setLoading(false);
+
+          setTimeout(() => {
+            history("/candidate-list");
+          }, 3000);
+        } else {
+          setFormErrors({ error: response.data });
+          setLoading(false);
+          window.scrollTo(0, 500);
+          // Handle unexpected response
+        }
+      } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Please fill in all the required fields",
+        }));
+        setLoading(false);
+        window.scrollTo(0, 500);
+
+        // Handle invalid fields (e.g., show validation errors)
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmitRegistration = async () => {
+    setLoading(true);
+    const reqFields = [
+      "firstName",
+      "lastName",
+      "territoryState",
+      "territoryZipcode",
+      "territoryCity",
+    ];
+    let allFieldsValid = true;
+
+    reqFields.forEach((field) => {
+      if (!selectedDetails[field] || selectedDetails[field].trim() === "") {
+        setFormErrors((prev) => ({ ...prev, [field]: "error" }));
+        allFieldsValid = false;
+      } else {
+        setFormErrors((prev) => ({ ...prev, [field]: "" }));
+      }
+    });
+
+    try {
+      if (allFieldsValid) {
+        const formData = {
+          candidateId: selectedDocId,
+          AgentId: userDetails.docId,
+          listingsIds: JSON.stringify(activeListings).replace(/[^0-9,]/g, ""),
+          InterRequest: selectedDetails.IncludeNameInTerritoryRequest ?? false,
+          docType: "FR",
+          Status: "Pending",
+          Message: "",
+        };
+
+        const jsonData = JSON.stringify(formData);
+        const baseUrl =
+          "http://siddiqiventures-001-site3.ktempurl.com/cfabridge.aspx";
+
+        // Send the POST request using Axios
+        const response = await axios.post(baseUrl, jsonData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (
+          response.status === 200 &&
+          response.data === "Bridge Information Saved Successfully."
+        ) {
+          setFormErrors({});
+          setSuccessMsg(`Congratulations! You have now sent your Formal Registration!
+                        It will be delivered to the email account associated with the this concepts profile. For your records, a time stamped copy of this email will be sent to you as well.
+                        Acceptance of your candidate can only be done by the concept you are referring them to. You will need a written response from a representative of this concept for confirmation of your submission.
+                        This will count as a pre-registration of your candidate. Full registration requires complete contact information and a scheduled appointment with the franchisor. Certain franchisors may require additional requirements as well.
+                        For your convenience, a full registration may be submitted by using the the Formal Registration button located on the concepts profile.
+                        `);
+          setShowSuccess(true);
+          setLoading(false);
+          setTimeout(() => {
+            window.location.href = "/messages/formal-registration";
+          }, 3000);
+        } else {
+          setFormErrors({ error: response.data });
+          setLoading(false);
+          window.scrollTo(0, 500);
+          // Handle unexpected response
+        }
+      } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Please fill in all the required fields",
+        }));
+        setLoading(false);
+        window.scrollTo(0, 500);
+
+        // Handle invalid fields (e.g., show validation errors)
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
+  return successMsg ? (
+    <p className="border-2 border-green-600 text-green-600 p-4 flex justify-between">
+      {successMsg}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="size-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+        />
+      </svg>
+    </p>
+  ) : (
     <>
       <div
         id="main-new-candidate-form-container"
@@ -299,49 +545,52 @@ const Form = ({ candDetails }) => {
           handleInputChange={handleInputChange}
           formErrors={formErrors}
           candDetails={candDetails}
+          candNames={candNames}
+          setSelectedDocId={setSelectedDocId}
+          selectedDocId={selectedDocId}
+          selectedDetails={selectedDetails}
         />
         <FormSecondRow
           stateDD={stateDD}
           handleInputChange={handleInputChange}
           formErrors={formErrors}
           candDetails={candDetails}
+          candNames={candNames}
+          selectedDetails={selectedDetails}
         />
         <FormThirdRow
           stateDD={stateDD}
           handleInputChange={handleInputChange}
           setFormFields={setFormFields}
           candDetails={candDetails}
+          candNames={candNames}
+          selectedDetails={selectedDetails}
         />
 
         {/* tabs */}
         <Tabs handleInputChange={handleInputChange} candDetails={candDetails} />
         {/* submit button */}
       </div>
+
       <div
         id="button-container"
-        className="w-full flex justify-center my-10 col-span-12"
+        className="flex flex-col gap-5 items-center justify-center my-10 col-span-12"
       >
-        {successMsg && (
-          <p className="border-2 border-green-600 text-green-600 p-4 flex justify-between">
-            {successMsg}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
+        {candDetails ? (
+          candNames && candDetails ? (
+            <button
+              className="candidate-btn w-96"
+              onClick={handleSubmitRegistration}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
-              />
-            </svg>
-          </p>
-        )}
-        {candDetails && (
-          <button className="candidate-btn " onClick={handleSubmit}>
+              {loading ? "Loading..." : "SEND APPLICATION"}
+            </button>
+          ) : (
+            <button className="candidate-btn w-96" onClick={handleEdit}>
+              {loading ? "Loading..." : "EDIT CANDIDATE INFORMATION"}
+            </button>
+          )
+        ) : (
+          <button className="candidate-btn w-96" onClick={handleSubmit}>
             {loading ? "Loading..." : "SUBMIT CANDIDATE INFORMATION"}
           </button>
         )}
@@ -350,8 +599,18 @@ const Form = ({ candDetails }) => {
   );
 };
 
-const FormFirstRow = ({ handleInputChange, formErrors, candDetails }) => {
+const FormFirstRow = ({
+  handleInputChange,
+  formErrors,
+  candDetails,
+  candNames,
+  selectedDocId,
+  setSelectedDocId,
+  selectedDetails,
+}) => {
   const [addContacts, setAddContacts] = useState(0);
+  const [searchOn, setSearchOn] = useState(false);
+
   const addContactDiv = (index) => {
     return (
       <div
@@ -366,6 +625,7 @@ const FormFirstRow = ({ handleInputChange, formErrors, candDetails }) => {
         >
           <div className="candidate-sub-childs">
             <p className="candidate-label">First Name</p>
+
             <input
               onChange={handleInputChange}
               type="text"
@@ -440,34 +700,68 @@ const FormFirstRow = ({ handleInputChange, formErrors, candDetails }) => {
         </svg>
         Primary Candidate Information
       </h1>
+      {candNames && candNames.length > 0 && (
+        <div id="search-checkbox">
+          <label htmlFor="" className="flex items-center  capitalize">
+            <input
+              type="checkbox"
+              name=""
+              id=""
+              onChange={() => setSearchOn(!searchOn)}
+            />
+            Already added candidates?
+          </label>
+        </div>
+      )}
       <div
         id="first-sub-row"
         className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">First Name*</p>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            name="FirstName"
-            className={`candidate-input ${
-              formErrors.firstname ? "bg-red-300" : ""
-            }`}
-            required
-            defaultValue={candDetails?.FirstName}
-          />
+          {searchOn ? (
+            <select
+              id="firstname"
+              name="firstName"
+              className={`candidate-select capitalize${
+                formErrors.firstname ? "bg-red-300" : ""
+              }`}
+              onChange={(e) => {
+                setSelectedDocId(e.target.value);
+              }}
+            >
+              {!selectedDocId && <option value="">Choose any Candidate</option>}
+              {candNames &&
+                candNames.map((cand) => (
+                  <option key={cand.docId} value={cand.docId}>
+                    {cand.name}
+                  </option>
+                ))}
+            </select>
+          ) : (
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="firstName"
+              className={`candidate-input ${
+                formErrors.firstname ? "bg-red-300" : ""
+              }`}
+              required
+              defaultValue={candDetails?.firstName}
+            />
+          )}
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">Last Name*</p>
           <input
             onChange={handleInputChange}
             type="text"
-            name="LastName"
-            className={`candidate-input ${
-              formErrors.lastname ? "bg-red-300" : ""
-            }`}
+            name="lastName"
+            className={`candidate-input ${formErrors.lastname ? "bg-red-300" : ""}`}
             required
-            defaultValue={candDetails?.LastName}
+            {...(candNames && candNames.length > 0
+              ? { value: selectedDetails?.lastName }
+              : { defaultValue: candDetails?.lastName })}
           />
         </div>
       </div>
@@ -485,7 +779,9 @@ const FormFirstRow = ({ handleInputChange, formErrors, candDetails }) => {
             }`}
             onChange={handleInputChange}
             required
-            defaultValue={candDetails?.Phone}
+            {...(candNames && candNames.length > 0
+              ? { value: selectedDetails?.Phone }
+              : { defaultValue: candDetails?.Phone })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -498,7 +794,9 @@ const FormFirstRow = ({ handleInputChange, formErrors, candDetails }) => {
             }`}
             required
             onChange={handleInputChange}
-            defaultValue={candDetails?.Email}
+            {...(candNames && candNames.length > 0
+              ? { value: selectedDetails?.Email }
+              : { defaultValue: candDetails?.Email })}
           />
         </div>
       </div>
@@ -526,6 +824,8 @@ const FormSecondRow = ({
   stateDD,
   formErrors,
   candDetails,
+  candNames,
+  selectedDetails,
 }) => {
   return (
     <div id="second-row" className="py-5">
@@ -555,12 +855,14 @@ const FormSecondRow = ({
           <input
             onChange={handleInputChange}
             type="text"
-            name="TerritoryCity"
+            name="territoryCity"
             className={`candidate-input mr-2 ${
               formErrors.territorycity ? "bg-red-300" : ""
             }`}
             required
-            defaultValue={candDetails?.TerritoryCity}
+            {...(candNames && candNames.length > 0
+              ? { value: selectedDetails?.territoryCity }
+              : { defaultValue: candDetails?.territoryCity })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -573,10 +875,12 @@ const FormSecondRow = ({
           <p className="candidate-label">Zip / Postal Code</p>
           <input
             type="text"
-            name="TerritoryZipcode"
+            name="territoryZipcode"
             className="candidate-input"
             onChange={handleInputChange}
-            defaultValue={candDetails?.TerritoryZipcode}
+            {...(candNames && candNames.length > 0
+              ? { value: selectedDetails?.territoryZipcode }
+              : { defaultValue: candDetails?.territoryZipcode })}
           />
         </div>
       </div>
@@ -584,10 +888,12 @@ const FormSecondRow = ({
         <p className="candidate-label">Territory Notes</p>
         <textarea
           onChange={handleInputChange}
-          name="TerritoryNotes"
+          name="territoryNotes"
           rows={10}
           className="candidate-input"
-          defaultValue={candDetails?.TerritoryNotes}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.territoryNotes }
+            : { defaultValue: candDetails?.territoryNotes })}
         ></textarea>
       </div>
       <div id="button-container" className="w-full flex justify-center">
@@ -602,35 +908,11 @@ const FormThirdRow = ({
   stateDD,
   setFormFields,
   candDetails,
+  candNames,
+  selectedDetails,
 }) => {
   const [check, setChecked] = useState(false);
 
-  const timezones = [
-    { value: "", text: "Select One" },
-    { value: "America/Anchorage", text: "America/Anchorage" },
-    { value: "America/Boise", text: "America/Boise" },
-    { value: "America/Chicago", text: "America/Chicago" },
-    { value: "America/Denver", text: "America/Denver" },
-    { value: "America/Detroit", text: "America/Detroit" },
-    {
-      value: "America/Indiana/Indianapolis",
-      text: "America/Indiana/Indianapolis",
-    },
-    {
-      value: "America/Kentucky/Louisville",
-      text: "America/Kentucky/Louisville",
-    },
-    { value: "America/Los_Angeles", text: "America/Los_Angeles" },
-    { value: "America/New_York", text: "America/New_York" },
-    {
-      value: "America/North_Dakota/Center",
-      text: "America/North_Dakota/Center",
-    },
-    { value: "America/Phoenix", text: "America/Phoenix" },
-    { value: "Pacific/Honolulu", text: "Pacific/Honolulu" },
-    { value: "America/St_Johns", text: "America/St_Johns" },
-    { value: "America/Halifax", text: "America/Halifax" },
-  ];
   return (
     <div id="third-row" className="py-5">
       <h1 className="candidate-sub-heading">
@@ -682,10 +964,12 @@ const FormThirdRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="CurrentCity"
+              name="currentCity"
               className="candidate-input mr-2"
               required
-              defaultValue={candDetails?.CurrentCity}
+              {...(candNames && candNames.length > 0
+                ? { value: selectedDetails?.currentCity }
+                : { defaultValue: candDetails?.currentCity })}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -699,10 +983,12 @@ const FormThirdRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="CurrentZipcode"
+              name="currentZipcode"
               className="candidate-input"
               required
-              defaultValue={candDetails?.CurrentZipcode}
+              {...(candNames && candNames.length > 0
+                ? { value: selectedDetails?.currentZipcode }
+                : { defaultValue: candDetails?.currentZipcode })}
             />
           </div>
         </div>
@@ -715,7 +1001,9 @@ const FormThirdRow = ({
           name="About"
           rows={10}
           className="candidate-input"
-          defaultValue={candDetails?.About}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.About }
+            : { defaultValue: candDetails?.About })}
         />
       </div>
       <div id="eigth-sub-row" className="flex flex-col md:flex-row gap-2">
@@ -727,7 +1015,9 @@ const FormThirdRow = ({
             name="DealSource"
             className="candidate-input"
             required
-            defaultValue={candDetails?.DealSource}
+            {...(candNames && candNames.length > 0
+              ? { value: selectedDetails?.DealSource }
+              : { defaultValue: candDetails?.DealSource })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -738,18 +1028,22 @@ const FormThirdRow = ({
             name="DealSourceCost"
             className="candidate-input"
             required
-            defaultValue={candDetails?.DealSourceCost}
+            {...(candNames && candNames.length > 0
+              ? { value: selectedDetails?.DealSourceCost }
+              : { defaultValue: candDetails?.DealSourceCost })}
           />
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">Close Date</p>
           <input
             onChange={handleInputChange}
-            name="CloseDate"
+            name="closeDate"
             type="date"
             className="candidate-input"
             placeholder="Select date"
-            defaultValue={candDetails?.CloseDate}
+            {...(candNames && candNames.length > 0
+              ? { value: selectedDetails?.closeDate }
+              : { defaultValue: candDetails?.closeDate })}
           />
         </div>
       </div>

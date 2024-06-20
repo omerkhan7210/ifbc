@@ -8,6 +8,8 @@ import { convertKeysToLowercase } from "src/Utils/ObjectMethods";
 import Uploady, { useUploady } from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
+import PageTransition from "src/Animations/PageTransition";
+import axios from "axios";
 
 const Profile = () => {
   const [formErrors, setFormErrors] = useState({});
@@ -27,24 +29,6 @@ const Profile = () => {
       setHaveChanges(false);
     }
   }, [formFields]);
-
-  const handleInputChange = ({ target: { name, value } }) => {
-    const newName = name.toLowerCase().split(" ").join("");
-    // Remove the error for the field if there is a value
-    if (
-      formErrors &&
-      Object.keys(formErrors).length > 0 &&
-      value.trim() !== ""
-    ) {
-      setFormErrors((prev) => ({ ...prev, [name]: "" }));
-      formErrors[name] && delete formErrors[name];
-    }
-
-    setFormFields((prev) => ({
-      ...prev,
-      [newName]: value,
-    }));
-  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -75,8 +59,7 @@ const Profile = () => {
         // formdata
 
         const jsonData = JSON.stringify(formData);
-        const baseUrl =
-          "http://siddiqiventures-001-site3.ktempurl.com/userdetailsedit.aspx";
+        const baseUrl = "https://omerkhan7210-001-site1.ltempurl.com/api/users";
 
         // Send the PUT request using Axios
         const response = await axios.put(baseUrl, jsonData, {
@@ -118,17 +101,28 @@ const Profile = () => {
     }
   };
 
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
   return (
-    <div
-      id="main-profile-section"
-      className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5 min-h-screen "
-    >
-      {userDetails ? (
-        <>
-          <Uploady
-            destination={{ url: "http://localhost:5173/images/" }}
-            accept="image/*"
-          >
+    <PageTransition>
+      <div
+        id="main-profile-section"
+        className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5 min-h-screen "
+      >
+        {userDetails ? (
+          <>
             <LeftSideBar
               formFields={formFields}
               formErrors={formErrors}
@@ -141,20 +135,20 @@ const Profile = () => {
               haveChanges={haveChanges}
               setFormFields={setFormFields}
             />
-          </Uploady>
-          <RightSideBar
-            formFields={formFields}
-            formErrors={formErrors}
-            handleInputChange={handleInputChange}
-            userDetails={userDetails}
-          />
-        </>
-      ) : (
-        <div className="h-full grid place-items-center col-span-12">
-          <BarLoader bgcolor={"blue"} />
-        </div>
-      )}
-    </div>
+            <RightSideBar
+              formFields={formFields}
+              formErrors={formErrors}
+              handleInputChange={handleInputChange}
+              userDetails={userDetails}
+            />
+          </>
+        ) : (
+          <div className="h-full grid place-items-center col-span-12">
+            <BarLoader bgcolor={"blue"} />
+          </div>
+        )}
+      </div>
+    </PageTransition>
   );
 };
 
@@ -192,23 +186,33 @@ const LeftSideBar = ({
     roleName = "Company";
   }
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(localStorage.getItem("dpImageUrl") || "");
 
-  // // Function to handle image change
-  // const handleChangeImage = (event) => {
-  //   const selectedImage = event.target.files[0];
-  //   setImage(selectedImage);
-  //   const imageURL = URL.createObjectURL(selectedImage);
-
-  //   // Display the URL
-  //   console.log("Image URL:", imageURL);
-  //   setFormFields((prev) => ({ ...prev, ProfileImage: selectedImage }));
-  // };
-  const uploady = useUploady();
-
-  const handleChangeImage = () => {
-    uploady.showFileUpload();
+  // Function to handle image change
+  const handleChangeImage = async (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "ml_default");
+    formData.append("api_key", "626796268695765");
+    try {
+      const response = await axios.post(
+        "https://api-ap.cloudinary.com/v1_1/dsbplltmw/image/upload/",
+        formData,
+        {
+          headers: {
+            // Content-Type header will be automatically set to multipart/form-data
+          },
+        }
+      );
+      setImage(response.data.url);
+      localStorage.setItem("dpImageUrl", response.data.url);
+    } catch (err) {
+      console.error(err);
+    }
+    //setFormFields((prev) => ({ ...prev, profileImage: selectedImage }));
   };
+
   return (
     <div id="left-sidebar-profile" className=" h-full w-full col-span-3 p-5 ">
       <div
@@ -220,17 +224,18 @@ const LeftSideBar = ({
             <label htmlFor="profile-image-upload">
               <img
                 src={
-                  userDetails.ProfileImage
+                  userDetails.profileImage
                     ? image === ""
-                      ? `/images/uploads/${userDetails.ProfileImage}`
+                      ? `/images/uploads/${userDetails.profileImage}`
                       : image
-                    : "/images/avatar-placeholder.png"
+                    : image === ""
+                      ? "/images/avatar-placeholder.png"
+                      : image
                 }
                 alt=""
                 className="rounded-full w-32 h-32 cursor-pointer"
               />
-              <UploadButton />
-              <UploadPreview />
+              <input type="file" name="" onChange={handleChangeImage} id="" />
             </label>
             <h1
               style={{ background: bgcolor }}
@@ -262,7 +267,7 @@ const LeftSideBar = ({
             </svg>
 
             <h1 className="icon-text">
-              {userDetails.FirstName} {userDetails.LastName}
+              {userDetails.firstName} {userDetails.lastName}
             </h1>
           </div>
 
@@ -1110,7 +1115,7 @@ const RightSideBar = ({
               name="firstname"
               className="candidate-input"
               required
-              defaultValue={userDetails?.FirstName}
+              defaultValue={userDetails?.firstName}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1121,7 +1126,7 @@ const RightSideBar = ({
               name="lastname"
               className="candidate-input"
               required
-              defaultValue={userDetails?.LastName}
+              defaultValue={userDetails?.lastName}
             />
           </div>
           <div className="candidate-sub-childs">

@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addAllListings } from "src/Redux/listingReducer";
 
 // Step 1: Create a new context
 export const MyContext = createContext();
@@ -10,47 +11,30 @@ export const MyContext = createContext();
 const ListingDataContext = ({ children }) => {
   const [showActiveListings, setShowActiveListings] = useState(false);
   const [filters, setFilters] = useState(null);
+  const reduxListings = useSelector((state) => state.counter.listings);
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState();
-  const [loadingError, setLoadingError] = useState(false);
-  const [showEmailPopup, setShowEmailPopup] = useState(false);
-  const [showInfoPopup, setShowInfoPopup] = useState(false);
-  const [showComparisonPopup, setShowComparisonPopup] = useState(false);
-  const [activeListings, setActiveListings] = useState([]);
+  const [loadingError, setLoadingError] = useState();
+  const activeListings = useSelector((state) => state.counter.activeListings);
   const [paginationListings, setPaginationListings] = useState();
   const userDetails = useSelector((state) => state.counter.userDetails);
   const ifLogin = useSelector((state) => state.counter.ifLogin);
   const role =
     userDetails && typeof userDetails === "object"
-      ? userDetails.UserType
+      ? userDetails.userType
       : null;
+  const dispatch = useDispatch();
 
-  const handleTools = (event) => {
-    const value = event.target.value;
-    if (value === "email") {
-      setShowEmailPopup(true);
-    } else if (value === "info") {
-      setShowInfoPopup(true);
-    } else if (value === "comparison") {
-      setShowComparisonPopup(true);
-    }
-  };
-
-  useEffect(() => {
+  const getAllListings = async () => {
     setLoading(true);
-    const url = "http://siddiqiventures-001-site3.ktempurl.com/all_list.aspx";
-
-    // Make a GET request to fetch the data
-    axios
+    const url = "https://omerkhan7210-001-site1.ltempurl.com/api/Listings";
+    const responseData = await axios
       .get(url)
-      .then((response) => {
+      .then(async (response) => {
         // Handle successful response
         if (response.data.length > 0) {
-          const normalFLS = response.data.filter(
-            (data) => data.Memberships !== null
-          );
-          setListings(normalFLS);
           setLoading(false);
+          return response.data;
         }
       })
       .catch((error) => {
@@ -58,24 +42,37 @@ const ListingDataContext = ({ children }) => {
         setLoadingError(true);
         console.error("Error fetching data:", error);
       });
-  }, []); // Empty dependency array to run once on component mount
+    return responseData;
+  };
+
+  useEffect(() => {
+    const GetData = async () => {
+      if (reduxListings && reduxListings.length > 0) {
+        setListings(reduxListings);
+      } else {
+        const listings = await getAllListings();
+        if (listings) {
+          const normalFLS = await listings.filter(
+            (data) => data.listingMemberships !== ""
+          );
+          dispatch(addAllListings(normalFLS));
+          setListings(normalFLS);
+        }
+      }
+    };
+    GetData();
+
+    // Make a GET request to fetch the data
+  }, [listings]); // Empty dependency array to run once on component mount
 
   return (
     <MyContext.Provider
       value={{
         userDetails,
-        setShowComparisonPopup,
-        setShowInfoPopup,
-        showInfoPopup,
-        showComparisonPopup,
         listings,
         loading,
         loadingError,
-        handleTools,
-        setShowEmailPopup,
-        showEmailPopup,
         activeListings,
-        setActiveListings,
         filters,
         setFilters,
         showActiveListings,
