@@ -321,7 +321,7 @@ const FormTC = ({
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site4.ktempurl.com/api/registrations";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {
@@ -329,10 +329,7 @@ const FormTC = ({
             "Content-Type": "application/json",
           },
         });
-        if (
-          response.status === 200 &&
-          response.data === "Bridge Information Saved Successfully."
-        ) {
+        if (response.status === 200) {
           setFormErrors({});
           setSuccessMsg("Territory Check Send Successfully.");
           setShowSuccess(true);
@@ -401,7 +398,7 @@ const FormTC = ({
         <h2 className="candidate-sub-heading">Candidate Name*</h2>
 
         <div className="flex justify-between w-full max-md:flex-col max-md:gap-5">
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
             <p className="candidate-paragraph">First Name</p>
 
             <select
@@ -423,7 +420,7 @@ const FormTC = ({
                 ))}
             </select>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col w-full">
             <p className="candidate-paragraph">Last Name*</p>
             <input
               onChange={handleInputChange}
