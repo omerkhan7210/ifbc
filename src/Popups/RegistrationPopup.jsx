@@ -9,6 +9,7 @@ import Form from "src/Pages/CandidatePages/NewCandidate/Form";
 
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
   const { cands, userDetails } = useContext(MyCandContext);
+
   const { activeListings } = useContext(MyContext);
   const [candNames, setNames] = useState([]);
   const [selectedDocId, setSelectedDocId] = useState();
@@ -119,7 +120,6 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
                 <Form
                   candNames={candNames}
                   candDetails={cands}
-                  userDetails={userDetails}
                   activeListings={activeListings}
                 />
               )}
@@ -321,7 +321,7 @@ const FormTC = ({
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site4.ktempurl.com/api/registrations";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {

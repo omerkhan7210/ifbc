@@ -20,7 +20,7 @@ const Login = () => {
 
   const getUserDetails = async (token) => {
     const url =
-      "http://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
+      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -81,7 +81,7 @@ const Login = () => {
     }
 
     try {
-      const baseUrl = `http://siddiqiventures-001-site4.ktempurl.com/api/login`;
+      const baseUrl = `https://siddiqiventures-001-site4.ktempurl.com/api/login`;
       const requestData = {
         email: user.username.value,
         password: user.password.value,

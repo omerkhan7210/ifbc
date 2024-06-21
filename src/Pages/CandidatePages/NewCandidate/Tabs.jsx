@@ -257,12 +257,17 @@ const Initial = ({
         name="Funding"
         id="Funding"
         className="candidate-select"
-        {...(candNames && candNames.length > 0
-          ? { value: selectedDetails?.funding }
-          : { defaultValue: candDetails?.funding })}
       >
         {fundingOptions.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.funding
+                : candDetails?.funding
+            }
+          >
             {option.label}
           </option>
         ))}

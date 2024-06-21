@@ -5,9 +5,6 @@ import { MyCandContext } from "src/Context/CandidatesDataContext";
 import DialogBox from "src/Popups/DialogBox";
 import FormatRawDate from "src/Utils/FormatRawDate";
 import { convertKeysToLowercase } from "src/Utils/ObjectMethods";
-import Uploady, { useUploady } from "@rpldy/uploady";
-import UploadButton from "@rpldy/upload-button";
-import UploadPreview from "@rpldy/upload-preview";
 import PageTransition from "src/Animations/PageTransition";
 import axios from "axios";
 
@@ -16,16 +13,14 @@ const Profile = () => {
   const { role } = useContext(MyCandContext);
   const token = localStorage.getItem("token") || "";
   const [userDetails, setUserDetails] = useState(null);
-  const [formFields, setFormFields] = useState(
-    userDetails ? convertKeysToLowercase(userDetails) : {}
-  );
+  const [formFields, setFormFields] = useState({});
   const [successMsg, setSuccessMsg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [haveChanges, setHaveChanges] = useState(false);
 
   const getUserDetails = async () => {
     const url =
-      "http://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
+      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -44,6 +39,13 @@ const Profile = () => {
       console.error("Error fetching data:", error);
     }
   };
+
+  useEffect(() => {
+    if (userDetails) {
+      const converted = convertKeysToLowercase(userDetails);
+      setFormFields(converted);
+    }
+  }, [userDetails]);
 
   useEffect(() => {
     getUserDetails();
@@ -68,10 +70,9 @@ const Profile = () => {
       "lastname",
       "companyphonenumber",
       "email",
-      "state",
       "city",
       "zippostalcode",
-      "address",
+      "companyaddress",
     ];
     let allFieldsValid = true;
 
@@ -79,6 +80,7 @@ const Profile = () => {
       const newKey = field.toLowerCase().split(" ").join("");
       if (!formFields[newKey] || formFields[newKey].trim() === "") {
         setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
+
         allFieldsValid = false;
       } else {
         setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
@@ -89,18 +91,21 @@ const Profile = () => {
       if (allFieldsValid) {
         // formdata
 
-        const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site4.ktempurl.com/api/users";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/users";
 
         // Send the PUT request using Axios
-        const response = await axios.put(baseUrl, jsonData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.put(
+          `${baseUrl}/${formFields.docid}`,
+          formFields,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        if (response.status === 200) {
+        if (response.status === 204) {
           setFormErrors({});
           setSuccessMsg("User Information Updated Successfully.");
 
@@ -133,14 +138,15 @@ const Profile = () => {
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
+    const newName = name.toLowerCase();
 
     setFormFields((prevFields) => ({
       ...prevFields,
-      [name]: inputValue,
+      [newName]: inputValue,
     }));
     setFormErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: "",
+      [newName]: "",
     }));
   };
 
