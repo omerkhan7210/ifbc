@@ -127,7 +127,10 @@ const ActivityGridContainer = ({
       }}
       className="side-bar-main-div p-10 flex flex-col gap-6 text-center h-full overflow-y-scroll"
     >
-      <div id="top-candidate-sidebar" className="flex justify-between ">
+      <div
+        id="top-candidate-sidebar"
+        className="flex md:justify-between max-md:flex-col max-md:gap-4"
+      >
         <h2 className="side-bar-first-heading text-3xl">Recent Activity</h2>
 
         <div id="select-candidate-container" className="flex gap-5">

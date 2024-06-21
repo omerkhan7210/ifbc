@@ -11,7 +11,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const { userDetails } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState(candDetails ? candDetails : {});
   const [formErrors, setFormErrors] = useState({});
-  const history = useNavigate();
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
   const [selectedDocId, setSelectedDocId] = useState();
@@ -22,7 +21,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       const filtered = candDetails.filter(
         (cand) => cand.docId == selectedDocId
       );
-      console.log(selectedDocId, filtered);
       if (filtered) {
         const selectedCand = filtered[0];
         setSelectedDetails(selectedCand);
@@ -107,6 +105,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         ? "bg-red-200 text-white"
         : ""
     );
+    console.log(candDetails);
     return (
       <select
         onChange={handleInputChange}
@@ -115,7 +114,13 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         className={className}
       >
         {states.map((state, index) => (
-          <option key={index} value={state.value}>
+          <option
+            key={index}
+            value={state.value}
+            {...(candDetails
+              ? { selected: `${name}state` === candDetails[`${name}state`] }
+              : {})}
+          >
             {state.text}
           </option>
         ))}
@@ -248,7 +253,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           setLoading(false);
 
           setTimeout(() => {
-            history("/candidate-list");
+            window.location.href = "/candidate-list";
           }, 3000);
         } else {
           console.log(response);
@@ -388,7 +393,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     <>
       <div
         id="main-new-candidate-form-container"
-        className={`col-span-12 divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10"} `}
+        className={` divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10 col-span-12"} `}
       >
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">

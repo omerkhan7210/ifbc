@@ -44,7 +44,7 @@ const MainCandidateProfile = () => {
 
   return (
     <PageTransition>
-      <div className="grid grid-cols-12 gap-30 max-w-7xl gap-10 mx-auto my-10">
+      <div className="grid grid-cols-12 gap-30 max-w-7xl gap-10 mx-auto my-10 max-md:px-5">
         {/* card end */}
         <LeftSideCardContainer
           candDetails={candDetails}
@@ -52,7 +52,7 @@ const MainCandidateProfile = () => {
           filteredData={filteredData}
           loading={loading}
         />
-        <div className="grid md:col-span-9 col-span-12  ">
+        <div className="md:grid col-span-9 max-md:block max-md:col-span-12 w-full">
           <Form candDetails={candDetails} />
         </div>
       </div>
@@ -72,10 +72,10 @@ const LeftSideCardContainer = ({
   const [regOn, setRegOn] = useState(false);
 
   const profileButtons = [
-    {
-      text: "Activity",
-      setShow: setActivityOn,
-    },
+    // {
+    //   text: "Activity",
+    //   setShow: setActivityOn,
+    // },
     {
       text: "FLS Criteria",
       setShow: setFlsOn,
@@ -116,7 +116,7 @@ const LeftSideCardContainer = ({
 
   return (
     candDetails && (
-      <div className="md: flex flex-col gap-5 items-start col-span-3">
+      <div className="md: flex flex-col gap-5 items-start max-md:col-span-12 md:col-span-3">
         <div className="mr-3 w-full">
           <p className="text-slate-500 text-sm font-semibold mb-2">
             Deal Stage
@@ -177,9 +177,9 @@ const LeftSideCardContainer = ({
             {btn.text}
           </button>
         ))}
-        <DialogBox setShow={setActivityOn} show={activityOn}>
+        {/* <DialogBox setShow={setActivityOn} show={activityOn}>
           <Activity setShow={setActivityOn} />
-        </DialogBox>
+        </DialogBox> */}
 
         <DialogBox setShow={setFlsOn} show={flsOn}>
           <Flscriteria setShow={setFlsOn} />
@@ -614,7 +614,7 @@ const Registerations = ({ setShow, listings, filteredData, loading }) => {
             ))}
           </div>
         ) : (
-          <div className="p-10 grid place-items-center">
+          <div className="md:p-10 grid place-items-center max-md:py-20 max-md:px-10">
             <h1 className="font-bold text-4xl text-custom-heading-color">
               No Registrations
             </h1>
