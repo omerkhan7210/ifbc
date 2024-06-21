@@ -1,4 +1,5 @@
 import { Select } from "@headlessui/react";
+import axios from "axios";
 import React, { useContext, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
@@ -110,17 +111,17 @@ const Registration = () => {
       profileimage: formFields.profileimage ?? "",
       coverimage: formFields.coverimage ?? "",
     };
-
     try {
       const baseUrl = `http://siddiqiventures-001-site4.ktempurl.com/api/users`;
 
       setLoading(true);
 
-      const response = await axios.post(baseUrl, requestData, {
+      const response = await axios.post(baseUrl, requestData.email, {
         headers: {
           "Content-Type": "application/json",
         },
       });
+      console.log(response);
 
       if (response.status === 200) {
         const userToken = response.data.token;
@@ -144,6 +145,8 @@ const Registration = () => {
         setLoading(false);
       }
     } catch (err) {
+      console.error(err);
+
       //setError({ credentials: err });
       setLoading(false);
     }

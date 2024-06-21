@@ -454,9 +454,10 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
               {loading ? "Loading..." : "SEND APPLICATION"}
             </button>
           ) : (
-            <button className="candidate-btn w-96" onClick={handleEdit}>
-              {loading ? "Loading..." : "EDIT CANDIDATE INFORMATION"}
-            </button>
+            <></>
+            // <button className="candidate-btn w-96" onClick={handleEdit}>
+            //   {loading ? "Loading..." : "EDIT CANDIDATE INFORMATION"}
+            // </button>
           )
         ) : (
           <button className="candidate-btn w-96" onClick={handleSubmit}>
