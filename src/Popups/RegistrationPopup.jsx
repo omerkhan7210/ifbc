@@ -144,10 +144,10 @@ const FormTC = ({
   selectedDetails,
   userDetails,
   setSelectedDetails,
+  activeListings,
 }) => {
   const [addContacts, setAddContacts] = useState(0);
   const [formErrors, setFormErrors] = useState({});
-  const [searchOn, setSearchOn] = useState(false);
   const [loading, setLoading] = useState(false);
   const states = [
     { value: "AL", text: "Alabama" },
@@ -287,7 +287,8 @@ const FormTC = ({
     );
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
     const reqFields = [
       "firstName",
@@ -311,7 +312,7 @@ const FormTC = ({
       if (allFieldsValid) {
         const formData = {
           candidateId: selectedDocId,
-          AgentId: userDetails.Id,
+          AgentId: userDetails.docId,
           listingsIds: JSON.stringify(activeListings).replace(/[^0-9,]/g, ""),
           InterRequest: selectedDetails.IncludeNameInTerritoryRequest,
           docType: "TC",
@@ -319,20 +320,16 @@ const FormTC = ({
           Message: "",
         };
 
-        const jsonData = JSON.stringify(formData);
         const baseUrl =
           "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
 
         // Send the POST request using Axios
-        const response = await axios.post(baseUrl, jsonData, {
+        const response = await axios.post(baseUrl, formData, {
           headers: {
             "Content-Type": "application/json",
           },
         });
-        if (
-          response.status === 200 &&
-          response.data === "Bridge Information Saved Successfully."
-        ) {
+        if (response.status === 200) {
           setFormErrors({});
           setSuccessMsg("Territory Check Send Successfully.");
           setShowSuccess(true);

@@ -1,10 +1,11 @@
 import { Select } from "@headlessui/react";
+import axios from "axios";
 import React, { useContext, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
-import { setToken } from "src/Redux/listingReducer";
+import { setToken, setUserDetails } from "src/Redux/listingReducer";
 
 const Registration = () => {
   const ref = useRef();
@@ -37,7 +38,34 @@ const Registration = () => {
     const re = /^[A-Za-z][A-Za-z0-9]*$/;
     return re.test(username);
   };
+  const getUserDetails = async (token) => {
+    const url =
+      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
 
+    try {
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Handle successful response
+      if (response.status === 200) {
+        const someUserDetails = response.data;
+        return {
+          docId: someUserDetails.docId,
+          firstName: someUserDetails.firstName,
+          lastName: someUserDetails.lastName,
+          email: someUserDetails.email,
+          profileImage: someUserDetails.profileImage,
+          userType: someUserDetails.userType,
+        };
+      } else {
+        console.log("No user details found");
+      }
+    } catch (error) {
+      // Handle error
+      console.error("Error fetching data:", error);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const users = {
@@ -79,11 +107,11 @@ const Registration = () => {
       coverimage: formFields.coverimage ?? "",
     };
     try {
-      const baseUrl = `https://localhost:7047/api/users`;
+      const baseUrl = `https://siddiqiventures-001-site4.ktempurl.com/api/users`;
 
       setLoading(true);
 
-      const response = await axios.post(baseUrl, requestData, {
+      const response = await axios.post(baseUrl, users, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -91,11 +119,11 @@ const Registration = () => {
       console.log(response);
 
       if (response.status === 200) {
-        // setSuccessMsg(response.data.message);
-        // setShow(true);
         const userToken = response.data.token;
+        const someUserDetails = await getUserDetails(userToken);
         localStorage.setItem("token", userToken);
         dispatch(setToken(true));
+        dispatch(setUserDetails(someUserDetails));
         setTimeout(() => {
           setLoading(false);
           history("/");
@@ -113,6 +141,7 @@ const Registration = () => {
         setLoading(false);
       }
     } catch (err) {
+      console.error(err);
       //setError({ credentials: err });
       setLoading(false);
     }
@@ -302,7 +331,7 @@ const Registration = () => {
               className="candidate-btn w-full sm:w-auto"
               type="submit"
             >
-              Sign Up
+              {loading ? "Loading..." : "Sign Up"}
             </button>
             <Link to="/" className="candidate-secondary-btn w-full sm:w-auto">
               Already have an account?

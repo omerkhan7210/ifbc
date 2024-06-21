@@ -209,7 +209,11 @@ const Card = ({ card, cands, listings }) => {
         </h1>
       </div>
       <div className="flex justify-center items-center w-full mt-4 gap-3">
-        <img src={`/${filteredListing?.imgUrl}`} alt="smash" className="w-14" />
+        <img
+          src={`/${filteredListing?.listingImageUrl}`}
+          alt="smash"
+          className="w-14"
+        />
         <p className="text-lg font-bold text-custom-heading-color">
           {filteredListing?.name}
         </p>

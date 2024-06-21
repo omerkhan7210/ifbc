@@ -115,7 +115,7 @@ const ShoppingCart = ({ cartListings, listings }) => {
                 >
                   <div>
                     <img
-                      src={`./${listing.imgUrl}`}
+                      src={`./${listing.listingImageUrl}`}
                       alt=""
                       className="rounded-lg"
                       width={100}
