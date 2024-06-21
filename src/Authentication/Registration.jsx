@@ -112,7 +112,7 @@ const Registration = () => {
     };
 
     try {
-      const baseUrl = `http://siddiqiventures-001-site4.ktempurl.com/api/users`;
+      const baseUrl = `https://siddiqiventures-001-site4.ktempurl.com/api/users`;
 
       setLoading(true);
 
@@ -122,7 +122,7 @@ const Registration = () => {
         },
       });
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         const userToken = response.data.token;
         localStorage.setItem("token", userToken);
         dispatch(setToken(true));

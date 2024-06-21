@@ -22,7 +22,7 @@ const CandidatesDataContext = ({ children }) => {
   const getAllCandidates = async () => {
     setLoading(true);
 
-    const url = `http://siddiqiventures-001-site4.ktempurl.com/api/candidates`;
+    const url = `https://siddiqiventures-001-site4.ktempurl.com/api/candidates`;
 
     // Make a GET request to fetch the data
     axios

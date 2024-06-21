@@ -25,7 +25,7 @@ const Profile = () => {
 
   const getUserDetails = async () => {
     const url =
-      "http://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
+      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -91,7 +91,7 @@ const Profile = () => {
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site4.ktempurl.com/api/users";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/users";
 
         // Send the PUT request using Axios
         const response = await axios.put(baseUrl, jsonData, {

@@ -264,7 +264,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
 
       const jsonData = JSON.stringify(formData);
       const baseUrl =
-        "http://siddiqiventures-001-site4.ktempurl.com/api/checkout";
+        "https://siddiqiventures-001-site4.ktempurl.com/api/checkout";
 
       // Send the POST request using Axios
       const response = await axios.post(baseUrl, jsonData, {

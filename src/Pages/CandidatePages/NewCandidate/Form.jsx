@@ -228,7 +228,7 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site4.ktempurl.com/api/candidates";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/candidates";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {
@@ -236,7 +236,6 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
             "Content-Type": "application/json",
           },
         });
-        console.log(response);
 
         if (response.status === 200) {
           setFormErrors({});
@@ -302,7 +301,7 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site3.ktempurl.com/cfabridge.aspx";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {
@@ -310,10 +309,7 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
             "Content-Type": "application/json",
           },
         });
-        if (
-          response.status === 200 &&
-          response.data === "Bridge Information Saved Successfully."
-        ) {
+        if (response.status === 200 || response.status === 201) {
           setFormErrors({});
           setSuccessMsg(`Congratulations! You have now sent your Formal Registration!
                         It will be delivered to the email account associated with the this concepts profile. For your records, a time stamped copy of this email will be sent to you as well.

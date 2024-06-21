@@ -321,7 +321,7 @@ const FormTC = ({
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site4.ktempurl.com/api/registrations";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {
