@@ -19,7 +19,7 @@ import MainMessages from "./Pages/CandidatePages/Messages/MainMessages";
 import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
 import TCFRDataContext from "./Context/TCFRDataContext";
 
-const RouteRenderer = ({ isAuthenticated, setShowF, setShowT }) => {
+const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const authenticatedRoutes = [
     {
       path: "/",
@@ -33,7 +33,10 @@ const RouteRenderer = ({ isAuthenticated, setShowF, setShowT }) => {
       path: "/listings",
       element: (
         <ListingDataContext>
-          <MainListings setShowF={setShowF} setShowT={setShowT} />
+          <MainListings
+            setShow={setShow}
+            setRegistrationType={setRegistrationType}
+          />
         </ListingDataContext>
       ),
     },
@@ -41,7 +44,10 @@ const RouteRenderer = ({ isAuthenticated, setShowF, setShowT }) => {
       path: "/listings-details/:name",
       element: (
         <ListingDataContext>
-          <MainDetails setShowF={setShowF} setShowT={setShowT} />
+          <MainDetails
+            setShow={setShow}
+            setRegistrationType={setRegistrationType}
+          />
         </ListingDataContext>
       ),
     },

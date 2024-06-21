@@ -3,16 +3,22 @@ import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   value: JSON.parse(localStorage.getItem("cartListings"))?.length || 0,
-  listings: JSON.parse(localStorage.getItem("cartListings")) || [],
+  candidates: [],
+  listings: [],
+  registrations: [],
+  cartListings: JSON.parse(localStorage.getItem("cartListings")) || [],
   uuid: localStorage.getItem("uuid") || null,
-  ifLogin: JSON.parse(localStorage.getItem("ifLogin")) || false,
   userDetails: JSON.parse(localStorage.getItem("userDetails")) || null,
   role:
     JSON.parse(localStorage.getItem("userDetails")) &&
     typeof JSON.parse(localStorage.getItem("userDetails")) === "object"
-      ? JSON.parse(localStorage.getItem("userDetails"))?.UserType
+      ? JSON.parse(localStorage.getItem("userDetails"))?.userType
       : null,
   activeListings: JSON.parse(localStorage.getItem("activeListings")) || [],
+  token:
+    localStorage.getItem("token") && localStorage.getItem("token") !== ""
+      ? true
+      : false,
 };
 
 export const listingReducer = createSlice({
@@ -25,26 +31,41 @@ export const listingReducer = createSlice({
     decrement: (state) => {
       state.value -= 1;
     },
+    addAllListings: (state, action) => {
+      state.listings = action.payload;
+    },
+    addAllCandidates: (state, action) => {
+      state.candidates = action.payload;
+    },
+    addAllRegistrations: (state, action) => {
+      state.registrations = action.payload;
+    },
     incrementByListing: (state, action) => {
-      if (!state.listings.find((listing) => listing === action.payload)) {
+      if (!state.cartListings.find((listing) => listing === action.payload)) {
         state.value += 1;
-        state.listings.push(action.payload);
-        localStorage.setItem("cartListings", JSON.stringify(state.listings));
+        state.cartListings.push(action.payload);
+        localStorage.setItem(
+          "cartListings",
+          JSON.stringify(state.cartListings)
+        );
       }
     },
     decrementByListing: (state, action) => {
       // Find the index of the listing to be removed
-      const index = state.listings.findIndex(
+      const index = state.cartListings.findIndex(
         (listing) => listing === action.payload
       );
 
       // If the listing is found, proceed to remove it
       if (index !== -1) {
         state.value -= 1; // Decrement the value
-        state.listings = state.listings.filter(
+        state.cartListings = state.cartListings.filter(
           (listing) => listing !== action.payload
         ); // Remove the listing
-        localStorage.setItem("cartListings", JSON.stringify(state.listings));
+        localStorage.setItem(
+          "cartListings",
+          JSON.stringify(state.cartListings)
+        );
       }
     },
     generateUuid: (state) => {
@@ -54,10 +75,8 @@ export const listingReducer = createSlice({
         state.uuid = newUuid;
       }
     },
-    setIfLogin: (state, action) => {
-      localStorage.setItem("ifLogin", action.payload);
-
-      state.ifLogin = action.payload;
+    setToken: (state, action) => {
+      state.token = action.payload;
     },
     setUserDetails: (state, action) => {
       if (action.payload) {
@@ -94,6 +113,13 @@ export const listingReducer = createSlice({
         );
       }
     },
+    decrementAllActiveListing: (state) => {
+      state.activeListings = [];
+      localStorage.setItem(
+        "activeListings",
+        JSON.stringify(state.activeListings)
+      );
+    },
   },
 });
 
@@ -104,10 +130,14 @@ export const {
   incrementByListing,
   generateUuid,
   decrementByListing,
-  setIfLogin,
   setUserDetails,
   incrementActiveListing,
   decrementActiveListing,
+  decrementAllActiveListing,
+  addAllListings,
+  addAllCandidates,
+  addAllRegistrations,
+  setToken,
 } = listingReducer.actions;
 
 export default listingReducer.reducer;

@@ -6,7 +6,7 @@ import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { MyContext } from "src/Context/ListingDataContext";
 import ToggleButton from "./ToggleButton";
 import { useDispatch, useSelector } from "react-redux";
-import { setIfLogin } from "src/Redux/listingReducer";
+import { setToken } from "src/Redux/listingReducer";
 import { useEffect } from "react";
 const Logo = () => {
   return (
@@ -137,7 +137,7 @@ const RightSideButtonsContainer = ({
   setMobileActive,
   hidden,
 }) => {
-  const { ifLogin, userDetails, role } = useContext(MyContext);
+  const { token, userDetails, role } = useContext(MyContext);
 
   return (
     <div className="sm:flex sm:justify-end sm:items-start sm:pt-1 sm:gap-5">
@@ -149,7 +149,7 @@ const RightSideButtonsContainer = ({
       {/* cart icon */}
       {role === "N" && <CartIcon hidden={hidden} />}
       {/* USER BUTTON */}
-      <AccountDD ifLogin={ifLogin} userDetails={userDetails} />
+      <AccountDD token={token} userDetails={userDetails} />
 
       {/* TOGGLE BUTTON */}
       <ToggleButton
@@ -196,7 +196,7 @@ const CartIcon = ({ hidden }) => {
   );
 };
 
-const AccountDD = ({ userDetails, ifLogin }) => {
+const AccountDD = ({ userDetails, token, hidden }) => {
   const [active, setActive] = useState(false);
   const history = useNavigate();
   const dispatch = useDispatch();
@@ -220,9 +220,9 @@ const AccountDD = ({ userDetails, ifLogin }) => {
   }, [role]);
 
   const handleLogOut = () => {
-    localStorage.setItem("ifLogin", false);
     localStorage.removeItem("userDetails");
-    dispatch(setIfLogin(false));
+    localStorage.removeItem("token");
+    dispatch(setToken(false));
     history("/");
   };
   const elementStyle = active
@@ -237,8 +237,12 @@ const AccountDD = ({ userDetails, ifLogin }) => {
       }
     : {};
   return (
-    ifLogin && (
-      <div className="hs-dropdown relative md:inline-flex max-sm:hidden">
+    token && (
+      <motion.div
+        initial={{ y: 0 }}
+        animate={{ y: hidden && window.innerWidth > 768 ? "200%" : 0 }}
+        className="hs-dropdown relative md:inline-flex max-sm:hidden"
+      >
         <button
           id="user-icon "
           onClick={() => setActive(!active)}
@@ -246,8 +250,8 @@ const AccountDD = ({ userDetails, ifLogin }) => {
         >
           <img
             src={
-              userDetails?.ProfileImage
-                ? `/images/uploads/${userDetails?.ProfileImage}`
+              userDetails?.profileImage
+                ? `/images/uploads/${userDetails?.profileImage}`
                 : "/images/avatar-placeholder.png"
             }
             className="w-10 h-10 rounded-full"
@@ -260,11 +264,11 @@ const AccountDD = ({ userDetails, ifLogin }) => {
           <div className="flex flex-col items-start  py-2 px-3">
             <p className="text-[15px] text-[#333] font-bold">
               {userDetails
-                ? userDetails?.FirstName?.charAt(0).toUpperCase() +
-                  userDetails?.FirstName?.slice(1) +
+                ? userDetails?.firstName?.charAt(0).toUpperCase() +
+                  userDetails?.firstName?.slice(1) +
                   " " +
-                  userDetails?.LastName?.charAt(0).toUpperCase() +
-                  userDetails?.LastName?.slice(1)
+                  userDetails?.lastName?.charAt(0).toUpperCase() +
+                  userDetails?.lastName?.slice(1)
                 : "John Doe"}
             </p>
             <p className="text-xs text-gray-500 mt-0.5">
@@ -287,7 +291,7 @@ const AccountDD = ({ userDetails, ifLogin }) => {
             Log out
           </a>
         </div>
-      </div>
+      </motion.div>
     )
   );
 };

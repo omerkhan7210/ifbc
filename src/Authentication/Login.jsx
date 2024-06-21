@@ -4,8 +4,7 @@ import { useContext } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
-import { MyContext } from "src/Context/ListingDataContext";
-import { setIfLogin, setUserDetails } from "src/Redux/listingReducer";
+import { setToken, setUserDetails } from "src/Redux/listingReducer";
 
 const Login = () => {
   const ref = useRef();
@@ -19,6 +18,34 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
+  const getUserDetails = async (token) => {
+    const url =
+      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
+
+    try {
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Handle successful response
+      if (response.status === 200) {
+        const someUserDetails = response.data;
+        return {
+          docId: someUserDetails.docId,
+          firstName: someUserDetails.firstName,
+          lastName: someUserDetails.lastName,
+          email: someUserDetails.email,
+          profileImage: someUserDetails.profileImage,
+          userType: someUserDetails.userType,
+        };
+      } else {
+        console.log("No user details found");
+      }
+    } catch (error) {
+      // Handle error
+      console.error("Error fetching data:", error);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -54,17 +81,29 @@ const Login = () => {
     }
 
     try {
-      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/loginapi.aspx`;
+      const baseUrl = `https://siddiqiventures-001-site4.ktempurl.com/api/login`;
+      const requestData = {
+        email: user.username.value,
+        password: user.password.value,
+      };
 
-      const url = `${baseUrl}?UNAME=${user.username.value}&PWD=${user.password.value}`;
       setLoading(true);
-      // Send the POST request using Axios
-      const response = await axios.post(url);
+      const response = await axios.post(baseUrl, requestData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-      if (typeof response.data === "object" && response.status === 200) {
+      if (response.status === 200) {
         setLoading(false);
-        dispatch(setIfLogin(true));
-        dispatch(setUserDetails(response?.data[0]));
+        const someUserDetails = await getUserDetails(response.data.token);
+        const userToken = response.data.token;
+
+        localStorage.setItem("token", userToken);
+        dispatch(setToken(true));
+        dispatch(setUserDetails(someUserDetails));
+        setUserDetails(someUserDetails);
+        setLoading(false);
         history("/");
       } else {
         setError({

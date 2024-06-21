@@ -18,11 +18,10 @@ import DialogBox from "src/Popups/DialogBox";
 import PageTransition from "src/Animations/PageTransition";
 import { decrementByListing } from "src/Redux/listingReducer";
 import { twMerge } from "tailwind-merge";
-import handleInputChange from "src/Utils/handleInputChange";
 
 const CheckOutForm = () => {
   const { listings, loading } = useContext(MyContext);
-  const cartListings = useSelector((state) => state.counter.listings);
+  const cartListings = useSelector((state) => state.counter.cartListings);
   const [noCartlistings, setNoCartListings] = useState(true);
 
   useEffect(() => {
@@ -93,71 +92,69 @@ const ShoppingCart = ({ cartListings, listings }) => {
         className="divide-y-2 divide-custom-heading-color/10 w-full h-[330px] overflow-y-scroll "
       >
         {/* items-row */}
-        {cartListings &&
-          cartListings.length > 0 &&
-          listings
-            .filter((listing) => cartListings.includes(listing.DocId))
-            .map((listing, index) => {
-              // Use a regular expression to find the investment range
-              const investmentRangeMatch = listing?.InvestmentRange?.match(
-                /Investment Range: \$[\d,]+ - \$[\d,]+/
-              );
+        {listings
+          .filter((listing) => cartListings.includes(listing.docId))
+          .map((listing, index) => {
+            // Use a regular expression to find the investment range
+            const investmentRangeMatch = listing?.investmentRange?.match(
+              /Investment Range: \$[\d,]+ - \$[\d,]+/
+            );
 
-              const investmentRange = investmentRangeMatch
-                ? investmentRangeMatch[0]?.split(":")[1]
-                : "";
+            const investmentRange = investmentRangeMatch
+              ? investmentRangeMatch[0]?.split(":")[1]
+              : "";
 
-              return (
+            return (
+              <div
+                key={index}
+                className=" flex flex-col sm:flex-row justify-between  items-center py-3 relative"
+              >
                 <div
-                  key={index}
-                  className=" flex flex-col sm:flex-row justify-between  items-center py-3 relative"
+                  id="item-side"
+                  className="flex flex-col sm:flex-row gap-1 items-center w-full"
                 >
-                  <div
-                    id="item-side"
-                    className="flex flex-col sm:flex-row gap-1 items-center w-full"
-                  >
-                    <div>
-                      <img
-                        src={`./${listing.imgUrl}`}
-                        alt=""
-                        className="rounded-lg"
-                        width={100}
-                      />
-                    </div>
-                    <div
-                      id="content-side"
-                      className="flex flex-col max-sm:items-center"
-                    >
-                      <h2 className="text-md font-bold">{listing.name}</h2>
-
-                      <h2 className="text-xs">
-                        Cash Required: <b>{investmentRange}</b>
-                      </h2>
-                    </div>
+                  <div>
+                    <img
+                      src={`./${listing.imgUrl}`}
+                      alt=""
+                      className="rounded-lg"
+                      width={100}
+                    />
                   </div>
                   <div
-                    onClick={() => dispatch(decrementByListing(listing.DocId))}
-                    id="btn-side"
-                    className="sm:px-6 max-sm:absolute max-sm:top-[10px] max-sm:right-[40px] max-sm:rounded-full max-sm:w-8 max-sm:h-8 max-sm:bg-red-700 max-sm:text-white max-sm:flex max-sm:justify-center max-sm:items-center sm:text-red-800 cursor-pointer"
+                    id="content-side"
+                    className="flex flex-col max-sm:items-center"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-5"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                      />
-                    </svg>
+                    <h2 className="text-md font-bold">{listing.name}</h2>
+
+                    <h2 className="text-xs">
+                      Cash Required: <b>{investmentRange}</b>
+                    </h2>
                   </div>
                 </div>
-              );
-            })}
+                <div
+                  onClick={() => dispatch(decrementByListing(listing.docId))}
+                  id="btn-side"
+                  className="sm:px-6 max-sm:absolute max-sm:top-[10px] max-sm:right-[40px] max-sm:rounded-full max-sm:w-8 max-sm:h-8 max-sm:bg-red-700 max-sm:text-white max-sm:flex max-sm:justify-center max-sm:items-center sm:text-red-800 cursor-pointer"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                    className="size-5"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                    />
+                  </svg>
+                </div>
+              </div>
+            );
+          })}
       </div>
 
       {/* btn row */}
@@ -267,7 +264,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
 
       const jsonData = JSON.stringify(formData);
       const baseUrl =
-        "http://siddiqiventures-001-site3.ktempurl.com/checkout_api.aspx";
+        "https://siddiqiventures-001-site4.ktempurl.com/api/checkout";
 
       // Send the POST request using Axios
       const response = await axios.post(baseUrl, jsonData, {
@@ -275,11 +272,8 @@ const LeftSidebar = ({ cartListings, listings }) => {
           "Content-Type": "application/json",
         },
       });
-
-      if (
-        response.status === 200 &&
-        response.data === "Checkout Information Saved Successfully."
-      ) {
+      console.log(response);
+      if (response.status === 201) {
         setFormErrors({});
         setSuccessMsg("Thank you for requesting!");
         setLoading(false);
@@ -288,9 +282,9 @@ const LeftSidebar = ({ cartListings, listings }) => {
         setTimeout(() => {
           setShow(false);
           listings
-            .filter((listing) => cartListings.includes(listing.DocId))
+            .filter((listing) => cartListings.includes(listing.docId))
             .map((listing) => {
-              dispatch(decrementByListing(listing.DocId));
+              dispatch(decrementByListing(listing.docId));
             });
           history("/");
         }, 2000);
@@ -307,6 +301,20 @@ const LeftSidebar = ({ cartListings, listings }) => {
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   return (

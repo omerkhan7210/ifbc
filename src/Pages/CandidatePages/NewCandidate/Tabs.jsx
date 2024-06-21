@@ -1,6 +1,11 @@
 import { useState } from "react";
 
-const Tabs = ({ handleInputChange, candDetails }) => {
+const Tabs = ({
+  handleInputChange,
+  candDetails,
+  candNames,
+  selectedDetails,
+}) => {
   const [activeTab, setActiveTab] = useState("initial qualifying");
   return (
     <div className="md:flex mt-6">
@@ -11,30 +16,40 @@ const Tabs = ({ handleInputChange, candDetails }) => {
         activeTab={activeTab}
         handleInputChange={handleInputChange}
         candDetails={candDetails}
+        candNames={candNames}
+        selectedDetails={selectedDetails}
       />
       {/* 2nd Tab Description */}
       <Zoracle
         activeTab={activeTab}
         handleInputChange={handleInputChange}
         candDetails={candDetails}
+        candNames={candNames}
+        selectedDetails={selectedDetails}
       />
       {/* 3rd Tab Description */}
       <Eligibility
         activeTab={activeTab}
         handleInputChange={handleInputChange}
         candDetails={candDetails}
+        candNames={candNames}
+        selectedDetails={selectedDetails}
       />
       {/* 4th Tab Description */}
       <Experience
         activeTab={activeTab}
         handleInputChange={handleInputChange}
         candDetails={candDetails}
+        candNames={candNames}
+        selectedDetails={selectedDetails}
       />
       {/* 5th Tab Description */}
       <Wants
         activeTab={activeTab}
         handleInputChange={handleInputChange}
         candDetails={candDetails}
+        candNames={candNames}
+        selectedDetails={selectedDetails}
       />
     </div>
   );
@@ -74,7 +89,13 @@ const TabsList = ({ activeTab, setActiveTab }) => {
   );
 };
 
-const Initial = ({ activeTab, handleInputChange, candDetails }) => {
+const Initial = ({
+  activeTab,
+  handleInputChange,
+  candDetails,
+  candNames,
+  selectedDetails,
+}) => {
   const investmentOptions = [
     { value: "", label: "Select one" },
     { value: "$5,000 - $49,999", label: "$5,000 - $49,999" },
@@ -213,7 +234,9 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="InvestmentFranchise"
         id="money"
         className="candidate-select"
-        defaultValue={candDetails?.InvestmentFranchise}
+        {...(candNames && candNames.length > 0
+          ? { value: selectedDetails?.investmentFranchise }
+          : { defaultValue: candDetails?.investmentFranchise })}
       >
         {investmentOptions.map((option) => (
           <option key={option.value} value={option.value}>
@@ -234,10 +257,17 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="Funding"
         id="Funding"
         className="candidate-select"
-        defaultValue={candDetails?.Funding}
       >
         {fundingOptions.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.funding
+                : candDetails?.funding
+            }
+          >
             {option.label}
           </option>
         ))}
@@ -252,7 +282,9 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="CreditScore"
         id="score"
         className="candidate-select"
-        defaultValue={candDetails?.CreditScore}
+        {...(candNames && candNames.length > 0
+          ? { value: selectedDetails?.creditScore }
+          : { defaultValue: candDetails?.creditScore })}
       >
         {creditScoreOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -268,7 +300,9 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="Networth"
         id="worth"
         className="candidate-select"
-        defaultValue={candDetails?.Networth}
+        {...(candNames && candNames.length > 0
+          ? { value: selectedDetails?.netWorth }
+          : { defaultValue: candDetails?.netWorth })}
       >
         {netWorthOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -284,7 +318,9 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="LiquidCash"
         id="liquid-cash"
         className="candidate-select"
-        defaultValue={candDetails?.LiquidCash}
+        {...(candNames && candNames.length > 0
+          ? { value: selectedDetails?.liquidCash }
+          : { defaultValue: candDetails?.liquidCash })}
       >
         {liquidCashOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -302,7 +338,9 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="FranchiseCause"
         id="franchise"
         className="candidate-select"
-        defaultValue={candDetails?.FranchiseCause}
+        {...(candNames && candNames.length > 0
+          ? { value: selectedDetails?.franchiseCause }
+          : { defaultValue: candDetails?.franchiseCause })}
       >
         {reasonOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -320,7 +358,9 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="ProfessionalBackground"
         id="background"
         className="candidate-select"
-        defaultValue={candDetails?.ProfessionalBackground}
+        {...(candNames && candNames.length > 0
+          ? { value: selectedDetails?.professionalBackground }
+          : { defaultValue: candDetails?.professionalBackground })}
       >
         {backgroundOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -338,7 +378,9 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
           name="FranchiseInterested"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.FranchiseInterested}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.franchiseInterested }
+            : { defaultValue: candDetails?.franchiseInterested })}
         />
       </div>
       <div>
@@ -349,7 +391,9 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
         name="TimeFrame"
         id="time-frame"
         className="candidate-select"
-        defaultValue={candDetails?.TimeFrame}
+        {...(candNames && candNames.length > 0
+          ? { value: selectedDetails?.timeFrame }
+          : { defaultValue: candDetails?.timeFrame })}
       >
         {timeFrameOptions.map((option, index) => (
           <option key={index} value={option.value}>
@@ -380,7 +424,13 @@ const Initial = ({ activeTab, handleInputChange, candDetails }) => {
   );
 };
 
-const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
+const Zoracle = ({
+  activeTab,
+  handleInputChange,
+  candDetails,
+  candNames,
+  selectedDetails,
+}) => {
   const competencyOptions1 = [
     { value: "", label: "Select one" },
     { value: "Leadership-Vision", label: "Leadership & Vision" },
@@ -457,7 +507,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           name="Competency1"
           id="competency1"
           className="candidate-select w-full"
-          defaultValue={candDetails?.Competency1}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.competency1 }
+            : { defaultValue: candDetails?.competency1 })}
         >
           {competencyOptions1.map((option, index) => (
             <option key={index} value={option.value}>
@@ -475,7 +527,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           name="Competency2"
           id="competency2"
           className="candidate-select w-full"
-          defaultValue={candDetails?.Competency2}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.competency2 }
+            : { defaultValue: candDetails?.competency2 })}
         >
           {competencyOptions2.map((option, index) => (
             <option key={index} value={option.value}>
@@ -493,7 +547,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           name="Competency3"
           id="competency3"
           className="candidate-select w-full"
-          defaultValue={candDetails?.Competency3}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.competency3 }
+            : { defaultValue: candDetails?.competency3 })}
         >
           {competencyOptions3.map((option, index) => (
             <option key={index} value={option.value}>
@@ -511,7 +567,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           name="StageofGrowth"
           id="stage-of-growth"
           className="candidate-select w-full"
-          defaultValue={candDetails?.StageofGrowth}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.stageOfGrowth }
+            : { defaultValue: candDetails?.stageOfGrowth })}
         >
           {growth.map((option, index) => (
             <option key={index} value={option.value}>
@@ -529,7 +587,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           name="Value"
           id="value"
           className="candidate-select w-full"
-          defaultValue={candDetails?.Value}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.value }
+            : { defaultValue: candDetails?.value })}
         >
           {valueOptions.map((option, index) => (
             <option key={index} value={option.value}>
@@ -573,7 +633,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.Activities}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.activities }
+            : { defaultValue: candDetails?.activities })}
         />
       </div>
       <div className="candidate-input-container">
@@ -587,7 +649,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.AttendingNetworkFunction}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.attendingNetworkFunction }
+            : { defaultValue: candDetails?.attendingNetworkFunction })}
         />
       </div>
       <div className="candidate-input-container">
@@ -600,7 +664,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.MultiUnitOps}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.multiUnitOps }
+            : { defaultValue: candDetails?.multiUnitOps })}
         />
       </div>
       <div className="candidate-input-container">
@@ -613,7 +679,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.BusinessPartner}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.businessPartner }
+            : { defaultValue: candDetails?.businessPartner })}
         />
       </div>
       <div className="candidate-input-container">
@@ -626,7 +694,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.FamilyFeel}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.familyFeel }
+            : { defaultValue: candDetails?.familyFeel })}
         />
       </div>
       <div className="candidate-input-container">
@@ -639,7 +709,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.EmployeesPrefer}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.employeesPrefer }
+            : { defaultValue: candDetails?.employeesPrefer })}
         />
       </div>
       <div className="candidate-input-container">
@@ -652,7 +724,9 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.StaffSize}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.staffSize }
+            : { defaultValue: candDetails?.staffSize })}
         />
       </div>
       <div className="mt-5">
@@ -678,7 +752,13 @@ const Zoracle = ({ activeTab, handleInputChange, candDetails }) => {
   );
 };
 
-const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
+const Eligibility = ({
+  activeTab,
+  handleInputChange,
+  candDetails,
+  candNames,
+  selectedDetails,
+}) => {
   const militaryOptions = [
     { value: "", label: "Select one" },
     { value: "Veteran", label: "Veteran" },
@@ -705,7 +785,9 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.FundingBusiness}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.fundingBusiness }
+            : { defaultValue: candDetails?.fundingBusiness })}
         />
       </div>
       <div className="candidate-input-container">
@@ -718,7 +800,9 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           type="number"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.EligibilityValue}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.eligibilityValue }
+            : { defaultValue: candDetails?.eligibilityValue })}
         />
       </div>
       <div>
@@ -733,7 +817,9 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           name="VALoan"
           id="Qualify"
           className="candidate-select w-full"
-          defaultValue={candDetails?.VALoan}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.vALoan }
+            : { defaultValue: candDetails?.vALoan })}
         >
           {militaryOptions.map((option, index) => (
             <option key={index} value={option.value}>
@@ -753,7 +839,9 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.CurrentNetworth}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.currentNetworth }
+            : { defaultValue: candDetails?.currentNetworth })}
         />
       </div>
       <div className="flex flex-col">
@@ -769,7 +857,11 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="TrafficViolation"
               defaultValue="true"
-              checked={candDetails?.TrafficViolation === "true"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.trafficViolation === "true" }
+                : {
+                    defaultChecked: candDetails?.trafficViolation === "true",
+                  })}
             />
             <label
               className="mb-2 block"
@@ -786,7 +878,11 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="TrafficViolation"
               defaultValue="false"
-              checked={candDetails?.TrafficViolation === "false"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.trafficViolation === "false" }
+                : {
+                    defaultChecked: candDetails?.trafficViolation === "false",
+                  })}
             />
             <label
               className="mb-2 block"
@@ -811,7 +907,11 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Unsatisfiedjudgment"
               defaultValue="true"
-              checked={candDetails?.Unsatisfiedjudgment === "true"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.unSatisfiedJudgment === "true" }
+                : {
+                    defaultChecked: candDetails?.unSatisfiedJudgment === "true",
+                  })}
             />
             <label
               className="mb-2 block"
@@ -827,7 +927,12 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Unsatisfiedjudgment"
               defaultValue="false"
-              checked={candDetails?.Unsatisfiedjudgment === "false"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.unSatisfiedJudgment === "false" }
+                : {
+                    defaultChecked:
+                      candDetails?.unSatisfiedJudgment === "false",
+                  })}
             />
             <label
               className="mb-2 block"
@@ -849,7 +954,9 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.Bankruptcy}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.bankruptcy }
+            : { defaultValue: candDetails?.bankruptcy })}
         />
       </div>
       <div className="mt-5">
@@ -875,7 +982,13 @@ const Eligibility = ({ activeTab, handleInputChange, candDetails }) => {
   );
 };
 
-const Experience = ({ activeTab, handleInputChange, candDetails }) => {
+const Experience = ({
+  activeTab,
+  handleInputChange,
+  candDetails,
+  candNames,
+  selectedDetails,
+}) => {
   return (
     <div
       id="experience"
@@ -893,7 +1006,9 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.BusinessBefore}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.businessBefore }
+            : { defaultValue: candDetails?.businessBefore })}
         />
       </div>
       <div className="candidate-input-container">
@@ -906,7 +1021,9 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.MarketingExperience}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.marketingExperience }
+            : { defaultValue: candDetails?.marketingExperience })}
         />
       </div>
       <div className="candidate-input-container">
@@ -919,7 +1036,9 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.ManagementExperience}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.managementExperience }
+            : { defaultValue: candDetails?.managementExperience })}
         />
       </div>
       <div className="candidate-input-container">
@@ -930,7 +1049,9 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.SalesExperience}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.salesExperience }
+            : { defaultValue: candDetails?.salesExperience })}
         />
       </div>
       <div className="candidate-input-container">
@@ -943,7 +1064,9 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.ReviewFinancialStatement}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.reviewFinancialStatement }
+            : { defaultValue: candDetails?.reviewFinancialStatement })}
         />
       </div>
       <div className="candidate-input-container">
@@ -956,7 +1079,9 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.CSExperience}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.csExperience }
+            : { defaultValue: candDetails?.csExperience })}
         />
       </div>
       <div>
@@ -966,7 +1091,13 @@ const Experience = ({ activeTab, handleInputChange, candDetails }) => {
   );
 };
 
-const Wants = ({ activeTab, handleInputChange, candDetails }) => {
+const Wants = ({
+  activeTab,
+  handleInputChange,
+  candDetails,
+  candNames,
+  selectedDetails,
+}) => {
   return (
     <div
       id="wants"
@@ -984,7 +1115,9 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.AttractiveBusinessOwner}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.attractiveBusinessOwner }
+            : { defaultValue: candDetails?.attractiveBusinessOwner })}
         />
       </div>
       <div className="candidate-input-container">
@@ -998,7 +1131,9 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
           type="text"
           className="candidate-normal-input"
           required
-          defaultValue={candDetails?.HandleNewBusiness}
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.handleNewBusiness }
+            : { defaultValue: candDetails?.handleNewBusiness })}
         />
       </div>
       <div className="mt-5">
@@ -1028,11 +1163,11 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PreferB2b"
               defaultValue="Both"
-              checked={candDetails?.PreferB2b === "Both"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.preferB2b === "Both" }
+                : { defaultChecked: candDetails?.preferB2b === "Both" })}
             />
-            <label className="mb-2 block" htmlFor="_fba_b2b1">
-              Both
-            </label>
+            <label className="mb-2 block">Both</label>
           </li>
           <li className="flex mr-4">
             <input
@@ -1041,11 +1176,11 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PreferB2b"
               defaultValue="B2B"
-              checked={candDetails?.PreferB2b === "B2B"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.preferB2b === "B2B" }
+                : { defaultChecked: candDetails?.preferB2b === "B2B" })}
             />
-            <label className="mb-2 block" htmlFor="_fba_b2b2">
-              B2B
-            </label>
+            <label className="mb-2 block">B2B</label>
           </li>
           <li className="flex">
             <input
@@ -1054,11 +1189,11 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PreferB2b"
               defaultValue="B2C"
-              checked={candDetails?.PreferB2b === "B2C"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.preferB2b === "B2C" }
+                : { defaultChecked: candDetails?.preferB2b === "B2C" })}
             />
-            <label className="mb-2 block" htmlFor="_fba_b2b3">
-              B2C
-            </label>
+            <label className="mb-2 block">B2C</label>
           </li>
         </ul>
       </div>
@@ -1074,7 +1209,9 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PhysicalLocation"
               defaultValue="Both"
-              checked={candDetails?.PhysicalLocation === "Both"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.physicalLocation === "Both" }
+                : { defaultChecked: candDetails?.physicalLocation === "Both" })}
             />
             <label className="mb-2 block" htmlFor="Both">
               Both
@@ -1087,7 +1224,14 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PhysicalLocation"
               defaultValue="Home-based"
-              checked={candDetails?.PhysicalLocation === "Home-based"}
+              {...(candNames && candNames.length > 0
+                ? {
+                    checked: selectedDetails?.physicalLocation === "Home-based",
+                  }
+                : {
+                    defaultChecked:
+                      candDetails?.physicalLocation === "Home-based",
+                  })}
             />
             <label className="mb-2 block" htmlFor="Home-based">
               Home-based
@@ -1100,7 +1244,12 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PhysicalLocation"
               defaultValue="Physical"
-              checked={candDetails?.PhysicalLocation === "Physical"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.physicalLocation === "Physical" }
+                : {
+                    defaultChecked:
+                      candDetails?.physicalLocation === "Physical",
+                  })}
             />
             <label className="mb-2 block" htmlFor="Physical">
               Physical
@@ -1120,7 +1269,9 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Inventory"
               defaultValue="Both"
-              checked={candDetails?.Inventory === "Both"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.inventory === "Both" }
+                : { defaultChecked: candDetails?.inventory === "Both" })}
             />
             <label
               className="mb-2 block"
@@ -1137,7 +1288,9 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Inventory"
               defaultValue="Inventory"
-              checked={candDetails?.Inventory === "Inventory"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.inventory === "Inventory" }
+                : { defaultChecked: candDetails?.inventory === "Inventory" })}
             />
             <label className="mb-2 block" htmlFor="type1">
               Inventory
@@ -1150,7 +1303,9 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="Inventory"
               defaultValue="Service"
-              checked={candDetails?.Inventory === "Service"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.inventory === "Service" }
+                : { defaultChecked: candDetails?.inventory === "Service" })}
             />
             <label className="mb-2 block" htmlFor="type2">
               Service
@@ -1170,7 +1325,9 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="ColdCalling"
               defaultValue="Both"
-              checked={candDetails?.ColdCalling === "Both"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.coldCalling === "Both" }
+                : { defaultChecked: candDetails?.coldCalling === "Both" })}
             />
             <label
               className="mb-2 block"
@@ -1186,7 +1343,9 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="ColdCalling"
               defaultValue="Yes"
-              checked={candDetails?.ColdCalling === "Yes"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.coldCalling === "Yes" }
+                : { defaultChecked: candDetails?.coldCalling === "Yes" })}
             />
             <label
               className="mb-2 block"
@@ -1204,7 +1363,9 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="ColdCalling"
               defaultValue="No"
-              checked={candDetails?.ColdCalling === "No"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.coldCalling === "No" }
+                : { defaultChecked: candDetails?.coldCalling === "No" })}
             />
             <label
               className="mb-2 block"
@@ -1231,7 +1392,12 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PassiveMode"
               defaultValue="Owner/Operator"
-              checked={candDetails?.PassiveMode === "Owner/Operator"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.passiveMode === "Owner/Operator" }
+                : {
+                    defaultChecked:
+                      candDetails?.passiveMode === "Owner/Operator",
+                  })}
             />
             <label
               className="mb-2 block"
@@ -1247,7 +1413,11 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PassiveMode"
               defaultValue="Passive"
-              checked={candDetails?.PassiveMode === "Passive"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.passiveMode === "Passive" }
+                : {
+                    defaultChecked: candDetails?.passiveMode === "Passive",
+                  })}
             />
             <label
               className="mb-2 block"
@@ -1265,7 +1435,11 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="PassiveMode"
               defaultValue="Semi"
-              checked={candDetails?.PassiveMode === "Semi"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.passiveMode === "Semi" }
+                : {
+                    defaultChecked: candDetails?.passiveMode === "Semi",
+                  })}
             />
             <label
               className="mb-2 block"
@@ -1290,7 +1464,11 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="BusinessHours"
               defaultValue="Both"
-              checked={candDetails?.BusinessHours === "Both"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.businessHours === "Both" }
+                : {
+                    defaultChecked: candDetails?.businessHours === "Both",
+                  })}
             />
             <label
               className="mb-2 block"
@@ -1306,7 +1484,11 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="BusinessHours"
               defaultValue="Yes"
-              checked={candDetails?.BusinessHours === "Yes"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.businessHours === "Yes" }
+                : {
+                    defaultChecked: candDetails?.businessHours === "Yes",
+                  })}
             />
             <label
               className="mb-2 block"
@@ -1324,7 +1506,11 @@ const Wants = ({ activeTab, handleInputChange, candDetails }) => {
               className="mr-2"
               name="BusinessHours"
               defaultValue="No"
-              checked={candDetails?.BusinessHours === "No"}
+              {...(candNames && candNames.length > 0
+                ? { checked: selectedDetails?.businessHours === "No" }
+                : {
+                    defaultChecked: candDetails?.businessHours === "No",
+                  })}
             />
             <label
               className="mb-2 block"

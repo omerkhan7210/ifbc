@@ -7,7 +7,7 @@ import BarLoader from "src/Animations/BarLoader";
 import PageTransition from "src/Animations/PageTransition";
 import RelatedListings from "src/Globals/RelatedListings";
 
-const MainDetails = ({ setShow, show }) => {
+const MainDetails = ({ setShow, show, setRegistrationType }) => {
   const url = useParams();
   const pName = url.name;
   const { listings, loading } = useContext(MyContext);
@@ -41,7 +41,12 @@ const MainDetails = ({ setShow, show }) => {
         tabIndex={-1}
         className="max-w-7xl px-6 mx-auto gap-x-10 "
       >
-        <TopBar listingContent={listingContent} setShow={setShow} show={show} />
+        <TopBar
+          listingContent={listingContent}
+          setShow={setShow}
+          show={show}
+          setRegistrationType={setRegistrationType}
+        />
         <BottomBar listingContent={listingContent} />
       </main>
       <RelatedListings />

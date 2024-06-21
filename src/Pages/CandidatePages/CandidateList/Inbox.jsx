@@ -41,7 +41,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background: "url(/images/banners/candidatelist1.jpeg)",
+          background: "url(/images/accounts/inbox.jpg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -49,7 +49,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
         }}
       >
         <h1 className="max-md:text-4xl md:text-7xl text-white z-20text-white font-bold text-center z-20">
-          Candidate List
+          Inbox
         </h1>
       </div>
       <div className="max-w-7xl mx-auto flex flex-col gap-5">
@@ -100,82 +100,82 @@ const Inbox = ({ handleInputChange, userDetails }) => {
           Territory Check
         </h2>
 
-        <div class="overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="w-full text-sm text-left text-blue-100 dark:text-blue-100">
-            <thead class="text-xs text-white uppercase bg-blue-600 dark:text-white">
+        <div className="overflow-x-auto shadow-md sm:rounded-lg">
+          <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
+            <thead className="text-xs text-white uppercase bg-blue-600 dark:text-white">
               <tr>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   Candidate Name
                 </th>
-                <th scope="col" class="px-6 py-3">
+                <th scope="col" className="px-6 py-3">
                   Nick Hart
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr class="bg-blue-500 border-b border-blue-400">
+              <tr className="bg-blue-500 border-b border-blue-400">
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
                 >
                   Territory
                 </th>
-                <td class="px-6 py-4">Fresno CA, 93711</td>
+                <td className="px-6 py-4">Fresno CA, 93711</td>
               </tr>
-              <tr class="bg-blue-600 border-b border-blue-400">
+              <tr className="bg-blue-600 border-b border-blue-400">
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
                 >
                   Franchise
                 </th>
-                <td class="px-6 py-4">Smash My Trash</td>
+                <td className="px-6 py-4">Smash My Trash</td>
               </tr>
-              <tr class="bg-blue-500 border-b border-blue-400">
+              <tr className="bg-blue-500 border-b border-blue-400">
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
                 >
                   Franchise Email
                 </th>
-                <td class="px-6 py-4">franchiseinquiry@smashmytrash.com</td>
+                <td className="px-6 py-4">franchiseinquiry@smashmytrash.com</td>
               </tr>
-              <tr class="bg-blue-600 border-b border-blue-400">
+              <tr className="bg-blue-600 border-b border-blue-400">
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
                 >
                   Franchise Contact
                 </th>
-                <td class="px-6 py-4">David Curnich</td>
+                <td className="px-6 py-4">David Curnich</td>
               </tr>
-              <tr class="bg-blue-500 border-blue-40">
+              <tr className="bg-blue-500 border-blue-40">
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
                 >
                   Broker Email
                 </th>
-                <td class="px-6 py-4">ht@ifbc.co</td>
+                <td className="px-6 py-4">ht@ifbc.co</td>
               </tr>
 
-              <tr class="bg-blue-600 border-b border-blue-400">
+              <tr className="bg-blue-600 border-b border-blue-400">
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
                 >
                   Broker Name
                 </th>
-                <td class="px-6 py-4">Harjeet Tiwana</td>
+                <td className="px-6 py-4">Harjeet Tiwana</td>
               </tr>
-              <tr class="bg-blue-500 border-blue-40">
+              <tr className="bg-blue-500 border-blue-40">
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
                 >
                   Broker Company
                 </th>
-                <td class="px-6 py-4">IFBC.CO</td>
+                <td className="px-6 py-4">IFBC.CO</td>
               </tr>
             </tbody>
           </table>

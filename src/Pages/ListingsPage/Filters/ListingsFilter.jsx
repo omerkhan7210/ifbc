@@ -13,105 +13,83 @@ const ListingsFilter = () => {
     {
       anotherText: "Select Franchise Fee",
       normalText: "Franchise Fee",
-      property: "FranchiseFee",
+      property: "franchiseFee",
     },
     {
       anotherText: "Select Investment Range",
       normalText: "Investment Range",
-      property: "InvestmentRange",
+      property: "investmentRange",
     },
 
-    {
-      anotherText: "Select Memberships",
-      normalText: "Memberships",
-      property: "Memberships",
-    },
-
-    { anotherText: "Select Single", normalText: "Single", property: "Single" },
+    { anotherText: "Select Single", normalText: "Single", property: "single" },
     {
       anotherText: "Select Multiple",
       normalText: "Multiple",
-      property: "Multiple",
-    },
-    {
-      anotherText: "Select Minimum Net Worth",
-      normalText: "Minimum Net Worth",
-      property: "MinimumNetWorth",
-    },
-    {
-      anotherText: "Select Monthly Cash",
-      normalText: "Monthly Cash",
-      property: "MonthCash",
+      property: "multiple",
     },
 
     {
-      anotherText: "Select National Advertising",
-      normalText: "National Advertising",
-      property: "NationalAdvertising",
-    },
-    {
       anotherText: "Select Number of Employees",
       normalText: "Number of Employees",
-      property: "NumberofEmployees",
+      property: "numberOfEmployees",
     },
     {
       anotherText: "Select Owned Units",
       normalText: "Owned Units",
-      property: "OwnedUnits",
+      property: "ownedUnits",
     },
     {
       anotherText: "Select Passive Ownership",
       normalText: "Passive Ownership",
-      property: "PassiveOwnership",
+      property: "passiveOwnership",
     },
     {
       anotherText: "Select Projected New Units",
       normalText: "Projected New Units",
-      property: "ProjectedNewUnits",
+      property: "projectedNewUnits",
     },
     {
       anotherText: "Select Ramp Up",
       normalText: "Ramp Up",
-      property: "RampUp",
+      property: "rampUp",
     },
     {
       anotherText: "Select Royalty",
       normalText: "Royalty",
-      property: "Royalty",
+      property: "royalty",
     },
     {
       anotherText: "Select Royalty Description",
       normalText: "Royalty Description",
-      property: "RoyaltyDescription",
+      property: "royaltyDescription",
     },
     {
       anotherText: "Select Item 19",
       normalText: "Item 19",
-      property: "Item19",
+      property: "item19",
     },
     {
       anotherText: "Select Liquidity",
       normalText: "Liquidity",
-      property: "Liquidity",
+      property: "liquidity",
     },
     {
       anotherText: "Select Territories",
       normalText: "Territories",
-      property: "Territories",
+      property: "territories",
     },
     {
       anotherText: "Select Type of Business",
       normalText: "Type of Business",
-      property: "TypeofBusiness",
+      property: "typeOfBusiness",
     },
     {
       anotherText: "Select Year Established",
       normalText: "Year Established",
-      property: "YearEstablished",
+      property: "yearEstablished",
     },
   ];
 
-  const [selectedCats, setSelectedCats] = useState([]);
   // Check if any filters are not empty
   const hasActiveFilters =
     filters &&

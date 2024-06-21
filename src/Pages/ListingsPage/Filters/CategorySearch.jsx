@@ -62,7 +62,7 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
       <div
         className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${
           activeDD ? "h-96" : "h-0 opacity-0"
-        } duration-200 bg-white dark:bg-gray-800 border border-dimmed text-sm md:text-sm overflow-scroll`}
+        } duration-200 bg-white dark:bg-gray-800 border border-dimmed text-sm md:text-sm overflow-y-scroll`}
       >
         {uniqueFranchisedCats.map((cat, index) => {
           return (

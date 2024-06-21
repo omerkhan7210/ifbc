@@ -1,9 +1,11 @@
-import { Select } from "@headlessui/react";
+import { Dialog, Select } from "@headlessui/react";
+import axios from "axios";
 import React, { useContext, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
-import handleInputChange from "src/Utils/handleInputChange";
+import DialogBox from "src/Popups/DialogBox";
+import { setToken } from "src/Redux/listingReducer";
 
 const Registration = () => {
   const ref = useRef();
@@ -17,45 +19,11 @@ const Registration = () => {
     password: "",
     credentials: "",
   });
-  const [formFields, setFormFields] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    websiteurl: "",
-    linkedinurl: "",
-    meetinglink: "",
-    companyname: "",
-    companyphonenumber: "",
-    companyaddress: "",
-    city: "",
-    zippostalcode: "",
-    unitsuite: "",
-    notes: "",
-    shortdescription: "",
-    consulting: "",
-    franchiseindustryfocus: "",
-    businessbroker: false,
-    registeredin: "",
-    openforgroup: false,
-    password: "",
-    confirmpassword: "",
-    territorycheck: false,
-    disablelogo: false,
-    disablecover: false,
-    disableprofile: false,
-    disablebio: false,
-    hidename: false,
-    broker: "",
-    allcandidates: false,
-    allpastclient: false,
-    sharefranchise: false,
-    leademail: "",
-    fbabadges: false,
-    usertype: "",
-    profileimage: "",
-    coverimage: "",
-  });
+  const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const [show, setShow] = useState(false);
+  const [otp, setOtp] = useState(null);
+  const dispatch = useDispatch();
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -73,6 +41,88 @@ const Registration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const users = {
+      firstname: formFields.firstname ?? "",
+      lastname: formFields.lastname ?? "",
+      email: formFields.email ?? "",
+      websiteurl: formFields.websiteurl ?? "",
+      linkedinurl: formFields.linkedinurl ?? "",
+      meetinglink: formFields.meetinglink ?? "",
+      companyname: formFields.companyname ?? "",
+      companyphonenumber: formFields.companyphonenumber ?? "",
+      companyaddress: formFields.companyaddress ?? "",
+      city: formFields.city ?? "",
+      zippostalcode: formFields.zippostalcode ?? "",
+      unitsuite: formFields.unitsuite ?? "",
+      notes: formFields.notes ?? "",
+      shortdescription: formFields.shortdescription ?? "",
+      consulting: formFields.consulting ?? "",
+      franchiseindustryfocus: formFields.franchiseindustryfocus ?? "",
+      businessbroker: formFields.businessbroker ?? false,
+      registeredin: formFields.registeredin ?? "",
+      openforgroup: formFields.openforgroup ?? false,
+      password: formFields.password ?? "",
+      confirmpassword: formFields.confirmpassword ?? "",
+      territorycheck: formFields.territorycheck ?? false,
+      disablelogo: formFields.disablelogo ?? false,
+      disablecover: formFields.disablecover ?? false,
+      disableprofile: formFields.disableprofile ?? false,
+      disablebio: formFields.disablebio ?? false,
+      hidename: formFields.hidename ?? false,
+      broker: formFields.broker ?? "",
+      allcandidates: formFields.allcandidates ?? false,
+      allpastclient: formFields.allpastclient ?? false,
+      sharefranchise: formFields.sharefranchise ?? false,
+      leademail: formFields.leademail ?? "",
+      fbabadges: formFields.fbabadges ?? false,
+      usertype: "C",
+      profileimage: formFields.profileimage ?? "",
+      coverimage: formFields.coverimage ?? "",
+    };
+
+    try {
+      const baseUrl = `https://localhost:7047/api/users`;
+
+      setLoading(true);
+
+      const response = await axios.post(baseUrl, users, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 200) {
+        // setSuccessMsg(response.data.message);
+        // setShow(true);
+        const userToken = response.data.token;
+        localStorage.setItem("token", userToken);
+        dispatch(setToken(true));
+        setTimeout(() => {
+          setLoading(false);
+          history("/");
+        }, 3000);
+      } else if (response.data === "Account Already Exist.") {
+        setSuccessMsg({ alreadyexist: response.data });
+      } else {
+        setError({
+          username: "",
+          email: "",
+          password: "",
+          credentials: "Username or password incorrect",
+        });
+
+        setLoading(false);
+      }
+    } catch (err) {
+      console.error(err);
+      //setError({ credentials: err });
+      setLoading(false);
+    }
+  };
+
+  const handleSubmitAgain = async (e) => {
+    e.preventDefault();
+    setLoading(true);
     const requestData = {
       firstname: formFields.firstname ?? "",
       lastname: formFields.lastname ?? "",
@@ -90,65 +140,59 @@ const Registration = () => {
       shortdescription: formFields.shortdescription ?? "",
       consulting: formFields.consulting ?? "",
       franchiseindustryfocus: formFields.franchiseindustryfocus ?? "",
-      businessbroker: formFields.businessbroker ?? "",
+      businessbroker: formFields.businessbroker ?? false,
       registeredin: formFields.registeredin ?? "",
-      openforgroup: formFields.openforgroup ?? "",
+      openforgroup: formFields.openforgroup ?? false,
       password: formFields.password ?? "",
       confirmpassword: formFields.confirmpassword ?? "",
-      territorycheck: formFields.territorycheck ?? "",
-      disablelogo: formFields.disablelogo ?? "",
-      disablecover: formFields.disablecover ?? "",
-      disableprofile: formFields.disableprofile ?? "",
-      disablebio: formFields.disablebio ?? "",
-      hidename: formFields.hidename ?? "",
+      territorycheck: formFields.territorycheck ?? false,
+      disablelogo: formFields.disablelogo ?? false,
+      disablecover: formFields.disablecover ?? false,
+      disableprofile: formFields.disableprofile ?? false,
+      disablebio: formFields.disablebio ?? false,
+      hidename: formFields.hidename ?? false,
       broker: formFields.broker ?? "",
-      allcandidates: formFields.allcandidates ?? "",
-      allpastclient: formFields.allpastclient ?? "",
-      sharefranchise: formFields.sharefranchise ?? "",
+      allcandidates: formFields.allcandidates ?? false,
+      allpastclient: formFields.allpastclient ?? false,
+      sharefranchise: formFields.sharefranchise ?? false,
       leademail: formFields.leademail ?? "",
-      fbabadges: formFields.fbabadges ?? "",
-      usertype: "N",
+      fbabadges: formFields.fbabadges ?? false,
+      usertype: "C",
       profileimage: formFields.profileimage ?? "",
       coverimage: formFields.coverimage ?? "",
     };
 
+    const payload = {
+      requestData,
+      userOTP: otp,
+    };
+
     try {
-      const baseUrl = `http://siddiqiventures-001-site3.ktempurl.com/new_account.aspx`;
-
-      setLoading(true);
-
-      const response = await axios.post(baseUrl, requestData, {
+      const baseUrl = `https://localhost:7047/api/users/VerifyOTP`;
+      const response = await axios.post(baseUrl, payload, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-
-      if (
-        response.data === "Data inserted Successfully." &&
-        response.status === 200
-      ) {
-        localStorage.setItem("ifLogin", true);
-        setSuccessMsg({ success: response.data });
-        setLoading(false);
-        setTimeout(() => {
-          history("/login");
-        }, 3000);
-      } else if (response.data === "Account Already Exist.") {
-        setSuccessMsg({ alreadyexist: response.data });
-      } else {
-        setError({
-          username: "",
-          email: "",
-          password: "",
-          credentials: "Username or password incorrect",
-        });
-
-        setLoading(false);
-      }
+      console.log(response);
     } catch (err) {
-      //setError({ credentials: err });
+      console.error(err);
       setLoading(false);
     }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   const checkboxInputs = [
@@ -163,7 +207,7 @@ const Registration = () => {
     { name: "allcandidates", label: "All Candidates" },
     { name: "allpastclient", label: "All Past Client" },
     { name: "sharefranchise", label: "Share Franchise" },
-    { name: "fbabadges", label: "FBA Badges" },
+    { name: "fbabadges", label: "IFBC Badges" },
   ];
 
   return (
@@ -172,18 +216,31 @@ const Registration = () => {
         id="main-page-wrapper"
         className="flex justify-center flex-col items-center "
       >
-        <h2 className="text-4xl sm:text-5xl my-5 uppercase font-bold text-custom-heading-color">
+        <DialogBox show={show} setShow={setShow}>
+          <div className="py-20 px-5 flex items-center justify-center gap-2 flex-col">
+            <p className="text-2xl">{successMsg}</p>
+            <div className="input-container flex flex-col gap-3">
+              <input
+                type="text"
+                className="candidate-input"
+                name="otp"
+                onChange={(e) => setOtp(e.target.value)}
+              />
+              <button className="candidate-btn" onClick={handleSubmitAgain}>
+                Verify
+              </button>
+            </div>
+          </div>
+        </DialogBox>
+        <h2 className="text-4xl md:text-5xl my-5 uppercase font-bold text-custom-heading-color">
           Registration
         </h2>
         <form
           id="main-form"
-          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[90%] mx-auto flex flex-col sm:grid grid-cols-12 gap-0 sm:gap-10"
+          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[90%] mx-auto max-md:flex flex-col md:grid grid-cols-12 gap-0 md:gap-10"
           ref={ref}
         >
-          <div
-            id="left-form-container"
-            className="col-span-9 order-2 sm:order-1"
-          >
+          <div id="left-form-container" className="col-span-9 max-md:order-2">
             {error.credentials && (
               <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
                 {error.credentials}!
@@ -222,7 +279,7 @@ const Registration = () => {
           </div>
           <div
             id="right-side-container"
-            className="col-span-3 p-5 relative order-1 sm:order-2"
+            className="col-span-3 p-5 relative max-md:order-1"
           >
             <div id="sticky-container" className="top-10 sticky">
               {checkboxInputs.map(({ name, label }) => (
@@ -263,7 +320,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
     <>
       <div className="flex justify-center items-center">
         <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color text-center">
-          Your FBA Profile Information
+          Your IFBC Profile Information
         </h2>
       </div>
 
@@ -284,7 +341,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="firstname"
             type="text"
             placeholder="First Name"
-            value={formFields.firstname}
+            defaultValue={formFields.firstname}
             onChange={handleInputChange}
           />
           {error.firstname && (
@@ -310,7 +367,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="lastname"
             type="text"
             placeholder="Last Name"
-            value={formFields.lastname}
+            defaultValue={formFields.lastname}
             onChange={handleInputChange}
           />
           {error.lastname && (
@@ -335,7 +392,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="email"
             type="email"
             placeholder="Email"
-            value={formFields.email}
+            defaultValue={formFields.email}
             onChange={handleInputChange}
           />
           {error.email && (
@@ -361,7 +418,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="linkedinurl"
             type="url"
             placeholder="LinkedIn URL"
-            value={formFields.linkedinurl}
+            defaultValue={formFields.linkedinurl}
             onChange={handleInputChange}
           />
           {error.linkedinurl && (
@@ -387,7 +444,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="meetinglink"
             type="url"
             placeholder="Meeting Link"
-            value={formFields.meetinglink}
+            defaultValue={formFields.meetinglink}
             onChange={handleInputChange}
           />
           {error.meetinglink && (
@@ -412,7 +469,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
             id="websiteurl"
             type="url"
             placeholder="Website URL"
-            value={formFields.websiteurl}
+            defaultValue={formFields.websiteurl}
             onChange={handleInputChange}
           />
           {error.websiteurl && (
@@ -423,26 +480,26 @@ const Profile = ({ formFields, handleInputChange, error }) => {
         </div>
       </div>
       <div className="flex flex-col sm:flex-row justify-around gap-2">
-        <div class="w-full max-w-xs items-center gap-1.5">
-          <label class="block text-gray-700 text-sm font-bold mb-2">
+        <div className="w-full max-w-xs items-center gap-1.5">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
             Profile Picture
           </label>
           <input
             onChange={handleInputChange}
             name="profileimage"
-            class="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
+            className="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
             type="file"
             id="picture"
           />
         </div>
-        <div class="w-full max-w-xs items-center gap-1.5">
-          <label class="block text-gray-700 text-sm font-bold mb-2">
+        <div className="w-full max-w-xs items-center gap-1.5">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
             Cover Picture
           </label>
           <input
             onChange={handleInputChange}
             name="coverimage"
-            class="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
+            className="flex w-full rounded-md border border-blue-300 border-input bg-white text-sm text-gray-400 file:border-0 file:bg-blue-600 file:text-white file:text-sm file:font-medium"
             type="file"
             id="picture"
           />
@@ -477,7 +534,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="companyname"
             type="text"
             placeholder="Company Name"
-            value={formFields.companyname}
+            defaultValue={formFields.companyname}
             onChange={handleInputChange}
           />
           {error.companyname && (
@@ -503,7 +560,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="companyphonenumber"
             type="tel"
             placeholder="Company Phone Number"
-            value={formFields.companyphonenumber}
+            defaultValue={formFields.companyphonenumber}
             onChange={handleInputChange}
           />
           {error.companyphonenumber && (
@@ -529,7 +586,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="companyaddress"
             type="text"
             placeholder="Company Address"
-            value={formFields.companyaddress}
+            defaultValue={formFields.companyaddress}
             onChange={handleInputChange}
           />
           {error.companyaddress && (
@@ -557,7 +614,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="city"
             type="text"
             placeholder="City"
-            value={formFields.city}
+            defaultValue={formFields.city}
             onChange={handleInputChange}
           />
           {error.city && (
@@ -580,7 +637,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="zippostalcode"
             type="text"
             placeholder="Zip/Postal Code"
-            value={formFields.zippostalcode}
+            defaultValue={formFields.zippostalcode}
             onChange={handleInputChange}
           />
           {error.zippostalcode && (
@@ -606,7 +663,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="unitsuite"
             type="text"
             placeholder="Unit/Suite"
-            value={formFields.unitsuite}
+            defaultValue={formFields.unitsuite}
             onChange={handleInputChange}
           />
           {error.unitsuite && (
@@ -634,7 +691,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="notes"
             type="text"
             placeholder="Notes"
-            value={formFields.notes}
+            defaultValue={formFields.notes}
             onChange={handleInputChange}
           />
           {error.notes && (
@@ -659,7 +716,7 @@ const Company = ({ formFields, handleInputChange, error }) => {
             id="shortdescription"
             type="text"
             placeholder="Short Description"
-            value={formFields.shortdescription}
+            defaultValue={formFields.shortdescription}
             onChange={handleInputChange}
           />
           {error.shortdescription && (
@@ -698,7 +755,7 @@ const Experience = ({ formFields, handleInputChange, error }) => {
             id="consulting"
             type="text"
             placeholder="Consulting"
-            value={formFields.consulting}
+            defaultValue={formFields.consulting}
             onChange={handleInputChange}
           />
           {error.consulting && (
@@ -724,7 +781,7 @@ const Experience = ({ formFields, handleInputChange, error }) => {
             id="franchiseindustryfocus"
             type="text"
             placeholder="Franchise Industry Focus"
-            value={formFields.franchiseindustryfocus}
+            defaultValue={formFields.franchiseindustryfocus}
             onChange={handleInputChange}
           />
           {error.franchiseindustryfocus && (
@@ -750,13 +807,13 @@ const Experience = ({ formFields, handleInputChange, error }) => {
             id="registeredin"
             type="text"
             placeholder="Registered In"
-            value={formFields.registeredin}
+            defaultValue={formFields.registeredin}
             onChange={handleInputChange}
           >
-            <option value="N">None</option>
-            <option value="NY">New York</option>
-            <option value="W">Washington</option>
-            <option value="B">Both</option>
+            <option defaultValue="N">None</option>
+            <option defaultValue="NY">New York</option>
+            <option defaultValue="W">Washington</option>
+            <option defaultValue="B">Both</option>
           </Select>
           {error.registeredin && (
             <p className="text-red-500 text-xs italic mt-2">
@@ -794,7 +851,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
             id="broker"
             type="text"
             placeholder="Broker"
-            value={formFields.broker}
+            defaultValue={formFields.broker}
             onChange={handleInputChange}
           />
           {error.broker && (
@@ -818,7 +875,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
             id="leademail"
             type="email"
             placeholder="Lead Email"
-            value={formFields.leademail}
+            defaultValue={formFields.leademail}
             onChange={handleInputChange}
           />
           {error.leademail && (
@@ -846,7 +903,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
             name="password"
             type="password"
             placeholder="******************"
-            value={formFields.password}
+            defaultValue={formFields.password}
             onChange={handleInputChange}
           />
           {error.password && (
@@ -869,7 +926,7 @@ const Settings = ({ formFields, handleInputChange, error }) => {
             name="confirmpassword"
             type="password"
             placeholder="******************"
-            value={formFields.confirmpassword}
+            defaultValue={formFields.confirmpassword}
             onChange={handleInputChange}
           />
           {error.confirmpassword && (

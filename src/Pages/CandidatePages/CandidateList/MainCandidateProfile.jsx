@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useContext } from "react";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { useEffect } from "react";
@@ -11,18 +11,20 @@ import MessagePopup from "src/Popups/MessagePopup";
 import { MyTCFRContext } from "src/Context/TCFRDataContext";
 import BarLoader from "src/Animations/BarLoader";
 import { MyContext } from "src/Context/ListingDataContext";
+import FormatRawDate from "src/Utils/FormatRawDate";
 
 const MainCandidateProfile = () => {
   const { id } = useParams();
   const { cands } = useContext(MyCandContext);
-  const [candDetails, setCandDetails] = useState();
+  const [candDetails, setCandDetails] = useState(null);
   const { newData } = useContext(MyTCFRContext);
   const { listings, loading } = useContext(MyContext);
   const [filteredData, setFilteredData] = useState();
+  const history = useNavigate();
   useEffect(() => {
     if (newData && newData.length > 0) {
       const filterData = newData.filter(
-        (card) => card.CandidateId === candDetails.DocId
+        (card) => card.candidateId === candDetails.docId
       );
       setFilteredData(filterData);
     }
@@ -30,9 +32,13 @@ const MainCandidateProfile = () => {
 
   useEffect(() => {
     if (cands && cands.length > 0) {
-      const filteredArray = cands.filter((cand) => cand.DocId == id);
-      const filtered = filteredArray.length > 0 ? filteredArray[0] : null;
-      setCandDetails(filtered || null);
+      const filteredArray = cands.filter((cand) => cand.docId == id);
+      if (filteredArray.length > 0) {
+        const filtered = filteredArray[0];
+        setCandDetails(filtered || null);
+      } else {
+        history("/candidate-not-found");
+      }
     }
   }, [cands]);
 
@@ -45,6 +51,7 @@ const MainCandidateProfile = () => {
           listings={listings}
           filteredData={filteredData}
           loading={loading}
+          setCandDetails={setCandDetails}
         />
         <div className="grid md:col-span-9 col-span-12  ">
           <Form candDetails={candDetails} />
@@ -59,6 +66,7 @@ const LeftSideCardContainer = ({
   listings,
   filteredData,
   loading,
+  setCandDetails,
 }) => {
   const [activityOn, setActivityOn] = useState(false);
   const [flsOn, setFlsOn] = useState(false);
@@ -84,6 +92,39 @@ const LeftSideCardContainer = ({
     },
   ];
   const handleEdit = async () => {};
+  const dealStage = [
+    { value: "", label: "Select Stage" },
+    { value: "Initial Call Attempt", label: "Initial Call Attempt" },
+    { value: "Connected", label: "Connected" },
+    { value: "Spoton Candidate Research", label: "Spoton/Candidate Research" },
+    {
+      value: "Research & Prep Presentation",
+      label: "Research & Prep Presentation",
+    },
+    { value: "Present Franchise Review", label: "Present/Franchise Review" },
+    { value: "Intro to Zor", label: "Intro to Zor" },
+    { value: "Franchise Due Diligence", label: "Franchise Due Diligence" },
+    { value: "Validation FSO", label: "Validation - FSO" },
+    { value: "Discovery Day Award FSO", label: "Discovery Day/Award - FSO" },
+    { value: "Closed Won", label: "Closed Won" },
+    { value: "Closed Lost", label: "Closed Lost" },
+    { value: "On Hold", label: "On Hold" },
+  ];
+
+  const Broker = [
+    { value: "", label: "Select Broker" },
+    { value: "Keerit-Tiwana", label: "Keerit Tiwana" },
+  ];
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setCandDetails((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+  };
 
   return (
     candDetails && (
@@ -92,12 +133,20 @@ const LeftSideCardContainer = ({
           <p className="text-slate-500 text-sm font-semibold mb-2">
             Deal Stage
           </p>
-          <select className="candidate-select w-full">
-            <option selected>Select Stage</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
+          <select
+            onChange={handleInputChange}
+            className="candidate-select w-full"
+            name="pipelineStep"
+          >
+            {dealStage.map((option, index) => (
+              <option
+                key={index}
+                value={option.value}
+                selected={option.value === candDetails?.pipelineStep}
+              >
+                {option.label}
+              </option>
+            ))}
           </select>
           <p className="text-sm mb-1 font-medium ">
             To update the deal stage please update the contact's deal in
@@ -116,12 +165,12 @@ const LeftSideCardContainer = ({
 
         <div className="mr-3 w-full">
           <p className="text-slate-500 text-sm font-semibold mb-2">Brokers</p>
-          <select className="candidate-select w-full">
-            <option selected>Select Stage</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
+          <select className="candidate-select w-full " name="agentId">
+            {Broker.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -139,8 +188,9 @@ const LeftSideCardContainer = ({
         </div>
 
         {/* buttons */}
-        {profileButtons.map((btn) => (
+        {profileButtons.map((btn, index) => (
           <button
+            key={index}
             className="candidate-btn w-full"
             onClick={() => btn.setShow(true)}
           >
@@ -171,19 +221,38 @@ const LeftSideCardContainer = ({
         <Link className="candidate-btn  w-full text-center">
           View Candidate in FLS
         </Link>
-
-        <button className="candidate-btn w-full" onClick={handleEdit}>
-          {/* {loading ? "Loading..." : "SAVE CANDIDATE INFORMATION"} */}
-          Save
-        </button>
       </div>
     )
   );
 };
 
 const Activity = ({ setShow }) => {
+  const dealStage = [
+    { value: "", label: "Select Stage" },
+    { value: "Initial-Call-Attempt", label: "Initial Call Attempt" },
+    { value: "Connected", label: "Connected" },
+    { value: "Spoton-Candidate-Research", label: "Spoton/Candidate Research" },
+    {
+      value: "Research&Prep-Presentation",
+      label: "Research & Prep Presentation",
+    },
+    { value: "Present-Franchise-Review", label: "Present/Franchise Review" },
+    { value: "Intro-to-Zor", label: "Intro to Zor" },
+    { value: "Franchise-Due-Diligence", label: "Franchise Due Diligence" },
+    { value: "Validation-FSO", label: "Validation - FSO" },
+    { value: "Discovery-Day-Award-FSO", label: "Discovery Day/Award - FSO" },
+    { value: "Closed-Won", label: "Closed Won" },
+    { value: "Closed-Lost", label: "Closed Lost" },
+    { value: "On-Hold", label: "On Hold" },
+  ];
+
+  const Broker = [
+    { value: "", label: "Select Broker" },
+    { value: "Keerit-Tiwana", label: "Keerit Tiwana" },
+  ];
+
   return (
-    <div id="activity" className="candidate-tabs-content">
+    <div id="activity" className="candidate-tabs-content gap-4">
       <button
         className="absolute top-5 right-10"
         onClick={() => setShow(false)}
@@ -203,26 +272,9 @@ const Activity = ({ setShow }) => {
           />
         </svg>
       </button>
-      <div className="flex w-full mt-5">
-        <div className="mr-3 w-full">
-          <select className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2">
-            <option selected>Select Stage</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
-          </select>
-        </div>
-        <div className="mr-3 w-full">
-          <select className="bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2">
-            <option selected>Select Stage</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
-          </select>
-        </div>
-        <div className="w-full">
+
+      <div className="flex w-full mt-5 gap-2">
+        {/* <div className="w-full">
           <input
             type="text"
             name="activity-search"
@@ -230,34 +282,58 @@ const Activity = ({ setShow }) => {
             placeholder="Search Activity"
             className="p-[6px] mb-2 bg-gray-50 border-gray-300 border rounded-sm placeholder-[#2176ff] placeholder:text-sm placeholder:font-bold text-black"
           />
+        </div> */}
+        <div className="w-full">
+          <select className=" candidate-select w-full">
+            {dealStage.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="w-full">
+          <select className="candidate-select w-full">
+            {Broker.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
-      <div id="container2" className="mt-4">
-        <div className="flex border-2 border-gray-300  rounded-md">
-          <div className=" border-r-2 border-gray-300 p-2">
-            <h1 className="text-[#2176ff] text-sm font-bold ">
-              Formal Registration
-            </h1>
-            <p className="text-xs font-medium">Apr 19, 2024 at 11:31AM</p>
-          </div>
-          <div className="text-black align-middle justify-center flex p-2">
-            <p className="aligm-middle justify-center py-2 font-normal text-base">
-              Sent a Formal Registration to Teriyaki Madness for AVON IN 46123
-            </p>
-          </div>
-        </div>
-        <div className="flex border-2 border-gray-300  rounded-md mt-3">
-          <div className=" border-r-2 border-gray-300 p-2">
-            <h1 className="text-[#2176ff] text-sm font-bold ">
-              Updated Profile
-            </h1>
-            <p className="text-xs font-medium">Apr 19, 2024 at 11:31AM</p>
-          </div>
-          <div className="text-black align-middle justify-center flex p-2">
-            <p className="aligm-middle justify-center py-2 font-normal text-base">
-              The client was updated by Harjeet Tiwana
-            </p>
-          </div>
+
+      <div className="grid grid-cols-3 gap-2">
+        <Card
+          title={" Formal Registration"}
+          date={" Apr 19, 2024 at 11:31AM"}
+          text={
+            "Sent a Formal Registration to Teriyaki Madness for AVON IN 46123"
+          }
+        />
+        <Card
+          title={" Formal Registration"}
+          date={" Apr 19, 2024 at 11:31AM"}
+          text={
+            "Sent a Formal Registration to Teriyaki Madness for AVON IN 46123"
+          }
+        />
+      </div>
+    </div>
+  );
+};
+const Card = ({ title, date, text }) => {
+  return (
+    <div className="flex w-full">
+      <div className=" bg-white rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col shadow-md">
+        <div className="flex justify-center flex-col items-center">
+          <p className="text-xl font-bold text-custom-heading-color">{title}</p>
+
+          <p className="text-sm font-bold  text-custom-dark-blue text-center ">
+            {date}
+          </p>
+
+          <p className="text-sm text-custom-grey text-center mt-3">{text}</p>
         </div>
       </div>
     </div>
@@ -372,11 +448,7 @@ const Select = ({ name }) => {
   return (
     <div className="mt-2">
       <div className="mr-4 w-full">
-        <select
-          id={name}
-          name={name}
-          className=" bg-gray-50 border border-gray-300 font-bold text-[#2176ff] text-sm rounded-sm focus:font-semibold focus:text-black block w-full p-2 mb-2"
-        >
+        <select id={name} name={name} className=" candidate-select w-full">
           <option selected>Select a rating</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -579,7 +651,7 @@ const Description = ({ card, listings }) => {
   useEffect(() => {
     if (listings && listings.length > 0) {
       const filtered = listings.filter(
-        (listing) => listing.DocId == card.ListingsIds
+        (listing) => listing.docId == card.listingsIds
       );
       if (filtered) {
         setFilteredListing(filtered[0]);
@@ -597,7 +669,7 @@ const Description = ({ card, listings }) => {
 
           <button
             id="listing-name"
-            className="text-custom-heading-color underline font-bold text-sm"
+            className="text-custom-heading-color text-left underline font-bold text-sm"
             onClick={() => setShow(true)}
           >
             {filteredListing?.name}
@@ -609,16 +681,18 @@ const Description = ({ card, listings }) => {
       </div>
       <div className=" p-3 bg-gray-200">
         <p className="text-black font-bold text-sm">
-          {card.DocType.trim() === "TC"
+          {card.docType.trim() === "TC"
             ? "Territory Check"
             : "Formal Registeration"}
         </p>
       </div>
       <div className=" p-3 bg-gray-200">
-        <p className="text-black font-bold text-sm">04/19/2024 11:31 am</p>
+        <p className="text-black font-bold text-sm">
+          {FormatRawDate(card, true)}
+        </p>
       </div>
       <div className=" p-3 bg-gray-200 ">
-        <p className="text-black font-bold text-sm">{card.Status}</p>
+        <p className="text-black font-bold text-sm">{card.status}</p>
       </div>
     </div>
   );
