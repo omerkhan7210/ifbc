@@ -16,7 +16,7 @@ import FormatRawDate from "src/Utils/FormatRawDate";
 const MainCandidateProfile = () => {
   const { id } = useParams();
   const { cands } = useContext(MyCandContext);
-  const [candDetails, setCandDetails] = useState();
+  const [candDetails, setCandDetails] = useState(null);
   const { newData } = useContext(MyTCFRContext);
   const { listings, loading } = useContext(MyContext);
   const [filteredData, setFilteredData] = useState();
@@ -51,6 +51,7 @@ const MainCandidateProfile = () => {
           listings={listings}
           filteredData={filteredData}
           loading={loading}
+          setCandDetails={setCandDetails}
         />
         <div className="grid md:col-span-9 col-span-12  ">
           <Form candDetails={candDetails} />
@@ -65,6 +66,7 @@ const LeftSideCardContainer = ({
   listings,
   filteredData,
   loading,
+  setCandDetails,
 }) => {
   const [activityOn, setActivityOn] = useState(false);
   const [flsOn, setFlsOn] = useState(false);
@@ -92,27 +94,37 @@ const LeftSideCardContainer = ({
   const handleEdit = async () => {};
   const dealStage = [
     { value: "", label: "Select Stage" },
-    { value: "Initial-Call-Attempt", label: "Initial Call Attempt" },
+    { value: "Initial Call Attempt", label: "Initial Call Attempt" },
     { value: "Connected", label: "Connected" },
-    { value: "Spoton-Candidate-Research", label: "Spoton/Candidate Research" },
+    { value: "Spoton Candidate Research", label: "Spoton/Candidate Research" },
     {
-      value: "Research&Prep-Presentation",
+      value: "Research & Prep Presentation",
       label: "Research & Prep Presentation",
     },
-    { value: "Present-Franchise-Review", label: "Present/Franchise Review" },
-    { value: "Intro-to-Zor", label: "Intro to Zor" },
-    { value: "Franchise-Due-Diligence", label: "Franchise Due Diligence" },
-    { value: "Validation-FSO", label: "Validation - FSO" },
-    { value: "Discovery-Day-Award-FSO", label: "Discovery Day/Award - FSO" },
-    { value: "Closed-Won", label: "Closed Won" },
-    { value: "Closed-Lost", label: "Closed Lost" },
-    { value: "On-Hold", label: "On Hold" },
+    { value: "Present Franchise Review", label: "Present/Franchise Review" },
+    { value: "Intro to Zor", label: "Intro to Zor" },
+    { value: "Franchise Due Diligence", label: "Franchise Due Diligence" },
+    { value: "Validation FSO", label: "Validation - FSO" },
+    { value: "Discovery Day Award FSO", label: "Discovery Day/Award - FSO" },
+    { value: "Closed Won", label: "Closed Won" },
+    { value: "Closed Lost", label: "Closed Lost" },
+    { value: "On Hold", label: "On Hold" },
   ];
 
   const Broker = [
     { value: "", label: "Select Broker" },
     { value: "Keerit-Tiwana", label: "Keerit Tiwana" },
   ];
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setCandDetails((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+  };
 
   return (
     candDetails && (
@@ -121,9 +133,17 @@ const LeftSideCardContainer = ({
           <p className="text-slate-500 text-sm font-semibold mb-2">
             Deal Stage
           </p>
-          <select className="candidate-select w-full" name="pipelineStep">
+          <select
+            onChange={handleInputChange}
+            className="candidate-select w-full"
+            name="pipelineStep"
+          >
             {dealStage.map((option, index) => (
-              <option key={index} value={option.value}>
+              <option
+                key={index}
+                value={option.value}
+                selected={option.value === candDetails?.pipelineStep}
+              >
                 {option.label}
               </option>
             ))}
@@ -201,11 +221,6 @@ const LeftSideCardContainer = ({
         <Link className="candidate-btn  w-full text-center">
           View Candidate in FLS
         </Link>
-
-        <button className="candidate-btn w-full" onClick={handleEdit}>
-          {/* {loading ? "Loading..." : "SAVE CANDIDATE INFORMATION"} */}
-          Save
-        </button>
       </div>
     )
   );

@@ -1,7 +1,10 @@
-import { Select } from "@headlessui/react";
+import { Dialog, Select } from "@headlessui/react";
+import axios from "axios";
 import React, { useContext, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
+import DialogBox from "src/Popups/DialogBox";
 import { setToken } from "src/Redux/listingReducer";
 
 const Registration = () => {
@@ -16,45 +19,11 @@ const Registration = () => {
     password: "",
     credentials: "",
   });
-  const [formFields, setFormFields] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    websiteurl: "",
-    linkedinurl: "",
-    meetinglink: "",
-    companyname: "",
-    companyphonenumber: "",
-    companyaddress: "",
-    city: "",
-    zippostalcode: "",
-    unitsuite: "",
-    notes: "",
-    shortdescription: "",
-    consulting: "",
-    franchiseindustryfocus: "",
-    businessbroker: false,
-    registeredin: "",
-    openforgroup: false,
-    password: "",
-    confirmpassword: "",
-    territorycheck: false,
-    disablelogo: false,
-    disablecover: false,
-    disableprofile: false,
-    disablebio: false,
-    hidename: false,
-    broker: "",
-    allcandidates: false,
-    allpastclient: false,
-    sharefranchise: false,
-    leademail: "",
-    fbabadges: false,
-    usertype: "",
-    profileimage: "",
-    coverimage: "",
-  });
+  const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const [show, setShow] = useState(false);
+  const [otp, setOtp] = useState(null);
+  const dispatch = useDispatch();
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -72,7 +41,7 @@ const Registration = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const requestData = {
+    const users = {
       firstname: formFields.firstname ?? "",
       lastname: formFields.lastname ?? "",
       email: formFields.email ?? "",
@@ -89,44 +58,45 @@ const Registration = () => {
       shortdescription: formFields.shortdescription ?? "",
       consulting: formFields.consulting ?? "",
       franchiseindustryfocus: formFields.franchiseindustryfocus ?? "",
-      businessbroker: formFields.businessbroker ?? "",
+      businessbroker: formFields.businessbroker ?? false,
       registeredin: formFields.registeredin ?? "",
-      openforgroup: formFields.openforgroup ?? "",
+      openforgroup: formFields.openforgroup ?? false,
       password: formFields.password ?? "",
       confirmpassword: formFields.confirmpassword ?? "",
-      territorycheck: formFields.territorycheck ?? "",
-      disablelogo: formFields.disablelogo ?? "",
-      disablecover: formFields.disablecover ?? "",
-      disableprofile: formFields.disableprofile ?? "",
-      disablebio: formFields.disablebio ?? "",
-      hidename: formFields.hidename ?? "",
+      territorycheck: formFields.territorycheck ?? false,
+      disablelogo: formFields.disablelogo ?? false,
+      disablecover: formFields.disablecover ?? false,
+      disableprofile: formFields.disableprofile ?? false,
+      disablebio: formFields.disablebio ?? false,
+      hidename: formFields.hidename ?? false,
       broker: formFields.broker ?? "",
-      allcandidates: formFields.allcandidates ?? "",
-      allpastclient: formFields.allpastclient ?? "",
-      sharefranchise: formFields.sharefranchise ?? "",
+      allcandidates: formFields.allcandidates ?? false,
+      allpastclient: formFields.allpastclient ?? false,
+      sharefranchise: formFields.sharefranchise ?? false,
       leademail: formFields.leademail ?? "",
-      fbabadges: formFields.fbabadges ?? "",
-      usertype: "N",
+      fbabadges: formFields.fbabadges ?? false,
+      usertype: "C",
       profileimage: formFields.profileimage ?? "",
       coverimage: formFields.coverimage ?? "",
     };
 
     try {
-      const baseUrl = `https://siddiqiventures-001-site4.ktempurl.com/api/users`;
+      const baseUrl = `https://localhost:7047/api/users`;
 
       setLoading(true);
 
-      const response = await axios.post(baseUrl, requestData, {
+      const response = await axios.post(baseUrl, users, {
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      if (response.status === 200 || response.status === 201) {
+      if (response.status === 200) {
+        // setSuccessMsg(response.data.message);
+        // setShow(true);
         const userToken = response.data.token;
         localStorage.setItem("token", userToken);
         dispatch(setToken(true));
-        setSuccessMsg("Registered Successfully!");
         setTimeout(() => {
           setLoading(false);
           history("/");
@@ -144,7 +114,69 @@ const Registration = () => {
         setLoading(false);
       }
     } catch (err) {
+      console.error(err);
       //setError({ credentials: err });
+      setLoading(false);
+    }
+  };
+
+  const handleSubmitAgain = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const requestData = {
+      firstname: formFields.firstname ?? "",
+      lastname: formFields.lastname ?? "",
+      email: formFields.email ?? "",
+      websiteurl: formFields.websiteurl ?? "",
+      linkedinurl: formFields.linkedinurl ?? "",
+      meetinglink: formFields.meetinglink ?? "",
+      companyname: formFields.companyname ?? "",
+      companyphonenumber: formFields.companyphonenumber ?? "",
+      companyaddress: formFields.companyaddress ?? "",
+      city: formFields.city ?? "",
+      zippostalcode: formFields.zippostalcode ?? "",
+      unitsuite: formFields.unitsuite ?? "",
+      notes: formFields.notes ?? "",
+      shortdescription: formFields.shortdescription ?? "",
+      consulting: formFields.consulting ?? "",
+      franchiseindustryfocus: formFields.franchiseindustryfocus ?? "",
+      businessbroker: formFields.businessbroker ?? false,
+      registeredin: formFields.registeredin ?? "",
+      openforgroup: formFields.openforgroup ?? false,
+      password: formFields.password ?? "",
+      confirmpassword: formFields.confirmpassword ?? "",
+      territorycheck: formFields.territorycheck ?? false,
+      disablelogo: formFields.disablelogo ?? false,
+      disablecover: formFields.disablecover ?? false,
+      disableprofile: formFields.disableprofile ?? false,
+      disablebio: formFields.disablebio ?? false,
+      hidename: formFields.hidename ?? false,
+      broker: formFields.broker ?? "",
+      allcandidates: formFields.allcandidates ?? false,
+      allpastclient: formFields.allpastclient ?? false,
+      sharefranchise: formFields.sharefranchise ?? false,
+      leademail: formFields.leademail ?? "",
+      fbabadges: formFields.fbabadges ?? false,
+      usertype: "C",
+      profileimage: formFields.profileimage ?? "",
+      coverimage: formFields.coverimage ?? "",
+    };
+
+    const payload = {
+      requestData,
+      userOTP: otp,
+    };
+
+    try {
+      const baseUrl = `https://localhost:7047/api/users/VerifyOTP`;
+      const response = await axios.post(baseUrl, payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response);
+    } catch (err) {
+      console.error(err);
       setLoading(false);
     }
   };
@@ -184,6 +216,22 @@ const Registration = () => {
         id="main-page-wrapper"
         className="flex justify-center flex-col items-center "
       >
+        <DialogBox show={show} setShow={setShow}>
+          <div className="py-20 px-5 flex items-center justify-center gap-2 flex-col">
+            <p className="text-2xl">{successMsg}</p>
+            <div className="input-container flex flex-col gap-3">
+              <input
+                type="text"
+                className="candidate-input"
+                name="otp"
+                onChange={(e) => setOtp(e.target.value)}
+              />
+              <button className="candidate-btn" onClick={handleSubmitAgain}>
+                Verify
+              </button>
+            </div>
+          </div>
+        </DialogBox>
         <h2 className="text-4xl md:text-5xl my-5 uppercase font-bold text-custom-heading-color">
           Registration
         </h2>
