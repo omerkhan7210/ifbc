@@ -9,6 +9,7 @@ import Form from "src/Pages/CandidatePages/NewCandidate/Form";
 
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
   const { cands, userDetails } = useContext(MyCandContext);
+
   const { activeListings } = useContext(MyContext);
   const [candNames, setNames] = useState([]);
   const [selectedDocId, setSelectedDocId] = useState();
@@ -30,7 +31,7 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
     if (cands && cands.length > 0) {
       let names = cands.map((cand) => ({
         name: cand.firstName,
-        DocId: cand.docId,
+        docId: cand.docId,
       }));
       setNames(names);
     }
@@ -119,7 +120,6 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
                 <Form
                   candNames={candNames}
                   candDetails={cands}
-                  userDetails={userDetails}
                   activeListings={activeListings}
                 />
               )}

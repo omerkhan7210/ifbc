@@ -12,6 +12,7 @@ const CandidatesDataContext = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(null);
   const userDetails = useSelector((state) => state.counter.userDetails);
+
   const role =
     userDetails && typeof userDetails === "object"
       ? userDetails.userType
