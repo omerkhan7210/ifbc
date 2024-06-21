@@ -112,6 +112,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         ? "bg-red-200 text-white"
         : ""
     );
+    console.log(candDetails);
     return (
       <select
         onChange={handleInputChange}
@@ -120,7 +121,13 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         className={className}
       >
         {states.map((state, index) => (
-          <option key={index} value={state.value}>
+          <option
+            key={index}
+            value={state.value}
+            {...(candDetails
+              ? { selected: `${name}state` === candDetails[`${name}state`] }
+              : {})}
+          >
             {state.text}
           </option>
         ))}
@@ -423,7 +430,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       </DialogBox>
       <div
         id="main-new-candidate-form-container"
-        className={`col-span-12 divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10"} `}
+        className={` divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10 col-span-12"} `}
       >
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">

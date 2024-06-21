@@ -17,6 +17,7 @@ import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import MainMessages from "./Pages/CandidatePages/Messages/MainMessages";
 import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
+import FundingCalculator from "./Pages/Calculator/FundingCalculator";
 import TCFRDataContext from "./Context/TCFRDataContext";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
@@ -89,6 +90,14 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       element: (
         <CandidatesDataContext>
           <Inbox />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+      path: "/funding-calculator",
+      element: (
+        <CandidatesDataContext>
+          <FundingCalculator />
         </CandidatesDataContext>
       ),
     },

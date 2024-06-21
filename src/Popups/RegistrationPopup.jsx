@@ -397,8 +397,8 @@ const FormTC = ({
       <div id="fr-tcheck-popup" className="mt-10">
         <h2 className="candidate-sub-heading">Candidate Name*</h2>
 
-        <div className="flex justify-between w-full">
-          <div className="flex flex-col mr-5 w-[50%]">
+        <div className="flex justify-between w-full max-md:flex-col max-md:gap-5">
+          <div className="flex flex-col w-full">
             <p className="candidate-paragraph">First Name</p>
 
             <select
@@ -420,7 +420,7 @@ const FormTC = ({
                 ))}
             </select>
           </div>
-          <div className="flex flex-col w-[50%]">
+          <div className="flex flex-col w-full">
             <p className="candidate-paragraph">Last Name*</p>
             <input
               onChange={handleInputChange}
@@ -438,7 +438,7 @@ const FormTC = ({
 
       <div id="sr-tcheck-popup" className="mt-10">
         <h2 className="candidate-sub-heading">Territory*</h2>
-        <div className="flex justify-between gap-4">
+        <div className="flex justify-between gap-4 max-md:flex-col">
           <div className="flex flex-col w-full">
             <p className="candidate-paragraph">City</p>
             <input
@@ -504,7 +504,7 @@ const FormTC = ({
           value={selectedDetails?.territoryNotes}
         />
       </div>
-      <div>
+      <div className="max-md:flex justify-center">
         <button
           className="candidate-btn mt-6"
           onClick={() => setAddContacts((prevContacts) => prevContacts + 1)}
