@@ -12,7 +12,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const { userDetails } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
-  const history = useNavigate();
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
   const [selectedDocId, setSelectedDocId] = useState();
@@ -113,6 +112,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         ? "bg-red-200 text-white"
         : ""
     );
+    console.log(candDetails);
     return (
       <select
         onChange={handleInputChange}
@@ -121,7 +121,13 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         className={className}
       >
         {states.map((state, index) => (
-          <option key={index} value={state.value}>
+          <option
+            key={index}
+            value={state.value}
+            {...(candDetails
+              ? { selected: `${name}state` === candDetails[`${name}state`] }
+              : {})}
+          >
             {state.text}
           </option>
         ))}
@@ -168,8 +174,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     reqFields.forEach((field) => {
       const newKey = field.toLowerCase().split(" ").join("");
       if (!formFields[newKey] || formFields[newKey].trim() === "") {
-        console.log(newKey, formFields[newKey], formFields);
-
         setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
         allFieldsValid = false;
       } else {
@@ -180,7 +184,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     try {
       if (allFieldsValid) {
         const formData = {
-          DocId: candDetails?.docId ?? "",
+          ...(candDetails?.docId ? { DocId: candDetails?.docId ?? "" } : {}),
+
           closeDate: formFields.closedate ?? "",
           firstName: formFields.firstname ?? "",
           lastName: formFields.lastname ?? "",
@@ -266,7 +271,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             }
           );
         } else {
-          response = await axios.post(baseUrl, jsonData, {
+          console.log(formData);
+          response = await axios.post(baseUrl, formData, {
             headers: {
               "Content-Type": "application/json",
             },
@@ -277,7 +283,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           setSuccessMsg("Candidate Information Saved Successfully!");
           setLoading(false);
           setTimeout(() => {
-            history("/candidate-list");
+            window.location.href = "/candidate-list";
           }, 3000);
         } else if (response.status === 204) {
           setSuccessMsg("Candidate Information Saved Successfully!");
@@ -424,7 +430,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       </DialogBox>
       <div
         id="main-new-candidate-form-container"
-        className={`col-span-12 divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10"} `}
+        className={` divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10 col-span-12"} `}
       >
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">

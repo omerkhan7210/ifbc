@@ -96,9 +96,8 @@ const Login = () => {
 
       if (response.status === 200) {
         setLoading(false);
-        const someUserDetails = await getUserDetails(response.data.token);
         const userToken = response.data.token;
-
+        const someUserDetails = await getUserDetails(userToken);
         localStorage.setItem("token", userToken);
         dispatch(setToken(true));
         dispatch(setUserDetails(someUserDetails));

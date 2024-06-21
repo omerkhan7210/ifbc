@@ -127,7 +127,10 @@ const ActivityGridContainer = ({
       }}
       className="side-bar-main-div p-10 flex flex-col gap-6 text-center h-full overflow-y-scroll"
     >
-      <div id="top-candidate-sidebar" className="flex justify-between ">
+      <div
+        id="top-candidate-sidebar"
+        className="flex md:justify-between max-md:flex-col max-md:gap-4"
+      >
         <h2 className="side-bar-first-heading text-3xl">Recent Activity</h2>
 
         <div id="select-candidate-container" className="flex gap-5">
@@ -209,7 +212,11 @@ const Card = ({ card, cands, listings }) => {
         </h1>
       </div>
       <div className="flex justify-center items-center w-full mt-4 gap-3">
-        <img src={`/${filteredListing?.imgUrl}`} alt="smash" className="w-14" />
+        <img
+          src={`/${filteredListing?.listingImageUrl}`}
+          alt="smash"
+          className="w-14"
+        />
         <p className="text-lg font-bold text-custom-heading-color">
           {filteredListing?.name}
         </p>

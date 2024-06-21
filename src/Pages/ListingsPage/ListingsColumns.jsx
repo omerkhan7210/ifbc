@@ -14,15 +14,6 @@ const ListingsColumns = ({ listing, index }) => {
   const { activeListings, role } = useContext(MyContext);
   const cartListings = useSelector((state) => state.counter.cartListings);
 
-  // Use a regular expression to find the investment range
-  const investmentRangeMatch = listing?.investmentRange?.match(
-    /Investment Range: \$[\d,]+ - \$[\d,]+/
-  );
-
-  const investmentRange = investmentRangeMatch
-    ? investmentRangeMatch[0]?.split(":")[1]
-    : "";
-
   const isActive = activeListings?.includes(listing.docId) ? true : false;
 
   const handleCardClick = () => {
@@ -66,8 +57,8 @@ const ListingsColumns = ({ listing, index }) => {
         >
           <img
             src={
-              listing.imgUrl
-                ? "/" + listing.imgUrl
+              listing.listingImageUrl
+                ? "/" + listing.listingImageUrl
                 : "/images/listing-placeholder-img.png"
             }
             alt={listing.name}
@@ -76,11 +67,18 @@ const ListingsColumns = ({ listing, index }) => {
 
           <div
             id="text-content"
-            className="absolute flex justify-center top-40 w-full"
+            className={`absolute flex ${listing?.listingUnits !== "NULL" && listing?.listingInvestment !== "$" ? "justify-between" : "justify-center"} top-40 w-full`}
           >
-            {investmentRange && (
+            {listing?.listingInvestment &&
+              listing?.listingInvestment !== "$" && (
+                <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg">
+                  Cash Required: {listing?.listingInvestment}
+                </p>
+              )}
+
+            {listing?.listingUnits && listing?.listingUnits !== "NULL" && (
               <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg">
-                Cash Required: {investmentRange}
+                Franchise Units: {listing?.listingUnits}
               </p>
             )}
           </div>
@@ -93,11 +91,10 @@ const ListingsColumns = ({ listing, index }) => {
           <h1
             className={`text-custom-heading-color font-bold text-center text-md lg:text-lg`}
           >
-            {listing.name}
+            {listing.listingName}
           </h1>
           <p className="text-sm text-black/80 text-center">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Dignissimos, accusamus. Lorem ipsum dolor sit amet.
+            {listing.shortDescription}
           </p>
 
           {/* temporary role */}

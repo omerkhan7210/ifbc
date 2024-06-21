@@ -280,7 +280,7 @@ const LeftSideBar = ({
                       : image
                 }
                 alt=""
-                className="rounded-full w-32 h-32 cursor-pointer"
+                className="rounded-full w-44 h-44 object-cover cursor-pointer"
               />
             </label>
             <h1
@@ -298,7 +298,7 @@ const LeftSideBar = ({
             className="hidden"
           />
           <button
-            className="absolute top-0 left-28 bg-custom-dark-blue  rounded-full p-2 flex items-center justify-center"
+            className="absolute top-0 left-40 bg-custom-dark-blue  rounded-full p-2 flex items-center justify-center"
             onClick={handleButtonClick}
           >
             <svg

@@ -83,6 +83,7 @@ html {
 body {
   line-height: inherit;
   margin: 0;
+  max-width: 100%;
   font-family: "Poppins", sans-serif;
 }
 h1,

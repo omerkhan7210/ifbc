@@ -254,7 +254,7 @@ const AccountDD = ({ userDetails, token, hidden }) => {
                 ? `/images/uploads/${userDetails?.profileImage}`
                 : "/images/avatar-placeholder.png"
             }
-            className="w-10 h-10 rounded-full"
+            className="w-10 h-10 object-cover rounded-full"
           />
         </button>
         <div
