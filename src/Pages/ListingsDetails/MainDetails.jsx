@@ -41,13 +41,17 @@ const MainDetails = ({ setShow, show, setRegistrationType }) => {
         tabIndex={-1}
         className="max-w-7xl px-6 mx-auto gap-x-10 "
       >
-        <TopBar
-          listingContent={listingContent}
-          setShow={setShow}
-          show={show}
-          setRegistrationType={setRegistrationType}
-        />
-        <BottomBar listingContent={listingContent} />
+        {!loading && listingContent && 
+      <>  
+      <TopBar
+      listingContent={listingContent}
+      setShow={setShow}
+      show={show}
+      setRegistrationType={setRegistrationType}
+    />
+    <BottomBar listingContent={listingContent} />
+    </>
+}
       </main>
       <RelatedListings />
     </PageTransition>

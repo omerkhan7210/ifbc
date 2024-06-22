@@ -9,22 +9,24 @@ const BottomBar = ({ listingContent }) => {
   const { role } = useContext(MyContext);
 
   useEffect(() => {
-    console.log(listingContent)
     const fetchData = async () => {
-      const url = `https://siddiqiventures-001-site4.ktempurl.com/api/listingscontent/${listingContent?.name}`;
 
+      const url = `https://siddiqiventures-001-site4.ktempurl.com/api/listingscontent/${listingContent.name}`;
       try {
+   
         const response = await axios.get(url);
         if (response.data !== "") {
-          sethtmlContent(response.data[0]?.content);
+          sethtmlContent(response.data.content);
         }
+       
       } catch (error) {
         console.error("Error fetching data:", error);
+      
       }
     };
 
     fetchData();
-  }, [listingContent?.name]);
+  }, [listingContent]);
 
   useEffect(() => {
     const document = window.document;
@@ -194,7 +196,7 @@ const BottomBar = ({ listingContent }) => {
       className="mt-10 md:col-span-2 lg:col-span-3 post-599099 fba-franchise type-fba-franchise status-publish has-post-thumbnail hentry concept_categories-business-services concept_categories-home-improvement"
     >
       <h3 className="text-4xl font-bold text-custom-heading-color uppercase mb-0 text-center">
-        {listingContent?.name}
+        {listingContent.name}
       </h3>
 
       {htmlContent ? (
@@ -211,7 +213,9 @@ const BottomBar = ({ listingContent }) => {
           </div>
         </div>
       ) : (
-        <BarLoader />
+        <div className="grid place-items-center p-10">
+          <BarLoader bgcolor={"rgb(0, 17, 54)"}/>
+          </div>
       )}
     </article>
   );
