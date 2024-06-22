@@ -18,7 +18,6 @@ const App = () => {
   const [mobileActive, setMobileActive] = useState(false);
   const token = useSelector((state) => state.counter.token);
   const role = useSelector((state) => state.counter.role);
-console.log(token)
   const [show, setShow] = useState("");
   const [registrationType, setRegistrationType] = useState("");
   const loc = useLocation();
@@ -52,7 +51,7 @@ console.log(token)
             {(loc.pathname.includes("listings") ||
               loc.pathname.includes("candidate") ||
               loc.pathname.includes("messages")) &&
-              role !== "A" && <CandidateSideBar />}
+              role !== "N" && <CandidateSideBar />}
             <RegisterationPopup
               setShow={setShow}
               show={show}

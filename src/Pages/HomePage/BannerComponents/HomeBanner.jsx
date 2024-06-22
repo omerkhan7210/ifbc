@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchingSection from "./SearchingSection";
 import { MyContext } from "src/Context/ListingDataContext";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -119,12 +119,12 @@ const HomeBanner = () => {
             disableOnInteraction: false,
             stopOnLastSlide: false,
           }}
-          className="w-full  min-h-[600px] flex h-full flex-col gap-10 z-10 relative"
+          className="w-full swiperslidehomebannermain  min-h-[600px] flex h-full flex-col  z-10 relative"
         >
           {slidesData.map((slide, index) => (
             <SwiperSlide key={index}>
               <div
-                className="swiperslidehomebanner w-full  md:px-10 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-32 xl:pt-20  items-center"
+                className="swiperslidehomebanner w-full  md:px-32 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-32 xl:pt-20  items-center"
                 style={{
                   background: `url(${slide.image})`,
                   backgroundPosition: "center",
@@ -132,14 +132,14 @@ const HomeBanner = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <h1 className="max-md:text-3xl z-50 relative md:max-2xl:text-7xl 2xl:text-8xl tracking-tight font-semibold text-center text-white">
+                <h1 className="max-md:text-3xl z-50 relative md:max-2xl:text-[4.8rem] leading-[5rem]  tracking-tight font-semibold text-center text-white">
                   {slide.text}
                 </h1>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-64 2xl:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 px-4 ">
+        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-60 2xl:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
           <SearchingSection />
         </div>
       </section>
@@ -166,7 +166,15 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
   const uniqueFranchisedCats = [
     ...new Set(listings.map((listing) => listing.category)),
   ];
+  const { setFilters } = useContext(MyContext);
+  const history = useNavigate();
+  const handleSearchInputChange = (cat) => {
+    
+      setFilters({ category: [cat]});
+   
 
+    history("/listings");
+  };
   return (
     <div
       id={id}
@@ -182,13 +190,14 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
           if (index > min && index < max) {
             return (
               <li key={listing.name} className="text-sm text-white list-disc ">
-                <Link
-                  to={`/listings/?category=${listing.toLowerCase()}`}
+                <button
+                onClick={()=>handleSearchInputChange(listing)}
+                to="/listings"
                   className="group relative "
                 >
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
                   {listing}
-                </Link>
+                </button>
               </li>
             );
           }

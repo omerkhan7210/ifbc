@@ -20,9 +20,16 @@ import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
 import FundingCalculator from "./Pages/StaticPages/Calculator/FundingCalculator";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment/BusinessAssessment";
+import { useSelector } from "react-redux";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
-  const authenticatedRoutes = [
+  const userDetails = useSelector((state) => state.counter.userDetails);
+
+  const role =
+  userDetails && typeof userDetails === "object"
+    ? userDetails.userType
+    : null;
+  const consultantRoutes = [
     {
       path: "/",
       element: (
@@ -133,6 +140,71 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     { path: "*", element: <NotFoundPage /> },
   ];
 
+  const normalUserRoutes= [
+    { path: "*", element: <NotFoundPage /> },
+    {
+      path: "/checkout",
+      element: (
+        <ListingDataContext>
+          <CheckOutForm />
+        </ListingDataContext>
+      ),
+    },
+    {
+      path: "/funding-calculator",
+      element: <FundingCalculator />,
+    },
+    {
+      path: "/business-assessment",
+      element: <BusinessAssessment />,
+    },
+    {
+      path: "/profile",
+      element: (
+        <CandidatesDataContext>
+          <Profile />
+        </CandidatesDataContext>
+      ),
+    },
+    {
+    path: "/",
+    element: (
+      <ListingDataContext>
+        <MainHome />
+      </ListingDataContext>
+    ),
+  },
+  {
+    path: "/listings",
+    element: (
+      <ListingDataContext>
+        <MainListings
+          setShow={setShow}
+          setRegistrationType={setRegistrationType}
+        />
+      </ListingDataContext>
+    ),
+  },
+  {
+    path: "/listings-details/:name",
+    element: (
+      <ListingDataContext>
+        <MainDetails
+          setShow={setShow}
+          setRegistrationType={setRegistrationType}
+        />
+      </ListingDataContext>
+    ),
+  },
+  {
+    path: "/about",
+    element: <MainAbout />,
+  },
+  {
+    path: "/franchise-owner",
+    element: <FranchiseOwner />,
+  },]
+
   const unauthenticatedRoutes = [
     {
       path: "*",
@@ -148,7 +220,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     },
   ];
   const routes = useRoutes(
-    isAuthenticated ? authenticatedRoutes : unauthenticatedRoutes
+    isAuthenticated ? role === 'N' ? normalUserRoutes : consultantRoutes : unauthenticatedRoutes
   );
   return routes;
 };

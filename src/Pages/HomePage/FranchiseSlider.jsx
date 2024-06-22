@@ -48,10 +48,10 @@ const FranchiseSlider = () => {
         {listings?.map(
           (listing, index) =>
             index < 15 &&
-            listing.listingImageUrl !==
+            listing.imgUrl !==
               "images/ShoppersDrapesandBlinds.png" && (
               <img
-                src={"/" + listing.listingImageUrl}
+                src={"/" + listing.imgUrl}
                 alt=""
                 className="w-32 h-32 object-cover rounded-3xl"
               />

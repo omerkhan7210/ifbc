@@ -28,7 +28,7 @@ const ListingDataContext = ({ children }) => {
   const getAllListings = async () => {
     setLoading(true);
     const url =
-      "https://localhost:7047/api/ListingsView";
+      "https://siddiqiventures-001-site4.ktempurl.com/api/ListingsView";
     const responseData = await axios
       .get(url)
       .then(async (response) => {

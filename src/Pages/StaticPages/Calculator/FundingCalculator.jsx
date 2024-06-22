@@ -31,7 +31,7 @@ const FundingCalculator = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="max-md:text-3xl md:text-5xl text-white z-20text-white font-bold text-center z-20">
+        <h1 className="max-md:text-3xl md:text-7xl text-white  font-bold text-center z-20">
           FUND MY FRANCHISE
         </h1>
         <h3 className="max-md:text-xl md:text-3xl text-white  font-bold text-center z-20">
@@ -41,7 +41,7 @@ const FundingCalculator = () => {
 
       <div
         id="description"
-        className="flex flex-col  gap-5 my-10 theme-container mx-auto"
+        className="flex flex-col  gap-5 my-10 md:max-w-7xl md:mx-auto max-md:mx-5"
       >
         <div className="max-md:text-sm md:text-xl my-5 text-center flex flex-col gap-3">
           <p className="text-center max-md:text-sm md:text-xl">
@@ -90,7 +90,7 @@ const FundingCalculator = () => {
           </p>
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 max-md:flex-col md:flex-row">
           <div className="candidate-sub-childs">
             <p className="candidate-label">First Name</p>
             <input

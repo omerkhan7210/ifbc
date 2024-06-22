@@ -30,11 +30,9 @@ const ListingsColumns = ({ listing, index }) => {
     }
   };
 
-  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 
   return (
-    <div className="relative">
       <motion.div
         initial={{
           opacity: 0,
@@ -49,7 +47,7 @@ const ListingsColumns = ({ listing, index }) => {
         }}
         whileTap={{ scale: isActive ? 0.9 : 1 }}
         onClick={handleCardClick} // Correctly call handleCardClick here
-        className="flex flex-col gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[1px_1px_5px_grey] "
+        className="flex flex-col gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[1px_1px_5px_grey] min-h-[400px] "
       >
         <div
           id="image-container"
@@ -57,31 +55,14 @@ const ListingsColumns = ({ listing, index }) => {
         >
           <img
             src={
-              listing.listingImageUrl
-                ? "/" + listing.listingImageUrl
+              listing.imgUrl
+                ? "/" + listing.imgUrl
                 : "/images/listing-placeholder-img.png"
             }
             alt={listing.name}
             className="object-contain h-44 w-64"
           />
 
-          <div
-            id="text-content"
-            className={`absolute flex ${listing?.category !== "" && listing?.investmentRange !== "$" ? "justify-between" : "justify-center"} top-40 w-full`}
-          >
-            {listing?.investmentRange &&
-              listing?.investmentRange !== "$" && (
-                <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg">
-                  Cash Required: {listing?.investmentRange}
-                </p>
-              )}
-
-            {listing?.category && listing?.category !== "" && (
-              <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg">
-                Franchise Units: {listing?.category}
-              </p>
-            )}
-          </div>
         </div>
 
         <div
@@ -97,6 +78,23 @@ const ListingsColumns = ({ listing, index }) => {
             {listing.shortDescription}
           </p>
 
+          <div
+            id="text-content"
+            className={` flex flex-col items-center justify-center gap-3 mt-3 w-full`}
+          >
+            {listing?.investmentRange &&
+              listing?.investmentRange !== "$" && (
+                <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg w-full">
+                  Cash Required: {listing?.investmentRange}
+                </p>
+              )}
+
+            {listing?.category && listing?.category !== "" && (
+              <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg w-full">
+                {listing?.category}
+              </p>
+            )}
+          </div>
           {/* temporary role */}
           {role === "C" ? (
             <a
@@ -166,7 +164,7 @@ const ListingsColumns = ({ listing, index }) => {
           )}
         </div>
       </motion.div>
-    </div>
+   
   );
 };
 
