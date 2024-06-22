@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 
 const FundingCalculator = () => {
+  const [formFields, setFormFields] = useState({});
+  const [formErrors, setFormErrors] = useState({});
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
   return (
     <PageTransition>
       <div
@@ -15,62 +31,53 @@ const FundingCalculator = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="max-md:text-4xl md:text-7xl text-white z-20text-white font-bold text-center z-20">
-          Funding Calculator
+        <h1 className="max-md:text-3xl md:text-5xl text-white z-20text-white font-bold text-center z-20">
+          FUND MY FRANCHISE
         </h1>
+        <h3 className="max-md:text-xl md:text-3xl text-white  font-bold text-center z-20">
+          Instantly See What You Could Qualify For!
+        </h3>
       </div>
 
-      <div id="description" className="flex flex-col mx-16 gap-5">
-        <div className="flex flex-col gap-2">
-          <p className="font-bold text-center max-md:text-xl md:text-2xl mt-2">
-            WITH FUND MY FRANCHISE
-          </p>
-          <p className="font-bold text-center text-custom-dark-blue max-md:text-2xl md:text-4xl">
-            Instantly See What <br></br> You Could Qualify For!
-          </p>
+      <div
+        id="description"
+        className="flex flex-col  gap-5 my-10 theme-container mx-auto"
+      >
+        <div className="max-md:text-sm md:text-xl my-5 text-center flex flex-col gap-3">
           <p className="text-center max-md:text-sm md:text-xl">
             By Rolling Your IRA, 401(K), 403(B), Keogh Or Other Retirement Funds
-            Into A 401(K) Franchise <br></br> Financing Vehicle, You Can:
+            Into A 401(K) Franchise Financing Vehicle
           </p>
-        </div>
+          <p className="text-center">
+            You can buy A Franchise, Lower Overhead and Increase Your Success
+            Rate. Instead of sending interest payments to a lender, you can use
+            your money to purchase advertising, buy equipment, lease a company
+            van, or use it in any way that will bring you quicker profits.
+          </p>
+          <p>
+            Eliminate Personal Liability. Use our own funds to avoid pledging
+            your home or other assets as loan collateral and potentially
+            jeopardizing your personal credit.
+          </p>
+          <p>
+            Maximize Tax-Deferred Benefits. By investing your retirement funds
+            into your own franchise, you can reinvest your profits tax-deferred
+            in your business or in your retirement account. Build your business
+            while you grow your retirement nest egg! Enjoy Flexibility.
+          </p>
 
-        <div className="flex mx-10 gap-5">
-          <div className="flex flex-col gap-4 ">
-            <p>
-              Buy A Franchise, Lower Overhead and Increase Your Success Rate.
-              Instead of sending interest payments to a lender, you can use your
-              money to purchase advertising, buy equipment, lease a company van,
-              or use it in any way that will bring you quicker profits.
-            </p>
-            <p>
-              Eliminate Personal Liability. Use our own funds to avoid pledging
-              your home or other assets as loan collateral and potentially
-              jeopardizing your personal credit.
-            </p>
-            <p>
-              Maximize Tax-Deferred Benefits. By investing your retirement funds
-              into your own franchise, you can reinvest your profits
-              tax-deferred in your business or in your retirement account. Build
-              your business while you grow your retirement nest egg! Enjoy
-              Flexibility.
-            </p>
-          </div>
-          <div className="flex flex-col gap-4  ">
-            <p>
-              You can mix your retirement funds with personal funds or capital
-              from other investors. It’s the ideal financing structure for
-              husband-and-wife teams!
-            </p>
-            <p>
-              Invest in Yourself. Unlike taking risks in the volatile stock
-              market, financing your business with retirement funds is an
-              investment in yourself & one that you can control and count on!
-            </p>
-            <p>
-              Discover your retirement account’s true investing power (and the
-              ability to finance your franchise with money you already have)
-            </p>
-          </div>
+          <p>
+            You can mix your retirement funds with personal funds or capital
+            from other investors. It’s the ideal financing structure for
+            husband-and-wife teams!
+          </p>
+          <p>
+            Invest in Yourself. Unlike taking risks in the volatile stock
+            market, financing your business with retirement funds is an
+            investment in yourself & one that you can control and count on!
+            Discover your retirement account’s true investing power (and the
+            ability to finance your franchise with money you already have)
+          </p>
         </div>
 
         <div className="flex flex-col text-center gap-4 ">
@@ -83,6 +90,39 @@ const FundingCalculator = () => {
           </p>
         </div>
 
+        <div className="flex gap-4">
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">First Name</p>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="firstname"
+              className="candidate-input"
+              required
+            />
+          </div>
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">Last Name</p>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="lastname"
+              className="candidate-input"
+              required
+            />
+          </div>
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">Email</p>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="email"
+              className="candidate-input"
+              required
+            />
+          </div>
+        </div>
+
         <div className="my-3">
           <div className="flex gap-2 items-center">
             <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
@@ -91,52 +131,54 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                defaultValue="Homebased"
+                name="franchiseLocation"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">Homebased</span>
+              <span class="candidate-funding-btn w-full">Homebased</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                defaultValue="Food and Beverage"
                 class="peer hidden"
+                name="franchiseLocation"
               />
-              <span class="candidate-secondary-btn w-full">
+              <span class="candidate-funding-btn w-full">
                 Food and Beverage
               </span>
             </label>
           </div>
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="franchiseLocation"
+                defaultValue="Non Food Storefront"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">
+              <span class="candidate-funding-btn w-full">
                 Non Food Storefront
               </span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                name="franchiseLocation"
+                defaultValue="Mobile Services"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">
-                Mobile Services
-              </span>
+              <span class="candidate-funding-btn w-full">Mobile Services</span>
             </label>
           </div>
         </div>
@@ -155,8 +197,10 @@ const FundingCalculator = () => {
               Range steps
             </label>
             <input
+              onChange={handleInputChange}
               id="steps-range"
               type="range"
+              name="downPayment"
               min={0}
               max={5}
               defaultValue="2.5"
@@ -174,46 +218,50 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="creditScore"
+                defaultValue="below 680"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">below 680</span>
+              <span class="candidate-funding-btn w-full">below 680</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                name="creditScore"
+                defaultValue="680 - 715"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">680 - 715</span>
+              <span class="candidate-funding-btn w-full">680 - 715</span>
             </label>
           </div>
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="creditScore"
+                defaultValue="716 - 750"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">716 - 750</span>
+              <span class="candidate-funding-btn w-full">716 - 750</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                name="creditScore"
+                defaultValue="Above 750"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">Above 750</span>
+              <span class="candidate-funding-btn w-full">Above 750</span>
             </label>
           </div>
         </div>
@@ -227,36 +275,39 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="launching"
+                defaultValue="Yes"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">Yes</span>
+              <span class="candidate-funding-btn w-full">Yes</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                name="launching"
+                defaultValue="No"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">No</span>
+              <span class="candidate-funding-btn w-full">No</span>
             </label>
           </div>
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="launching"
+                defaultValue="I have other means to cover living expenses during the launch"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">
+              <span class="candidate-funding-btn w-full">
                 I have other means to cover living expenses during the launch
               </span>
             </label>
@@ -276,11 +327,13 @@ const FundingCalculator = () => {
               Range steps
             </label>
             <input
+              onChange={handleInputChange}
               id="steps-range"
               type="range"
+              name="houseHold"
               min={0}
               max={5}
-              defaultValue="2.5"
+              defaultdefaultValue="2.5"
               step="0.5"
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
             />
@@ -299,9 +352,11 @@ const FundingCalculator = () => {
               Range steps
             </label>
             <input
+              onChange={handleInputChange}
               id="steps-range"
               type="range"
               min={0}
+              name="debtPayments"
               max={5}
               defaultValue="2.5"
               step="0.5"
@@ -318,25 +373,27 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="creditHistory"
+                defaultValue="Yes"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">Yes</span>
+              <span class="candidate-funding-btn w-full">Yes</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                name="creditHistory"
+                defaultValue="No"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">No</span>
+              <span class="candidate-funding-btn w-full">No</span>
             </label>
           </div>
         </div>
@@ -349,46 +406,50 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="bankruptcies"
+                defaultValue="Never"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">Never</span>
+              <span class="candidate-funding-btn w-full">Never</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                name="bankruptcies"
+                defaultValue="0-7 years ago"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">0-7 years ago</span>
+              <span class="candidate-funding-btn w-full">0-7 years ago</span>
             </label>
           </div>
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="bankruptcies"
+                defaultValue="8-10 years ago"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">8-10 years ago</span>
+              <span class="candidate-funding-btn w-full">8-10 years ago</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                name="bankruptcies"
+                defaultValue="More than 10 years ago"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">
+              <span class="candidate-funding-btn w-full">
                 More than 10 years ago
               </span>
             </label>
@@ -404,36 +465,39 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="percentage"
+                defaultValue="0-35%"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">0-35%</span>
+              <span class="candidate-funding-btn w-full">0-35%</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                name="percentage"
+                defaultValue="36-50%"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">36-50%</span>
+              <span class="candidate-funding-btn w-full">36-50%</span>
             </label>
           </div>
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="percentage"
+                defaultValue="51% or higher"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">51% or higher</span>
+              <span class="candidate-funding-btn w-full">51% or higher</span>
             </label>
           </div>
         </div>
@@ -446,25 +510,27 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex space-x-2 rounded-xl select-none">
+          <div class="flex md:space-x-2 rounded-xl select-none">
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="html"
+                name="realState"
+                defaultValue="Yes"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">Yes</span>
+              <span class="candidate-funding-btn w-full">Yes</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
+                onChange={handleInputChange}
                 type="radio"
-                name="radio"
-                value="react"
+                name="realState"
+                defaultValue="No"
                 class="peer hidden"
               />
-              <span class="candidate-secondary-btn w-full">No</span>
+              <span class="candidate-funding-btn w-full">No</span>
             </label>
           </div>
         </div>
@@ -482,8 +548,10 @@ const FundingCalculator = () => {
               Range steps
             </label>
             <input
+              onChange={handleInputChange}
               id="steps-range"
               type="range"
+              name="totalNet"
               min={0}
               max={5}
               defaultValue="2.5"
@@ -493,7 +561,7 @@ const FundingCalculator = () => {
           </div>
         </div>
 
-        <div>
+        <div className="flex justify-center">
           <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
             Calculate My Results
           </button>
