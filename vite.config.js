@@ -13,5 +13,7 @@ export default defineConfig({
     alias: {
       src: "/src",
     },
-  },
+  },optimizeDeps: {
+    exclude: ['js-big-decimal']
+  }
 });

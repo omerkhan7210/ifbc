@@ -104,16 +104,17 @@ const Login = () => {
         setUserDetails(someUserDetails);
         setLoading(false);
         history("/");
-      } else {
+      } 
+    } catch (error) {
+      if(error.response.status === 401){
         setError({
           username: "",
           password: "",
           credentials: "Username or password incorrect",
         });
-
         setLoading(false);
+        return;
       }
-    } catch (error) {
       setError({
         username: "",
         password: "",

@@ -1,5 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { jwtDecode } from "jwt-decode";
+
+// Function to verify token expiry
+const verifyTokenExpiry = (token) => {
+  if (token) {
+    try {
+      // Decode the token
+      const decodedToken = jwtDecode(token);
+      
+      // Check if the token expiry time is greater than the current time
+      const isTokenValid = decodedToken.exp > Date.now() / 1000;
+      // Return true if the token is not expired, false otherwise
+      return isTokenValid;
+    } catch (error) {
+      // If there's an error decoding the token, consider it as expired
+      return false;
+    }
+  } else {
+    return false;
+  }
+};
+
+const token = localStorage.getItem("token")
+
 
 const initialState = {
   value: JSON.parse(localStorage.getItem("cartListings"))?.length || 0,
@@ -16,9 +40,8 @@ const initialState = {
       : null,
   activeListings: JSON.parse(localStorage.getItem("activeListings")) || [],
   token:
-    localStorage.getItem("token") && localStorage.getItem("token") !== ""
-      ? true
-      : false,
+  token  && token !== "" &&
+      verifyTokenExpiry(token)
 };
 
 export const listingReducer = createSlice({
