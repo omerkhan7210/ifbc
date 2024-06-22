@@ -90,7 +90,7 @@ const HomeBanner = () => {
     },
     {
       image: "/images/banners/banner3.png",
-      text: "Unlock Your Entrepreneurial Potential with Our Franchise Options!",
+      text: "Unlock Your Potential with Our Franchises!",
     },
     {
       image: "/images/banners/banner4.png",
@@ -132,14 +132,14 @@ const HomeBanner = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <h1 className="max-md:text-3xl z-50 relative md:max-2xl:text-[4.8rem] leading-[5rem]  tracking-tight font-semibold text-center text-white">
+                <h1 className="max-md:text-3xl z-50 relative md:max-2xl:text-6xl  text-center text-white" style={{lineHeight:'5rem'}}>
                   {slide.text}
                 </h1>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-60 2xl:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
+        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-64 2xl:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
           <SearchingSection />
         </div>
       </section>

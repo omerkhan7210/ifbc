@@ -15,15 +15,15 @@ const BusinessAssessment = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="max-md:text-3xl md:text-5xl text-white z-20text-white font-bold text-center z-20">
+        <h1 className="max-md:text-2xl md:text-6xl text-white z-20text-white font-bold text-center z-20">
           Find A Franchise That Is Best For You With Our Assessment
         </h1>
-        <h3 className="max-md:text-xl md:text-3xl text-white  font-bold text-center z-20">
+        <h3 className="max-md:text-md md:text-3xl text-white  font-bold text-center z-20">
           Match your skills and talents with the right businesses with our 5-10
           minute online assessment
         </h3>
         <a
-          className="z-50 bg-white rounded-sm p-2 text-custom-dark-blue my-2 font-bold"
+          className="z-50 bg-white rounded-sm py-4 px-8 text-center text-custom-dark-blue my-2 font-bold"
           href="https://www.zorakle.net/assessment/welcome/ifbc"
           target="_blank"
           rel="noopener noreferrer"
@@ -35,15 +35,15 @@ const BusinessAssessment = () => {
       <section className="theme-container mx-auto w-full">
         <ServicesGrid />
 
-        <div className=" grid grid-cols-2 my-5">
+        <div className="max-md:flex flex-col md:grid grid-cols-2 my-5">
           <div className=" ">
             <img src={"/images/accounts/partner.jpg"} />
           </div>
-          <div className=" flex flex-col mx-20 gap-5">
+          <div className=" flex flex-col md:mx-20 gap-5 max-md:mt-5">
             <h2 className="font-bold text-custom-dark-blue max-md:text-sm md:text-xl">
               BUSINESS ASSESSMENT
             </h2>
-            <p className="max-md:text-sm md:text-4xl font-bold">
+            <p className="max-md:text-3xl md:text-4xl font-bold capitalize">
               Our assessment helps to quickly narrow down the field that is
               right for you
             </p>
@@ -151,9 +151,9 @@ const ServicesGrid = () => {
     },
   ];
   return (
-    <div className="grid max-sm:grid-cols-12 sm:max-lg:grid-cols-6 lg:grid-cols-4 gap-10  mt-[20px]">
+    <div className="grid :grid-cols-12 sm:max-lg:grid-cols-6 lg:grid-cols-4 gap-10  mt-[20px] ">
       {values.map((value) => (
-        <div className="group border border-it-blue/10 p-[20px] min-h-[250px] rounded-2xl bg-white transition-all duration-300 hover:bg-it-gray overflow-hidden h5-story_slider_active_card w-full flex items-center flex-col justify-center">
+        <div className="group border-4 border-custom-dark-blue p-[20px] min-h-[250px] rounded-2xl bg-white transition-all duration-300 hover:bg-it-gray overflow-hidden h5-story_slider_active_card w-full flex items-center flex-col justify-center">
           <div className="flex justify-center">{value.svg}</div>
           <h1 className="text-xl text-center font-semibold text-custom-dark-blue mt-5 mb-2.5">
             {value.title}

@@ -9,8 +9,9 @@ const BottomBar = ({ listingContent }) => {
   const { role } = useContext(MyContext);
 
   useEffect(() => {
+    console.log(listingContent)
     const fetchData = async () => {
-      const url = `https://siddiqiventures-001-site4.ktempurl.com/api/listings/${listingContent?.docId}`;
+      const url = `https://siddiqiventures-001-site4.ktempurl.com/api/listingscontent/${listingContent?.name}`;
 
       try {
         const response = await axios.get(url);

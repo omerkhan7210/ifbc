@@ -15,7 +15,7 @@ const MobileNav = ({ setMobileActive }) => {
   return (
     <nav
       id="mobile-nav"
-      className="bg-beige fixed top-0 left-0 right-0 z-40 w-screen h-full overflow-y-auto"
+      className="bg-beige fixed top-0 left-0 right-0 w-screen h-full overflow-y-auto z-[60]"
     >
       <div className="text-right pt-4 pr-4">
         <button
@@ -98,7 +98,12 @@ const MobileNav = ({ setMobileActive }) => {
             <Link to="/listings">Franchises List Search</Link>
           </li>
         
-          
+          <li
+            id="menu-item-552290"
+            className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+          >
+            <Link to="/profile">Profile</Link>
+          </li>
         </ul>
       </div>
       {token && (
