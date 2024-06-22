@@ -132,7 +132,7 @@ const HomeBanner = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <h1 className="max-md:text-3xl z-50 relative md:text-6xl  text-center text-white" style={{lineHeight:'5rem'}}>
+                <h1 className="max-md:text-3xl z-50 relative md:max-2xl:text-6xl text-7xl  text-center text-white" style={{lineHeight:'5rem'}}>
                   {slide.text}
                 </h1>
               </div>
