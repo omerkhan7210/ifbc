@@ -112,7 +112,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         ? "bg-red-200 text-white"
         : ""
     );
-    console.log(candDetails);
     return (
       <select
         onChange={handleInputChange}
@@ -271,7 +270,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             }
           );
         } else {
-          console.log(formData);
           response = await axios.post(baseUrl, formData, {
             headers: {
               "Content-Type": "application/json",

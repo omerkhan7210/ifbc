@@ -116,7 +116,6 @@ const Registration = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log(response);
 
       if (response.status === 200) {
         const userToken = response.data.token;
@@ -147,66 +146,7 @@ const Registration = () => {
     }
   };
 
-  const handleSubmitAgain = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    const requestData = {
-      firstname: formFields.firstname ?? "",
-      lastname: formFields.lastname ?? "",
-      email: formFields.email ?? "",
-      websiteurl: formFields.websiteurl ?? "",
-      linkedinurl: formFields.linkedinurl ?? "",
-      meetinglink: formFields.meetinglink ?? "",
-      companyname: formFields.companyname ?? "",
-      companyphonenumber: formFields.companyphonenumber ?? "",
-      companyaddress: formFields.companyaddress ?? "",
-      city: formFields.city ?? "",
-      zippostalcode: formFields.zippostalcode ?? "",
-      unitsuite: formFields.unitsuite ?? "",
-      notes: formFields.notes ?? "",
-      shortdescription: formFields.shortdescription ?? "",
-      consulting: formFields.consulting ?? "",
-      franchiseindustryfocus: formFields.franchiseindustryfocus ?? "",
-      businessbroker: formFields.businessbroker ?? false,
-      registeredin: formFields.registeredin ?? "",
-      openforgroup: formFields.openforgroup ?? false,
-      password: formFields.password ?? "",
-      confirmpassword: formFields.confirmpassword ?? "",
-      territorycheck: formFields.territorycheck ?? false,
-      disablelogo: formFields.disablelogo ?? false,
-      disablecover: formFields.disablecover ?? false,
-      disableprofile: formFields.disableprofile ?? false,
-      disablebio: formFields.disablebio ?? false,
-      hidename: formFields.hidename ?? false,
-      broker: formFields.broker ?? "",
-      allcandidates: formFields.allcandidates ?? false,
-      allpastclient: formFields.allpastclient ?? false,
-      sharefranchise: formFields.sharefranchise ?? false,
-      leademail: formFields.leademail ?? "",
-      fbabadges: formFields.fbabadges ?? false,
-      usertype: "C",
-      profileimage: formFields.profileimage ?? "",
-      coverimage: formFields.coverimage ?? "",
-    };
-
-    const payload = {
-      requestData,
-      userOTP: otp,
-    };
-
-    try {
-      const baseUrl = `https://localhost:7047/api/users/VerifyOTP`;
-      const response = await axios.post(baseUrl, payload, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(response);
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-    }
-  };
+  
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;

@@ -67,18 +67,18 @@ const ListingsColumns = ({ listing, index }) => {
 
           <div
             id="text-content"
-            className={`absolute flex ${listing?.listingUnits !== "NULL" && listing?.listingInvestment !== "$" ? "justify-between" : "justify-center"} top-40 w-full`}
+            className={`absolute flex ${listing?.category !== "" && listing?.investmentRange !== "$" ? "justify-between" : "justify-center"} top-40 w-full`}
           >
-            {listing?.listingInvestment &&
-              listing?.listingInvestment !== "$" && (
+            {listing?.investmentRange &&
+              listing?.investmentRange !== "$" && (
                 <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg">
-                  Cash Required: {listing?.listingInvestment}
+                  Cash Required: {listing?.investmentRange}
                 </p>
               )}
 
-            {listing?.listingUnits && listing?.listingUnits !== "NULL" && (
+            {listing?.category && listing?.category !== "" && (
               <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg">
-                Franchise Units: {listing?.listingUnits}
+                Franchise Units: {listing?.category}
               </p>
             )}
           </div>
@@ -91,7 +91,7 @@ const ListingsColumns = ({ listing, index }) => {
           <h1
             className={`text-custom-heading-color font-bold text-center text-md lg:text-lg`}
           >
-            {listing.listingName}
+            {listing.name}
           </h1>
           <p className="text-sm text-black/80 text-center">
             {listing.shortDescription}

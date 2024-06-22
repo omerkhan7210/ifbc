@@ -311,13 +311,14 @@ const FormTC = ({
     try {
       if (allFieldsValid) {
         const formData = {
-          candidateId: selectedDocId,
-          AgentId: userDetails.docId,
-          listingsIds: JSON.stringify(activeListings).replace(/[^0-9,]/g, ""),
-          InterRequest: selectedDetails.IncludeNameInTerritoryRequest,
+          candidateId: selectedDocId ?? 0,
+          AgentId: userDetails.docId ?? 0,
+          listingsIds: JSON.stringify(activeListings).replace(/[^0-9,]/g, "") ?? "",
+          InterRequest: selectedDetails.IncludeNameInTerritoryRequest ?? false,
           docType: "TC",
           Status: "Pending",
           Message: "",
+          email:""
         };
 
         const baseUrl =
@@ -329,7 +330,7 @@ const FormTC = ({
             "Content-Type": "application/json",
           },
         });
-        if (response.status === 200) {
+        if (response.status === 201) {
           setFormErrors({});
           setSuccessMsg("Territory Check Send Successfully.");
           setShowSuccess(true);
@@ -337,12 +338,7 @@ const FormTC = ({
           setTimeout(() => {
             window.location.href = "/messages/territory-check";
           }, 3000);
-        } else {
-          setFormErrors({ error: response.data });
-          setLoading(false);
-          window.scrollTo(0, 500);
-          // Handle unexpected response
-        }
+        } 
       } else {
         setFormErrors((prev) => ({
           ...prev,

@@ -99,6 +99,22 @@ const Navbar = () => {
             id="menu-item-552360"
             className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
           >
+            <NavLink to="/funding-calculator" style={style}>
+              Funding Calculator
+            </NavLink>
+          </li>
+          <li
+            id="menu-item-552360"
+            className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
+          >
+            <NavLink to="/business-assessment" style={style}>
+              Business Assessment
+            </NavLink>
+          </li>
+          <li
+            id="menu-item-552360"
+            className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
+          >
             <NavLink to="/listings" style={style}>
               Franchises Search (FLS)
             </NavLink>
