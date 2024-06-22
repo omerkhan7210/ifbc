@@ -36,7 +36,7 @@ const RelatedListings = () => {
         <Swiper
           modules={[Navigation, Autoplay, Pagination, A11y, EffectCoverflow]}
           spaceBetween={20}
-          slidesPerView={2}
+          slidesPerView={3}
           centeredSlides
           initialSlide={12}
           effect="coverflow"
@@ -61,7 +61,7 @@ const RelatedListings = () => {
               if (index < 25) {
                 return (
                   <SwiperSlide key={index}>
-                    <ListingsColumns listing={listing} active="" />
+                    <ListingsColumns listing={listing}  ifSlider={true}/>
                   </SwiperSlide>
                 );
               }
