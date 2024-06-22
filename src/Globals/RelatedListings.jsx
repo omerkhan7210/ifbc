@@ -36,7 +36,7 @@ const RelatedListings = () => {
         <Swiper
           modules={[Navigation, Autoplay, Pagination, A11y, EffectCoverflow]}
           spaceBetween={20}
-          slidesPerView={3}
+          slidesPerView={2}
           centeredSlides
           initialSlide={12}
           effect="coverflow"

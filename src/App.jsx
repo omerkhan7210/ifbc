@@ -4,7 +4,6 @@ import { AnimatePresence } from "framer-motion";
 import Header from "src/Globals/Header";
 import Footer from "src/Globals/Footer";
 import MobileNav from "src/Globals/MobileNav";
-import FLSEmail from "src/Popups/FLSEmail";
 import ListingDataContext from "src/Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import CandidateSideBar from "./Pages/GlobalPageSections/CandidateSideBar";
@@ -17,9 +16,9 @@ import RegisterationPopup from "./Popups/RegistrationPopup";
 const App = () => {
   const dispatch = useDispatch();
   const [mobileActive, setMobileActive] = useState(false);
-  const ifLogin = useSelector((state) => state.counter.ifLogin);
+  const token = useSelector((state) => state.counter.token);
   const role = useSelector((state) => state.counter.role);
-
+console.log(token)
   const [show, setShow] = useState("");
   const [registrationType, setRegistrationType] = useState("");
   const loc = useLocation();
@@ -31,7 +30,7 @@ const App = () => {
 
   return (
     <>
-      {ifLogin && (
+      {token && (
         <ListingDataContext>
           <Header
             mobileActive={mobileActive}
@@ -42,7 +41,7 @@ const App = () => {
       )}
       <AnimatePresence mode="wait">
         <RouteRenderer
-          isAuthenticated={ifLogin}
+          isAuthenticated={token}
           setShow={setShow}
           setRegistrationType={setRegistrationType}
         />
@@ -61,9 +60,8 @@ const App = () => {
             />
           </TCFRDataContext>
         </CandidatesDataContext>
-        <FLSEmail />
       </ListingDataContext>
-      {ifLogin && <Footer />}
+      {token && <Footer />}
     </>
   );
 };

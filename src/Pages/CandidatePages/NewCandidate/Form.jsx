@@ -1,15 +1,17 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Tabs from "./Tabs";
 import { useNavigate } from "react-router-dom";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
+import DialogBox from "src/Popups/DialogBox";
 
-const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
-  const [formFields, setFormFields] = useState(candDetails ? candDetails : {});
+const Form = ({ candDetails, candNames, activeListings }) => {
+  const { userDetails } = useContext(MyCandContext);
+  const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
-  const history = useNavigate();
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
   const [selectedDocId, setSelectedDocId] = useState();
@@ -28,6 +30,12 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
       }
     }
   }, [selectedDocId, candDetails]);
+
+  useEffect(() => {
+    if (candDetails) {
+      setFormFields(convertKeysToLowercase(candDetails));
+    }
+  }, [candDetails]);
 
   const states = [
     { value: "AL", text: "Alabama" },
@@ -112,7 +120,13 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
         className={className}
       >
         {states.map((state, index) => (
-          <option key={index} value={state.value}>
+          <option
+            key={index}
+            value={state.value}
+            {...(candDetails
+              ? { selected: `${name}state` === candDetails[`${name}state`] }
+              : {})}
+          >
             {state.text}
           </option>
         ))}
@@ -129,7 +143,21 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
       }
     }
   }, [formFields]);
+  function convertKeysToLowercase(obj) {
+    if (typeof obj !== "object" || obj === null) {
+      return obj;
+    }
 
+    if (Array.isArray(obj)) {
+      return obj.map((item) => convertKeysToLowercase(item));
+    }
+
+    return Object.keys(obj).reduce((acc, key) => {
+      const lowerKey = key.toLowerCase();
+      acc[lowerKey] = convertKeysToLowercase(obj[key]);
+      return acc;
+    }, {});
+  }
   const handleSubmit = async () => {
     setLoading(true);
     const reqFields = [
@@ -155,6 +183,8 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
     try {
       if (allFieldsValid) {
         const formData = {
+          ...(candDetails?.docId ? { DocId: candDetails?.docId ?? "" } : {}),
+
           closeDate: formFields.closedate ?? "",
           firstName: formFields.firstname ?? "",
           lastName: formFields.lastname ?? "",
@@ -224,168 +254,41 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
           AgentUserId: userDetails.docId,
         };
 
-        const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "https://omerkhan7210-001-site1.ltempurl.com/api/candidates";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/candidates";
+        let response = "";
 
         // Send the POST request using Axios
-        const response = await axios.post(baseUrl, jsonData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (
-          response.status === 200 &&
-          response.data === "Candidate Information Saved Successfully."
-        ) {
-          setFormErrors({});
-          setSuccessMsg("Candidate Information Saved Successfully.");
-
-          setLoading(false);
-
-          setTimeout(() => {
-            history("/candidate-list");
-          }, 3000);
+        if (candDetails) {
+          response = await axios.put(
+            `${baseUrl}/${candDetails?.docId}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
         } else {
-          setFormErrors({ error: response.data });
-          setLoading(false);
-          window.scrollTo(0, 500);
-          // Handle unexpected response
+          response = await axios.post(baseUrl, formData, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
         }
-      } else {
-        setFormErrors((prev) => ({
-          ...prev,
-          error: "Please fill in all the required fields",
-        }));
-        setLoading(false);
-        window.scrollTo(0, 500);
-
-        // Handle invalid fields (e.g., show validation errors)
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-  const handleEdit = async () => {
-    setLoading(true);
-    const reqFields = [
-      "firstname",
-      "lastname",
-      "phone",
-      "email",
-      "territorystate",
-      "territorycity",
-    ];
-    let allFieldsValid = true;
-
-    reqFields.forEach((field) => {
-      const newKey = field.toLowerCase().split(" ").join("");
-      if (!formFields[newKey] || formFields[newKey].trim() === "") {
-        setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
-        allFieldsValid = false;
-      } else {
-        setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
-      }
-    });
-
-    try {
-      if (allFieldsValid) {
-        const formData = {
-          closeDate: formFields.closedate ?? "",
-          firstName: formFields.firstname ?? "",
-          lastName: formFields.lastname ?? "",
-          Phone: formFields.phone ?? "",
-          Email: formFields.email ?? "",
-          territoryCity: formFields.territorycity ?? "",
-          territoryState: formFields.territorystate ?? "",
-          territoryZipcode: formFields.territoryzipcode ?? "",
-          currentCity: formFields.currentcity ?? "",
-          currentState: formFields.currentstate ?? "",
-          currentZipcode: formFields.currentzipcode ?? "",
-          territoryNotes: formFields.territorynotes ?? "",
-          DealSource: formFields.dealsource ?? "",
-          DealSourceCost: formFields.dealsourcecost ?? "",
-          ZorackleValue: formFields.zoraclevalue ?? "",
-          DealValue: formFields.dealvalue ?? "",
-          About: formFields.about ?? "",
-          InvestmentFranchise: formFields.investmentfranchise ?? "",
-          Funding: formFields.funding ?? "",
-          CreditScore: formFields.creditscore ?? "",
-          InitialQualifyingNote: formFields.initialqualifyingnote ?? "",
-          Activities: formFields.activities ?? "",
-          AttendingNetworkFunction: formFields.attendingnetworkfunction ?? "",
-          MultiUnitOps: formFields.multiunitops ?? "",
-          BusinessPartner: formFields.businesspartner ?? "",
-          FamilyFeel: formFields.familyfeel ?? "",
-          EmployeesPrefer: formFields.employeesprefer ?? "",
-          StaffSize: formFields.staffsize ?? "",
-          ZorakleNotes: formFields.zoraklenotes ?? "",
-          FundingBusiness: formFields.fundingbusiness ?? "",
-          RetirementPlan: formFields.retirementplan ?? "",
-          VALoan: formFields.valoan ?? "",
-          CurrentNetworth: formFields.currentnetworth ?? "",
-          TrafficViolation: formFields.trafficviolation ?? "",
-          Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
-          Bankruptcy: formFields.bankruptcy ?? "",
-          EligibilityNote: formFields.eligibilitynote ?? "",
-          BusinessBefore: formFields.businessbefore ?? "",
-          MarketingExperience: formFields.marketingexperience ?? "",
-          ManagementExperice: formFields.managementexperience ?? "",
-          SalesExperience: formFields.salesexperience ?? "",
-          ReviewFinancialStatement: formFields.reviewfinancialstatement ?? "",
-          CSExperience: formFields.csexperience ?? "",
-          AttractiveBusinessOwner: formFields.attractivebusinessowner ?? "",
-          HandleNewBusiness: formFields.handlenewbusiness ?? "",
-          BusinessExpectations: formFields.businessexpectations ?? "",
-          WantNote: formFields.wantnote ?? "",
-          PreferB2b: formFields.preferb2b ?? "",
-          PhysicalLocation: formFields.physicallocation ?? "",
-          Inventory: formFields.inventory ?? "",
-          ColdCalling: formFields.coldcalling ?? "",
-          PassiveMode: formFields.passivemode ?? "",
-          BusinessHours: formFields.businesshours ?? "",
-          Networth: formFields.networth ?? "",
-          LiquidCash: formFields.liquidcash ?? "",
-          Competency1: formFields.competency1 ?? "",
-          Competency2: formFields.competency2 ?? "",
-          Competency3: formFields.competency3 ?? "",
-          FranchiseCause: formFields.franchisecause ?? "",
-          ProfessionalBackground: formFields.professionalbackground ?? "",
-          FranchiseInterested: formFields.franchiseinterested ?? "",
-          TimeFrame: formFields.timeframe ?? "",
-          Status: formFields.status ?? "",
-          PipelineStep: formFields.pipelinestep ?? "",
-          LostReason: formFields.lostreason ?? "",
-          CategoryRating: formFields.categoryrating ?? "",
-          AgentUserId: userDetails.docId,
-        };
-
-        const jsonData = JSON.stringify(formData);
-        const baseUrl =
-          "https://omerkhan7210-001-site1.ltempurl.com/api/candidates";
-
-        // Send the POST request using Axios
-        const response = await axios.put(baseUrl, jsonData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (
-          response.status === 200 &&
-          response.data === "Candidate Information Saved Successfully."
-        ) {
+        if (response.status === 201) {
           setFormErrors({});
-          setSuccessMsg("Candidate Information Saved Successfully.");
-
+          setSuccessMsg("Candidate Information Saved Successfully!");
           setLoading(false);
-
           setTimeout(() => {
-            history("/candidate-list");
+            window.location.href = "/candidate-list";
           }, 3000);
+        } else if (response.status === 204) {
+          setSuccessMsg("Candidate Information Saved Successfully!");
+          setShowSuccess(true);
+          setLoading(false);
         } else {
-          setFormErrors({ error: response.data });
+          // setFormErrors({  });
           setLoading(false);
           window.scrollTo(0, 500);
           // Handle unexpected response
@@ -439,7 +342,7 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "http://siddiqiventures-001-site3.ktempurl.com/cfabridge.aspx";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {
@@ -447,10 +350,7 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
             "Content-Type": "application/json",
           },
         });
-        if (
-          response.status === 200 &&
-          response.data === "Bridge Information Saved Successfully."
-        ) {
+        if (response.status === 200 || response.status === 201) {
           setFormErrors({});
           setSuccessMsg(`Congratulations! You have now sent your Formal Registration!
                         It will be delivered to the email account associated with the this concepts profile. For your records, a time stamped copy of this email will be sent to you as well.
@@ -487,40 +387,48 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
+    const newName = name.toLowerCase();
 
     setFormFields((prevFields) => ({
       ...prevFields,
-      [name]: inputValue,
+      [newName]: inputValue,
     }));
     setFormErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: "",
+      [newName]: "",
     }));
   };
 
-  return successMsg ? (
-    <p className="border-2 border-green-600 text-green-600 p-4 flex justify-between">
-      {successMsg}
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
-        className="size-6"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
-        />
-      </svg>
-    </p>
-  ) : (
+  return (
     <>
+      <DialogBox show={showsuccess} setShow={setShowSuccess}>
+        <div className="bg-white p-5 py-10 grid place-items-center text-3xl text-custom-heading-color">
+          <button
+            className="absolute top-5 right-10"
+            onClick={() => setShowSuccess(false)}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="red"
+              className="size-9"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </button>
+
+          {successMsg}
+        </div>
+      </DialogBox>
       <div
         id="main-new-candidate-form-container"
-        className={`col-span-12 divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10"} `}
+        className={` divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10 col-span-12"} `}
       >
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
@@ -568,7 +476,12 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
         />
 
         {/* tabs */}
-        <Tabs handleInputChange={handleInputChange} candDetails={candDetails} />
+        <Tabs
+          handleInputChange={handleInputChange}
+          candDetails={candDetails}
+          candNames={candNames}
+          selectedDetails={selectedDetails}
+        />
         {/* submit button */}
       </div>
 
@@ -576,22 +489,20 @@ const Form = ({ candDetails, candNames, userDetails, activeListings }) => {
         id="button-container"
         className="flex flex-col gap-5 items-center justify-center my-10 col-span-12"
       >
-        {candDetails ? (
-          candNames && candDetails ? (
-            <button
-              className="candidate-btn w-96"
-              onClick={handleSubmitRegistration}
-            >
-              {loading ? "Loading..." : "SEND APPLICATION"}
-            </button>
-          ) : (
-            <button className="candidate-btn w-96" onClick={handleEdit}>
-              {loading ? "Loading..." : "EDIT CANDIDATE INFORMATION"}
-            </button>
-          )
+        {candNames && candDetails ? (
+          <button
+            className="candidate-btn w-96"
+            onClick={handleSubmitRegistration}
+          >
+            {loading ? "Loading..." : "SEND APPLICATION"}
+          </button>
         ) : (
           <button className="candidate-btn w-96" onClick={handleSubmit}>
-            {loading ? "Loading..." : "SUBMIT CANDIDATE INFORMATION"}
+            {loading
+              ? "Loading..."
+              : candDetails
+                ? "EDIT CANDIDATE INFORMATION"
+                : "SUBMIT CANDIDATE INFORMATION"}
           </button>
         )}
       </div>
@@ -629,7 +540,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalfirstname"
+              name="additionalFirstName"
               className="candidate-input"
               required
             />
@@ -639,7 +550,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionallastname"
+              name="additionalLastName"
               className="candidate-input"
               required
             />
@@ -654,7 +565,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalphone"
+              name="additionalPhone"
               className="candidate-input"
               required
             />
@@ -664,7 +575,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalemail"
+              name="additionalEmail"
               className="candidate-input"
               required
             />
@@ -722,7 +633,7 @@ const FormFirstRow = ({
           {searchOn ? (
             <select
               id="firstname"
-              name="firstName"
+              name="firstname"
               className={`candidate-select capitalize${
                 formErrors.firstname ? "bg-red-300" : ""
               }`}
@@ -742,7 +653,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="firstName"
+              name="firstname"
               className={`candidate-input ${
                 formErrors.firstname ? "bg-red-300" : ""
               }`}
@@ -756,7 +667,7 @@ const FormFirstRow = ({
           <input
             onChange={handleInputChange}
             type="text"
-            name="lastName"
+            name="lastname"
             className={`candidate-input ${formErrors.lastname ? "bg-red-300" : ""}`}
             required
             {...(candNames && candNames.length > 0
@@ -780,8 +691,8 @@ const FormFirstRow = ({
             onChange={handleInputChange}
             required
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.Phone }
-              : { defaultValue: candDetails?.Phone })}
+              ? { value: selectedDetails?.phone }
+              : { defaultValue: candDetails?.phone })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -795,8 +706,8 @@ const FormFirstRow = ({
             required
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.Email }
-              : { defaultValue: candDetails?.Email })}
+              ? { value: selectedDetails?.email }
+              : { defaultValue: candDetails?.email })}
           />
         </div>
       </div>
@@ -855,7 +766,7 @@ const FormSecondRow = ({
           <input
             onChange={handleInputChange}
             type="text"
-            name="territoryCity"
+            name="territorycity"
             className={`candidate-input mr-2 ${
               formErrors.territorycity ? "bg-red-300" : ""
             }`}
@@ -875,12 +786,12 @@ const FormSecondRow = ({
           <p className="candidate-label">Zip / Postal Code</p>
           <input
             type="text"
-            name="territoryZipcode"
+            name="territoryzipcode"
             className="candidate-input"
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.territoryZipcode }
-              : { defaultValue: candDetails?.territoryZipcode })}
+              ? { value: selectedDetails?.territoryZipCode }
+              : { defaultValue: candDetails?.territoryZipCode })}
           />
         </div>
       </div>
@@ -987,8 +898,8 @@ const FormThirdRow = ({
               className="candidate-input"
               required
               {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.currentZipcode }
-                : { defaultValue: candDetails?.currentZipcode })}
+                ? { value: selectedDetails?.currentZipCode }
+                : { defaultValue: candDetails?.currentZipCode })}
             />
           </div>
         </div>
@@ -1002,8 +913,8 @@ const FormThirdRow = ({
           rows={10}
           className="candidate-input"
           {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.About }
-            : { defaultValue: candDetails?.About })}
+            ? { value: selectedDetails?.about }
+            : { defaultValue: candDetails?.about })}
         />
       </div>
       <div id="eigth-sub-row" className="flex flex-col md:flex-row gap-2">
@@ -1016,8 +927,8 @@ const FormThirdRow = ({
             className="candidate-input"
             required
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.DealSource }
-              : { defaultValue: candDetails?.DealSource })}
+              ? { value: selectedDetails?.dealSource }
+              : { defaultValue: candDetails?.dealSource })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -1029,8 +940,8 @@ const FormThirdRow = ({
             className="candidate-input"
             required
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.DealSourceCost }
-              : { defaultValue: candDetails?.DealSourceCost })}
+              ? { value: selectedDetails?.dealSourceCost }
+              : { defaultValue: candDetails?.dealSourceCost })}
           />
         </div>
         <div className="candidate-sub-childs">

@@ -17,7 +17,9 @@ import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import MainMessages from "./Pages/CandidatePages/Messages/MainMessages";
 import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
+import FundingCalculator from "./Pages/StaticPages/Calculator/FundingCalculator";
 import TCFRDataContext from "./Context/TCFRDataContext";
+import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment/BusinessAssessment";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const authenticatedRoutes = [
@@ -91,6 +93,14 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
           <Inbox />
         </CandidatesDataContext>
       ),
+    },
+    {
+      path: "/funding-calculator",
+      element: <FundingCalculator />,
+    },
+    {
+      path: "/business-assessment",
+      element: <BusinessAssessment />,
     },
     {
       path: "/profile",

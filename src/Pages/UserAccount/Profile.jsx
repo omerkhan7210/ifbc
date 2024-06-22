@@ -1,28 +1,61 @@
 import _ from "lodash";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import BarLoader from "src/Animations/BarLoader";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import DialogBox from "src/Popups/DialogBox";
 import FormatRawDate from "src/Utils/FormatRawDate";
 import { convertKeysToLowercase } from "src/Utils/ObjectMethods";
-import Uploady, { useUploady } from "@rpldy/uploady";
-import UploadButton from "@rpldy/upload-button";
-import UploadPreview from "@rpldy/upload-preview";
 import PageTransition from "src/Animations/PageTransition";
 import axios from "axios";
 
 const Profile = () => {
   const [formErrors, setFormErrors] = useState({});
-  const { userDetails, role } = useContext(MyCandContext);
-  const [formFields, setFormFields] = useState(
-    userDetails ? convertKeysToLowercase(userDetails) : {}
-  );
+  const { role } = useContext(MyCandContext);
+  const token = localStorage.getItem("token") || "";
+  const [userDetails, setUserDetails] = useState(null);
+  const [formFields, setFormFields] = useState({});
   const [successMsg, setSuccessMsg] = useState(null);
   const [loading, setLoading] = useState(false);
   const [haveChanges, setHaveChanges] = useState(false);
 
+  const getUserDetails = async () => {
+    const url =
+      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
+
+    try {
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Handle successful response
+      if (response.status === 200) {
+        const someUserDetails = response.data;
+        setUserDetails(someUserDetails);
+      } else {
+        console.log("No user details found");
+      }
+    } catch (error) {
+      // Handle error
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
-    if (!_.isEqual(convertKeysToLowercase(userDetails), formFields)) {
+    if (userDetails) {
+      const converted = convertKeysToLowercase(userDetails);
+      setFormFields(converted);
+    }
+  }, [userDetails]);
+
+  useEffect(() => {
+    getUserDetails();
+  }, [token]);
+
+  useEffect(() => {
+    if (
+      userDetails &&
+      !_.isEqual(convertKeysToLowercase(userDetails), formFields)
+    ) {
       setHaveChanges(true);
       // proceed with form submission
     } else {
@@ -37,10 +70,9 @@ const Profile = () => {
       "lastname",
       "companyphonenumber",
       "email",
-      "state",
       "city",
       "zippostalcode",
-      "address",
+      "companyaddress",
     ];
     let allFieldsValid = true;
 
@@ -48,6 +80,7 @@ const Profile = () => {
       const newKey = field.toLowerCase().split(" ").join("");
       if (!formFields[newKey] || formFields[newKey].trim() === "") {
         setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
+
         allFieldsValid = false;
       } else {
         setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
@@ -58,20 +91,21 @@ const Profile = () => {
       if (allFieldsValid) {
         // formdata
 
-        const jsonData = JSON.stringify(formData);
-        const baseUrl = "https://omerkhan7210-001-site1.ltempurl.com/api/users";
+        const baseUrl =
+          "https://siddiqiventures-001-site4.ktempurl.com/api/users";
 
         // Send the PUT request using Axios
-        const response = await axios.put(baseUrl, jsonData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await axios.put(
+          `${baseUrl}/${formFields.docid}`,
+          formFields,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-        if (
-          response.status === 200 &&
-          response.data === "User Information Updated Successfully."
-        ) {
+        if (response.status === 204) {
           setFormErrors({});
           setSuccessMsg("User Information Updated Successfully.");
 
@@ -104,50 +138,57 @@ const Profile = () => {
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
+    const newName = name.toLowerCase();
 
     setFormFields((prevFields) => ({
       ...prevFields,
-      [name]: inputValue,
+      [newName]: inputValue,
     }));
     setFormErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: "",
+      [newName]: "",
     }));
   };
 
   return (
     <PageTransition>
-      <div
-        id="main-profile-section"
-        className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5 min-h-screen "
-      >
-        {userDetails ? (
-          <>
-            <LeftSideBar
-              formFields={formFields}
-              formErrors={formErrors}
-              handleInputChange={handleInputChange}
-              userDetails={userDetails}
-              successMsg={successMsg}
-              handleSubmit={handleSubmit}
-              loading={loading}
-              role={role}
-              haveChanges={haveChanges}
-              setFormFields={setFormFields}
-            />
-            <RightSideBar
-              formFields={formFields}
-              formErrors={formErrors}
-              handleInputChange={handleInputChange}
-              userDetails={userDetails}
-            />
-          </>
-        ) : (
-          <div className="h-full grid place-items-center col-span-12">
-            <BarLoader bgcolor={"blue"} />
-          </div>
-        )}
-      </div>
+      {userDetails ? (
+        <div
+          id="main-profile-section"
+          className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5 min-h-screen "
+        >
+          {userDetails ? (
+            <>
+              <LeftSideBar
+                formFields={formFields}
+                formErrors={formErrors}
+                handleInputChange={handleInputChange}
+                userDetails={userDetails}
+                successMsg={successMsg}
+                handleSubmit={handleSubmit}
+                loading={loading}
+                role={role}
+                haveChanges={haveChanges}
+                setFormFields={setFormFields}
+              />
+              <RightSideBar
+                formFields={formFields}
+                formErrors={formErrors}
+                handleInputChange={handleInputChange}
+                userDetails={userDetails}
+              />
+            </>
+          ) : (
+            <div className="h-full grid place-items-center col-span-12">
+              <BarLoader bgcolor={"blue"} />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="grid place-items-center h-[500px]">
+          <BarLoader bgcolor={"blue"} />
+        </div>
+      )}
     </PageTransition>
   );
 };
@@ -167,6 +208,7 @@ const LeftSideBar = ({
   const [settingsOn, setSettingsOn] = useState(false);
   const [expOn, setExpOn] = useState(false);
   const [dealOn, setDealOn] = useState(false);
+  const fileInputRef = useRef();
   let bgcolor = "rgb(33, 118, 255)";
   let roleName = "Member";
   if (role === "N") {
@@ -212,14 +254,19 @@ const LeftSideBar = ({
     }
     //setFormFields((prev) => ({ ...prev, profileImage: selectedImage }));
   };
-
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
   return (
     <div id="left-sidebar-profile" className=" h-full w-full col-span-3 p-5 ">
       <div
         id="user-container"
         className=" w-full col-span-4 flex flex-col max-md:items-center "
       >
-        <div id="image-container-profile" className="flex items-center gap-5">
+        <div
+          id="image-container-profile"
+          className="flex items-center gap-5 relative"
+        >
           <div>
             <label htmlFor="profile-image-upload">
               <img
@@ -233,9 +280,8 @@ const LeftSideBar = ({
                       : image
                 }
                 alt=""
-                className="rounded-full w-32 h-32 cursor-pointer"
+                className="rounded-full w-44 h-44 object-cover cursor-pointer"
               />
-              <input type="file" name="" onChange={handleChangeImage} id="" />
             </label>
             <h1
               style={{ background: bgcolor }}
@@ -244,6 +290,32 @@ const LeftSideBar = ({
               {roleName}
             </h1>
           </div>
+          <input
+            type="file"
+            name=""
+            ref={fileInputRef}
+            onChange={handleChangeImage}
+            className="hidden"
+          />
+          <button
+            className="absolute top-0 left-40 bg-custom-dark-blue  rounded-full p-2 flex items-center justify-center"
+            onClick={handleButtonClick}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="rgb(33, 118, 255)"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="white"
+              className="size-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+              />
+            </svg>
+          </button>
         </div>
 
         <div
@@ -287,7 +359,7 @@ const LeftSideBar = ({
               />
             </svg>
 
-            <h1 className="icon-text">{userDetails.CompanyPhoneNumber}</h1>
+            <h1 className="icon-text">{userDetails.companyPhoneNumber}</h1>
           </div>
 
           <div className="flex gap-2 items-center">
@@ -306,7 +378,7 @@ const LeftSideBar = ({
               />
             </svg>
 
-            <h1 className="icon-text">{userDetails.Email}</h1>
+            <h1 className="icon-text">{userDetails.email}</h1>
           </div>
           {userDetails?.WebsiteUrl !== "" && (
             <div className="flex gap-2 items-center">
@@ -326,7 +398,7 @@ const LeftSideBar = ({
               </svg>
 
               <h1 className="icon-text">
-                <a href={userDetails.WebsiteUrl}>{userDetails.WebsiteUrl}</a>
+                <a href={userDetails.eebsiteUrl}>{userDetails.websiteUrl}</a>
               </h1>
             </div>
           )}
@@ -348,12 +420,12 @@ const LeftSideBar = ({
                 />
               </svg>
               <h1 className="icon-text">
-                <a href={userDetails.LinkedInUrl}>{userDetails.LinkedInUrl}</a>
+                <a href={userDetails.linkedInUrl}>{userDetails.linkedinUrl}</a>
               </h1>
             </div>
           )}
 
-          {userDetails?.MeetingLink !== "" && (
+          {userDetails?.meetingLink !== "" && (
             <div className="flex gap-2 items-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -372,7 +444,7 @@ const LeftSideBar = ({
 
               <h1 className="icon-text">
                 {" "}
-                <a href={userDetails.MeetingLink}>{userDetails.MeetingLink}</a>
+                <a href={userDetails.meetingLink}>{userDetails.meetingLink}</a>
               </h1>
             </div>
           )}
@@ -398,7 +470,7 @@ const LeftSideBar = ({
               />
             </svg>
 
-            <h1 className="icon-text">{userDetails.CompanyAddress}</h1>
+            <h1 className="icon-text">{userDetails.companyAddress}</h1>
           </div>
 
           <div>
@@ -566,7 +638,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.TerritoryCheck === "Yes" ? true : false}
+          defaultChecked={userDetails?.territoryCheck}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label htmlFor="default-checkbox" className="font-bold text-sm">
@@ -587,7 +659,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.DisableLogo === "Yes" ? true : false}
+          defaultChecked={userDetails?.disableLogo}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -603,7 +675,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.DisableCover === "Yes" ? true : false}
+          defaultChecked={userDetails?.disableCover}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -619,7 +691,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.DisableProfile === "Yes" ? true : false}
+          defaultChecked={userDetails?.disableProfile}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -635,7 +707,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.DisableBio === "Yes" ? true : false}
+          defaultChecked={userDetails?.disableBio}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -651,7 +723,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.HideName === "Yes" ? true : false}
+          defaultChecked={userDetails?.hideName}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -668,7 +740,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.AllCandidates === "Yes" ? true : false}
+          defaultChecked={userDetails?.allCandidates}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -685,7 +757,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.AllPastClient === "Yes" ? true : false}
+          defaultChecked={userDetails?.allPastClient}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -706,7 +778,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.ShareFranchise === "Yes" ? true : false}
+          defaultChecked={userDetails?.shareFranchise}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -722,13 +794,13 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
       </h1>
 
       <div className="candidate-sub-childs" id="leademail">
-        <p className="icon-text">FBAMembers.com Lead Email</p>
+        <p className="icon-text">IFBCMembers.com Lead Email</p>
         <input
           name="leademail"
           onChange={handleInputChange}
           type="text"
           readOnly
-          defaultValue={userDetails?.LeadEmail}
+          defaultValue={userDetails?.leadEmail}
           className="candidate-input"
           required
         />
@@ -740,8 +812,6 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           type="text"
           name="leadendpoint"
-          readOnly
-          placeholder="https://fbamembers.com/hubspot-contact/RDZpMzBGTEppb1htQ1VoWUdaMk1Udz09"
           className="candidate-input"
           required
         />
@@ -750,7 +820,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
         Communication Settings
       </h1>
       <p className="ms-2 text-sm font-bold text-slate-500">
-        FBA Certification and Badges
+        IFBC Certification and Badges
       </p>
       <div className="flex items-center">
         <input
@@ -758,14 +828,14 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.FbaBadges === "Yes" ? true : false}
+          defaultChecked={userDetails?.fbaBadges}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
           htmlFor="default-checkbox"
           className="ms-2 text-sm font-bold text-slate-500 "
         >
-          Include your FBA badges and certificate in your signature.
+          Include your IFBC badges and certificate in your signature.
         </label>
       </div>
 
@@ -836,7 +906,7 @@ const Experience = ({ handleInputChange, setShow, userDetails }) => {
           name="consulting"
           className="candidate-input w-full"
           id="consulting"
-          defaultValue={userDetails?.Consulting}
+          defaultValue={userDetails?.consulting}
           onChange={handleInputChange}
         >
           <option value="CB">Co-Breaking</option>
@@ -867,7 +937,7 @@ const Experience = ({ handleInputChange, setShow, userDetails }) => {
           name="franchiseindustryfocus"
           className="candidate-input w-full"
           id="franchiseindustryfocus"
-          defaultValue={userDetails?.FranchiseIndustryFocus}
+          defaultValue={userDetails?.franchiseIndustryFocus}
           onChange={handleInputChange}
         >
           <option value="EB">Emerging Brands</option>
@@ -898,7 +968,7 @@ const Experience = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.BusinessBroker === "Yes" ? true : false}
+          defaultChecked={userDetails?.businessBroker}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -918,7 +988,7 @@ const Experience = ({ handleInputChange, setShow, userDetails }) => {
           className="candidate-input w-full"
           id="registered"
           onChange={handleInputChange}
-          defaultValue={userDetails?.RegisteredIn}
+          defaultValue={userDetails?.registeredIn}
         >
           <option value="N">None</option>
           <option value="NY">New York</option>
@@ -933,7 +1003,7 @@ const Experience = ({ handleInputChange, setShow, userDetails }) => {
           onChange={handleInputChange}
           id="default-checkbox"
           type="checkbox"
-          defaultChecked={userDetails?.OpenForGroup === "Yes" ? true : false}
+          defaultChecked={userDetails?.openForGroup}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
         />
         <label
@@ -1105,7 +1175,7 @@ const RightSideBar = ({
       <div id="2-column-profile-inputs" className="flex max-md:flex-col gap-6">
         <div id="left-side-inputs" className="  w-full">
           <h1 className="text-custom-heading-color font-bold text-2xl">
-            Your FBA Profile Information
+            Your IFBC Profile Information
           </h1>
           <div className="candidate-sub-childs">
             <p className="candidate-label">First Name</p>
@@ -1137,7 +1207,7 @@ const RightSideBar = ({
               name="email"
               className="candidate-input"
               required
-              defaultValue={userDetails?.Email}
+              defaultValue={userDetails?.email}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1148,7 +1218,7 @@ const RightSideBar = ({
               name="websiteurl"
               className="candidate-input"
               required
-              defaultValue={userDetails?.WebsiteUrl}
+              defaultValue={userDetails?.websiteUrl}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1159,7 +1229,7 @@ const RightSideBar = ({
               name="linkedinurl"
               className="candidate-input"
               required
-              defaultValue={userDetails?.LinkedInUrl}
+              defaultValue={userDetails?.linkedinUrl}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1170,7 +1240,7 @@ const RightSideBar = ({
               name="meetinglink"
               className="candidate-input"
               required
-              defaultValue={userDetails?.MeetingLink}
+              defaultValue={userDetails?.meetingLink}
             />
           </div>
         </div>
@@ -1187,7 +1257,7 @@ const RightSideBar = ({
               name="companyname"
               className="candidate-input"
               required
-              defaultValue={userDetails?.CompanyName}
+              defaultValue={userDetails?.companyName}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1198,7 +1268,7 @@ const RightSideBar = ({
               name="companyphonenumber"
               className="candidate-input"
               required
-              defaultValue={userDetails?.CompanyPhoneNumber}
+              defaultValue={userDetails?.companyPhoneNumber}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1209,7 +1279,7 @@ const RightSideBar = ({
               name="companyaddress"
               className="candidate-input"
               required
-              defaultValue={userDetails?.CompanyAddress}
+              defaultValue={userDetails?.companyAddress}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1220,7 +1290,7 @@ const RightSideBar = ({
               name="city"
               className="candidate-input"
               required
-              defaultValue={userDetails?.City}
+              defaultValue={userDetails?.city}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -1230,7 +1300,7 @@ const RightSideBar = ({
               id="state"
               className="candidate-input p-3"
               name="state"
-              defaultValue={userDetails?.State}
+              defaultValue={userDetails?.state}
             >
               {states.map((state, index) => (
                 <option key={index} value={state.value}>
@@ -1248,7 +1318,7 @@ const RightSideBar = ({
               name="zippostalcode"
               className="candidate-input"
               required
-              defaultValue={userDetails?.ZipPostalCode}
+              defaultValue={userDetails?.zipPostalCode}
             />
           </div>
         </div>
@@ -1261,7 +1331,7 @@ const RightSideBar = ({
           name="unitsuite"
           className="candidate-input"
           required
-          defaultValue={userDetails?.UnitSuite}
+          defaultValue={userDetails?.unitSuite}
         />
       </div>
       <div>
@@ -1274,7 +1344,7 @@ const RightSideBar = ({
           id="message"
           rows={5}
           className="candidate-input"
-          defaultValue={userDetails?.Notes}
+          defaultValue={userDetails?.notes}
         />
       </div>
       <div className="candidate-sub-childs">
@@ -1285,7 +1355,7 @@ const RightSideBar = ({
           name="shortdescription"
           className="candidate-input"
           required
-          defaultValue={userDetails?.ShortDescription}
+          defaultValue={userDetails?.shortDescription}
         />
       </div>
     </div>

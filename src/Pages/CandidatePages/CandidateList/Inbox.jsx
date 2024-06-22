@@ -41,7 +41,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background: "url(/images/banners/candidatelist1.jpeg)",
+          background: "url(/images/accounts/inbox.jpg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -49,7 +49,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
         }}
       >
         <h1 className="max-md:text-4xl md:text-7xl text-white z-20text-white font-bold text-center z-20">
-          Candidate List
+          Inbox
         </h1>
       </div>
       <div className="max-w-7xl mx-auto flex flex-col gap-5">

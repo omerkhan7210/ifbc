@@ -9,6 +9,7 @@ import Form from "src/Pages/CandidatePages/NewCandidate/Form";
 
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
   const { cands, userDetails } = useContext(MyCandContext);
+
   const { activeListings } = useContext(MyContext);
   const [candNames, setNames] = useState([]);
   const [selectedDocId, setSelectedDocId] = useState();
@@ -30,7 +31,7 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
     if (cands && cands.length > 0) {
       let names = cands.map((cand) => ({
         name: cand.firstName,
-        DocId: cand.docId,
+        docId: cand.docId,
       }));
       setNames(names);
     }
@@ -119,7 +120,6 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
                 <Form
                   candNames={candNames}
                   candDetails={cands}
-                  userDetails={userDetails}
                   activeListings={activeListings}
                 />
               )}
@@ -144,10 +144,10 @@ const FormTC = ({
   selectedDetails,
   userDetails,
   setSelectedDetails,
+  activeListings,
 }) => {
   const [addContacts, setAddContacts] = useState(0);
   const [formErrors, setFormErrors] = useState({});
-  const [searchOn, setSearchOn] = useState(false);
   const [loading, setLoading] = useState(false);
   const states = [
     { value: "AL", text: "Alabama" },
@@ -287,7 +287,8 @@ const FormTC = ({
     );
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
     const reqFields = [
       "firstName",
@@ -310,29 +311,26 @@ const FormTC = ({
     try {
       if (allFieldsValid) {
         const formData = {
-          candidateId: selectedDocId,
-          AgentId: userDetails.Id,
-          listingsIds: JSON.stringify(activeListings).replace(/[^0-9,]/g, ""),
-          InterRequest: selectedDetails.IncludeNameInTerritoryRequest,
+          candidateId: selectedDocId ?? 0,
+          AgentId: userDetails.docId ?? 0,
+          listingsIds: JSON.stringify(activeListings).replace(/[^0-9,]/g, "") ?? "",
+          InterRequest: selectedDetails.IncludeNameInTerritoryRequest ?? false,
           docType: "TC",
           Status: "Pending",
           Message: "",
+          email:""
         };
 
-        const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "https://omerkhan7210-001-site1.ltempurl.com/api/registrations";
+          "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
 
         // Send the POST request using Axios
-        const response = await axios.post(baseUrl, jsonData, {
+        const response = await axios.post(baseUrl, formData, {
           headers: {
             "Content-Type": "application/json",
           },
         });
-        if (
-          response.status === 200 &&
-          response.data === "Bridge Information Saved Successfully."
-        ) {
+        if (response.status === 201) {
           setFormErrors({});
           setSuccessMsg("Territory Check Send Successfully.");
           setShowSuccess(true);
@@ -340,12 +338,7 @@ const FormTC = ({
           setTimeout(() => {
             window.location.href = "/messages/territory-check";
           }, 3000);
-        } else {
-          setFormErrors({ error: response.data });
-          setLoading(false);
-          window.scrollTo(0, 500);
-          // Handle unexpected response
-        }
+        } 
       } else {
         setFormErrors((prev) => ({
           ...prev,
@@ -400,8 +393,8 @@ const FormTC = ({
       <div id="fr-tcheck-popup" className="mt-10">
         <h2 className="candidate-sub-heading">Candidate Name*</h2>
 
-        <div className="flex justify-between w-full">
-          <div className="flex flex-col mr-5 w-[50%]">
+        <div className="flex justify-between w-full max-md:flex-col max-md:gap-5">
+          <div className="flex flex-col w-full">
             <p className="candidate-paragraph">First Name</p>
 
             <select
@@ -423,7 +416,7 @@ const FormTC = ({
                 ))}
             </select>
           </div>
-          <div className="flex flex-col w-[50%]">
+          <div className="flex flex-col w-full">
             <p className="candidate-paragraph">Last Name*</p>
             <input
               onChange={handleInputChange}
@@ -441,7 +434,7 @@ const FormTC = ({
 
       <div id="sr-tcheck-popup" className="mt-10">
         <h2 className="candidate-sub-heading">Territory*</h2>
-        <div className="flex justify-between gap-4">
+        <div className="flex justify-between gap-4 max-md:flex-col">
           <div className="flex flex-col w-full">
             <p className="candidate-paragraph">City</p>
             <input
@@ -507,7 +500,7 @@ const FormTC = ({
           value={selectedDetails?.territoryNotes}
         />
       </div>
-      <div>
+      <div className="max-md:flex justify-center">
         <button
           className="candidate-btn mt-6"
           onClick={() => setAddContacts((prevContacts) => prevContacts + 1)}

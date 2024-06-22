@@ -1,5 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { jwtDecode } from "jwt-decode";
+
+// Function to verify token expiry
+const verifyTokenExpiry = (token) => {
+  if (token) {
+    try {
+      // Decode the token
+      const decodedToken = jwtDecode(token);
+      
+      // Check if the token expiry time is greater than the current time
+      const isTokenValid = decodedToken.exp > Date.now() / 1000;
+      // Return true if the token is not expired, false otherwise
+      return isTokenValid;
+    } catch (error) {
+      // If there's an error decoding the token, consider it as expired
+      return false;
+    }
+  } else {
+    return false;
+  }
+};
+
+const token = localStorage.getItem("token")
+
 
 const initialState = {
   value: JSON.parse(localStorage.getItem("cartListings"))?.length || 0,
@@ -8,7 +32,6 @@ const initialState = {
   registrations: [],
   cartListings: JSON.parse(localStorage.getItem("cartListings")) || [],
   uuid: localStorage.getItem("uuid") || null,
-  ifLogin: JSON.parse(localStorage.getItem("ifLogin")) || false,
   userDetails: JSON.parse(localStorage.getItem("userDetails")) || null,
   role:
     JSON.parse(localStorage.getItem("userDetails")) &&
@@ -16,6 +39,9 @@ const initialState = {
       ? JSON.parse(localStorage.getItem("userDetails"))?.userType
       : null,
   activeListings: JSON.parse(localStorage.getItem("activeListings")) || [],
+  token:
+  token  && token !== "" &&
+      verifyTokenExpiry(token)
 };
 
 export const listingReducer = createSlice({
@@ -72,10 +98,8 @@ export const listingReducer = createSlice({
         state.uuid = newUuid;
       }
     },
-    setIfLogin: (state, action) => {
-      localStorage.setItem("ifLogin", action.payload);
-
-      state.ifLogin = action.payload;
+    setToken: (state, action) => {
+      state.token = action.payload;
     },
     setUserDetails: (state, action) => {
       if (action.payload) {
@@ -129,7 +153,6 @@ export const {
   incrementByListing,
   generateUuid,
   decrementByListing,
-  setIfLogin,
   setUserDetails,
   incrementActiveListing,
   decrementActiveListing,
@@ -137,6 +160,7 @@ export const {
   addAllListings,
   addAllCandidates,
   addAllRegistrations,
+  setToken,
 } = listingReducer.actions;
 
 export default listingReducer.reducer;

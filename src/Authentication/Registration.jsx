@@ -1,7 +1,11 @@
 import { Select } from "@headlessui/react";
+import axios from "axios";
 import React, { useContext, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
+import DialogBox from "src/Popups/DialogBox";
+import { setToken, setUserDetails } from "src/Redux/listingReducer";
 
 const Registration = () => {
   const ref = useRef();
@@ -15,45 +19,11 @@ const Registration = () => {
     password: "",
     credentials: "",
   });
-  const [formFields, setFormFields] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    websiteurl: "",
-    linkedinurl: "",
-    meetinglink: "",
-    companyname: "",
-    companyphonenumber: "",
-    companyaddress: "",
-    city: "",
-    zippostalcode: "",
-    unitsuite: "",
-    notes: "",
-    shortdescription: "",
-    consulting: "",
-    franchiseindustryfocus: "",
-    businessbroker: false,
-    registeredin: "",
-    openforgroup: false,
-    password: "",
-    confirmpassword: "",
-    territorycheck: false,
-    disablelogo: false,
-    disablecover: false,
-    disableprofile: false,
-    disablebio: false,
-    hidename: false,
-    broker: "",
-    allcandidates: false,
-    allpastclient: false,
-    sharefranchise: false,
-    leademail: "",
-    fbabadges: false,
-    usertype: "",
-    profileimage: "",
-    coverimage: "",
-  });
+  const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const [show, setShow] = useState(false);
+  const [otp, setOtp] = useState(null);
+  const dispatch = useDispatch();
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -68,10 +38,37 @@ const Registration = () => {
     const re = /^[A-Za-z][A-Za-z0-9]*$/;
     return re.test(username);
   };
+  const getUserDetails = async (token) => {
+    const url =
+      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
 
+    try {
+      const response = await axios.get(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Handle successful response
+      if (response.status === 200) {
+        const someUserDetails = response.data;
+        return {
+          docId: someUserDetails.docId,
+          firstName: someUserDetails.firstName,
+          lastName: someUserDetails.lastName,
+          email: someUserDetails.email,
+          profileImage: someUserDetails.profileImage,
+          userType: someUserDetails.userType,
+        };
+      } else {
+        console.log("No user details found");
+      }
+    } catch (error) {
+      // Handle error
+      console.error("Error fetching data:", error);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const requestData = {
+    const users = {
       firstname: formFields.firstname ?? "",
       lastname: formFields.lastname ?? "",
       email: formFields.email ?? "",
@@ -88,48 +85,47 @@ const Registration = () => {
       shortdescription: formFields.shortdescription ?? "",
       consulting: formFields.consulting ?? "",
       franchiseindustryfocus: formFields.franchiseindustryfocus ?? "",
-      businessbroker: formFields.businessbroker ?? "",
+      businessbroker: formFields.businessbroker ?? false,
       registeredin: formFields.registeredin ?? "",
-      openforgroup: formFields.openforgroup ?? "",
+      openforgroup: formFields.openforgroup ?? false,
       password: formFields.password ?? "",
       confirmpassword: formFields.confirmpassword ?? "",
-      territorycheck: formFields.territorycheck ?? "",
-      disablelogo: formFields.disablelogo ?? "",
-      disablecover: formFields.disablecover ?? "",
-      disableprofile: formFields.disableprofile ?? "",
-      disablebio: formFields.disablebio ?? "",
-      hidename: formFields.hidename ?? "",
+      territorycheck: formFields.territorycheck ?? false,
+      disablelogo: formFields.disablelogo ?? false,
+      disablecover: formFields.disablecover ?? false,
+      disableprofile: formFields.disableprofile ?? false,
+      disablebio: formFields.disablebio ?? false,
+      hidename: formFields.hidename ?? false,
       broker: formFields.broker ?? "",
-      allcandidates: formFields.allcandidates ?? "",
-      allpastclient: formFields.allpastclient ?? "",
-      sharefranchise: formFields.sharefranchise ?? "",
+      allcandidates: formFields.allcandidates ?? false,
+      allpastclient: formFields.allpastclient ?? false,
+      sharefranchise: formFields.sharefranchise ?? false,
       leademail: formFields.leademail ?? "",
-      fbabadges: formFields.fbabadges ?? "",
-      usertype: "N",
+      fbabadges: formFields.fbabadges ?? false,
+      usertype: "C",
       profileimage: formFields.profileimage ?? "",
       coverimage: formFields.coverimage ?? "",
     };
-
     try {
-      const baseUrl = `https://omerkhan7210-001-site1.ltempurl.com/api/users`;
+      const baseUrl = `https://siddiqiventures-001-site4.ktempurl.com/api/users`;
 
       setLoading(true);
 
-      const response = await axios.post(baseUrl, requestData, {
+      const response = await axios.post(baseUrl, users, {
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      if (
-        response.data === "Data inserted Successfully." &&
-        response.status === 200
-      ) {
-        localStorage.setItem("ifLogin", true);
-        setSuccessMsg({ success: response.data });
-        setLoading(false);
+      if (response.status === 200) {
+        const userToken = response.data.token;
+        const someUserDetails = await getUserDetails(userToken);
+        localStorage.setItem("token", userToken);
+        dispatch(setToken(true));
+        dispatch(setUserDetails(someUserDetails));
         setTimeout(() => {
-          history("/login");
+          setLoading(false);
+          history("/");
         }, 3000);
       } else if (response.data === "Account Already Exist.") {
         setSuccessMsg({ alreadyexist: response.data });
@@ -144,10 +140,13 @@ const Registration = () => {
         setLoading(false);
       }
     } catch (err) {
+      console.error(err);
       //setError({ credentials: err });
       setLoading(false);
     }
   };
+
+  
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -175,7 +174,7 @@ const Registration = () => {
     { name: "allcandidates", label: "All Candidates" },
     { name: "allpastclient", label: "All Past Client" },
     { name: "sharefranchise", label: "Share Franchise" },
-    { name: "fbabadges", label: "FBA Badges" },
+    { name: "fbabadges", label: "IFBC Badges" },
   ];
 
   return (
@@ -184,6 +183,22 @@ const Registration = () => {
         id="main-page-wrapper"
         className="flex justify-center flex-col items-center "
       >
+        <DialogBox show={show} setShow={setShow}>
+          <div className="py-20 px-5 flex items-center justify-center gap-2 flex-col">
+            <p className="text-2xl">{successMsg}</p>
+            <div className="input-container flex flex-col gap-3">
+              <input
+                type="text"
+                className="candidate-input"
+                name="otp"
+                onChange={(e) => setOtp(e.target.value)}
+              />
+              <button className="candidate-btn" onClick={handleSubmitAgain}>
+                Verify
+              </button>
+            </div>
+          </div>
+        </DialogBox>
         <h2 className="text-4xl md:text-5xl my-5 uppercase font-bold text-custom-heading-color">
           Registration
         </h2>
@@ -256,7 +271,7 @@ const Registration = () => {
               className="candidate-btn w-full sm:w-auto"
               type="submit"
             >
-              Sign Up
+              {loading ? "Loading..." : "Sign Up"}
             </button>
             <Link to="/" className="candidate-secondary-btn w-full sm:w-auto">
               Already have an account?
@@ -272,7 +287,7 @@ const Profile = ({ formFields, handleInputChange, error }) => {
     <>
       <div className="flex justify-center items-center">
         <h2 className="text-2xl my-5 uppercase font-bold text-custom-heading-color text-center">
-          Your FBA Profile Information
+          Your IFBC Profile Information
         </h2>
       </div>
 

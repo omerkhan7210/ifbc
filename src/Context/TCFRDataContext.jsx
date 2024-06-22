@@ -15,10 +15,7 @@ const TCFRDataContext = ({ children }) => {
   const [loadingTCFR, setLoading] = useState();
   const [loadingError, setLoadingError] = useState(false);
   const [newData, setNewData] = useState();
-  const [userDetails, setUserDetails] = useState();
   const dispatch = useDispatch();
-  const token = useSelector((state) => state.counter.userDetails);
-  console.log(token);
   useEffect(() => {
     if (all && all.length > 0) {
       const sanitizelistingsIds = (listingsIds) => {
@@ -41,7 +38,8 @@ const TCFRDataContext = ({ children }) => {
 
   const getAllRegistrations = async () => {
     setLoading(true);
-    const url = "https://omerkhan7210-001-site1.ltempurl.com/api/registrations";
+    const url =
+      "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
 
     // Make a GET request to fetch the data
     axios

@@ -18,7 +18,7 @@ const ListingDataContext = ({ children }) => {
   const activeListings = useSelector((state) => state.counter.activeListings);
   const [paginationListings, setPaginationListings] = useState();
   const userDetails = useSelector((state) => state.counter.userDetails);
-  const ifLogin = useSelector((state) => state.counter.ifLogin);
+  const token = useSelector((state) => state.counter.token);
   const role =
     userDetails && typeof userDetails === "object"
       ? userDetails.userType
@@ -27,7 +27,8 @@ const ListingDataContext = ({ children }) => {
 
   const getAllListings = async () => {
     setLoading(true);
-    const url = "https://omerkhan7210-001-site1.ltempurl.com/api/Listings";
+    const url =
+      "https://localhost:7047/api/ListingsView";
     const responseData = await axios
       .get(url)
       .then(async (response) => {
@@ -79,7 +80,7 @@ const ListingDataContext = ({ children }) => {
         setShowActiveListings,
         paginationListings,
         setPaginationListings,
-        ifLogin,
+        token,
         role,
       }}
     >

@@ -68,7 +68,7 @@ const MainCandList = () => {
           </div>
         </div>
 
-        <ImportExport setFormat={setFormat} format={format} />
+        <ImportExport setFormat={setFormat} format={format} cands={cands} />
 
         <FiltersRow
           setFilterCands={setFilterCands}
@@ -141,7 +141,7 @@ const TableFormatData = ({ cands, format }) => {
                       <a href={`mailto:${cand.email}`}>{cand.email}</a>
                     </td>
                     <td className="px-6 py-4 text-base">
-                      {cand.PipelineStep ? cand.PipelineStep : "N/A"}
+                      {cand.pipelineStep ? cand.pipelineStep : "N/A"}
                     </td>
                     <td className="px-6 py-4 text-base">{formatted}</td>
                   </tr>
@@ -322,7 +322,7 @@ const CandidateSearch = ({ property, anotherText, normalText }) => {
     } else if (normalText === "CoBroker or Agent") {
       uniqueFranchisedCands = ["Agent"];
     } else if (normalText === "Candidate Lead Source") {
-      uniqueFranchisedCands = ["FBA", "Website", "Networking", "Calendly"];
+      uniqueFranchisedCands = ["IFBC", "Website", "Networking", "Calendly"];
     }
   }
   const [selectedCands, setSelectedCands] = useState(
@@ -483,7 +483,7 @@ const FiltersRow = ({ setFilterCands, cands, filters, loading }) => {
   );
 };
 
-const ImportExport = ({ setFormat, format }) => {
+const ImportExport = ({ setFormat, format, cands }) => {
   const [show, setShow] = useState(false);
 
   const [jsonData, setJsonData] = useState(null);

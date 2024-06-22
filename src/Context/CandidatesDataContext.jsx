@@ -6,10 +6,13 @@ export const MyCandContext = createContext();
 
 const CandidatesDataContext = ({ children }) => {
   const reduxCands = useSelector((state) => state.counter.candidates);
+  const token = useSelector((state) => state.counter.token);
+
   const [cands, setCands] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(null);
   const userDetails = useSelector((state) => state.counter.userDetails);
+
   const role =
     userDetails && typeof userDetails === "object"
       ? userDetails.userType
@@ -20,7 +23,7 @@ const CandidatesDataContext = ({ children }) => {
   const getAllCandidates = async () => {
     setLoading(true);
 
-    const url = `https://omerkhan7210-001-site1.ltempurl.com/api/candidates`;
+    const url = `https://siddiqiventures-001-site4.ktempurl.com/api/candidates`;
 
     // Make a GET request to fetch the data
     axios
@@ -57,6 +60,7 @@ const CandidatesDataContext = ({ children }) => {
         filters,
         setFilters,
         userDetails,
+        token,
       }}
     >
       {children}
