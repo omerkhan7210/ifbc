@@ -106,7 +106,8 @@ const Login = () => {
         history("/");
       } 
     } catch (error) {
-      if(error.response.status === 401){
+      // HELLO
+      if(error?.response?.status === 401){
         setError({
           username: "",
           password: "",
