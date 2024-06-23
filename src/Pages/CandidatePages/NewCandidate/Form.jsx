@@ -761,7 +761,7 @@ const FormSecondRow = ({
         id="third-sub-row"
         className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
       >
-        {/* city */}
+        {/* citygfd */}
         <div className="candidate-sub-childs">
           <p className="candidate-label">City*</p>
           <input
