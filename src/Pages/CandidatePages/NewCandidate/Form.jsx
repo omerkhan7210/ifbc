@@ -931,6 +931,7 @@ const FormThirdRow = ({
               : { defaultValue: candDetails?.dealSource })}
           />
         </div>
+        {/* deal source cost */}
         <div className="candidate-sub-childs">
           <p className="candidate-label">Deal Source Cost</p>
           <input
