@@ -15,7 +15,7 @@ const BusinessAssessment = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="max-md:text-3xl md:text-5xl text-white z-20text-white font-bold text-center z-20">
+        <h1 className="max-md:text-3xl md:text-5xl text-white  font-bold text-center z-20">
           Find A Franchise That Is Best For You With Our Assessment
         </h1>
         <h3 className="max-md:text-xl md:text-3xl text-white  font-bold text-center z-20">
@@ -23,7 +23,7 @@ const BusinessAssessment = () => {
           minute online assessment
         </h3>
         <a
-          className="z-50 bg-white rounded-sm p-2 text-custom-dark-blue my-2 font-bold"
+          className="z-50 bg-white rounded-sm text-custom-heading-color my-2 px-10 py-4 font-bold hover:bg-custom-heading-color hover:text-white duration-500"
           href="https://www.zorakle.net/assessment/welcome/ifbc"
           target="_blank"
           rel="noopener noreferrer"
@@ -43,7 +43,7 @@ const BusinessAssessment = () => {
             <h2 className="font-bold text-custom-dark-blue max-md:text-sm md:text-xl">
               BUSINESS ASSESSMENT
             </h2>
-            <p className="max-md:text-sm md:text-4xl font-bold">
+            <p className="max-md:text-sm md:text-5xl font-bold capitalize">
               Our assessment helps to quickly narrow down the field that is
               right for you
             </p>

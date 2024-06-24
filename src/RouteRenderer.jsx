@@ -20,6 +20,7 @@ import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
 import FundingCalculator from "./Pages/StaticPages/Calculator/FundingCalculator";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment/BusinessAssessment";
+import Disclaimer from "./Pages/GlobalPageSections/Disclaimer";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const authenticatedRoutes = [
@@ -97,6 +98,10 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     {
       path: "/funding-calculator",
       element: <FundingCalculator />,
+    },
+    {
+      path: "/disclaimer",
+      element: <Disclaimer />,
     },
     {
       path: "/business-assessment",
