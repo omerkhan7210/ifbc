@@ -236,6 +236,15 @@ const AccountDD = ({ userDetails, token, hidden }) => {
         top: "10px",
       }
     : {};
+
+    const [imgSrc, setImgSrc] = useState(
+      userDetails?.profileImage
+        ? `/images/uploads/${userDetails.profileImage}`
+        : "/images/avatar-placeholder.png"
+    );
+    const handleError = () => {
+      setImgSrc("/images/avatar-placeholder.png");
+    };  
   return (
     token && (
       <motion.div
@@ -249,13 +258,11 @@ const AccountDD = ({ userDetails, token, hidden }) => {
           className="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
         >
           <img
-            src={
-              userDetails?.profileImage
-                ? `/images/uploads/${userDetails?.profileImage}`
-                : "/images/avatar-placeholder.png"
-            }
-            className="w-10 h-10 object-cover rounded-full"
-          />
+      src={imgSrc}
+      alt="User Profile"
+      className="w-10 h-10 object-cover rounded-full"
+      onError={handleError}
+    />
         </button>
         <div
           className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
@@ -272,7 +279,7 @@ const AccountDD = ({ userDetails, token, hidden }) => {
                 : "John Doe"}
             </p>
             <p className="text-xs text-gray-500 mt-0.5">
-              {userDetails ? userDetails?.Email : "johndoe23@gmail.com"}
+              {userDetails ? userDetails?.email : "johndoe23@gmail.com"}
             </p>
             <p className="text-xs text-gray-500 mt-0.5">{roleName}</p>
           </div>

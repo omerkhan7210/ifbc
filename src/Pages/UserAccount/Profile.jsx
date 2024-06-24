@@ -257,6 +257,20 @@ const LeftSideBar = ({
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
+
+  const initialSrc = userDetails.profileImage 
+    ? (image === "" ? `/images/uploads/${userDetails.profileImage}` : image)
+    : (image === "" ? "/images/avatar-placeholder.png" : image);
+
+  const [imgSrc, setImgSrc] = useState(initialSrc);
+
+  useEffect(() => {
+    setImgSrc(initialSrc);
+  }, [userDetails, image]);
+
+  const handleError = () => {
+    setImgSrc("/images/avatar-placeholder.png");
+  };
   return (
     <div id="left-sidebar-profile" className=" h-full w-full col-span-3 p-5 ">
       <div
@@ -269,19 +283,12 @@ const LeftSideBar = ({
         >
           <div>
             <label htmlFor="profile-image-upload">
-              <img
-                src={
-                  userDetails.profileImage
-                    ? image === ""
-                      ? `/images/uploads/${userDetails.profileImage}`
-                      : image
-                    : image === ""
-                      ? "/images/avatar-placeholder.png"
-                      : image
-                }
-                alt=""
-                className="rounded-full w-44 h-44 object-cover cursor-pointer"
-              />
+            <img
+      src={imgSrc}
+      alt="User Profile"
+      className="rounded-full w-44 h-44 object-cover cursor-pointer"
+      onError={handleError}
+    />
             </label>
             <h1
               style={{ background: bgcolor }}

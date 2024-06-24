@@ -37,7 +37,7 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
   };
   return (
     <div className="grid grid-cols-12 gap-3 items-center">
-      {/* {role !== "N" && ( */}
+      {role !== "N" && ( 
       <div
         id="form-button-container"
         className="flex flex-col gap-2 w-full justify-between h-full sm:col-span-6 col-span-12 lg:col-span-4"
@@ -57,7 +57,7 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
           Formal Registrations
         </button>
       </div>
-      {/* )} */}
+      )} 
 
       <div
         className={`grid grid-cols-12 col-span-12 sm:col-span-6 ${

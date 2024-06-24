@@ -221,6 +221,10 @@ const LeftSideCardContainer = ({
         <Link className="candidate-btn  w-full text-center">
           View Candidate in FLS
         </Link>
+
+        <button className="candidate-btn w-full" onClick={handleEdit}>
+          {loading ? "Loading..." : "SAVE CANDIDATE INFORMATION"}
+        </button>
       </div>
     )
   );

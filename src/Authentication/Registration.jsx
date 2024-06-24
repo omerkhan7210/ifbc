@@ -102,7 +102,7 @@ const Registration = () => {
       sharefranchise: formFields.sharefranchise ?? false,
       leademail: formFields.leademail ?? "",
       fbabadges: formFields.fbabadges ?? false,
-      usertype: "C",
+      usertype: "N",
       profileimage: formFields.profileimage ?? "",
       coverimage: formFields.coverimage ?? "",
     };
@@ -183,7 +183,7 @@ const Registration = () => {
         id="main-page-wrapper"
         className="flex justify-center flex-col items-center "
       >
-        <DialogBox show={show} setShow={setShow}>
+        {/* <DialogBox show={show} setShow={setShow}>
           <div className="py-20 px-5 flex items-center justify-center gap-2 flex-col">
             <p className="text-2xl">{successMsg}</p>
             <div className="input-container flex flex-col gap-3">
@@ -198,7 +198,7 @@ const Registration = () => {
               </button>
             </div>
           </div>
-        </DialogBox>
+        </DialogBox> */}
         <h2 className="text-4xl md:text-5xl my-5 uppercase font-bold text-custom-heading-color">
           Registration
         </h2>

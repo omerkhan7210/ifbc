@@ -25,9 +25,9 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
     );
   };
   return (
-    <div className="relative w-full group flex flex-col gap-2 col-span-12 md:col-span-3">
+    <div className="relative w-full group flex flex-col gap-2 col-span-12 md:col-span-4">
       <button
-        className={`h-16 px-4 text-md w-full capitalize text-white bg-custom-dark-blue hover:bg-custom-heading-color transition-all duration-250 focus:bg-custom-heading-color focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold ${
+        className={`h-16 px-4 text-md w-full capitalize text-white bg-custom-heading-color hover:bg-custom-heading-color transition-all duration-250 focus:bg-custom-heading-color focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold ${
           selectedCat ? "text-xs" : ""
         }`}
         onClick={() => setActiveDD(!activeDD)}
@@ -107,19 +107,14 @@ const SearchingSection = () => {
       buttonBgColor: "#4d85ff",
     },
     {
-      key: "franchiseFee",
-      placeholder: "Select Investment Fee",
+      key: "typeOfBusiness",
+      placeholder: "Select Type of Business",
       buttonBgColor: "#1a62ff",
     },
     {
-      key: "franchisedUnits",
-      placeholder: "Select Units",
+      key: "investmentRange",
+      placeholder: "Select Investment Range",
       buttonBgColor: "#0048e6",
-    },
-    {
-      key: "single",
-      placeholder: "Select Single",
-      buttonBgColor: "#0038b3",
     },
   ];
 
@@ -127,7 +122,6 @@ const SearchingSection = () => {
   const { setFilters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
   const history = useNavigate();
-
   const handleSearchInputChange = () => {
     const searchValue = ref.current.value;
 
@@ -152,7 +146,7 @@ const SearchingSection = () => {
   const isMobile = window.innerWidth < 768 ? true : false;
 
   return (
-    <div id="searching-contianer" className="flex flex-col gap-2">
+    <div id="searching-contianer" className="flex flex-col gap-2 p-5">
       <div className="relative col-span-12 md:col-span-12  flex items-center">
         <input
           type="search"
@@ -172,7 +166,7 @@ const SearchingSection = () => {
           </svg>
         </button>
       </div>
-      <div className="grid grid-cols-12 gap-2">
+      <div className="grid grid-cols-12 gap-1">
         {searchConfigs.map((config, index) => (
           <SearchDropdown
             key={index}
