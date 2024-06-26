@@ -143,6 +143,7 @@ const HomeBanner = () => {
               </div>
             </SwiperSlide>
           ))}
+          {/* swiper end */}
         </Swiper>
         <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-64 2xl:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
           <SearchingSection />
