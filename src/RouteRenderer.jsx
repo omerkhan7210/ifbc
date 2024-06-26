@@ -13,6 +13,8 @@ import MainHome from "src/Pages/HomePage/MainHome";
 import NotFoundPage from "src/Pages/StaticPages/NotFoundPage";
 import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import { useRoutes } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import MainMessages from "./Pages/CandidatePages/Messages/MainMessages";
@@ -20,6 +22,8 @@ import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
 import FundingCalculator from "./Pages/StaticPages/Calculator/FundingCalculator";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment/BusinessAssessment";
+import Disclaimer from "./Pages/GlobalPageSections/Disclaimer";
+import Contact from "./Pages/GlobalPageSections/Contact";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -28,6 +32,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     userDetails && typeof userDetails === "object"
       ? userDetails.userType
       : null;
+
   const consultantRoutes = [
     {
       path: "/",
@@ -109,6 +114,10 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       element: <Disclaimer />,
     },
     {
+      path: "/contact",
+      element: <Contact />,
+    },
+    {
       path: "/business-assessment",
       element: <BusinessAssessment />,
     },
@@ -143,8 +152,18 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     { path: "*", element: <NotFoundPage /> },
   ];
 
+  // 2 roles hain hamare pass dono roles ke alag alag routes hain tum jo dalrhe the wo consultant wale may dalr the wahan bhi aengay lekn tumhe show isliye nhi horhe kunke tum normal yuser se logged in ho abhi (member hai normal user
+
   const normalUserRoutes = [
     { path: "*", element: <NotFoundPage /> },
+    {
+      path: "/disclaimer",
+      element: <Disclaimer />,
+    },
+    {
+      path: "/contact",
+      element: <Contact />,
+    },
     {
       path: "/checkout",
       element: (
