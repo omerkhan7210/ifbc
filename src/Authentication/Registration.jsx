@@ -102,7 +102,7 @@ const Registration = () => {
       sharefranchise: formFields.sharefranchise ?? false,
       leademail: formFields.leademail ?? "",
       fbabadges: formFields.fbabadges ?? false,
-      usertype: "N",
+      usertype: "C",
       profileimage: formFields.profileimage ?? "",
       coverimage: formFields.coverimage ?? "",
     };
@@ -145,8 +145,6 @@ const Registration = () => {
       setLoading(false);
     }
   };
-
-  
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;

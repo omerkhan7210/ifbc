@@ -132,7 +132,12 @@ const HomeBanner = () => {
                   backgroundRepeat: "no-repeat",
                 }}
               >
-                <h1 className="max-md:text-3xl z-50 relative md:max-2xl:text-6xl text-7xl  text-center text-white" style={{lineHeight:'5rem'}}>
+                <h1
+                  className="max-md:text-3xl z-50 relative md:max-2xl:text-6xl text-7xl  text-center text-white"
+                  style={{
+                    lineHeight: window.innerWidth > 768 ? "5rem" : "1rem",
+                  }}
+                >
                   {slide.text}
                 </h1>
               </div>
@@ -169,9 +174,7 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
   const { setFilters } = useContext(MyContext);
   const history = useNavigate();
   const handleSearchInputChange = (cat) => {
-    
-      setFilters({ category: [cat]});
-   
+    setFilters({ category: [cat] });
 
     history("/listings");
   };
@@ -191,9 +194,9 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
             return (
               <li key={listing.name} className="text-sm text-white list-disc ">
                 <button
-                onClick={()=>handleSearchInputChange(listing)}
-                to="/listings"
-                  className="group relative "
+                  onClick={() => handleSearchInputChange(listing)}
+                  to="/listings"
+                  className="group relative text-left"
                 >
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
                   {listing}
