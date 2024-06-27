@@ -50,7 +50,8 @@ const App = () => {
           <TCFRDataContext>
             {(loc.pathname.includes("listings") ||
               loc.pathname.includes("candidate") ||
-              loc.pathname.includes("messages")) && token &&
+              loc.pathname.includes("messages")) &&
+              token &&
               role !== "N" && <CandidateSideBar />}
             <RegisterationPopup
               setShow={setShow}

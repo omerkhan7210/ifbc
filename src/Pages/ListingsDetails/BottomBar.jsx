@@ -10,23 +10,34 @@ const BottomBar = ({ listingContent }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-
       const url = `https://siddiqiventures-001-site4.ktempurl.com/api/listingscontent/${listingContent.name}`;
       try {
-   
         const response = await axios.get(url);
         if (response.data !== "") {
           sethtmlContent(response.data.content);
         }
-       
       } catch (error) {
         console.error("Error fetching data:", error);
-      
       }
     };
 
     fetchData();
   }, [listingContent]);
+
+  const replaceWords = (text) => {
+    if (!text) return text;
+    return text.replace(/fba/g, "ifbc").replace(/FBA/g, "IFBC");
+  };
+
+  const checkLinkStatus = async (url) => {
+    try {
+      const response = await fetch(url, { method: "HEAD" });
+      return response.status !== 404;
+    } catch (error) {
+      console.error(`Error checking URL status for ${url}:`, error);
+      return false;
+    }
+  };
 
   useEffect(() => {
     const document = window.document;
@@ -40,6 +51,22 @@ const BottomBar = ({ listingContent }) => {
         "divide-custom-dark-blue"
       );
       tabsList?.classList.remove("justify-center");
+
+      const replaceTextContent = (node) => {
+        if (node.nodeType === 3) {
+          // Text node
+          node.textContent = replaceWords(node.textContent);
+        } else if (node.nodeType === 1) {
+          // Element node
+          node.childNodes.forEach(replaceTextContent);
+        }
+      };
+
+      // Replace text in the entry-content
+      const entryContent = document.querySelector(".entry-content");
+      if (entryContent) {
+        replaceTextContent(entryContent);
+      }
 
       const tabs = document.querySelectorAll(".entry-content ul.tabs li");
       const tabContents = {
@@ -143,20 +170,43 @@ const BottomBar = ({ listingContent }) => {
         }
       }
 
-      //remove item button
-      const itemButtons = document.querySelectorAll(".button.tertiary-button");
-      itemButtons.forEach((btn) => {
-        if (btn.textContent === "Flag that a higher commission is available") {
-          btn.style.display = "none";
-        }
-        const url = btn.getAttribute("href");
-        if (url && url.includes("s26232.pcdn.co")) {
-          const filename = url.split("/").pop().split("?")[0];
+      const resourceTable = document.querySelectorAll("table.w-full");
+      if (resourceTable.length > 0) {
+        resourceTable[1].style.display = "none";
+      }
 
-          btn.removeAttribute("href");
-          btn.setAttribute("href", `https://kingspeg.com/fba-pdfs/${filename}`);
+      // Function to handle button href and visibility
+      const handleButtons = async () => {
+        const itemButtons = document.querySelectorAll(
+          ".button.tertiary-button"
+        );
+        for (const btn of itemButtons) {
+          if (
+            btn.textContent === "Flag that a higher commission is available"
+          ) {
+            btn.style.display = "none";
+          }
+          const url = btn.getAttribute("href");
+          if (url && url.includes("s26232.pcdn.co")) {
+            const filename = url.split("/").pop().split("?")[0];
+            const newUrl = `https://kingspeg.com/fba-pdfs/${filename}`;
+            const isValid = await checkLinkStatus(newUrl);
+            if (!isValid) {
+              btn.style.display = "none";
+              if (
+                btn.parentElement.tagName === "TD" &&
+                btn.parentElement.parentElement.tagName === "TR"
+              ) {
+                btn.parentElement.parentElement.style.display = "none";
+              }
+            } else {
+              btn.setAttribute("href", newUrl);
+            }
+          }
         }
-      });
+      };
+
+      handleButtons();
 
       const AllTabsContainer = document.querySelectorAll(
         ".entry-content>div>div"
@@ -169,14 +219,29 @@ const BottomBar = ({ listingContent }) => {
             (role === "C" || role === "N")
           ) {
             heading.style.display = "none";
-            heading.nextElementSibling.style.display = "none";
-            heading.nextElementSibling.nextElementSibling.style.display =
-              "none";
-            heading.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
-              "none";
+            if (heading.nextElementSibling.children[0].tagName !== "EM") {
+              heading.nextElementSibling.style.display = "none";
+            }
+            if (
+              heading.nextElementSibling.nextElementSibling.children[0]
+                .tagName !== "EM"
+            ) {
+              heading.nextElementSibling.nextElementSibling.style.display =
+                "none";
+            }
             if (
               heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling
+                .children[0].tagName !== "EM"
+            ) {
+              heading.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
+                "none";
+            }
+
+            if (
+              heading.nextElementSibling.nextElementSibling.nextElementSibling
+                .nextElementSibling &&
+              heading.nextElementSibling.nextElementSibling.nextElementSibling
+                .nextElementSibling.children[0].tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";
@@ -214,8 +279,8 @@ const BottomBar = ({ listingContent }) => {
         </div>
       ) : (
         <div className="grid place-items-center p-10">
-          <BarLoader bgcolor={"rgb(0, 17, 54)"}/>
-          </div>
+          <BarLoader bgcolor={"rgb(0, 17, 54)"} />
+        </div>
       )}
     </article>
   );

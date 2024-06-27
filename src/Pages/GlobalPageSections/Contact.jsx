@@ -79,6 +79,20 @@ const ServicesGrid = () => {
 };
 
 const Contact = () => {
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+    const newName = name.toLowerCase();
+
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [newName]: inputValue,
+    }));
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [newName]: "",
+    }));
+  };
   const Reason = [
     { value: "", label: "My inquiry is about..." },
     { value: "0", label: "Product or service suggestion" },
@@ -95,13 +109,14 @@ const Contact = () => {
           <ServicesGrid />
         </div>
         <div className="bg-custom-heading-color rounded-lg">
-          <form className="max-w-md mx-auto rounded-lg my-5">
+          <form className=" px-10 rounded-lg my-5">
             <div className="relative z-0 w-full mb-5 group ">
               <p className="text-white font-bold py-2">Contact Reason*</p>
 
               <select
+                onChange={handleInputChange}
                 id="reason"
-                name="reason"
+                name="contactReason"
                 className="candidate-select w-full"
               >
                 {Reason.map((option) => (
@@ -117,8 +132,9 @@ const Contact = () => {
                 Name
               </label>
               <input
+                onChange={handleInputChange}
                 type="text"
-                name="name"
+                name="contactName"
                 id="name"
                 className="candidate-input"
                 placeholder=" "
@@ -134,8 +150,9 @@ const Contact = () => {
                 Company (Ex. Google)
               </label>
               <input
+                onChange={handleInputChange}
                 type="text"
-                name="floating_company"
+                name="contactCompany"
                 id="floating_company"
                 className="candidate-input"
                 placeholder=" "
@@ -150,8 +167,9 @@ const Contact = () => {
                 Email address
               </label>
               <input
+                onChange={handleInputChange}
                 type="email"
-                name="floating_email"
+                name="contactEmail"
                 id="floating_email"
                 className="candidate-input"
                 placeholder=" "
@@ -168,8 +186,9 @@ const Contact = () => {
               </label>
               <input
                 type="tel"
+                onChange={handleInputChange}
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                name="floating_phone"
+                name="contactPhone"
                 id="floating_phone"
                 className="candidate-input"
                 placeholder=" "
@@ -182,15 +201,34 @@ const Contact = () => {
                 Comments
               </label>
               <textarea
-                name="Comments"
+                onChange={handleInputChange}
+                name="contactComments"
                 id="comments"
                 rows={4}
                 className="candidate-input"
                 defaultValue={""}
               />
             </div>
+
+            <div id="copy">
+              <label
+                htmlFor=""
+                className="flex items-center text-white font-bold py-3"
+              >
+                <input
+                  type="checkbox"
+                  name="contactCopy"
+                  id=""
+                  onChange={handleInputChange}
+                />
+                Send a copy of this message to me
+              </label>
+            </div>
             <div className="my-3">
-              <button type="submit" className="candidate-btn">
+              <button
+                type="submit"
+                className="border-2 border-custom-heading-color bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold"
+              >
                 Submit
               </button>
             </div>
