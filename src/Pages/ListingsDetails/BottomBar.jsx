@@ -10,24 +10,23 @@ const BottomBar = ({ listingContent }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-
       const url = `https://siddiqiventures-001-site4.ktempurl.com/api/listingscontent/${listingContent.name}`;
       try {
-   
         const response = await axios.get(url);
         if (response.data !== "") {
           sethtmlContent(response.data.content);
         }
-       
       } catch (error) {
         console.error("Error fetching data:", error);
-      
       }
     };
 
     fetchData();
   }, [listingContent]);
-
+  const replaceWords = (text) => {
+    if (!text) return text;
+    return text.replace(/fba/g, "ifbc").replace(/FBA/g, "IFBC");
+  };
   useEffect(() => {
     const document = window.document;
     if (typeof window !== "undefined") {
@@ -40,6 +39,36 @@ const BottomBar = ({ listingContent }) => {
         "divide-custom-dark-blue"
       );
       tabsList?.classList.remove("justify-center");
+
+      const replaceTextContent = (node) => {
+        if (node.nodeType === 3) {
+          // Text node
+          node.textContent = replaceWords(node.textContent);
+        } else if (node.nodeType === 1) {
+          // Element node
+          node.childNodes.forEach(replaceTextContent);
+        }
+      };
+
+      // Replace text in the entry-content
+      const entryContent = document.querySelector(".entry-content");
+      if (entryContent) {
+        replaceTextContent(entryContent);
+      }
+
+      // Check links and hide them if they return a 404 status
+      const checkAndHideLinks = async () => {
+        const links = document.querySelectorAll(".resource-download");
+        for (const link of links) {
+          const href = link.getAttribute("href");
+          const isValid = await checkLinkStatus(href);
+          if (!isValid) {
+            link.style.display = "none";
+          }
+        }
+      };
+
+      checkAndHideLinks();
 
       const tabs = document.querySelectorAll(".entry-content ul.tabs li");
       const tabContents = {
@@ -214,8 +243,8 @@ const BottomBar = ({ listingContent }) => {
         </div>
       ) : (
         <div className="grid place-items-center p-10">
-          <BarLoader bgcolor={"rgb(0, 17, 54)"}/>
-          </div>
+          <BarLoader bgcolor={"rgb(0, 17, 54)"} />
+        </div>
       )}
     </article>
   );
