@@ -142,9 +142,14 @@ const RightSideButtonsContainer = ({
   return (
     <div className="sm:flex sm:justify-end sm:items-start sm:pt-1 sm:gap-5">
       {/* button appointment */}
-      <button className="max-sm:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color hover:text-white transition-all duration-150 bg-white text-custom-heading-color px-10  text-sm h-10">
-        Book an appointment
-      </button>
+      {role === "N" && (
+        <NavLink
+          to="/contact"
+          className="duration-500 max-sm:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-10  text-sm h-10"
+        >
+          Book an appointment
+        </NavLink>
+      )}
 
       {/* cart icon */}
       {role === "N" && <CartIcon hidden={hidden} />}
@@ -237,14 +242,14 @@ const AccountDD = ({ userDetails, token, hidden }) => {
       }
     : {};
 
-    const [imgSrc, setImgSrc] = useState(
-      userDetails?.profileImage
-        ? `/images/uploads/${userDetails.profileImage}`
-        : "/images/avatar-placeholder.png"
-    );
-    const handleError = () => {
-      setImgSrc("/images/avatar-placeholder.png");
-    };  
+  const [imgSrc, setImgSrc] = useState(
+    userDetails?.profileImage
+      ? `/images/uploads/${userDetails.profileImage}`
+      : "/images/avatar-placeholder.png"
+  );
+  const handleError = () => {
+    setImgSrc("/images/avatar-placeholder.png");
+  };
   return (
     token && (
       <motion.div
@@ -258,11 +263,11 @@ const AccountDD = ({ userDetails, token, hidden }) => {
           className="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
         >
           <img
-      src={imgSrc}
-      alt="User Profile"
-      className="w-10 h-10 object-cover rounded-full"
-      onError={handleError}
-    />
+            src={imgSrc}
+            alt="User Profile"
+            className="w-10 h-10 object-cover rounded-full"
+            onError={handleError}
+          />
         </button>
         <div
           className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full"
