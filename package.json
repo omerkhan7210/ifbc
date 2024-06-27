@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.0.4",
+    "@mui/material": "^5.15.20",
     "@reduxjs/toolkit": "^2.2.5",
     "@rpldy/upload-button": "^1.8.1",
     "@rpldy/upload-preview": "^1.8.1",

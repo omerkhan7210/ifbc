@@ -13,6 +13,8 @@ import MainHome from "src/Pages/HomePage/MainHome";
 import NotFoundPage from "src/Pages/StaticPages/NotFoundPage";
 import CheckOutForm from "./Pages/CartPage/CheckOutForm";
 import { useRoutes } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import MainMessages from "./Pages/CandidatePages/Messages/MainMessages";
@@ -20,15 +22,17 @@ import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
 import FundingCalculator from "./Pages/StaticPages/Calculator/FundingCalculator";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment/BusinessAssessment";
-import { useSelector } from "react-redux";
+import Disclaimer from "./Pages/GlobalPageSections/Disclaimer";
+import Contact from "./Pages/GlobalPageSections/Contact";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
 
   const role =
-  userDetails && typeof userDetails === "object"
-    ? userDetails.userType
-    : null;
+    userDetails && typeof userDetails === "object"
+      ? userDetails.userType
+      : null;
+
   const consultantRoutes = [
     {
       path: "/",
@@ -106,6 +110,14 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       element: <FundingCalculator />,
     },
     {
+      path: "/disclaimer",
+      element: <Disclaimer />,
+    },
+    {
+      path: "/contact",
+      element: <Contact />,
+    },
+    {
       path: "/business-assessment",
       element: <BusinessAssessment />,
     },
@@ -140,8 +152,18 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     { path: "*", element: <NotFoundPage /> },
   ];
 
-  const normalUserRoutes= [
+  // 2 roles hain hamare pass dono roles ke alag alag routes hain tum jo dalrhe the wo consultant wale may dalr the wahan bhi aengay lekn tumhe show isliye nhi horhe kunke tum normal yuser se logged in ho abhi (member hai normal user
+
+  const normalUserRoutes = [
     { path: "*", element: <NotFoundPage /> },
+    {
+      path: "/disclaimer",
+      element: <Disclaimer />,
+    },
+    {
+      path: "/contact",
+      element: <Contact />,
+    },
     {
       path: "/checkout",
       element: (
@@ -167,43 +189,44 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       ),
     },
     {
-    path: "/",
-    element: (
-      <ListingDataContext>
-        <MainHome />
-      </ListingDataContext>
-    ),
-  },
-  {
-    path: "/listings",
-    element: (
-      <ListingDataContext>
-        <MainListings
-          setShow={setShow}
-          setRegistrationType={setRegistrationType}
-        />
-      </ListingDataContext>
-    ),
-  },
-  {
-    path: "/listings-details/:name",
-    element: (
-      <ListingDataContext>
-        <MainDetails
-          setShow={setShow}
-          setRegistrationType={setRegistrationType}
-        />
-      </ListingDataContext>
-    ),
-  },
-  {
-    path: "/about",
-    element: <MainAbout />,
-  },
-  {
-    path: "/franchise-owner",
-    element: <FranchiseOwner />,
-  },]
+      path: "/",
+      element: (
+        <ListingDataContext>
+          <MainHome />
+        </ListingDataContext>
+      ),
+    },
+    {
+      path: "/listings",
+      element: (
+        <ListingDataContext>
+          <MainListings
+            setShow={setShow}
+            setRegistrationType={setRegistrationType}
+          />
+        </ListingDataContext>
+      ),
+    },
+    {
+      path: "/listings-details/:name",
+      element: (
+        <ListingDataContext>
+          <MainDetails
+            setShow={setShow}
+            setRegistrationType={setRegistrationType}
+          />
+        </ListingDataContext>
+      ),
+    },
+    {
+      path: "/about",
+      element: <MainAbout />,
+    },
+    {
+      path: "/franchise-owner",
+      element: <FranchiseOwner />,
+    },
+  ];
 
   const unauthenticatedRoutes = [
     {
@@ -220,7 +243,11 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     },
   ];
   const routes = useRoutes(
-    isAuthenticated ? role === 'N' ? normalUserRoutes : consultantRoutes : unauthenticatedRoutes
+    isAuthenticated
+      ? role === "N"
+        ? normalUserRoutes
+        : consultantRoutes
+      : unauthenticatedRoutes
   );
   return routes;
 };

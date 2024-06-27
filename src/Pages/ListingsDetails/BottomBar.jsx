@@ -27,6 +27,17 @@ const BottomBar = ({ listingContent }) => {
     if (!text) return text;
     return text.replace(/fba/g, "ifbc").replace(/FBA/g, "IFBC");
   };
+
+  const checkLinkStatus = async (url) => {
+    try {
+      const response = await fetch(url, { method: "HEAD" });
+      return response.status !== 404;
+    } catch (error) {
+      console.error(`Error checking URL status for ${url}:`, error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     const document = window.document;
     if (typeof window !== "undefined") {
@@ -55,20 +66,6 @@ const BottomBar = ({ listingContent }) => {
       if (entryContent) {
         replaceTextContent(entryContent);
       }
-
-      // Check links and hide them if they return a 404 status
-      const checkAndHideLinks = async () => {
-        const links = document.querySelectorAll(".resource-download");
-        for (const link of links) {
-          const href = link.getAttribute("href");
-          const isValid = await checkLinkStatus(href);
-          if (!isValid) {
-            link.style.display = "none";
-          }
-        }
-      };
-
-      checkAndHideLinks();
 
       const tabs = document.querySelectorAll(".entry-content ul.tabs li");
       const tabContents = {
@@ -172,20 +169,43 @@ const BottomBar = ({ listingContent }) => {
         }
       }
 
-      //remove item button
-      const itemButtons = document.querySelectorAll(".button.tertiary-button");
-      itemButtons.forEach((btn) => {
-        if (btn.textContent === "Flag that a higher commission is available") {
-          btn.style.display = "none";
-        }
-        const url = btn.getAttribute("href");
-        if (url && url.includes("s26232.pcdn.co")) {
-          const filename = url.split("/").pop().split("?")[0];
+      const resourceTable = document.querySelectorAll("table.w-full");
+      if (resourceTable.length > 0) {
+        resourceTable[1].style.display = "none";
+      }
 
-          btn.removeAttribute("href");
-          btn.setAttribute("href", `https://kingspeg.com/fba-pdfs/${filename}`);
+      // Function to handle button href and visibility
+      const handleButtons = async () => {
+        const itemButtons = document.querySelectorAll(
+          ".button.tertiary-button"
+        );
+        for (const btn of itemButtons) {
+          if (
+            btn.textContent === "Flag that a higher commission is available"
+          ) {
+            btn.style.display = "none";
+          }
+          const url = btn.getAttribute("href");
+          if (url && url.includes("s26232.pcdn.co")) {
+            const filename = url.split("/").pop().split("?")[0];
+            const newUrl = `https://kingspeg.com/fba-pdfs/${filename}`;
+            const isValid = await checkLinkStatus(newUrl);
+            if (!isValid) {
+              btn.style.display = "none";
+              if (
+                btn.parentElement.tagName === "TD" &&
+                btn.parentElement.parentElement.tagName === "TR"
+              ) {
+                btn.parentElement.parentElement.style.display = "none";
+              }
+            } else {
+              btn.setAttribute("href", newUrl);
+            }
+          }
         }
-      });
+      };
+
+      handleButtons();
 
       const AllTabsContainer = document.querySelectorAll(
         ".entry-content>div>div"
@@ -198,14 +218,29 @@ const BottomBar = ({ listingContent }) => {
             (role === "C" || role === "N")
           ) {
             heading.style.display = "none";
-            heading.nextElementSibling.style.display = "none";
-            heading.nextElementSibling.nextElementSibling.style.display =
-              "none";
-            heading.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
-              "none";
+            if (heading.nextElementSibling.children[0].tagName !== "EM") {
+              heading.nextElementSibling.style.display = "none";
+            }
+            if (
+              heading.nextElementSibling.nextElementSibling.children[0]
+                .tagName !== "EM"
+            ) {
+              heading.nextElementSibling.nextElementSibling.style.display =
+                "none";
+            }
             if (
               heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling
+                .children[0].tagName !== "EM"
+            ) {
+              heading.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
+                "none";
+            }
+
+            if (
+              heading.nextElementSibling.nextElementSibling.nextElementSibling
+                .nextElementSibling &&
+              heading.nextElementSibling.nextElementSibling.nextElementSibling
+                .nextElementSibling.children[0].tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";

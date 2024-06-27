@@ -4,9 +4,12 @@ import PageTransition from "src/Animations/PageTransition";
 const FundingCalculator = () => {
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
+
+  const [downPayment, setDownPayment] = useState("");
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
+    setDownPayment(parseFloat(e.target.value));
 
     setFormFields((prevFields) => ({
       ...prevFields,
@@ -96,7 +99,7 @@ const FundingCalculator = () => {
             <input
               onChange={handleInputChange}
               type="text"
-              name="firstname"
+              name="firstName"
               className="candidate-input"
               required
             />
@@ -106,7 +109,7 @@ const FundingCalculator = () => {
             <input
               onChange={handleInputChange}
               type="text"
-              name="lastname"
+              name="lastName"
               className="candidate-input"
               required
             />
@@ -202,11 +205,15 @@ const FundingCalculator = () => {
               type="range"
               name="downPayment"
               min={0}
-              max={5}
-              defaultValue="2.5"
-              step="0.5"
+              max={200000}
+              defaultValue={0}
+              step={500}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
             />
+
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Amount: {downPayment}
+            </p>
           </div>
         </div>
 
