@@ -23,7 +23,6 @@ const BottomBar = ({ listingContent }) => {
 
     fetchData();
   }, [listingContent]);
-
   const replaceWords = (text) => {
     if (!text) return text;
     return text.replace(/fba/g, "ifbc").replace(/FBA/g, "IFBC");

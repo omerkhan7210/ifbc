@@ -91,5 +91,5 @@
   @apply text-gray-500 font-bold text-sm;
 }
 .disclaimer-heading {
-  @apply text-custom-dark-blue max-md:text-sm md:text-xl font-bold my-2;
+  @apply text-custom-heading-color max-md:text-sm md:text-3xl font-bold my-2;
 }
