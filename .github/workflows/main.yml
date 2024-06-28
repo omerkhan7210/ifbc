@@ -41,7 +41,7 @@ jobs:
             sudo yum install nodejs npm -y
             npm install
             sudo npm run build
-            cd build
+            cd dist
             sudo mv * /var/www/html
             sudo systemctl restart httpd
             
