@@ -40,7 +40,7 @@ const Disclaimer = () => {
       text: `For questions or concerns regarding this disclaimer or our consultancy services, please contact us at info@ifbc.co`,
     },
   ];
-
+  // return
   return (
     <PageTransition>
       <div
