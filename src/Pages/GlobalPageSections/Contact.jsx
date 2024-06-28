@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 
 const ServicesGrid = () => {
@@ -65,8 +65,11 @@ const ServicesGrid = () => {
       </div>
 
       <div className="grid grid-cols-2 sm:max-lg:grid-cols-1 md:grid-cols-2 gap-5 py-5">
-        {values.map((value) => (
-          <div className="group border-4 border-custom-dark-blue min-h-[200px] rounded-2xl bg-white transition-all duration-300 hover:bg-it-gray overflow-hidden h5-story_slider_active_card w-full flex items-center flex-col justify-center">
+        {values.map((value, index) => (
+          <div
+            key={index}
+            className="group border-4 border-custom-dark-blue min-h-[200px] rounded-2xl bg-white transition-all duration-300 hover:bg-it-gray overflow-hidden h5-story_slider_active_card w-full flex items-center flex-col justify-center"
+          >
             <div className="flex justify-center">{value.svg}</div>
             <h1 className="text-xl text-center font-semibold text-custom-dark-blue mt-5 mb-2.5 px-5">
               {value.title}
@@ -79,19 +82,32 @@ const ServicesGrid = () => {
 };
 
 const Contact = () => {
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
-    const newName = name.toLowerCase();
+  const [contactReason, setContactReason] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactCompany, setContactCompany] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactPhone, setContactPhone] = useState("");
+  const [contactComments, setContactComments] = useState("");
+  const [contactCopy, setContactCopy] = useState("");
 
-    setFormFields((prevFields) => ({
-      ...prevFields,
-      [newName]: inputValue,
-    }));
-    setFormErrors((prevErrors) => ({
-      ...prevErrors,
-      [newName]: "",
-    }));
+  // tumne ye wala method istemaal hi nhi kiya wa onchange pr tumne direct wahan values save krwadi state pr ye submit krne pr show hoga phr submuit krwao form
+  // nh horea us per bhi
+  // ye refresh horha page after submit isliye tumhe kch show nhi horha
+  // ye default behavior hota hai submut ke button ka// hume default behaviopur remove krna parta
+  const handleInputChange = (e) => {
+    e.preventDefault();
+    // iske baaray may dekhlena prevent default ab krweakr dekho
+    console.log("contact us");
+    console.log(
+      contactReason,
+      contactName,
+      contactCompany,
+      contactEmail,
+      contactPhone,
+      contactComments,
+      contactCopy
+    );
+    e.preventdefault();
   };
   const Reason = [
     { value: "", label: "My inquiry is about..." },
@@ -109,12 +125,12 @@ const Contact = () => {
           <ServicesGrid />
         </div>
         <div className="bg-custom-heading-color rounded-lg">
-          <form className=" px-10 rounded-lg my-5">
+          <form className=" px-10 rounded-lg my-5" onSubmit={handleInputChange}>
             <div className="relative z-0 w-full mb-5 group ">
               <p className="text-white font-bold py-2">Contact Reason*</p>
 
               <select
-                onChange={handleInputChange}
+                onChange={(e) => setContactReason(e.target.value)}
                 id="reason"
                 name="contactReason"
                 className="candidate-select w-full"
@@ -132,7 +148,7 @@ const Contact = () => {
                 Name
               </label>
               <input
-                onChange={handleInputChange}
+                onChange={(e) => setContactName(e.target.value)}
                 type="text"
                 name="contactName"
                 id="name"
@@ -150,7 +166,7 @@ const Contact = () => {
                 Company (Ex. Google)
               </label>
               <input
-                onChange={handleInputChange}
+                onChange={(e) => setContactCompany(e.target.value)}
                 type="text"
                 name="contactCompany"
                 id="floating_company"
@@ -167,7 +183,7 @@ const Contact = () => {
                 Email address
               </label>
               <input
-                onChange={handleInputChange}
+                onChange={(e) => setContactEmail(e.target.value)}
                 type="email"
                 name="contactEmail"
                 id="floating_email"
@@ -186,7 +202,7 @@ const Contact = () => {
               </label>
               <input
                 type="tel"
-                onChange={handleInputChange}
+                onChange={(e) => setContactPhone(e.target.value)}
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 name="contactPhone"
                 id="floating_phone"
@@ -201,7 +217,7 @@ const Contact = () => {
                 Comments
               </label>
               <textarea
-                onChange={handleInputChange}
+                onChange={(e) => setContactComments(e.target.value)}
                 name="contactComments"
                 id="comments"
                 rows={4}
@@ -219,7 +235,7 @@ const Contact = () => {
                   type="checkbox"
                   name="contactCopy"
                   id=""
-                  onChange={handleInputChange}
+                  onChange={(e) => setContactCopy(e.target.checked)}
                 />
                 Send a copy of this message to me
               </label>

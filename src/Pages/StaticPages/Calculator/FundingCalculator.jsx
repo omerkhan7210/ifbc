@@ -6,10 +6,26 @@ const FundingCalculator = () => {
   const [formErrors, setFormErrors] = useState({});
 
   const [downPayment, setDownPayment] = useState("");
+  const [houseHold, setHouseHold] = useState("");
+  const [debtPayments, setDebtPayments] = useState("");
+  const [totalNet, setTotalNet] = useState("");
+
+  const handleHouseHoldChange = (e) => {
+    setHouseHold(parseInt(e.target.value));
+  };
+
+  const handleDebtPaymentsChange = (e) => {
+    setDownPayment(parseInt(e.target.value));
+  };
+  const handleMonthlyPersonal = (e) => {
+    setDebtPayments(parseInt(e.target.value));
+  };
+  const handleTotalNet = (e) => {
+    setTotalNet(parseInt(e.target.value));
+  };
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? checked : value;
-    setDownPayment(parseFloat(e.target.value));
 
     setFormFields((prevFields) => ({
       ...prevFields,
@@ -143,7 +159,7 @@ const FundingCalculator = () => {
                 name="franchiseLocation"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">Homebased</span>
+              <span className="candidate-funding-btn w-full">Homebased</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
@@ -154,7 +170,7 @@ const FundingCalculator = () => {
                 class="peer hidden"
                 name="franchiseLocation"
               />
-              <span class="candidate-funding-btn w-full">
+              <span className="candidate-funding-btn w-full">
                 Food and Beverage
               </span>
             </label>
@@ -168,12 +184,12 @@ const FundingCalculator = () => {
                 defaultValue="Non Food Storefront"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">
+              <span className="candidate-funding-btn w-full">
                 Non Food Storefront
               </span>
             </label>
 
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -181,7 +197,9 @@ const FundingCalculator = () => {
                 defaultValue="Mobile Services"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">Mobile Services</span>
+              <span className="candidate-funding-btn w-full">
+                Mobile Services
+              </span>
             </label>
           </div>
         </div>
@@ -200,7 +218,7 @@ const FundingCalculator = () => {
               Range steps
             </label>
             <input
-              onChange={handleInputChange}
+              onChange={handleDebtPaymentsChange}
               id="steps-range"
               type="range"
               name="downPayment"
@@ -234,7 +252,7 @@ const FundingCalculator = () => {
                 defaultValue="below 680"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">below 680</span>
+              <span className="candidate-funding-btn w-full">below 680</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
@@ -245,7 +263,7 @@ const FundingCalculator = () => {
                 defaultValue="680 - 715"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">680 - 715</span>
+              <span className="candidate-funding-btn w-full">680 - 715</span>
             </label>
           </div>
           <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
@@ -257,7 +275,7 @@ const FundingCalculator = () => {
                 defaultValue="716 - 750"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">716 - 750</span>
+              <span className="candidate-funding-btn w-full">716 - 750</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
@@ -268,7 +286,7 @@ const FundingCalculator = () => {
                 defaultValue="Above 750"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">Above 750</span>
+              <span className="candidate-funding-btn w-full">Above 750</span>
             </label>
           </div>
         </div>
@@ -291,7 +309,7 @@ const FundingCalculator = () => {
                 defaultValue="Yes"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">Yes</span>
+              <span className="candidate-funding-btn w-full">Yes</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
@@ -302,7 +320,7 @@ const FundingCalculator = () => {
                 defaultValue="No"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">No</span>
+              <span className="candidate-funding-btn w-full">No</span>
             </label>
           </div>
           <div class="flex md:space-x-2 rounded-xl select-none">
@@ -314,7 +332,7 @@ const FundingCalculator = () => {
                 defaultValue="I have other means to cover living expenses during the launch"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">
+              <span className="candidate-funding-btn w-full">
                 I have other means to cover living expenses during the launch
               </span>
             </label>
@@ -328,22 +346,26 @@ const FundingCalculator = () => {
 
           <div>
             <label
-              htmlFor="steps-range"
+              htmlFor="household"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Range steps
             </label>
             <input
-              onChange={handleInputChange}
-              id="steps-range"
+              onChange={handleHouseHoldChange}
+              id="household"
               type="range"
               name="houseHold"
               min={0}
-              max={5}
-              defaultdefaultValue="2.5"
-              step="0.5"
+              max={500000}
+              defaultValue={0}
+              step={500}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
             />
+
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Amount: {houseHold}
+            </p>
           </div>
         </div>
         <div className="my-3">
@@ -353,22 +375,26 @@ const FundingCalculator = () => {
 
           <div>
             <label
-              htmlFor="steps-range"
+              htmlFor="personal"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Range steps
             </label>
             <input
-              onChange={handleInputChange}
-              id="steps-range"
+              onChange={handleMonthlyPersonal}
+              id="personal"
               type="range"
-              min={0}
               name="debtPayments"
-              max={5}
-              defaultValue="2.5"
-              step="0.5"
+              min={0}
+              max={50000}
+              defaultValue={0}
+              step={500}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
             />
+
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Amount: {debtPayments}
+            </p>
           </div>
         </div>
 
@@ -389,7 +415,7 @@ const FundingCalculator = () => {
                 defaultValue="Yes"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">Yes</span>
+              <span className="candidate-funding-btn w-full">Yes</span>
             </label>
 
             <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
@@ -400,7 +426,7 @@ const FundingCalculator = () => {
                 defaultValue="No"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">No</span>
+              <span className="candidate-funding-btn w-full">No</span>
             </label>
           </div>
         </div>
@@ -413,8 +439,8 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+          <div className="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -422,10 +448,10 @@ const FundingCalculator = () => {
                 defaultValue="Never"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">Never</span>
+              <span className="candidate-funding-btn w-full">Never</span>
             </label>
 
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -433,11 +459,13 @@ const FundingCalculator = () => {
                 defaultValue="0-7 years ago"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">0-7 years ago</span>
+              <span className="candidate-funding-btn w-full">
+                0-7 years ago
+              </span>
             </label>
           </div>
           <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -445,10 +473,12 @@ const FundingCalculator = () => {
                 defaultValue="8-10 years ago"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">8-10 years ago</span>
+              <span className="candidate-funding-btn w-full">
+                8-10 years ago
+              </span>
             </label>
 
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -456,7 +486,7 @@ const FundingCalculator = () => {
                 defaultValue="More than 10 years ago"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">
+              <span className="candidate-funding-btn w-full">
                 More than 10 years ago
               </span>
             </label>
@@ -472,8 +502,8 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex md:space-x-2 rounded-xl select-none">
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+          <div className="flex md:space-x-2 rounded-xl select-none">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -481,10 +511,10 @@ const FundingCalculator = () => {
                 defaultValue="0-35%"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">0-35%</span>
+              <span className="candidate-funding-btn w-full">0-35%</span>
             </label>
 
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -492,11 +522,11 @@ const FundingCalculator = () => {
                 defaultValue="36-50%"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">36-50%</span>
+              <span className="candidate-funding-btn w-full">36-50%</span>
             </label>
           </div>
-          <div class="flex md:space-x-2 rounded-xl select-none">
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+          <div className="flex md:space-x-2 rounded-xl select-none">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -504,7 +534,9 @@ const FundingCalculator = () => {
                 defaultValue="51% or higher"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">51% or higher</span>
+              <span className="candidate-funding-btn w-full">
+                51% or higher
+              </span>
             </label>
           </div>
         </div>
@@ -517,8 +549,8 @@ const FundingCalculator = () => {
             <p className="text-red-700 italic">(Required)</p>
           </div>
 
-          <div class="flex md:space-x-2 rounded-xl select-none">
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+          <div className="flex md:space-x-2 rounded-xl select-none">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -526,10 +558,10 @@ const FundingCalculator = () => {
                 defaultValue="Yes"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">Yes</span>
+              <span className="candidate-funding-btn w-full">Yes</span>
             </label>
 
-            <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
+            <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
               <input
                 onChange={handleInputChange}
                 type="radio"
@@ -537,7 +569,7 @@ const FundingCalculator = () => {
                 defaultValue="No"
                 class="peer hidden"
               />
-              <span class="candidate-funding-btn w-full">No</span>
+              <span className="candidate-funding-btn w-full">No</span>
             </label>
           </div>
         </div>
@@ -549,22 +581,26 @@ const FundingCalculator = () => {
 
           <div>
             <label
-              htmlFor="steps-range"
+              htmlFor="totalnet"
               className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
             >
               Range steps
             </label>
             <input
-              onChange={handleInputChange}
-              id="steps-range"
+              onChange={handleTotalNet}
+              id="totalnet"
               type="range"
               name="totalNet"
               min={0}
-              max={5}
-              defaultValue="2.5"
-              step="0.5"
+              max={5000000}
+              defaultValue={0}
+              step={500}
               className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
             />
+
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Amount: {totalNet}
+            </p>
           </div>
         </div>
 
