@@ -6,7 +6,7 @@ const ServicesGrid = () => {
   const values = [
     {
       title: "Email",
-      text: `<a href="mailto:ht@ifbc.co">ht@ifbc.co<a/>`,
+      text: `<a href="mailto:info@ifbc.co">info@ifbc.co<a/>`,
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +26,9 @@ const ServicesGrid = () => {
     },
     {
       title: "Phone",
-      text: `<a href="tel:3103040870">(310) 304-0870<a/>`,
+      text: `<a href="tel:310-304-0871">310-304-0871
+
+<a/>`,
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +76,7 @@ const ServicesGrid = () => {
         Email : info@ifbc.co
       </p>
       <p className="mt-3 font-bold text-custom-heading-color">
-        Corporate : 9350 Wilshire Blvd, Suite 203
+        Corporate : 9350 Wilshire Blvd, Suite 203 Beverly Hills, CA 90212
       </p>
       <p className="mt-3 font-bold text-custom-heading-color">
         Corporate Office : (914-357-4322)
