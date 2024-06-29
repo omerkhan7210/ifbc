@@ -1,4 +1,5 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 
 const ServicesGrid = () => {
@@ -65,17 +66,28 @@ const ServicesGrid = () => {
     },
   ];
   return (
-    <div className="p-16">
-      <h1 className="max-md:text-3xl md:text-6xl text-custom-heading-color  font-bold  ">
+    <div className="max-md:p-8 md:p-16">
+      <h1 className="max-md:text-3xl md:text-7xl text-custom-heading-color  font-bold  ">
         Contact Us
       </h1>
       <p className="mt-3 font-bold text-custom-heading-color">
-        We'd love to hear from you! Whether you have a question about our
-        services, need assistance, or just want to provide feedback, feel free
-        to reach out to us.
+        Email : info@ifbc.co
+      </p>
+      <p className="mt-3 font-bold text-custom-heading-color">
+        Corporate : 9350 Wilshire Blvd, Suite 203
+      </p>
+      <p className="mt-3 font-bold text-custom-heading-color">
+        Corporate Office : (914-357-4322)
+      </p>
+      <p className="mt-3 font-bold text-custom-heading-color">
+        Office : (908-326-4322)
       </p>
 
-      <div className="grid grid-cols-2 sm:max-lg:grid-cols-1 md:grid-cols-3 gap-5 py-5">
+      <p className="mt-3 font-bold text-custom-heading-color">
+        FAX : 310-304-0871
+      </p>
+
+      <div className="flex max-md:flex-col gap-5 py-5">
         {values.map((value) => (
           <div className="group border-4 border-custom-dark-blue min-h-[200px] rounded-2xl bg-white transition-all duration-300 hover:bg-it-gray overflow-hidden h5-story_slider_active_card w-full flex items-center flex-col justify-center">
             <div className="flex justify-center">{value.svg}</div>
@@ -94,20 +106,53 @@ const ServicesGrid = () => {
 };
 
 const Contact = () => {
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
-    const newName = name.toLowerCase();
+  // const [contactReason, setContactReason] = useState("");
+  // const [contactName, setContactName] = useState("");
+  // const [contactCompany, setContactCompany] = useState("");
+  // const [contactEmail, setContactEmail] = useState("");
+  // const [contactPhone, setContactPhone] = useState("");
+  // const [contactComments, setContactComments] = useState("");
+  // const [contactCopy, setContactCopy] = useState("");
 
-    setFormFields((prevFields) => ({
-      ...prevFields,
-      [newName]: inputValue,
-    }));
-    setFormErrors((prevErrors) => ({
-      ...prevErrors,
-      [newName]: "",
-    }));
+  const [data, setData] = useState({
+    contactReason: "",
+    contactName: "",
+    contactCompany: "",
+    contactEmail: "",
+    contactPhone: "",
+    contactReason: "",
+    contactComments: "",
+    contactCopy: "",
+  });
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setData({
+      ...data,
+      [e.target.name]: value,
+    });
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const userData = {
+      contactReason: data.contactReason,
+      contactName: data.contactName,
+      contactCompany: data.contactCompany,
+      contactEmail: data.contactEmail,
+      contactPhone: data.contactPhone,
+      contactReason: data.contactReason,
+      contactComments: data.contactComments,
+      contactCopy: data.contactCopy,
+    };
+    axios.post("", userData).then((response) => {
+      console.log(response.status, response.data.token);
+    });
+  };
+
+  // tumne ye wala method istemaal hi nhi kiya wa onchange pr tumne direct wahan values save krwadi state pr ye submit krne pr show hoga phr submuit krwao form
+  // nh horea us per bhi
+  // ye refresh horha page after submit isliye tumhe kch show nhi horha
+
   const Reason = [
     { value: "", label: "My inquiry is about..." },
     { value: "0", label: "Product or service suggestion" },
@@ -117,21 +162,41 @@ const Contact = () => {
     { value: "5", label: "Technical support" },
     { value: "4", label: "General questions" },
   ];
+
   return (
     <PageTransition>
-      <div className="py-20 bg-blue-100 grid grid-cols-2 px-10">
+      <div className="py-10 bg-blue-100 grid grid-cols-2">
         <div>
           <ServicesGrid />
         </div>
         <div className="bg-custom-heading-color rounded-lg">
-          <form className=" px-10 rounded-lg my-5 py-5">
+          <form className=" px-10 rounded-lg my-5" onSubmit={handleSubmit}>
+            <div className="relative z-0 w-full mb-5 group ">
+              <p className="text-white font-bold py-2">Contact Reason*</p>
+
+              <select
+                onChange={handleChange}
+                id="reason"
+                value={data.contactReason}
+                name="contactReason"
+                className="candidate-select w-full"
+              >
+                {Reason.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <div className="relative z-0 w-full mb-5 group">
               <label htmlFor="name" className="text-white font-bold py-2">
                 Name
               </label>
               <input
-                onChange={handleInputChange}
+                onChange={handleChange}
                 type="text"
+                value={data.contactName}
                 name="contactName"
                 id="name"
                 className="candidate-input"
@@ -148,9 +213,10 @@ const Contact = () => {
                 Company (Ex. Google)
               </label>
               <input
-                onChange={handleInputChange}
+                onChange={handleChange}
                 type="text"
                 name="contactCompany"
+                value={data.contactCompany}
                 id="floating_company"
                 className="candidate-input"
                 placeholder=" "
@@ -165,8 +231,9 @@ const Contact = () => {
                 Email address
               </label>
               <input
-                onChange={handleInputChange}
+                onChange={handleChange}
                 type="email"
+                value={data.contactEmail}
                 name="contactEmail"
                 id="floating_email"
                 className="candidate-input"
@@ -184,7 +251,8 @@ const Contact = () => {
               </label>
               <input
                 type="tel"
-                onChange={handleInputChange}
+                value={data.contactPhone}
+                onChange={handleChange}
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 name="contactPhone"
                 id="floating_phone"
@@ -198,8 +266,9 @@ const Contact = () => {
               <p className="text-white font-bold py-2">Contact Reason*</p>
 
               <select
-                onChange={handleInputChange}
+                onChange={handleChange}
                 id="reason"
+                value={data.contactReason}
                 name="contactReason"
                 className="candidate-select w-full"
               >
@@ -216,7 +285,8 @@ const Contact = () => {
                 Comments
               </label>
               <textarea
-                onChange={handleInputChange}
+                onChange={handleChange}
+                value={data.contactComments}
                 name="contactComments"
                 id="comments"
                 rows={4}
@@ -233,8 +303,9 @@ const Contact = () => {
                 <input
                   type="checkbox"
                   name="contactCopy"
+                  value={data.contactCopy}
                   id=""
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
                 Send a copy of this message to me
               </label>
@@ -242,7 +313,7 @@ const Contact = () => {
             <div className="my-3">
               <button
                 type="submit"
-                className="border-2 border-custom-heading-color bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold w-64 hover:animate-pulse"
+                className="border-2 max-md:w-32 md:w-64 border-custom-heading-color bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
               >
                 Submit
               </button>
