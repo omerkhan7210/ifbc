@@ -19,11 +19,11 @@ import ListingDataContext from "./Context/ListingDataContext";
 import CandidatesDataContext from "./Context/CandidatesDataContext";
 import MainMessages from "./Pages/CandidatePages/Messages/MainMessages";
 import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
-import FundingCalculator from "./Pages/StaticPages/Calculator/FundingCalculator";
+import FundingCalculator from "./Pages/StaticPages/FundingCalculator";
 import TCFRDataContext from "./Context/TCFRDataContext";
-import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment/BusinessAssessment";
-import Disclaimer from "./Pages/GlobalPageSections/Disclaimer";
-import Contact from "./Pages/GlobalPageSections/Contact";
+import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment";
+import Disclaimer from "./Pages/StaticPages/Disclaimer";
+import Contact from "./Pages/StaticPages/Contact";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
