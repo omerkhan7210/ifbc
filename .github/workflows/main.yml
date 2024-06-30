@@ -49,4 +49,4 @@ jobs:
             sudo yum -y update
             sudo docker pull omerkhan7210/ifbc:latest
             sudo docker rm -f ifbc-container || true
-            sudo docker run -d -p 8080:8080 --name ifbc-container omerkhan7210/ifbc
+            sudo docker run -d -p 3000:80 --name ifbc-container omerkhan7210/ifbc
