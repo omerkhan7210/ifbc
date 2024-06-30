@@ -40,7 +40,7 @@ const Header = ({ mobileActive, setMobileActive }) => {
 
   const socials = [
     {
-      text: "mail@ifbc.co",
+      text: "info@ifbc.co",
       svg: (
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -82,7 +82,7 @@ const Contact = () => {
     { value: "Technical support", label: "Technical support" },
     { value: "General questions", label: "General questions" },
   ];
-
+  // return
   return (
     <PageTransition>
       <div className="p-10 bg-blue-100 grid grid-cols-2">

@@ -102,7 +102,7 @@ const Registration = () => {
       sharefranchise: formFields.sharefranchise ?? false,
       leademail: formFields.leademail ?? "",
       fbabadges: formFields.fbabadges ?? false,
-      usertype: "C",
+      usertype: "",
       profileimage: formFields.profileimage ?? "",
       coverimage: formFields.coverimage ?? "",
     };
