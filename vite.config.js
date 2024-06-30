@@ -9,11 +9,15 @@ export default defineConfig({
   //     "/api": "https://siddiqiventures-001-site4.ktempurl.com",
   //   },
   // },
+  build: {
+    outDir: './build',
+    emptyOutDir: true, // also necessary
+  },
   resolve: {
     alias: {
       src: "/src",
     },
-  },optimizeDeps: {
+  }, optimizeDeps: {
     exclude: ['js-big-decimal']
   }
 });

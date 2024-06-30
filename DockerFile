@@ -22,10 +22,10 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy the build output from the build stage to the nginx web server directory
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=dist /app/dist /usr/share/nginx/html
 
 # Expose port 3000 or by default port 80 to the outside world
-EXPOSE 3000
+EXPOSE 80
 
 # Start Nginx when the container is run
 CMD ["nginx", "-g", "daemon off;"]
