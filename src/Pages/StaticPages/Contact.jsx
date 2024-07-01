@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
+import DialogBox from "src/Popups/DialogBox";
+import { twMerge } from "tailwind-merge";
 
 const ServicesGrid = () => {
   return (
@@ -123,49 +125,79 @@ const ServicesGrid = () => {
 };
 
 const Contact = () => {
-  const [data, setData] = useState({
-    contactReason: "",
-    contactName: "",
-    contactCompany: "",
-    contactEmail: "",
-    contactPhone: "",
-    contactReason: "",
-    contactComments: "",
-    contactCopy: 0,
-  });
-
+  const [data, setData] = useState({});
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState({});
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? (checked ? 1 : 0) : value;
 
     setData({
       ...data,
-
       [name]: inputValue,
     });
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = {
-      contactReason: data.contactReason,
-      contactName: data.contactName,
-      contactCompany: data.contactCompany,
-      contactEmail: data.contactEmail,
-      contactPhone: data.contactPhone,
-      contactReason: data.contactReason,
-      contactComments: data.contactComments,
-      contactCopy: data.contactCopy,
-    };
 
-    axios
-      .post(
-        "https://siddiqiventures-001-site4.ktempurl.com/api/contactus",
-        formData
-      )
-      .then((response) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const reqFields = [
+      "contactName",
+      "contactEmail",
+      "contactCompany",
+      "contactPhone",
+    ];
+    let allFieldsValid = true;
+
+    reqFields.forEach((field) => {
+      if (!data[field] || data[field].trim() === "") {
+        setFormErrors((prev) => ({ ...prev, [field]: "error" }));
+        allFieldsValid = false;
+      } else {
+        setFormErrors((prev) => ({ ...prev, [field]: "" }));
+      }
+    });
+
+    try {
+      if (allFieldsValid) {
+        const formData = {
+          contactReason: data.contactReason ?? "",
+          contactName: data.contactName,
+          contactCompany: data.contactCompany,
+          contactEmail: data.contactEmail,
+          contactPhone: data.contactPhone,
+          contactReason: data.contactReason,
+          contactComments: data.contactComments ?? "",
+          contactCopy: data.contactCopy,
+        };
+
+        const response = await axios.post(
+          "https://siddiqiventures-001-site4.ktempurl.com/api/contactus",
+          formData
+        );
+
         if (response.status === 201) {
+          setShow(true);
+          setLoading(false);
+          setTimeout(() => {
+            setShow(false);
+            window.location.href = "/";
+          }, 3000);
         }
-      });
+      } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Please fill in all the required fields",
+        }));
+        setLoading(false);
+        window.scrollTo(0, 0);
+
+        // Handle invalid fields (e.g., show validation errors)
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const Reason = [
@@ -189,11 +221,37 @@ const Contact = () => {
   // return
   return (
     <PageTransition>
+      <DialogBox show={show} setShow={setShow}>
+        <div className="bg-white p-10">
+          <p className="text-3xl text-center text-custom-heading-color">
+            Message send successfully! <br /> We will contact you soon{" "}
+          </p>
+        </div>
+      </DialogBox>
       <div className="max-md:p-2 md:p-10 bg-blue-100 grid grid-cols-2">
         <div>
           <ServicesGrid />
         </div>
-        <div className="bg-custom-heading-color rounded-lg">
+        <div className="bg-custom-heading-color rounded-lg py-5">
+          {formErrors.error && (
+            <p className="border-2 border-white text-white p-4 flex justify-between mx-10">
+              {formErrors.error}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="white"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+                />
+              </svg>
+            </p>
+          )}
           <form className=" px-10 rounded-lg my-5" onSubmit={handleSubmit}>
             <div className="relative z-0 w-full mb-5 group">
               <label htmlFor="name" className="text-white font-bold py-2">
@@ -202,12 +260,13 @@ const Contact = () => {
               <input
                 onChange={handleChange}
                 type="text"
-                defaultValue={data.contactName}
                 name="contactName"
                 id="name"
-                className="candidate-input"
+                className={twMerge(
+                  `candidate-input`,
+                  formErrors.contactName === "error" ? "bg-red-300" : ""
+                )}
                 placeholder=" "
-                required
               />
             </div>
 
@@ -222,11 +281,12 @@ const Contact = () => {
                 onChange={handleChange}
                 type="text"
                 name="contactCompany"
-                defaultValue={data.contactCompany}
                 id="floating_company"
-                className="candidate-input"
+                className={twMerge(
+                  `candidate-input`,
+                  formErrors.contactCompany === "error" ? "bg-red-300" : ""
+                )}
                 placeholder=" "
-                required
               />
             </div>
             <div className="relative z-0 w-full mb-5 group">
@@ -239,12 +299,13 @@ const Contact = () => {
               <input
                 onChange={handleChange}
                 type="email"
-                defaultValue={data.contactEmail}
                 name="contactEmail"
                 id="floating_email"
-                className="candidate-input"
+                className={twMerge(
+                  `candidate-input`,
+                  formErrors.contactEmail === "error" ? "bg-red-300" : ""
+                )}
                 placeholder=" "
-                required
               />
             </div>
 
@@ -257,11 +318,12 @@ const Contact = () => {
               </label>
               <input
                 type="tel"
-                defaultValue={data.contactPhone}
                 onChange={handleChange}
                 name="contactPhone"
-                className="candidate-input"
-                required
+                className={twMerge(
+                  `candidate-input`,
+                  formErrors.contactPhone === "error" ? "bg-red-300" : ""
+                )}
               />
             </div>
 
@@ -271,12 +333,11 @@ const Contact = () => {
               <select
                 onChange={handleChange}
                 id="reason"
-                defaultValue={data.contactReason}
                 name="contactReason"
                 className="candidate-select w-full"
               >
                 {Reason.map((option) => (
-                  <option key={option.value} defaultValue={option.value}>
+                  <option key={option.value} value={option.label}>
                     {option.label}
                   </option>
                 ))}
@@ -289,7 +350,6 @@ const Contact = () => {
               </label>
               <textarea
                 onChange={handleChange}
-                defaultValue={data.contactComments}
                 name="contactComments"
                 id="comments"
                 rows={4}
@@ -305,7 +365,6 @@ const Contact = () => {
                 <input
                   type="checkbox"
                   name="contactCopy"
-                  defaultValue={data.contactCopy}
                   id=""
                   onChange={handleChange}
                 />
@@ -317,7 +376,7 @@ const Contact = () => {
                 type="submit"
                 className="border-2 max-md:w-32 md:w-64 border-custom-heading-color bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
               >
-                Submit
+                {loading ? "Loading..." : "Submit"}
               </button>
             </div>
           </form>
