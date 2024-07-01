@@ -2,8 +2,8 @@ import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="w-full flex-wrap items-center bg-bl justify-between p-4 text-white text-center bg-custom-dark-blue ">
-      <div className="flex justify-between max-w-[95%] mx-auto max-md:flex-col-reverse md:flex-row max-md:gap-5  ">
+    <footer className="w-full flex-wrap items-center bg-bl justify-between md:p-4 max-md:pt-5 text-white text-center bg-custom-dark-blue max-md:pb-16 ">
+      <div className="flex justify-between max-w-[70%] mx-auto max-md:flex-col-reverse md:flex-row max-md:gap-5   ">
         <div className="text-sm w-full flex justify-start ">
           Powered by International Franchise Business Consultant Corp.
         </div>
