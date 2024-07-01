@@ -129,17 +129,20 @@ const ActivityGridContainer = ({
     >
       <div
         id="top-candidate-sidebar"
-        className="flex md:justify-between max-md:flex-col max-md:gap-4"
+        className="flex md:justify-between max-md:flex-col max-md:gap-4 max-md:w-full"
       >
         <h2 className="side-bar-first-heading text-3xl">Recent Activity</h2>
 
-        <div id="select-candidate-container" className="flex gap-5">
-          <NavLink to="/new-candidate" className="candidate-inverted-btn">
+        <div
+          id="select-candidate-container"
+          className="flex max-md:flex-col gap-5"
+        >
+          <NavLink to="/new-candidate" className="candidate-inverted-btn ">
             Add New Candidate
           </NavLink>
           <select
-            className="w-64 px-2 candidate-select capitalize"
-            name="candidate-names"
+            className="md:w-64 max-md:text-center px-2   candidate-select capitalize max-md:w-full"
+            name="candidate-names "
             id="candidate-names"
             onChange={(e) => setSelectedCandId(e.target.value)}
           >
@@ -212,11 +215,7 @@ const Card = ({ card, cands, listings }) => {
         </h1>
       </div>
       <div className="flex justify-center items-center w-full mt-4 gap-3">
-        <img
-          src={`/${filteredListing?.imgUrl}`}
-          alt="smash"
-          className="w-14"
-        />
+        <img src={`/${filteredListing?.imgUrl}`} alt="smash" className="w-14" />
         <p className="text-lg font-bold text-custom-heading-color">
           {filteredListing?.name}
         </p>

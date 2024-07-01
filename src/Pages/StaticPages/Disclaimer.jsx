@@ -59,7 +59,7 @@ const Disclaimer = () => {
         </h1>
       </div>
 
-      <div className="mx-16 p-10 ">
+      <div className="max-md:p-2 md:p-16 ">
         {disclaimerData.map((section, index) => (
           <DisclaimerSection
             key={index}

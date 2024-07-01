@@ -4,7 +4,7 @@ import PageTransition from "src/Animations/PageTransition";
 
 const ServicesGrid = () => {
   return (
-    <div className="max-md:p-4 md:p-16 flex flex-col gap-3">
+    <div className="max-md:p-2 md:p-16 flex flex-col gap-3">
       <h1 className="max-md:text-3xl md:text-7xl text-custom-heading-color  font-bold  ">
         Contact Us
       </h1>
@@ -131,19 +131,22 @@ const Contact = () => {
     contactPhone: "",
     contactReason: "",
     contactComments: "",
-    contactCopy: "",
+    contactCopy: false,
   });
 
   const handleChange = (e) => {
-    const value = e.target.value;
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
     setData({
       ...data,
-      [e.target.name]: value,
+
+      [name]: inputValue,
     });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    const userData = {
+    const formData = {
       contactReason: data.contactReason,
       contactName: data.contactName,
       contactCompany: data.contactCompany,
@@ -153,10 +156,11 @@ const Contact = () => {
       contactComments: data.contactComments,
       contactCopy: data.contactCopy,
     };
+
     axios
       .post(
         "https://siddiqiventures-001-site4.ktempurl.com/api/contactus",
-        userData
+        formData
       )
       .then((response) => {
         console.log(response.status, response.data.token);
@@ -184,7 +188,7 @@ const Contact = () => {
 
   return (
     <PageTransition>
-      <div className="p-10 bg-blue-100 grid grid-cols-2">
+      <div className="max-md:p-2 md:p-10 bg-blue-100 grid grid-cols-2">
         <div>
           <ServicesGrid />
         </div>
@@ -197,7 +201,7 @@ const Contact = () => {
               <input
                 onChange={handleChange}
                 type="text"
-                value={data.contactName}
+                defaultValue={data.contactName}
                 name="contactName"
                 id="name"
                 className="candidate-input"
@@ -217,7 +221,7 @@ const Contact = () => {
                 onChange={handleChange}
                 type="text"
                 name="contactCompany"
-                value={data.contactCompany}
+                defaultValue={data.contactCompany}
                 id="floating_company"
                 className="candidate-input"
                 placeholder=" "
@@ -234,7 +238,7 @@ const Contact = () => {
               <input
                 onChange={handleChange}
                 type="email"
-                value={data.contactEmail}
+                defaultValue={data.contactEmail}
                 name="contactEmail"
                 id="floating_email"
                 className="candidate-input"
@@ -252,7 +256,7 @@ const Contact = () => {
               </label>
               <input
                 type="tel"
-                value={data.contactPhone}
+                defaultValue={data.contactPhone}
                 onChange={handleChange}
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 name="contactPhone"
@@ -269,12 +273,12 @@ const Contact = () => {
               <select
                 onChange={handleChange}
                 id="reason"
-                value={data.contactReason}
+                defaultValue={data.contactReason}
                 name="contactReason"
                 className="candidate-select w-full"
               >
                 {Reason.map((option) => (
-                  <option key={option.value} value={option.value}>
+                  <option key={option.value} defaultValue={option.value}>
                     {option.label}
                   </option>
                 ))}
@@ -287,12 +291,11 @@ const Contact = () => {
               </label>
               <textarea
                 onChange={handleChange}
-                value={data.contactComments}
+                defaultValue={data.contactComments}
                 name="contactComments"
                 id="comments"
                 rows={4}
                 className="candidate-input"
-                defaultValue={""}
               />
             </div>
 
@@ -304,7 +307,7 @@ const Contact = () => {
                 <input
                   type="checkbox"
                   name="contactCopy"
-                  value={data.contactCopy}
+                  defaultValue={data.contactCopy}
                   id=""
                   onChange={handleChange}
                 />

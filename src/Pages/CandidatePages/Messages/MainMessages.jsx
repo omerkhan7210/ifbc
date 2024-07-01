@@ -32,7 +32,7 @@ const MainMessages = () => {
         </h1>
       </div>
 
-      <div className=" my-20 max-w-7xl mx-auto flex flex-col gap-5">
+      <div className=" my-20 max-w-7xl mx-auto flex flex-col gap-5 max-md:px-5">
         <FirstRow formalReg={formalReg} tCheck={tCheck} />
         <SecondRow />
         <div

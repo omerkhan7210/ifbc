@@ -258,9 +258,13 @@ const LeftSideBar = ({
     fileInputRef.current.click();
   };
 
-  const initialSrc = userDetails.profileImage 
-    ? (image === "" ? `/images/uploads/${userDetails.profileImage}` : image)
-    : (image === "" ? "/images/avatar-placeholder.png" : image);
+  const initialSrc = userDetails.profileImage
+    ? image === ""
+      ? `/images/uploads/${userDetails.profileImage}`
+      : image
+    : image === ""
+      ? "/images/avatar-placeholder.png"
+      : image;
 
   const [imgSrc, setImgSrc] = useState(initialSrc);
 
@@ -283,12 +287,12 @@ const LeftSideBar = ({
         >
           <div>
             <label htmlFor="profile-image-upload">
-            <img
-      src={imgSrc}
-      alt="User Profile"
-      className="rounded-full w-44 h-44 object-cover cursor-pointer"
-      onError={handleError}
-    />
+              <img
+                src={imgSrc}
+                alt="User Profile"
+                className="rounded-full w-44 h-44 object-cover cursor-pointer"
+                onError={handleError}
+              />
             </label>
             <h1
               style={{ background: bgcolor }}
@@ -405,7 +409,7 @@ const LeftSideBar = ({
               </svg>
 
               <h1 className="icon-text">
-                <a href={userDetails.eebsiteUrl}>{userDetails.websiteUrl}</a>
+                <a href={userDetails.websiteUrl}>{userDetails.websiteUrl}</a>
               </h1>
             </div>
           )}
