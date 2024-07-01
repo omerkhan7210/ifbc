@@ -131,12 +131,12 @@ const Contact = () => {
     contactPhone: "",
     contactReason: "",
     contactComments: "",
-    contactCopy: false,
+    contactCopy: 0,
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
+    const inputValue = type === "checkbox" ? (checked ? 1 : 0) : value;
 
     setData({
       ...data,
@@ -163,7 +163,8 @@ const Contact = () => {
         formData
       )
       .then((response) => {
-        console.log(response.status, response.data.token);
+        if (response.status === 201) {
+        }
       });
   };
 
@@ -258,11 +259,8 @@ const Contact = () => {
                 type="tel"
                 defaultValue={data.contactPhone}
                 onChange={handleChange}
-                pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 name="contactPhone"
-                id="floating_phone"
                 className="candidate-input"
-                placeholder=" "
                 required
               />
             </div>
