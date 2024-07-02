@@ -6,7 +6,7 @@ import { twMerge } from "tailwind-merge";
 
 const ServicesGrid = () => {
   return (
-    <div className="max-md:p-2 md:p-16 flex flex-col gap-3">
+    <div className="max-md:p-2 max-md:w-full md:p-16 flex flex-col gap-3">
       <h1 className="max-md:text-3xl md:text-7xl text-custom-heading-color  font-bold  ">
         Contact Us
       </h1>
@@ -228,7 +228,7 @@ const Contact = () => {
           </p>
         </div>
       </DialogBox>
-      <div className="max-md:p-2 md:p-10 bg-blue-100 grid grid-cols-2">
+      <div className="max-md:p-2 max-md:flex-col max-md:w-full md:p-10 bg-blue-100 grid md:grid-cols-2">
         <div>
           <ServicesGrid />
         </div>

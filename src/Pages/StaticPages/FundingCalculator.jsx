@@ -43,21 +43,22 @@ const FundingCalculator = () => {
     try {
       if (allFieldsValid) {
         const formData = {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          franchiseLocation: data.franchiseLocation,
-          creditScore: data.creditScore,
-          launching: data.launching,
-          creditHistory: data.creditHistory,
-          bankruptcies: data.bankruptcies,
-          percentage: data.percentage,
-          realState: data.realState,
-          downPayment: parseInt(data.downPayment),
-          houseHold: parseInt(data.houseHold),
-          debtPayments: parseInt(data.debtPayments),
-          totalNet: parseInt(data.totalNet),
+          firstName: data.firstName.toString(),
+          lastName: data.lastName.toString(),
+          email: data.email.toString(),
+          franchiseLocation: data.franchiseLocation.toString(),
+          creditScore: data.creditScore.toString(),
+          launching: data.launching.toString(),
+          creditHistory: data.creditHistory.toString(),
+          bankruptcies: data.bankruptcies.toString(),
+          percentage: data.percentage.toString(),
+          realState: data.realState.toString(),
+          downPayment: data.downPayment.toString(),
+          houseHold: data.houseHold.toString(),
+          debtPayments: data.debtPayments.toString(),
+          totalNet: data.totalNet.toString(),
         };
+
         const response = await axios.post(
           "https://siddiqiventures-001-site4.ktempurl.com/api/fundcalculator",
           formData
@@ -66,10 +67,14 @@ const FundingCalculator = () => {
         if (response.status === 201) {
           setShow(true);
           setLoading(false);
-          setTimeout(() => {
-            setShow(false);
-            window.location.href = "/";
-          }, 3000);
+
+          setData({
+            downPayment: 0,
+            houseHold: 0,
+            debtPayments: 0,
+            totalNet: 0,
+          });
+          window.location.href = `/results/${response.data.docId}`;
         }
       } else {
         setFormErrors((prev) => ({
@@ -85,8 +90,6 @@ const FundingCalculator = () => {
       console.error("Error:", error);
     }
   };
-
-  console.log(data);
 
   return (
     <PageTransition>
@@ -109,13 +112,7 @@ const FundingCalculator = () => {
         </h3>
       </div>
 
-      <DialogBox show={show} setShow={setShow}>
-        <div className="bg-white p-10">
-          <p className="text-3xl text-center text-custom-heading-color">
-            Message send successfully! <br /> We will contact you soon{" "}
-          </p>
-        </div>
-      </DialogBox>
+      <DialogBox show={show} setShow={setShow}></DialogBox>
 
       <div
         id="description"
@@ -807,7 +804,7 @@ const FundingCalculator = () => {
 
           <div className="flex justify-center">
             <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
-              Calculate My Results
+              {loading ? "Loading..." : "Calculate My Results"}
             </button>
           </div>
         </form>
