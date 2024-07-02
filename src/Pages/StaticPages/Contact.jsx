@@ -245,13 +245,13 @@ const Contact = () => {
           </p>
         </div>
       </DialogBox>
-      <div className="max-md:p-2 max-md:w-full md:p-10">
+      <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[90%] mx-auto">
         <ServicesGrid />
-        <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[550px]">
+        <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[550px] ">
           <img
-            src="/images/banners/contact.avif"
+            src="/images/banners/contact.jpg"
             alt=""
-            className="h-[550px] w-full object-cover"
+            className="h-[550px] w-full object-cover rounded-l-lg  "
           />
           <div id="form-right " className="flex flex-col justify-center w-full">
             <form className=" px-10 rounded-lg my-5 " onSubmit={handleSubmit}>
