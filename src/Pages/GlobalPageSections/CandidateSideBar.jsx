@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { MyTCFRContext } from "src/Context/TCFRDataContext";
 import { MyContext } from "src/Context/ListingDataContext";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
@@ -50,8 +50,25 @@ const CandidateSideBar = () => {
 };
 
 const ToggleButton = ({ active, setActive }) => {
+  const [hidden, setHidden] = useState(false);
+
+  const { scrollY } = useScroll();
+  const body = document.body;
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious();
+    const maxScrollHeight = body.scrollHeight - window.innerHeight; // Maximum scroll height
+
+    if (latest > previous && latest > maxScrollHeight * 0.8) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  });
   return (
-    <button
+    <motion.button
+      initial={{ y: 0 }}
+      animate={{ y: hidden && window.innerWidth > 768 ? "-80%" : 0 }}
       onClick={() => setActive(!active)}
       className={`absolute -top-16 right-0 bg-custom-heading-color px-4 py-5 flex items-center justify-center rounded-tl w-64 text-white z-[99999]`}
     >
@@ -76,7 +93,7 @@ const ToggleButton = ({ active, setActive }) => {
           ></path>
         </motion.svg>
       </div>
-    </button>
+    </motion.button>
   );
 };
 

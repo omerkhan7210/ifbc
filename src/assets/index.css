@@ -24,7 +24,7 @@
 }
 
 .contact-input {
-  @apply bg-gray-50 border-b text-gray-700   block p-2 focus:outline-none;
+  @apply bg-gray-50 border-b text-gray-800 text-sm  block p-2 focus:outline-none placeholder:text-sm placeholder:text-gray-400;
 }
 
 .contact-select {

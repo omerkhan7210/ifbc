@@ -8,7 +8,7 @@ const Footer = () => {
           Powered by International Franchise Business Consultant Corp.
         </div>
 
-        <div className="text-sm w-full flex md:gap-10 md:justify-end max-md:justify-center max-md:gap-5">
+        <div className="text-sm w-full flex md:gap-5 md:justify-end max-md:justify-center ">
           <NavLink to="/" className="text-white text-sm">
             Home
           </NavLink>
@@ -20,6 +20,14 @@ const Footer = () => {
           </NavLink>
           <NavLink to="/disclaimer" className="text-white text-sm">
             Disclaimer
+          </NavLink>
+
+          <NavLink to="/terms-conditions" className="text-white text-sm">
+            Terms & Conditions
+          </NavLink>
+
+          <NavLink to="/privacy-policy" className="text-white text-sm">
+            Privacy Policy
           </NavLink>
         </div>
       </div>
