@@ -182,6 +182,18 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       element: <FundingCalculator />,
     },
     {
+      path: "/results/:docId",
+      element: <FundingResult />,
+    },
+    {
+      path: "/terms-conditions",
+      element: <FundingResult />,
+    },
+    {
+      path: "/privacy-policy",
+      element: <FundingResult />,
+    },
+    {
       path: "/business-assessment",
       element: <BusinessAssessment />,
     },
