@@ -377,7 +377,7 @@ const Contact = () => {
               {/* Terms and conditions message */}
               <p className="text-sm text-white text-center">
                 By submitting this form, you agree to our{" "}
-                <a href="/terms" className="text-blue-500">
+                <a href="/terms-conditions" className="text-blue-500">
                   Terms and Conditions
                 </a>
                 .
