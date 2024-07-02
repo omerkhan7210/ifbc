@@ -255,7 +255,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         };
 
         const baseUrl =
-          "https://siddiqiventures-001-site4.ktempurl.com/api/candidates";
+          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/candidates";
         let response = "";
 
         // Send the POST request using Axios
@@ -342,7 +342,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
         const jsonData = JSON.stringify(formData);
         const baseUrl =
-          "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
+          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, jsonData, {

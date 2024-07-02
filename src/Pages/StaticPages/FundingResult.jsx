@@ -12,7 +12,7 @@ const FundingResult = () => {
 
   const getData = async () => {
     const response = await axios.get(
-      `https://siddiqiventures-001-site4.ktempurl.com/api/fundcalculator/${docId}`
+      `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/fundcalculator/${docId}`
     );
 
     if (response.status === 200) {

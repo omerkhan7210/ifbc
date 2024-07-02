@@ -39,7 +39,7 @@ const TCFRDataContext = ({ children }) => {
   const getAllRegistrations = async () => {
     setLoading(true);
     const url =
-      "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
+      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
 
     // Make a GET request to fetch the data
     axios

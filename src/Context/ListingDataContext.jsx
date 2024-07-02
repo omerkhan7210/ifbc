@@ -28,7 +28,7 @@ const ListingDataContext = ({ children }) => {
   const getAllListings = async () => {
     setLoading(true);
     const url =
-      "https://siddiqiventures-001-site4.ktempurl.com/api/ListingsView";
+      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/ListingsView";
     const responseData = await axios
       .get(url)
       .then(async (response) => {

@@ -313,16 +313,17 @@ const FormTC = ({
         const formData = {
           candidateId: selectedDocId ?? 0,
           AgentId: userDetails.docId ?? 0,
-          listingsIds: JSON.stringify(activeListings).replace(/[^0-9,]/g, "") ?? "",
+          listingsIds:
+            JSON.stringify(activeListings).replace(/[^0-9,]/g, "") ?? "",
           InterRequest: selectedDetails.IncludeNameInTerritoryRequest ?? false,
           docType: "TC",
           Status: "Pending",
           Message: "",
-          email:""
+          email: "",
         };
 
         const baseUrl =
-          "https://siddiqiventures-001-site4.ktempurl.com/api/registrations";
+          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
 
         // Send the POST request using Axios
         const response = await axios.post(baseUrl, formData, {
@@ -338,7 +339,7 @@ const FormTC = ({
           setTimeout(() => {
             window.location.href = "/messages/territory-check";
           }, 3000);
-        } 
+        }
       } else {
         setFormErrors((prev) => ({
           ...prev,

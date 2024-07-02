@@ -173,7 +173,7 @@ const Contact = () => {
         };
 
         const response = await axios.post(
-          "https://siddiqiventures-001-site4.ktempurl.com/api/contactus",
+          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/contactus",
           formData
         );
 

@@ -10,7 +10,7 @@ const BottomBar = ({ listingContent }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = `https://siddiqiventures-001-site4.ktempurl.com/api/listingscontent/${listingContent.name}`;
+      const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/listingscontent/${listingContent.name}`;
       try {
         const response = await axios.get(url);
         if (response.data !== "") {

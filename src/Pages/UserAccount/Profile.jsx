@@ -20,7 +20,7 @@ const Profile = () => {
 
   const getUserDetails = async () => {
     const url =
-      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
+      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -92,7 +92,7 @@ const Profile = () => {
         // formdata
 
         const baseUrl =
-          "https://siddiqiventures-001-site4.ktempurl.com/api/users";
+          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/users";
 
         // Send the PUT request using Axios
         const response = await axios.put(

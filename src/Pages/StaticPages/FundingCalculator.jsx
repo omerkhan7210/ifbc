@@ -60,7 +60,7 @@ const FundingCalculator = () => {
         };
 
         const response = await axios.post(
-          "https://siddiqiventures-001-site4.ktempurl.com/api/fundcalculator",
+          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/fundcalculator",
           formData
         );
 

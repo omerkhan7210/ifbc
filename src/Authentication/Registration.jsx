@@ -40,7 +40,7 @@ const Registration = () => {
   };
   const getUserDetails = async (token) => {
     const url =
-      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
+      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -107,7 +107,7 @@ const Registration = () => {
       coverimage: formFields.coverimage ?? "",
     };
     try {
-      const baseUrl = `https://siddiqiventures-001-site4.ktempurl.com/api/users`;
+      const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/users`;
 
       setLoading(true);
 

@@ -23,7 +23,7 @@ const CandidatesDataContext = ({ children }) => {
   const getAllCandidates = async () => {
     setLoading(true);
 
-    const url = `https://siddiqiventures-001-site4.ktempurl.com/api/candidates`;
+    const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/candidates`;
 
     // Make a GET request to fetch the data
     axios

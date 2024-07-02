@@ -20,7 +20,7 @@ const Login = () => {
 
   const getUserDetails = async (token) => {
     const url =
-      "https://siddiqiventures-001-site4.ktempurl.com/api/users/userdata";
+      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -81,7 +81,7 @@ const Login = () => {
     }
 
     try {
-      const baseUrl = `https://siddiqiventures-001-site4.ktempurl.com/api/login`;
+      const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/login`;
       const requestData = {
         email: user.username.value,
         password: user.password.value,
@@ -104,10 +104,10 @@ const Login = () => {
         setUserDetails(someUserDetails);
         setLoading(false);
         history("/");
-      } 
+      }
     } catch (error) {
       // HELLO
-      if(error?.response?.status === 401){
+      if (error?.response?.status === 401) {
         setError({
           username: "",
           password: "",
