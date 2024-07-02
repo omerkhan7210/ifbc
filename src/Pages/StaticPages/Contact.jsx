@@ -14,7 +14,7 @@ const ServicesGrid = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
-          stroke="currentColor"
+          stroke="rgb(0, 17, 54)"
           class="size-6"
         >
           <path
@@ -24,7 +24,7 @@ const ServicesGrid = () => {
           />
         </svg>
 
-        <p className="font-bold text-custom-heading-color max-md:text-xl md:text-2xl">
+        <p className="contact-para">
           Email : <a href="mailto: info@ifbc.co">info@ifbc.co</a>
         </p>
       </div>
@@ -34,7 +34,7 @@ const ServicesGrid = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
-          stroke="currentColor"
+          stroke="rgb(0, 17, 54)"
           class="size-6"
         >
           <path
@@ -49,7 +49,7 @@ const ServicesGrid = () => {
           />
         </svg>
 
-        <p className=" font-bold text-custom-heading-color max-md:text-xl md:text-2xl">
+        <p className=" contact-para">
           Corporate Address :
           <a href="https://maps.app.goo.gl/qARmQNuMtTYL4fT29" target="blank">
             9350 Wilshire Blvd, Suite 203
@@ -62,7 +62,7 @@ const ServicesGrid = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
-          stroke="currentColor"
+          stroke="rgb(0, 17, 54)"
           class="size-6"
         >
           <path
@@ -72,7 +72,7 @@ const ServicesGrid = () => {
           />
         </svg>
 
-        <p className=" font-bold text-custom-heading-color max-md:text-xl md:text-2xl">
+        <p className=" contact-para">
           Corporate Office Phone : <a href="tel:914-357-4322">914-357-4322</a>
         </p>
       </div>
@@ -83,7 +83,7 @@ const ServicesGrid = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
-          stroke="currentColor"
+          stroke="rgb(0, 17, 54)"
           class="size-6"
         >
           <path
@@ -93,7 +93,7 @@ const ServicesGrid = () => {
           />
         </svg>
 
-        <p className="font-bold text-custom-heading-color max-md:text-xl md:text-2xl">
+        <p className="contact-para">
           Alternate Phone : <a href="tel:908-326-4322">908-326-4322</a>
         </p>
       </div>
@@ -104,7 +104,7 @@ const ServicesGrid = () => {
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
-          stroke="currentColor"
+          stroke="rgb(0, 17, 54)"
           class="size-6"
         >
           <path
@@ -114,7 +114,7 @@ const ServicesGrid = () => {
           />
         </svg>
 
-        <p className=" font-bold text-custom-heading-color max-md:text-xl md:text-2xl ">
+        <p className=" contact-para ">
           FAX : <a href="tel:310-304-0871">310-304-0871</a>
         </p>
       </div>
@@ -140,7 +140,6 @@ const Contact = () => {
 
     setData({
       ...data,
-
       [name]: inputValue,
     });
   };
@@ -189,7 +188,7 @@ const Contact = () => {
   // return
   return (
     <PageTransition>
-      <div className="max-md:p-2 md:p-10 bg-blue-100 grid grid-cols-2">
+      <div className="max-md:p-2 md:p-10 bg-blue-50 grid grid-cols-2">
         <div>
           <ServicesGrid />
         </div>
