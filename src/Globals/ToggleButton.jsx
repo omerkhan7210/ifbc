@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { MotionConfig, motion } from "framer-motion";
 
 const ToggleButton = ({ mobileActive, setMobileActive }) => {
-  const [active, setActive] = useState(false);
   return (
     <MotionConfig
       transition={{
@@ -12,10 +11,9 @@ const ToggleButton = ({ mobileActive, setMobileActive }) => {
     >
       <motion.button
         initial={false}
-        animate={active ? "open" : "closed"}
+        animate={mobileActive ? "open" : "closed"}
         onClick={() => {
           setMobileActive(!mobileActive);
-          setActive((pv) => !pv);
         }}
         className="max-md:flex md:hidden relative h-12 w-12 rounded-full bg-white/0 transition-colors hover:bg-white/20"
       >

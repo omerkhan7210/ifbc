@@ -15,10 +15,10 @@ const Logo = () => {
       className="flex shrink-0 justify-center items-center text-medium-gold "
     >
       <img
-        src="/images/logo/IFBC 3.png"
+        src="/images/logo/IFBC 6.png"
         alt="IFBC"
         loading="lazy"
-        width={250}
+        width={80}
         className="inline"
       />
     </Link>
@@ -143,12 +143,12 @@ const RightSideButtonsContainer = ({
     <div className="sm:flex sm:justify-end sm:items-start sm:pt-1 sm:gap-5">
       {/* button appointment */}
       {role === "N" && (
-        <NavLink
-          to="/contact"
+        <a
+          href="https://calendly.com/info-ifbc"
           className="duration-500 max-sm:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-10  text-sm h-10"
         >
           Book an appointment
-        </NavLink>
+        </a>
       )}
 
       {/* cart icon */}

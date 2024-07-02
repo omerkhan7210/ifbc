@@ -7,37 +7,37 @@ import { twMerge } from "tailwind-merge";
 const ServicesGrid = () => {
   return (
     <div className="max-md:p-2 max-md:w-full md:p-16 flex flex-col gap-3">
-      <h1 className="max-md:text-3xl md:text-7xl text-custom-heading-color  font-bold  ">
+      <h1 className="max-md:text-3xl md:text-5xl text-custom-heading-color  font-bold  ">
         Contact Us
       </h1>
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-2 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          stroke-width="1.5"
+          strokeWidth={1.5}
           stroke="rgb(0, 17, 54)"
-          class="size-6"
+          class="size-5"
         >
           <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.012 1.244l.256.512a2.25 2.25 0 0 0 2.013 1.244h3.218a2.25 2.25 0 0 0 2.013-1.244l.256-.512a2.25 2.25 0 0 1 2.013-1.244h3.859m-19.5.338V18a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 0 0-2.15-1.588H6.911a2.25 2.25 0 0 0-2.15 1.588L2.35 13.177a2.25 2.25 0 0 0-.1.661Z"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
           />
         </svg>
 
         <p className="contact-para">
-          Email : <a href="mailto: info@ifbc.co">info@ifbc.co</a>
+          <a href="mailto: info@ifbc.co">info@ifbc.co</a>
         </p>
       </div>
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-2 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="rgb(0, 17, 54)"
-          class="size-6"
+          class="size-5"
         >
           <path
             stroke-linecap="round"
@@ -52,20 +52,19 @@ const ServicesGrid = () => {
         </svg>
 
         <p className=" contact-para">
-          Corporate Address :
           <a href="https://maps.app.goo.gl/qARmQNuMtTYL4fT29" target="blank">
             9350 Wilshire Blvd, Suite 203
           </a>
         </p>
       </div>
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-2 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="rgb(0, 17, 54)"
-          class="size-6"
+          class="size-5"
         >
           <path
             stroke-linecap="round"
@@ -75,18 +74,18 @@ const ServicesGrid = () => {
         </svg>
 
         <p className=" contact-para">
-          Corporate Office Phone : <a href="tel:914-357-4322">914-357-4322</a>
+          <a href="tel:914-357-4322">914-357-4322</a>
         </p>
       </div>
 
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-2 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="rgb(0, 17, 54)"
-          class="size-6"
+          class="size-5"
         >
           <path
             stroke-linecap="round"
@@ -96,23 +95,23 @@ const ServicesGrid = () => {
         </svg>
 
         <p className="contact-para">
-          Alternate Phone : <a href="tel:908-326-4322">908-326-4322</a>
+          <a href="tel:908-326-4322">908-326-4322</a>
         </p>
       </div>
 
-      <div className="flex gap-3 items-center">
+      <div className="flex gap-2 items-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           stroke-width="1.5"
           stroke="rgb(0, 17, 54)"
-          class="size-6"
+          class="size-5"
         >
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
-            d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+            d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z"
           />
         </svg>
 
@@ -129,6 +128,7 @@ const Contact = () => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({});
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue = type === "checkbox" ? (checked ? 1 : 0) : value;
@@ -228,7 +228,7 @@ const Contact = () => {
           </p>
         </div>
       </DialogBox>
-      <div className="max-md:p-2 max-md:flex-col max-md:w-full md:p-10 bg-blue-100 grid md:grid-cols-2">
+      <div className="max-md:p-2 max-md:flex-col max-md:w-full md:p-10  grid md:grid-cols-2">
         <div>
           <ServicesGrid />
         </div>
@@ -242,7 +242,7 @@ const Contact = () => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="white"
-                className="size-6"
+                className="size-5"
               >
                 <path
                   strokeLinecap="round"
@@ -253,83 +253,70 @@ const Contact = () => {
             </p>
           )}
           <form className=" px-10 rounded-lg my-5" onSubmit={handleSubmit}>
-            <div className="relative z-0 w-full mb-5 group">
-              <label htmlFor="name" className="text-white font-bold py-2">
-                Name
-              </label>
-              <input
-                onChange={handleChange}
-                type="text"
-                name="contactName"
-                id="name"
-                className={twMerge(
-                  `candidate-input`,
-                  formErrors.contactName === "error" ? "bg-red-300" : ""
-                )}
-                placeholder=" "
-              />
+            <div className="flex gap-3 justify-between">
+              <div className="relative z-0 w-full mb-5 group">
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  name="contactName"
+                  id="name"
+                  placeholder="Your Name"
+                  className={twMerge(
+                    `contact-input`,
+                    formErrors.contactName === "error" ? "bg-red-300" : ""
+                  )}
+                />
+              </div>
+
+              <div className="relative z-0 w-full mb-5 group">
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  name="contactCompany"
+                  id="floating_company"
+                  className={twMerge(
+                    `contact-input`,
+                    formErrors.contactCompany === "error" ? "bg-red-300" : ""
+                  )}
+                  placeholder="Company (Ex. Google)"
+                />
+              </div>
             </div>
 
-            <div className="relative z-0 w-full mb-5 group">
-              <label
-                htmlFor="floating_company"
-                className="text-white font-bold py-2"
-              >
-                Company (Ex. Google)
-              </label>
-              <input
-                onChange={handleChange}
-                type="text"
-                name="contactCompany"
-                id="floating_company"
-                className={twMerge(
-                  `candidate-input`,
-                  formErrors.contactCompany === "error" ? "bg-red-300" : ""
-                )}
-                placeholder=" "
-              />
-            </div>
-            <div className="relative z-0 w-full mb-5 group">
-              <label
-                htmlFor="floating_email"
-                className="text-white font-bold py-2"
-              >
-                Email address
-              </label>
-              <input
-                onChange={handleChange}
-                type="email"
-                name="contactEmail"
-                id="floating_email"
-                className={twMerge(
-                  `candidate-input`,
-                  formErrors.contactEmail === "error" ? "bg-red-300" : ""
-                )}
-                placeholder=" "
-              />
-            </div>
+            <div className="flex gap-3 justify-between">
+              <div className="relative z-0 w-full mb-5 group">
+                <input
+                  onChange={handleChange}
+                  type="email"
+                  name="contactEmail"
+                  id="floating_email"
+                  className={twMerge(
+                    `contact-input`,
+                    formErrors.contactEmail === "error" ? "bg-red-300" : ""
+                  )}
+                  placeholder="Email address"
+                />
+              </div>
 
-            <div className="relative z-0 w-full mb-5 group">
-              <label
-                htmlFor="floating_phone"
-                className="text-white font-bold py-2"
-              >
-                Phone number (123-456-7890)
-              </label>
-              <input
-                type="tel"
-                onChange={handleChange}
-                name="contactPhone"
-                className={twMerge(
-                  `candidate-input`,
-                  formErrors.contactPhone === "error" ? "bg-red-300" : ""
-                )}
-              />
+              <div className="relative z-0 w-full mb-5 group">
+                <label
+                  htmlFor="floating_phone"
+                  className="text-white font-bold py-2"
+                ></label>
+                <input
+                  type="tel"
+                  onChange={handleChange}
+                  name="contactPhone"
+                  className={twMerge(
+                    `contact-input`,
+                    formErrors.contactPhone === "error" ? "bg-red-300" : ""
+                  )}
+                  placeholder="Phone number (123-456-7890)"
+                />
+              </div>
             </div>
 
             <div className="relative z-0 w-full mb-5 group ">
-              <p className="text-white font-bold py-2">Contact Reason*</p>
-
               <select
                 onChange={handleChange}
                 id="reason"
@@ -345,15 +332,13 @@ const Contact = () => {
             </div>
 
             <div>
-              <label htmlFor="message" className="text-white font-bold py-2">
-                Comments
-              </label>
               <textarea
                 onChange={handleChange}
                 name="contactComments"
                 id="comments"
                 rows={4}
-                className="candidate-input"
+                placeholder="Comments"
+                className="contact-input"
               />
             </div>
 
@@ -371,6 +356,15 @@ const Contact = () => {
                 Send a copy of this message to me
               </label>
             </div>
+
+            {/* Terms and conditions message */}
+            <p className="text-sm text-gray-500 ">
+              By submitting this form, you agree to our{" "}
+              <a href="/terms" className="text-blue-500">
+                Terms and Conditions
+              </a>
+              .
+            </p>
             <div className="my-3">
               <button
                 type="submit"

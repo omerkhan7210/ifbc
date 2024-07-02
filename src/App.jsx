@@ -27,6 +27,10 @@ const App = () => {
     dispatch;
   }, [dispatch]);
 
+  useEffect(() => {
+    setMobileActive(false);
+  }, [loc.pathname]);
+
   // return
   return (
     <>

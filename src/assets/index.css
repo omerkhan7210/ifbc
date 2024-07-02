@@ -22,6 +22,10 @@
 .candidate-input {
   @apply bg-gray-50 border-b border-custom-dark-blue text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
 }
+
+.contact-input {
+  @apply bg-gray-50 border-b border-black text-black   block p-2 focus:outline-none;
+}
 .candidate-normal-input {
   @apply bg-gray-50 border border-custom-grey text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
 }
@@ -95,5 +99,5 @@
 }
 
 .contact-para {
-  @apply font-bold text-custom-heading-color max-md:text-lg md:text-xl;
+  @apply font-bold text-custom-heading-color text-lg;
 }
