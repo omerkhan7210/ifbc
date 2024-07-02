@@ -25,6 +25,8 @@ import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment";
 import Disclaimer from "./Pages/StaticPages/Disclaimer";
 import Contact from "./Pages/StaticPages/Contact";
 import FundingResult from "./Pages/StaticPages/FundingResult";
+import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
+import TermsConditions from "./Pages/StaticPages/TermsConditions";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -106,6 +108,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
         </CandidatesDataContext>
       ),
     },
+
     {
       path: "/funding-calculator",
       element: <FundingCalculator />,
@@ -125,6 +128,14 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     {
       path: "/business-assessment",
       element: <BusinessAssessment />,
+    },
+    {
+      path: "/terms-conditions",
+      element: <TermsConditions />,
+    },
+    {
+      path: "/privacy-policy",
+      element: <PrivacyPolicy />,
     },
     {
       path: "/profile",
