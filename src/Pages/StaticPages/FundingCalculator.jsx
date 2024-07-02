@@ -1,67 +1,94 @@
+import axios from "axios";
 import React, { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
+import DialogBox from "src/Popups/DialogBox";
+import { twMerge } from "tailwind-merge";
 
 const FundingCalculator = () => {
-  const [formFields, setFormFields] = useState({});
+  const [data, setData] = useState({
+    downPayment: 0,
+    houseHold: 0,
+    debtPayments: 0,
+    totalNet: 0,
+  });
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({});
 
-  const [downPayment, setDownPayment] = useState("");
-  const [houseHold, setHouseHold] = useState("");
-  const [debtPayments, setDebtPayments] = useState("");
-  const [totalNet, setTotalNet] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [franchiseLocation, setFranchiseLocation] = useState("");
-  const [creditScore, setCreditScore] = useState("");
-  const [launching, setLaunching] = useState("");
-  const [creditHistory, setCreditHistory] = useState("");
-  const [bankruptcies, setBankruptcies] = useState("");
-  const [percentage, setPercentage] = useState("");
-  const [realState, setRealState] = useState("");
-
-  const handleHouseHoldChange = (e) => {
-    setHouseHold(parseInt(e.target.value));
-  };
-
-  const handleDebtPaymentsChange = (e) => {
-    setDownPayment(parseInt(e.target.value));
-  };
-  const handleMonthlyPersonal = (e) => {
-    setDebtPayments(parseInt(e.target.value));
-  };
-  const handleTotalNet = (e) => {
-    setTotalNet(parseInt(e.target.value));
-  };
-  const handleInputChange = (e) => {
-    e.preventDefault();
-    console.log(
-      firstName,
-      lastName,
-      email,
-      franchiseLocation,
-      creditScore,
-      launching,
-      creditHistory,
-      bankruptcies,
-      percentage,
-      realState,
-      downPayment,
-      houseHold,
-      debtPayments,
-      totalNet
-    );
+  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
+    const inputValue = type === "checkbox" ? (checked ? 1 : 0) : value;
 
-    setFormFields((prevFields) => ({
-      ...prevFields,
+    setData({
+      ...data,
       [name]: inputValue,
-    }));
-    setFormErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: "",
-    }));
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const reqFields = ["firstName", "lastName", "email"];
+    let allFieldsValid = true;
+
+    reqFields.forEach((field) => {
+      if (!data[field] || data[field].trim() === "") {
+        setFormErrors((prev) => ({ ...prev, [field]: "error" }));
+        allFieldsValid = false;
+      } else {
+        setFormErrors((prev) => ({ ...prev, [field]: "" }));
+      }
+    });
+
+    try {
+      if (allFieldsValid) {
+        const formData = {
+          firstName: data.firstName.toString(),
+          lastName: data.lastName.toString(),
+          email: data.email.toString(),
+          franchiseLocation: data.franchiseLocation.toString(),
+          creditScore: data.creditScore.toString(),
+          launching: data.launching.toString(),
+          creditHistory: data.creditHistory.toString(),
+          bankruptcies: data.bankruptcies.toString(),
+          percentage: data.percentage.toString(),
+          realState: data.realState.toString(),
+          downPayment: data.downPayment.toString(),
+          houseHold: data.houseHold.toString(),
+          debtPayments: data.debtPayments.toString(),
+          totalNet: data.totalNet.toString(),
+        };
+
+        const response = await axios.post(
+          "https://siddiqiventures-001-site4.ktempurl.com/api/fundcalculator",
+          formData
+        );
+
+        if (response.status === 201) {
+          setShow(true);
+          setLoading(false);
+
+          setData({
+            downPayment: 0,
+            houseHold: 0,
+            debtPayments: 0,
+            totalNet: 0,
+          });
+          window.location.href = `/results/${response.data.docId}`;
+        }
+      } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Please fill in all the required fields",
+        }));
+        setLoading(false);
+        window.scrollTo(0, 1000);
+
+        // Handle invalid fields (e.g., show validation errors)
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -84,6 +111,8 @@ const FundingCalculator = () => {
           Instantly See What You Could Qualify For!
         </h3>
       </div>
+
+      <DialogBox show={show} setShow={setShow}></DialogBox>
 
       <div
         id="description"
@@ -135,36 +164,61 @@ const FundingCalculator = () => {
             Available To You
           </p>
         </div>
-        <form onSubmit={handleInputChange}>
+        {formErrors.error && (
+          <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
+            {formErrors.error}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+              />
+            </svg>
+          </p>
+        )}
+        <form onSubmit={handleSubmit}>
           <div className="flex gap-4 max-md:flex-col md:flex-row">
             <div className="candidate-sub-childs">
               <p className="candidate-label">First Name</p>
               <input
-                onChange={(e) => setFirstName(e.target.value)}
+                onChange={handleChange}
                 type="text"
                 name="firstName"
-                className="candidate-input"
-                required
+                className={twMerge(
+                  `candidate-input`,
+                  formErrors.firstName === "error" ? "bg-red-300" : ""
+                )}
               />
             </div>
             <div className="candidate-sub-childs">
               <p className="candidate-label">Last Name</p>
               <input
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={handleChange}
                 type="text"
                 name="lastName"
-                className="candidate-input"
-                required
+                className={twMerge(
+                  `candidate-input`,
+                  formErrors.lastName === "error" ? "bg-red-300" : ""
+                )}
               />
             </div>
             <div className="candidate-sub-childs">
               <p className="candidate-label">Email</p>
               <input
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleChange}
                 type="text"
                 name="email"
-                className="candidate-input"
-                required
+                className={twMerge(
+                  `candidate-input`,
+                  formErrors.email === "error" ? "bg-red-300" : ""
+                )}
               />
             </div>
           </div>
@@ -180,24 +234,34 @@ const FundingCalculator = () => {
             <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setFranchiseLocation(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   defaultValue="Homebased"
                   name="franchiseLocation"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">Homebased</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.franchiseLocation === "Homebased" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  Homebased
+                </span>
               </label>
 
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setFranchiseLocation(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   defaultValue="Food and Beverage"
                   class="peer hidden"
                   name="franchiseLocation"
                 />
-                <span className="candidate-funding-btn w-full">
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.franchiseLocation === "Food and Beverage" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
                   Food and Beverage
                 </span>
               </label>
@@ -205,26 +269,34 @@ const FundingCalculator = () => {
             <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setFranchiseLocation(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="franchiseLocation"
                   defaultValue="Non Food Storefront"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.franchiseLocation === "Non Food Storefront" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
                   Non Food Storefront
                 </span>
               </label>
 
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setFranchiseLocation(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="franchiseLocation"
                   defaultValue="Mobile Services"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.franchiseLocation === "Mobile Services" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
                   Mobile Services
                 </span>
               </label>
@@ -245,7 +317,7 @@ const FundingCalculator = () => {
                 DownPayment & Working Capital
               </label>
               <input
-                onChange={handleDebtPaymentsChange}
+                onChange={handleChange}
                 id="steps-range"
                 type="range"
                 name="downPayment"
@@ -257,7 +329,7 @@ const FundingCalculator = () => {
               />
 
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                Amount: {downPayment}
+                Amount: {data.downPayment}
               </p>
             </div>
           </div>
@@ -273,47 +345,71 @@ const FundingCalculator = () => {
             <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setCreditScore(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="creditScore"
                   defaultValue="below 680"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">below 680</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.creditScore === "below 680" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  below 680
+                </span>
               </label>
 
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setCreditScore(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="creditScore"
                   defaultValue="680 - 715"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">680 - 715</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.creditScore === "680 - 715" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  680 - 715
+                </span>
               </label>
             </div>
             <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setCreditScore(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="creditScore"
                   defaultValue="716 - 750"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">716 - 750</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.creditScore === "716 - 750" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  716 - 750
+                </span>
               </label>
 
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setCreditScore(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="creditScore"
                   defaultValue="Above 750"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">Above 750</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.creditScore === "Above 750" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  Above 750
+                </span>
               </label>
             </div>
           </div>
@@ -330,36 +426,52 @@ const FundingCalculator = () => {
             <div class="flex md:space-x-2 rounded-xl select-none">
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setLaunching(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="launching"
                   defaultValue="Yes"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">Yes</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.launching === "Yes" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  Yes
+                </span>
               </label>
 
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setLaunching(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="launching"
                   defaultValue="No"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">No</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.launching === "No" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  No
+                </span>
               </label>
             </div>
             <div class="flex md:space-x-2 rounded-xl select-none">
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setLaunching(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="launching"
                   defaultValue="I have other means to cover living expenses during the launch"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.launching === "I have other means to cover living expenses during the launch" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
                   I have other means to cover living expenses during the launch
                 </span>
               </label>
@@ -379,7 +491,7 @@ const FundingCalculator = () => {
                 Annual HouseHold Income
               </label>
               <input
-                onChange={handleHouseHoldChange}
+                onChange={handleChange}
                 id="household"
                 type="range"
                 name="houseHold"
@@ -391,7 +503,7 @@ const FundingCalculator = () => {
               />
 
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                Amount: {houseHold}
+                Amount: {data.houseHold}
               </p>
             </div>
           </div>
@@ -408,7 +520,7 @@ const FundingCalculator = () => {
                 Monthly Personal Debt Payments
               </label>
               <input
-                onChange={handleMonthlyPersonal}
+                onChange={handleChange}
                 id="personal"
                 type="range"
                 name="debtPayments"
@@ -420,7 +532,7 @@ const FundingCalculator = () => {
               />
 
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                Amount: {debtPayments}
+                Amount: {data.debtPayments}
               </p>
             </div>
           </div>
@@ -436,24 +548,36 @@ const FundingCalculator = () => {
             <div class="flex md:space-x-2 rounded-xl select-none">
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setCreditHistory(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="creditHistory"
                   defaultValue="Yes"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">Yes</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.creditHistory === "Yes" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  Yes
+                </span>
               </label>
 
               <label class="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setCreditHistory(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="creditHistory"
                   defaultValue="No"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">No</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.creditHistory === "No" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  No
+                </span>
               </label>
             </div>
           </div>
@@ -469,24 +593,34 @@ const FundingCalculator = () => {
             <div className="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setBankruptcies(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="bankruptcies"
                   defaultValue="Never"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">Never</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.bankruptcies === "Never" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  Never
+                </span>
               </label>
 
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setBankruptcies(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="bankruptcies"
                   defaultValue="0-7 years ago"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.bankruptcies === "0-7 years ago" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
                   0-7 years ago
                 </span>
               </label>
@@ -494,26 +628,34 @@ const FundingCalculator = () => {
             <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setBankruptcies(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="bankruptcies"
                   defaultValue="8-10 years ago"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.bankruptcies === "8-10 years ago" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
                   8-10 years ago
                 </span>
               </label>
 
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setBankruptcies(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="bankruptcies"
                   defaultValue="More than 10 years ago"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.bankruptcies === "More than 10 years ago" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
                   More than 10 years ago
                 </span>
               </label>
@@ -533,36 +675,52 @@ const FundingCalculator = () => {
             <div className="flex md:space-x-2 rounded-xl select-none">
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setPercentage(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="percentage"
                   defaultValue="0-35%"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">0-35%</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.percentage === "0-35%" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  0-35%
+                </span>
               </label>
 
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setPercentage(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="percentage"
                   defaultValue="36-50%"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">36-50%</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.percentage === "36-50%" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  36-50%
+                </span>
               </label>
             </div>
             <div className="flex md:space-x-2 rounded-xl select-none">
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setPercentage(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="percentage"
                   defaultValue="51% or higher"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.percentage === "51% or higher" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
                   51% or higher
                 </span>
               </label>
@@ -580,24 +738,36 @@ const FundingCalculator = () => {
             <div className="flex md:space-x-2 rounded-xl select-none">
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setRealState(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="realState"
                   defaultValue="Yes"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">Yes</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.realState === "Yes" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  Yes
+                </span>
               </label>
 
               <label className="radio flex flex-grow items-center justify-center rounded-lg p-1 cursor-pointer w-full">
                 <input
-                  onChange={(e) => setRealState(e.target.value)}
+                  onChange={handleChange}
                   type="radio"
                   name="realState"
                   defaultValue="No"
                   class="peer hidden"
                 />
-                <span className="candidate-funding-btn w-full">No</span>
+                <span
+                  className={twMerge(
+                    `candidate-funding-btn w-full ${data.realState === "No" ? "bg-custom-dark-blue text-white" : ""}`
+                  )}
+                >
+                  No
+                </span>
               </label>
             </div>
           </div>
@@ -615,7 +785,7 @@ const FundingCalculator = () => {
                 Total Net Worth
               </label>
               <input
-                onChange={handleTotalNet}
+                onChange={handleChange}
                 id="totalnet"
                 type="range"
                 name="totalNet"
@@ -627,14 +797,14 @@ const FundingCalculator = () => {
               />
 
               <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                Amount: {totalNet}
+                Amount: {data.totalNet}
               </p>
             </div>
           </div>
 
           <div className="flex justify-center">
             <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
-              Calculate My Results
+              {loading ? "Loading..." : "Calculate My Results"}
             </button>
           </div>
         </form>

@@ -24,6 +24,7 @@ import TCFRDataContext from "./Context/TCFRDataContext";
 import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment";
 import Disclaimer from "./Pages/StaticPages/Disclaimer";
 import Contact from "./Pages/StaticPages/Contact";
+import FundingResult from "./Pages/StaticPages/FundingResult";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -108,6 +109,10 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     {
       path: "/funding-calculator",
       element: <FundingCalculator />,
+    },
+    {
+      path: "/results/:docId",
+      element: <FundingResult />,
     },
     {
       path: "/disclaimer",
