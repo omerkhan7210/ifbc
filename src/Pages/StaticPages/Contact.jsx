@@ -321,7 +321,7 @@ const Contact = () => {
                 onChange={handleChange}
                 id="reason"
                 name="contactReason"
-                className="candidate-select w-full"
+                className="contact-select w-full"
               >
                 {Reason.map((option) => (
                   <option key={option.value} value={option.label}>
@@ -358,7 +358,7 @@ const Contact = () => {
             </div>
 
             {/* Terms and conditions message */}
-            <p className="text-sm text-gray-500 ">
+            <p className="text-sm text-white ">
               By submitting this form, you agree to our{" "}
               <a href="/terms" className="text-blue-500">
                 Terms and Conditions

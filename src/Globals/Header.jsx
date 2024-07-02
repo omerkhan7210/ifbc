@@ -18,7 +18,7 @@ const Logo = () => {
         src="/images/logo/IFBC 6.png"
         alt="IFBC"
         loading="lazy"
-        width={80}
+        width={130}
         className="inline"
       />
     </Link>
