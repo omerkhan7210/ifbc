@@ -245,7 +245,7 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="candidate-label">Used as Maximum Investment</p>
+        <p className="text-black font-bold">Used as Maximum Investment</p>
       </div>
       <div>
         <p className="candidate-label">Do you have a need for funding?</p>
@@ -397,7 +397,7 @@ const Initial = ({
           </option>
         ))}
       </select>
-      <div className="mt-4">
+      <div className="mt-5">
         <label
           htmlFor="message"
           className="text-black font-bold first-letter:text-sm"
@@ -412,9 +412,6 @@ const Initial = ({
           className="candidate-input"
           defaultValue={candDetails?.InitialQualifyingNote}
         />
-      </div>
-      <div>
-        <button className="candidate-buttons mt-6">SAVE</button>
       </div>
     </div>
   );
@@ -736,9 +733,6 @@ const Zoracle = ({
           defaultValue={candDetails?.ZorakleNotes}
         />
       </div>
-      <div>
-        <button className="candidate-buttons mt-6">SAVE</button>
-      </div>
     </div>
   );
 };
@@ -853,7 +847,7 @@ const Eligibility = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Have you or your spouse ever been convicted of something other
         than a minor traffic violation?_yes"
             >
@@ -874,7 +868,7 @@ const Eligibility = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Have you or your spouse ever been convicted of something other
         than a minor traffic violation?_no"
             >
@@ -903,7 +897,7 @@ const Eligibility = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Are you or your spouse subject to a pending litigation or unsatisfied judgment?_yes"
             >
               Yes
@@ -924,7 +918,7 @@ const Eligibility = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Are you or your spouse subject to a pending litigation or unsatisfied judgment?_no"
             >
               No
@@ -960,9 +954,6 @@ const Eligibility = ({
           className="candidate-input"
           defaultValue={candDetails?.EligibilityNote}
         />
-      </div>
-      <div>
-        <button className="candidate-buttons mt-6">SAVE</button>
       </div>
     </div>
   );
@@ -1068,9 +1059,6 @@ const Experience = ({
             : { defaultValue: candDetails?.csExperience })}
         />
       </div>
-      <div>
-        <button className="candidate-buttons mt-6">SAVE</button>
-      </div>
     </div>
   );
 };
@@ -1148,7 +1136,7 @@ const Wants = ({
                 ? { checked: selectedDetails?.preferB2b === "Both" }
                 : { defaultChecked: candDetails?.preferB2b === "Both" })}
             />
-            <label className="mb-2 block">Both</label>
+            <label className="mb-2 block text-custom-dark-blue">Both</label>
           </li>
           <li className="flex mr-4">
             <input
@@ -1161,7 +1149,7 @@ const Wants = ({
                 ? { checked: selectedDetails?.preferB2b === "B2B" }
                 : { defaultChecked: candDetails?.preferB2b === "B2B" })}
             />
-            <label className="mb-2 block">B2B</label>
+            <label className="mb-2 block text-custom-dark-blue">B2B</label>
           </li>
           <li className="flex">
             <input
@@ -1174,7 +1162,7 @@ const Wants = ({
                 ? { checked: selectedDetails?.preferB2b === "B2C" }
                 : { defaultChecked: candDetails?.preferB2b === "B2C" })}
             />
-            <label className="mb-2 block">B2C</label>
+            <label className="mb-2 block text-custom-dark-blue">B2C</label>
           </li>
         </ul>
       </div>
@@ -1194,7 +1182,7 @@ const Wants = ({
                 ? { checked: selectedDetails?.physicalLocation === "Both" }
                 : { defaultChecked: candDetails?.physicalLocation === "Both" })}
             />
-            <label className="mb-2 block" htmlFor="Both">
+            <label className="mb-2 block text-custom-dark-blue" htmlFor="Both">
               Both
             </label>
           </li>
@@ -1214,7 +1202,10 @@ const Wants = ({
                       candDetails?.physicalLocation === "Home-based",
                   })}
             />
-            <label className="mb-2 block" htmlFor="Home-based">
+            <label
+              className="mb-2 block text-custom-dark-blue"
+              htmlFor="Home-based"
+            >
               Home-based
             </label>
           </li>
@@ -1232,7 +1223,10 @@ const Wants = ({
                       candDetails?.physicalLocation === "Physical",
                   })}
             />
-            <label className="mb-2 block" htmlFor="Physical">
+            <label
+              className="mb-2 block text-custom-dark-blue"
+              htmlFor="Physical"
+            >
               Physical
             </label>
           </li>
@@ -1255,7 +1249,7 @@ const Wants = ({
                 : { defaultChecked: candDetails?.inventory === "Both" })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor=" Would you prefer to have an inventory or service-based business
         models_Both"
             >
@@ -1273,7 +1267,7 @@ const Wants = ({
                 ? { checked: selectedDetails?.inventory === "Inventory" }
                 : { defaultChecked: candDetails?.inventory === "Inventory" })}
             />
-            <label className="mb-2 block" htmlFor="type1">
+            <label className="mb-2 block text-custom-dark-blue" htmlFor="type1">
               Inventory
             </label>
           </li>
@@ -1288,7 +1282,7 @@ const Wants = ({
                 ? { checked: selectedDetails?.inventory === "Service" }
                 : { defaultChecked: candDetails?.inventory === "Service" })}
             />
-            <label className="mb-2 block" htmlFor="type2">
+            <label className="mb-2 block text-custom-dark-blue" htmlFor="type2">
               Service
             </label>
           </li>
@@ -1311,7 +1305,7 @@ const Wants = ({
                 : { defaultChecked: candDetails?.coldCalling === "Both" })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Are you comfortable with a business that requires cold calling?_Both"
             >
               Both
@@ -1329,7 +1323,7 @@ const Wants = ({
                 : { defaultChecked: candDetails?.coldCalling === "Yes" })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Are you comfortable with a business that requires cold calling?
           
           _Yes"
@@ -1349,7 +1343,7 @@ const Wants = ({
                 : { defaultChecked: candDetails?.coldCalling === "No" })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Are you comfortable with a business that requires cold calling?
           
           _no"
@@ -1381,7 +1375,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Are you going to be in this business as an owner/operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)Owner/Operator"
             >
               Owner/Operator
@@ -1401,7 +1395,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Are you going to be in this business as an owner/operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)
           
           _Passive"
@@ -1423,7 +1417,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Are you going to be in this business as an owner/operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)
           
           _Semi"
@@ -1452,7 +1446,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Is working standard business hours (9am-5pm) important to you?_Both"
             >
               Both
@@ -1472,7 +1466,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Is working standard business hours (9am-5pm) important to you?
           
           _Yes"
@@ -1494,7 +1488,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block"
+              className="mb-2 block text-custom-dark-blue"
               htmlFor="Is working standard business hours (9am-5pm) important to you?
           
           _no"
@@ -1516,9 +1510,6 @@ const Wants = ({
           className="candidate-input"
           defaultValue={candDetails?.WantNote}
         />
-      </div>
-      <div>
-        <button className="candidate-buttons mt-6">SAVE</button>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Playwrite+US+Trad:wght@100..400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playwrite+US+Trad:wght@100..400&display=swap");
 
 *,
 ::before,
@@ -16,9 +16,8 @@
   --tw-content: "";
 }
 
-.swiperslidehomebanner h1{
+.swiperslidehomebanner h1 {
   font-family: "Playwrite US Trad", cursive;
- 
 }
 
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
@@ -6117,13 +6116,6 @@ input[type="checkbox"]:checked {
 input[type="checkbox"] {
   margin-right: 0.5rem !important;
   padding: 0px !important;
-}
-
-input[type="radio"] + label,
-input[type="checkbox"] + label {
-  margin-bottom: 0px;
-  --tw-text-opacity: 1;
-  color: rgba(141, 139, 93, var(--tw-text-opacity));
 }
 
 input:checked[type="checkbox"],
@@ -12667,7 +12659,7 @@ blockquote {
 }
 
 .swiperslidehomebannermain .swiper-wrapper {
-  height:530px !important;
+  height: 530px !important;
 }
 
 /* Variation of work by @mrhyddenn for Radios */

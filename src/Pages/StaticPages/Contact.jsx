@@ -76,7 +76,7 @@ const ServicesGrid = () => {
             </h2>
 
             <p class="mt-2 text-blue-500 dark:text-blue-400">
-              9350 Wilshire Blvd, Suite 203
+              9350 Wilshire Blvd, Suite 203 Beverly Hills, CA 90212
             </p>
           </div>
 
@@ -376,11 +376,18 @@ const Contact = () => {
 
               {/* Terms and conditions message */}
               <p className="text-sm text-white text-center">
-                By submitting this form, you agree to our{" "}
+                By submitting the form, you agree to receive calls, text
+                messages, or emails from ifbc.co at the contact information
+                provided. Message rates may apply. Text STOP to cancel text
+                messaging at any time. See{" "}
                 <a href="/terms-conditions" className="text-blue-500">
-                  Terms and Conditions
+                  Terms of Service
                 </a>
-                .
+                and{" "}
+                <a href="/privacy-policy" className="text-blue-500">
+                  Privacy Policy
+                </a>
+                for additional details
               </p>
               <div className="my-3 flex justify-center">
                 <button
