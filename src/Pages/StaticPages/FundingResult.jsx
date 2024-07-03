@@ -27,10 +27,10 @@ const FundingResult = () => {
   }, []);
 
   useEffect(() => {
-    data.downPayment = parseInt(data.downPayment, 10);
-    data.houseHold = parseInt(data.houseHold, 10);
-    data.debtPayments = parseInt(data.debtPayments, 10);
-    data.totalNet = parseInt(data.totalNet, 10);
+    // data.downPayment = parseInt(data.downPayment, 10);
+    // data.houseHold = parseInt(data.houseHold, 10);
+    // data.debtPayments = parseInt(data.debtPayments, 10);
+    // data.totalNet = parseInt(data.totalNet, 10);
     const debtResult = Math.floor(
       (data.debtPayments / (data.houseHold / 12)) * 100
     );

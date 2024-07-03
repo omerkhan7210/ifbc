@@ -11,7 +11,7 @@ import MainListings from "src/Pages/ListingsPage/MainListings";
 import MainDetails from "src/Pages/ListingsDetails/MainDetails";
 import MainHome from "src/Pages/HomePage/MainHome";
 import NotFoundPage from "src/Pages/StaticPages/NotFoundPage";
-import CheckOutForm from "./Pages/CartPage/CheckOutForm";
+import CheckOutForm from "./Pages/StaticPages/CheckOutForm";
 import { useRoutes } from "react-router-dom";
 import { useSelector } from "react-redux";
 

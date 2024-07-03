@@ -61,7 +61,7 @@ const AllListings = () => {
               ) {
                 if (Array.isArray(filters[key]) && key === "search") {
                   return filters["search"].some((searchString) =>
-                    listing.name.toLowerCase().includes(searchString)
+                    listing.category.toLowerCase().includes(searchString)
                   );
                 } else if (Array.isArray(filters[key]) && key !== "search") {
                   return filters[key].some(
@@ -110,8 +110,8 @@ const AllListings = () => {
         {role !== "N" && (
           <>
             <p className="ml-5 text-custom-heading-color font-bold">
-              Showing {paginationListings?.length} out of {listings.length}{" "}
-              Franchises
+              Showing {paginationListings?.length} out of{" "}
+              {filterListings.length} Franchises
             </p>
             <Pagination
               currentPage={currentPage}

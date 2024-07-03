@@ -718,6 +718,7 @@ const FormFirstRow = ({
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">Phone Number</p>
+
           <input
             type="text"
             name="phone"

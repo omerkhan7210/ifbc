@@ -102,7 +102,7 @@ const ServicesGrid = () => {
 
             <h2 class="mt-4 text-lg font-medium text-gray-800 ">Phone</h2>
 
-            <p class="mt-2 text-blue-500  flex gap-5">
+            <p class="mt-2 text-blue-500  flex flex-col gap-1">
               <a href="tel:914-357-4322">91-HELP-IFBC</a>
               <a href="tel:908-326-4322">90-TEAM-IFBC </a>
             </p>

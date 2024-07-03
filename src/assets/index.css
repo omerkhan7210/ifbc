@@ -15,7 +15,7 @@
   text-center border-custom-dark-blue bg-custom-dark-blue  text-white px-5 rounded hover:bg-white hover:text-custom-dark-blue transition-all duration-500 py-2  font-semibold;
 }
 .candidate-funding-btn {
-  @apply border-2 
+  @apply border
   text-center border-custom-dark-blue text-custom-dark-blue px-5 rounded transition-all duration-500 py-2  font-semibold;
 }
 

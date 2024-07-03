@@ -244,9 +244,7 @@ const Initial = ({
           </option>
         ))}
       </select>
-      <div>
-        <p className="text-black font-bold">Used as Maximum Investment</p>
-      </div>
+
       <div>
         <p className="candidate-label">Do you have a need for funding?</p>
       </div>
