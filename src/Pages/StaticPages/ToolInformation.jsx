@@ -31,29 +31,15 @@ const ToolInformation = ({ handleChange }) => {
         </div>
         <div className="flex">
           <select
-            name="consulting"
+            name="layout"
             className="candidate-input w-full"
-            id="consulting"
-            defaultValue={userDetails?.consulting}
+            id="layout"
             onChange={handleChange}
           >
             <option value="CB">Co-Breaking</option>
             <option value="EB">Emerging Brands</option>
             <option value="IF">International Franchises</option>
             <option value="FS">Financial Services & Analysis</option>
-            ...
-            <option value="FD">Franchise Development</option>
-            <option value="IT">Information Technology</option>
-            <option value="LC">Low Cost Franchises</option>
-            <option value="MS">Management Skills</option>
-            ...
-            <option value="MA">Masters / Area Development</option>
-            <option value="NS">Negotiation Skills</option>
-            <option value="PF">Passive Franchises</option>
-            <option value="PI">Process Improvemnet</option>
-            ...
-            <option value="PM">Project Management</option>
-            ...
           </select>
         </div>
         <div className="">
