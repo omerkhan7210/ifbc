@@ -106,3 +106,7 @@
 .contact-para {
   @apply font-bold text-custom-heading-color text-lg;
 }
+
+.funding-questions {
+  @apply text-black max-md:text-sm md:text-lg mb-2;
+}

@@ -22,7 +22,8 @@ const FundingCalculator = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? (checked ? 1 : 0) : value;
+    const inputValue =
+      type === "checkbox" ? (checked ? 1 : 0) : sanitizeInput(value);
 
     setData({
       ...data,
@@ -213,7 +214,7 @@ const FundingCalculator = () => {
         <form onSubmit={handleSubmit}>
           <div className="flex gap-4 max-md:flex-col md:flex-row">
             <div className="candidate-sub-childs">
-              <p className="candidate-label">First Name</p>
+              <p className="funding-questions">First Name</p>
               <input
                 onChange={handleChange}
                 type="text"
@@ -230,7 +231,7 @@ const FundingCalculator = () => {
               )}
             </div>
             <div className="candidate-sub-childs">
-              <p className="candidate-label">Last Name</p>
+              <p className="funding-questions">Last Name</p>
               <input
                 onChange={handleChange}
                 type="text"
@@ -249,10 +250,10 @@ const FundingCalculator = () => {
           </div>
           <div className="flex gap-4 max-md:flex-col md:flex-row">
             <div className="candidate-sub-childs">
-              <p className="candidate-label">Email</p>
+              <p className="funding-questions">Email</p>
               <input
                 onChange={handleChange}
-                type="text"
+                type="email"
                 name="email"
                 className={twMerge(
                   `candidate-input`,
@@ -266,7 +267,7 @@ const FundingCalculator = () => {
               )}
             </div>
             <div className="candidate-sub-childs">
-              <p className="candidate-label">Phone</p>
+              <p className="funding-questions">Phone</p>
               <input
                 onChange={handleChange}
                 type="text"
@@ -275,11 +276,16 @@ const FundingCalculator = () => {
                   `candidate-input`,
                   formErrors.phone === "error" ? "bg-red-300" : ""
                 )}
-              />
+              />{" "}
+              {formErrors.phone && formErrors.phone === "invalid" && (
+                <p className=" text-red-600 py-2 flex justify-between">
+                  Invalid Phone Number (Please use numbers only)
+                </p>
+              )}
             </div>
           </div>
-          <div className="mt-10">
-            <label htmlFor="message" className="candidate-label">
+          <div className="">
+            <label htmlFor="message" className="funding-questions">
               Message
             </label>
             <textarea
@@ -293,7 +299,7 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 What type of franchise location are you most interested in?
               </p>
               <p className="text-red-700 italic">(Required)</p>
@@ -372,7 +378,7 @@ const FundingCalculator = () => {
           </div>
 
           <div className="my-10">
-            <p className="font-bold text-black max-md:text-sm md:text-xl mb-2 ">
+            <p className="funding-questions ">
               How much cash do you have available for a downpayment and working
               capital (include retirement accounts)?
             </p>
@@ -404,7 +410,7 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 What is your most recent credit score?
               </p>
               <p className="text-red-700 italic">(Required)</p>
@@ -484,7 +490,7 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 Do you have a working spouse or partner who can cover living
                 expenses while the business is launching?
               </p>
@@ -547,7 +553,7 @@ const FundingCalculator = () => {
           </div>
 
           <div className="my-10">
-            <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+            <p className="funding-questions">
               What is your annual household income?
             </p>
 
@@ -576,7 +582,7 @@ const FundingCalculator = () => {
             </div>
           </div>
           <div className="my-10">
-            <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+            <p className="funding-questions">
               What are your monthly personal debt payments?
             </p>
 
@@ -607,7 +613,7 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 Do you have a minimum 5-year credit history?
               </p>
               <p className="text-red-700 italic">(Required)</p>
@@ -652,7 +658,7 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 Bankruptcies within the last 7 years
               </p>
               <p className="text-red-700 italic">(Required)</p>
@@ -732,7 +738,7 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 On your credit cards, what percentage of the credit limit are
                 you using (your statement balances divided by your credit
                 limits)?
@@ -797,9 +803,7 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
-                Do you own real estate?
-              </p>
+              <p className="funding-questions">Do you own real estate?</p>
               <p className="text-red-700 italic">(Required)</p>
             </div>
 
@@ -841,9 +845,7 @@ const FundingCalculator = () => {
           </div>
 
           <div className="my-10">
-            <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
-              What is your total net worth?
-            </p>
+            <p className="funding-questions">What is your total net worth?</p>
 
             <div>
               <label

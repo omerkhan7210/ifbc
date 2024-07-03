@@ -1214,7 +1214,7 @@ const RightSideBar = ({
             <p className="candidate-label">Email</p>
             <input
               onChange={handleInputChange}
-              type="text"
+              type="email"
               name="email"
               className="candidate-input"
               required

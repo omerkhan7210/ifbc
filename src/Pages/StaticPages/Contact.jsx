@@ -2,6 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
+import {
+  sanitizeInput,
+  validateEmail,
+  validatePhone,
+  validateUsername,
+} from "src/Utils/SanitizeInput";
 import { twMerge } from "tailwind-merge";
 
 const ServicesGrid = () => {
@@ -140,7 +146,8 @@ const Contact = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? (checked ? 1 : 0) : value;
+    const inputValue =
+      type === "checkbox" ? (checked ? 1 : 0) : sanitizeInput(value);
 
     setData({
       ...data,
@@ -158,15 +165,36 @@ const Contact = () => {
       "contactPhone",
     ];
     let allFieldsValid = true;
+    let formErrors = {};
 
     reqFields.forEach((field) => {
-      if (!data[field] || data[field].trim() === "") {
-        setFormErrors((prev) => ({ ...prev, [field]: "error" }));
+      const newKey = field;
+      const value = data[newKey]?.trim() || "";
+
+      if (!value) {
+        formErrors[newKey] = "This field is required";
         allFieldsValid = false;
       } else {
-        setFormErrors((prev) => ({ ...prev, [field]: "" }));
+        // Field-specific validations
+        if (newKey === "contactEmail" && !validateEmail(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "contactPhone" && !validatePhone(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "contactName" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "contactCompany" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else {
+          formErrors[newKey] = "";
+        }
       }
     });
+
+    setFormErrors(formErrors);
 
     try {
       if (allFieldsValid) {
@@ -239,16 +267,16 @@ const Contact = () => {
       </DialogBox>
       <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[90%] mx-auto">
         <ServicesGrid />
-        <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[550px] ">
+        <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[750px] ">
           <img
             src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/contact.jpg"
             alt=""
-            className="h-[550px] w-full object-cover rounded-l-lg  "
+            className="h-[750px] w-full object-cover rounded-l-lg  "
           />
           <div id="form-right " className="flex flex-col justify-center w-full">
             <form className=" px-10 rounded-lg my-5 " onSubmit={handleSubmit}>
               {formErrors.error && (
-                <p className="border-2 border-white text-white p-4 flex justify-between mx-10">
+                <p className="border-2 border-white text-white p-4 flex justify-between my-5">
                   {formErrors.error}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -279,6 +307,12 @@ const Contact = () => {
                       formErrors.contactName === "error" ? "bg-red-300" : ""
                     )}
                   />
+                  {formErrors.contactName &&
+                    formErrors.contactName === "invalid" && (
+                      <p className=" text-white text-xs py-2 flex justify-between">
+                        Invalid Name (Please start with alphabets)
+                      </p>
+                    )}
                 </div>
 
                 <div className="relative z-0 w-full mb-5 group">
@@ -293,6 +327,12 @@ const Contact = () => {
                     )}
                     placeholder="Company (Ex. Google)"
                   />
+                  {formErrors.contactCompany &&
+                    formErrors.contactCompany === "invalid" && (
+                      <p className=" text-white text-xs py-2 flex justify-between">
+                        Invalid Company Name (Please start with alphabets)
+                      </p>
+                    )}
                 </div>
               </div>
 
@@ -309,6 +349,12 @@ const Contact = () => {
                     )}
                     placeholder="Email address"
                   />
+                  {formErrors.contactEmail &&
+                    formErrors.contactEmail === "invalid" && (
+                      <p className=" text-white text-xs py-2 flex justify-between">
+                        Invalid Email (john@example.com)
+                      </p>
+                    )}
                 </div>
 
                 <div className="relative z-0 w-full mb-5 group">
@@ -325,7 +371,13 @@ const Contact = () => {
                       formErrors.contactPhone === "error" ? "bg-red-300" : ""
                     )}
                     placeholder="Phone number (123-456-7890)"
-                  />
+                  />{" "}
+                  {formErrors.contactPhone &&
+                    formErrors.contactPhone === "invalid" && (
+                      <p className=" text-white text-xs py-2 flex justify-between">
+                        Invalid Phone Number (Please use numbers only)
+                      </p>
+                    )}
                 </div>
               </div>
 
@@ -353,10 +405,7 @@ const Contact = () => {
                 className="contact-input"
               />
 
-              <label
-                htmlFor=""
-                className="flex items-center justify-center text-white font-bold py-3"
-              >
+              <label htmlFor="" className="block  text-white font-bold py-3">
                 <input
                   type="checkbox"
                   name="contactCopy"
@@ -367,24 +416,32 @@ const Contact = () => {
               </label>
 
               {/* Terms and conditions message */}
-              <p className="text-sm text-white text-center">
+              <p className="text-sm text-white text-left">
                 By submitting the form, you agree to receive calls, text
-                messages, or emails from ifbc.co at the contact information
-                provided. Message rates may apply. Text STOP to cancel text
-                messaging at any time. See{" "}
-                <a href="/terms-conditions" className="text-blue-500">
-                  Terms of Service
-                </a>
+                messages, or emails from <a href="https://ifbc.co">ifbc.co</a>{" "}
+                at the contact information provided. <br />
+                Message rates may apply. <br />
+                Text STOP to cancel text messaging at any time. <br />
+                See{" "}
+                <a
+                  href="/terms-conditions"
+                  className="text-white font-extrabold underline"
+                >
+                  Terms & Conditions
+                </a>{" "}
                 and{" "}
-                <a href="/privacy-policy" className="text-blue-500">
+                <a
+                  href="/privacy-policy"
+                  className="text-white font-extrabold underline"
+                >
                   Privacy Policy
-                </a>
-                for additional details
+                </a>{" "}
+                for additional details.
               </p>
               <div className="my-3 flex justify-center">
                 <button
                   type="submit"
-                  className="border-2 max-md:w-32 md:w-64 border-custom-heading-color bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
+                  className="border-2 w-full border-custom-heading-color bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
                 >
                   {loading ? "Loading..." : "Submit"}
                 </button>

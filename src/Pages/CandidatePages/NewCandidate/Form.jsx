@@ -412,7 +412,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
+    const inputValue = type === "checkbox" ? checked : sanitizeInput(value);
     const newName = name.toLowerCase();
 
     setFormFields((prevFields) => ({
@@ -739,7 +739,7 @@ const FormFirstRow = ({
         <div className="candidate-sub-childs">
           <p className="candidate-label">Email</p>
           <input
-            type="text"
+            type="email"
             name="email"
             className={`candidate-input ${
               formErrors.email ? "bg-red-300" : ""
