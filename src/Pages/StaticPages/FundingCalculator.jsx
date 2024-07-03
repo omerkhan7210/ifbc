@@ -246,6 +246,8 @@ const FundingCalculator = () => {
                 </p>
               )}
             </div>
+          </div>
+          <div className="flex gap-4 max-md:flex-col md:flex-row">
             <div className="candidate-sub-childs">
               <p className="candidate-label">Email</p>
               <input
@@ -263,6 +265,30 @@ const FundingCalculator = () => {
                 </p>
               )}
             </div>
+            <div className="candidate-sub-childs">
+              <p className="candidate-label">Phone</p>
+              <input
+                onChange={handleChange}
+                type="text"
+                name="phone"
+                className={twMerge(
+                  `candidate-input`,
+                  formErrors.phone === "error" ? "bg-red-300" : ""
+                )}
+              />
+            </div>
+          </div>
+          <div className="mt-10">
+            <label htmlFor="message" className="candidate-label">
+              Message
+            </label>
+            <textarea
+              onChange={handleChange}
+              name="meassage"
+              id="message"
+              rows={10}
+              className="candidate-input"
+            />
           </div>
 
           <div className="my-10">
@@ -370,8 +396,8 @@ const FundingCalculator = () => {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
-              <p className="mt-2 text-lg text-gray-600 ">
-                Amount: {data.downPayment}
+              <p className="mt-2 text-2xl text-black font-bold">
+                Amount: ${data.downPayment}
               </p>
             </div>
           </div>
@@ -544,8 +570,8 @@ const FundingCalculator = () => {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
-              <p className="mt-2 text-lg text-gray-600 ">
-                Amount: {data.houseHold}
+              <p className="mt-2 text-2xl text-black font-bold">
+                Amount: ${data.houseHold}
               </p>
             </div>
           </div>
@@ -573,8 +599,8 @@ const FundingCalculator = () => {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
-              <p className="mt-2 text-lg text-gray-600 ">
-                Amount: {data.debtPayments}
+              <p className="mt-2 text-2xl text-black font-bold">
+                Amount: ${data.debtPayments}
               </p>
             </div>
           </div>
@@ -838,8 +864,8 @@ const FundingCalculator = () => {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
-              <p className="mt-2 text-lg text-gray-600 ">
-                Amount: {data.totalNet}
+              <p className="mt-2 text-2xl text-black font-bold">
+                Amount:${data.totalNet}
               </p>
             </div>
           </div>

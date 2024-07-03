@@ -20,7 +20,7 @@
 }
 
 .candidate-input {
-  @apply bg-gray-50 border-b border-custom-dark-blue text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
 }
 
 .contact-input {
@@ -36,7 +36,7 @@
 }
 
 .candidate-label {
-  @apply text-custom-dark-blue font-bold py-2;
+  @apply text-black font-bold mt-6;
 }
 
 .candidate-sub-heading {
@@ -52,7 +52,7 @@
 }
 
 .candidate-select {
-  @apply bg-gray-50 border-b-2 border-blue-100  text-custom-dark-blue font-bold text-sm  block p-2.5 mr-2 focus:outline-none focus:ring-1;
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue font-bold text-sm  block p-2.5 mr-2 focus:outline-none focus:ring-1;
 }
 
 .candidate-tabs-content {
@@ -67,7 +67,7 @@
 }
 
 .candidate-input-container {
-  @apply flex flex-col w-full  my-3;
+  @apply flex flex-col w-full;
 }
 .side-bar-first-box {
   @apply w-full h-auto bg-white rounded-lg;

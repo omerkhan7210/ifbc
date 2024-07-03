@@ -6118,13 +6118,6 @@ input[type="checkbox"] {
   padding: 0px !important;
 }
 
-input[type="radio"] + label,
-input[type="checkbox"] + label {
-  margin-bottom: 0px;
-  --tw-text-opacity: 1;
-  color: rgba(141, 139, 93, var(--tw-text-opacity));
-}
-
 input:checked[type="checkbox"],
 .cmb2-wrap input:focus[type="checkbox"] {
   height: 1rem;
