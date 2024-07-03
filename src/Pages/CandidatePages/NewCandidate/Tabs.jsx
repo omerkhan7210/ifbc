@@ -245,12 +245,10 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="text-xs font-bold text-gray-500 mt-2">
-          Used as Maximum Investment
-        </p>
+        <p className="candidate-label">Used as Maximum Investment</p>
       </div>
       <div>
-        <p className="candidate-paragraph">Do you have a need for funding?</p>
+        <p className="candidate-label">Do you have a need for funding?</p>
       </div>
       <select
         onChange={handleInputChange}
@@ -273,7 +271,7 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           What is your approximate credit score?
         </p>
       </div>
@@ -329,7 +327,7 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           What caused you to start looking for a franchise?
         </p>
       </div>
@@ -349,9 +347,7 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="candidate-paragraph">
-          What is your professional background?
-        </p>
+        <p className="candidate-label">What is your professional background?</p>
       </div>
       <select
         onChange={handleInputChange}
@@ -369,14 +365,14 @@ const Initial = ({
         ))}
       </select>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           What franchises are you interested in?
         </p>
         <input
           onChange={handleInputChange}
           type="text"
           name="FranchiseInterested"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.franchiseInterested }
@@ -384,7 +380,7 @@ const Initial = ({
         />
       </div>
       <div>
-        <p className="candidate-paragraph">What is your time frame?</p>
+        <p className="candidate-label">What is your time frame?</p>
       </div>
       <select
         onChange={handleInputChange}
@@ -404,7 +400,7 @@ const Initial = ({
       <div className="mt-4">
         <label
           htmlFor="message"
-          className="text-gray-500 font-bold first-letter:text-xl"
+          className="text-black font-bold first-letter:text-sm"
         >
           Notes
         </label>
@@ -580,7 +576,7 @@ const Zoracle = ({
       </div>
       <div>
         <div>
-          <p className="candidate-paragraph">Value</p>
+          <p className="candidate-label">Value</p>
         </div>
         <select
           onChange={handleInputChange}
@@ -599,7 +595,7 @@ const Zoracle = ({
         </select>
       </div>
       <div>
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Emulator - Motivated by an insatiable desire for success, they are
           driven to do whatever it takes to conquer a challenge. Recognition and
           money defines success for Emulators. They prefer prestigious,
@@ -624,14 +620,12 @@ const Zoracle = ({
         </p>
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
-          What work activities do you enjoy?
-        </p>
+        <p className="candidate-label">What work activities do you enjoy?</p>
         <input
           onChange={handleInputChange}
           name="Activities"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.activities }
@@ -639,7 +633,7 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Are you comfortable attending networking functions to promote your new
           business?
         </p>
@@ -647,7 +641,7 @@ const Zoracle = ({
           onChange={handleInputChange}
           name="AttendingNetworkFunction"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.attendingNetworkFunction }
@@ -655,14 +649,14 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Are you interested in Multiple-Unit Operation or Masters?
         </p>
         <input
           onChange={handleInputChange}
           name="MultiUnitOps"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.multiUnitOps }
@@ -670,14 +664,14 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Are you planning on having a partner in the business?
         </p>
         <input
           onChange={handleInputChange}
           name="BusinessPartner"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.businessPartner }
@@ -685,14 +679,14 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           How does your family feel about your interest in this?
         </p>
         <input
           onChange={handleInputChange}
           name="FamilyFeel"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.familyFeel }
@@ -700,14 +694,14 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           What types of employees would you prefer to work with (if any)?
         </p>
         <input
           onChange={handleInputChange}
           name="EmployeesPrefer"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.employeesPrefer }
@@ -715,14 +709,14 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           What size staff are you comfortable with?
         </p>
         <input
           onChange={handleInputChange}
           name="StaffSize"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.staffSize }
@@ -730,10 +724,7 @@ const Zoracle = ({
         />
       </div>
       <div className="mt-5">
-        <label
-          htmlFor="message"
-          className="text-gray-500 font-bold first-letter:text-xl"
-        >
+        <label htmlFor="message" className="candidate-label">
           Summary / Notes
         </label>
         <textarea
@@ -776,14 +767,14 @@ const Eligibility = ({
       }`}
     >
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           How do you plan on funding the business?
         </p>
         <input
           onChange={handleInputChange}
           name="FundingBusiness"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.fundingBusiness }
@@ -791,14 +782,12 @@ const Eligibility = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
-          What is the value of your 401k/IRA?
-        </p>
+        <p className="candidate-label">What is the value of your 401k/IRA?</p>
         <input
           onChange={handleInputChange}
           name="EligibilityValue"
           type="number"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.eligibilityValue }
@@ -807,7 +796,7 @@ const Eligibility = ({
       </div>
       <div>
         <div>
-          <p className="candidate-paragraph">
+          <p className="candidate-label">
             Have you been in the military or could you qualify for a VA loan? Do
             you qualify for any of these discounts
           </p>
@@ -829,7 +818,7 @@ const Eligibility = ({
         </select>
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Is your current net worth over $500,000? If not, what is your current
           net worth?
         </p>
@@ -837,7 +826,7 @@ const Eligibility = ({
           onChange={handleInputChange}
           name="CurrentNetworth"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.currentNetworth }
@@ -845,7 +834,7 @@ const Eligibility = ({
         />
       </div>
       <div className="flex flex-col">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Have you or your spouse ever been convicted of something other than a
           minor traffic violation?
         </p>
@@ -895,7 +884,7 @@ const Eligibility = ({
         </ul>
       </div>
       <div className="flex flex-col">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Are you or your spouse subject to a pending litigation or unsatisfied
           judgment?
         </p>
@@ -944,7 +933,7 @@ const Eligibility = ({
         </ul>
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Have you or your spouse ever declared bankruptcy? If yes, when was it
           discharged?
         </p>
@@ -952,7 +941,7 @@ const Eligibility = ({
           onChange={handleInputChange}
           name="Bankruptcy"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.bankruptcy }
@@ -960,10 +949,7 @@ const Eligibility = ({
         />
       </div>
       <div className="mt-5">
-        <label
-          htmlFor="message"
-          className="text-gray-500 font-bold first-letter:text-xl"
-        >
+        <label htmlFor="message" className="candidate-label">
           Notes
         </label>
         <textarea
@@ -997,14 +983,14 @@ const Experience = ({
       }`}
     >
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Have you ever owned a business before?
         </p>
         <input
           onChange={handleInputChange}
           name="BusinessBefore"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.businessBefore }
@@ -1012,14 +998,12 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
-          Do you have any marketing experience?
-        </p>
+        <p className="candidate-label">Do you have any marketing experience?</p>
         <input
           onChange={handleInputChange}
           name="MarketingExperience"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.marketingExperience }
@@ -1027,14 +1011,14 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Do you have any management experience?
         </p>
         <input
           onChange={handleInputChange}
           name="ManagementExperience"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.managementExperience }
@@ -1042,12 +1026,12 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">Do you have sales experience?</p>
+        <p className="candidate-label">Do you have sales experience?</p>
         <input
           onChange={handleInputChange}
           name="SalesExperience"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.salesExperience }
@@ -1055,14 +1039,14 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Do you have experience in reviewing financial statements?
         </p>
         <input
           onChange={handleInputChange}
           name="ReviewFinancialStatement"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.reviewFinancialStatement }
@@ -1070,14 +1054,14 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           Do you have customer service and account management experience?
         </p>
         <input
           onChange={handleInputChange}
           name="CSExperience"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.csExperience }
@@ -1106,14 +1090,14 @@ const Wants = ({
       }`}
     >
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           What do you find most attractive about being a business owner?
         </p>
         <input
           onChange={handleInputChange}
           name="AttractiveBusinessOwner"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.attractiveBusinessOwner }
@@ -1121,7 +1105,7 @@ const Wants = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-paragraph">
+        <p className="candidate-label">
           From your past experience is there anything you prefer not to handle
           with your new business?
         </p>
@@ -1129,7 +1113,7 @@ const Wants = ({
           onChange={handleInputChange}
           name="HandleNewBusiness"
           type="text"
-          className="candidate-normal-input"
+          className="candidate-input"
           required
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.handleNewBusiness }
@@ -1137,10 +1121,7 @@ const Wants = ({
         />
       </div>
       <div className="mt-5">
-        <label
-          htmlFor="message"
-          className="text-gray-500 font-bold first-letter:text-xl"
-        >
+        <label htmlFor="message" className="candidate-label">
           What are your expectations from the business? What type of lifestyle
           are you looking to achieve?
         </label>
@@ -1524,10 +1505,7 @@ const Wants = ({
         </ul>
       </div>
       <div className="mt-5">
-        <label
-          htmlFor="message"
-          className="text-gray-500 font-bold first-letter:text-xl"
-        >
+        <label htmlFor="message" className="candidate-label">
           Notes
         </label>
         <textarea
