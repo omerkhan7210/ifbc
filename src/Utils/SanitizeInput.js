@@ -30,3 +30,12 @@ export function extractMinValue(range) {
   const [minValue] = cleanedRange.split("-").map(Number);
   return minValue;
 }
+
+export function formatCurrency(value) {
+  return value.toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+}

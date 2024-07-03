@@ -30,15 +30,12 @@ const ToolInformation = ({ handleChange }) => {
           </svg>
         </div>
         <div className="flex">
-          <label className="icon-text mt-2" htmlFor="consulting">
-            Consulting Specialties
-          </label>
           <select
             name="consulting"
             className="candidate-input w-full"
             id="consulting"
             defaultValue={userDetails?.consulting}
-            onChange={handleInputChange}
+            onChange={handleChange}
           >
             <option value="CB">Co-Breaking</option>
             <option value="EB">Emerging Brands</option>

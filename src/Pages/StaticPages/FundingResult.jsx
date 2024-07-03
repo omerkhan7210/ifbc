@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import BarLoader from "src/Animations/BarLoader";
 import PageTransition from "src/Animations/PageTransition";
+import { formatCurrency } from "src/Utils/SanitizeInput";
 
 const FundingResult = () => {
   const [data, setData] = useState({});
@@ -16,7 +17,6 @@ const FundingResult = () => {
     const response = await axios.get(
       `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/fundcalculator/${docId}`
     );
-
     if (response.status === 200) {
       setData(response.data);
       setLoading(false);
@@ -27,10 +27,6 @@ const FundingResult = () => {
   }, []);
 
   useEffect(() => {
-    // data.downPayment = parseInt(data.downPayment, 10);
-    // data.houseHold = parseInt(data.houseHold, 10);
-    // data.debtPayments = parseInt(data.debtPayments, 10);
-    // data.totalNet = parseInt(data.totalNet, 10);
     const debtResult = Math.floor(
       (data.debtPayments / (data.houseHold / 12)) * 100
     );
@@ -63,9 +59,9 @@ const FundingResult = () => {
         <h1 className="text-3xl text-left">
           <span className="font-bold">Results</span>
         </h1>
-        {loading ? (
+        {!loading ? (
           <p className="text-xl text-left text-custom-heading-color mt-5">
-            Your net worth is: ${data.totalNet} <br />
+            Your net worth is: {formatCurrency(data.totalNet)} <br />
             Your debt to income ratio is: {result}%
             {result <= 35 ? (
               <>
@@ -75,8 +71,9 @@ const FundingResult = () => {
                 prefer to see. Great job!
                 <br />
                 <br />
-                Your maximum total investment is ${data.debtPayments}. Look for
-                franchises below this number in initial investment.
+                Your maximum total investment is{" "}
+                {formatCurrency(data.debtPayments)}. Look for franchises below
+                this number in initial investment.
                 <br />
                 <br />
                 Congratulations! It appears as though you have some good
@@ -108,8 +105,9 @@ const FundingResult = () => {
                 prefer to see. Great job!
                 <br />
                 <br />
-                Your maximum total investment is ${data.debtPayments}. Look for
-                franchises below this number in initial investment.
+                Your maximum total investment is{" "}
+                {formatCurrency(data.debtPayments)}. Look for franchises below
+                this number in initial investment.
                 <br />
                 <br />
                 Funding your franchise may have some complications based on the
