@@ -18,9 +18,6 @@ const Footer = () => {
           <NavLink to="/contact" className="text-white text-sm">
             Contact
           </NavLink>
-          <NavLink to="/disclaimer" className="text-white text-sm">
-            Disclaimer
-          </NavLink>
 
           <NavLink to="/terms-conditions" className="text-white text-sm">
             Terms & Conditions

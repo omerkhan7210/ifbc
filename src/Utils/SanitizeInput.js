@@ -15,9 +15,10 @@ export function sanitizeInput(input) {
 }
 
 export function validateUsername(username) {
-  // Basic username validation: alphanumeric, starts with a letter, 3-16 characters long
-  return /^[a-zA-Z][a-zA-Z0-9_]{2,15}$/.test(username);
+  // Basic username validation: alphanumeric, underscores, spaces, starts with a letter, 3-16 characters long
+  return /^[a-zA-Z][a-zA-Z0-9_ ]{2,15}$/.test(username);
 }
+
 export function removeSpecificText(input, textToRemove) {
   const regex = new RegExp(textToRemove, "gi");
   return input.replace(regex, "").trim();

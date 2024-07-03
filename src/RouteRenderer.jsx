@@ -22,7 +22,6 @@ import Inbox from "./Pages/CandidatePages/CandidateList/Inbox";
 import FundingCalculator from "./Pages/StaticPages/FundingCalculator";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import BusinessAssessment from "./Pages/StaticPages/BusinessAssessment";
-import Disclaimer from "./Pages/StaticPages/Disclaimer";
 import Contact from "./Pages/StaticPages/Contact";
 import FundingResult from "./Pages/StaticPages/FundingResult";
 import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
@@ -117,10 +116,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       path: "/results/:docId",
       element: <FundingResult />,
     },
-    {
-      path: "/disclaimer",
-      element: <Disclaimer />,
-    },
+
     {
       path: "/contact",
       element: <Contact />,
@@ -180,10 +176,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
 
   const normalUserRoutes = [
     { path: "*", element: <NotFoundPage /> },
-    {
-      path: "/disclaimer",
-      element: <Disclaimer />,
-    },
+
     {
       path: "/contact",
       element: <Contact />,

@@ -147,7 +147,7 @@ const Contact = () => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     const inputValue =
-      type === "checkbox" ? (checked ? 1 : 0) : sanitizeInput(value);
+      type === "checkbox" ? (checked ? true : false) : sanitizeInput(value);
 
     setData({
       ...data,
@@ -206,7 +206,7 @@ const Contact = () => {
           contactPhone: data.contactPhone,
           contactReason: data.contactReason,
           contactComments: data.contactComments ?? "",
-          contactCopy: data.contactCopy,
+          contactCopy: data.contactCopy ?? false,
         };
 
         const response = await axios.post(
@@ -228,7 +228,7 @@ const Contact = () => {
           error: "Please fill in all the required fields",
         }));
         setLoading(false);
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 400);
 
         // Handle invalid fields (e.g., show validation errors)
       }
