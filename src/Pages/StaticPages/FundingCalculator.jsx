@@ -118,30 +118,30 @@ const FundingCalculator = () => {
         id="description"
         className="flex flex-col  gap-5 my-10 md:max-w-7xl md:mx-auto max-md:mx-5"
       >
-        <div className="max-md:text-sm md:text-xl my-5 text-center flex flex-col gap-3">
-          <p className="text-center max-md:text-sm md:text-xl">
+        <div className="text-md my-5 text-center flex flex-col gap-3">
+          <p className="text-center text-md ">
             By Rolling Your IRA, 401(K), 403(B), Keogh Or Other Retirement Funds
             Into A 401(K) Franchise Financing Vehicle
           </p>
-          <p className="text-center">
+          <p className="text-center text-md">
             You can buy A Franchise, Lower Overhead and Increase Your Success
             Rate. Instead of sending interest payments to a lender, you can use
             your money to purchase advertising, buy equipment, lease a company
             van, or use it in any way that will bring you quicker profits.
           </p>
-          <p>
+          <p className="text-md">
             Eliminate Personal Liability. Use our own funds to avoid pledging
             your home or other assets as loan collateral and potentially
             jeopardizing your personal credit.
           </p>
-          <p>
+          <p className="text-md">
             Maximize Tax-Deferred Benefits. By investing your retirement funds
             into your own franchise, you can reinvest your profits tax-deferred
             in your business or in your retirement account. Build your business
             while you grow your retirement nest egg! Enjoy Flexibility.
           </p>
 
-          <p>
+          <p className="text-md">
             You can mix your retirement funds with personal funds or capital
             from other investors. It’s the ideal financing structure for
             husband-and-wife teams!
@@ -223,7 +223,7 @@ const FundingCalculator = () => {
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <div className="flex gap-2 items-center">
               <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
                 What type of franchise location are you most interested in?
@@ -303,7 +303,7 @@ const FundingCalculator = () => {
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <p className="font-bold text-black max-md:text-sm md:text-xl mb-2 ">
               How much cash do you have available for a downpayment and working
               capital (include retirement accounts)?
@@ -328,13 +328,13 @@ const FundingCalculator = () => {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
               />
 
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
                 Amount: {data.downPayment}
               </p>
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <div className="flex gap-2 items-center">
               <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
                 What is your most recent credit score?
@@ -414,7 +414,7 @@ const FundingCalculator = () => {
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <div className="flex gap-2 items-center">
               <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
                 Do you have a working spouse or partner who can cover living
@@ -478,7 +478,7 @@ const FundingCalculator = () => {
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
               What is your annual household income?
             </p>
@@ -502,12 +502,12 @@ const FundingCalculator = () => {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
               />
 
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
                 Amount: {data.houseHold}
               </p>
             </div>
           </div>
-          <div className="my-3">
+          <div className="my-10">
             <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
               What are your monthly personal debt payments?
             </p>
@@ -531,13 +531,13 @@ const FundingCalculator = () => {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
               />
 
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
                 Amount: {data.debtPayments}
               </p>
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <div className="flex gap-2 items-center">
               <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
                 Do you have a minimum 5-year credit history?
@@ -582,7 +582,7 @@ const FundingCalculator = () => {
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <div className="flex gap-2 items-center">
               <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
                 Bankruptcies within the last 7 years
@@ -662,7 +662,7 @@ const FundingCalculator = () => {
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <div className="flex gap-2 items-center">
               <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
                 On your credit cards, what percentage of the credit limit are
@@ -727,7 +727,7 @@ const FundingCalculator = () => {
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <div className="flex gap-2 items-center">
               <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
                 Do you own real estate?
@@ -772,7 +772,7 @@ const FundingCalculator = () => {
             </div>
           </div>
 
-          <div className="my-3">
+          <div className="my-10">
             <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
               What is your total net worth?
             </p>
@@ -796,7 +796,7 @@ const FundingCalculator = () => {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
               />
 
-              <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
                 Amount: {data.totalNet}
               </p>
             </div>

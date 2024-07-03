@@ -133,9 +133,9 @@ const HomeBanner = () => {
                 }}
               >
                 <h1
-                  className="max-md:text-3xl z-50 relative md:max-2xl:text-6xl text-7xl  text-center text-white"
+                  className="max-md:text-3xl z-50 relative md:max-2xl:text-6xl text-7xl max-md:px-5  text-center text-white"
                   style={{
-                    lineHeight: window.innerWidth > 768 ? "5rem" : "1rem",
+                    lineHeight: window.innerWidth > 768 ? "5rem" : "40px",
                   }}
                 >
                   {slide.text}

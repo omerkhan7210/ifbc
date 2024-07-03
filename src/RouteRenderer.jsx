@@ -165,6 +165,14 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
         </ListingDataContext>
       ),
     },
+    {
+      path: "/terms-conditions",
+      element: <TermsConditions />,
+    },
+    {
+      path: "/privacy-policy",
+      element: <PrivacyPolicy />,
+    },
     { path: "*", element: <NotFoundPage /> },
   ];
 
@@ -191,6 +199,18 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     {
       path: "/funding-calculator",
       element: <FundingCalculator />,
+    },
+    {
+      path: "/results/:docId",
+      element: <FundingResult />,
+    },
+    {
+      path: "/terms-conditions",
+      element: <TermsConditions />,
+    },
+    {
+      path: "/privacy-policy",
+      element: <PrivacyPolicy />,
     },
     {
       path: "/business-assessment",

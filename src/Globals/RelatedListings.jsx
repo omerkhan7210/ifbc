@@ -61,7 +61,7 @@ const RelatedListings = () => {
               if (index < 25) {
                 return (
                   <SwiperSlide key={index}>
-                    <ListingsColumns listing={listing} active="" />
+                    <ListingsColumns listing={listing} slider={true} />
                   </SwiperSlide>
                 );
               }
