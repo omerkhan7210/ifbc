@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
 import {
+  formatCurrency,
   sanitizeInput,
   validateEmail,
   validatePhone,
@@ -111,8 +112,6 @@ const FundingCalculator = () => {
           debtPayments: data.debtPayments,
           totalNet: data.totalNet,
         };
-
-        console.log(formData);
         const response = await axios.post(
           "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/fundcalculator",
           formData
@@ -444,7 +443,7 @@ const FundingCalculator = () => {
               />
 
               <p className="mt-2 text-2xl text-black font-bold">
-                Amount: ${data.downPayment}
+                Amount: {formatCurrency(data.downPayment)}
               </p>
             </div>
           </div>
@@ -623,7 +622,7 @@ const FundingCalculator = () => {
               />
 
               <p className="mt-2 text-2xl text-black font-bold">
-                Amount: ${data.houseHold}
+                Amount: {formatCurrency(data.houseHold)}
               </p>
             </div>
           </div>
@@ -655,7 +654,7 @@ const FundingCalculator = () => {
               />
 
               <p className="mt-2 text-2xl text-black font-bold">
-                Amount: ${data.debtPayments}
+                Amount: {formatCurrency(data.debtPayments)}
               </p>
             </div>
           </div>
@@ -933,7 +932,7 @@ const FundingCalculator = () => {
               />
 
               <p className="mt-2 text-2xl text-black font-bold">
-                Amount: ${data.totalNet}
+                Amount: {formatCurrency(data.totalNet)}
               </p>
             </div>
           </div>
