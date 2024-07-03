@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 import { twMerge } from "tailwind-merge";
 
-const TopBar = ({ listingContent, setShow, show, setRegistrationType }) => {
+const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
   const data = [
     {
       icon: (
@@ -193,7 +193,7 @@ const TopBar = ({ listingContent, setShow, show, setRegistrationType }) => {
       </div>
       <div
         id="content-container"
-        className="grid grid-cols-12 gap-6  mt-8 justify-between overflow-hidden"
+        className="grid grid-cols-12 gap-6  mt-8 justify-between overflow-hidden max-md:w-full"
       >
         <div
           id="buttons-container"
@@ -236,7 +236,10 @@ const TopBar = ({ listingContent, setShow, show, setRegistrationType }) => {
               const indexLimitListing = role === "A" ? index < 3 : index === 0;
               if (indexLimitListing) {
                 return (
-                  <li key={index} className="flex items-center gap-1">
+                  <li
+                    key={index}
+                    className="flex items-center gap-1 max-md:w-full max-md:justify-center"
+                  >
                     {listingLi.icon}
                     {listingLi.text}
                   </li>
@@ -247,13 +250,16 @@ const TopBar = ({ listingContent, setShow, show, setRegistrationType }) => {
         </div>
 
         <div className="col-span-12 md:col-span-4">
-          <ul className="flex flex-col gap-4 items-start h-full ">
+          <ul className="flex flex-col gap-4 items-start h-full max-md:items-center">
             <h2 className="candidate-small-heading">User Details</h2>
             {data.map((listingLi, index) => {
               const indexLimit = role === "A" ? 2 : 6;
               if (index > indexLimit) {
                 return (
-                  <li key={index} className="flex items-center gap-1">
+                  <li
+                    key={index}
+                    className="flex items-center gap-1 max-md:justify-center max-md:w-full"
+                  >
                     {listingLi.icon}
                     {listingLi.text}
                   </li>

@@ -110,8 +110,8 @@ const AllListings = () => {
         {role !== "N" && (
           <>
             <p className="ml-5 text-custom-heading-color font-bold">
-              Showing {paginationListings?.length} out of ${listings.length}
-              (FLS Listings)
+              Showing {paginationListings?.length} out of {listings.length}{" "}
+              Franchises
             </p>
             <Pagination
               currentPage={currentPage}

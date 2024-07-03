@@ -51,35 +51,6 @@ const Login = () => {
 
     const user = ref.current;
 
-    if (!user.username.value && !user.password.value) {
-      setError({
-        username: "Please enter a username",
-        password: "Please enter a password",
-        credentials: "",
-      });
-      return;
-    } else if (!user.username.value) {
-      setError({
-        username: "Please enter a username",
-        password: "",
-        credentials: "",
-      });
-      return;
-    } else if (!user.password.value) {
-      setError({
-        username: "",
-        password: "Please enter a password",
-        credentials: "",
-      });
-      return;
-    } else {
-      setError({
-        username: "",
-        password: "",
-        credentials: "",
-      });
-    }
-
     try {
       const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/login`;
       const requestData = {

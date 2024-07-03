@@ -62,14 +62,14 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
       <div
         className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${
           activeDD ? "h-96" : "h-0 opacity-0"
-        } duration-200 bg-white dark:bg-gray-800 border border-dimmed text-sm md:text-sm overflow-y-scroll`}
+        } duration-200 bg-white  border border-dimmed text-sm md:text-sm overflow-y-scroll`}
       >
         {uniqueFranchisedCats.map((cat, index) => {
           return (
             <div className="flex justify-between items-center" key={index}>
               <div
                 onClick={() => handleCatSelection(cat)}
-                className={`text-black w-full block cursor-pointer hover:bg-slate-300 dark:hover:bg-gray-900 dark:bg-gray-800 hover:text-link px-3 py-2`}
+                className={`text-black w-full block cursor-pointer hover:bg-slate-300 hover:text-link px-3 py-2`}
               >
                 <span>
                   {cat} (

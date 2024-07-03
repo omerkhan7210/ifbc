@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .candidate-btn {
-  @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold;
+  @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-2 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold;
 }
 
 .candidate-inverted-btn {
@@ -44,7 +44,7 @@
 }
 
 .candidate-small-heading {
-  @apply text-2xl font-bold text-custom-dark-blue text-center uppercase flex items-center gap-2 justify-center;
+  @apply text-2xl font-bold text-custom-dark-blue text-center uppercase flex items-center gap-2 justify-center max-md:w-full;
 }
 
 .candidate-sub-childs {

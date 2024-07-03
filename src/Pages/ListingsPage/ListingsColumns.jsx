@@ -45,13 +45,13 @@ const ListingsColumns = ({ listing, index, slider }) => {
         scale: isActive ? 0.95 : 0.9,
         transition: { duration: 1, delay: index * 0.1 },
       }}
-      whileTap={{ scale: isActive ? 0.9 : 1 }}
       onClick={handleCardClick} // Correctly call handleCardClick here
       className="flex flex-col gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[1px_1px_5px_grey] min-h-[400px] "
     >
-      <div
+      <motion.div
         id="image-container"
         className="w-full h-full relative flex justify-center"
+        whileTap={{ scale: isActive ? 0.9 : 1 }}
       >
         <img
           src={
@@ -62,7 +62,7 @@ const ListingsColumns = ({ listing, index, slider }) => {
           alt={listing.name}
           className="object-contain h-44 w-64"
         />
-      </div>
+      </motion.div>
 
       <div
         id="heading-container"

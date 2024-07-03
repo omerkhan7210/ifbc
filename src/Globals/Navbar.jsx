@@ -160,7 +160,7 @@ const Navbar = () => {
             className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
           >
             <NavLink to="/listings" style={style}>
-              Search Franchises
+              Search Franchises (SF)
             </NavLink>
           </li>
         </ul>

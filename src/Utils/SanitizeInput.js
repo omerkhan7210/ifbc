@@ -13,3 +13,8 @@ export function sanitizeInput(input) {
   // Example: trim whitespace and remove script tags
   return input.trim().replace(/<script.*?>.*?<\/script>/gi, "");
 }
+
+export function validateUsername(username) {
+  // Basic username validation: alphanumeric, starts with a letter, 3-16 characters long
+  return /^[a-zA-Z][a-zA-Z0-9_]{2,15}$/.test(username);
+}

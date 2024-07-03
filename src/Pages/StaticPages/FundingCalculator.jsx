@@ -97,7 +97,8 @@ const FundingCalculator = () => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background: "url(/images/accounts/calculator.jpeg)",
+          background:
+            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/accounts/calculator.jpeg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -312,7 +313,7 @@ const FundingCalculator = () => {
             <div>
               <label
                 htmlFor="steps-range"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 DownPayment & Working Capital
               </label>
@@ -325,10 +326,10 @@ const FundingCalculator = () => {
                 max={200000}
                 defaultValue={0}
                 step={500}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
-              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-lg text-gray-600 ">
                 Amount: {data.downPayment}
               </p>
             </div>
@@ -486,7 +487,7 @@ const FundingCalculator = () => {
             <div>
               <label
                 htmlFor="household"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 Annual HouseHold Income
               </label>
@@ -499,10 +500,10 @@ const FundingCalculator = () => {
                 max={500000}
                 defaultValue={0}
                 step={500}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
-              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-lg text-gray-600 ">
                 Amount: {data.houseHold}
               </p>
             </div>
@@ -515,7 +516,7 @@ const FundingCalculator = () => {
             <div>
               <label
                 htmlFor="personal"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 Monthly Personal Debt Payments
               </label>
@@ -528,10 +529,10 @@ const FundingCalculator = () => {
                 max={50000}
                 defaultValue={0}
                 step={500}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
-              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-lg text-gray-600 ">
                 Amount: {data.debtPayments}
               </p>
             </div>
@@ -780,7 +781,7 @@ const FundingCalculator = () => {
             <div>
               <label
                 htmlFor="totalnet"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 Total Net Worth
               </label>
@@ -793,10 +794,10 @@ const FundingCalculator = () => {
                 max={5000000}
                 defaultValue={0}
                 step={500}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
-              <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
+              <p className="mt-2 text-lg text-gray-600 ">
                 Amount: {data.totalNet}
               </p>
             </div>

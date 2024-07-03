@@ -41,7 +41,8 @@ const Inbox = ({ handleInputChange, userDetails }) => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background: "url(/images/accounts/inbox.jpg)",
+          background:
+            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/accounts/inbox.jpg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -87,7 +88,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
         </h2>
         <div className="flex justify-between">
           <img
-            src="/images/accounts/harjeet.jpeg"
+            src="https://ifbcreact.s3.us-east-1.amazonaws.comhttps://ifbcreact.s3.us-east-1.amazonaws.com/images/accounts/harjeet.jpeg"
             className="rounded-full"
             width={80}
             height={80}
@@ -101,8 +102,8 @@ const Inbox = ({ handleInputChange, userDetails }) => {
         </h2>
 
         <div className="overflow-x-auto shadow-md sm:rounded-lg">
-          <table className="w-full text-sm text-left text-blue-100 dark:text-blue-100">
-            <thead className="text-xs text-white uppercase bg-blue-600 dark:text-white">
+          <table className="w-full text-sm text-left text-blue-100 ">
+            <thead className="text-xs text-white uppercase bg-blue-600 ">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Candidate Name
@@ -116,7 +117,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
               <tr className="bg-blue-500 border-b border-blue-400">
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap "
                 >
                   Territory
                 </th>
@@ -125,7 +126,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
               <tr className="bg-blue-600 border-b border-blue-400">
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap "
                 >
                   Franchise
                 </th>
@@ -134,7 +135,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
               <tr className="bg-blue-500 border-b border-blue-400">
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap "
                 >
                   Franchise Email
                 </th>
@@ -143,7 +144,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
               <tr className="bg-blue-600 border-b border-blue-400">
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap "
                 >
                   Franchise Contact
                 </th>
@@ -152,7 +153,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
               <tr className="bg-blue-500 border-blue-40">
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap "
                 >
                   Broker Email
                 </th>
@@ -162,7 +163,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
               <tr className="bg-blue-600 border-b border-blue-400">
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap "
                 >
                   Broker Name
                 </th>
@@ -171,7 +172,7 @@ const Inbox = ({ handleInputChange, userDetails }) => {
               <tr className="bg-blue-500 border-blue-40">
                 <th
                   scope="row"
-                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap dark:text-blue-100"
+                  className="px-6 py-4 font-medium text-blue-50 whitespace-nowrap "
                 >
                   Broker Company
                 </th>

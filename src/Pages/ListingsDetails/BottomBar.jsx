@@ -31,9 +31,8 @@ const BottomBar = ({ listingContent }) => {
   const checkLinkStatus = async (url) => {
     try {
       const response = await fetch(url, { method: "HEAD" });
-      return response.status !== 404;
+      return response.status !== 404 || response.status !== 403;
     } catch (error) {
-      console.error(`Error checking URL status for ${url}:`, error);
       return false;
     }
   };
@@ -171,6 +170,8 @@ const BottomBar = ({ listingContent }) => {
 
       const resourceTable = document.querySelectorAll("table.w-full");
       if (resourceTable.length > 0) {
+        resourceTable[0].style.display = "none";
+      } else if (resourceTable[1]) {
         resourceTable[1].style.display = "none";
       }
 
@@ -180,16 +181,16 @@ const BottomBar = ({ listingContent }) => {
           ".button.tertiary-button"
         );
         for (const btn of itemButtons) {
-          if (
-            btn.textContent === "Flag that a higher commission is available"
-          ) {
+          if (role !== "C") {
             btn.style.display = "none";
           }
           const url = btn.getAttribute("href");
           if (url && url.includes("s26232.pcdn.co")) {
             const filename = url.split("/").pop().split("?")[0];
-            const newUrl = `https://kingspeg.com/fba-pdfs/${filename}`;
+            const newUrl = `https://ifbcreact.s3.us-east-1.amazonaws.com/${filename}`;
             const isValid = await checkLinkStatus(newUrl);
+            console.log(newUrl);
+
             if (!isValid) {
               btn.style.display = "none";
               if (
@@ -245,9 +246,42 @@ const BottomBar = ({ listingContent }) => {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";
             }
+
+            if (
+              heading.nextElementSibling.nextElementSibling.nextElementSibling
+                .nextElementSibling.nextElementSibling &&
+              heading.nextElementSibling.nextElementSibling.nextElementSibling
+                .nextElementSibling.nextElementSibling.children[0].tagName !==
+                "EM"
+            ) {
+              heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
+                "none";
+            }
+
+            if (
+              heading.nextElementSibling.nextElementSibling.nextElementSibling
+                .nextElementSibling.nextElementSibling.nextElementSibling &&
+              heading.nextElementSibling.nextElementSibling.nextElementSibling
+                .nextElementSibling.nextElementSibling.nextElementSibling
+                .children[0].tagName !== "EM"
+            ) {
+              heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
+                "none";
+            }
           }
         });
       }
+
+      const articles = document.querySelectorAll("h2");
+      articles.forEach((heading) => {
+        if (heading.textContent === "Articles") {
+          heading.style.display = "none";
+          if (heading.nextElementSibling) {
+            heading.nextElementSibling.style.display = "none";
+          }
+        }
+      });
+
       if (tabs[5]) {
         tabs[5].style.display = "none";
       }

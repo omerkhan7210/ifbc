@@ -77,7 +77,7 @@ const TabsList = ({ activeTab, setActiveTab }) => {
             onClick={() => setActiveTab(item.text.toLowerCase())}
             className={`inline-flex items-center px-4 py-3 rounded-lg w-full cursor-pointer ${
               activeTab.toLowerCase() === item.text.toLowerCase()
-                ? "text-white bg-blue-700 dark:bg-blue-600"
+                ? "text-white bg-blue-700 "
                 : "bg-gray-100"
             }`}
           >

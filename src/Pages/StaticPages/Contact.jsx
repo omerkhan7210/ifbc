@@ -7,22 +7,22 @@ import { twMerge } from "tailwind-merge";
 const ServicesGrid = () => {
   return (
     <div className=" max-md:w-full  flex flex-col gap-3 mb-16">
-      <section class="bg-white dark:bg-gray-900">
+      <section class="bg-white ">
         <div class="text-center">
-          <p class="font-medium text-blue-500 dark:text-blue-400">Contact us</p>
+          <p class="font-medium text-blue-500 ">Contact us</p>
 
-          <h1 class="mt-2 max-md:text-2xl font-semibold text-custom-heading-color md:text-5xl dark:text-white">
+          <h1 class="mt-2 max-md:text-2xl font-semibold text-custom-heading-color md:text-5xl ">
             Get in touch
           </h1>
 
-          <p class="mt-3 text-gray-500 dark:text-gray-400">
+          <p class="mt-3 text-gray-500 ">
             Our friendly team is always here to chat.
           </p>
         </div>
 
         <div class="grid max-md:grid-cols-1 gap-12 mt-10 md:grid-cols-4">
           <div class="flex flex-col items-center justify-center text-center">
-            <span class="p-3 text-blue-500 rounded-full bg-blue-100/80 dark:bg-gray-800">
+            <span class="p-3 text-blue-500 rounded-full bg-blue-100/80 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -39,17 +39,15 @@ const ServicesGrid = () => {
               </svg>
             </span>
 
-            <h2 class="mt-4 text-lg font-medium text-gray-800 dark:text-white">
-              Email
-            </h2>
+            <h2 class="mt-4 text-lg font-medium text-gray-800 ">Email</h2>
 
-            <p class="mt-2 text-blue-500 dark:text-blue-400">
+            <p class="mt-2 text-blue-500 ">
               <a href="mailto: info@ifbc.co">info@ifbc.co</a>
             </p>
           </div>
 
           <div class="flex flex-col items-center justify-center text-center">
-            <span class="p-3 text-blue-500 rounded-full bg-blue-100/80 dark:bg-gray-800">
+            <span class="p-3 text-blue-500 rounded-full bg-blue-100/80 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -71,17 +69,13 @@ const ServicesGrid = () => {
               </svg>
             </span>
 
-            <h2 class="mt-4 text-lg font-medium text-gray-800 dark:text-white">
-              Office
-            </h2>
+            <h2 class="mt-4 text-lg font-medium text-gray-800 ">Office</h2>
 
-            <p class="mt-2 text-blue-500 dark:text-blue-400">
-              9350 Wilshire Blvd, Suite 203
-            </p>
+            <p class="mt-2 text-blue-500 ">9350 Wilshire Blvd, Suite 203</p>
           </div>
 
           <div class="flex flex-col items-center justify-center text-center">
-            <span class="p-3 text-blue-500 rounded-full bg-blue-100/80 dark:bg-gray-800">
+            <span class="p-3 text-blue-500 rounded-full bg-blue-100/80 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -98,18 +92,16 @@ const ServicesGrid = () => {
               </svg>
             </span>
 
-            <h2 class="mt-4 text-lg font-medium text-gray-800 dark:text-white">
-              Phone
-            </h2>
+            <h2 class="mt-4 text-lg font-medium text-gray-800 ">Phone</h2>
 
-            <p class="mt-2 text-blue-500 dark:text-blue-400 flex gap-5">
+            <p class="mt-2 text-blue-500  flex gap-5">
               <a href="tel:914-357-4322">91-HELP-IFBC</a>
               <a href="tel:908-326-4322">90-TEAM-IFBC </a>
             </p>
           </div>
 
           <div class="flex flex-col items-center justify-center text-center">
-            <span class="p-3 text-blue-500 rounded-full bg-blue-100/80 dark:bg-gray-800">
+            <span class="p-3 text-blue-500 rounded-full bg-blue-100/80 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -126,11 +118,9 @@ const ServicesGrid = () => {
               </svg>
             </span>
 
-            <h2 class="mt-4 text-lg font-medium text-gray-800 dark:text-white">
-              FAX
-            </h2>
+            <h2 class="mt-4 text-lg font-medium text-gray-800 ">FAX</h2>
 
-            <p class="mt-2 text-blue-500 dark:text-blue-400 flex gap-5">
+            <p class="mt-2 text-blue-500  flex gap-5">
               <a href="tel:310-304-0871">310-304-0871</a>
             </p>
           </div>
@@ -249,7 +239,7 @@ const Contact = () => {
         <ServicesGrid />
         <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[550px] ">
           <img
-            src="/images/banners/contact.jpg"
+            src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/contact.jpg"
             alt=""
             className="h-[550px] w-full object-cover rounded-l-lg  "
           />

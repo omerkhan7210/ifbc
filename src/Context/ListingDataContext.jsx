@@ -27,8 +27,9 @@ const ListingDataContext = ({ children }) => {
 
   const getAllListings = async () => {
     setLoading(true);
-    const url =
-      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/ListingsView";
+    const endPoint = role !== "N" ? "Listings" : "ListingsView";
+
+    const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/${endPoint}`;
     const responseData = await axios
       .get(url)
       .then(async (response) => {
@@ -52,7 +53,7 @@ const ListingDataContext = ({ children }) => {
         setListings(reduxListings);
       } else {
         const listings = await getAllListings();
-        if (listings) {
+        if (listings && listings.length > 0) {
           const normalFLS = await listings.filter(
             (data) => data.listingMemberships !== ""
           );
