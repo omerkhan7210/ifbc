@@ -27,6 +27,8 @@ import Contact from "./Pages/StaticPages/Contact";
 import FundingResult from "./Pages/StaticPages/FundingResult";
 import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
 import TermsConditions from "./Pages/StaticPages/TermsConditions";
+import Popups from "./Pages/StaticPages/Popups";
+import ToolInformation from "./Pages/StaticPages/ToolInformation";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -70,6 +72,14 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     {
       path: "/about",
       element: <MainAbout />,
+    },
+    {
+      path: "/popups",
+      element: <Popups />,
+    },
+    {
+      path: "/tool-information",
+      element: <ToolInformation />,
     },
     {
       path: "/franchise-owner",
