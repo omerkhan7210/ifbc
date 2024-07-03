@@ -36,7 +36,8 @@ const MainCandList = () => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background: "url(/images/banners/candidatelist1.jpeg)",
+          background:
+            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/candidatelist1.jpeg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -373,14 +374,14 @@ const CandidateSearch = ({ property, anotherText, normalText }) => {
       <div
         className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${
           activeDD ? "h-52" : "h-0 opacity-0"
-        } duration-200 bg-white dark:bg-gray-800 border border-dimmed text-sm md:text-sm overflow-y-scroll`}
+        } duration-200 bg-white  border border-dimmed text-sm md:text-sm overflow-y-scroll`}
       >
         {uniqueFranchisedCands.map((cand, index) => {
           return (
             <div className="flex justify-between items-center" key={index}>
               <div
                 onClick={() => handleCandSelection(cand)}
-                className={`text-black w-full block cursor-pointer hover:bg-slate-300 dark:hover:bg-gray-900 dark:bg-gray-800 hover:text-link px-3 py-2`}
+                className={`text-black w-full block cursor-pointer hover:bg-slate-300   hover:text-link px-3 py-2`}
               >
                 <span>{cand}</span>
               </div>
@@ -474,7 +475,7 @@ const FiltersRow = ({ setFilterCands, cands, filters, loading }) => {
             id="default-checkbox"
             type="checkbox"
             defaultValue
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
           />
           View Archived Candidates
         </label>

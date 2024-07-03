@@ -3,121 +3,113 @@ import { MyContext } from "src/Context/ListingDataContext";
 import CategorySearch from "./CategorySearch";
 
 const ListingsFilter = () => {
-  const { filters, setFilters,role } = useContext(MyContext);
-  const [filterData,setFilterData] = useState([])
- useEffect(()=>{
-  if(role && role === 'N'){
-    const filterDataa = [
-      {
-        anotherText: "Select Category",
-        normalText: "Category",
-        property: "category",
-      },
-    
-      {
-        anotherText: "Select Investment Range",
-        normalText: "Investment Range",
-        property: "investmentRange",
-      },
-  
-     
-      {
-        anotherText: "Select Type of Business",
-        normalText: "Type of Business",
-        property: "typeOfBusiness",
-      },
-      
-    ];
-    setFilterData(filterDataa)
-  }else{
-    const filterDataa = [
-      {
-        anotherText: "Select Category",
-        normalText: "Category",
-        property: "category",
-      },
-      {
-        anotherText: "Select Franchise Fee",
-        normalText: "Franchise Fee",
-        property: "franchiseFee",
-      },
-      {
-        anotherText: "Select Investment Range",
-        normalText: "Investment Range",
-        property: "investmentRange",
-      },
-  
-      { anotherText: "Select Single", normalText: "Single", property: "single" },
-      {
-        anotherText: "Select Multiple",
-        normalText: "Multiple",
-        property: "multiple",
-      },
-  
-      {
-        anotherText: "Select Number of Employees",
-        normalText: "Number of Employees",
-        property: "numberOfEmployees",
-      },
-      {
-        anotherText: "Select Owned Units",
-        normalText: "Owned Units",
-        property: "ownedUnits",
-      },
-      {
-        anotherText: "Select Passive Ownership",
-        normalText: "Passive Ownership",
-        property: "passiveOwnership",
-      },
-      {
-        anotherText: "Select Projected New Units",
-        normalText: "Projected New Units",
-        property: "projectedNewUnits",
-      },
-      {
-        anotherText: "Select Ramp Up",
-        normalText: "Ramp Up",
-        property: "rampUp",
-      },
-      {
-        anotherText: "Select Royalty",
-        normalText: "Royalty",
-        property: "royalty",
-      },
-      {
-        anotherText: "Select Royalty Description",
-        normalText: "Royalty Description",
-        property: "royaltyDescription",
-      },
-      {
-        anotherText: "Select Item 19",
-        normalText: "Item 19",
-        property: "item19",
-      },
-      {
-        anotherText: "Select Liquidity",
-        normalText: "Liquidity",
-        property: "liquidity",
-      },
-      {
-        anotherText: "Select Territories",
-        normalText: "Territories",
-        property: "territories",
-      },
-      {
-        anotherText: "Select Type of Business",
-        normalText: "Type of Business",
-        property: "typeOfBusiness",
-      },
-      {
-        anotherText: "Select Year Established",
-        normalText: "Year Established",
-        property: "yearEstablished",
-      },
-    ];
-    setFilterData(filterDataa)
-  }
- },[role])
+  const { filters, setFilters, role } = useContext(MyContext);
+  const [filterData, setFilterData] = useState([]);
+  useEffect(() => {
+    if (role && role === "N") {
+      const filterDataa = [
+        {
+          anotherText: "Select Category",
+          normalText: "Category",
+          property: "category",
+        },
+
+        {
+          anotherText: "Select Investment Range",
+          normalText: "Investment Range",
+          property: "investmentRange",
+        },
+      ];
+      setFilterData(filterDataa);
+    } else {
+      const filterDataa = [
+        {
+          anotherText: "Select Category",
+          normalText: "Category",
+          property: "category",
+        },
+        {
+          anotherText: "Select Franchise Fee",
+          normalText: "Franchise Fee",
+          property: "franchiseFee",
+        },
+        {
+          anotherText: "Select Investment Range",
+          normalText: "Investment Range",
+          property: "investmentRange",
+        },
+
+        {
+          anotherText: "Select Single",
+          normalText: "Single",
+          property: "single",
+        },
+        {
+          anotherText: "Select Multiple",
+          normalText: "Multiple",
+          property: "multiple",
+        },
+
+        {
+          anotherText: "Select Number of Employees",
+          normalText: "Number of Employees",
+          property: "numberOfEmployees",
+        },
+        {
+          anotherText: "Select Owned Units",
+          normalText: "Owned Units",
+          property: "ownedUnits",
+        },
+        {
+          anotherText: "Select Passive Ownership",
+          normalText: "Passive Ownership",
+          property: "passiveOwnership",
+        },
+        {
+          anotherText: "Select Projected New Units",
+          normalText: "Projected New Units",
+          property: "projectedNewUnits",
+        },
+        {
+          anotherText: "Select Ramp Up",
+          normalText: "Ramp Up",
+          property: "rampUp",
+        },
+        {
+          anotherText: "Select Royalty",
+          normalText: "Royalty",
+          property: "royalty",
+        },
+        {
+          anotherText: "Select Royalty Description",
+          normalText: "Royalty Description",
+          property: "royaltyDescription",
+        },
+        {
+          anotherText: "Select Item 19",
+          normalText: "Item 19",
+          property: "item19",
+        },
+        {
+          anotherText: "Select Liquidity",
+          normalText: "Liquidity",
+          property: "liquidity",
+        },
+        {
+          anotherText: "Select Territories",
+          normalText: "Territories",
+          property: "territories",
+        },
+
+        {
+          anotherText: "Select Year Established",
+          normalText: "Year Established",
+          property: "yearEstablished",
+        },
+      ];
+      setFilterData(filterDataa);
+    }
+  }, [role]);
 
   // Check if any filters are not empty
   const hasActiveFilters =

@@ -27,10 +27,10 @@ const FundingResult = () => {
   }, []);
 
   useEffect(() => {
-    data.downPayment = parseInt(data.downPayment, 10);
-    data.houseHold = parseInt(data.houseHold, 10);
-    data.debtPayments = parseInt(data.debtPayments, 10);
-    data.totalNet = parseInt(data.totalNet, 10);
+    // data.downPayment = parseInt(data.downPayment, 10);
+    // data.houseHold = parseInt(data.houseHold, 10);
+    // data.debtPayments = parseInt(data.debtPayments, 10);
+    // data.totalNet = parseInt(data.totalNet, 10);
     const debtResult = Math.floor(
       (data.debtPayments / (data.houseHold / 12)) * 100
     );
@@ -43,7 +43,8 @@ const FundingResult = () => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background: "url(/images/banners/results.jpg)",
+          background:
+            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/results.jpg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",

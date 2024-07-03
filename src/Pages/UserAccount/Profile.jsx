@@ -650,7 +650,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.territoryCheck}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label htmlFor="default-checkbox" className="font-bold text-sm">
           Receive an email for each Territory Check or Formal Registration that
@@ -671,7 +671,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.disableLogo}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -687,7 +687,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.disableCover}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -703,7 +703,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.disableProfile}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -719,7 +719,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.disableBio}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -735,7 +735,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.hideName}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -752,7 +752,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.allCandidates}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -769,7 +769,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.allPastClient}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -790,7 +790,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.shareFranchise}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -840,7 +840,7 @@ const Settings = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.fbaBadges}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -980,7 +980,7 @@ const Experience = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.businessBroker}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -1015,7 +1015,7 @@ const Experience = ({ handleInputChange, setShow, userDetails }) => {
           id="default-checkbox"
           type="checkbox"
           defaultChecked={userDetails?.openForGroup}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600"
+          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 "
         />
         <label
           htmlFor="default-checkbox"
@@ -1214,7 +1214,7 @@ const RightSideBar = ({
             <p className="candidate-label">Email</p>
             <input
               onChange={handleInputChange}
-              type="text"
+              type="email"
               name="email"
               className="candidate-input"
               required

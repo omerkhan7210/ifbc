@@ -15,7 +15,7 @@ const Logo = () => {
       className="flex shrink-0 justify-center items-center text-medium-gold "
     >
       <img
-        src="/images/logo/IFBC 6.png"
+        src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/logo/IFBC 6.png"
         alt="IFBC"
         loading="lazy"
         width={130}

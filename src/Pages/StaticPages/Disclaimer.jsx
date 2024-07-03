@@ -47,7 +47,8 @@ const Disclaimer = () => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background: "url(/images/banners/disclaimer.jpg)",
+          background:
+            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/disclaimer.jpg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "bottom",
           backgroundRepeat: "no-repeat",

@@ -2,30 +2,49 @@ import React, { useContext, useRef, useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
+import { extractMinValue, removeSpecificText } from "src/Utils/SanitizeInput";
 
 const SearchDropdown = ({ config, setSelectedCats }) => {
-  const { key, placeholder } = config;
+  const { property, anotherText } = config;
   const [activeDD, setActiveDD] = useState(false);
   const [selectedCat, setSelectedCat] = useState("");
-  const { listings } = useContext(MyContext);
+  const { listings, role } = useContext(MyContext);
 
   useEffect(() => {
     setSelectedCats((prevCats) => {
       if (selectedCat && !prevCats.includes(selectedCat)) {
-        return [...prevCats, { [key]: [selectedCat] }];
+        return [...prevCats, { [property]: [selectedCat] }];
       }
       return prevCats;
     });
   }, [selectedCat]);
 
-  const uniqueItems = [...new Set(listings.map((listing) => listing[key]))];
-  const handleRemoveCat = (key, selectedCat) => {
+  const textToRemove =
+    "Please see Item 7 within the FDD for details on the estimated Investment Range";
+
+  const uniqueItems =
+    property === "investmentRange" ||
+    property === "liquidity" ||
+    property === "franchiseFee"
+      ? [
+          ...new Set(
+            listings.map((listing) =>
+              removeSpecificText(listing[property], textToRemove)
+            )
+          ),
+        ].sort((a, b) => extractMinValue(a) - extractMinValue(b))
+      : [...new Set(listings.map((listing) => listing[property]))].sort(
+          (a, b) => a.localeCompare(b)
+        );
+  const handleRemoveCat = (property, selectedCat) => {
     setSelectedCats((prevSelectedCats) =>
-      prevSelectedCats.filter((cat) => cat[key] !== selectedCat)
+      prevSelectedCats.filter((cat) => cat[property] !== selectedCat)
     );
   };
   return (
-    <div className="relative w-full group flex flex-col gap-2 col-span-12 md:col-span-4">
+    <div
+      className={`relative w-full group flex flex-col gap-2 col-span-12 ${role !== "N" ? "md:col-span-3" : "md:col-span-6"}`}
+    >
       <button
         className={`h-16 px-4 text-md w-full capitalize text-white bg-custom-heading-color hover:bg-custom-heading-color transition-all duration-250 focus:bg-custom-heading-color focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold ${
           selectedCat ? "text-xs" : ""
@@ -57,7 +76,7 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
           </>
         ) : (
           <>
-            {placeholder}
+            {anotherText !== "" && anotherText}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="white"
@@ -80,48 +99,78 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
           activeDD ? "h-[300px]" : "h-0 opacity-0"
         } duration-200 bg-white border border-dimmed text-sm md:text-sm overflow-x-hidden overflow-scroll ]`}
       >
-        {uniqueItems.map((item, index) => (
-          <div className="flex justify-between items-center" key={index}>
-            <div
-              onClick={() => {
-                setActiveDD(false);
-                setSelectedCat(item);
-              }}
-              className="text-black w-full block cursor-pointer hover:text-link px-3 
+        {uniqueItems.map(
+          (item, index) =>
+            item.trim() !== "" && (
+              <div className="flex justify-between items-center" key={index}>
+                <div
+                  onClick={() => {
+                    setActiveDD(false);
+                    setSelectedCat(item);
+                  }}
+                  className="text-black w-full block cursor-pointer hover:text-link px-3 
               py-2 hover:bg-slate-200"
-            >
-              <span>{item}</span>
-            </div>
-          </div>
-        ))}
+                >
+                  <span>{item}</span>
+                </div>
+              </div>
+            )
+        )}
       </div>
     </div>
   );
 };
 
 const SearchingSection = () => {
-  const searchConfigs = [
-    {
-      key: "category",
-      placeholder: "Select Category",
-      buttonBgColor: "#4d85ff",
-    },
-    {
-      key: "typeOfBusiness",
-      placeholder: "Select Type of Business",
-      buttonBgColor: "#1a62ff",
-    },
-    {
-      key: "investmentRange",
-      placeholder: "Select Investment Range",
-      buttonBgColor: "#0048e6",
-    },
-  ];
-
+  const [searchConfigs, setSearchConfigs] = useState([]);
   const ref = useRef();
-  const { setFilters } = useContext(MyContext);
+  const { setFilters, role } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
   const history = useNavigate();
+  useEffect(() => {
+    if (role && role === "N") {
+      const filterDataa = [
+        {
+          anotherText: "Select Category",
+          normalText: "Category",
+          property: "category",
+        },
+
+        {
+          anotherText: "Select Investment Range",
+          normalText: "Investment Range",
+          property: "investmentRange",
+        },
+      ];
+      setSearchConfigs(filterDataa);
+    } else {
+      const filterDataa = [
+        {
+          anotherText: "Select Category",
+          normalText: "Category",
+          property: "category",
+        },
+        {
+          anotherText: "Select Franchise Fee",
+          normalText: "Franchise Fee",
+          property: "franchiseFee",
+        },
+        {
+          anotherText: "Select Investment Range",
+          normalText: "Investment Range",
+          property: "investmentRange",
+        },
+
+        {
+          anotherText: "Select Liquidity",
+          normalText: "Liquidity",
+          property: "liquidity",
+        },
+      ];
+      setSearchConfigs(filterDataa);
+    }
+  }, [role]);
+
   const handleSearchInputChange = () => {
     const searchValue = ref.current.value;
 
@@ -142,8 +191,6 @@ const SearchingSection = () => {
 
     history("/listings");
   };
-
-  const isMobile = window.innerWidth < 768 ? true : false;
 
   return (
     <div id="searching-contianer" className="flex flex-col gap-2 p-5">
@@ -178,9 +225,7 @@ const SearchingSection = () => {
 
       <button
         onClick={handleSearchInputChange}
-        className={`${
-          isMobile ? "w-full" : "md:w-1/2"
-        }  relative items-center justify-start overflow-hidden font-medium transition-all duration-500 bg-white hover:bg-custom-heading-color hover:text-white group py-1.5 px-2.5 mx-auto h-12 text-center`}
+        className="max-md:w-full md:w-1/2 relative items-center justify-start overflow-hidden font-medium transition-all duration-500 bg-white hover:bg-custom-heading-color hover:text-white group py-1.5 px-2.5 mx-auto h-12 text-center"
       >
         Search
       </button>

@@ -7,6 +7,12 @@ import Tabs from "./Tabs";
 import { useNavigate } from "react-router-dom";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import DialogBox from "src/Popups/DialogBox";
+import {
+  sanitizeInput,
+  validateEmail,
+  validatePhone,
+  validateUsername,
+} from "src/Utils/SanitizeInput";
 
 const Form = ({ candDetails, candNames, activeListings }) => {
   const { userDetails } = useContext(MyCandContext);
@@ -160,6 +166,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   }
   const handleSubmit = async () => {
     setLoading(true);
+
     const reqFields = [
       "firstname",
       "lastname",
@@ -169,22 +176,41 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       "territorycity",
     ];
     let allFieldsValid = true;
+    let formErrors = {};
 
     reqFields.forEach((field) => {
       const newKey = field.toLowerCase().split(" ").join("");
-      if (!formFields[newKey] || formFields[newKey].trim() === "") {
-        setFormErrors((prev) => ({ ...prev, [newKey]: "error" }));
+      const value = formFields[newKey]?.trim() || "";
+
+      if (!value) {
+        formErrors[newKey] = "This field is required";
         allFieldsValid = false;
       } else {
-        setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
+        // Field-specific validations
+        if (newKey === "email" && !validateEmail(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "phone" && !validatePhone(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "firstname" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "lastname" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else {
+          formErrors[newKey] = "";
+        }
       }
     });
+
+    setFormErrors(formErrors);
 
     try {
       if (allFieldsValid) {
         const formData = {
           ...(candDetails?.docId ? { DocId: candDetails?.docId ?? "" } : {}),
-
           closeDate: formFields.closedate ?? "",
           firstName: formFields.firstname ?? "",
           lastName: formFields.lastname ?? "",
@@ -299,7 +325,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           error: "Please fill in all the required fields",
         }));
         setLoading(false);
-        window.scrollTo(0, 500);
+        window.scrollTo(0, 400);
 
         // Handle invalid fields (e.g., show validation errors)
       }
@@ -386,7 +412,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
+    const inputValue = type === "checkbox" ? checked : sanitizeInput(value);
     const newName = name.toLowerCase();
 
     setFormFields((prevFields) => ({
@@ -661,6 +687,11 @@ const FormFirstRow = ({
               defaultValue={candDetails?.firstName}
             />
           )}
+          {formErrors.firstname && formErrors.firstname === "invalid" && (
+            <p className=" text-red-600 py-2 flex justify-between">
+              Invalid Name (Please start with alphabets)
+            </p>
+          )}
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">Last Name*</p>
@@ -674,6 +705,11 @@ const FormFirstRow = ({
               ? { value: selectedDetails?.lastName }
               : { defaultValue: candDetails?.lastName })}
           />
+          {formErrors.lastname && formErrors.lastname === "invalid" && (
+            <p className=" text-red-600 py-2 flex justify-between">
+              Invalid Name (Please start with alphabets)
+            </p>
+          )}
         </div>
       </div>
       <div
@@ -682,6 +718,7 @@ const FormFirstRow = ({
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">Phone Number</p>
+
           <input
             type="text"
             name="phone"
@@ -694,11 +731,16 @@ const FormFirstRow = ({
               ? { value: selectedDetails?.phone }
               : { defaultValue: candDetails?.phone })}
           />
+          {formErrors.phone && formErrors.phone === "invalid" && (
+            <p className=" text-red-600 py-2 flex justify-between">
+              Invalid Phone Number (Please use numbers only)
+            </p>
+          )}
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">Email</p>
           <input
-            type="text"
+            type="email"
             name="email"
             className={`candidate-input ${
               formErrors.email ? "bg-red-300" : ""
@@ -709,6 +751,25 @@ const FormFirstRow = ({
               ? { value: selectedDetails?.email }
               : { defaultValue: candDetails?.email })}
           />
+          {formErrors.email && formErrors.email === "invalid" && (
+            <p className=" text-red-600 py-2 flex justify-between">
+              Invalid Email (john@example.com)
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+                />
+              </svg>
+            </p>
+          )}
         </div>
       </div>
       <div id="button-container" className="w-full flex justify-center">

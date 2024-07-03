@@ -77,7 +77,7 @@ const TabsList = ({ activeTab, setActiveTab }) => {
             onClick={() => setActiveTab(item.text.toLowerCase())}
             className={`inline-flex items-center px-4 py-3 rounded-lg w-full cursor-pointer ${
               activeTab.toLowerCase() === item.text.toLowerCase()
-                ? "text-white bg-blue-700 dark:bg-blue-600"
+                ? "text-white bg-blue-700 "
                 : "bg-gray-100"
             }`}
           >
@@ -244,9 +244,7 @@ const Initial = ({
           </option>
         ))}
       </select>
-      <div>
-        <p className="text-black font-bold">Used as Maximum Investment</p>
-      </div>
+
       <div>
         <p className="candidate-label">Do you have a need for funding?</p>
       </div>

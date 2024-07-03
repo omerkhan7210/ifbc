@@ -9,7 +9,7 @@ const MobileNav = ({ setMobileActive }) => {
     localStorage.setItem("token", false);
     localStorage.removeItem("userDetails");
     history("/");
-  };  
+  };
   const { role } = useContext(MyContext);
 
   return (
@@ -42,42 +42,46 @@ const MobileNav = ({ setMobileActive }) => {
       </div>
       <div className="menu-franchisor-container">
         <ul id="menu-franchisor" className="menu">
-          
-        {role !== 'N' &&
-          <li
-          id="menu-item-552289"
-          className="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552289"
-        >
-          <Link onClick={() => setsubmenuactive(!submenuactive)}>
-          Candidates
-          </Link>
-          <ul className={`sub-menu ${submenuactive ? "open-submenu" : ""}`}>
+          {role !== "N" && (
             <li
-              id="menu-item-552305"
-              className="menu-item menu-item-type-custom menu-item-object-custom menu-item-552305"
+              id="menu-item-552289"
+              className="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552289"
             >
-              <NavLink to="/new-candidate/">New Candidate</NavLink>
+              <Link onClick={() => setsubmenuactive(!submenuactive)}>
+                Candidates
+              </Link>
+              <ul className={`sub-menu ${submenuactive ? "open-submenu" : ""}`}>
+                <li
+                  id="menu-item-552305"
+                  className="menu-item menu-item-type-custom menu-item-object-custom menu-item-552305"
+                >
+                  <NavLink to="/new-candidate/">New Candidate</NavLink>
+                </li>
+                <li
+                  id="menu-item-552335"
+                  className="menu-item menu-item-type-post_type menu-item-object-page menu-item-552335"
+                >
+                  <NavLink to="/candidate-list">Candidate List</NavLink>
+                </li>
+                <li
+                  id="menu-item-552335"
+                  className="menu-item menu-item-type-post_type menu-item-object-page menu-item-552335"
+                >
+                  <NavLink to="/messages/territory-check">
+                    Territory Check
+                  </NavLink>
+                </li>
+                <li
+                  id="menu-item-552335"
+                  className="menu-item menu-item-type-post_type menu-item-object-page menu-item-552335"
+                >
+                  <NavLink to="/messages/formal-registration">
+                    Formal Registration
+                  </NavLink>
+                </li>
+              </ul>
             </li>
-            <li
-              id="menu-item-552335"
-              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-552335"
-            >
-              <NavLink to="/candidate-list">Candidate List</NavLink>
-            </li>
-            <li
-              id="menu-item-552335"
-              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-552335"
-            >
-              <NavLink to="/messages/territory-check">Territory Check</NavLink>
-            </li> 
-            <li
-              id="menu-item-552335"
-              className="menu-item menu-item-type-post_type menu-item-object-page menu-item-552335"
-            >
-              <NavLink to="/messages/formal-registration">Formal Registration</NavLink>
-            </li>
-          </ul>
-        </li>}
+          )}
           <li
             id="menu-item-552290"
             className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
@@ -90,14 +94,14 @@ const MobileNav = ({ setMobileActive }) => {
           >
             <Link to="/business-assessment">Business Assessment</Link>
           </li>
-        
+
           <li
             id="menu-item-552290"
             className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
           >
             <Link to="/listings">Franchises List Search</Link>
           </li>
-        
+
           <li
             id="menu-item-552290"
             className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
@@ -113,22 +117,21 @@ const MobileNav = ({ setMobileActive }) => {
         >
           <div className="flex justify-start items-center gap-2  py-2">
             <img
-              src="/images/avatar-placeholder.png"
+              src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/avatar-placeholder.png"
               className="w-10 h-10 rounded-full"
             />
             <div id="parasContainer">
               <p className="text-lg text-[#333] font-bold">
-              {userDetails
-                ? userDetails?.firstName?.charAt(0).toUpperCase() +
-                  userDetails?.firstName?.slice(1) +
-                  " " +
-                  userDetails?.lastName?.charAt(0).toUpperCase() +
-                  userDetails?.lastName?.slice(1)
-                : "John Doe"}
-                
+                {userDetails
+                  ? userDetails?.firstName?.charAt(0).toUpperCase() +
+                    userDetails?.firstName?.slice(1) +
+                    " " +
+                    userDetails?.lastName?.charAt(0).toUpperCase() +
+                    userDetails?.lastName?.slice(1)
+                  : "John Doe"}
               </p>
               <p className="text-md text-gray-500 mt-0.5">
-                {userDetails ? userDetails?.email : "johndoe23@gmail.com"} 
+                {userDetails ? userDetails?.email : "johndoe23@gmail.com"}
               </p>
             </div>
           </div>

@@ -70,7 +70,7 @@ const ToggleButton = ({ active, setActive }) => {
       initial={{ y: 0 }}
       animate={{ y: hidden && window.innerWidth > 768 ? "-80%" : 0 }}
       onClick={() => setActive(!active)}
-      className={`absolute -top-16 right-0 bg-custom-heading-color px-4 py-5 flex items-center justify-center rounded-tl w-64 text-white z-[99999]`}
+      className={`absolute -top-16 right-32 bg-custom-heading-color px-4 py-5 flex items-center justify-center rounded-tl rounded-tr md:w-64 max-md:w-full max-md:right-0 text-white z-[99999]`}
     >
       <div className="text-white text-base font-bold flex items-center">
         No Candidate Selected
@@ -142,7 +142,7 @@ const ActivityGridContainer = ({
         opacity: active ? 1 : 0,
         transition: { duration: 1, ease: "backInOut" },
       }}
-      className="side-bar-main-div p-10 flex flex-col gap-6 text-center h-full overflow-y-scroll"
+      className="side-bar-main-div md:p-10 max-md:p-5 flex flex-col gap-6 text-center h-full overflow-y-scroll"
     >
       <div
         id="top-candidate-sidebar"

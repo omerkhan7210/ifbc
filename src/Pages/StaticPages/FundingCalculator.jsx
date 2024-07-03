@@ -2,6 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
+import {
+  sanitizeInput,
+  validateEmail,
+  validatePhone,
+  validateUsername,
+} from "src/Utils/SanitizeInput";
 import { twMerge } from "tailwind-merge";
 
 const FundingCalculator = () => {
@@ -17,48 +23,96 @@ const FundingCalculator = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? (checked ? 1 : 0) : value;
+    let inputValue =
+      type === "checkbox" ? (checked ? 1 : 0) : sanitizeInput(value);
 
-    setData({
-      ...data,
+    // If the input is a number, parse it as an integer
+    if (
+      ["downPayment", "houseHold", "debtPayments", "totalNet"].includes(name)
+    ) {
+      inputValue = parseInt(inputValue, 10);
+    }
+
+    setData((prevData) => ({
+      ...prevData,
       [name]: inputValue,
-    });
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const reqFields = ["firstName", "lastName", "email"];
+    const reqFields = [
+      "firstName",
+      "lastName",
+      "email",
+      "phone",
+      "realState",
+      "percentage",
+      "bankruptcies",
+      "creditHistory",
+      "debtPayments",
+      "houseHold",
+      "launching",
+      "creditScore",
+      "downPayment",
+      "franchiseLocation",
+      "totalNet",
+    ];
     let allFieldsValid = true;
+    let formErrors = {};
 
     reqFields.forEach((field) => {
-      if (!data[field] || data[field].trim() === "") {
-        setFormErrors((prev) => ({ ...prev, [field]: "error" }));
+      const newKey = field;
+      const value = data[newKey];
+
+      if (!value) {
+        formErrors[newKey] = "This field is required";
         allFieldsValid = false;
       } else {
-        setFormErrors((prev) => ({ ...prev, [field]: "" }));
+        // Field-specific validations
+        if (newKey === "email" && !validateEmail(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "phone" && !validatePhone(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "firstName" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "lastName" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else {
+          formErrors[newKey] = "";
+        }
       }
     });
+
+    setFormErrors(formErrors);
 
     try {
       if (allFieldsValid) {
         const formData = {
-          firstName: data.firstName.toString(),
-          lastName: data.lastName.toString(),
-          email: data.email.toString(),
-          franchiseLocation: data.franchiseLocation.toString(),
-          creditScore: data.creditScore.toString(),
-          launching: data.launching.toString(),
-          creditHistory: data.creditHistory.toString(),
-          bankruptcies: data.bankruptcies.toString(),
-          percentage: data.percentage.toString(),
-          realState: data.realState.toString(),
-          downPayment: data.downPayment.toString(),
-          houseHold: data.houseHold.toString(),
-          debtPayments: data.debtPayments.toString(),
-          totalNet: data.totalNet.toString(),
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          message: data.message,
+          franchiseLocation: data.franchiseLocation,
+          creditScore: data.creditScore,
+          launching: data.launching,
+          creditHistory: data.creditHistory,
+          bankruptcies: data.bankruptcies,
+          percentage: data.percentage,
+          realState: data.realState,
+          downPayment: data.downPayment,
+          houseHold: data.houseHold,
+          debtPayments: data.debtPayments,
+          totalNet: data.totalNet,
         };
 
+        console.log(formData);
         const response = await axios.post(
           "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/fundcalculator",
           formData
@@ -91,13 +145,15 @@ const FundingCalculator = () => {
     }
   };
 
+  console.log(data);
   return (
     <PageTransition>
       <div
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background: "url(/images/accounts/calculator.jpeg)",
+          background:
+            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/accounts/calculator.jpeg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -186,63 +242,91 @@ const FundingCalculator = () => {
         <form onSubmit={handleSubmit}>
           <div className="flex gap-4 max-md:flex-col md:flex-row">
             <div className="candidate-sub-childs">
-              <p className="candidate-label">First Name</p>
+              <p className="funding-questions">First Name</p>
               <input
                 onChange={handleChange}
                 type="text"
                 name="firstName"
                 className={twMerge(
                   `candidate-input`,
-                  formErrors.firstName === "error" ? "bg-red-300" : ""
+                  formErrors.firstName && formErrors.firstName !== ""
+                    ? "bg-red-300"
+                    : ""
                 )}
-              />
+              />{" "}
+              {formErrors.firstName && formErrors.firstName === "invalid" && (
+                <p className=" text-red-600 py-2 flex justify-between">
+                  Invalid Name (Please start with alphabets)
+                </p>
+              )}
             </div>
             <div className="candidate-sub-childs">
-              <p className="candidate-label">Last Name</p>
+              <p className="funding-questions">Last Name</p>
               <input
                 onChange={handleChange}
                 type="text"
                 name="lastName"
                 className={twMerge(
                   `candidate-input`,
-                  formErrors.lastName === "error" ? "bg-red-300" : ""
+                  formErrors?.lastName && formErrors?.lastName !== ""
+                    ? "bg-red-300"
+                    : ""
                 )}
-              />
+              />{" "}
+              {formErrors.lastName && formErrors.lastName === "invalid" && (
+                <p className=" text-red-600 py-2 flex justify-between">
+                  Invalid Name (Please start with alphabets)
+                </p>
+              )}
             </div>
           </div>
           <div className="flex gap-4 max-md:flex-col md:flex-row">
             <div className="candidate-sub-childs">
-              <p className="candidate-label">Email</p>
+              <p className="funding-questions">Email </p>
               <input
                 onChange={handleChange}
-                type="text"
+                type="email"
                 name="email"
                 className={twMerge(
                   `candidate-input`,
-                  formErrors.email === "error" ? "bg-red-300" : ""
+                  formErrors.email && formErrors.email !== ""
+                    ? "bg-red-300"
+                    : ""
                 )}
               />
+              {formErrors.email && formErrors.email === "invalid" && (
+                <p className=" text-red-600 py-2 flex justify-between">
+                  Invalid Email (john@example.com)
+                </p>
+              )}
             </div>
             <div className="candidate-sub-childs">
-              <p className="candidate-label">Phone</p>
+              <p className="funding-questions">Phone </p>
               <input
                 onChange={handleChange}
-                type="text"
+                type="tel"
                 name="phone"
                 className={twMerge(
                   `candidate-input`,
-                  formErrors.phone === "error" ? "bg-red-300" : ""
+                  formErrors.phone && formErrors.phone !== ""
+                    ? "bg-red-300"
+                    : ""
                 )}
-              />
+              />{" "}
+              {formErrors.phone && formErrors.phone === "invalid" && (
+                <p className=" text-red-600 py-2 flex justify-between">
+                  Invalid Phone Number (Please use numbers only)
+                </p>
+              )}
             </div>
           </div>
-          <div className="mt-10">
-            <label htmlFor="message" className="candidate-label">
+          <div className="">
+            <label htmlFor="message" className="funding-questions">
               Message
             </label>
             <textarea
               onChange={handleChange}
-              name="meassage"
+              name="message"
               id="message"
               rows={10}
               className="candidate-input"
@@ -251,10 +335,12 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 What type of franchise location are you most interested in?
+                {!data.franchiseLocation && (
+                  <span className="text-red-700 italic">(Required)</span>
+                )}
               </p>
-              <p className="text-red-700 italic">(Required)</p>
             </div>
 
             <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
@@ -330,15 +416,18 @@ const FundingCalculator = () => {
           </div>
 
           <div className="my-10">
-            <p className="font-bold text-black max-md:text-sm md:text-xl mb-2 ">
+            <p className="funding-questions ">
               How much cash do you have available for a downpayment and working
-              capital (include retirement accounts)?
+              capital (include retirement accounts)?{" "}
+              {data.downPayment === 0 && (
+                <span className="text-red-700 italic">(Required)</span>
+              )}
             </p>
 
             <div>
               <label
                 htmlFor="steps-range"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 DownPayment & Working Capital
               </label>
@@ -348,10 +437,10 @@ const FundingCalculator = () => {
                 type="range"
                 name="downPayment"
                 min={0}
-                max={200000}
+                max={1000000}
                 defaultValue={0}
                 step={500}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
               <p className="mt-2 text-2xl text-black font-bold">
@@ -362,10 +451,12 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 What is your most recent credit score?
+                {!data.creditScore && (
+                  <span className="text-red-700 italic">(Required)</span>
+                )}
               </p>
-              <p className="text-red-700 italic">(Required)</p>
             </div>
 
             <div class="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
@@ -442,11 +533,13 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 Do you have a working spouse or partner who can cover living
-                expenses while the business is launching?
+                expenses while the business is launching?{" "}
+                {!data.launching && (
+                  <span className="text-red-700 italic">(Required)</span>
+                )}
               </p>
-              <p className="text-red-700 italic">(Required)</p>
             </div>
 
             <div class="flex md:space-x-2 rounded-xl select-none">
@@ -505,27 +598,28 @@ const FundingCalculator = () => {
           </div>
 
           <div className="my-10">
-            <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+            <p className="funding-questions">
               What is your annual household income?
+              {data.houseHold === 0 && (
+                <span className="text-red-700 italic">(Required)</span>
+              )}
             </p>
-
             <div>
               <label
                 htmlFor="household"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 Annual HouseHold Income
               </label>
               <input
                 onChange={handleChange}
-                id="household"
                 type="range"
                 name="houseHold"
                 min={0}
-                max={500000}
+                max={1000000}
                 defaultValue={0}
                 step={500}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
               <p className="mt-2 text-2xl text-black font-bold">
@@ -534,14 +628,17 @@ const FundingCalculator = () => {
             </div>
           </div>
           <div className="my-10">
-            <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
-              What are your monthly personal debt payments?
+            <p className="funding-questions">
+              What are your monthly personal debt payments?{" "}
+              {data.debtPayments === 0 && (
+                <span className="text-red-700 italic">(Required)</span>
+              )}
             </p>
 
             <div>
               <label
                 htmlFor="personal"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 Monthly Personal Debt Payments
               </label>
@@ -551,10 +648,10 @@ const FundingCalculator = () => {
                 type="range"
                 name="debtPayments"
                 min={0}
-                max={50000}
+                max={1000000}
                 defaultValue={0}
                 step={500}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
               <p className="mt-2 text-2xl text-black font-bold">
@@ -565,10 +662,12 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 Do you have a minimum 5-year credit history?
+                {!data.creditHistory && (
+                  <span className="text-red-700 italic">(Required)</span>
+                )}
               </p>
-              <p className="text-red-700 italic">(Required)</p>
             </div>
 
             <div class="flex md:space-x-2 rounded-xl select-none">
@@ -610,10 +709,12 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
-                Bankruptcies within the last 7 years
+              <p className="funding-questions">
+                Bankruptcies within the last 7 years{" "}
+                {!data.bankruptcies && (
+                  <span className="text-red-700 italic">(Required)</span>
+                )}
               </p>
-              <p className="text-red-700 italic">(Required)</p>
             </div>
 
             <div className="flex md:space-x-2 rounded-xl select-none max-md:flex-col md:flex-row">
@@ -690,12 +791,15 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
+              <p className="funding-questions">
                 On your credit cards, what percentage of the credit limit are
                 you using (your statement balances divided by your credit
-                limits)?
+                limits)?{" "}
+                {formErrors.percentage ||
+                  (!data.percentage && (
+                    <span className="text-red-700 italic">(Required)</span>
+                  ))}
               </p>
-              <p className="text-red-700 italic">(Required)</p>
             </div>
 
             <div className="flex md:space-x-2 rounded-xl select-none">
@@ -755,10 +859,13 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
-                Do you own real estate?
+              <p className="funding-questions">
+                Do you own real estate?{" "}
+                {formErrors.realState ||
+                  (!data.realState && (
+                    <span className="text-red-700 italic">(Required)</span>
+                  ))}
               </p>
-              <p className="text-red-700 italic">(Required)</p>
             </div>
 
             <div className="flex md:space-x-2 rounded-xl select-none">
@@ -799,14 +906,17 @@ const FundingCalculator = () => {
           </div>
 
           <div className="my-10">
-            <p className="font-bold text-black max-md:text-sm md:text-xl mb-2">
-              What is your total net worth?
+            <p className="funding-questions">
+              What is your total net worth?{" "}
+              {data.totalNet === 0 && (
+                <span className="text-red-700 italic">(Required)</span>
+              )}
             </p>
 
             <div>
               <label
                 htmlFor="totalnet"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                className="block mb-2 text-sm font-medium text-gray-900 "
               >
                 Total Net Worth
               </label>
@@ -816,14 +926,14 @@ const FundingCalculator = () => {
                 type="range"
                 name="totalNet"
                 min={0}
-                max={5000000}
+                max={1000000}
                 defaultValue={0}
                 step={500}
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
               />
 
               <p className="mt-2 text-2xl text-black font-bold">
-                Amount:${data.totalNet}
+                Amount: ${data.totalNet}
               </p>
             </div>
           </div>

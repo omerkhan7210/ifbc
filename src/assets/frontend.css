@@ -12794,3 +12794,12 @@ blockquote {
   min-height: 600px;
   z-index: 15;
 }
+
+@media screen and (max-width: 768px) {
+  .entry-content > div {
+    flex-direction: column;
+  }
+  .entry-content .tabs {
+    width: 100%;
+  }
+}

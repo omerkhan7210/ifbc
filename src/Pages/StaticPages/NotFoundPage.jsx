@@ -15,7 +15,11 @@ const NotFoundPage = () => {
         <div className="flex-1 min-h-full min-w-full rounded-3xl bg-white shadow-xl p-10 lg:p-20 text-gray-800 relative md:flex items-center text-center md:text-left">
           <div className="w-full md:w-1/2">
             <div className="mb-10 lg:mb-20 flex flex-col justify-center items-center gap-8">
-              <img src="/images/logo/IFBC 4.png" alt="" className="w-32" />
+              <img
+                src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/logo/IFBC 4.png"
+                alt=""
+                className="w-32"
+              />
 
               <h1 className="font-black uppercase text-5xl lg:text-7xl text-custom-heading-color">
                 You seem to be lost!

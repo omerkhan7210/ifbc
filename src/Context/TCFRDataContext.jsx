@@ -31,7 +31,6 @@ const TCFRDataContext = ({ children }) => {
           listingsIds: listingId,
         }));
       });
-
       setNewData(transformedData);
     }
   }, [all]);
