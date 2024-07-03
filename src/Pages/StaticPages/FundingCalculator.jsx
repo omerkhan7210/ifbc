@@ -2,6 +2,11 @@ import axios from "axios";
 import React, { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
+import {
+  validateEmail,
+  validatePhone,
+  validateUsername,
+} from "src/Utils/SanitizeInput";
 import { twMerge } from "tailwind-merge";
 
 const FundingCalculator = () => {
@@ -30,15 +35,36 @@ const FundingCalculator = () => {
     setLoading(true);
     const reqFields = ["firstName", "lastName", "email"];
     let allFieldsValid = true;
+    let formErrors = {};
 
     reqFields.forEach((field) => {
-      if (!data[field] || data[field].trim() === "") {
-        setFormErrors((prev) => ({ ...prev, [field]: "error" }));
+      const newKey = field;
+      const value = data[newKey]?.trim() || "";
+
+      if (!value) {
+        formErrors[newKey] = "This field is required";
         allFieldsValid = false;
       } else {
-        setFormErrors((prev) => ({ ...prev, [field]: "" }));
+        // Field-specific validations
+        if (newKey === "email" && !validateEmail(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "phone" && !validatePhone(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "firstName" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "lastName" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else {
+          formErrors[newKey] = "";
+        }
       }
     });
+
+    setFormErrors(formErrors);
 
     try {
       if (allFieldsValid) {
@@ -196,7 +222,12 @@ const FundingCalculator = () => {
                   `candidate-input`,
                   formErrors.firstName === "error" ? "bg-red-300" : ""
                 )}
-              />
+              />{" "}
+              {formErrors.firstName && formErrors.firstName === "invalid" && (
+                <p className=" text-red-600 py-2 flex justify-between">
+                  Invalid Name (Please start with alphabets)
+                </p>
+              )}
             </div>
             <div className="candidate-sub-childs">
               <p className="candidate-label">Last Name</p>
@@ -208,7 +239,12 @@ const FundingCalculator = () => {
                   `candidate-input`,
                   formErrors.lastName === "error" ? "bg-red-300" : ""
                 )}
-              />
+              />{" "}
+              {formErrors.lastName && formErrors.lastName === "invalid" && (
+                <p className=" text-red-600 py-2 flex justify-between">
+                  Invalid Name (Please start with alphabets)
+                </p>
+              )}
             </div>
             <div className="candidate-sub-childs">
               <p className="candidate-label">Email</p>
@@ -221,6 +257,11 @@ const FundingCalculator = () => {
                   formErrors.email === "error" ? "bg-red-300" : ""
                 )}
               />
+              {formErrors.email && formErrors.email === "invalid" && (
+                <p className=" text-red-600 py-2 flex justify-between">
+                  Invalid Email (john@example.com)
+                </p>
+              )}
             </div>
           </div>
 
