@@ -8,7 +8,8 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
   const { property, anotherText } = config;
   const [activeDD, setActiveDD] = useState(false);
   const [selectedCat, setSelectedCat] = useState("");
-  const { listings, role } = useContext(MyContext);
+  const { listings, role, loading } = useContext(MyContext);
+  const [uniqueItems, setUniqueItems] = useState();
 
   useEffect(() => {
     setSelectedCats((prevCats) => {
@@ -19,23 +20,28 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
     });
   }, [selectedCat]);
 
-  const textToRemove =
-    "Please see Item 7 within the FDD for details on the estimated Investment Range";
+  useEffect(() => {
+    if (!loading) {
+      const textToRemove =
+        "Please see Item 7 within the FDD for details on the estimated Investment Range";
+      const uniqueItems =
+        property === "investmentRange" ||
+        property === "liquidity" ||
+        property === "franchiseFee"
+          ? [
+              ...new Set(
+                listings.map((listing) =>
+                  removeSpecificText(listing[property], textToRemove)
+                )
+              ),
+            ].sort((a, b) => extractMinValue(a) - extractMinValue(b))
+          : [...new Set(listings.map((listing) => listing[property]))].sort(
+              (a, b) => a.localeCompare(b)
+            );
+      setUniqueItems(uniqueItems);
+    }
+  }, [loading]);
 
-  const uniqueItems =
-    property === "investmentRange" ||
-    property === "liquidity" ||
-    property === "franchiseFee"
-      ? [
-          ...new Set(
-            listings.map((listing) =>
-              removeSpecificText(listing[property], textToRemove)
-            )
-          ),
-        ].sort((a, b) => extractMinValue(a) - extractMinValue(b))
-      : [...new Set(listings.map((listing) => listing[property]))].sort(
-          (a, b) => a.localeCompare(b)
-        );
   const handleRemoveCat = (property, selectedCat) => {
     setSelectedCats((prevSelectedCats) =>
       prevSelectedCats.filter((cat) => cat[property] !== selectedCat)
@@ -99,23 +105,25 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
           activeDD ? "h-[300px]" : "h-0 opacity-0"
         } duration-200 bg-white border border-dimmed text-sm md:text-sm overflow-x-hidden overflow-scroll ]`}
       >
-        {uniqueItems.map(
-          (item, index) =>
-            item.trim() !== "" && (
-              <div className="flex justify-between items-center" key={index}>
-                <div
-                  onClick={() => {
-                    setActiveDD(false);
-                    setSelectedCat(item);
-                  }}
-                  className="text-black w-full block cursor-pointer hover:text-link px-3 
+        {!loading &&
+          uniqueItems &&
+          uniqueItems.map(
+            (item, index) =>
+              item.trim() !== "" && (
+                <div className="flex justify-between items-center" key={index}>
+                  <div
+                    onClick={() => {
+                      setActiveDD(false);
+                      setSelectedCat(item);
+                    }}
+                    className="text-black w-full block cursor-pointer hover:text-link px-3 
               py-2 hover:bg-slate-200"
-                >
-                  <span>{item}</span>
+                  >
+                    <span>{item}</span>
+                  </div>
                 </div>
-              </div>
-            )
-        )}
+              )
+          )}
       </div>
     </div>
   );
