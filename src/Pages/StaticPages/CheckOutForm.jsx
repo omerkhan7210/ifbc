@@ -316,94 +316,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
       [name]: "",
     }));
   };
-  const capitalOptions = [
-    { value: "10000", label: "Less than $10,000" },
-    { value: "20000", label: "$20,000" },
-    { value: "30000", label: "$30,000" },
-    { value: "40000", label: "$40,000" },
-    { value: "50000", label: "$50,000" },
-    { value: "60000", label: "$60,000" },
-    { value: "70000", label: "$70,000" },
-    { value: "80000", label: "$80,000" },
-    { value: "90000", label: "$90,000" },
-    { value: "100000", label: "$100,000" },
-    { value: "150000", label: "$150,000" },
-    { value: "200000", label: "$200,000" },
-    { value: "250000", label: "$250,000" },
-    { value: "300000", label: "$300,000" },
-    { value: "350000", label: "$350,000" },
-    { value: "400000", label: "$400,000" },
-    { value: "450000", label: "$450,000" },
-    { value: "500000", label: "$500,000" },
-    { value: "500001", label: "$500,000+" },
-  ];
-  const states = [
-    { value: "AL", text: "Alabama" },
-    { value: "AK", text: "Alaska" },
-    { value: "AZ", text: "Arizona" },
-    { value: "AR", text: "Arkansas" },
-    { value: "CA", text: "California" },
-    { value: "CO", text: "Colorado" },
-    { value: "CT", text: "Connecticut" },
-    { value: "DE", text: "Delaware" },
-    { value: "DC", text: "District Of Columbia" },
-    { value: "FL", text: "Florida" },
-    { value: "GA", text: "Georgia" },
-    { value: "HI", text: "Hawaii" },
-    { value: "ID", text: "Idaho" },
-    { value: "IL", text: "Illinois" },
-    { value: "IN", text: "Indiana" },
-    { value: "IA", text: "Iowa" },
-    { value: "KS", text: "Kansas" },
-    { value: "KY", text: "Kentucky" },
-    { value: "LA", text: "Louisiana" },
-    { value: "ME", text: "Maine" },
-    { value: "MD", text: "Maryland" },
-    { value: "MA", text: "Massachusetts" },
-    { value: "MI", text: "Michigan" },
-    { value: "MN", text: "Minnesota" },
-    { value: "MS", text: "Mississippi" },
-    { value: "MO", text: "Missouri" },
-    { value: "MT", text: "Montana" },
-    { value: "NE", text: "Nebraska" },
-    { value: "NV", text: "Nevada" },
-    { value: "NH", text: "New Hampshire" },
-    { value: "NJ", text: "New Jersey" },
-    { value: "NM", text: "New Mexico" },
-    { value: "NY", text: "New York" },
-    { value: "NC", text: "North Carolina" },
-    { value: "ND", text: "North Dakota" },
-    { value: "OH", text: "Ohio" },
-    { value: "OK", text: "Oklahoma" },
-    { value: "OR", text: "Oregon" },
-    { value: "PA", text: "Pennsylvania" },
-    { value: "RI", text: "Rhode Island" },
-    { value: "SC", text: "South Carolina" },
-    { value: "SD", text: "South Dakota" },
-    { value: "TN", text: "Tennessee" },
-    { value: "TX", text: "Texas" },
-    { value: "UT", text: "Utah" },
-    { value: "VT", text: "Vermont" },
-    { value: "VA", text: "Virginia" },
-    { value: "WA", text: "Washington" },
-    { value: "WV", text: "West Virginia" },
-    { value: "WI", text: "Wisconsin" },
-    { value: "WY", text: "Wyoming" },
-    { value: "INT", text: "International" },
-    { value: "AB", text: "Alberta" },
-    { value: "BC", text: "British Columbia" },
-    { value: "MB", text: "Manitoba" },
-    { value: "NB", text: "New Brunswick" },
-    { value: "NL", text: "Newfoundland and Labrador" },
-    { value: "NT", text: "Northwest Territories" },
-    { value: "NS", text: "Nova Scotia" },
-    { value: "NU", text: "Nunavut" },
-    { value: "ON", text: "Ontario" },
-    { value: "PE", text: "Prince Edward Island" },
-    { value: "QC", text: "Quebec" },
-    { value: "SK", text: "Saskatchewan" },
-    { value: "YT", text: "Yukon Territory" },
-  ];
 
   return (
     <div id="left-side-checkout-form" className="col-span-7">
@@ -510,43 +422,21 @@ const LeftSidebar = ({ cartListings, listings }) => {
 
         <div className="mt-4 flex flex-row space-x-2">
           <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="country">
-              Country
+            <label className="text-custom-heading-color" htmlFor="city">
+              City
             </label>
-            <select
-              name="country"
-              className={`candidate-select w-full ${
-                formErrors.country ? "bg-red-300" : ""
-              }`}
-              id="country"
+            <input
               onChange={handleInputChange}
-            >
-              <option value>Select a country</option>
-              <optgroup label="Africa">
-                <option value="AF">Afghanistan</option>
-                <option value="DZ">Algeria</option>
-                <option value="AO">Angola</option>
-                ...
-                <option value="ZW">Zimbabwe</option>
-              </optgroup>
-              <optgroup label="Asia">
-                <option value="AM">Armenia</option>
-                <option value="AZ">Azerbaijan</option>
-                <option value="BH">Bahrain</option>
-                ...
-                <option value="YE">Yemen</option>
-              </optgroup>
-              <optgroup label="South America">
-                <option value="AR">Argentina</option>
-                <option value="BO">Bolivia</option>
-                <option value="BR">Brazil</option>
-                ...
-                <option value="VE">Venezuela</option>
-              </optgroup>
-              ...
-            </select>
+              name="city"
+              placeholder="Your city"
+              className={`candidate-input ${
+                formErrors.city ? "bg-red-300" : ""
+              }`}
+              id="city"
+              type="text"
+              defaultValue={""}
+            />
           </div>
-
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="state">
               State
@@ -581,79 +471,40 @@ const LeftSidebar = ({ cartListings, listings }) => {
             />
           </div>
           <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="city">
-              City
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="city"
-              placeholder="Your city"
-              className={`candidate-input ${
-                formErrors.city ? "bg-red-300" : ""
-              }`}
-              id="city"
-              type="text"
-              defaultValue={""}
-            />
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-row space-x-2">
-          <div className="flex-1">
-            <label className="text-custom-heading-color">
-              Available Capital
-            </label>
-            <select
-              name="capital"
-              className={`candidate-select w-full ${
-                formErrors.capital ? "bg-red-300" : ""
-              }`}
-              id="capital"
-              onChange={handleInputChange}
-            >
-              {capitalOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="country">
-              Time Frame to Invest
+              Country
             </label>
             <select
-              name="invest"
+              name="country"
               className={`candidate-select w-full ${
-                formErrors.invest ? "bg-red-300" : ""
+                formErrors.country ? "bg-red-300" : ""
               }`}
-              id="invest"
+              id="country"
               onChange={handleInputChange}
             >
-              <option value="1-3 months">1-3 months</option>
-              <option value="3-6 months">3-6 months</option>
-              <option value="6+ months">6+ months</option>
-            </select>
-          </div>
-
-          <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="country">
-              Desired Location
-            </label>
-            <select
-              name="location"
-              className={`candidate-select w-full ${
-                formErrors.location ? "bg-red-300" : ""
-              }`}
-              id="location"
-              onChange={handleInputChange}
-            >
-              {states.map((state, index) => (
-                <option key={index} value={state.value}>
-                  {state.text}
-                </option>
-              ))}
+              <option value>Select a country</option>
+              <optgroup label="Africa">
+                <option value="AF">Afghanistan</option>
+                <option value="DZ">Algeria</option>
+                <option value="AO">Angola</option>
+                ...
+                <option value="ZW">Zimbabwe</option>
+              </optgroup>
+              <optgroup label="Asia">
+                <option value="AM">Armenia</option>
+                <option value="AZ">Azerbaijan</option>
+                <option value="BH">Bahrain</option>
+                ...
+                <option value="YE">Yemen</option>
+              </optgroup>
+              <optgroup label="South America">
+                <option value="AR">Argentina</option>
+                <option value="BO">Bolivia</option>
+                <option value="BR">Brazil</option>
+                ...
+                <option value="VE">Venezuela</option>
+              </optgroup>
+              ...
             </select>
           </div>
         </div>

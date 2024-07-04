@@ -111,7 +111,8 @@ const AllListings = () => {
           <>
             <p className="ml-5 text-custom-heading-color font-bold">
               Showing {paginationListings?.length} out of{" "}
-              {filterListings.length} Franchises
+              {filterListings ? filterListings.length : listings.length}{" "}
+              Franchises
             </p>
             <Pagination
               currentPage={currentPage}
