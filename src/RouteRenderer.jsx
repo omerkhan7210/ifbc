@@ -29,6 +29,7 @@ import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
 import TermsConditions from "./Pages/StaticPages/TermsConditions";
 import Popups from "./Pages/StaticPages/Popups";
 import ToolInformation from "./Pages/StaticPages/ToolInformation";
+import ToolComparison from "./Pages/StaticPages/ToolComparison";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -80,6 +81,10 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     {
       path: "/tool-information",
       element: <ToolInformation />,
+    },
+    {
+      path: "/tool-comparison",
+      element: <ToolComparison />,
     },
     {
       path: "/franchise-owner",
