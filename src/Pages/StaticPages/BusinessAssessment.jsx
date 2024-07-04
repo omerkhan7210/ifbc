@@ -6,7 +6,7 @@ const BusinessAssessment = () => {
     <PageTransition>
       <div
         id="top-text"
-        className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
+        className="p-5 relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
           background:
             "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/accounts/business.jpg)",
@@ -16,15 +16,15 @@ const BusinessAssessment = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="max-md:text-3xl md:text-5xl text-white z-20text-white font-bold text-center z-20">
+        <h1 className="max-md:text-3xl md:text-5xl text-white font-bold text-center z-20">
           Find A Franchise That Is Best For You With Our Assessment
         </h1>
-        <h3 className="max-md:text-md md:text-3xl text-white  font-bold text-center z-20">
+        <h3 className="max-md:text-md md:text-xl text-white  font-bold text-center z-20">
           Match your skills and talents with the right businesses with our 5-10
           minute online assessment
         </h3>
         <a
-          className="z-50 bg-white rounded-sm p-2 text-custom-dark-blue my-2 font-bold"
+          className="z-50 bg-white rounded-sm p-2 text-custom-dark-blue my-2 font-bold px-10"
           href="https://www.zorakle.net/assessment/welcome/ifbc"
           target="_blank"
           rel="noopener noreferrer"
@@ -33,22 +33,23 @@ const BusinessAssessment = () => {
         </a>
       </div>
 
-      <section className="theme-container mx-auto w-full">
+      <section className="theme-container mx-auto w-full my-10 flex flex-col gap-10">
         <ServicesGrid />
 
         <div className="max-md:flex flex-col md:grid grid-cols-2 my-5">
-          <div className=" ">
+          <div className="w-full">
             <img
               src={
                 "https://ifbcreact.s3.us-east-1.amazonaws.com/images/accounts/partner.jpg"
               }
+              className="rounded-xl"
             />
           </div>
-          <div className=" flex flex-col md:mx-20 gap-5 max-md:mt-5">
+          <div className=" flex flex-col md:mx-10 gap-2 justify-center max-md:mt-5">
             <h2 className="font-bold text-custom-dark-blue max-md:text-sm md:text-xl">
               BUSINESS ASSESSMENT
             </h2>
-            <p className="max-md:text-3xl md:text-4xl font-bold">
+            <p className="max-md:text-3xl md:text-5xl font-bold capitalize">
               Our assessment helps to quickly narrow down the field that is
               right for you
             </p>
