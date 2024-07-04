@@ -26,9 +26,10 @@ import Contact from "./Pages/StaticPages/Contact";
 import FundingResult from "./Pages/StaticPages/FundingResult";
 import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
 import TermsConditions from "./Pages/StaticPages/TermsConditions";
-import Popups from "./Pages/StaticPages/Popups";
-import ToolInformation from "./Pages/StaticPages/ToolInformation";
-import ToolComparison from "./Pages/StaticPages/ToolComparison";
+
+import ToolInformation from "./Popups/ToolInformation";
+import ToolComparison from "./Popups/ToolComparison";
+import ToolEmail from "./Popups/ToolEmail";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -74,8 +75,8 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       element: <MainAbout />,
     },
     {
-      path: "/popups",
-      element: <Popups />,
+      path: "/tool-email",
+      element: <ToolEmail />,
     },
     {
       path: "/tool-information",

@@ -3,12 +3,23 @@ import { useState } from "react";
 import DialogBox from "src/Popups/DialogBox";
 import { twMerge } from "tailwind-merge";
 
-const ToolInformation = ({ handleChange }) => {
-  const [show, setShow] = useState(true);
+const ToolInformation = ({ showInformation, setShowInformation }) => {
   const [loading, setLoading] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
+  const [data, setData] = useState({});
+
+  // yahan pr handlechange nhi laaye tum
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue =
+      type === "checkbox" ? (checked ? true : false) : sanitizeInput(value);
+
+    setData({
+      ...data,
+      [name]: inputValue,
+    });
+  };
   return (
-    <DialogBox show={show} setShow={setShow}>
+    <DialogBox show={showInformation} setShow={setShowInformation}>
       <div className="bg-white p-10 flex flex-col gap-8">
         <div className="flex justify-between">
           <p className="text-2xl text-center font-bold text-custom-heading-color">
@@ -21,6 +32,7 @@ const ToolInformation = ({ handleChange }) => {
             stroke-width="1.5"
             stroke="currentColor"
             class="size-6"
+            onClick={() => setShowInformation(false)}
           >
             <path
               stroke-linecap="round"

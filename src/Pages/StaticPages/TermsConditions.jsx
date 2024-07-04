@@ -520,14 +520,9 @@ const TermsConditions = () => {
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
             International Franchise Business Consultant Corp. 9350 Wilshire
-            Blvd,
+            Blvd,Suite 203 Beverly Hills, CA 90212
           </p>
-          <br></br>
-          <p className="max-md:text-[10px] md:text-lg">Suite 203</p>
-          <br></br>
-          <p className="max-md:text-[10px] md:text-lg">
-            Beverly Hills, CA 90212
-          </p>
+
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
             If we are unable to mutually agree upon a resolution after the
@@ -605,18 +600,11 @@ const TermsConditions = () => {
             International Franchise Business Consultant Corp. ATTN: Designated
             Agent
           </p>
-          <br></br>
-          <br></br>
-          <p className="max-md:text-[10px] md:text-lg">9350 Wilshire Blvd,</p>
-          <br></br>
-          <br></br>
-          <p className="max-md:text-[10px] md:text-lg">Suite 203</p>
-          <br></br>
 
           <p className="max-md:text-[10px] md:text-lg">
-            <br></br>
-            Beverly Hills, CA 90212
+            9350 Wilshire Blvd, Suite 203 Beverly Hills, CA 90212
           </p>
+
           <br></br>
           <br></br>
 
