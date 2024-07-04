@@ -27,10 +27,6 @@ import FundingResult from "./Pages/StaticPages/FundingResult";
 import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
 import TermsConditions from "./Pages/StaticPages/TermsConditions";
 
-import ToolInformation from "./Popups/ToolInformation";
-import ToolComparison from "./Popups/ToolComparison";
-import ToolEmail from "./Popups/ToolEmail";
-
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
 
@@ -74,18 +70,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       path: "/about",
       element: <MainAbout />,
     },
-    {
-      path: "/tool-email",
-      element: <ToolEmail />,
-    },
-    {
-      path: "/tool-information",
-      element: <ToolInformation />,
-    },
-    {
-      path: "/tool-comparison",
-      element: <ToolComparison />,
-    },
+
     {
       path: "/franchise-owner",
       element: <FranchiseOwner />,
