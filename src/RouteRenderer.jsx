@@ -47,15 +47,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
         </ListingDataContext>
       ),
     },
-    {
-      path: "/about",
-      element: <MainAbout />,
-    },
 
-    {
-      path: "/franchise-owner",
-      element: <FranchiseOwner />,
-    },
     {
       path: "/candidate-list",
       element: (
@@ -158,14 +150,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       path: "/business-assessment",
       element: <BusinessAssessment />,
     },
-    {
-      path: "/terms-conditions",
-      element: <TermsConditions />,
-    },
-    {
-      path: "/privacy-policy",
-      element: <PrivacyPolicy />,
-    },
+
     {
       path: "/profile",
       element: (
