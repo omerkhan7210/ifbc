@@ -29,7 +29,6 @@ import TermsConditions from "./Pages/StaticPages/TermsConditions";
 import Popups from "./Pages/StaticPages/Popups";
 import ToolInformation from "./Pages/StaticPages/ToolInformation";
 import ToolComparison from "./Pages/StaticPages/ToolComparison";
-import LocationSelector from "./Context/LocationSelector";
 
 const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -78,9 +77,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       path: "/new-candidate",
       element: (
         <CandidatesDataContext>
-          <LocationSelector>
-            <MainNewCand />
-          </LocationSelector>
+          <MainNewCand />
         </CandidatesDataContext>
       ),
     },
@@ -107,9 +104,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
         <TCFRDataContext>
           <ListingDataContext>
             <CandidatesDataContext>
-              <LocationSelector>
-                <MainCandidateProfile />
-              </LocationSelector>
+              <MainCandidateProfile />
             </CandidatesDataContext>
           </ListingDataContext>
         </TCFRDataContext>
@@ -156,11 +151,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     },
     {
       path: "/funding-calculator",
-      element: (
-        <LocationSelector>
-          <FundingCalculator />
-        </LocationSelector>
-      ),
+      element: <FundingCalculator />,
     },
     {
       path: "/results/:docId",
@@ -169,11 +160,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
 
     {
       path: "/contact",
-      element: (
-        <LocationSelector>
-          <Contact />
-        </LocationSelector>
-      ),
+      element: <Contact />,
     },
     {
       path: "/business-assessment",
@@ -204,9 +191,7 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       path: "/checkout",
       element: (
         <ListingDataContext>
-          <LocationSelector>
-            <CheckOutForm />
-          </LocationSelector>
+          <CheckOutForm />
         </ListingDataContext>
       ),
     },
