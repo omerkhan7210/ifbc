@@ -5,7 +5,7 @@ import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { twMerge } from "tailwind-merge";
 import axios from "axios";
 import Form from "src/Pages/CandidatePages/NewCandidate/Form";
-import { getCitiesOfState } from "src/Utils/locationUtils";
+import { getCitiesOfState } from "src/Utils/locationUtils.js";
 
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
   const { cands, userDetails } = useContext(MyCandContext);
