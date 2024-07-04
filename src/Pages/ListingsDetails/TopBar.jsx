@@ -193,7 +193,7 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
       </div>
       <div
         id="content-container"
-        className="grid grid-cols-12 gap-6  mt-8 justify-between overflow-hidden max-md:w-full"
+        className="grid grid-cols-12 gap-6  mt-8 justify-between  max-md:w-full"
       >
         <div
           id="buttons-container"

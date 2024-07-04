@@ -52,7 +52,7 @@
 }
 
 .candidate-select {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue font-bold text-sm  block p-2.5 mr-2 focus:outline-none focus:ring-1;
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue font-bold text-sm  block p-2.5 focus:outline-none focus:ring-1;
 }
 
 .candidate-tabs-content {
