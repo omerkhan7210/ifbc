@@ -219,19 +219,19 @@ const BottomBar = ({ listingContent }) => {
             (role === "C" || role === "N")
           ) {
             heading.style.display = "none";
-            if (heading.nextElementSibling.children[0].tagName !== "EM") {
+            if (heading.nextElementSibling.children[0]?.tagName !== "EM") {
               heading.nextElementSibling.style.display = "none";
             }
             if (
               heading.nextElementSibling.nextElementSibling.children[0]
-                .tagName !== "EM"
+                ?.tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.style.display =
                 "none";
             }
             if (
               heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .children[0].tagName !== "EM"
+                .children[0]?.tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";
@@ -241,7 +241,7 @@ const BottomBar = ({ listingContent }) => {
               heading.nextElementSibling.nextElementSibling.nextElementSibling
                 .nextElementSibling &&
               heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling.children[0].tagName !== "EM"
+                .nextElementSibling.children[0]?.tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";
@@ -251,7 +251,7 @@ const BottomBar = ({ listingContent }) => {
               heading.nextElementSibling.nextElementSibling.nextElementSibling
                 .nextElementSibling.nextElementSibling &&
               heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling.nextElementSibling.children[0].tagName !==
+                .nextElementSibling.nextElementSibling.children[0]?.tagName !==
                 "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
@@ -263,7 +263,7 @@ const BottomBar = ({ listingContent }) => {
                 .nextElementSibling.nextElementSibling.nextElementSibling &&
               heading.nextElementSibling.nextElementSibling.nextElementSibling
                 .nextElementSibling.nextElementSibling.nextElementSibling
-                .children[0].tagName !== "EM"
+                .children[0]?.tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";

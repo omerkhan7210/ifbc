@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
 import { useContext, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
@@ -207,6 +207,11 @@ const AccountDD = ({ userDetails, token, hidden }) => {
   const dispatch = useDispatch();
   const { role } = useContext(MyContext);
   const [roleName, setRoleName] = useState("Member");
+  const loc = useLocation();
+
+  useEffect(() => {
+    setActive(false);
+  }, [loc.pathname]);
 
   useEffect(() => {
     if (role) {

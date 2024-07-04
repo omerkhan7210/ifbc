@@ -204,7 +204,6 @@ const Contact = () => {
           contactCompany: data.contactCompany,
           contactEmail: data.contactEmail,
           contactPhone: data.contactPhone,
-          contactReason: data.contactReason,
           contactComments: data.contactComments ?? "",
           contactCopy: data.contactCopy ?? false,
         };

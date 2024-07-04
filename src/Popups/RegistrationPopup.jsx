@@ -4,8 +4,8 @@ import DialogBox from "./DialogBox";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { twMerge } from "tailwind-merge";
 import axios from "axios";
-import { DialogTitle } from "@headlessui/react";
 import Form from "src/Pages/CandidatePages/NewCandidate/Form";
+import { getCitiesOfState } from "src/Utils/locationUtils.js";
 
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
   const { cands, userDetails } = useContext(MyCandContext);
@@ -71,7 +71,9 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
     <>
       {/* SUCCESS DIALOG BOX */}
       <DialogBox show={showsuccess} setShow={setShowSuccess}>
-        <DialogTitle>{successMsg}</DialogTitle>
+        <div className="p-10 text-2xl text-custom-heading-color text-center">
+          {successMsg}
+        </div>
       </DialogBox>
       {/* TCHECK DIALOG BOX */}
       <DialogBox setShow={setShow} show={show}>
@@ -115,6 +117,8 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
                   userDetails={userDetails}
                   activeListings={activeListings}
                   setSelectedDetails={setSelectedDetails}
+                  setShowSuccess={setShowSuccess}
+                  setSuccessMsg={setSuccessMsg}
                 />
               ) : (
                 <Form
@@ -145,10 +149,21 @@ const FormTC = ({
   userDetails,
   setSelectedDetails,
   activeListings,
+  setShowSuccess,
+  setSuccessMsg,
 }) => {
   const [addContacts, setAddContacts] = useState(0);
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [cities, setCities] = useState([]);
+  const [selectedState, setSelectedState] = useState(null);
+
+  const handleStateChange = (e, name) => {
+    const stateCode = e.target.value;
+    setSelectedState(stateCode);
+    const cityList = getCitiesOfState("US", stateCode);
+    setCities(cityList);
+  };
   const states = [
     { value: "AL", text: "Alabama" },
     { value: "AK", text: "Alaska" },
@@ -437,23 +452,9 @@ const FormTC = ({
         <h2 className="candidate-sub-heading">Territory*</h2>
         <div className="flex justify-between gap-4 max-md:flex-col">
           <div className="flex flex-col w-full">
-            <p className="candidate-paragraph">City</p>
-            <input
-              onChange={handleInputChange}
-              name="territoryCity"
-              type="text"
-              className={`candidate-input ${
-                formErrors.territoryCity ? "bg-red-300" : ""
-              }`}
-              required
-              value={selectedDetails?.territoryCity}
-            />
-          </div>
-          <div className="flex flex-col w-full">
             <p className="candidate-paragraph">State/Province/Region</p>
             <select
-              onChange={handleInputChange}
-              value={selectedDetails?.territoryState}
+              onChange={handleStateChange}
               name={`${name}state`}
               id="state"
               className={twMerge(
@@ -463,13 +464,43 @@ const FormTC = ({
                   : ""
               )}
             >
-              {states.map((state, index) => (
-                <option key={index} value={state.value}>
-                  {state.text}
-                </option>
-              ))}
+              {states.map((state, index) =>
+                selectedState ? (
+                  <option value="" disabled>
+                    Select State
+                  </option>
+                ) : (
+                  <option key={index} value={state.value}>
+                    {state.text}
+                  </option>
+                )
+              )}
             </select>
           </div>
+          <div className="flex flex-col w-full">
+            <p className="candidate-paragraph">City</p>
+            <select
+              onChange={handleInputChange}
+              name="territoryCity"
+              className={twMerge(
+                "candidate-select",
+                formErrors.territorycity ? "bg-red-200 text-white" : ""
+              )}
+            >
+              {cities.map((city, index) =>
+                selectedState ? (
+                  <option value="" disabled>
+                    Select a state first
+                  </option>
+                ) : (
+                  <option key={index} value={city.name}>
+                    {city.name}
+                  </option>
+                )
+              )}
+            </select>
+          </div>
+
           <div className="flex flex-col w-full">
             <p className="candidate-paragraph">ZIP/Postal Code</p>
             <input
@@ -530,7 +561,7 @@ const FormTC = ({
       </label>
       <div className="flex flex-row justify-center mt-6">
         <button className="candidate-btn w-64" onClick={handleSubmit}>
-          Submit
+          {loading ? "Loading..." : "Submit"}
         </button>
       </div>
     </form>

@@ -37,25 +37,6 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
 
   const consultantRoutes = [
     {
-      path: "/",
-      element: (
-        <ListingDataContext>
-          <MainHome />
-        </ListingDataContext>
-      ),
-    },
-    {
-      path: "/listings",
-      element: (
-        <ListingDataContext>
-          <MainListings
-            setShow={setShow}
-            setRegistrationType={setRegistrationType}
-          />
-        </ListingDataContext>
-      ),
-    },
-    {
       path: "/listings-details/:name",
       element: (
         <ListingDataContext>
@@ -110,39 +91,6 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     },
 
     {
-      path: "/funding-calculator",
-      element: <FundingCalculator />,
-    },
-    {
-      path: "/results/:docId",
-      element: <FundingResult />,
-    },
-
-    {
-      path: "/contact",
-      element: <Contact />,
-    },
-    {
-      path: "/business-assessment",
-      element: <BusinessAssessment />,
-    },
-    {
-      path: "/terms-conditions",
-      element: <TermsConditions />,
-    },
-    {
-      path: "/privacy-policy",
-      element: <PrivacyPolicy />,
-    },
-    {
-      path: "/profile",
-      element: (
-        <CandidatesDataContext>
-          <Profile />
-        </CandidatesDataContext>
-      ),
-    },
-    {
       path: "/candidate-profile/:id",
       element: (
         <TCFRDataContext>
@@ -154,70 +102,9 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
         </TCFRDataContext>
       ),
     },
-    {
-      path: "/checkout",
-      element: (
-        <ListingDataContext>
-          <CheckOutForm />
-        </ListingDataContext>
-      ),
-    },
-    {
-      path: "/terms-conditions",
-      element: <TermsConditions />,
-    },
-    {
-      path: "/privacy-policy",
-      element: <PrivacyPolicy />,
-    },
-    { path: "*", element: <NotFoundPage /> },
   ];
 
-  // 2 roles hain hamare pass dono roles ke alag alag routes hain tum jo dalrhe the wo consultant wale may dalr the wahan bhi aengay lekn tumhe show isliye nhi horhe kunke tum normal yuser se logged in ho abhi (member hai normal user
-
-  const normalUserRoutes = [
-    { path: "*", element: <NotFoundPage /> },
-
-    {
-      path: "/contact",
-      element: <Contact />,
-    },
-    {
-      path: "/checkout",
-      element: (
-        <ListingDataContext>
-          <CheckOutForm />
-        </ListingDataContext>
-      ),
-    },
-    {
-      path: "/funding-calculator",
-      element: <FundingCalculator />,
-    },
-    {
-      path: "/results/:docId",
-      element: <FundingResult />,
-    },
-    {
-      path: "/terms-conditions",
-      element: <TermsConditions />,
-    },
-    {
-      path: "/privacy-policy",
-      element: <PrivacyPolicy />,
-    },
-    {
-      path: "/business-assessment",
-      element: <BusinessAssessment />,
-    },
-    {
-      path: "/profile",
-      element: (
-        <CandidatesDataContext>
-          <Profile />
-        </CandidatesDataContext>
-      ),
-    },
+  const staticRoutes = [
     {
       path: "/",
       element: (
@@ -238,23 +125,67 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       ),
     },
     {
-      path: "/listings-details/:name",
-      element: (
-        <ListingDataContext>
-          <MainDetails
-            setShow={setShow}
-            setRegistrationType={setRegistrationType}
-          />
-        </ListingDataContext>
-      ),
-    },
-    {
       path: "/about",
       element: <MainAbout />,
     },
     {
       path: "/franchise-owner",
       element: <FranchiseOwner />,
+    },
+    { path: "*", element: <NotFoundPage /> },
+    {
+      path: "/terms-conditions",
+      element: <TermsConditions />,
+    },
+    {
+      path: "/privacy-policy",
+      element: <PrivacyPolicy />,
+    },
+    {
+      path: "/funding-calculator",
+      element: <FundingCalculator />,
+    },
+    {
+      path: "/results/:docId",
+      element: <FundingResult />,
+    },
+
+    {
+      path: "/contact",
+      element: <Contact />,
+    },
+    {
+      path: "/business-assessment",
+      element: <BusinessAssessment />,
+    },
+    {
+      path: "/terms-conditions",
+      element: <TermsConditions />,
+    },
+    {
+      path: "/privacy-policy",
+      element: <PrivacyPolicy />,
+    },
+    {
+      path: "/profile",
+      element: (
+        <CandidatesDataContext>
+          <Profile />
+        </CandidatesDataContext>
+      ),
+    },
+  ];
+
+  // 2 roles hain hamare pass dono roles ke alag alag routes hain tum jo dalrhe the wo consultant wale may dalr the wahan bhi aengay lekn tumhe show isliye nhi horhe kunke tum normal yuser se logged in ho abhi (member hai normal user
+
+  const normalUserRoutes = [
+    {
+      path: "/checkout",
+      element: (
+        <ListingDataContext>
+          <CheckOutForm />
+        </ListingDataContext>
+      ),
     },
   ];
 
@@ -272,11 +203,12 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
       element: <ForgotPassword />,
     },
   ];
+
   const routes = useRoutes(
     isAuthenticated
       ? role === "N"
-        ? normalUserRoutes
-        : consultantRoutes
+        ? [...normalUserRoutes, ...staticRoutes]
+        : [...consultantRoutes, ...staticRoutes]
       : unauthenticatedRoutes
   );
   return routes;

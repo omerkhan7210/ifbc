@@ -51,11 +51,6 @@ const ListingsFilter = () => {
         },
 
         {
-          anotherText: "Select Number of Employees",
-          normalText: "Number of Employees",
-          property: "numberOfEmployees",
-        },
-        {
           anotherText: "Select Owned Units",
           normalText: "Owned Units",
           property: "ownedUnits",
@@ -65,31 +60,13 @@ const ListingsFilter = () => {
           normalText: "Passive Ownership",
           property: "passiveOwnership",
         },
-        {
-          anotherText: "Select Projected New Units",
-          normalText: "Projected New Units",
-          property: "projectedNewUnits",
-        },
+
         {
           anotherText: "Select Ramp Up",
           normalText: "Ramp Up",
           property: "rampUp",
         },
-        {
-          anotherText: "Select Royalty",
-          normalText: "Royalty",
-          property: "royalty",
-        },
-        {
-          anotherText: "Select Royalty Description",
-          normalText: "Royalty Description",
-          property: "royaltyDescription",
-        },
-        {
-          anotherText: "Select Item 19",
-          normalText: "Item 19",
-          property: "item19",
-        },
+
         {
           anotherText: "Select Liquidity",
           normalText: "Liquidity",
