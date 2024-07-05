@@ -19,25 +19,43 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
       return prevCats;
     });
   }, [selectedCat]);
+  const generateInvestmentRanges = (min, max, step) => {
+    let ranges = [];
+    for (let i = min; i <= max; i += step) {
+      ranges.push(`$${i.toLocaleString()} - $${(i + step).toLocaleString()}`);
+    }
+    return ranges;
+  };
 
   useEffect(() => {
     if (!loading) {
       const textToRemove =
         "Please see Item 7 within the FDD for details on the estimated Investment Range";
-      const uniqueItems =
-        property === "investmentRange" ||
-        property === "liquidity" ||
-        property === "franchiseFee"
-          ? [
-              ...new Set(
-                listings.map((listing) =>
-                  removeSpecificText(listing[property], textToRemove)
-                )
-              ),
-            ].sort((a, b) => extractMinValue(a) - extractMinValue(b))
-          : [...new Set(listings.map((listing) => listing[property]))].sort(
-              (a, b) => a.localeCompare(b)
-            );
+      let uniqueItems = [];
+      if (property !== "investmentRange") {
+        uniqueItems =
+          property === "liquidity" || property === "franchiseFee"
+            ? [
+                ...new Set(
+                  listings.map((listing) =>
+                    removeSpecificText(listing[property], textToRemove)
+                  )
+                ),
+              ].sort((a, b) => extractMinValue(a) - extractMinValue(b))
+            : [...new Set(listings.map((listing) => listing[property]))].sort(
+                (a, b) => a.localeCompare(b)
+              );
+      } else {
+        const minInvestment = 5000;
+        const maxInvestment = 7500000;
+        const step = 50000;
+        uniqueItems = generateInvestmentRanges(
+          minInvestment,
+          maxInvestment,
+          step
+        );
+      }
+
       setUniqueItems(uniqueItems);
     }
   }, [loading]);
