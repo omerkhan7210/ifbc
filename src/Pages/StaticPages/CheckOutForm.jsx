@@ -17,10 +17,15 @@ import axios from "axios";
 import DialogBox from "src/Popups/DialogBox";
 import PageTransition from "src/Animations/PageTransition";
 import { decrementByListing } from "src/Redux/listingReducer";
-import { twMerge } from "tailwind-merge";
+import {
+  sanitizeInput,
+  validateEmail,
+  validatePhone,
+  validateUsername,
+} from "src/Utils/SanitizeInput";
 
 const CheckOutForm = () => {
-  const { listings, loading } = useContext(MyContext);
+  const { listings } = useContext(MyContext);
   const cartListings = useSelector((state) => state.counter.cartListings);
   const [noCartlistings, setNoCartListings] = useState(true);
 
@@ -31,17 +36,6 @@ const CheckOutForm = () => {
       setNoCartListings(true);
     }
   }, [cartListings]);
-
-  useLayoutEffect(() => {
-    if (loading) {
-      document.querySelector("html").style.overflowY = "hidden";
-      document.querySelector("html").style.height = "100%";
-    }
-    if (!loading) {
-      document.querySelector("html").style.overflow = "auto";
-      document.querySelector("html").style.height = "auto";
-    }
-  }, [loading]);
 
   return (
     <PageTransition>
@@ -213,27 +207,33 @@ const LeftSidebar = ({ cartListings, listings }) => {
       "state",
     ];
     let allFieldsValid = true;
+    let formErrors = {};
 
     reqFields.forEach((field) => {
-      const newKey = field.toLowerCase();
-      if (!formFields[newKey] || formFields[newKey].trim() === "") {
-        setFormErrors((prev) => ({
-          ...prev,
-          [newKey]: "This field is required",
-        }));
+      const newKey = field;
+      const value = formFields[newKey]?.trim() || "";
+
+      if (!value) {
+        formErrors[newKey] = "This field is required";
         allFieldsValid = false;
       } else {
-        setFormErrors((prev) => ({ ...prev, [newKey]: "" }));
+        // Field-specific validations
+        if (newKey === "email" && !validateEmail(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "phone" && !validatePhone(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "name" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else {
+          formErrors[newKey] = "";
+        }
       }
     });
 
-    // Regex for email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!emailRegex.test(formFields.email)) {
-      setFormErrors((prev) => ({ ...prev, email: "Invalid email format" }));
-      allFieldsValid = false;
-    }
-
+    setFormErrors(formErrors);
     return allFieldsValid;
   };
 
@@ -260,6 +260,10 @@ const LeftSidebar = ({ cartListings, listings }) => {
         country: formFields.country,
         zipcode: formFields.zipcode,
         state: formFields.state,
+        desiredLoc: formFields.desiredLoc,
+        timeFrame: formFields.timeFrame,
+        availCapital: formFields.availCapital,
+        newsletter: formFields.newsletter ?? false,
         cartListings: JSON.stringify(cartListings),
       };
 
@@ -305,7 +309,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : value;
+    const inputValue = type === "checkbox" ? checked : sanitizeInput(value);
 
     setFormFields((prevFields) => ({
       ...prevFields,
@@ -470,7 +474,12 @@ const LeftSidebar = ({ cartListings, listings }) => {
             className={`candidate-input ${formErrors.name ? "bg-red-300" : ""}`}
             type="text"
             defaultValue={""}
-          />
+          />{" "}
+          {formErrors.name && formErrors.name === "invalid" && (
+            <p className=" text-white text-xs py-2 flex justify-between">
+              Invalid Name (Please start with alphabets)
+            </p>
+          )}
         </div>
 
         <div className="mt-4 flex flex-row space-x-2">
@@ -482,13 +491,16 @@ const LeftSidebar = ({ cartListings, listings }) => {
               onChange={handleInputChange}
               name="email"
               placeholder="Your email"
-              className={twMerge(
-                `candidate-input`,
-                formErrors.email ? "bg-red-300" : ""
-              )}
+              className="candidate-input"
+              style={{ borderColor: formErrors.email ? "red" : undefined }}
               id="email"
               type="email"
             />
+            {formErrors.email && formErrors.email === "invalid" && (
+              <p className=" text-white text-xs py-2 flex justify-between">
+                Invalid Email (john@example.com)
+              </p>
+            )}
           </div>
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="city">
@@ -498,13 +510,17 @@ const LeftSidebar = ({ cartListings, listings }) => {
               onChange={handleInputChange}
               name="phone"
               placeholder="Your phone"
-              className={`candidate-input ${
-                formErrors.phone ? "bg-red-300" : ""
-              }`}
+              className="candidate-input"
+              style={{ borderColor: formErrors.phone ? "red" : undefined }}
               id="phone"
               type="number"
               defaultValue={""}
-            />
+            />{" "}
+            {formErrors.phone && formErrors.phone === "invalid" && (
+              <p className=" text-white text-xs py-2 flex justify-between">
+                Invalid Phone Number (Please use numbers only)
+              </p>
+            )}
           </div>
         </div>
 
@@ -515,9 +531,8 @@ const LeftSidebar = ({ cartListings, listings }) => {
             </label>
             <select
               name="country"
-              className={`candidate-select w-full ${
-                formErrors.country ? "bg-red-300" : ""
-              }`}
+              className="candidate-select"
+              style={{ borderColor: formErrors.country ? "red" : undefined }}
               id="country"
               onChange={handleInputChange}
             >
@@ -566,21 +581,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
 
         <div className="mt-4 flex flex-row space-x-2">
           <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="zip">
-              ZIP
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="zipcode"
-              placeholder="Your ZIP code"
-              className={`candidate-input ${
-                formErrors.zipcode ? "bg-red-300" : ""
-              }`}
-              id="zip"
-              type="text"
-            />
-          </div>
-          <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="city">
               City
             </label>
@@ -596,9 +596,43 @@ const LeftSidebar = ({ cartListings, listings }) => {
               defaultValue={""}
             />
           </div>
+          <div className="flex-1">
+            <label className="text-custom-heading-color" htmlFor="zip">
+              ZIP
+            </label>
+            <input
+              onChange={handleInputChange}
+              name="zipcode"
+              placeholder="Your ZIP code"
+              className={`candidate-input ${
+                formErrors.zipcode ? "bg-red-300" : ""
+              }`}
+              id="zip"
+              type="text"
+            />
+          </div>
         </div>
 
         <div className="mt-4 flex flex-row space-x-2">
+          <div className="flex-1">
+            <label className="text-custom-heading-color" htmlFor="country">
+              Desired Location
+            </label>
+            <select
+              name="location"
+              className={`candidate-select w-full ${
+                formErrors.location ? "bg-red-300" : ""
+              }`}
+              id="location"
+              onChange={handleInputChange}
+            >
+              {states.map((state, index) => (
+                <option key={index} value={state.value}>
+                  {state.text}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="flex-1">
             <label className="text-custom-heading-color">
               Available Capital
@@ -636,28 +670,29 @@ const LeftSidebar = ({ cartListings, listings }) => {
               <option value="6+ months">6+ months</option>
             </select>
           </div>
-
-          <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="country">
-              Desired Location
-            </label>
-            <select
-              name="location"
-              className={`candidate-select w-full ${
-                formErrors.location ? "bg-red-300" : ""
-              }`}
-              id="location"
-              onChange={handleInputChange}
-            >
-              {states.map((state, index) => (
-                <option key={index} value={state.value}>
-                  {state.text}
-                </option>
-              ))}
-            </select>
-          </div>
         </div>
-
+        {/* Terms and conditions message */}
+        <p className="text-sm text-custom-heading-color text-left my-3">
+          By submitting the form, you agree to receive calls, text messages, or
+          emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
+          information provided. Message rates may apply. <br />
+          Text STOP to cancel text messaging at any time. <br />
+          See{" "}
+          <a
+            href="/terms-conditions"
+            className="text-custom-heading-color font-extrabold underline"
+          >
+            Terms & Conditions
+          </a>{" "}
+          and{" "}
+          <a
+            href="/privacy-policy"
+            className="text-custom-heading-color font-extrabold underline"
+          >
+            Privacy Policy
+          </a>{" "}
+          for additional details.
+        </p>
         <div className="mt-4 flex justify-center">
           <button
             className="candidate-btn w-64 flex justify-between items-center"
