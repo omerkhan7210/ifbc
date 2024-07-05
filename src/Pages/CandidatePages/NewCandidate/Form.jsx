@@ -2,9 +2,7 @@ import axios from "axios";
 import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { twMerge } from "tailwind-merge";
 import Tabs from "./Tabs";
-import { useNavigate } from "react-router-dom";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import DialogBox from "src/Popups/DialogBox";
 import {
@@ -13,6 +11,8 @@ import {
   validatePhone,
   validateUsername,
 } from "src/Utils/SanitizeInput";
+import { convertToMSSQLDate } from "src/Utils/ConvertDate";
+import { getCitiesOfState } from "src/Utils/locationUtils";
 
 const Form = ({ candDetails, candNames, activeListings }) => {
   const { userDetails } = useContext(MyCandContext);
@@ -23,6 +23,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [selectedDocId, setSelectedDocId] = useState();
   const [selectedDetails, setSelectedDetails] = useState({});
   const [showsuccess, setShowSuccess] = useState(false);
+  const [citiesT, setCitiesT] = useState([]);
+  const [citiesC, setCitiesC] = useState([]);
+  const [selectedStateT, setSelectedStateT] = useState(null);
+  const [selectedStateC, setSelectedStateC] = useState(null);
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
       const filtered = candDetails.filter(
@@ -110,20 +114,34 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     { value: "SK", text: "Saskatchewan" },
     { value: "YT", text: "Yukon Territory" },
   ];
+  const handleStateChange = (e, name) => {
+    const stateCode = e.target.value;
+    const cityList = getCitiesOfState("US", stateCode);
 
+    if (name === "territory") {
+      setSelectedStateT(stateCode);
+      setCitiesT(cityList);
+    } else {
+      setSelectedStateC(stateCode);
+      setCitiesC(cityList);
+    }
+    setFormFields((prev) => {
+      return {
+        ...prev,
+        [`${name}state`]:
+          name === "territory" ? selectedStateT : selectedStateC,
+      };
+    });
+  };
   const stateDD = (name) => {
-    const className = twMerge(
-      "candidate-select",
-      formErrors.territorystate && name === "territory"
-        ? "bg-red-200 text-white"
-        : ""
-    );
     return (
       <select
-        onChange={handleInputChange}
+        onChange={(e) => handleStateChange(e, name)}
         name={`${name}state`}
-        id="state"
-        className={className}
+        className="candidate-select w-full"
+        style={{
+          borderColor: formErrors[`${name}state`] ? "red" : undefined,
+        }}
       >
         {states.map((state, index) => (
           <option
@@ -412,8 +430,12 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : sanitizeInput(value);
+    let inputValue = type === "checkbox" ? checked : sanitizeInput(value);
     const newName = name.toLowerCase();
+
+    if (newName === "closedate") {
+      inputValue = convertToMSSQLDate(value);
+    }
 
     setFormFields((prevFields) => ({
       ...prevFields,
@@ -483,6 +505,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           setSelectedDocId={setSelectedDocId}
           selectedDocId={selectedDocId}
           selectedDetails={selectedDetails}
+          selectedStateT={selectedStateT}
         />
         <FormSecondRow
           stateDD={stateDD}
@@ -491,6 +514,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           candDetails={candDetails}
           candNames={candNames}
           selectedDetails={selectedDetails}
+          selectedStateT={selectedStateT}
+          citiesT={citiesT}
         />
         <FormThirdRow
           stateDD={stateDD}
@@ -499,6 +524,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           candDetails={candDetails}
           candNames={candNames}
           selectedDetails={selectedDetails}
+          selectedStateC={selectedStateC}
+          citiesC={citiesC}
         />
 
         {/* tabs */}
@@ -660,9 +687,10 @@ const FormFirstRow = ({
             <select
               id="firstname"
               name="firstname"
-              className={`candidate-select capitalize${
-                formErrors.firstname ? "bg-red-300" : ""
-              }`}
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.firstname ? "red" : undefined,
+              }}
               onChange={(e) => {
                 setSelectedDocId(e.target.value);
               }}
@@ -680,9 +708,10 @@ const FormFirstRow = ({
               onChange={handleInputChange}
               type="text"
               name="firstname"
-              className={`candidate-input ${
-                formErrors.firstname ? "bg-red-300" : ""
-              }`}
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.firstname ? "red" : undefined,
+              }}
               required
               defaultValue={candDetails?.firstName}
             />
@@ -699,7 +728,10 @@ const FormFirstRow = ({
             onChange={handleInputChange}
             type="text"
             name="lastname"
-            className={`candidate-input ${formErrors.lastname ? "bg-red-300" : ""}`}
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.lastname ? "red" : undefined,
+            }}
             required
             {...(candNames && candNames.length > 0
               ? { value: selectedDetails?.lastName }
@@ -707,7 +739,8 @@ const FormFirstRow = ({
           />
           {formErrors.lastname && formErrors.lastname === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
-              Invalid Name (Please start with alphabets)
+              Invalid username. It should be 3-16 characters long and can
+              include letters, numbers, underscores, and spaces.
             </p>
           )}
         </div>
@@ -722,9 +755,10 @@ const FormFirstRow = ({
           <input
             type="text"
             name="phone"
-            className={`candidate-input ${
-              formErrors.phone ? "bg-red-300" : ""
-            }`}
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.phone ? "red" : undefined,
+            }}
             onChange={handleInputChange}
             required
             {...(candNames && candNames.length > 0
@@ -733,7 +767,7 @@ const FormFirstRow = ({
           />
           {formErrors.phone && formErrors.phone === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
-              Invalid Phone Number (Please use numbers only)
+              Invalid phone number. It should be 11 digits long.
             </p>
           )}
         </div>
@@ -742,9 +776,10 @@ const FormFirstRow = ({
           <input
             type="email"
             name="email"
-            className={`candidate-input ${
-              formErrors.email ? "bg-red-300" : ""
-            }`}
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.email ? "red" : undefined,
+            }}
             required
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
@@ -798,6 +833,8 @@ const FormSecondRow = ({
   candDetails,
   candNames,
   selectedDetails,
+  selectedStateT,
+  citiesT,
 }) => {
   return (
     <div id="second-row" className="py-5">
@@ -822,22 +859,6 @@ const FormSecondRow = ({
         id="third-sub-row"
         className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
       >
-        {/* citygfddsfsdfgfdfgdf */}
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">City*</p>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            name="territorycity"
-            className={`candidate-input mr-2 ${
-              formErrors.territorycity ? "bg-red-300" : ""
-            }`}
-            required
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.territoryCity }
-              : { defaultValue: candDetails?.territoryCity })}
-          />
-        </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">State / Province*</p>
 
@@ -845,11 +866,45 @@ const FormSecondRow = ({
           {stateDD("territory")}
         </div>
         <div className="candidate-sub-childs">
+          <p className="candidate-label">City*</p>
+          {selectedStateT && citiesT.length > 0 ? (
+            <select
+              className="candidate-select"
+              name="territorycity"
+              onChange={handleInputChange}
+            >
+              {!selectedStateT && <option value="">Select City</option>}
+              {citiesT.map((city) => (
+                <option key={city.name} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="territorycity"
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.territorycity ? "red" : undefined,
+              }}
+              required
+              {...(candNames && candNames.length > 0
+                ? { value: selectedDetails?.territoryCity }
+                : { defaultValue: candDetails?.territoryCity })}
+            />
+          )}
+        </div>
+        <div className="candidate-sub-childs">
           <p className="candidate-label">Zip / Postal Code</p>
           <input
             type="text"
             name="territoryzipcode"
-            className="candidate-input"
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.territoryzipcode ? "red" : undefined,
+            }}
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
               ? { value: selectedDetails?.territoryZipCode }
@@ -883,6 +938,8 @@ const FormThirdRow = ({
   candDetails,
   candNames,
   selectedDetails,
+  selectedStateC,
+  citiesC,
 }) => {
   const [check, setChecked] = useState(false);
 
@@ -933,23 +990,38 @@ const FormThirdRow = ({
           className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
         >
           <div className="candidate-sub-childs">
-            <p className="candidate-label">City</p>
-            <input
-              onChange={handleInputChange}
-              type="text"
-              name="currentCity"
-              className="candidate-input mr-2"
-              required
-              {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.currentCity }
-                : { defaultValue: candDetails?.currentCity })}
-            />
-          </div>
-          <div className="candidate-sub-childs">
             <p className="candidate-label">State / Province*</p>
 
             {/* state dd */}
             {stateDD("current")}
+          </div>
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">City*</p>
+            {selectedStateC && citiesC.length > 0 ? (
+              <select
+                className="candidate-select"
+                name="territorycity"
+                onChange={handleInputChange}
+              >
+                {!selectedStateC && <option value="">Select City</option>}
+                {citiesC.map((city) => (
+                  <option key={city.name} value={city.name}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                onChange={handleInputChange}
+                type="text"
+                name="currentcity"
+                className="candidate-input w-full"
+                required
+                {...(candNames && candNames.length > 0
+                  ? { value: selectedDetails?.currentcity }
+                  : { defaultValue: candDetails?.currentcity })}
+              />
+            )}
           </div>
           <div className="candidate-sub-childs">
             <p className="candidate-label">Zip / Postal Code</p>
@@ -984,7 +1056,7 @@ const FormThirdRow = ({
           <p className="candidate-label">Deal Source</p>
           <input
             onChange={handleInputChange}
-            type="text"
+            type="number"
             name="DealSource"
             className="candidate-input"
             required
@@ -997,7 +1069,7 @@ const FormThirdRow = ({
           <p className="candidate-label">Deal Source Cost</p>
           <input
             onChange={handleInputChange}
-            type="text"
+            type="number"
             name="DealSourceCost"
             className="candidate-input"
             required
@@ -1011,7 +1083,7 @@ const FormThirdRow = ({
           <input
             onChange={handleInputChange}
             name="closeDate"
-            type="date"
+            type="datetime-local"
             className="candidate-input"
             placeholder="Select date"
             {...(candNames && candNames.length > 0

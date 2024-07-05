@@ -225,7 +225,7 @@ const Initial = ({
       }`}
     >
       <div>
-        <p className="candidate-label">
+        <p className="candidate-questions">
           How much money are you wanting to invest in the franchise?
         </p>
       </div>
@@ -246,7 +246,7 @@ const Initial = ({
       </select>
 
       <div>
-        <p className="candidate-label">Do you have a need for funding?</p>
+        <p className="candidate-questions">Do you have a need for funding?</p>
       </div>
       <select
         onChange={handleInputChange}
@@ -269,7 +269,7 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="candidate-label">
+        <p className="candidate-questions">
           What is your approximate credit score?
         </p>
       </div>
@@ -289,7 +289,7 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="candidate-label">Net Worth?</p>
+        <p className="candidate-questions">Net Worth?</p>
       </div>
       <select
         onChange={handleInputChange}
@@ -307,7 +307,7 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="candidate-label">Liquid Cash?</p>
+        <p className="candidate-questions">Liquid Cash?</p>
       </div>
       <select
         onChange={handleInputChange}
@@ -325,7 +325,7 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="candidate-label">
+        <p className="candidate-questions">
           What caused you to start looking for a franchise?
         </p>
       </div>
@@ -345,7 +345,9 @@ const Initial = ({
         ))}
       </select>
       <div>
-        <p className="candidate-label">What is your professional background?</p>
+        <p className="candidate-questions">
+          What is your professional background?
+        </p>
       </div>
       <select
         onChange={handleInputChange}
@@ -363,7 +365,7 @@ const Initial = ({
         ))}
       </select>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           What franchises are you interested in?
         </p>
         <input
@@ -378,7 +380,7 @@ const Initial = ({
         />
       </div>
       <div>
-        <p className="candidate-label">What is your time frame?</p>
+        <p className="candidate-questions">What is your time frame?</p>
       </div>
       <select
         onChange={handleInputChange}
@@ -396,10 +398,7 @@ const Initial = ({
         ))}
       </select>
       <div className="mt-5">
-        <label
-          htmlFor="message"
-          className="text-black font-bold first-letter:text-sm"
-        >
+        <label htmlFor="message" className="candidate-questions">
           Notes
         </label>
         <textarea
@@ -491,7 +490,7 @@ const Zoracle = ({
     >
       <div>
         <div>
-          <p className="candidate-label">Competency 1?</p>
+          <p className="candidate-questions">Competency 1?</p>
         </div>
         <select
           onChange={handleInputChange}
@@ -511,7 +510,7 @@ const Zoracle = ({
       </div>
       <div>
         <div>
-          <p className="candidate-label">Competency 2?</p>
+          <p className="candidate-questions">Competency 2?</p>
         </div>
         <select
           onChange={handleInputChange}
@@ -531,7 +530,7 @@ const Zoracle = ({
       </div>
       <div>
         <div>
-          <p className="candidate-label">Competency 3?</p>
+          <p className="candidate-questions">Competency 3?</p>
         </div>
         <select
           onChange={handleInputChange}
@@ -551,7 +550,7 @@ const Zoracle = ({
       </div>
       <div>
         <div>
-          <p className="candidate-label">Stage of Growth</p>
+          <p className="candidate-questions">Stage of Growth</p>
         </div>
         <select
           onChange={handleInputChange}
@@ -571,7 +570,7 @@ const Zoracle = ({
       </div>
       <div>
         <div>
-          <p className="candidate-label">Value</p>
+          <p className="candidate-questions">Value</p>
         </div>
         <select
           onChange={handleInputChange}
@@ -590,7 +589,7 @@ const Zoracle = ({
         </select>
       </div>
       <div>
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Emulator - Motivated by an insatiable desire for success, they are
           driven to do whatever it takes to conquer a challenge. Recognition and
           money defines success for Emulators. They prefer prestigious,
@@ -615,7 +614,9 @@ const Zoracle = ({
         </p>
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">What work activities do you enjoy?</p>
+        <p className="candidate-questions">
+          What work activities do you enjoy?
+        </p>
         <input
           onChange={handleInputChange}
           name="Activities"
@@ -628,7 +629,7 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Are you comfortable attending networking functions to promote your new
           business?
         </p>
@@ -644,7 +645,7 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Are you interested in Multiple-Unit Operation or Masters?
         </p>
         <input
@@ -659,7 +660,7 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Are you planning on having a partner in the business?
         </p>
         <input
@@ -674,7 +675,7 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           How does your family feel about your interest in this?
         </p>
         <input
@@ -689,7 +690,7 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           What types of employees would you prefer to work with (if any)?
         </p>
         <input
@@ -704,7 +705,7 @@ const Zoracle = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           What size staff are you comfortable with?
         </p>
         <input
@@ -719,7 +720,7 @@ const Zoracle = ({
         />
       </div>
       <div className="mt-5">
-        <label htmlFor="message" className="candidate-label">
+        <label htmlFor="message" className="candidate-questions">
           Summary / Notes
         </label>
         <textarea
@@ -759,7 +760,7 @@ const Eligibility = ({
       }`}
     >
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           How do you plan on funding the business?
         </p>
         <input
@@ -774,7 +775,9 @@ const Eligibility = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">What is the value of your 401k/IRA?</p>
+        <p className="candidate-questions">
+          What is the value of your 401k/IRA?
+        </p>
         <input
           onChange={handleInputChange}
           name="EligibilityValue"
@@ -788,7 +791,7 @@ const Eligibility = ({
       </div>
       <div>
         <div>
-          <p className="candidate-label">
+          <p className="candidate-questions">
             Have you been in the military or could you qualify for a VA loan? Do
             you qualify for any of these discounts
           </p>
@@ -810,7 +813,7 @@ const Eligibility = ({
         </select>
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Is your current net worth over $500,000? If not, what is your current
           net worth?
         </p>
@@ -826,12 +829,12 @@ const Eligibility = ({
         />
       </div>
       <div className="flex flex-col">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Have you or your spouse ever been convicted of something other than a
           minor traffic violation?
         </p>
-        <ul className="flex">
-          <li className="mr-4 flex">
+        <ul className="flex mt-3 items-center">
+          <li className="mr-4 flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -845,14 +848,14 @@ const Eligibility = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Have you or your spouse ever been convicted of something other
         than a minor traffic violation?_yes"
             >
               Yes
             </label>
           </li>
-          <li className="flex">
+          <li className="flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -866,7 +869,7 @@ const Eligibility = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Have you or your spouse ever been convicted of something other
         than a minor traffic violation?_no"
             >
@@ -876,12 +879,12 @@ const Eligibility = ({
         </ul>
       </div>
       <div className="flex flex-col">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Are you or your spouse subject to a pending litigation or unsatisfied
           judgment?
         </p>
-        <ul className="flex">
-          <li className="mr-4 flex">
+        <ul className="flex mt-3 items-center mt-3">
+          <li className="mr-4 flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -895,13 +898,13 @@ const Eligibility = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Are you or your spouse subject to a pending litigation or unsatisfied judgment?_yes"
             >
               Yes
             </label>
           </li>
-          <li className="flex">
+          <li className="flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -916,7 +919,7 @@ const Eligibility = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Are you or your spouse subject to a pending litigation or unsatisfied judgment?_no"
             >
               No
@@ -925,7 +928,7 @@ const Eligibility = ({
         </ul>
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Have you or your spouse ever declared bankruptcy? If yes, when was it
           discharged?
         </p>
@@ -941,7 +944,7 @@ const Eligibility = ({
         />
       </div>
       <div className="mt-5">
-        <label htmlFor="message" className="candidate-label">
+        <label htmlFor="message" className="candidate-questions">
           Notes
         </label>
         <textarea
@@ -972,7 +975,7 @@ const Experience = ({
       }`}
     >
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Have you ever owned a business before?
         </p>
         <input
@@ -987,7 +990,9 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">Do you have any marketing experience?</p>
+        <p className="candidate-questions">
+          Do you have any marketing experience?
+        </p>
         <input
           onChange={handleInputChange}
           name="MarketingExperience"
@@ -1000,7 +1005,7 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Do you have any management experience?
         </p>
         <input
@@ -1015,7 +1020,7 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">Do you have sales experience?</p>
+        <p className="candidate-questions">Do you have sales experience?</p>
         <input
           onChange={handleInputChange}
           name="SalesExperience"
@@ -1028,7 +1033,7 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Do you have experience in reviewing financial statements?
         </p>
         <input
@@ -1043,7 +1048,7 @@ const Experience = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Do you have customer service and account management experience?
         </p>
         <input
@@ -1076,7 +1081,7 @@ const Wants = ({
       }`}
     >
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           What do you find most attractive about being a business owner?
         </p>
         <input
@@ -1091,7 +1096,7 @@ const Wants = ({
         />
       </div>
       <div className="candidate-input-container">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           From your past experience is there anything you prefer not to handle
           with your new business?
         </p>
@@ -1107,7 +1112,7 @@ const Wants = ({
         />
       </div>
       <div className="mt-5">
-        <label htmlFor="message" className="candidate-label">
+        <label htmlFor="message" className="candidate-questions">
           What are your expectations from the business? What type of lifestyle
           are you looking to achieve?
         </label>
@@ -1121,8 +1126,8 @@ const Wants = ({
         />
       </div>
       <div className="flex flex-col">
-        <p className="candidate-label">Do you prefer B2B or B2C?</p>
-        <ul className="flex">
+        <p className="candidate-questions">Do you prefer B2B or B2C?</p>
+        <ul className="flex mt-3 mt-3 items-center">
           <li className="flex mr-4">
             <input
               onChange={handleInputChange}
@@ -1134,9 +1139,9 @@ const Wants = ({
                 ? { checked: selectedDetails?.preferB2b === "Both" }
                 : { defaultChecked: candDetails?.preferB2b === "Both" })}
             />
-            <label className="mb-2 block text-custom-dark-blue">Both</label>
+            <label className="candidate-radio-text">Both</label>
           </li>
-          <li className="flex mr-4">
+          <li className="flex mr-4 items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -1147,9 +1152,9 @@ const Wants = ({
                 ? { checked: selectedDetails?.preferB2b === "B2B" }
                 : { defaultChecked: candDetails?.preferB2b === "B2B" })}
             />
-            <label className="mb-2 block text-custom-dark-blue">B2B</label>
+            <label className="candidate-radio-text">B2B</label>
           </li>
-          <li className="flex">
+          <li className="flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -1160,16 +1165,16 @@ const Wants = ({
                 ? { checked: selectedDetails?.preferB2b === "B2C" }
                 : { defaultChecked: candDetails?.preferB2b === "B2C" })}
             />
-            <label className="mb-2 block text-custom-dark-blue">B2C</label>
+            <label className="candidate-radio-text">B2C</label>
           </li>
         </ul>
       </div>
       <div className="flex flex-col">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Do you prefer a physical location or home-based business model?
         </p>
-        <ul className="flex">
-          <li className="flex mr-4">
+        <ul className="flex mt-3 items-center">
+          <li className="flex mr-4 items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -1180,11 +1185,11 @@ const Wants = ({
                 ? { checked: selectedDetails?.physicalLocation === "Both" }
                 : { defaultChecked: candDetails?.physicalLocation === "Both" })}
             />
-            <label className="mb-2 block text-custom-dark-blue" htmlFor="Both">
+            <label className="candidate-radio-text" htmlFor="Both">
               Both
             </label>
           </li>
-          <li className="flex mr-4">
+          <li className="flex items-center mr-4">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -1200,14 +1205,11 @@ const Wants = ({
                       candDetails?.physicalLocation === "Home-based",
                   })}
             />
-            <label
-              className="mb-2 block text-custom-dark-blue"
-              htmlFor="Home-based"
-            >
+            <label className="candidate-radio-text" htmlFor="Home-based">
               Home-based
             </label>
           </li>
-          <li className="flex">
+          <li className="flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -1221,20 +1223,17 @@ const Wants = ({
                       candDetails?.physicalLocation === "Physical",
                   })}
             />
-            <label
-              className="mb-2 block text-custom-dark-blue"
-              htmlFor="Physical"
-            >
+            <label className="candidate-radio-text" htmlFor="Physical">
               Physical
             </label>
           </li>
         </ul>
       </div>
       <div className="flex flex-col">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Would you prefer to have an inventory or service-based business model?
         </p>
-        <ul className="flex">
+        <ul className="flex mt-3 items-center">
           <li className="mr-4 flex">
             <input
               onChange={handleInputChange}
@@ -1247,7 +1246,7 @@ const Wants = ({
                 : { defaultChecked: candDetails?.inventory === "Both" })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor=" Would you prefer to have an inventory or service-based business
         models_Both"
             >
@@ -1265,11 +1264,11 @@ const Wants = ({
                 ? { checked: selectedDetails?.inventory === "Inventory" }
                 : { defaultChecked: candDetails?.inventory === "Inventory" })}
             />
-            <label className="mb-2 block text-custom-dark-blue" htmlFor="type1">
+            <label className="candidate-radio-text" htmlFor="type1">
               Inventory
             </label>
           </li>
-          <li className="flex">
+          <li className="flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -1280,17 +1279,17 @@ const Wants = ({
                 ? { checked: selectedDetails?.inventory === "Service" }
                 : { defaultChecked: candDetails?.inventory === "Service" })}
             />
-            <label className="mb-2 block text-custom-dark-blue" htmlFor="type2">
+            <label className="candidate-radio-text" htmlFor="type2">
               Service
             </label>
           </li>
         </ul>
       </div>
       <div className="flex flex-col">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Are you comfortable with a business that requires cold calling?
         </p>
-        <ul className="flex">
+        <ul className="flex mt-3 items-center">
           <li className="mr-4 flex">
             <input
               onChange={handleInputChange}
@@ -1303,7 +1302,7 @@ const Wants = ({
                 : { defaultChecked: candDetails?.coldCalling === "Both" })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Are you comfortable with a business that requires cold calling?_Both"
             >
               Both
@@ -1321,7 +1320,7 @@ const Wants = ({
                 : { defaultChecked: candDetails?.coldCalling === "Yes" })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Are you comfortable with a business that requires cold calling?
           
           _Yes"
@@ -1329,7 +1328,7 @@ const Wants = ({
               Yes
             </label>
           </li>
-          <li className="flex">
+          <li className="flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -1341,7 +1340,7 @@ const Wants = ({
                 : { defaultChecked: candDetails?.coldCalling === "No" })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Are you comfortable with a business that requires cold calling?
           
           _no"
@@ -1352,12 +1351,12 @@ const Wants = ({
         </ul>
       </div>
       <div className="flex flex-col">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Are you going to be in this business as an owner/operator or do you
           prefer a passive model, semi-passive model? (Passive Ownership means
           the owner is working 15 hours or less per week in the business.)
         </p>
-        <ul className="flex">
+        <ul className="flex mt-3 items-center">
           <li className="mr-4 flex">
             <input
               onChange={handleInputChange}
@@ -1373,7 +1372,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Are you going to be in this business as an owner/operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)Owner/Operator"
             >
               Owner/Operator
@@ -1393,7 +1392,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Are you going to be in this business as an owner/operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)
           
           _Passive"
@@ -1401,7 +1400,7 @@ const Wants = ({
               Passive
             </label>
           </li>
-          <li className="flex">
+          <li className="flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -1415,7 +1414,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Are you going to be in this business as an owner/operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)
           
           _Semi"
@@ -1426,10 +1425,10 @@ const Wants = ({
         </ul>
       </div>
       <div className="flex flex-col">
-        <p className="candidate-label">
+        <p className="candidate-questions">
           Is working standard business hours (9am-5pm) important to you?
         </p>
-        <ul className="flex">
+        <ul className="flex mt-3 items-center">
           <li className="mr-4 flex">
             <input
               onChange={handleInputChange}
@@ -1444,7 +1443,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Is working standard business hours (9am-5pm) important to you?_Both"
             >
               Both
@@ -1464,7 +1463,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Is working standard business hours (9am-5pm) important to you?
           
           _Yes"
@@ -1472,7 +1471,7 @@ const Wants = ({
               Yes
             </label>
           </li>
-          <li className="flex">
+          <li className="flex items-center">
             <input
               onChange={handleInputChange}
               type="radio"
@@ -1486,7 +1485,7 @@ const Wants = ({
                   })}
             />
             <label
-              className="mb-2 block text-custom-dark-blue"
+              className="candidate-radio-text"
               htmlFor="Is working standard business hours (9am-5pm) important to you?
           
           _no"
@@ -1497,7 +1496,7 @@ const Wants = ({
         </ul>
       </div>
       <div className="mt-5">
-        <label htmlFor="message" className="candidate-label">
+        <label htmlFor="message" className="candidate-questions">
           Notes
         </label>
         <textarea

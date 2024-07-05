@@ -36,7 +36,13 @@
 }
 
 .candidate-label {
-  @apply text-black font-bold mt-6;
+  @apply text-black font-bold mt-3;
+}
+.candidate-questions {
+  @apply text-black font-bold text-sm mt-6;
+}
+.candidate-radio-text {
+  @apply block text-custom-dark-blue;
 }
 
 .candidate-sub-heading {
