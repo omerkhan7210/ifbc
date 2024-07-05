@@ -22,7 +22,9 @@ import {
   validateEmail,
   validatePhone,
   validateUsername,
+  validateZipcode,
 } from "src/Utils/SanitizeInput";
+import { getCitiesOfState } from "src/Utils/locationUtils";
 
 const CheckOutForm = () => {
   const { listings } = useContext(MyContext);
@@ -195,17 +197,21 @@ const LeftSidebar = ({ cartListings, listings }) => {
   const [formErrors, setFormErrors] = useState({});
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
+  const [cities, setCities] = useState([]);
+  const [selectedState, setSelectedState] = useState(null);
+
+  const handleStateChange = (e) => {
+    const stateCode = e.target.value;
+    setSelectedState(stateCode);
+    setFormFields((prev) => {
+      return { ...prev, state: selectedState };
+    });
+    const cityList = getCitiesOfState("US", stateCode);
+    setCities(cityList);
+  };
 
   const validateFields = () => {
-    const reqFields = [
-      "name",
-      "city",
-      "country",
-      "email",
-      "phone",
-      "zipcode",
-      "state",
-    ];
+    const reqFields = ["name", "city", "email", "phone", "zipcode", "state"];
     let allFieldsValid = true;
     let formErrors = {};
 
@@ -227,6 +233,9 @@ const LeftSidebar = ({ cartListings, listings }) => {
         } else if (newKey === "name" && !validateUsername(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
+        } else if (newKey === "zipcode" && !validateZipcode(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
         } else {
           formErrors[newKey] = "";
         }
@@ -236,7 +245,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
     setFormErrors(formErrors);
     return allFieldsValid;
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -257,16 +265,17 @@ const LeftSidebar = ({ cartListings, listings }) => {
         phone: formFields.phone,
         email: formFields.email,
         city: formFields.city,
-        country: formFields.country,
+        country: "USA",
         zipcode: formFields.zipcode,
         state: formFields.state,
-        desiredLoc: formFields.desiredLoc,
-        timeFrame: formFields.timeFrame,
-        availCapital: formFields.availCapital,
+        desiredLoc: formFields.desiredLoc ?? "Alabama",
+        timeFrame: formFields.timeFrame ?? "1-3 months",
+        availCapital: formFields.availCapital ?? "Less than $10,000",
         newsletter: formFields.newsletter ?? false,
         cartListings: JSON.stringify(cartListings),
       };
 
+      console.log(formData);
       const jsonData = JSON.stringify(formData);
       const baseUrl =
         "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/checkout";
@@ -292,10 +301,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
             });
           history("/");
         }, 2000);
-
-        // setTimeout(() => {
-        //   history("/");
-        // }, 3000);
       } else {
         setFormErrors({ error: response.data });
         setLoading(false);
@@ -304,6 +309,10 @@ const LeftSidebar = ({ cartListings, listings }) => {
       }
     } catch (error) {
       console.error("Error:", error);
+      setFormErrors({ error: error?.response?.data?.title });
+      window.scrollTo(0, 500);
+      // Handle unexpected response
+      setLoading(false);
     }
   };
 
@@ -320,6 +329,94 @@ const LeftSidebar = ({ cartListings, listings }) => {
       [name]: "",
     }));
   };
+  const capitalOptions = [
+    { value: "10000", label: "Less than $10,000" },
+    { value: "20000", label: "$20,000" },
+    { value: "30000", label: "$30,000" },
+    { value: "40000", label: "$40,000" },
+    { value: "50000", label: "$50,000" },
+    { value: "60000", label: "$60,000" },
+    { value: "70000", label: "$70,000" },
+    { value: "80000", label: "$80,000" },
+    { value: "90000", label: "$90,000" },
+    { value: "100000", label: "$100,000" },
+    { value: "150000", label: "$150,000" },
+    { value: "200000", label: "$200,000" },
+    { value: "250000", label: "$250,000" },
+    { value: "300000", label: "$300,000" },
+    { value: "350000", label: "$350,000" },
+    { value: "400000", label: "$400,000" },
+    { value: "450000", label: "$450,000" },
+    { value: "500000", label: "$500,000" },
+    { value: "500001", label: "$500,000+" },
+  ];
+  const states = [
+    { value: "AL", text: "Alabama" },
+    { value: "AK", text: "Alaska" },
+    { value: "AZ", text: "Arizona" },
+    { value: "AR", text: "Arkansas" },
+    { value: "CA", text: "California" },
+    { value: "CO", text: "Colorado" },
+    { value: "CT", text: "Connecticut" },
+    { value: "DE", text: "Delaware" },
+    { value: "DC", text: "District Of Columbia" },
+    { value: "FL", text: "Florida" },
+    { value: "GA", text: "Georgia" },
+    { value: "HI", text: "Hawaii" },
+    { value: "ID", text: "Idaho" },
+    { value: "IL", text: "Illinois" },
+    { value: "IN", text: "Indiana" },
+    { value: "IA", text: "Iowa" },
+    { value: "KS", text: "Kansas" },
+    { value: "KY", text: "Kentucky" },
+    { value: "LA", text: "Louisiana" },
+    { value: "ME", text: "Maine" },
+    { value: "MD", text: "Maryland" },
+    { value: "MA", text: "Massachusetts" },
+    { value: "MI", text: "Michigan" },
+    { value: "MN", text: "Minnesota" },
+    { value: "MS", text: "Mississippi" },
+    { value: "MO", text: "Missouri" },
+    { value: "MT", text: "Montana" },
+    { value: "NE", text: "Nebraska" },
+    { value: "NV", text: "Nevada" },
+    { value: "NH", text: "New Hampshire" },
+    { value: "NJ", text: "New Jersey" },
+    { value: "NM", text: "New Mexico" },
+    { value: "NY", text: "New York" },
+    { value: "NC", text: "North Carolina" },
+    { value: "ND", text: "North Dakota" },
+    { value: "OH", text: "Ohio" },
+    { value: "OK", text: "Oklahoma" },
+    { value: "OR", text: "Oregon" },
+    { value: "PA", text: "Pennsylvania" },
+    { value: "RI", text: "Rhode Island" },
+    { value: "SC", text: "South Carolina" },
+    { value: "SD", text: "South Dakota" },
+    { value: "TN", text: "Tennessee" },
+    { value: "TX", text: "Texas" },
+    { value: "UT", text: "Utah" },
+    { value: "VT", text: "Vermont" },
+    { value: "VA", text: "Virginia" },
+    { value: "WA", text: "Washington" },
+    { value: "WV", text: "West Virginia" },
+    { value: "WI", text: "Wisconsin" },
+    { value: "WY", text: "Wyoming" },
+    { value: "INT", text: "International" },
+    { value: "AB", text: "Alberta" },
+    { value: "BC", text: "British Columbia" },
+    { value: "MB", text: "Manitoba" },
+    { value: "NB", text: "New Brunswick" },
+    { value: "NL", text: "Newfoundland and Labrador" },
+    { value: "NT", text: "Northwest Territories" },
+    { value: "NS", text: "Nova Scotia" },
+    { value: "NU", text: "Nunavut" },
+    { value: "ON", text: "Ontario" },
+    { value: "PE", text: "Prince Edward Island" },
+    { value: "QC", text: "Quebec" },
+    { value: "SK", text: "Saskatchewan" },
+    { value: "YT", text: "Yukon Territory" },
+  ];
 
   return (
     <div id="left-side-checkout-form" className="col-span-7">
@@ -349,8 +446,14 @@ const LeftSidebar = ({ cartListings, listings }) => {
         </div>
       </DialogBox>
       <div className="flex flex-col rounded-lg ">
+        <div>
+          <h1 className="text-3xl font-bold capitalize text-custom-heading-color max-md:text-center">
+            Fill in your details
+          </h1>
+        </div>
+
         {formErrors.error && (
-          <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
+          <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between mt-5">
             {formErrors.error}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -368,14 +471,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             </svg>
           </p>
         )}
-
-        <div>
-          <h1 className="text-3xl font-bold capitalize text-custom-heading-color max-md:text-center">
-            Fill in your details
-          </h1>
-        </div>
-
-        <div className="mt-4">
+        <div className="mt-6">
           <label className="text-custom-heading-color" htmlFor="name">
             Name
           </label>
@@ -383,9 +479,9 @@ const LeftSidebar = ({ cartListings, listings }) => {
             onChange={handleInputChange}
             name="name"
             placeholder="Your name"
-            className={`candidate-input ${formErrors.name ? "bg-red-300" : ""}`}
+            className="candidate-input w-full"
+            style={{ borderColor: formErrors.zipcode ? "red" : undefined }}
             type="text"
-            defaultValue={""}
           />{" "}
           {formErrors.name && formErrors.name === "invalid" && (
             <p className=" text-white text-xs py-2 flex justify-between">
@@ -393,8 +489,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             </p>
           )}
         </div>
-
-        <div className="mt-4 flex flex-row space-x-2">
+        <div className="mt-6 flex flex-row space-x-2">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="state">
               Email
@@ -435,127 +530,55 @@ const LeftSidebar = ({ cartListings, listings }) => {
             )}
           </div>
         </div>
-
-        <div className="mt-4 flex flex-row space-x-2">
-          <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="city">
-              City
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="city"
-              placeholder="Your city"
-              className={`candidate-input ${
-                formErrors.city ? "bg-red-300" : ""
-              }`}
-              id="city"
-              type="text"
-              defaultValue={""}
-            />
-          </div>
+        <div className="mt-6 flex flex-row space-x-2">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="state">
               State
             </label>
-            <input
-              onChange={handleInputChange}
-              name="state"
-              placeholder="Your state"
-              className={`candidate-input ${
-                formErrors.state ? "bg-red-300" : ""
-              }`}
-              id="state"
-              type="text"
-            />
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-row space-x-2">
-          <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="zip">
-              ZIP
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="zipcode"
-              placeholder="Your ZIP code"
-              className={`candidate-input ${
-                formErrors.zipcode ? "bg-red-300" : ""
-              }`}
-              id="zip"
-              type="text"
-            />
-          </div>
-          <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="country">
-              Country
-            </label>
-            <select
-              name="country"
-              className="candidate-select"
-              style={{ borderColor: formErrors.country ? "red" : undefined }}
-              id="country"
-              onChange={handleInputChange}
-            >
-              <option value>Select a country</option>
-              <optgroup label="Africa">
-                <option value="AF">Afghanistan</option>
-                <option value="DZ">Algeria</option>
-                <option value="AO">Angola</option>
-                ...
-                <option value="ZW">Zimbabwe</option>
-              </optgroup>
-              <optgroup label="Asia">
-                <option value="AM">Armenia</option>
-                <option value="AZ">Azerbaijan</option>
-                <option value="BH">Bahrain</option>
-                ...
-                <option value="YE">Yemen</option>
-              </optgroup>
-              <optgroup label="South America">
-                <option value="AR">Argentina</option>
-                <option value="BO">Bolivia</option>
-                <option value="BR">Brazil</option>
-                ...
-                <option value="VE">Venezuela</option>
-              </optgroup>
-              ...
-            </select>
+            {states.length > 0 && (
+              <select
+                name="state"
+                className="candidate-select w-full"
+                style={{ borderColor: formErrors.state ? "red" : undefined }}
+                onChange={handleStateChange}
+              >
+                {!selectedState && <option value="">Select State</option>}
+                {states.map((state) => (
+                  <option key={state.value} value={state.value}>
+                    {state.text}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
-          <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="state">
-              State
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="state"
-              placeholder="Your state"
-              className={`candidate-input ${
-                formErrors.state ? "bg-red-300" : ""
-              }`}
-              id="state"
-              type="text"
-            />
-          </div>
-        </div>
-
-        <div className="mt-4 flex flex-row space-x-2">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="city">
               City
             </label>
-            <input
-              onChange={handleInputChange}
-              name="city"
-              placeholder="Your city"
-              className={`candidate-input ${
-                formErrors.city ? "bg-red-300" : ""
-              }`}
-              id="city"
-              type="text"
-              defaultValue={""}
-            />
+            {selectedState && cities.length > 0 ? (
+              <select
+                name="city"
+                className="candidate-select w-full"
+                style={{ borderColor: formErrors.city ? "red" : undefined }}
+                onChange={handleInputChange}
+              >
+                {!formFields.city && <option value="">Select City</option>}
+
+                {cities.map((city) => (
+                  <option key={city.name} value={city.name}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type="text"
+                name="city"
+                id=""
+                className="candidate-input w-full"
+              />
+            )}
           </div>
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="zip">
@@ -565,26 +588,24 @@ const LeftSidebar = ({ cartListings, listings }) => {
               onChange={handleInputChange}
               name="zipcode"
               placeholder="Your ZIP code"
-              className={`candidate-input ${
-                formErrors.zipcode ? "bg-red-300" : ""
-              }`}
+              className="candidate-input w-full"
+              style={{ borderColor: formErrors.zipcode ? "red" : undefined }}
               id="zip"
-              type="text"
+              type="number"
             />
           </div>
         </div>
-
-        <div className="mt-4 flex flex-row space-x-2">
+        <div className="mt-6 flex flex-row space-x-2">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="country">
               Desired Location
             </label>
             <select
-              name="location"
+              name="desiredLoc"
               className={`candidate-select w-full ${
                 formErrors.location ? "bg-red-300" : ""
               }`}
-              id="location"
+              id="desiredLoc"
               onChange={handleInputChange}
             >
               {states.map((state, index) => (
@@ -599,11 +620,11 @@ const LeftSidebar = ({ cartListings, listings }) => {
               Available Capital
             </label>
             <select
-              name="capital"
+              name="availCapital"
               className={`candidate-select w-full ${
                 formErrors.capital ? "bg-red-300" : ""
               }`}
-              id="capital"
+              id="availCapital"
               onChange={handleInputChange}
             >
               {capitalOptions.map((option) => (
@@ -619,11 +640,11 @@ const LeftSidebar = ({ cartListings, listings }) => {
               Time Frame to Invest
             </label>
             <select
-              name="invest"
+              name="timeFrame"
               className={`candidate-select w-full ${
                 formErrors.invest ? "bg-red-300" : ""
               }`}
-              id="invest"
+              id="timeFrame"
               onChange={handleInputChange}
             >
               <option value="1-3 months">1-3 months</option>
@@ -633,28 +654,22 @@ const LeftSidebar = ({ cartListings, listings }) => {
           </div>
         </div>
         {/* Terms and conditions message */}
-        <p className="text-sm text-custom-heading-color text-left my-3">
+        <p className="text-sm text-white text-left my-6 bg-custom-heading-color p-5">
           By submitting the form, you agree to receive calls, text messages, or
           emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
           information provided. Message rates may apply. <br />
           Text STOP to cancel text messaging at any time. <br />
           See{" "}
-          <a
-            href="/terms-conditions"
-            className="text-custom-heading-color font-extrabold underline"
-          >
+          <a href="/terms-conditions" className=" font-extrabold underline">
             Terms & Conditions
           </a>{" "}
           and{" "}
-          <a
-            href="/privacy-policy"
-            className="text-custom-heading-color font-extrabold underline"
-          >
+          <a href="/privacy-policy" className=" font-extrabold underline">
             Privacy Policy
           </a>{" "}
           for additional details.
         </p>
-        <div className="mt-4 flex justify-center">
+        <div className="mt-6 flex justify-center">
           <button
             className="candidate-btn w-64 flex justify-between items-center"
             type="submit"

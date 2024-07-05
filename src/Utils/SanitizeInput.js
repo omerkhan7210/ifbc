@@ -19,6 +19,11 @@ export function validateUsername(username) {
   return /^[a-zA-Z][a-zA-Z0-9_ ]{2,15}$/.test(username);
 }
 
+export function validateZipcode(zipcode) {
+  // Basic US zipcode validation (5 digits or 5 digits + 4 digits)
+  return /^\d{5}(-\d{4})?$/.test(zipcode);
+}
+
 export function removeSpecificText(input, textToRemove) {
   const regex = new RegExp(textToRemove, "gi");
   return input.replace(regex, "").trim();
