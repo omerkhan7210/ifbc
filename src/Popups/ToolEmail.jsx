@@ -82,7 +82,7 @@ const ToolEmail = ({ showEmail, setShowEmail }) => {
           </button>
         </div>
         <p className="text-custom-dark-blue font-bold text-sm">
-          List of conepts to sent territory check to:
+          List of concepts to sent territory check to:
         </p>
       </div>
     </DialogBox>
