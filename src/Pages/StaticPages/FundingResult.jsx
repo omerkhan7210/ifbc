@@ -14,25 +14,30 @@ const FundingResult = () => {
 
   const getData = async () => {
     setLoading(true);
-    const response = await axios.get(
-      `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/fundcalculator/${docId}`
-    );
-    if (response.status === 200) {
-      setData(response.data);
+    try {
+      const response = await axios.get(
+        `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/fundcalculator/${docId}`
+      );
+      if (response.status === 200) {
+        setData(response.data);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
       setLoading(false);
     }
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [docId]);
 
   useEffect(() => {
     const debtResult = Math.floor(
       (data.debtPayments / (data.houseHold / 12)) * 100
     );
-
     setResult(debtResult);
   }, [data, loading]);
+
   return (
     <PageTransition>
       <div
@@ -47,7 +52,7 @@ const FundingResult = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="max-md:text-3xl md:text-5xl text-white font-bold text-center z-20">
+        <h1 className="max-md:text-3xl md:text-7xl text-white font-bold text-center z-20">
           PRE-QUALIFY FOR FUNDING{" "}
         </h1>
 
@@ -59,9 +64,9 @@ const FundingResult = () => {
         <h1 className="text-3xl text-left">
           <span className="font-bold">Results</span>
         </h1>
-        {!loading ? (
+        {!loading && Object.values(data).length > 0 ? (
           <p className="text-xl text-left text-custom-heading-color mt-5">
-            Your net worth is: {formatCurrency(data.totalNet)} <br />
+            Your net worth is: {formatCurrency(data?.totalNet)} <br />
             Your debt to income ratio is: {result}%
             {result <= 35 ? (
               <>
@@ -72,7 +77,7 @@ const FundingResult = () => {
                 <br />
                 <br />
                 Your maximum total investment is{" "}
-                {formatCurrency(data.debtPayments)}. Look for franchises below
+                {formatCurrency(data?.debtPayments)}. Look for franchises below
                 this number in initial investment.
                 <br />
                 <br />
@@ -106,7 +111,7 @@ const FundingResult = () => {
                 <br />
                 <br />
                 Your maximum total investment is{" "}
-                {formatCurrency(data.debtPayments)}. Look for franchises below
+                {formatCurrency(data?.debtPayments)}. Look for franchises below
                 this number in initial investment.
                 <br />
                 <br />

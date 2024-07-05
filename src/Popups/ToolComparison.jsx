@@ -3,10 +3,9 @@ import { useState } from "react";
 
 import DialogBox from "src/Popups/DialogBox";
 
-const ToolComparison = () => {
-  const [show, setShow] = useState(true);
+const ToolComparison = ({ showComparison, setShowComparison }) => {
   return (
-    <DialogBox show={show} setShow={setShow}>
+    <DialogBox show={showComparison} setShow={setShowComparison}>
       <div className="bg-white p-10 flex flex-col gap-8">
         <div className="flex justify-between">
           <p className="text-2xl text-center font-bold text-custom-heading-color">
@@ -19,6 +18,7 @@ const ToolComparison = () => {
             stroke-width="1.5"
             stroke="currentColor"
             class="size-6"
+            onClick={() => setShowComparison(false)}
           >
             <path
               stroke-linecap="round"

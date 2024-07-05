@@ -11,9 +11,15 @@ import {
   incrementActiveListing,
 } from "src/Redux/listingReducer";
 
+import ToolInformation from "src/Popups/ToolInformation";
+import ToolEmail from "src/Popups/ToolEmail";
+import ToolComparison from "src/Popups/ToolComparison";
+
 const ExtraTools = ({ setShow, setRegistrationType }) => {
+  const [showEmail, setShowEmail] = useState(false);
+  const [showInformation, setShowInformation] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
   const {
-    handleTools,
     activeListings,
     showActiveListings,
     setShowActiveListings,
@@ -34,6 +40,22 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
   const handleOpenRegistration = (type) => {
     setRegistrationType(type);
     setShow(true);
+  };
+
+  const handleTools = (e) => {
+    // getting selected value from select
+    const value = e.target.value;
+    //select krne pr value arhi
+
+    if (value === "email") {
+      setShowEmail(true);
+    }
+    // issi tarah baaki dono ki bhi states true hongy
+    else if (value === "info") {
+      setShowInformation(true);
+    } else if (value === "comparison") {
+      setShowComparison(true);
+    }
   };
   return (
     <div className="grid grid-cols-12 gap-3 items-center">
@@ -76,6 +98,17 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
             </select>
           </div>
         )}
+
+        <ToolEmail showEmail={showEmail} setShowEmail={setShowEmail} />
+
+        <ToolInformation
+          showInformation={showInformation}
+          setShowInformation={setShowInformation}
+        />
+        <ToolComparison
+          showComparison={showComparison}
+          setShowComparison={setShowComparison}
+        />
 
         <button
           className={`${

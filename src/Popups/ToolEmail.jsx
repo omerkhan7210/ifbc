@@ -3,17 +3,29 @@ import { useState } from "react";
 import DialogBox from "src/Popups/DialogBox";
 import { twMerge } from "tailwind-merge";
 
-const Popups = ({ handleChange }) => {
-  const [show, setShow] = useState(true);
+const ToolEmail = ({ showEmail, setShowEmail }) => {
+  const [data, setData] = useState({});
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue =
+      type === "checkbox" ? (checked ? true : false) : sanitizeInput(value);
+
+    // jab bhi koi method lao uske andar ki states dekha kro wo banana parti
+    setData({
+      ...data,
+      [name]: inputValue,
+    });
+  };
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   return (
-    <DialogBox show={show} setShow={setShow}>
+    <DialogBox show={showEmail} setShow={setShowEmail}>
       <div className="bg-white p-10 flex flex-col gap-8">
         <div className="flex justify-between">
           <p className="text-2xl text-center font-bold text-custom-heading-color">
             Email Concepts
           </p>
+          {/* is button pr close hona chaye */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -21,6 +33,7 @@ const Popups = ({ handleChange }) => {
             stroke-width="1.5"
             stroke="currentColor"
             class="size-6"
+            onClick={() => setShowEmail(false)}
           >
             <path
               stroke-linecap="round"
@@ -76,4 +89,4 @@ const Popups = ({ handleChange }) => {
   );
 };
 
-export default Popups;
+export default ToolEmail;
