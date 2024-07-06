@@ -1,3 +1,5 @@
+import axios from "axios";
+import { filter } from "lodash";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import BarLoader from "src/Animations/BarLoader";
@@ -14,8 +16,8 @@ const MainMessages = () => {
   const { newData, loadingTCFR } = useContext(MyTCFRContext);
   const { listings, loading } = useContext(MyContext);
   const { cands } = useContext(MyCandContext);
-  const [selectedListings, setSelectedListings] = useState([]);
-  const [filteredListings, setFilteredListings] = useState([]);
+  const [selectedMessages, setSelectedMessages] = useState([]);
+  const [filteredMessages, setFilteredMessages] = useState([]);
   const [filters, setFilters] = useState([]);
 
   useEffect(() => {
@@ -26,21 +28,45 @@ const MainMessages = () => {
       setFormalReg(true);
       setFilters({ type: "FR" });
     }
+    setFilters((prev) => ({
+      ...prev,
+      status: "Inbox",
+    }));
   }, []);
 
   useEffect(() => {
     if (!loadingTCFR && newData && newData.length > 0) {
-      const filter = newData.filter((data) => data.docType === filters.type);
-      console.log(filter);
-      if (filter.length > 0) {
-        setFilteredListings(filter);
+      const filterType = newData.filter(
+        (data) => data.docType === filters.type
+      );
+
+      if (filterType.length > 0) {
+        setFilteredMessages(filterType);
       } else if (filters.type === "All") {
-        setFilteredListings(newData);
+        setFilteredMessages(newData);
       } else {
-        setFilteredListings([]);
+        setFilteredMessages([]);
       }
     }
   }, [filters]);
+
+  useEffect(() => {
+    if (filteredMessages && filteredMessages.length > 0 && filters.status) {
+      let filterStatus = [];
+      if (filters.status === "Archived") {
+        filterStatus = filteredMessages.map(
+          (listing) => listing.isArchive === true
+        );
+        setFilteredMessages(filterStatus);
+      } else if (filters.status === "Trash") {
+        filterStatus = filteredListings.map(
+          (listing) => listing.isTrash === true
+        );
+        setFilteredMessages(filterStatus);
+      }
+    }
+  }, [filteredMessages, filters]);
+
   return (
     <PageTransition>
       <div
@@ -68,21 +94,26 @@ const MainMessages = () => {
             filters={filters}
           />
           <SecondRow
-            setSelectedListings={setSelectedListings}
-            listings={listings}
+            setSelectedMessages={setSelectedMessages}
+            filteredMessages={filteredMessages}
+            setFilters={setFilters}
+            filters={filters}
+            selectedMessages={selectedMessages}
           />
           <div
             id="cards-container"
-            className={`${filteredListings && filteredListings.length > 0 ? "grid" : ""} grid-cols-1 md:grid-cols-3 gap-5`}
+            className={`${filteredMessages && filteredMessages.length > 0 ? "grid" : ""} grid-cols-1 md:grid-cols-3 gap-5`}
           >
-            {filteredListings && filteredListings.length > 0 ? (
-              filteredListings.map((card, index) => (
+            {filteredMessages && filteredMessages.length > 0 ? (
+              filteredMessages.map((card, index) => (
                 <Card
                   key={index}
                   card={card}
+                  index={index}
                   listings={listings}
                   cands={cands}
-                  selectedListings={selectedListings}
+                  selectedMessages={selectedMessages}
+                  filteredMessages={filteredMessages}
                 />
               ))
             ) : (
@@ -99,7 +130,14 @@ const MainMessages = () => {
   );
 };
 
-const Card = ({ card, cands, listings, selectedListings }) => {
+const Card = ({
+  card,
+  cands,
+  listings,
+  filteredMessages,
+  selectedMessages,
+  index,
+}) => {
   const [filteredListing, setFilteredListing] = useState();
   const [filteredCand, setFilteredCand] = useState();
   useEffect(() => {
@@ -127,7 +165,7 @@ const Card = ({ card, cands, listings, selectedListings }) => {
         <label class="container">
           <input
             class="peer cursor-pointer hidden after:opacity-100"
-            checked={selectedListings.includes(filteredListing?.docId)}
+            checked={selectedMessages.includes(filteredMessages[index].docId)}
             type="checkbox"
           />
           <span class="inline-block w-5 h-5 border-2 relative cursor-pointer after:content-[''] after:absolute after:top-2/4 after:left-2/4 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[10px] after:h-[10px] after:bg-[#333] after:rounded-[2px] after:opacity-0 peer-checked:after:opacity-100"></span>
@@ -202,6 +240,14 @@ const FirstRow = ({ formalReg, tCheck, setFilters, filters }) => {
       type: e.target.value,
     }));
   };
+
+  const handleStatusChange = (e) => {
+    e.preventDefault();
+    setFilters((prev) => ({
+      ...prev,
+      status: e.target.value,
+    }));
+  };
   return (
     <div
       id="filter-options"
@@ -231,8 +277,9 @@ const FirstRow = ({ formalReg, tCheck, setFilters, filters }) => {
           name="inbox-dropdown"
           id="inbox-dropdown"
           className="candidate-select w-full"
+          onChange={handleStatusChange}
         >
-          <option value="inbox">Inbox</option>
+          <option value="Inbox">Inbox</option>
           <option value="Archived">Archived</option>
           <option value="Trash">Trash</option>
         </select>
@@ -248,6 +295,8 @@ const FirstRow = ({ formalReg, tCheck, setFilters, filters }) => {
           <option value="All">All</option>
           <option value="Favs">Favorites</option>
           <option value="Msgs">Messages</option>
+          <option value="Read">Read</option>
+          <option value="Unread">Unread</option>
           <option value="TC" selected={tCheck}>
             Territory Checks
           </option>
@@ -260,14 +309,83 @@ const FirstRow = ({ formalReg, tCheck, setFilters, filters }) => {
   );
 };
 
-const SecondRow = ({ setSelectedListings, listings }) => {
-  const [allListingIds, docId] = useState([]);
+const SecondRow = ({
+  setSelectedMessages,
+  filteredMessages,
+  setFilters,
+  filters,
+  selectedMessages,
+}) => {
+  const [allMessagesIds, setAllMessagesIds] = useState([]);
+  const [allSelectedMessagesData, setAllSelectedMessagesData] = useState([]);
   useEffect(() => {
-    if (listings && listings.length > 0) {
-      const names = listings.map((listing) => listing.docId);
-      docId(names);
+    if (filteredMessages && filteredMessages.length > 0) {
+      const ids = filteredMessages.map((msg) => msg.docId);
+      const uniqueIds = [...new Set(ids)];
+      setAllMessagesIds(uniqueIds);
     }
-  }, [listings]);
+  }, [filteredMessages]);
+
+  useEffect(() => {
+    if (filteredMessages && filteredMessages.length > 0) {
+      const allMessages = filteredMessages.map((msg) =>
+        selectedMessages.includes(msg.docId)
+      );
+      setAllSelectedMessagesData(allMessages);
+    }
+  }, [selectedMessages]);
+
+  const handleBulkActions = (e) => {
+    e.preventDefault();
+    const value = e.target.value;
+    setFilters((prev) => ({
+      ...prev,
+      action: value,
+    }));
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const url =
+      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations/";
+
+    allSelectedMessagesData.map((messages) => {
+      const formData = {
+        candidateId: selectedDocId ?? 0,
+        AgentId: userDetails.docId ?? 0,
+        listingsIds:
+          JSON.stringify(activeListings).replace(/[^0-9,]/g, "") ?? "",
+        InterRequest: selectedDetails.IncludeNameInTerritoryRequest ?? false,
+        docType: "TC",
+        Status: "Pending",
+        Message: "",
+        email: "",
+      };
+
+      axios
+        .put(url + listing.id, formData)
+        .then((response) => {
+          // Handle successful response
+          if (response.status === 200) {
+            const allData = response.data.filter(
+              (data) => data.agentId === userDetails.docId
+            );
+
+            dispatch(addAllRegistrations(response.data));
+            setAll(allData);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          // Handle error
+          setLoadingError(true);
+          console.error("Error fetching data:", error);
+        });
+    });
+    // Make a GET request to fetch the data
+  };
 
   return (
     <div
@@ -279,7 +397,7 @@ const SecondRow = ({ setSelectedListings, listings }) => {
         className="flex gap-5 items-center justify-center"
       >
         <button
-          onClick={() => setSelectedListings(allListingIds)}
+          onClick={() => setSelectedMessages(allMessagesIds)}
           id="select-all-btn"
           className="candidate-btn w-full flex justify-center items-center gap-3"
         >
@@ -299,61 +417,32 @@ const SecondRow = ({ setSelectedListings, listings }) => {
             />
           </svg>
         </button>
+      </div>
 
+      <div id="read-unread-btns" className="flex gap-3 justify-end">
         <select
           name="markread-dropdown"
           id="markread-dropdown"
           className="candidate-select w-full"
+          onChange={handleBulkActions}
         >
-          <option value="">Bulk Options</option>
+          {!filters.action && <option value="">Bulk Options</option>}
           <option value="Markread">Mark read</option>
           <option value="Archive">Archive</option>
           <option value="Delete">Delete</option>
         </select>
+        {filters.action && (
+          <button
+            className="candidate-btn w-full flex justify-center items-center gap-3"
+            onSubmit={handleEdit}
+          >
+            Confirm
+          </button>
+        )}
       </div>
+
       <div id="search">
         <SearchingInput />
-      </div>
-      <div id="read-unread-btns" className="flex gap-3 justify-end">
-        <button className="candidate-btn w-full flex justify-center items-center gap-3">
-          READ
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-            />
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-            />
-          </svg>
-        </button>
-        <button className="candidate-btn w-full flex justify-center items-center gap-3">
-          UNREAD
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"
-            />
-          </svg>
-        </button>
       </div>
     </div>
   );
@@ -380,7 +469,7 @@ const SearchingInput = () => {
       <input
         type="search"
         id="search-field"
-        placeholder="Search Any Candidate"
+        placeholder="Search Any Message"
         value={searchKeyword}
         ref={ref}
         onChange={handleSearchInputChange}
