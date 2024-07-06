@@ -68,9 +68,13 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     {
       path: "/messages/:name",
       element: (
-        <CandidatesDataContext>
-          <MainMessages />
-        </CandidatesDataContext>
+        <ListingDataContext>
+          <CandidatesDataContext>
+            <TCFRDataContext>
+              <MainMessages />
+            </TCFRDataContext>
+          </CandidatesDataContext>
+        </ListingDataContext>
       ),
     },
     {

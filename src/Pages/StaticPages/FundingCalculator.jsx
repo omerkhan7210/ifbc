@@ -144,7 +144,6 @@ const FundingCalculator = () => {
     }
   };
 
-  console.log(data);
   return (
     <PageTransition>
       <div
@@ -245,13 +244,11 @@ const FundingCalculator = () => {
                 onChange={handleChange}
                 type="text"
                 name="firstName"
-                className={twMerge(
-                  `candidate-input`,
-                  formErrors.firstName && formErrors.firstName !== ""
-                    ? "bg-red-300"
-                    : ""
-                )}
-              />{" "}
+                className="candidate-input w-full"
+                style={{
+                  borderColor: formErrors.firstName ? "red" : undefined,
+                }}
+              />
               {formErrors.firstName && formErrors.firstName === "invalid" && (
                 <p className=" text-red-600 py-2 flex justify-between">
                   Invalid username. It should be 3-16 characters long and can
@@ -265,12 +262,10 @@ const FundingCalculator = () => {
                 onChange={handleChange}
                 type="text"
                 name="lastName"
-                className={twMerge(
-                  `candidate-input`,
-                  formErrors?.lastName && formErrors?.lastName !== ""
-                    ? "bg-red-300"
-                    : ""
-                )}
+                className="candidate-input w-full"
+                style={{
+                  borderColor: formErrors.lastName ? "red" : undefined,
+                }}
               />{" "}
               {formErrors.lastName && formErrors.lastName === "invalid" && (
                 <p className=" text-red-600 py-2 flex justify-between">
@@ -287,12 +282,10 @@ const FundingCalculator = () => {
                 onChange={handleChange}
                 type="email"
                 name="email"
-                className={twMerge(
-                  `candidate-input`,
-                  formErrors.email && formErrors.email !== ""
-                    ? "bg-red-300"
-                    : ""
-                )}
+                className="candidate-input w-full"
+                style={{
+                  borderColor: formErrors.email ? "red" : undefined,
+                }}
               />
               {formErrors.email && formErrors.email === "invalid" && (
                 <p className=" text-red-600 py-2 flex justify-between">
@@ -306,12 +299,10 @@ const FundingCalculator = () => {
                 onChange={handleChange}
                 type="tel"
                 name="phone"
-                className={twMerge(
-                  `candidate-input`,
-                  formErrors.phone && formErrors.phone !== ""
-                    ? "bg-red-300"
-                    : ""
-                )}
+                className="candidate-input w-full"
+                style={{
+                  borderColor: formErrors.phone ? "red" : undefined,
+                }}
               />{" "}
               {formErrors.phone && formErrors.phone === "invalid" && (
                 <p className=" text-red-600 py-2 flex justify-between">

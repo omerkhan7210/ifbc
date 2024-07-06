@@ -1,19 +1,46 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import BarLoader from "src/Animations/BarLoader";
 import PageTransition from "src/Animations/PageTransition";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
+import { MyContext } from "src/Context/ListingDataContext";
+import { MyTCFRContext } from "src/Context/TCFRDataContext";
+import FormatRawDate from "src/Utils/FormatRawDate";
 
 const MainMessages = () => {
   const { name } = useParams();
   const [formalReg, setFormalReg] = useState(false);
   const [tCheck, setTCheck] = useState(false);
+  const { newData, loadingTCFR } = useContext(MyTCFRContext);
+  const { listings, loading } = useContext(MyContext);
+  const { cands } = useContext(MyCandContext);
+  const [selectedListings, setSelectedListings] = useState([]);
+  const [filteredListings, setFilteredListings] = useState([]);
+  const [filters, setFilters] = useState([]);
+
   useEffect(() => {
     if (name === "territory-check") {
       setTCheck(true);
+      setFilters({ type: "TC" });
     } else if (name === "formal-registration") {
       setFormalReg(true);
+      setFilters({ type: "FR" });
     }
-  }, [name]);
+  }, []);
+
+  useEffect(() => {
+    if (!loadingTCFR && newData && newData.length > 0) {
+      const filter = newData.filter((data) => data.docType === filters.type);
+      console.log(filter);
+      if (filter.length > 0) {
+        setFilteredListings(filter);
+      } else if (filters.type === "All") {
+        setFilteredListings(newData);
+      } else {
+        setFilteredListings([]);
+      }
+    }
+  }, [filters]);
   return (
     <PageTransition>
       <div
@@ -27,69 +54,154 @@ const MainMessages = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="max-md:text-4xl md:text-7xl text-white font-bold text-center z-20text-white font-bold text-center z-20">
+        <h1 className="max-md:text-4xl md:text-7xl text-white  z-20text-white font-bold text-center z-20">
           Territory Check
         </h1>
       </div>
 
-      <div className=" my-20 max-w-7xl mx-auto flex flex-col gap-5 max-md:px-5">
-        <FirstRow formalReg={formalReg} tCheck={tCheck} />
-        <SecondRow />
-        <div
-          id="cards-container"
-          className="grid grid-cols-1 md:grid-cols-3 gap-5"
-        >
-          <Card />
-          <Card />
-          <Card />
+      {!loadingTCFR || !loading ? (
+        <div className=" my-20 max-w-7xl mx-auto flex flex-col gap-5 max-md:px-5">
+          <FirstRow
+            formalReg={formalReg}
+            tCheck={tCheck}
+            setFilters={setFilters}
+            filters={filters}
+          />
+          <SecondRow
+            setSelectedListings={setSelectedListings}
+            listings={listings}
+          />
+          <div
+            id="cards-container"
+            className={`${filteredListings && filteredListings.length > 0 ? "grid" : ""} grid-cols-1 md:grid-cols-3 gap-5`}
+          >
+            {filteredListings && filteredListings.length > 0 ? (
+              filteredListings.map((card, index) => (
+                <Card
+                  key={index}
+                  card={card}
+                  listings={listings}
+                  cands={cands}
+                  selectedListings={selectedListings}
+                />
+              ))
+            ) : (
+              <h1 className="w-full text-custom-heading-color capitalize flex justify-center text-3xl items-center h-full my-5">
+                No Registrations of this type please select another option
+              </h1>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <BarLoader bgcolor={"blue"} />
+      )}
     </PageTransition>
   );
 };
 
-const Card = () => {
+const Card = ({ card, cands, listings, selectedListings }) => {
+  const [filteredListing, setFilteredListing] = useState();
+  const [filteredCand, setFilteredCand] = useState();
+  useEffect(() => {
+    if (listings && listings.length > 0) {
+      const filtered = listings.find(
+        (listing) => listing.docId == card.listingsIds
+      );
+      setFilteredListing(filtered || null);
+    }
+  }, [listings, card.listingsIds]);
+
+  useEffect(() => {
+    if (cands && cands.length > 0) {
+      const filtered = cands.find((cand) => cand.docId === card.candidateId);
+      setFilteredCand(filtered || null);
+    }
+  }, [cands, card.candidateId]);
+
   return (
-    <div className=" bg-white rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md">
-      <div id="status-container" className="flex justify-end">
-        <h1 className="candidate-pending">Status</h1>
+    <div
+      key={card}
+      className=" bg-white relative rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md"
+    >
+      <div class="flex justify-center items-center absolute top-1/2">
+        <label class="container">
+          <input
+            class="peer cursor-pointer hidden after:opacity-100"
+            checked={selectedListings.includes(filteredListing?.docId)}
+            type="checkbox"
+          />
+          <span class="inline-block w-5 h-5 border-2 relative cursor-pointer after:content-[''] after:absolute after:top-2/4 after:left-2/4 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[10px] after:h-[10px] after:bg-[#333] after:rounded-[2px] after:opacity-0 peer-checked:after:opacity-100"></span>
+        </label>
       </div>
-      <div className="flex justify-center flex-col items-center">
-        <p className="text-xl font-bold text-custom-heading-color">
-          Smash My Trash
+
+      <div id="status-container" className="flex justify-between">
+        <h1 className="candidate-territory">
+          {card.docType.trim() === "TC"
+            ? "Territory Check"
+            : "Formal Registration"}
+        </h1>
+        <h1
+          className={`${card.status.toLowerCase() === "pending" ? "candidate-pending" : "candidate-available"}`}
+        >
+          {card.status}
+        </h1>
+      </div>
+      <div className="flex justify-center items-center w-full mt-4 gap-3">
+        <img src={`/${filteredListing?.imgUrl}`} alt="smash" className="w-14" />
+        <p className="text-lg font-bold text-custom-heading-color">
+          {filteredListing?.name}
         </p>
       </div>
-      <div className="flex justify-between  py-3 ">
-        <div className="py-3  flex flex-col items-center">
-          <p className="text-sm font-bold  text-custom-dark-blue text-center ">
+      <div className="flex justify-center">
+        <div className="py-3 ">
+          <p className="text-md font-bold  text-custom-dark-blue text-center">
             Candidate Information
           </p>
-          <ul className="flex flex-col items-center">
-            <li className="text-sm text-custom-grey">Nick Hart</li>
-            <li className="text-sm text-custom-grey">Fresno CA 93711</li>
-            <li className="text-sm text-custom-grey">05/30/2024 10:01 am</li>
+          <ul>
+            <li className="text-sm text-custom-grey text-center">
+              {filteredCand?.firstName} {filteredCand?.lastName}
+            </li>
+            <li className="text-sm text-custom-grey text-center">
+              {filteredCand?.territoryCity} {filteredCand?.territoryState},{" "}
+              {filteredCand?.territoryZipcode}
+            </li>
+            <li className="text-sm text-custom-grey text-center">
+              {" "}
+              {FormatRawDate(card)}
+            </li>
           </ul>
         </div>
-        <div className="py-3  flex flex-col items-center">
-          <p className="text-sm font-bold  text-custom-dark-blue text-center">
-            Franchise Information
+        <div className="py-3 ml-8">
+          <p className="text-md font-bold  text-custom-dark-blue text-center">
+            Company Information
           </p>
-          <ul className="flex flex-col items-center">
-            <li className="text-sm text-custom-grey">David Curnich</li>
-            <li className="text-sm text-custom-grey">317-601-7247</li>
+          <ul>
+            <li className="text-sm text-custom-grey text-center">
+              {filteredListing?.username}
+            </li>
+            <li className="text-sm text-custom-grey underline text-center">
+              <a href={"tel:" + filteredListing?.phone}>
+                {filteredListing?.phone}
+              </a>
+            </li>
           </ul>
         </div>
       </div>
-      <div id="message">
-        <p className="text-md font-bold  text-custom-dark-blue text-center">
-          Territory Check for Nick Hart & Smash My Trash sent by Harjeet Tiwana
-        </p>
+      <div className="text-sm flex gap-2 items-center justify-between">
+        <p></p>
       </div>
     </div>
   );
 };
 
-const FirstRow = ({ formalReg, tCheck }) => {
+const FirstRow = ({ formalReg, tCheck, setFilters, filters }) => {
+  const handleInputChange = (e) => {
+    e.preventDefault();
+    setFilters((prev) => ({
+      ...prev,
+      type: e.target.value,
+    }));
+  };
   return (
     <div
       id="filter-options"
@@ -130,15 +242,16 @@ const FirstRow = ({ formalReg, tCheck }) => {
           name="filterby-dropdown"
           id="filterby-dropdown"
           className="candidate-select w-full"
+          onChange={handleInputChange}
         >
-          <option value="">Filter By</option>
+          {!filters.type && <option value="">Filter By</option>}
           <option value="All">All</option>
-          <option value="Favorites">Favorites</option>
-          <option value="Messages">Messages</option>
-          <option value="Territory" selected={tCheck}>
+          <option value="Favs">Favorites</option>
+          <option value="Msgs">Messages</option>
+          <option value="TC" selected={tCheck}>
             Territory Checks
           </option>
-          <option value="Formal" selected={formalReg}>
+          <option value="FR" selected={formalReg}>
             Formal Registration
           </option>
         </select>
@@ -147,7 +260,15 @@ const FirstRow = ({ formalReg, tCheck }) => {
   );
 };
 
-const SecondRow = () => {
+const SecondRow = ({ setSelectedListings, listings }) => {
+  const [allListingIds, docId] = useState([]);
+  useEffect(() => {
+    if (listings && listings.length > 0) {
+      const names = listings.map((listing) => listing.docId);
+      docId(names);
+    }
+  }, [listings]);
+
   return (
     <div
       id="buttons-container"
@@ -158,6 +279,7 @@ const SecondRow = () => {
         className="flex gap-5 items-center justify-center"
       >
         <button
+          onClick={() => setSelectedListings(allListingIds)}
           id="select-all-btn"
           className="candidate-btn w-full flex justify-center items-center gap-3"
         >

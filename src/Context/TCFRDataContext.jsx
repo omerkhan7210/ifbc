@@ -6,12 +6,11 @@ export const MyTCFRContext = createContext();
 
 const TCFRDataContext = ({ children }) => {
   const [filters, setFilters] = useState(null);
-  const [tcs, setTcs] = useState([]);
-  const [frs, setFrs] = useState([]);
   const [all, setAll] = useState([]);
   const reduxRegistrations = useSelector(
     (state) => state.counter.registrations
   );
+  const userDetails = useSelector((state) => state.counter.userDetails);
   const [loadingTCFR, setLoading] = useState();
   const [loadingError, setLoadingError] = useState(false);
   const [newData, setNewData] = useState();
@@ -31,6 +30,8 @@ const TCFRDataContext = ({ children }) => {
           listingsIds: listingId,
         }));
       });
+
+      dispatch(addAllRegistrations(transformedData));
       setNewData(transformedData);
     }
   }, [all]);
@@ -45,13 +46,13 @@ const TCFRDataContext = ({ children }) => {
       .get(url)
       .then((response) => {
         // Handle successful response
-        if (response.data.length > 0) {
-          const TC = response.data.filter((data) => data.docType === "TC");
-          const FR = response.data.filter((data) => data.docType === "FR");
+        if (response.status === 200) {
+          const allData = response.data.filter(
+            (data) => data.agentId === userDetails.docId
+          );
+
           dispatch(addAllRegistrations(response.data));
-          setAll(response.data);
-          setTcs(TC);
-          setFrs(FR);
+          setAll(allData);
           setLoading(false);
         }
       })
@@ -63,7 +64,7 @@ const TCFRDataContext = ({ children }) => {
   };
 
   useEffect(() => {
-    if (reduxRegistrations && reduxRegistrations.length > 0) {
+    if (reduxRegistrations) {
       setNewData(reduxRegistrations);
     } else {
       getAllRegistrations();
@@ -74,11 +75,8 @@ const TCFRDataContext = ({ children }) => {
     <MyTCFRContext.Provider
       value={{
         newData,
-        all,
-        frs,
         loadingError,
         loadingTCFR,
-        tcs,
         filters,
         setFilters,
       }}
