@@ -45,8 +45,7 @@ const CheckOutForm = () => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background:
-            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/checkout.jpg)",
+          background: "url(/images/banners/checkout.jpg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -480,12 +479,13 @@ const LeftSidebar = ({ cartListings, listings }) => {
             name="name"
             placeholder="Your name"
             className="candidate-input w-full"
-            style={{ borderColor: formErrors.zipcode ? "red" : undefined }}
+            style={{ borderColor: formErrors.name ? "red" : undefined }}
             type="text"
           />{" "}
           {formErrors.name && formErrors.name === "invalid" && (
             <p className=" text-white text-xs py-2 flex justify-between">
-              Invalid Name (Please start with alphabets)
+              Invalid username. It should be 3-16 characters long and can
+              include letters, numbers, underscores, and spaces.
             </p>
           )}
         </div>

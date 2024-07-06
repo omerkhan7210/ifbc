@@ -80,8 +80,7 @@ const FranchiseOwner = () => {
           id="top-text"
           className="py-24 mb-8 relative flex flex-col gap-2 before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/50 before:z-10"
           style={{
-            background:
-              "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/franchise-owner.jpg)",
+            background: "url(/images/banners/franchise-owner.jpg)",
           }}
         >
           <h1 className="text-5xl text-white font-bold text-center z-20">

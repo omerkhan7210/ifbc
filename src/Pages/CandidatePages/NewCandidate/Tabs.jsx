@@ -77,7 +77,7 @@ const TabsList = ({ activeTab, setActiveTab }) => {
             onClick={() => setActiveTab(item.text.toLowerCase())}
             className={`inline-flex items-center px-4 py-3 rounded-lg w-full cursor-pointer ${
               activeTab.toLowerCase() === item.text.toLowerCase()
-                ? "text-white bg-blue-700 "
+                ? "text-white bg-custom-heading-color "
                 : "bg-gray-100"
             }`}
           >
@@ -234,12 +234,17 @@ const Initial = ({
         name="InvestmentFranchise"
         id="money"
         className="candidate-select"
-        {...(candNames && candNames.length > 0
-          ? { value: selectedDetails?.investmentFranchise }
-          : { defaultValue: candDetails?.investmentFranchise })}
       >
         {investmentOptions.map((option) => (
-          <option key={option.value} value={option.value}>
+          <option
+            key={option.value}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.investmentFranchise
+                : candDetails?.investmentFranchise
+            }
+          >
             {option.label}
           </option>
         ))}

@@ -36,8 +36,7 @@ const MainCandList = () => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background:
-            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/candidatelist1.jpeg)",
+          background: "url(/images/banners/candidatelist1.jpeg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -199,7 +198,7 @@ const GridFormatData = ({ format, cands }) => {
 
 const Card = ({ cand }) => {
   return (
-    <div className="p-3 rounded-md border-2 border-[#2176ff]  overflow-hidden z-[100] relative cursor-pointer snap-start  bg-white flex flex-col flex-wrap items-center justify-center gap-3 transition-all duration-300 group shadow-lg">
+    <div className="p-3 rounded-md border-2 border-[#2176ff]  overflow-hidden z-[50] relative cursor-pointer snap-start  bg-white flex flex-col flex-wrap items-center justify-center gap-3 transition-all duration-300 group shadow-lg">
       <h1 className="text-2xl text-left font-semibold text-[#434955] capitalize">
         {cand.firstName} {cand.lastName}
       </h1>

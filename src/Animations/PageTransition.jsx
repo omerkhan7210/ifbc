@@ -53,7 +53,7 @@ const PageTransition = ({ children }) => {
               //opacity: [0, 1, 1, 0],
               transition: { duration: 1, delay: 0.1 },
             }}
-            src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/logo/IFBC 3.png"
+            src="/images/logo/IFBC 3.png"
             alt="KPEG"
             className="w-72 md:w-96"
           />

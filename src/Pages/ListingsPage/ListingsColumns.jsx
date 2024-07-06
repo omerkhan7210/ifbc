@@ -9,12 +9,20 @@ import {
   incrementActiveListing,
   incrementByListing,
 } from "src/Redux/listingReducer";
+import { removeSpecificText } from "src/Utils/SanitizeInput";
 
 const ListingsColumns = ({ listing, index, slider }) => {
   const { activeListings, role } = useContext(MyContext);
   const cartListings = useSelector((state) => state.counter.cartListings);
 
   const isActive = activeListings?.includes(listing.docId) ? true : false;
+
+  const textToRemove =
+    "Please see Item 7 within the FDD for details on the estimated Investment Range";
+  const uniqueInvestmentRange = removeSpecificText(
+    listing.investmentRange,
+    textToRemove
+  );
 
   const handleCardClick = () => {
     // Find the index of the listing to be removed
@@ -31,22 +39,21 @@ const ListingsColumns = ({ listing, index, slider }) => {
   };
 
   const dispatch = useDispatch();
-
   return (
     <motion.div
       initial={{
         opacity: 0,
         y: 50,
-        scale: isActive ? 0.9 : 1,
+        ...(!slider && { scale: isActive ? 0.9 : 1 }),
       }}
       animate={{
         opacity: 1,
         y: 0,
-        scale: isActive ? 0.95 : 0.9,
+        ...(!slider && { scale: isActive ? 0.95 : 0.9 }),
         transition: { duration: 1, delay: index * 0.1 },
       }}
       onClick={handleCardClick} // Correctly call handleCardClick here
-      className="flex flex-col gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[1px_1px_5px_grey] min-h-[400px] "
+      className="flex flex-col justify-between gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[1px_1px_5px_grey] min-h-[450px] "
     >
       <motion.div
         id="image-container"
@@ -81,9 +88,9 @@ const ListingsColumns = ({ listing, index, slider }) => {
           id="text-content"
           className={` flex flex-col items-center justify-center gap-3 mt-3 w-full`}
         >
-          {listing?.investmentRange && listing?.investmentRange !== "$" && (
+          {uniqueInvestmentRange && (
             <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg w-full">
-              Cash Required: {listing?.investmentRange}
+              Cash Required: {uniqueInvestmentRange?.split(":")[1]}
             </p>
           )}
 

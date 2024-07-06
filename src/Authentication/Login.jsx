@@ -11,10 +11,11 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [formFields, setFormFields] = useState({});
   const [successMsg, setSuccessMsg] = useState(null);
-  const history = useNavigate();
+  const [buttonText, setButtonText] = useState("Login");
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const ref = useRef();
+  const history = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -109,10 +110,12 @@ const Login = () => {
           dispatch(setUserDetails(someUserDetails));
           setUserDetails(someUserDetails);
           setSuccessMsg("Login Successfull");
+          setLoading(false);
+          setButtonText("Redirecting...");
           setTimeout(() => {
             localStorage.setItem("token", userToken);
             dispatch(setToken(true));
-            setLoading(false);
+
             history("/");
           }, 3000);
         }
@@ -262,7 +265,7 @@ const Login = () => {
                 className="bg-blue-500 hover:bg-custom-dark-blue text-white font-bold p-2 uppercase text-center rounded w-full text-xs md:text-sm focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                {loading ? "Loading.." : "Sign In"}
+                {loading ? "Loading.." : buttonText}
               </button>
               <NavLink
                 className="inline-block bg-custom-heading-color text-white hover:bg- focus:outline-none focus:shadow-outline font-semibold text-xs md:text-sm p-2 rounded w-full text-center uppercase"

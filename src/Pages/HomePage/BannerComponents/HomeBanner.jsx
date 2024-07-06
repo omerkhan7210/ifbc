@@ -81,28 +81,23 @@ const HomeBanner = () => {
   ];
   const slidesData = [
     {
-      image:
-        "https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/banner.png",
+      image: "/images/banners/banner.png",
       text: "The Best Franchise Opportunities Are Available For You!",
     },
     {
-      image:
-        "https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/banner2.png",
+      image: "/images/banners/banner2.png",
       text: "Discover Amazing Business Ventures Today!",
     },
     {
-      image:
-        "https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/banner3.png",
+      image: "/images/banners/banner3.png",
       text: "Unlock Your Potential with Our Franchises!",
     },
     {
-      image:
-        "https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/banner4.png",
+      image: "/images/banners/banner4.png",
       text: "Join the Fastest-Growing Brands in the Industry!",
     },
     {
-      image:
-        "https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/banner5.png",
+      image: "/images/banners/banner5.png",
       text: "Start Your Journey to Business Success Today!",
     },
   ];

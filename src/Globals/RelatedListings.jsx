@@ -19,7 +19,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 const RelatedListings = () => {
-  const { listings, loading } = useContext(MyContext);
+  const { listings, loading, role } = useContext(MyContext);
 
   return loading ? (
     <div className="grid place-content-center bg-custom-dark-blue px-4 py-24">
@@ -35,8 +35,8 @@ const RelatedListings = () => {
       <div className="max-w-5xl m-auto flex items-center h-full">
         <Swiper
           modules={[Navigation, Autoplay, Pagination, A11y, EffectCoverflow]}
-          spaceBetween={20}
-          slidesPerView={2}
+          spaceBetween={role !== "N" ? 50 : 20}
+          slidesPerView={role !== "N" ? 3 : 2}
           centeredSlides
           initialSlide={12}
           effect="coverflow"
@@ -50,9 +50,6 @@ const RelatedListings = () => {
           navigationautoplay={{
             delay: 2500,
             disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
           }}
         >
           {listings &&

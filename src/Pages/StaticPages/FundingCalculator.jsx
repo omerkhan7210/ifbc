@@ -151,8 +151,7 @@ const FundingCalculator = () => {
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background:
-            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/accounts/calculator.jpeg)",
+          background: "url(/images/accounts/calculator.jpeg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -255,7 +254,8 @@ const FundingCalculator = () => {
               />{" "}
               {formErrors.firstName && formErrors.firstName === "invalid" && (
                 <p className=" text-red-600 py-2 flex justify-between">
-                  Invalid Name (Please start with alphabets)
+                  Invalid username. It should be 3-16 characters long and can
+                  include letters, numbers, underscores, and spaces.
                 </p>
               )}
             </div>
@@ -274,7 +274,8 @@ const FundingCalculator = () => {
               />{" "}
               {formErrors.lastName && formErrors.lastName === "invalid" && (
                 <p className=" text-red-600 py-2 flex justify-between">
-                  Invalid Name (Please start with alphabets)
+                  Invalid username. It should be 3-16 characters long and can
+                  include letters, numbers, underscores, and spaces.
                 </p>
               )}
             </div>
@@ -936,7 +937,21 @@ const FundingCalculator = () => {
               </p>
             </div>
           </div>
-
+          <p className="text-sm text-white text-left my-6 bg-custom-heading-color p-5">
+            By submitting the form, you agree to receive calls, text messages,
+            or emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
+            information provided. Message rates may apply. <br />
+            Text STOP to cancel text messaging at any time. <br />
+            See{" "}
+            <a href="/terms-conditions" className=" font-extrabold underline">
+              Terms & Conditions
+            </a>{" "}
+            and{" "}
+            <a href="/privacy-policy" className=" font-extrabold underline">
+              Privacy Policy
+            </a>{" "}
+            for additional details.
+          </p>
           <div className="flex justify-center">
             <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
               {loading ? "Loading..." : "Calculate My Results"}

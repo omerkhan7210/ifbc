@@ -72,6 +72,7 @@ const LeftSideCardContainer = ({
   const [flsOn, setFlsOn] = useState(false);
   const [resourcesOn, setResourcesOn] = useState(false);
   const [regOn, setRegOn] = useState(false);
+  const { userDetails } = useContext(MyCandContext);
 
   const profileButtons = [
     // {
@@ -109,11 +110,6 @@ const LeftSideCardContainer = ({
     { value: "Closed Won", label: "Closed Won" },
     { value: "Closed Lost", label: "Closed Lost" },
     { value: "On Hold", label: "On Hold" },
-  ];
-
-  const Broker = [
-    { value: "", label: "Select Broker" },
-    { value: "Keerit-Tiwana", label: "Keerit Tiwana" },
   ];
 
   const handleInputChange = (e) => {
@@ -164,14 +160,10 @@ const LeftSideCardContainer = ({
         </div>
 
         <div className="mr-3 w-full">
-          <p className="text-slate-500 text-sm font-semibold mb-2">Brokers</p>
-          <select className="candidate-select w-full " name="agentId">
-            {Broker.map((option, index) => (
-              <option key={index} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <p className="text-slate-500 text-sm font-semibold mb-2">Broker</p>
+          <p className="text-black capitalize">
+            {userDetails.firstName + " " + userDetails.lastName}
+          </p>
         </div>
 
         <div className=" w-[17em] bg-white  rounded-[1em] overflow-hidden relative group p-4 z-0 border-[#2176ff] border-2 ">
