@@ -2,9 +2,7 @@ import axios from "axios";
 import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { twMerge } from "tailwind-merge";
 import Tabs from "./Tabs";
-import { useNavigate } from "react-router-dom";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import DialogBox from "src/Popups/DialogBox";
 import {
@@ -12,7 +10,10 @@ import {
   validateEmail,
   validatePhone,
   validateUsername,
+  validateZipcode,
 } from "src/Utils/SanitizeInput";
+import { convertToMSSQLDate } from "src/Utils/ConvertDate";
+import { getCitiesOfState } from "src/Utils/locationUtils";
 
 const Form = ({ candDetails, candNames, activeListings }) => {
   const { userDetails } = useContext(MyCandContext);
@@ -23,6 +24,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [selectedDocId, setSelectedDocId] = useState();
   const [selectedDetails, setSelectedDetails] = useState({});
   const [showsuccess, setShowSuccess] = useState(false);
+  const [citiesT, setCitiesT] = useState([]);
+  const [citiesC, setCitiesC] = useState([]);
+  const [selectedStateT, setSelectedStateT] = useState(null);
+  const [selectedStateC, setSelectedStateC] = useState(null);
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
       const filtered = candDetails.filter(
@@ -110,21 +115,35 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     { value: "SK", text: "Saskatchewan" },
     { value: "YT", text: "Yukon Territory" },
   ];
+  const handleStateChange = (e, name) => {
+    const stateCode = e.target.value;
+    const cityList = getCitiesOfState("US", stateCode);
 
+    if (name === "territory") {
+      setSelectedStateT(stateCode);
+      setCitiesT(cityList);
+    } else {
+      setSelectedStateC(stateCode);
+      setCitiesC(cityList);
+    }
+    setFormFields((prev) => {
+      return {
+        ...prev,
+        [`${name}state`]: stateCode,
+      };
+    });
+  };
   const stateDD = (name) => {
-    const className = twMerge(
-      "candidate-select",
-      formErrors.territorystate && name === "territory"
-        ? "bg-red-200 text-white"
-        : ""
-    );
     return (
       <select
-        onChange={handleInputChange}
+        onChange={(e) => handleStateChange(e, name)}
         name={`${name}state`}
-        id="state"
-        className={className}
+        className="candidate-select w-full"
+        style={{
+          borderColor: formErrors[`${name}state`] ? "red" : undefined,
+        }}
       >
+        {!formFields[`${name}state`] && <option value="">Select State</option>}
         {states.map((state, index) => (
           <option
             key={index}
@@ -197,6 +216,12 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
         } else if (newKey === "lastname" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "territoryzipcode" && !validateZipcode(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "currentzipcode" && !validateZipcode(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
         } else {
@@ -412,8 +437,12 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    const inputValue = type === "checkbox" ? checked : sanitizeInput(value);
+    let inputValue = type === "checkbox" ? checked : sanitizeInput(value);
     const newName = name.toLowerCase();
+
+    if (newName === "closedate") {
+      inputValue = convertToMSSQLDate(value);
+    }
 
     setFormFields((prevFields) => ({
       ...prevFields,
@@ -491,14 +520,21 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           candDetails={candDetails}
           candNames={candNames}
           selectedDetails={selectedDetails}
+          selectedStateT={selectedStateT}
+          formFields={formFields}
+          citiesT={citiesT}
         />
         <FormThirdRow
           stateDD={stateDD}
           handleInputChange={handleInputChange}
           setFormFields={setFormFields}
+          formErrors={formErrors}
           candDetails={candDetails}
           candNames={candNames}
           selectedDetails={selectedDetails}
+          selectedStateC={selectedStateC}
+          formFields={formFields}
+          citiesC={citiesC}
         />
 
         {/* tabs */}
@@ -515,6 +551,23 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         id="button-container"
         className="flex flex-col gap-5 items-center justify-center my-10 col-span-12"
       >
+        {!candDetails && (
+          <p className="text-sm text-white text-left my-6 bg-custom-heading-color p-5">
+            By submitting the form, you agree to receive calls, text messages,
+            or emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
+            information provided. Message rates may apply. <br />
+            Text STOP to cancel text messaging at any time. <br />
+            See{" "}
+            <a href="/terms-conditions" className=" font-extrabold underline">
+              Terms & Conditions
+            </a>{" "}
+            and{" "}
+            <a href="/privacy-policy" className=" font-extrabold underline">
+              Privacy Policy
+            </a>{" "}
+            for additional details.
+          </p>
+        )}
         {candNames && candDetails ? (
           <button
             className="candidate-btn w-96"
@@ -618,6 +671,76 @@ const FormFirstRow = ({
       </div>
     );
   };
+  const addTerritoryDiv = (index) => {
+    return (
+      <div
+        key={index}
+        id={`additional-contact-row-${index}`}
+        className="p-5 border-2 border-custom-heading-color shadow-lg"
+      >
+        <h1 className="candidate-sub-heading">Additional Territory</h1>
+        <div
+          id="first-sub-row"
+          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        >
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">First Name</p>
+
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="additionalFirstName"
+              className="candidate-input"
+              required
+            />
+          </div>
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">Last Name</p>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="additionalLastName"
+              className="candidate-input"
+              required
+            />
+          </div>
+        </div>
+        <div
+          id="second-sub-row"
+          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        >
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">Phone Number</p>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="additionalPhone"
+              className="candidate-input"
+              required
+            />
+          </div>
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">Email</p>
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="additionalEmail"
+              className="candidate-input"
+              required
+            />
+          </div>
+        </div>
+        <div id="button-container" className="w-full flex justify-center">
+          <button
+            className="candidate-btn"
+            onClick={() => setAddContacts((prevContacts) => prevContacts - 1)}
+          >
+            REMOVE TERRITORY
+          </button>
+        </div>
+      </div>
+    );
+  };
   return (
     <div id="first-row" className={`${candDetails ? "" : "py-10"}`}>
       <h1 className="candidate-sub-heading ">
@@ -660,9 +783,10 @@ const FormFirstRow = ({
             <select
               id="firstname"
               name="firstname"
-              className={`candidate-select capitalize${
-                formErrors.firstname ? "bg-red-300" : ""
-              }`}
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.firstname ? "red" : undefined,
+              }}
               onChange={(e) => {
                 setSelectedDocId(e.target.value);
               }}
@@ -680,16 +804,18 @@ const FormFirstRow = ({
               onChange={handleInputChange}
               type="text"
               name="firstname"
-              className={`candidate-input ${
-                formErrors.firstname ? "bg-red-300" : ""
-              }`}
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.firstname ? "red" : undefined,
+              }}
               required
               defaultValue={candDetails?.firstName}
             />
           )}
           {formErrors.firstname && formErrors.firstname === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
-              Invalid Name (Please start with alphabets)
+              Invalid username. It should be 3-16 characters long and can
+              include letters, numbers, underscores, and spaces.
             </p>
           )}
         </div>
@@ -699,7 +825,10 @@ const FormFirstRow = ({
             onChange={handleInputChange}
             type="text"
             name="lastname"
-            className={`candidate-input ${formErrors.lastname ? "bg-red-300" : ""}`}
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.lastname ? "red" : undefined,
+            }}
             required
             {...(candNames && candNames.length > 0
               ? { value: selectedDetails?.lastName }
@@ -707,7 +836,8 @@ const FormFirstRow = ({
           />
           {formErrors.lastname && formErrors.lastname === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
-              Invalid Name (Please start with alphabets)
+              Invalid username. It should be 3-16 characters long and can
+              include letters, numbers, underscores, and spaces.
             </p>
           )}
         </div>
@@ -720,11 +850,12 @@ const FormFirstRow = ({
           <p className="candidate-label">Phone Number</p>
 
           <input
-            type="text"
+            type="number"
             name="phone"
-            className={`candidate-input ${
-              formErrors.phone ? "bg-red-300" : ""
-            }`}
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.phone ? "red" : undefined,
+            }}
             onChange={handleInputChange}
             required
             {...(candNames && candNames.length > 0
@@ -733,7 +864,7 @@ const FormFirstRow = ({
           />
           {formErrors.phone && formErrors.phone === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
-              Invalid Phone Number (Please use numbers only)
+              Invalid phone number. It should be 11 digits long.
             </p>
           )}
         </div>
@@ -742,9 +873,10 @@ const FormFirstRow = ({
           <input
             type="email"
             name="email"
-            className={`candidate-input ${
-              formErrors.email ? "bg-red-300" : ""
-            }`}
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.email ? "red" : undefined,
+            }}
             required
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
@@ -798,6 +930,9 @@ const FormSecondRow = ({
   candDetails,
   candNames,
   selectedDetails,
+  selectedStateT,
+  formFields,
+  citiesT,
 }) => {
   return (
     <div id="second-row" className="py-5">
@@ -822,22 +957,6 @@ const FormSecondRow = ({
         id="third-sub-row"
         className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
       >
-        {/* citygfddsfsdfgfdfgdf */}
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">City*</p>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            name="territorycity"
-            className={`candidate-input mr-2 ${
-              formErrors.territorycity ? "bg-red-300" : ""
-            }`}
-            required
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.territoryCity }
-              : { defaultValue: candDetails?.territoryCity })}
-          />
-        </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">State / Province*</p>
 
@@ -845,11 +964,53 @@ const FormSecondRow = ({
           {stateDD("territory")}
         </div>
         <div className="candidate-sub-childs">
+          <p className="candidate-label">City*</p>
+          {selectedStateT && citiesT.length > 0 ? (
+            <select
+              className="candidate-select"
+              name="territorycity"
+              onChange={handleInputChange}
+            >
+              {!formFields.territorycity && (
+                <option value="">Select City</option>
+              )}
+              {citiesT.map((city) => (
+                <option
+                  key={city.name}
+                  value={city.name}
+                  {...(candNames && candNames.length > 0
+                    ? { selected: selectedDetails?.territorycity }
+                    : { selected: candDetails?.territorycity })}
+                >
+                  {city.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="territorycity"
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.territorycity ? "red" : undefined,
+              }}
+              required
+              {...(candNames && candNames.length > 0
+                ? { value: selectedDetails?.territoryCity }
+                : { defaultValue: candDetails?.territoryCity })}
+            />
+          )}
+        </div>
+        <div className="candidate-sub-childs">
           <p className="candidate-label">Zip / Postal Code</p>
           <input
-            type="text"
+            type="number"
             name="territoryzipcode"
-            className="candidate-input"
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.territoryzipcode ? "red" : undefined,
+            }}
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
               ? { value: selectedDetails?.territoryZipCode }
@@ -883,6 +1044,10 @@ const FormThirdRow = ({
   candDetails,
   candNames,
   selectedDetails,
+  selectedStateC,
+  citiesC,
+  formFields,
+  formErrors,
 }) => {
   const [check, setChecked] = useState(false);
 
@@ -933,31 +1098,57 @@ const FormThirdRow = ({
           className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
         >
           <div className="candidate-sub-childs">
-            <p className="candidate-label">City</p>
-            <input
-              onChange={handleInputChange}
-              type="text"
-              name="currentCity"
-              className="candidate-input mr-2"
-              required
-              {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.currentCity }
-                : { defaultValue: candDetails?.currentCity })}
-            />
-          </div>
-          <div className="candidate-sub-childs">
             <p className="candidate-label">State / Province*</p>
 
             {/* state dd */}
             {stateDD("current")}
           </div>
           <div className="candidate-sub-childs">
+            <p className="candidate-label">City*</p>
+            {selectedStateC && citiesC.length > 0 ? (
+              <select
+                className="candidate-select"
+                name="currentcity"
+                onChange={handleInputChange}
+              >
+                {!formFields.currentcity && (
+                  <option value="">Select City</option>
+                )}
+                {citiesC.map((city) => (
+                  <option
+                    key={city.name}
+                    value={city.name}
+                    {...(candNames && candNames.length > 0
+                      ? { selected: selectedDetails?.currentcity }
+                      : { selected: candDetails?.currentcity })}
+                  >
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                onChange={handleInputChange}
+                type="text"
+                name="currentcity"
+                className="candidate-input w-full"
+                required
+                {...(candNames && candNames.length > 0
+                  ? { value: selectedDetails?.currentcity }
+                  : { defaultValue: candDetails?.currentcity })}
+              />
+            )}
+          </div>
+          <div className="candidate-sub-childs">
             <p className="candidate-label">Zip / Postal Code</p>
             <input
               onChange={handleInputChange}
-              type="text"
-              name="currentZipcode"
-              className="candidate-input"
+              type="number"
+              name="currentzipcode"
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.currentzipcode ? "red" : undefined,
+              }}
               required
               {...(candNames && candNames.length > 0
                 ? { value: selectedDetails?.currentZipCode }
@@ -984,7 +1175,7 @@ const FormThirdRow = ({
           <p className="candidate-label">Deal Source</p>
           <input
             onChange={handleInputChange}
-            type="text"
+            type="number"
             name="DealSource"
             className="candidate-input"
             required
@@ -997,7 +1188,7 @@ const FormThirdRow = ({
           <p className="candidate-label">Deal Source Cost</p>
           <input
             onChange={handleInputChange}
-            type="text"
+            type="number"
             name="DealSourceCost"
             className="candidate-input"
             required
@@ -1011,7 +1202,7 @@ const FormThirdRow = ({
           <input
             onChange={handleInputChange}
             name="closeDate"
-            type="date"
+            type="datetime-local"
             className="candidate-input"
             placeholder="Select date"
             {...(candNames && candNames.length > 0

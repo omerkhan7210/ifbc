@@ -15,7 +15,7 @@ const Logo = () => {
       className="flex shrink-0 justify-center items-center text-medium-gold "
     >
       <img
-        src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/logo/IFBC 6.png"
+        src="/images/logo/IFBC 6.png"
         alt="IFBC"
         loading="lazy"
         width={130}
@@ -171,7 +171,7 @@ const CartIcon = ({ hidden }) => {
   return (
     <motion.div
       initial={{ y: 0 }}
-      animate={{ y: hidden && window.innerWidth > 768 ? "200%" : 0 }}
+      animate={{ y: hidden && window.innerWidth > 768 ? "225%" : 0 }}
     >
       <NavLink
         to="/checkout"

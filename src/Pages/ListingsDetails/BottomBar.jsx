@@ -187,7 +187,7 @@ const BottomBar = ({ listingContent }) => {
           const url = btn.getAttribute("href");
           if (url && url.includes("s26232.pcdn.co")) {
             const filename = url.split("/").pop().split("?")[0];
-            const newUrl = `https://ifbcreact.s3.us-east-1.amazonaws.com/${filename}`;
+            const newUrl = `/${filename}`;
             const isValid = await checkLinkStatus(newUrl);
             console.log(newUrl);
 

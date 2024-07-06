@@ -8,23 +8,23 @@ const PreFooter = () => {
         <div className="theme-container mx-auto relative z-10">
           <div className="w-full py-[80px] bg-it-blue rounded-[20px] md:flex relative overflow-hidden">
             <img
-              src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/home-seven/cta-shape-1.svg"
+              src="/images/home-seven/cta-shape-1.svg"
               className="absolute top-10 left-10"
             />
             <img
-              src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/home-seven/cta-shape-1.svg"
+              src="/images/home-seven/cta-shape-1.svg"
               className="absolute bottom-10 left-28 h7-cta-open-anim"
             />
             <img
-              src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/home-seven/cta-shape-3.svg"
+              src="/images/home-seven/cta-shape-3.svg"
               className="absolute top-10 right-10"
             />
             <img
-              src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/home-seven/cta-shape-3.svg"
+              src="/images/home-seven/cta-shape-3.svg"
               className="absolute bottom-10 right-28 h7-cta-open-anim-rev"
             />
             <img
-              src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/home-seven/cta-shape-5.svg"
+              src="/images/home-seven/cta-shape-5.svg"
               className="absolute bottom-0 left-0 cta-dot-anim"
             />
             <div className="w-full flex flex-col items-center justify-center px-10 md:px-0 gap-4 md:gap-0">

@@ -268,7 +268,7 @@ const Contact = () => {
         <ServicesGrid />
         <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[750px] ">
           <img
-            src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/banners/contact.jpg"
+            src="/images/banners/contact.jpg"
             alt=""
             className="h-[750px] w-full object-cover rounded-l-lg  "
           />
@@ -309,7 +309,8 @@ const Contact = () => {
                   {formErrors.contactName &&
                     formErrors.contactName === "invalid" && (
                       <p className=" text-white text-xs py-2 flex justify-between">
-                        Invalid Name (Please start with alphabets)
+                        Invalid username. It should be 3-16 characters long and
+                        can include letters, numbers, underscores, and spaces.
                       </p>
                     )}
                 </div>

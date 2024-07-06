@@ -8,7 +8,7 @@ const verifyTokenExpiry = (token) => {
     try {
       // Decode the token
       const decodedToken = jwtDecode(token);
-      
+
       // Check if the token expiry time is greater than the current time
       const isTokenValid = decodedToken.exp > Date.now() / 1000;
       // Return true if the token is not expired, false otherwise
@@ -22,14 +22,13 @@ const verifyTokenExpiry = (token) => {
   }
 };
 
-const token = localStorage.getItem("token")
-
+const token = localStorage.getItem("token");
 
 const initialState = {
   value: JSON.parse(localStorage.getItem("cartListings"))?.length || 0,
-  candidates: [],
+  candidates: null,
   listings: [],
-  registrations: [],
+  registrations: null,
   cartListings: JSON.parse(localStorage.getItem("cartListings")) || [],
   uuid: localStorage.getItem("uuid") || null,
   userDetails: JSON.parse(localStorage.getItem("userDetails")) || null,
@@ -39,9 +38,7 @@ const initialState = {
       ? JSON.parse(localStorage.getItem("userDetails"))?.userType
       : null,
   activeListings: JSON.parse(localStorage.getItem("activeListings")) || [],
-  token:
-  token  && token !== "" &&
-      verifyTokenExpiry(token)
+  token: token && token !== "" && verifyTokenExpiry(token),
 };
 
 export const listingReducer = createSlice({

@@ -117,7 +117,7 @@ const MobileNav = ({ setMobileActive }) => {
         >
           <div className="flex justify-start items-center gap-2  py-2">
             <img
-              src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/avatar-placeholder.png"
+              src="/images/avatar-placeholder.png"
               className="w-10 h-10 rounded-full"
             />
             <div id="parasContainer">

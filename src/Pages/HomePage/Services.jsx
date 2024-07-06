@@ -18,7 +18,7 @@ const Services = () => {
           </div>
           <div className="w-full relative mt-[40px] order-1 md:order-2">
             <img
-              src="https://ifbcreact.s3.us-east-1.amazonaws.com/images/home-seven/process-1.png"
+              src="/images/home-seven/process-1.png"
               alt="Services 1"
               className="w-full"
             />

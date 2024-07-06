@@ -30,7 +30,7 @@ const CandidatesDataContext = ({ children }) => {
       .get(url)
       .then((response) => {
         // Handle successful response
-        if (response.data.length > 0 && response.status === 200) {
+        if (response.status === 200) {
           dispatch(addAllCandidates(response.data));
           setCands(response.data);
           setLoading(false);
@@ -43,7 +43,7 @@ const CandidatesDataContext = ({ children }) => {
   };
 
   useEffect(() => {
-    if (reduxCands && reduxCands.length > 0) {
+    if (reduxCands) {
       setCands(reduxCands);
     } else {
       getAllCandidates();

@@ -8,8 +8,7 @@ const BusinessAssessment = () => {
         id="top-text"
         className="p-5 relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
         style={{
-          background:
-            "url(https://ifbcreact.s3.us-east-1.amazonaws.com/images/accounts/business.jpg)",
+          background: "url(/images/accounts/business.jpg)",
           backgroundAttachment: "fixed",
           backgroundPosition: "top center",
           backgroundRepeat: "no-repeat",
@@ -38,12 +37,7 @@ const BusinessAssessment = () => {
 
         <div className="max-md:flex flex-col md:grid grid-cols-2 my-5">
           <div className="w-full">
-            <img
-              src={
-                "https://ifbcreact.s3.us-east-1.amazonaws.com/images/accounts/partner.jpg"
-              }
-              className="rounded-xl"
-            />
+            <img src={"/images/accounts/partner.jpg"} className="rounded-xl" />
           </div>
           <div className=" flex flex-col md:mx-10 gap-2 justify-center max-md:mt-5">
             <h2 className="font-bold text-custom-dark-blue max-md:text-sm md:text-xl">

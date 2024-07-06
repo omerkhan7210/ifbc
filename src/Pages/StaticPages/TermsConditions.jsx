@@ -107,7 +107,7 @@ const TermsConditions = () => {
         <section className="mb-8">
           <h2 className="disclaimer-heading"></h2>
           <p className="max-md:text-[10px] md:text-lg">
-            4. IFBC does not represent, warrant or endorse the accuracy or
+            IFBC does not represent, warrant or endorse the accuracy or
             reliability of any information displayed, uploaded, downloaded or
             distributed through the Site by any user, or any other person or
             entity. IFBC disclaims liability for any damages or losses, direct
@@ -210,10 +210,10 @@ const TermsConditions = () => {
             Use of Information and Disclaimers
           </h2>
           <p className="max-md:text-[10px] md:text-lg">
-            5. IFBC may change, suspend or discontinue any aspect of the
-            services provided at the Site at any time without notice or
-            liability, including the availability of any feature, blog, database
-            or content.
+            IFBC may change, suspend or discontinue any aspect of the services
+            provided at the Site at any time without notice or liability,
+            including the availability of any feature, blog, database or
+            content.
           </p>
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
@@ -267,24 +267,24 @@ const TermsConditions = () => {
           </p>
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
-            7. The Site may contain links to other Internet sites operated by
-            third parties. These links are provided as a convenience to access
-            the information contained therein. IFBC does not endorse or approve,
-            is not a sponsor, partner, promoter or publisher of such sites or
-            their content, and expressly disclaims any responsibility or
-            liability for the content of any other You should direct any
-            concerns regarding any external link to the site administrator or
-            Webmaster of such other site.
+            The Site may contain links to other Internet sites operated by third
+            parties. These links are provided as a convenience to access the
+            information contained therein. IFBC does not endorse or approve, is
+            not a sponsor, partner, promoter or publisher of such sites or their
+            content, and expressly disclaims any responsibility or liability for
+            the content of any other You should direct any concerns regarding
+            any external link to the site administrator or Webmaster of such
+            other site.
           </p>
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
-            8. THIS SITE IS PROVIDED BY IFBC ON AN “AS IS” AND “AS AVAILABLE”
-            BASIS AND WITHOUT ANY WARRANTY THAT THE SITE WILL MEET ANY
-            PARTICULAR CRITERIA OF PERFORMANCE OR QUALITY. IFBC MAKES NO
-            REPRESENTATIONS OR WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, AS TO
-            THE USABILITY, CONDITION OR OPERATION OF THIS SITE, OR THAT ACCESS
-            TO OR USE OF INTERNATIONAL FRANCHISE BUSINESS CONSULTANT CORP. WILL
-            BE UNINTERRUPTED OR ERROR-FREE, OR AS TO THE INFORMATION, CONTENT OR
+            THIS SITE IS PROVIDED BY IFBC ON AN “AS IS” AND “AS AVAILABLE” BASIS
+            AND WITHOUT ANY WARRANTY THAT THE SITE WILL MEET ANY PARTICULAR
+            CRITERIA OF PERFORMANCE OR QUALITY. IFBC MAKES NO REPRESENTATIONS OR
+            WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, AS TO THE USABILITY,
+            CONDITION OR OPERATION OF THIS SITE, OR THAT ACCESS TO OR USE OF
+            INTERNATIONAL FRANCHISE BUSINESS CONSULTANT CORP. WILL BE
+            UNINTERRUPTED OR ERROR-FREE, OR AS TO THE INFORMATION, CONTENT OR
             MATERIALS INCLUDED ON THIS SITE. YOU EXPRESSLY AGREE THAT YOUR USE
             OF THIS SITE IS AT YOUR SOLE RISK
           </p>
@@ -373,7 +373,7 @@ const TermsConditions = () => {
             THESE LIMITATIONS WILL APPLY TO THE FULLEST EXTENT PERMITTED BY LAW.
           </h2>
           <p className="max-md:text-[10px] md:text-lg">
-            9. As part of the registration process you are granted an e-mail
+            As part of the registration process you are granted an e-mail
             username and password. You may change your password at any time in
             accordance with the procedure on the email/Site. You agree you are
             exclusively responsible for maintaining the security of your
@@ -404,11 +404,11 @@ const TermsConditions = () => {
           </p>
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
-            10. IFBC reserves the right, but not the obligation, to send
-            electronic mail to any and all users of the Site for the purpose of
-            informing them of changes or additions to the Site or any related
-            services or products. Your registration on the Site constitutes your
-            consent to receive such electronic mail.
+            IFBC reserves the right, but not the obligation, to send electronic
+            mail to any and all users of the Site for the purpose of informing
+            them of changes or additions to the Site or any related services or
+            products. Your registration on the Site constitutes your consent to
+            receive such electronic mail.
           </p>
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
@@ -420,11 +420,11 @@ const TermsConditions = () => {
           </p>
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
-            12. IFBC may at any time, in its sole discretion, terminate, limit
-            or suspend your access to International Franchise Business
-            Consultant Corp., without notice or liability, for any reason
-            whatsoever, including without limitation your breach of this
-            Agreement or the termination of your Consultantship in IFBC.
+            IFBC may at any time, in its sole discretion, terminate, limit or
+            suspend your access to International Franchise Business Consultant
+            Corp., without notice or liability, for any reason whatsoever,
+            including without limitation your breach of this Agreement or the
+            termination of your Consultantship in IFBC.
           </p>
           <br></br>
           <ul className=" list-disc ml-6 max-md:text-[10px] md:text-lg">
@@ -453,14 +453,14 @@ const TermsConditions = () => {
           </p>
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
-            1. You agree to use the Site only for lawful purposes and not to
+            3. You agree to use the Site only for lawful purposes and not to
             upload any unlawful Content or in any other way use the Site so as
             to violate any local, state, or national
           </p>
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
-            1.IFBC reserves the right but not the obligation to refuse, move, or
-            remove any material submitted to the Site for any reason and to
+            4. IFBC reserves the right but not the obligation to refuse, move,
+            or remove any material submitted to the Site for any reason and to
             restrict, suspend, or terminate your access to all or any part of
             the Site. If you upload Content to the Site, you agree to indemnify
             and hold IFBC harmless from any and all liability, damages or
@@ -585,7 +585,7 @@ const TermsConditions = () => {
           </p>
           <br></br>
           <p className="max-md:text-[10px] md:text-lg">
-            14. IFBC has registered a designated agent with the Copyright Office
+            FBC has registered a designated agent with the Copyright Office
             pursuant to 17
           </p>
           <br></br>

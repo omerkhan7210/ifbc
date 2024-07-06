@@ -1,9 +1,8 @@
 const FormatRawDate = (cand, time = false) => {
   const rawDate = cand?.docDate ? cand?.docDate : cand.CreatedAt;
   if (rawDate) {
-    const match = rawDate.match(/\d+/);
-    const timestamp = parseInt(match[0], 10);
-    const date = new Date(timestamp);
+    const date = new Date(rawDate);
+    console.log(date); // This will now print the correct date
     const formatted = time
       ? new Intl.DateTimeFormat("en-US", {
           year: "numeric",
