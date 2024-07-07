@@ -283,12 +283,17 @@ const Initial = ({
         name="CreditScore"
         id="score"
         className="candidate-select"
-        {...(candNames && candNames.length > 0
-          ? { value: selectedDetails?.creditScore }
-          : { defaultValue: candDetails?.creditScore })}
       >
         {creditScoreOptions.map((option, index) => (
-          <option key={index} value={option.value}>
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.creditScore
+                : candDetails?.creditScore
+            }
+          >
             {option.label}
           </option>
         ))}
@@ -301,12 +306,17 @@ const Initial = ({
         name="Networth"
         id="worth"
         className="candidate-select"
-        {...(candNames && candNames.length > 0
-          ? { value: selectedDetails?.netWorth }
-          : { defaultValue: candDetails?.netWorth })}
       >
         {netWorthOptions.map((option, index) => (
-          <option key={index} value={option.value}>
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.netWorth
+                : candDetails?.netWorth
+            }
+          >
             {option.label}
           </option>
         ))}
@@ -319,12 +329,17 @@ const Initial = ({
         name="LiquidCash"
         id="liquid-cash"
         className="candidate-select"
-        {...(candNames && candNames.length > 0
-          ? { value: selectedDetails?.liquidCash }
-          : { defaultValue: candDetails?.liquidCash })}
       >
         {liquidCashOptions.map((option, index) => (
-          <option key={index} value={option.value}>
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.liquidCash
+                : candDetails?.liquidCash
+            }
+          >
             {option.label}
           </option>
         ))}
@@ -339,12 +354,17 @@ const Initial = ({
         name="FranchiseCause"
         id="franchise"
         className="candidate-select"
-        {...(candNames && candNames.length > 0
-          ? { value: selectedDetails?.franchiseCause }
-          : { defaultValue: candDetails?.franchiseCause })}
       >
         {reasonOptions.map((option, index) => (
-          <option key={index} value={option.value}>
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.franchiseCause
+                : candDetails?.franchiseCause
+            }
+          >
             {option.label}
           </option>
         ))}
@@ -359,12 +379,17 @@ const Initial = ({
         name="ProfessionalBackground"
         id="background"
         className="candidate-select"
-        {...(candNames && candNames.length > 0
-          ? { value: selectedDetails?.professionalBackground }
-          : { defaultValue: candDetails?.professionalBackground })}
       >
         {backgroundOptions.map((option, index) => (
-          <option key={index} value={option.value}>
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.professionalBackground
+                : candDetails?.professionalBackground
+            }
+          >
             {option.label}
           </option>
         ))}
@@ -392,12 +417,17 @@ const Initial = ({
         name="TimeFrame"
         id="time-frame"
         className="candidate-select"
-        {...(candNames && candNames.length > 0
-          ? { value: selectedDetails?.timeFrame }
-          : { defaultValue: candDetails?.timeFrame })}
       >
         {timeFrameOptions.map((option, index) => (
-          <option key={index} value={option.value}>
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.timeFrame
+                : candDetails?.timeFrame
+            }
+          >
             {option.label}
           </option>
         ))}
@@ -502,12 +532,17 @@ const Zoracle = ({
           name="Competency1"
           id="competency1"
           className="candidate-select w-full"
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.competency1 }
-            : { defaultValue: candDetails?.competency1 })}
         >
           {competencyOptions1.map((option, index) => (
-            <option key={index} value={option.value}>
+            <option
+              key={index}
+              value={option.value}
+              selected={
+                candNames && candNames.length > 0
+                  ? selectedDetails?.competency1
+                  : candDetails?.competency1
+              }
+            >
               {option.label}
             </option>
           ))}
@@ -522,12 +557,17 @@ const Zoracle = ({
           name="Competency2"
           id="competency2"
           className="candidate-select w-full"
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.competency2 }
-            : { defaultValue: candDetails?.competency2 })}
         >
           {competencyOptions2.map((option, index) => (
-            <option key={index} value={option.value}>
+            <option
+              key={index}
+              value={option.value}
+              selected={
+                candNames && candNames.length > 0
+                  ? selectedDetails?.competency2
+                  : candDetails?.competency2
+              }
+            >
               {option.label}
             </option>
           ))}
@@ -542,12 +582,17 @@ const Zoracle = ({
           name="Competency3"
           id="competency3"
           className="candidate-select w-full"
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.competency3 }
-            : { defaultValue: candDetails?.competency3 })}
         >
           {competencyOptions3.map((option, index) => (
-            <option key={index} value={option.value}>
+            <option
+              key={index}
+              value={option.value}
+              selected={
+                candNames && candNames.length > 0
+                  ? selectedDetails?.competency3
+                  : candDetails?.competency3
+              }
+            >
               {option.label}
             </option>
           ))}
@@ -562,12 +607,17 @@ const Zoracle = ({
           name="StageofGrowth"
           id="stage-of-growth"
           className="candidate-select w-full"
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.stageOfGrowth }
-            : { defaultValue: candDetails?.stageOfGrowth })}
         >
           {growth.map((option, index) => (
-            <option key={index} value={option.value}>
+            <option
+              key={index}
+              value={option.value}
+              selected={
+                candNames && candNames.length > 0
+                  ? selectedDetails?.stageOfGrowth
+                  : candDetails?.stageOfGrowth
+              }
+            >
               {option.label}
             </option>
           ))}
@@ -582,12 +632,17 @@ const Zoracle = ({
           name="Value"
           id="value"
           className="candidate-select w-full"
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.value }
-            : { defaultValue: candDetails?.value })}
         >
           {valueOptions.map((option, index) => (
-            <option key={index} value={option.value}>
+            <option
+              key={index}
+              value={option.value}
+              selected={
+                candNames && candNames.length > 0
+                  ? selectedDetails?.value
+                  : candDetails?.value
+              }
+            >
               {option.label}
             </option>
           ))}
@@ -806,12 +861,17 @@ const Eligibility = ({
           name="VALoan"
           id="Qualify"
           className="candidate-select w-full"
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.vALoan }
-            : { defaultValue: candDetails?.vALoan })}
         >
           {militaryOptions.map((option, index) => (
-            <option key={index} value={option.value}>
+            <option
+              key={index}
+              value={option.value}
+              selected={
+                candNames && candNames.length > 0
+                  ? selectedDetails?.vALoan
+                  : candDetails?.vALoan
+              }
+            >
               {option.label}
             </option>
           ))}
