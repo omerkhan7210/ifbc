@@ -7,6 +7,7 @@ import PageTransition from "src/Animations/PageTransition";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import { MyContext } from "src/Context/ListingDataContext";
 import { MyTCFRContext } from "src/Context/TCFRDataContext";
+import DialogBox from "src/Popups/DialogBox";
 import FormatRawDate from "src/Utils/FormatRawDate";
 
 const MainMessages = () => {
@@ -19,7 +20,6 @@ const MainMessages = () => {
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
   const [filters, setFilters] = useState([]);
-
   useEffect(() => {
     if (name === "territory-check") {
       setTCheck(true);
@@ -54,18 +54,20 @@ const MainMessages = () => {
     if (filteredMessages && filteredMessages.length > 0 && filters.status) {
       let filterStatus = [];
       if (filters.status === "Archived") {
-        filterStatus = filteredMessages.map(
+        filterStatus = filteredMessages.filter(
           (listing) => listing.isArchive === true
         );
+        console.log(filterStatus);
+
         setFilteredMessages(filterStatus);
       } else if (filters.status === "Trash") {
-        filterStatus = filteredListings.map(
+        filterStatus = filteredMessages.filter(
           (listing) => listing.isTrash === true
         );
         setFilteredMessages(filterStatus);
       }
     }
-  }, [filteredMessages, filters]);
+  }, [filters.status]);
 
   return (
     <PageTransition>
@@ -114,6 +116,7 @@ const MainMessages = () => {
                   cands={cands}
                   selectedMessages={selectedMessages}
                   filteredMessages={filteredMessages}
+                  setSelectedMessages={setSelectedMessages}
                 />
               ))
             ) : (
@@ -134,9 +137,8 @@ const Card = ({
   card,
   cands,
   listings,
-  filteredMessages,
   selectedMessages,
-  index,
+  setSelectedMessages,
 }) => {
   const [filteredListing, setFilteredListing] = useState();
   const [filteredCand, setFilteredCand] = useState();
@@ -155,7 +157,20 @@ const Card = ({
       setFilteredCand(filtered || null);
     }
   }, [cands, card.candidateId]);
-
+  // Function to handle checkbox change
+  const handleCheckboxChange = (serialNumber) => {
+    setSelectedMessages((prevSelected) => {
+      // Check if docId already exists in selectedMessages
+      const index = prevSelected.indexOf(serialNumber);
+      if (index === -1) {
+        // Add docId if it doesn't exist
+        return [...prevSelected, serialNumber];
+      } else {
+        // Remove docId if it exists
+        return prevSelected.filter((sN) => sN !== serialNumber);
+      }
+    });
+  };
   return (
     <div
       key={card}
@@ -165,7 +180,10 @@ const Card = ({
         <label class="container">
           <input
             class="peer cursor-pointer hidden after:opacity-100"
-            checked={selectedMessages.includes(filteredMessages[index].docId)}
+            checked={selectedMessages.includes(card.serialNumber)}
+            onChange={() => {
+              handleCheckboxChange(card.serialNumber);
+            }}
             type="checkbox"
           />
           <span class="inline-block w-5 h-5 border-2 relative cursor-pointer after:content-[''] after:absolute after:top-2/4 after:left-2/4 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[10px] after:h-[10px] after:bg-[#333] after:rounded-[2px] after:opacity-0 peer-checked:after:opacity-100"></span>
@@ -174,12 +192,12 @@ const Card = ({
 
       <div id="status-container" className="flex justify-between">
         <h1 className="candidate-territory">
-          {card.docType.trim() === "TC"
+          {card?.docType?.trim() === "TC"
             ? "Territory Check"
             : "Formal Registration"}
         </h1>
         <h1
-          className={`${card.status.toLowerCase() === "pending" ? "candidate-pending" : "candidate-available"}`}
+          className={`${card.status?.toLowerCase() === "pending" ? "candidate-pending" : "candidate-available"}`}
         >
           {card.status}
         </h1>
@@ -318,18 +336,19 @@ const SecondRow = ({
 }) => {
   const [allMessagesIds, setAllMessagesIds] = useState([]);
   const [allSelectedMessagesData, setAllSelectedMessagesData] = useState([]);
+  const [show, setShow] = useState(false);
   useEffect(() => {
     if (filteredMessages && filteredMessages.length > 0) {
-      const ids = filteredMessages.map((msg) => msg.docId);
-      const uniqueIds = [...new Set(ids)];
-      setAllMessagesIds(uniqueIds);
+      const serialNumbers = filteredMessages.map((msg) => msg.serialNumber);
+      const uniqueSerialNumbers = [...new Set(serialNumbers)];
+      setAllMessagesIds(uniqueSerialNumbers);
     }
   }, [filteredMessages]);
 
   useEffect(() => {
     if (filteredMessages && filteredMessages.length > 0) {
-      const allMessages = filteredMessages.map((msg) =>
-        selectedMessages.includes(msg.docId)
+      const allMessages = filteredMessages.filter((msg) =>
+        selectedMessages.includes(msg.serialNumber)
       );
       setAllSelectedMessagesData(allMessages);
     }
@@ -346,35 +365,32 @@ const SecondRow = ({
 
   const handleEdit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    //setLoading(true);
 
     const url =
       "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations/";
 
-    allSelectedMessagesData.map((messages) => {
+    allSelectedMessagesData.map((message) => {
       const formData = {
-        candidateId: selectedDocId ?? 0,
-        AgentId: userDetails.docId ?? 0,
-        listingsIds:
-          JSON.stringify(activeListings).replace(/[^0-9,]/g, "") ?? "",
-        InterRequest: selectedDetails.IncludeNameInTerritoryRequest ?? false,
-        docType: "TC",
-        Status: "Pending",
-        Message: "",
-        email: "",
+        ...message,
+        isArchive: filters.action === "Archive" ? true : false,
+        isTrash: filters.action === "Trash" ? true : false,
+        isRead: filters.action === "MarkRead" ? true : false,
+        isFav: filters.type === "Favs" ? true : false,
       };
 
       axios
-        .put(url + listing.id, formData)
+        .put(url + message.docId, formData)
         .then((response) => {
-          // Handle successful response
-          if (response.status === 200) {
-            const allData = response.data.filter(
-              (data) => data.agentId === userDetails.docId
-            );
+          console.log(response);
 
-            dispatch(addAllRegistrations(response.data));
-            setAll(allData);
+          // // Handle successful response
+          if (response.status === 204) {
+            setShow(true);
+            setTimeout(() => {
+              setShow(false);
+              window.location.reload();
+            }, 3000);
             setLoading(false);
           }
         })
@@ -386,65 +402,97 @@ const SecondRow = ({
     });
     // Make a GET request to fetch the data
   };
-
   return (
-    <div
-      id="buttons-container"
-      className="grid grid-cols-1 md:grid-cols-3 gap-5"
-    >
+    <>
+      <DialogBox show={show} setShow={setShow}>
+        <div className="p-10 bg-white flex justify-center items-center">
+          <h1 className="text-custom-heading-blue text-3xl">
+            Messages Successfully Updated!
+          </h1>
+        </div>
+      </DialogBox>
       <div
-        id="bulkaction-container"
-        className="flex gap-5 items-center justify-center"
+        id="buttons-container"
+        className="grid grid-cols-1 md:grid-cols-3 gap-5"
       >
-        <button
-          onClick={() => setSelectedMessages(allMessagesIds)}
-          id="select-all-btn"
-          className="candidate-btn w-full flex justify-center items-center gap-3"
+        <div
+          id="bulkaction-container"
+          className="flex gap-5 items-center justify-center"
         >
-          Select All
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
-            />
-          </svg>
-        </button>
-      </div>
+          {selectedMessages === filteredMessages ? (
+            <button
+              onClick={() => setSelectedMessages([])}
+              id="select-all-btn"
+              className="candidate-btn w-full flex justify-center items-center gap-3"
+            >
+              Unselect All
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                />
+              </svg>
+            </button>
+          ) : (
+            <button
+              onClick={() => setSelectedMessages(allMessagesIds)}
+              id="select-all-btn"
+              className="candidate-btn w-full flex justify-center items-center gap-3"
+            >
+              Select All
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
 
-      <div id="read-unread-btns" className="flex gap-3 justify-end">
-        <select
-          name="markread-dropdown"
-          id="markread-dropdown"
-          className="candidate-select w-full"
-          onChange={handleBulkActions}
-        >
-          {!filters.action && <option value="">Bulk Options</option>}
-          <option value="Markread">Mark read</option>
-          <option value="Archive">Archive</option>
-          <option value="Delete">Delete</option>
-        </select>
-        {filters.action && (
-          <button
-            className="candidate-btn w-full flex justify-center items-center gap-3"
-            onSubmit={handleEdit}
+        <div id="read-unread-btns" className="flex gap-3 justify-end">
+          <select
+            name="markread-dropdown"
+            id="markread-dropdown"
+            className="candidate-select w-full"
+            onChange={handleBulkActions}
           >
-            Confirm
-          </button>
-        )}
-      </div>
+            {!filters.action && <option value="">Bulk Options</option>}
+            <option value="MarkRead">Mark read</option>
+            <option value="Archive">Archive</option>
+            <option value="Trash">Delete</option>
+          </select>
+          {filters.action && (
+            <button
+              className="candidate-btn w-full flex justify-center items-center gap-3"
+              onClick={handleEdit}
+            >
+              Confirm
+            </button>
+          )}
+        </div>
 
-      <div id="search">
-        <SearchingInput />
+        <div id="search">
+          <SearchingInput />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

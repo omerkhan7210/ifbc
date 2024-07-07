@@ -22,12 +22,14 @@ const TCFRDataContext = ({ children }) => {
         const sanitized = listingsIds.replace(/[^0-9,]/g, "");
         return sanitized.split(",").filter((id) => id.trim() !== "");
       };
-      const transformedData = all.flatMap((item) => {
+
+      const transformedData = all.flatMap((item, index) => {
         const listingsIdsArray = sanitizelistingsIds(item.listingsIds);
 
-        return listingsIdsArray.map((listingId) => ({
+        return listingsIdsArray.map((listingId, index) => ({
           ...item,
           listingsIds: listingId,
+          serialNumber: index + 1, // Add serial number starting from 1
         }));
       });
 
