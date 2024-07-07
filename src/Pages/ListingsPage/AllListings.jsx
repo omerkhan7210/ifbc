@@ -54,7 +54,7 @@ const AllListings = () => {
   }, [filters]);
 
   useEffect(() => {
-    if (listings.length > 0) {
+    if (!loading && listings && listings.length > 0) {
       const filteredListings = filters
         ? listings.filter((listing) => {
             return filterKeys.every((key) => {

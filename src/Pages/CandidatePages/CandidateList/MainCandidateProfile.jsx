@@ -43,21 +43,19 @@ const MainCandidateProfile = () => {
   }, [cands]);
 
   return (
-    <PageTransition>
-      <div className="grid grid-cols-12 gap-30 max-w-7xl gap-10 mx-auto my-10 max-md:px-5">
-        {/* card end */}
-        <LeftSideCardContainer
-          candDetails={candDetails}
-          listings={listings}
-          filteredData={filteredData}
-          loading={loading}
-          setCandDetails={setCandDetails}
-        />
-        <div className="md:grid col-span-9 max-md:block max-md:col-span-12 w-full">
-          <Form candDetails={candDetails} />
-        </div>
+    <div className="grid grid-cols-12 gap-30 max-xl:max-w-7xl gap-10 mx-auto my-10 max-md:px-5">
+      {/* card end */}
+      <LeftSideCardContainer
+        candDetails={candDetails}
+        listings={listings}
+        filteredData={filteredData}
+        loading={loading}
+        setCandDetails={setCandDetails}
+      />
+      <div className="md:grid col-span-9 max-md:block max-md:col-span-12 w-full">
+        <Form candDetails={candDetails} />
       </div>
-    </PageTransition>
+    </div>
   );
 };
 

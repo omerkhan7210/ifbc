@@ -256,7 +256,10 @@ const Contact = () => {
   ];
   // return
   return (
-    <PageTransition>
+    <div
+      id="main-contact-container"
+      className="max-md:p-2 max-md:w-full md:p-10 max-w-[90%] mx-auto"
+    >
       <DialogBox show={show} setShow={setShow}>
         <div className="bg-white p-10">
           <p className="text-3xl text-center text-custom-heading-color">
@@ -264,195 +267,191 @@ const Contact = () => {
           </p>
         </div>
       </DialogBox>
-      <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[90%] mx-auto">
-        <ServicesGrid />
-        <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[750px] ">
-          <img
-            src="/images/banners/contact.jpg"
-            alt=""
-            className="h-[750px] w-full object-cover rounded-l-lg  "
-          />
-          <div id="form-right " className="flex flex-col justify-center w-full">
-            <form className=" px-10 rounded-lg my-5 " onSubmit={handleSubmit}>
-              {formErrors.error && (
-                <p className="border-2 border-white text-white p-4 flex justify-between my-5">
-                  {formErrors.error}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="white"
-                    className="size-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
-                    />
-                  </svg>
-                </p>
-              )}
-              <div className="flex gap-3 justify-between">
-                <div className="relative z-0 w-full mb-5 group">
-                  <input
-                    onChange={handleChange}
-                    type="text"
-                    name="contactName"
-                    id="name"
-                    placeholder="Your Name"
-                    className="candidate-input w-full"
-                    style={{
-                      borderColor: formErrors.contactName ? "red" : "undefined",
-                    }}
-                  />
-                  {formErrors.contactName &&
-                    formErrors.contactName === "invalid" && (
-                      <p className=" text-white text-xs py-2 flex justify-between">
-                        Invalid username. It should be 3-16 characters long and
-                        can include letters, numbers, underscores, and spaces.
-                      </p>
-                    )}
-                </div>
-
-                <div className="relative z-0 w-full mb-5 group">
-                  <input
-                    onChange={handleChange}
-                    type="text"
-                    name="contactCompany"
-                    id="floating_company"
-                    className="candidate-input w-full"
-                    style={{
-                      borderColor: formErrors.contactCompany
-                        ? "red"
-                        : undefined,
-                    }}
-                    placeholder="Company (Ex. Google)"
-                  />
-                  {formErrors.contactCompany &&
-                    formErrors.contactCompany === "invalid" && (
-                      <p className=" text-white text-xs py-2 flex justify-between">
-                        Invalid Company Name (Please start with alphabets)
-                      </p>
-                    )}
-                </div>
-              </div>
-
-              <div className="flex gap-3 justify-between">
-                <div className="relative z-0 w-full mb-5 group">
-                  <input
-                    onChange={handleChange}
-                    type="email"
-                    name="contactEmail"
-                    id="floating_email"
-                    className="candidate-input w-full"
-                    style={{
-                      borderColor: formErrors.email ? "red" : undefined,
-                    }}
-                    placeholder="Email address"
-                  />
-                  {formErrors.contactEmail &&
-                    formErrors.contactEmail === "invalid" && (
-                      <p className=" text-white text-xs py-2 flex justify-between">
-                        Invalid Email (john@example.com)
-                      </p>
-                    )}
-                </div>
-
-                <div className="relative z-0 w-full mb-5 group">
-                  <label
-                    htmlFor="floating_phone"
-                    className="text-white font-bold py-2"
-                  ></label>
-                  <input
-                    type="tel"
-                    onChange={handleChange}
-                    name="contactPhone"
-                    className="candidate-input w-full"
-                    style={{
-                      borderColor: formErrors.contactPhone ? "red" : undefined,
-                    }}
-                    placeholder="Phone number (123-456-7890)"
-                  />{" "}
-                  {formErrors.contactPhone &&
-                    formErrors.contactPhone === "invalid" && (
-                      <p className=" text-white text-xs py-2 flex justify-between">
-                        Invalid Phone Number (Please use numbers only)
-                      </p>
-                    )}
-                </div>
-              </div>
-
-              <div className="relative z-0 w-full mb-5 group ">
-                <select
-                  onChange={handleChange}
-                  id="reason"
-                  name="contactReason"
-                  className="contact-select w-full"
+      <ServicesGrid />
+      <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[750px] ">
+        <img
+          src="/images/banners/contact.jpg"
+          alt=""
+          className="h-[750px] w-full object-cover rounded-l-lg  "
+        />
+        <div id="form-right " className="flex flex-col justify-center w-full">
+          <form className=" px-10 rounded-lg my-5 " onSubmit={handleSubmit}>
+            {formErrors.error && (
+              <p className="border-2 border-white text-white p-4 flex justify-between my-5">
+                {formErrors.error}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="white"
+                  className="size-5"
                 >
-                  {Reason.map((option) => (
-                    <option key={option.value} value={option.label}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <textarea
-                onChange={handleChange}
-                name="contactComments"
-                id="comments"
-                rows={4}
-                placeholder="Comments"
-                className="contact-input"
-              />
-
-              <label htmlFor="" className="block  text-white font-bold py-3">
-                <input
-                  type="checkbox"
-                  name="contactCopy"
-                  id=""
-                  onChange={handleChange}
-                />
-                Send a copy of this message to me
-              </label>
-
-              {/* Terms and conditions message */}
-              <p className="text-sm text-white text-left">
-                By submitting the form, you agree to receive calls, text
-                messages, or emails from <a href="https://ifbc.co">ifbc.co</a>{" "}
-                at the contact information provided. <br />
-                Message rates may apply. <br />
-                Text STOP to cancel text messaging at any time. <br />
-                See{" "}
-                <a
-                  href="/terms-conditions"
-                  className="text-white font-extrabold underline"
-                >
-                  Terms & Conditions
-                </a>{" "}
-                and{" "}
-                <a
-                  href="/privacy-policy"
-                  className="text-white font-extrabold underline"
-                >
-                  Privacy Policy
-                </a>{" "}
-                for additional details.
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+                  />
+                </svg>
               </p>
-              <div className="my-3 flex justify-center">
-                <button
-                  type="submit"
-                  className="border-2 w-full border-custom-heading-color bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
-                >
-                  {loading ? "Loading..." : "Submit"}
-                </button>
+            )}
+            <div className="flex gap-3 justify-between">
+              <div className="relative z-0 w-full mb-5 group">
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  name="contactName"
+                  id="name"
+                  placeholder="Your Name"
+                  className="candidate-input w-full"
+                  style={{
+                    borderColor: formErrors.contactName ? "red" : "undefined",
+                  }}
+                />
+                {formErrors.contactName &&
+                  formErrors.contactName === "invalid" && (
+                    <p className=" text-white text-xs py-2 flex justify-between">
+                      Invalid username. It should be 3-16 characters long and
+                      can include letters, numbers, underscores, and spaces.
+                    </p>
+                  )}
               </div>
-            </form>
-          </div>
+
+              <div className="relative z-0 w-full mb-5 group">
+                <input
+                  onChange={handleChange}
+                  type="text"
+                  name="contactCompany"
+                  id="floating_company"
+                  className="candidate-input w-full"
+                  style={{
+                    borderColor: formErrors.contactCompany ? "red" : undefined,
+                  }}
+                  placeholder="Company (Ex. Google)"
+                />
+                {formErrors.contactCompany &&
+                  formErrors.contactCompany === "invalid" && (
+                    <p className=" text-white text-xs py-2 flex justify-between">
+                      Invalid Company Name (Please start with alphabets)
+                    </p>
+                  )}
+              </div>
+            </div>
+
+            <div className="flex gap-3 justify-between">
+              <div className="relative z-0 w-full mb-5 group">
+                <input
+                  onChange={handleChange}
+                  type="email"
+                  name="contactEmail"
+                  id="floating_email"
+                  className="candidate-input w-full"
+                  style={{
+                    borderColor: formErrors.email ? "red" : undefined,
+                  }}
+                  placeholder="Email address"
+                />
+                {formErrors.contactEmail &&
+                  formErrors.contactEmail === "invalid" && (
+                    <p className=" text-white text-xs py-2 flex justify-between">
+                      Invalid Email (john@example.com)
+                    </p>
+                  )}
+              </div>
+
+              <div className="relative z-0 w-full mb-5 group">
+                <label
+                  htmlFor="floating_phone"
+                  className="text-white font-bold py-2"
+                ></label>
+                <input
+                  type="tel"
+                  onChange={handleChange}
+                  name="contactPhone"
+                  className="candidate-input w-full"
+                  style={{
+                    borderColor: formErrors.contactPhone ? "red" : undefined,
+                  }}
+                  placeholder="Phone number (123-456-7890)"
+                />{" "}
+                {formErrors.contactPhone &&
+                  formErrors.contactPhone === "invalid" && (
+                    <p className=" text-white text-xs py-2 flex justify-between">
+                      Invalid Phone Number (Please use numbers only)
+                    </p>
+                  )}
+              </div>
+            </div>
+
+            <div className="relative z-0 w-full mb-5 group ">
+              <select
+                onChange={handleChange}
+                id="reason"
+                name="contactReason"
+                className="contact-select w-full"
+              >
+                {Reason.map((option) => (
+                  <option key={option.value} value={option.label}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <textarea
+              onChange={handleChange}
+              name="contactComments"
+              id="comments"
+              rows={4}
+              placeholder="Comments"
+              className="contact-input"
+            />
+
+            <label htmlFor="" className="block  text-white font-bold py-3">
+              <input
+                type="checkbox"
+                name="contactCopy"
+                id=""
+                onChange={handleChange}
+              />
+              Send a copy of this message to me
+            </label>
+
+            {/* Terms and conditions message */}
+            <p className="text-sm text-white text-left">
+              By submitting the form, you agree to receive calls, text messages,
+              or emails from <a href="https://ifbc.co">ifbc.co</a> at the
+              contact information provided. <br />
+              Message rates may apply. <br />
+              Text STOP to cancel text messaging at any time. <br />
+              See{" "}
+              <a
+                href="/terms-conditions"
+                className="text-white font-extrabold underline"
+              >
+                Terms & Conditions
+              </a>{" "}
+              and{" "}
+              <a
+                href="/privacy-policy"
+                className="text-white font-extrabold underline"
+              >
+                Privacy Policy
+              </a>{" "}
+              for additional details.
+            </p>
+            <div className="my-3 flex justify-center">
+              <button
+                type="submit"
+                className="border-2 w-full border-custom-heading-color bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
+              >
+                {loading ? "Loading..." : "Submit"}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-    </PageTransition>
+    </div>
   );
 };
 

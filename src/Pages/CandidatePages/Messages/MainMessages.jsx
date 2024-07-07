@@ -68,7 +68,7 @@ const MainMessages = () => {
   }, [filteredMessages, filters]);
 
   return (
-    <PageTransition>
+    <>
       <div
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
@@ -85,48 +85,44 @@ const MainMessages = () => {
         </h1>
       </div>
 
-      {!loadingTCFR || !loading ? (
-        <div className=" my-20 max-w-7xl mx-auto flex flex-col gap-5 max-md:px-5">
-          <FirstRow
-            formalReg={formalReg}
-            tCheck={tCheck}
-            setFilters={setFilters}
-            filters={filters}
-          />
-          <SecondRow
-            setSelectedMessages={setSelectedMessages}
-            filteredMessages={filteredMessages}
-            setFilters={setFilters}
-            filters={filters}
-            selectedMessages={selectedMessages}
-          />
-          <div
-            id="cards-container"
-            className={`${filteredMessages && filteredMessages.length > 0 ? "grid" : ""} grid-cols-1 md:grid-cols-3 gap-5`}
-          >
-            {filteredMessages && filteredMessages.length > 0 ? (
-              filteredMessages.map((card, index) => (
-                <Card
-                  key={index}
-                  card={card}
-                  index={index}
-                  listings={listings}
-                  cands={cands}
-                  selectedMessages={selectedMessages}
-                  filteredMessages={filteredMessages}
-                />
-              ))
-            ) : (
-              <h1 className="w-full text-custom-heading-color capitalize flex justify-center text-3xl items-center h-full my-5">
-                No Registrations of this type please select another option
-              </h1>
-            )}
-          </div>
+      <div className=" my-20 max-w-7xl mx-auto flex flex-col gap-5 max-md:px-5">
+        <FirstRow
+          formalReg={formalReg}
+          tCheck={tCheck}
+          setFilters={setFilters}
+          filters={filters}
+        />
+        <SecondRow
+          setSelectedMessages={setSelectedMessages}
+          filteredMessages={filteredMessages}
+          setFilters={setFilters}
+          filters={filters}
+          selectedMessages={selectedMessages}
+        />
+        <div
+          id="cards-container"
+          className={`${filteredMessages && filteredMessages.length > 0 ? "grid" : ""} grid-cols-1 md:grid-cols-3 gap-5`}
+        >
+          {filteredMessages && filteredMessages.length > 0 ? (
+            filteredMessages.map((card, index) => (
+              <Card
+                key={index}
+                card={card}
+                index={index}
+                listings={listings}
+                cands={cands}
+                selectedMessages={selectedMessages}
+                filteredMessages={filteredMessages}
+              />
+            ))
+          ) : (
+            <h1 className="w-full text-custom-heading-color capitalize flex justify-center text-3xl items-center h-full my-5">
+              No Registrations of this type please select another option
+            </h1>
+          )}
         </div>
-      ) : (
-        <BarLoader bgcolor={"blue"} />
-      )}
-    </PageTransition>
+      </div>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import SearchingSection from "./SearchingSection";
 import { MyContext } from "src/Context/ListingDataContext";
@@ -9,6 +9,7 @@ import "swiper/css";
 
 import "swiper/css/effect-fade";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
+import BarLoader from "src/Animations/BarLoader";
 
 const HomeBanner = () => {
   const listingBoxes = [
@@ -167,11 +168,17 @@ const HomeBanner = () => {
 };
 
 const ListingBox = ({ id, bgcolor, svg, min, max }) => {
-  const { listings } = useContext(MyContext);
+  const { listings, loading } = useContext(MyContext);
+  const [unique, setUnique] = useState([]);
+  useEffect(() => {
+    if (!loading) {
+      const uniqueFranchisedCats = [
+        ...new Set(listings.map((listing) => listing.category)),
+      ];
+      setUnique(uniqueFranchisedCats);
+    }
+  }, [loading]);
 
-  const uniqueFranchisedCats = [
-    ...new Set(listings.map((listing) => listing.category)),
-  ];
   const { setFilters } = useContext(MyContext);
   const history = useNavigate();
   const handleSearchInputChange = (cat) => {
@@ -179,6 +186,9 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
 
     history("/listings");
   };
+  if (loading) {
+    return <BarLoader bgcolor={"white"} />;
+  }
   return (
     <div
       id={id}
@@ -190,22 +200,27 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
         {id} Franchises
       </h3>
       <ul id="list-container " className="ml-7 mt-3 flex flex-col gap-2">
-        {uniqueFranchisedCats.map((listing, index) => {
-          if (index > min && index < max) {
-            return (
-              <li key={listing.name} className="text-sm text-white list-disc ">
-                <button
-                  onClick={() => handleSearchInputChange(listing)}
-                  to="/listings"
-                  className="group relative text-left"
+        {unique &&
+          unique.length > 0 &&
+          unique.map((listing, index) => {
+            if (index > min && index < max) {
+              return (
+                <li
+                  key={listing.name}
+                  className="text-sm text-white list-disc "
                 >
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
-                  {listing}
-                </button>
-              </li>
-            );
-          }
-        })}
+                  <button
+                    onClick={() => handleSearchInputChange(listing)}
+                    to="/listings"
+                    className="group relative text-left"
+                  >
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
+                    {listing}
+                  </button>
+                </li>
+              );
+            }
+          })}
       </ul>
     </div>
   );

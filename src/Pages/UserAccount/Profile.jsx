@@ -151,45 +151,37 @@ const Profile = () => {
   };
 
   return (
-    <PageTransition>
+    <>
       {userDetails ? (
         <div
           id="main-profile-section"
           className="w-full md:grid max-md:flex flex-col grid-cols-12 p-5 gap-5 min-h-screen "
         >
-          {userDetails ? (
-            <>
-              <LeftSideBar
-                formFields={formFields}
-                formErrors={formErrors}
-                handleInputChange={handleInputChange}
-                userDetails={userDetails}
-                successMsg={successMsg}
-                handleSubmit={handleSubmit}
-                loading={loading}
-                role={role}
-                haveChanges={haveChanges}
-                setFormFields={setFormFields}
-              />
-              <RightSideBar
-                formFields={formFields}
-                formErrors={formErrors}
-                handleInputChange={handleInputChange}
-                userDetails={userDetails}
-              />
-            </>
-          ) : (
-            <div className="h-full grid place-items-center col-span-12">
-              <BarLoader bgcolor={"blue"} />
-            </div>
-          )}
+          <LeftSideBar
+            formFields={formFields}
+            formErrors={formErrors}
+            handleInputChange={handleInputChange}
+            userDetails={userDetails}
+            successMsg={successMsg}
+            handleSubmit={handleSubmit}
+            loading={loading}
+            role={role}
+            haveChanges={haveChanges}
+            setFormFields={setFormFields}
+          />
+          <RightSideBar
+            formFields={formFields}
+            formErrors={formErrors}
+            handleInputChange={handleInputChange}
+            userDetails={userDetails}
+          />
         </div>
       ) : (
         <div className="grid place-items-center h-[500px]">
           <BarLoader bgcolor={"blue"} />
         </div>
       )}
-    </PageTransition>
+    </>
   );
 };
 

@@ -10,21 +10,19 @@ import RelatedListings from "src/Globals/RelatedListings";
 
 const MainHome = () => {
   return (
-    <PageTransition>
-      <div id="smooth-wrapper">
-        <div id="smooth-content">
-          <main className="w-full">
-            <HomeBanner />
-            <About />
-            <About2 />
-            <Services />
-            <Testimonials />
-            <RelatedListings />
-            <PreFooter />
-          </main>
-        </div>
+    <div id="smooth-wrapper">
+      <div id="smooth-content">
+        <main className="w-full">
+          <HomeBanner />
+          <About />
+          <About2 />
+          <Services />
+          <Testimonials />
+          <RelatedListings />
+          <PreFooter />
+        </main>
       </div>
-    </PageTransition>
+    </div>
   );
 };
 

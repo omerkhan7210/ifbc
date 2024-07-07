@@ -12,6 +12,8 @@ import { generateUuid } from "./Redux/listingReducer";
 import RouteRenderer from "./RouteRenderer";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import RegisterationPopup from "./Popups/RegistrationPopup";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,43 +32,47 @@ const App = () => {
   useEffect(() => {
     setMobileActive(false);
   }, [loc.pathname]);
+  const queryClient = new QueryClient();
 
   // return
   return (
     <>
-      {token && (
-        <ListingDataContext>
-          <Header
-            mobileActive={mobileActive}
-            setMobileActive={setMobileActive}
-          />
-          {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
-        </ListingDataContext>
-      )}
-      <AnimatePresence mode="wait">
-        <RouteRenderer
-          isAuthenticated={token}
-          setShow={setShow}
-          setRegistrationType={setRegistrationType}
-        />
-      </AnimatePresence>
-      <ListingDataContext>
-        <CandidatesDataContext>
-          <TCFRDataContext>
-            {(loc.pathname.includes("listings") ||
-              loc.pathname.includes("candidate") ||
-              loc.pathname.includes("messages")) &&
-              token &&
-              role !== "N" && <CandidateSideBar />}
-            <RegisterationPopup
-              setShow={setShow}
-              show={show}
-              registrationType={registrationType}
+      <QueryClientProvider client={queryClient}>
+        {" "}
+        {token && (
+          <ListingDataContext>
+            <Header
+              mobileActive={mobileActive}
+              setMobileActive={setMobileActive}
             />
-          </TCFRDataContext>
-        </CandidatesDataContext>
-      </ListingDataContext>
-      {token && <Footer />}
+            {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
+          </ListingDataContext>
+        )}
+        <AnimatePresence mode="wait">
+          <RouteRenderer
+            isAuthenticated={token}
+            setShow={setShow}
+            setRegistrationType={setRegistrationType}
+          />
+        </AnimatePresence>
+        <ListingDataContext>
+          <CandidatesDataContext>
+            <TCFRDataContext>
+              {(loc.pathname.includes("listings") ||
+                loc.pathname.includes("candidate") ||
+                loc.pathname.includes("messages")) &&
+                token &&
+                role !== "N" && <CandidateSideBar />}
+              <RegisterationPopup
+                setShow={setShow}
+                show={show}
+                registrationType={registrationType}
+              />
+            </TCFRDataContext>
+          </CandidatesDataContext>
+        </ListingDataContext>
+        {token && <Footer />}
+      </QueryClientProvider>
     </>
   );
 };

@@ -73,7 +73,7 @@ const FranchiseOwner = () => {
   ];
 
   return (
-    <PageTransition>
+    <>
       <PageTitle title={"New Candidate"} />
       <div id="wrapper">
         <div
@@ -141,7 +141,7 @@ const FranchiseOwner = () => {
           ))}
         </div>
       </div>
-    </PageTransition>
+    </>
   );
 };
 

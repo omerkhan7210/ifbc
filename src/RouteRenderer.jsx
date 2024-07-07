@@ -165,8 +165,6 @@ const RouteRenderer = ({ isAuthenticated, setRegistrationType, setShow }) => {
     },
   ];
 
-  // 2 roles hain hamare pass dono roles ke alag alag routes hain tum jo dalrhe the wo consultant wale may dalr the wahan bhi aengay lekn tumhe show isliye nhi horhe kunke tum normal yuser se logged in ho abhi (member hai normal user
-
   const normalUserRoutes = [
     {
       path: "/checkout",

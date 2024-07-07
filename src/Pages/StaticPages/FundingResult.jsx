@@ -39,7 +39,7 @@ const FundingResult = () => {
   }, [data, loading]);
 
   return (
-    <PageTransition>
+    <>
       <div
         id="top-text"
         className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
@@ -145,7 +145,7 @@ const FundingResult = () => {
           <BarLoader bgcolor={"blue"} />
         )}
       </div>
-    </PageTransition>
+    </>
   );
 };
 

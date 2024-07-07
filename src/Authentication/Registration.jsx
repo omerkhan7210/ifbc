@@ -176,12 +176,11 @@ const Registration = () => {
   ];
 
   return (
-    <PageTransition>
-      <div
-        id="main-page-wrapper"
-        className="flex justify-center flex-col items-center "
-      >
-        {/* <DialogBox show={show} setShow={setShow}>
+    <div
+      id="main-page-wrapper"
+      className="flex justify-center flex-col items-center "
+    >
+      {/* <DialogBox show={show} setShow={setShow}>
           <div className="py-20 px-5 flex items-center justify-center gap-2 flex-col">
             <p className="text-2xl">{successMsg}</p>
             <div className="input-container flex flex-col gap-3">
@@ -197,87 +196,86 @@ const Registration = () => {
             </div>
           </div>
         </DialogBox> */}
-        <h2 className="text-4xl md:text-5xl my-5 uppercase font-bold text-custom-heading-color">
-          Registration
-        </h2>
-        <form
-          id="main-form"
-          className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[90%] mx-auto max-md:flex flex-col md:grid grid-cols-12 gap-0 md:gap-10"
-          ref={ref}
+      <h2 className="text-4xl md:text-5xl my-5 uppercase font-bold text-custom-heading-color">
+        Registration
+      </h2>
+      <form
+        id="main-form"
+        className=" rounded px-3 md:px-8 pt-6 pb-8 mb-4  w-[90%] mx-auto max-md:flex flex-col md:grid grid-cols-12 gap-0 md:gap-10"
+        ref={ref}
+      >
+        <div id="left-form-container" className="col-span-9 max-md:order-2">
+          {error.credentials && (
+            <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
+              {error.credentials}!
+            </p>
+          )}
+          {successMsg && successMsg.alreadyexist && (
+            <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
+              {successMsg.alreadyexist}!
+            </p>
+          )}
+          {successMsg && successMsg.success && (
+            <p className="text-green-500 font-bold text-sm mb-4 border border-green-500 p-2 rounded">
+              {successMsg.success}!
+            </p>
+          )}
+          <Profile
+            formFields={formFields}
+            handleInputChange={handleInputChange}
+            error={error}
+          />
+          <Company
+            formFields={formFields}
+            handleInputChange={handleInputChange}
+            error={error}
+          />
+          <Experience
+            formFields={formFields}
+            handleInputChange={handleInputChange}
+            error={error}
+          />
+          <Settings
+            formFields={formFields}
+            handleInputChange={handleInputChange}
+            error={error}
+          />
+        </div>
+        <div
+          id="right-side-container"
+          className="col-span-3 p-5 relative max-md:order-1"
         >
-          <div id="left-form-container" className="col-span-9 max-md:order-2">
-            {error.credentials && (
-              <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
-                {error.credentials}!
-              </p>
-            )}
-            {successMsg && successMsg.alreadyexist && (
-              <p className="text-red-500 font-bold text-sm mb-4 border border-red-500 p-2 rounded">
-                {successMsg.alreadyexist}!
-              </p>
-            )}
-            {successMsg && successMsg.success && (
-              <p className="text-green-500 font-bold text-sm mb-4 border border-green-500 p-2 rounded">
-                {successMsg.success}!
-              </p>
-            )}
-            <Profile
-              formFields={formFields}
-              handleInputChange={handleInputChange}
-              error={error}
-            />
-            <Company
-              formFields={formFields}
-              handleInputChange={handleInputChange}
-              error={error}
-            />
-            <Experience
-              formFields={formFields}
-              handleInputChange={handleInputChange}
-              error={error}
-            />
-            <Settings
-              formFields={formFields}
-              handleInputChange={handleInputChange}
-              error={error}
-            />
+          <div id="sticky-container" className="top-10 sticky">
+            {checkboxInputs.map(({ name, label }) => (
+              <CheckboxInput
+                key={name}
+                name={name}
+                label={label}
+                formFields={formFields}
+                error={formErrors}
+                handleInputChange={handleInputChange}
+              />
+            ))}
           </div>
-          <div
-            id="right-side-container"
-            className="col-span-3 p-5 relative max-md:order-1"
+        </div>
+        {/* Button */}
+        <div
+          id="button-container"
+          className="flex flex-col sm:flex-row items-center gap-5 justify-center col-span-12 order-3 "
+        >
+          <button
+            onClick={handleSubmit}
+            className="candidate-btn w-full sm:w-auto"
+            type="submit"
           >
-            <div id="sticky-container" className="top-10 sticky">
-              {checkboxInputs.map(({ name, label }) => (
-                <CheckboxInput
-                  key={name}
-                  name={name}
-                  label={label}
-                  formFields={formFields}
-                  error={formErrors}
-                  handleInputChange={handleInputChange}
-                />
-              ))}
-            </div>
-          </div>
-          {/* Button */}
-          <div
-            id="button-container"
-            className="flex flex-col sm:flex-row items-center gap-5 justify-center col-span-12 order-3 "
-          >
-            <button
-              onClick={handleSubmit}
-              className="candidate-btn w-full sm:w-auto"
-              type="submit"
-            >
-              {loading ? "Loading..." : "Sign Up"}
-            </button>
-            <Link to="/" className="candidate-secondary-btn w-full sm:w-auto">
-              Already have an account?
-            </Link>
-          </div>
-        </form>
-      </div>
-    </PageTransition>
+            {loading ? "Loading..." : "Sign Up"}
+          </button>
+          <Link to="/" className="candidate-secondary-btn w-full sm:w-auto">
+            Already have an account?
+          </Link>
+        </div>
+      </form>
+    </div>
   );
 };
 const Profile = ({ formFields, handleInputChange, error }) => {
