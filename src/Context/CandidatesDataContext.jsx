@@ -21,7 +21,7 @@ const CandidatesDataContext = ({ children }) => {
       return axios.get(url);
     },
     {
-      cacheTime: 86400,
+      cacheTime: 86400 * 30,
       select: (data) => {
         const filtered = data?.data.filter(
           (cand) => cand.agentUserId === userDetails?.docId
@@ -34,7 +34,7 @@ const CandidatesDataContext = ({ children }) => {
     <MyCandContext.Provider
       value={{
         role,
-        cands: data || [],
+        cands: (!isLoading && data) || [],
         loading: isLoading,
         loadingError: error,
         filters,

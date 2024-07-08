@@ -1,38 +1,47 @@
 import axios from "axios";
 import { filter } from "lodash";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { useQuery } from "react-query";
 import { Link, useParams } from "react-router-dom";
 import BarLoader from "src/Animations/BarLoader";
 import PageTransition from "src/Animations/PageTransition";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
-import { MyContext } from "src/Context/ListingDataContext";
 import { MyTCFRContext } from "src/Context/TCFRDataContext";
 import DialogBox from "src/Popups/DialogBox";
 import FormatRawDate from "src/Utils/FormatRawDate";
 
+const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api`;
+const fetchCandidate = async (candidateId) => {
+  const { data } = await axios.get(`${baseUrl}/candidates/${candidateId}`);
+  return data;
+};
+
+const fetchListing = async (listingId) => {
+  const { data } = await axios.get(`${baseUrl}/listings/${listingId}`);
+  return data;
+};
 const MainMessages = () => {
   const { name } = useParams();
-  const [formalReg, setFormalReg] = useState(false);
-  const [tCheck, setTCheck] = useState(false);
   const { newData, loadingTCFR } = useContext(MyTCFRContext);
-  const { listings, loading } = useContext(MyContext);
-  const { cands } = useContext(MyCandContext);
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
-  const [filters, setFilters] = useState([]);
+  const [filters, setFilters] = useState({
+    type: "All",
+    status: "Inbox",
+  });
   useEffect(() => {
     if (name === "territory-check") {
-      setTCheck(true);
       setFilters({ type: "TC" });
     } else if (name === "formal-registration") {
-      setFormalReg(true);
       setFilters({ type: "FR" });
+    } else if (name === "inbox") {
+      setFilters({ type: "All" });
     }
     setFilters((prev) => ({
       ...prev,
       status: "Inbox",
     }));
-  }, []);
+  }, [name]);
 
   useEffect(() => {
     if (!loadingTCFR && newData && newData.length > 0) {
@@ -57,7 +66,6 @@ const MainMessages = () => {
         filterStatus = filteredMessages.filter(
           (listing) => listing.isArchive === true
         );
-        console.log(filterStatus);
 
         setFilteredMessages(filterStatus);
       } else if (filters.status === "Trash") {
@@ -87,14 +95,9 @@ const MainMessages = () => {
         </h1>
       </div>
 
-      {!loadingTCFR || !loading ? (
+      {!loadingTCFR ? (
         <div className=" my-20 max-w-7xl mx-auto flex flex-col gap-5 max-md:px-5">
-          <FirstRow
-            formalReg={formalReg}
-            tCheck={tCheck}
-            setFilters={setFilters}
-            filters={filters}
-          />
+          <FirstRow name={name} setFilters={setFilters} filters={filters} />
           <SecondRow
             setSelectedMessages={setSelectedMessages}
             filteredMessages={filteredMessages}
@@ -112,8 +115,6 @@ const MainMessages = () => {
                   key={index}
                   card={card}
                   index={index}
-                  listings={listings}
-                  cands={cands}
                   selectedMessages={selectedMessages}
                   filteredMessages={filteredMessages}
                   setSelectedMessages={setSelectedMessages}
@@ -133,30 +134,25 @@ const MainMessages = () => {
   );
 };
 
-const Card = ({
-  card,
-  cands,
-  listings,
-  selectedMessages,
-  setSelectedMessages,
-}) => {
-  const [filteredListing, setFilteredListing] = useState();
-  const [filteredCand, setFilteredCand] = useState();
-  useEffect(() => {
-    if (listings && listings.length > 0) {
-      const filtered = listings.find(
-        (listing) => listing.docId == card.listingsIds
-      );
-      setFilteredListing(filtered || null);
+const Card = ({ card, selectedMessages, setSelectedMessages }) => {
+  const { data: filteredCand, isLoading: isLoadingCand } = useQuery(
+    ["candidate", card.candidateId],
+    () => fetchCandidate(card.candidateId),
+    {
+      enabled: !!card.candidateId,
+      cacheTime: 86400 * 3,
     }
-  }, [listings, card.listingsIds]);
+  );
 
-  useEffect(() => {
-    if (cands && cands.length > 0) {
-      const filtered = cands.find((cand) => cand.docId === card.candidateId);
-      setFilteredCand(filtered || null);
+  const { data: filteredListing, isLoading: isLoadingListing } = useQuery(
+    ["listing", card.listingsIds],
+    () => fetchListing(card.listingsIds),
+    {
+      enabled: !!card.listingsIds,
+      cacheTime: 86400 * 3,
     }
-  }, [cands, card.candidateId]);
+  );
+
   // Function to handle checkbox change
   const handleCheckboxChange = (serialNumber) => {
     setSelectedMessages((prevSelected) => {
@@ -173,84 +169,97 @@ const Card = ({
   };
   return (
     <div
+      id="main-card-container"
       key={card}
-      className=" bg-white relative rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md"
+      className={`rounded-b-lg ${card.isArchive ? " border-4  border-gray-800" : ""}`}
     >
-      <div class="flex justify-center items-center absolute top-1/2">
-        <label class="container">
-          <input
-            class="peer cursor-pointer hidden after:opacity-100"
-            checked={selectedMessages.includes(card.serialNumber)}
-            onChange={() => {
-              handleCheckboxChange(card.serialNumber);
-            }}
-            type="checkbox"
-          />
-          <span class="inline-block w-5 h-5 border-2 relative cursor-pointer after:content-[''] after:absolute after:top-2/4 after:left-2/4 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[10px] after:h-[10px] after:bg-[#333] after:rounded-[2px] after:opacity-0 peer-checked:after:opacity-100"></span>
-        </label>
-      </div>
+      {!isLoadingListing && !isLoadingCand ? (
+        <div className=" bg-white relative rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md">
+          <div class="flex justify-center items-center absolute top-1/2">
+            <label class="container">
+              <input
+                class="peer cursor-pointer hidden after:opacity-100"
+                checked={selectedMessages.includes(card.serialNumber)}
+                onChange={() => {
+                  handleCheckboxChange(card.serialNumber);
+                }}
+                type="checkbox"
+              />
+              <span class="inline-block w-5 h-5 border-2 relative cursor-pointer after:content-[''] after:absolute after:top-2/4 after:left-2/4 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[10px] after:h-[10px] after:bg-[#333] after:rounded-[2px] after:opacity-0 peer-checked:after:opacity-100"></span>
+            </label>
+          </div>
 
-      <div id="status-container" className="flex justify-between">
-        <h1 className="candidate-territory">
-          {card?.docType?.trim() === "TC"
-            ? "Territory Check"
-            : "Formal Registration"}
-        </h1>
-        <h1
-          className={`${card.status?.toLowerCase() === "pending" ? "candidate-pending" : "candidate-available"}`}
-        >
-          {card.status}
-        </h1>
-      </div>
-      <div className="flex justify-center items-center w-full mt-4 gap-3">
-        <img src={`/${filteredListing?.imgUrl}`} alt="smash" className="w-14" />
-        <p className="text-lg font-bold text-custom-heading-color">
-          {filteredListing?.name}
-        </p>
-      </div>
-      <div className="flex justify-center">
-        <div className="py-3 ">
-          <p className="text-md font-bold  text-custom-dark-blue text-center">
-            Candidate Information
-          </p>
-          <ul>
-            <li className="text-sm text-custom-grey text-center">
-              {filteredCand?.firstName} {filteredCand?.lastName}
-            </li>
-            <li className="text-sm text-custom-grey text-center">
-              {filteredCand?.territoryCity} {filteredCand?.territoryState},{" "}
-              {filteredCand?.territoryZipcode}
-            </li>
-            <li className="text-sm text-custom-grey text-center">
-              {" "}
-              {FormatRawDate(card)}
-            </li>
-          </ul>
+          <div id="status-container" className="flex justify-between">
+            <h1 className="candidate-territory">
+              {card?.docType?.trim() === "TC"
+                ? "Territory Check"
+                : "Formal Registration"}
+            </h1>
+            <h1
+              className={`${card.status?.toLowerCase() === "pending" ? "candidate-pending" : "candidate-available"}`}
+            >
+              {card.status}
+            </h1>
+          </div>
+          <div className="flex justify-center items-center w-full mt-4 gap-3">
+            <img
+              src={`/${filteredListing?.imgUrl}`}
+              alt="smash"
+              className="w-14"
+            />
+            <p className="text-lg font-bold text-custom-heading-color">
+              {filteredListing?.name}
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <div className="py-3 ">
+              <p className="text-md font-bold  text-custom-dark-blue text-center">
+                Candidate Information
+              </p>
+              <ul>
+                <li className="text-sm text-custom-grey text-center">
+                  {filteredCand?.firstName} {filteredCand?.lastName}
+                </li>
+                <li className="text-sm text-custom-grey text-center">
+                  {filteredCand?.territoryCity} {filteredCand?.territoryState},{" "}
+                  {filteredCand?.territoryZipcode}
+                </li>
+                <li className="text-sm text-custom-grey text-center">
+                  {" "}
+                  {FormatRawDate(card)}
+                </li>
+              </ul>
+            </div>
+            <div className="py-3 ml-8">
+              <p className="text-md font-bold  text-custom-dark-blue text-center">
+                Company Information
+              </p>
+              <ul>
+                <li className="text-sm text-custom-grey text-center">
+                  {filteredListing?.username}
+                </li>
+                <li className="text-sm text-custom-grey underline text-center">
+                  <a href={"tel:" + filteredListing?.phone}>
+                    {filteredListing?.phone}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="text-sm flex gap-2 items-center justify-between">
+            <p></p>
+          </div>
         </div>
-        <div className="py-3 ml-8">
-          <p className="text-md font-bold  text-custom-dark-blue text-center">
-            Company Information
-          </p>
-          <ul>
-            <li className="text-sm text-custom-grey text-center">
-              {filteredListing?.username}
-            </li>
-            <li className="text-sm text-custom-grey underline text-center">
-              <a href={"tel:" + filteredListing?.phone}>
-                {filteredListing?.phone}
-              </a>
-            </li>
-          </ul>
+      ) : (
+        <div className="grid place-items-center">
+          <img src="/images/banners/loading.gif" alt="" />
         </div>
-      </div>
-      <div className="text-sm flex gap-2 items-center justify-between">
-        <p></p>
-      </div>
+      )}
     </div>
   );
 };
 
-const FirstRow = ({ formalReg, tCheck, setFilters, filters }) => {
+const FirstRow = ({ setFilters, name }) => {
   const handleInputChange = (e) => {
     e.preventDefault();
     setFilters((prev) => ({
@@ -266,6 +275,17 @@ const FirstRow = ({ formalReg, tCheck, setFilters, filters }) => {
       status: e.target.value,
     }));
   };
+
+  const selectOptions = [
+    { value: "All", label: "All" },
+    { value: "Favs", label: "Favorites" },
+    { value: "Msgs", label: "Messages" },
+    { value: "Read", label: "Read" },
+    { value: "Unread", label: "Unread" },
+    { value: "territory-check", label: "Territory Checks" },
+    { value: "formal-registration", label: "Formal Registration" },
+  ];
+
   return (
     <div
       id="filter-options"
@@ -273,7 +293,7 @@ const FirstRow = ({ formalReg, tCheck, setFilters, filters }) => {
     >
       <div id="compose-btn-container">
         <button className=" flex justify-center items-center gap-3 w-full candidate-btn">
-          COMPOSE
+          Compose
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -309,18 +329,15 @@ const FirstRow = ({ formalReg, tCheck, setFilters, filters }) => {
           className="candidate-select w-full"
           onChange={handleInputChange}
         >
-          {!filters.type && <option value="">Filter By</option>}
-          <option value="All">All</option>
-          <option value="Favs">Favorites</option>
-          <option value="Msgs">Messages</option>
-          <option value="Read">Read</option>
-          <option value="Unread">Unread</option>
-          <option value="TC" selected={tCheck}>
-            Territory Checks
-          </option>
-          <option value="FR" selected={formalReg}>
-            Formal Registration
-          </option>
+          {selectOptions.map((option) => (
+            <option
+              key={option.value}
+              value={option.value}
+              selected={name === option.value}
+            >
+              {option.label}
+            </option>
+          ))}
         </select>
       </div>
     </div>
@@ -489,16 +506,15 @@ const SecondRow = ({
         </div>
 
         <div id="search">
-          <SearchingInput />
+          <SearchingInput filters={filters} setFilters={setFilters} />
         </div>
       </div>
     </>
   );
 };
 
-const SearchingInput = () => {
+const SearchingInput = ({ filters, setFilters }) => {
   const ref = useRef();
-  const { filters, setFilters } = useContext(MyCandContext);
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const handleSearchInputChange = () => {

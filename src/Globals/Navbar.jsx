@@ -118,6 +118,13 @@ const Navbar = () => {
                           className=" current_page_item menu-item menu-item-type-custom menu-item-object-custom  menu-item-552043"
                         >
                           <NavLink
+                            to="/messages/inbox"
+                            style={innerNavLinkStyle}
+                            aria-current="page"
+                          >
+                            Inbox
+                          </NavLink>
+                          <NavLink
                             to="/messages/territory-check"
                             style={innerNavLinkStyle}
                             aria-current="page"
