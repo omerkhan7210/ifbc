@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
+import ReportIssue from "src/Popups/ReportIssue";
 import { twMerge } from "tailwind-merge";
 
 const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
@@ -173,10 +174,15 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
     },
   ];
   const { role } = useContext(MyContext);
-
+  const [showReport, setShowReport] = useState(false);
+  // ye states pass hongy
   const handleOpenRegistration = (type) => {
     setRegistrationType(type);
     setShow(true);
+  };
+
+  const ShowListing = () => {
+    setShowReport(true);
   };
   return (
     <section className="flex flex-col w-full justify-between items-center border-b border-custom-dark-blue/10 mb-4 mt-4 ">
@@ -199,6 +205,12 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
           id="buttons-container"
           className="flex flex-col gap-3 w-full  justify-start items-center mb-2 col-span-12 md:col-span-4"
         >
+          {/* yahan pr button banao aesa banega */}
+          {/* yahan banado button show hojaega sahi he */}
+          <button onClick={ShowListing} className="candidate-btn">
+            Report an issue with this listing
+          </button>
+          <ReportIssue showReport={showReport} setShowReport={setShowReport} />
           <select className="candidate-select w-full">
             <option value>Concept Actions</option>
             <option value="email">Send an Email</option>

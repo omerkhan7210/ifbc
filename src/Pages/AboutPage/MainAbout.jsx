@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import About from "../GlobalPageSections/About";
 import About2 from "../GlobalPageSections/About2";
 
 import Testimonials from "../GlobalPageSections/Testimonials";
 import PreFooter from "src/Globals/PreFooter";
 import PageTransition from "src/Animations/PageTransition";
+import { rangeRight } from "lodash";
 
 const MainAbout = () => {
   return (
@@ -20,7 +21,7 @@ const MainAbout = () => {
           backgroundSize: "cover",
         }}
       >
-        <h1 className="max-md:text-3xl md:text-7xl text-white  font-bold text-center z-20">
+        <h1 className="max-md:text-3xl md:text-7xl text-white   font-bold text-custom-heading-color text-center z-20">
           About
         </h1>
       </div>
@@ -39,13 +40,28 @@ const MainAbout = () => {
   );
 };
 
+// ye alag component banadya mene
+// abhi jo mene changes ki he wo ai h imse?
+// dikh nhi isme nhi ayi tumhe kaha tha na rukjao pull krwana pehle phr krlena acha sahi he
 const AboutHarjeet = () => {
+  // ek state banegy pehle banao show setshow
+  const [show, setShow] = useState(false);
+
+  const ShowMoreText = () => {
+    setShow(!show);
+    // ye ku hatare bhai jakr search kro kia hota conditional render
+
+    // state ko true krwaogay na
+  };
+  console.log(show);
   return (
-    <div className="md:text-xl max-md:text-sm  max-md:mx-5 my-10">
+    <div className="max-md:mx-5 my-10">
       <div className="max-md:flex-col flex gap-5">
         <div className="flex flex-col gap-3">
-          <h1 className="text-3xl font-bold">About IFBC-President & CEO</h1>
-          <p className="text-xl font-bold ">
+          <h1 className="font-semibold text-24 sm:text-48 text-custom-heading-color">
+            About IFBC-President & CEO
+          </h1>
+          <p className="text-xl  font-bold text-custom-heading-color ">
             H.S.Tiwana: Navigating Diverse Entrepreneurial Horizons with
             Expertise
           </p>
@@ -55,7 +71,7 @@ const AboutHarjeet = () => {
             embark on a journey through the dynamic realm of business, marked by
             rich experiences and proven success across various industries.
           </p>
-          <p className="text-xl font-bold ">
+          <p className="text-xl  font-bold text-custom-heading-color ">
             Educational and Professional Pillars
           </p>
           <p>
@@ -65,7 +81,7 @@ const AboutHarjeet = () => {
             business ventures are built, offering a holistic and well-rounded
             approach to business consultancy and franchise advice.
           </p>
-          <p className="text-xl font-bold">
+          <p className="text-xl  font-bold text-custom-heading-color">
             A Spectrum of Entrepreneurial Ventures
           </p>
           <p>
@@ -76,7 +92,7 @@ const AboutHarjeet = () => {
             enterprises across different sectors stand testament to his
             versatile and pragmatic approach to business.
           </p>
-          <p className="text-xl font-bold">
+          <p className="text-xl  font-bold text-custom-heading-color">
             In the Realm of Real Estate and Finance
           </p>
           <p>
@@ -87,64 +103,93 @@ const AboutHarjeet = () => {
             equips him with the financial acumen to navigate the complex
             financial landscapes of mortgages and loans.
           </p>
+
+          <p className="text-xl  font-bold text-custom-heading-color">
+            Guidance Through Retail and Management
+          </p>
+          <p>
+            Recognized for his skills in retail and merchandising, Harjeet
+            unveils a treasure trove of knowledge in retail operations. His
+            insights into customer engagement, inventory management, and
+            operational efficiency are pivotal for steering a franchise towards
+            success and sustainability.
+          </p>
+
+          <button
+            className="candidate-btn md:mt-6 w-[50%] md:mx-56 max-md:w-full"
+            onClick={ShowMoreText}
+          >
+            {show ? "Read Less" : "Read More"}
+          </button>
         </div>
         <div className="flex flex-col gap-2">
           <img
             decoding="async"
             width={1921}
-            height={2235}
+            height={2000}
             src="https://s30012.pcdn.co/wp-content/uploads/sites/194/2023/09/broker.jpg"
             className="attachment-full size-full wp-image-168"
             alt
           />
-          <h1 className="text-2xl font-bold text-center">H.S. Tiwana – MBA</h1>
-          <h1 className="text-xl font-bold text-center">
+          <h1 className="text-2xl  font-bold text-custom-heading-color text-center">
+            H.S. Tiwana – MBA
+          </h1>
+          <h1 className="text-xl  font-bold text-custom-heading-color text-center">
             IFBC - President & CEO
           </h1>
         </div>
       </div>
-      <div className="flex flex-col gap-3">
-        <p className="text-xl font-bold">
-          Guidance Through Retail and Management
-        </p>
-        <p>
-          Recognized for his skills in retail and merchandising, Harjeet unveils
-          a treasure trove of knowledge in retail operations. His insights into
-          customer engagement, inventory management, and operational efficiency
-          are pivotal for steering a franchise towards success and
-          sustainability.
-        </p>
+      {/* yahan pr text ana tha to hum conditional rendering use krengay */}
+      {/* kese krte pta hai? */}
+      {/* pehle button bnaenge na ek us k click per ye component render hoga phr han
+      pr chalo banalete */}
+      {/* conditional render? iska mtlb ye hai koi cheez kisi condition pr show/render krwana*/}
+      {/* hamari state ka naam kia tha? show,setShow */}
+      {/* {show -> ye state ek tareekay se hamari condition hai true false return hora na} */}
+      {show && <ExtraText />}
+      {/* button text ke uper ajeebsa lagra */}
+      {/* dalo isme onclick event */}
 
-        <p className="text-xl font-bold">
-          A Companion on Your Business Journey
-        </p>
-        <p>
-          Harjeet is more than a consultant; he’s a companion and mentor on your
-          entrepreneurial journey. His diverse experiences, from hands-on
-          management to business ownership, afford him a profound understanding
-          of the challenges and opportunities encountered at every stage of the
-          business lifecycle.
-        </p>
+      {/* uper wali ka mtlb smjhaskte? state check ker ra he wo us k hisab se extraTxt render ker ra he to kab render hogy? jab true hojae state or agr nhi hai to kia hoga? null tum ye bhi krskte lekn ye tareeka extra line larha agr tumhe else may null laana to tum && ye use krlo nh if else sahi he mtlb turnery nhi nhi wo to sahi hai bhai lekn jab else may null laana hota to hum ye istemaal krte */}
+      {/* {show agr true hoga tab hi extratext aega warna kch bhi nhi show hoga wohi baat hogyi lekn ye sahi hai} */}
+    </div>
+  );
+};
 
-        <p className="text-xl font-bold">
-          Investing in People and Opportunities
-        </p>
-        <p>
-          Owning a staffing company and being an active investor, Harjeet
-          demonstrates his capability to understand various industry dynamics
-          and showcases his belief in investing in people and opportunities
-          alike.
-        </p>
+// may ek alag component banara extra text ka
+const ExtraText = () => {
+  return (
+    <div className="flex flex-col gap-3 my-5">
+      <p className="text-xl  font-bold text-custom-heading-color">
+        A Companion on Your Business Journey
+      </p>
+      <p>
+        Harjeet is more than a consultant; he’s a companion and mentor on your
+        entrepreneurial journey. His diverse experiences, from hands-on
+        management to business ownership, afford him a profound understanding of
+        the challenges and opportunities encountered at every stage of the
+        business lifecycle.
+      </p>
 
-        <p className="text-xl font-bold">Book a Consultation with H.S.Tiwana</p>
-        <p>
-          Unlock a world of opportunities and expert advice. Schedule a
-          consultation with H.S.Tiwana and take the first step towards realizing
-          your business dreams. From insightful advice on franchising to
-          strategic planning for your business ventures, H.S.Tiwana is here to
-          guide you at every step.
-        </p>
-      </div>
+      <p className="text-xl  font-bold text-custom-heading-color">
+        Investing in People and Opportunities
+      </p>
+      <p>
+        Owning a staffing company and being an active investor, Harjeet
+        demonstrates his capability to understand various industry dynamics and
+        showcases his belief in investing in people and opportunities alike.
+      </p>
+
+      <p className="text-xl  font-bold text-custom-heading-color">
+        Book a Consultation with H.S.Tiwana
+      </p>
+      <p>
+        Unlock a world of opportunities and expert advice. Schedule a
+        consultation with H.S.Tiwana and take the first step towards realizing
+        your business dreams. From insightful advice on franchising to strategic
+        planning for your business ventures, H.S.Tiwana is here to guide you at
+        every step.
+      </p>
     </div>
   );
 };
