@@ -23,7 +23,7 @@ const MainAbout = () => {
                 backgroundSize: "cover",
               }}
             >
-              <h1 className="max-md:text-3xl md:text-7xl text-white  font-bold text-center z-20">
+              <h1 className="max-md:text-3xl md:text-7xl text-white  font-bold text-custom-heading-color text-center z-20">
                 About
               </h1>
             </div>
@@ -32,13 +32,13 @@ const MainAbout = () => {
             <About2 />
 
             <Testimonials />
-            <div className="md:text-xl max-md:text-sm md:mx-16 max-md:mx-5">
+            <div className=" md:mx-16 max-md:mx-5">
               <div className="max-md:flex-col flex gap-5">
                 <div className="flex flex-col gap-3">
-                  <h1 className="text-3xl font-bold">
+                  <h1 className="font-semibold text-24 sm:text-48 text-custom-heading-color">
                     About IFBC-President & CEO
                   </h1>
-                  <p className="text-xl font-bold ">
+                  <p className="text-xl font-bold text-custom-heading-color ">
                     H.S.Tiwana: Navigating Diverse Entrepreneurial Horizons with
                     Expertise
                   </p>
@@ -49,7 +49,7 @@ const MainAbout = () => {
                     dynamic realm of business, marked by rich experiences and
                     proven success across various industries.
                   </p>
-                  <p className="text-xl font-bold ">
+                  <p className="text-xl font-bold text-custom-heading-color ">
                     Educational and Professional Pillars
                   </p>
                   <p>
@@ -60,7 +60,7 @@ const MainAbout = () => {
                     offering a holistic and well-rounded approach to business
                     consultancy and franchise advice.
                   </p>
-                  <p className="text-xl font-bold">
+                  <p className="text-xl font-bold text-custom-heading-color">
                     A Spectrum of Entrepreneurial Ventures
                   </p>
                   <p>
@@ -72,7 +72,7 @@ const MainAbout = () => {
                     stand testament to his versatile and pragmatic approach to
                     business.
                   </p>
-                  <p className="text-xl font-bold">
+                  <p className="text-xl font-bold text-custom-heading-color">
                     In the Realm of Real Estate and Finance
                   </p>
                   <p>
@@ -94,16 +94,16 @@ const MainAbout = () => {
                     className="attachment-full size-full wp-image-168"
                     alt
                   />
-                  <h1 className="text-2xl font-bold text-center">
+                  <h1 className="text-2xl font-bold text-custom-heading-color text-center">
                     H.S. Tiwana – MBA
                   </h1>
-                  <h1 className="text-xl font-bold text-center">
+                  <h1 className="text-xl font-bold text-custom-heading-color text-center">
                     IFBC - President & CEO
                   </h1>
                 </div>
               </div>
               <div className="flex flex-col gap-3">
-                <p className="text-xl font-bold">
+                <p className="text-xl font-bold text-custom-heading-color">
                   Guidance Through Retail and Management
                 </p>
                 <p>
@@ -114,7 +114,7 @@ const MainAbout = () => {
                   franchise towards success and sustainability.
                 </p>
 
-                <p className="text-xl font-bold">
+                <p className="text-xl font-bold text-custom-heading-color">
                   A Companion on Your Business Journey
                 </p>
                 <p>
@@ -125,7 +125,7 @@ const MainAbout = () => {
                   encountered at every stage of the business lifecycle.
                 </p>
 
-                <p className="text-xl font-bold">
+                <p className="text-xl font-bold text-custom-heading-color">
                   Investing in People and Opportunities
                 </p>
                 <p>
@@ -135,7 +135,7 @@ const MainAbout = () => {
                   people and opportunities alike.
                 </p>
 
-                <p className="text-xl font-bold">
+                <p className="text-xl font-bold text-custom-heading-color">
                   Book a Consultation with H.S.Tiwana
                 </p>
                 <p>
