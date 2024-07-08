@@ -12,6 +12,7 @@ import { generateUuid } from "./Redux/listingReducer";
 import RouteRenderer from "./RouteRenderer";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import RegisterationPopup from "./Popups/RegistrationPopup";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,9 +32,11 @@ const App = () => {
     setMobileActive(false);
   }, [loc.pathname]);
 
+  const queryClient = new QueryClient();
+
   // return
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       {token && (
         <ListingDataContext>
           <Header
@@ -67,7 +70,7 @@ const App = () => {
         </CandidatesDataContext>
       </ListingDataContext>
       {token && <Footer />}
-    </>
+    </QueryClientProvider>
   );
 };
 

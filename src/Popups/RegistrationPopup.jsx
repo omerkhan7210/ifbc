@@ -6,6 +6,7 @@ import { twMerge } from "tailwind-merge";
 import axios from "axios";
 import Form from "src/Pages/CandidatePages/NewCandidate/Form";
 import { getCitiesOfState } from "src/Utils/locationUtils.js";
+import { validateUsername, validateZipcode } from "src/Utils/SanitizeInput";
 
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
   const { cands, userDetails } = useContext(MyCandContext);
@@ -158,9 +159,15 @@ const FormTC = ({
   const [cities, setCities] = useState([]);
   const [selectedState, setSelectedState] = useState(null);
 
-  const handleStateChange = (e, name) => {
+  const handleStateChange = (e) => {
     const stateCode = e.target.value;
     setSelectedState(stateCode);
+    setSelectedDetails((prev) => {
+      return {
+        ...prev,
+        territoryState: stateCode,
+      };
+    });
     const cityList = getCitiesOfState("US", stateCode);
     setCities(cityList);
   };
@@ -313,15 +320,32 @@ const FormTC = ({
       "territoryCity",
     ];
     let allFieldsValid = true;
+    let formErrors = {};
 
     reqFields.forEach((field) => {
-      if (!selectedDetails[field] || selectedDetails[field].trim() === "") {
-        setFormErrors((prev) => ({ ...prev, [field]: "error" }));
+      const newKey = field;
+      const value = selectedDetails[newKey];
+
+      if (!value) {
+        formErrors[newKey] = "This field is required";
         allFieldsValid = false;
       } else {
-        setFormErrors((prev) => ({ ...prev, [field]: "" }));
+        if (newKey === "territoryZipcode" && !validateZipcode(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "firstName" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "lastName" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else {
+          formErrors[newKey] = "";
+        }
       }
     });
+
+    setFormErrors(formErrors);
 
     try {
       if (allFieldsValid) {
@@ -409,19 +433,18 @@ const FormTC = ({
       <div id="fr-tcheck-popup" className="mt-10">
         <h2 className="candidate-sub-heading">Candidate Name*</h2>
 
-        <div className="flex justify-between w-full max-md:flex-col max-md:gap-5">
+        <div className="flex justify-between w-full max-md:flex-col gap-5">
           <div className="flex flex-col w-full">
             <p className="candidate-paragraph">First Name</p>
 
             <select
               id="firstname"
               name="firstName"
-              className={`candidate-select capitalize${
-                formErrors.firstname ? "bg-red-300" : ""
-              }`}
-              onChange={(e) => {
-                setSelectedDocId(e.target.value);
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.firstName ? "red" : undefined,
               }}
+              onChange={(e) => setSelectedDocId(e.target.value)}
             >
               {!selectedDocId && <option value="">Choose any Candidate</option>}
               {candNames &&
@@ -438,9 +461,10 @@ const FormTC = ({
               onChange={handleInputChange}
               name="lastName"
               type="text"
-              className={`candidate-input ${
-                formErrors.lastName ? "bg-red-300" : ""
-              }`}
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.lastName ? "red" : undefined,
+              }}
               required
               value={selectedDetails?.lastName}
             />
@@ -453,28 +477,23 @@ const FormTC = ({
         <div className="flex justify-between gap-4 max-md:flex-col">
           <div className="flex flex-col w-full">
             <p className="candidate-paragraph">State/Province/Region</p>
+
             <select
               onChange={handleStateChange}
-              name={`${name}state`}
+              name="territoryState"
               id="state"
-              className={twMerge(
-                "candidate-select",
-                formErrors.territorystate && name === "territory"
-                  ? "bg-red-200 text-white"
-                  : ""
-              )}
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.territoryState ? "red" : undefined,
+              }}
             >
-              {states.map((state, index) =>
-                selectedState ? (
-                  <option value="" disabled>
-                    Select State
-                  </option>
-                ) : (
-                  <option key={index} value={state.value}>
-                    {state.text}
-                  </option>
-                )
-              )}
+              {" "}
+              {!selectedState && <option value={""}>Select a state</option>}
+              {states.map((state, index) => (
+                <option key={index} value={state.value}>
+                  {state.text}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex flex-col w-full">
@@ -482,13 +501,13 @@ const FormTC = ({
             <select
               onChange={handleInputChange}
               name="territoryCity"
-              className={twMerge(
-                "candidate-select",
-                formErrors.territorycity ? "bg-red-200 text-white" : ""
-              )}
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.territoryCity ? "red" : undefined,
+              }}
             >
               {cities.map((city, index) =>
-                selectedState ? (
+                !selectedState ? (
                   <option value="" disabled>
                     Select a state first
                   </option>
@@ -506,10 +525,11 @@ const FormTC = ({
             <input
               onChange={handleInputChange}
               name="territoryZipcode"
-              type="text"
-              className={`candidate-input ${
-                formErrors.territoryZipcode ? "bg-red-300" : ""
-              }`}
+              type="number"
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.territoryZipcode ? "red" : undefined,
+              }}
               required
               value={selectedDetails?.territoryZipcode}
             />

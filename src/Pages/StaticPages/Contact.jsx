@@ -301,10 +301,10 @@ const Contact = () => {
                     name="contactName"
                     id="name"
                     placeholder="Your Name"
-                    className={twMerge(
-                      `contact-input`,
-                      formErrors.contactName === "error" ? "bg-red-300" : ""
-                    )}
+                    className="candidate-input w-full"
+                    style={{
+                      borderColor: formErrors.contactName ? "red" : "undefined",
+                    }}
                   />
                   {formErrors.contactName &&
                     formErrors.contactName === "invalid" && (
@@ -321,10 +321,12 @@ const Contact = () => {
                     type="text"
                     name="contactCompany"
                     id="floating_company"
-                    className={twMerge(
-                      `contact-input`,
-                      formErrors.contactCompany === "error" ? "bg-red-300" : ""
-                    )}
+                    className="candidate-input w-full"
+                    style={{
+                      borderColor: formErrors.contactCompany
+                        ? "red"
+                        : undefined,
+                    }}
                     placeholder="Company (Ex. Google)"
                   />
                   {formErrors.contactCompany &&
@@ -343,10 +345,10 @@ const Contact = () => {
                     type="email"
                     name="contactEmail"
                     id="floating_email"
-                    className={twMerge(
-                      `contact-input`,
-                      formErrors.contactEmail === "error" ? "bg-red-300" : ""
-                    )}
+                    className="candidate-input w-full"
+                    style={{
+                      borderColor: formErrors.email ? "red" : undefined,
+                    }}
                     placeholder="Email address"
                   />
                   {formErrors.contactEmail &&
@@ -366,10 +368,10 @@ const Contact = () => {
                     type="tel"
                     onChange={handleChange}
                     name="contactPhone"
-                    className={twMerge(
-                      `contact-input`,
-                      formErrors.contactPhone === "error" ? "bg-red-300" : ""
-                    )}
+                    className="candidate-input w-full"
+                    style={{
+                      borderColor: formErrors.contactPhone ? "red" : undefined,
+                    }}
                     placeholder="Phone number (123-456-7890)"
                   />{" "}
                   {formErrors.contactPhone &&

@@ -2,7 +2,6 @@ const FormatRawDate = (cand, time = false) => {
   const rawDate = cand?.docDate ? cand?.docDate : cand.CreatedAt;
   if (rawDate) {
     const date = new Date(rawDate);
-    console.log(date); // This will now print the correct date
     const formatted = time
       ? new Intl.DateTimeFormat("en-US", {
           year: "numeric",

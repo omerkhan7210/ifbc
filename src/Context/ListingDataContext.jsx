@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addAllListings } from "src/Redux/listingReducer";
+import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 
 // Step 1: Create a new context
 export const MyContext = createContext();
@@ -11,10 +11,7 @@ export const MyContext = createContext();
 const ListingDataContext = ({ children }) => {
   const [showActiveListings, setShowActiveListings] = useState(false);
   const [filters, setFilters] = useState(null);
-  const reduxListings = useSelector((state) => state.counter.listings);
   const [listings, setListings] = useState([]);
-  const [loading, setLoading] = useState();
-  const [loadingError, setLoadingError] = useState();
   const activeListings = useSelector((state) => state.counter.activeListings);
   const [paginationListings, setPaginationListings] = useState();
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -23,57 +20,36 @@ const ListingDataContext = ({ children }) => {
     userDetails && typeof userDetails === "object"
       ? userDetails.userType
       : null;
-  const dispatch = useDispatch();
 
-  const getAllListings = async () => {
-    setLoading(true);
-    const endPoint = role !== "N" ? "Listings" : "ListingsView";
-
-    const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/${endPoint}`;
-    const responseData = await axios
-      .get(url)
-      .then(async (response) => {
-        // Handle successful response
-        if (response.data.length > 0) {
-          setLoading(false);
-          return response.data;
-        }
-      })
-      .catch((error) => {
-        // Handle error
-        setLoadingError(true);
-        console.error("Error fetching data:", error);
-      });
-    return responseData;
-  };
+  const endPoint = role !== "N" ? "Listings" : "ListingsView";
+  const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/${endPoint}`;
+  const { data, isLoading, error, isFetching } = useQuery(
+    "FRANCHISE",
+    () => {
+      return axios.get(url);
+    },
+    {
+      staleTime: 86400,
+    }
+  );
 
   useEffect(() => {
-    const GetData = async () => {
-      if (reduxListings && reduxListings.length > 0) {
-        setListings(reduxListings);
-      } else {
-        const listings = await getAllListings();
-        if (listings && listings.length > 0) {
-          const normalFLS = await listings.filter(
-            (data) => data.listingMemberships !== ""
-          );
-          dispatch(addAllListings(normalFLS));
-          setListings(normalFLS);
-        }
-      }
-    };
-    GetData();
-
+    if (!isLoading && data) {
+      const normalFLS = data?.data.filter(
+        (data) => data.listingMemberships !== ""
+      );
+      setListings(normalFLS);
+    }
     // Make a GET request to fetch the data
-  }, [listings]); // Empty dependency array to run once on component mount
+  }, [data, isLoading]); // Empty dependency array to run once on component mount
 
   return (
     <MyContext.Provider
       value={{
         userDetails,
         listings,
-        loading,
-        loadingError,
+        loading: isLoading,
+        loadingError: error,
         activeListings,
         filters,
         setFilters,

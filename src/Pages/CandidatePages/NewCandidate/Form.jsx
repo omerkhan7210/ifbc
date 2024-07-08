@@ -150,7 +150,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             value={state.value}
             {...(candDetails
               ? { selected: `${name}state` === candDetails[`${name}state`] }
-              : {})}
+              : {
+                  selected: `${name}state` === selectedDetails[`${name}state`],
+                })}
           >
             {state.text}
           </option>
@@ -599,7 +601,6 @@ const FormFirstRow = ({
   selectedDetails,
 }) => {
   const [addContacts, setAddContacts] = useState(0);
-  const [searchOn, setSearchOn] = useState(false);
 
   const addContactDiv = (index) => {
     return (
@@ -760,58 +761,34 @@ const FormFirstRow = ({
         </svg>
         Primary Candidate Information
       </h1>
-      {candNames && candNames.length > 0 && (
-        <div id="search-checkbox">
-          <label htmlFor="" className="flex items-center  capitalize">
-            <input
-              type="checkbox"
-              name=""
-              id=""
-              onChange={() => setSearchOn(!searchOn)}
-            />
-            Already added candidates?
-          </label>
-        </div>
-      )}
+
       <div
         id="first-sub-row"
         className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">First Name*</p>
-          {searchOn ? (
-            <select
-              id="firstname"
-              name="firstname"
-              className="candidate-input w-full"
-              style={{
-                borderColor: formErrors.firstname ? "red" : undefined,
-              }}
-              onChange={(e) => {
-                setSelectedDocId(e.target.value);
-              }}
-            >
-              {!selectedDocId && <option value="">Choose any Candidate</option>}
-              {candNames &&
-                candNames.map((cand) => (
-                  <option key={cand.docId} value={cand.docId}>
-                    {cand.name}
-                  </option>
-                ))}
-            </select>
-          ) : (
-            <input
-              onChange={handleInputChange}
-              type="text"
-              name="firstname"
-              className="candidate-input w-full"
-              style={{
-                borderColor: formErrors.firstname ? "red" : undefined,
-              }}
-              required
-              defaultValue={candDetails?.firstName}
-            />
-          )}
+
+          <select
+            id="firstname"
+            name="firstname"
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.firstname ? "red" : undefined,
+            }}
+            onChange={(e) => {
+              setSelectedDocId(e.target.value);
+            }}
+          >
+            {!selectedDocId && <option value="">Choose any Candidate</option>}
+            {candNames &&
+              candNames.map((cand) => (
+                <option key={cand.docId} value={cand.docId}>
+                  {cand.name}
+                </option>
+              ))}
+          </select>
+
           {formErrors.firstname && formErrors.firstname === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
               Invalid username. It should be 3-16 characters long and can

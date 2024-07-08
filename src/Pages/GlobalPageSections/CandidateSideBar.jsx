@@ -157,34 +157,38 @@ const ActivityGridContainer = ({
           <NavLink to="/new-candidate" className="candidate-inverted-btn ">
             Add New Candidate
           </NavLink>
-          <select
-            className="md:w-64 max-md:text-center px-2   candidate-select capitalize max-md:w-full"
-            name="candidate-names "
-            id="candidate-names"
-            onChange={(e) => setSelectedCandId(e.target.value)}
-          >
-            <option value="0">No Candidates Selected</option>
-            {newDataNames &&
-              newDataNames.length > 0 &&
-              newDataNames.map((name, index) => (
-                <option key={index} value={name.value}>
-                  {name.name}
-                </option>
-              ))}
-          </select>
+          {filteredData && filteredData.length > 0 && (
+            <select
+              className="md:w-64 max-md:text-center px-2   candidate-select capitalize max-md:w-full"
+              name="candidate-names "
+              id="candidate-names"
+              onChange={(e) => setSelectedCandId(e.target.value)}
+            >
+              <option value="0">No Candidates Selected</option>
+              {newDataNames &&
+                newDataNames.length > 0 &&
+                newDataNames.map((name, index) => (
+                  <option key={index} value={name.value}>
+                    {name.name}
+                  </option>
+                ))}
+            </select>
+          )}
         </div>
       </div>
 
       <div
         id="activity-grid-container"
-        className="max-lg:block grid lg:max-xl:grid-cols-2 xl:max-2xl:grid-cols-3 2xl:grid-cols-4 gap-3"
+        className={`max-md:block ${filteredData && filteredData.length > 0 ? "grid" : "flex flex-col h-full items-center"} md:max-xl:grid-cols-2 xl:max-2xl:grid-cols-3 2xl:grid-cols-4 gap-3`}
       >
         {filteredData && filteredData.length > 0 ? (
           filteredData.map((card, index) => (
             <Card key={index} card={card} listings={listings} cands={cands} />
           ))
         ) : (
-          <h1>No Registrations</h1>
+          <h1 className="w-full text-white flex justify-center text-3xl items-center h-full">
+            No Registrations
+          </h1>
         )}
       </div>
     </motion.div>
