@@ -307,13 +307,15 @@ const FiltersRow = ({ setFilterCands, cands, filters, loading }) => {
     { text: "On Hold" },
   ];
   const actions = [
-    "Bulk Actions",
-    "Delete",
-    "Update Lead Source",
-    "Update Deal Stage",
-    "Merge Candidates",
-    "Add Candidates to Hubspot",
+    { text: "Bulk Actions" },
+    { text: "Delete" },
+    { text: "Update Lead Source" },
+    { text: "Update Deal Stage" },
+    { text: "Merge Candidates" },
+    { text: "Add Candidates to Hubspot" },
   ];
+
+  // ye dono add krdo abhi thk he
 
   useEffect(() => {
     if (cands.length > 0) {
@@ -353,7 +355,32 @@ const FiltersRow = ({ setFilterCands, cands, filters, loading }) => {
       id="filters-dd"
       className=" md:grid grid-cols-5 max-md:flex flex-col gap-5 mb-5"
     >
-      {/* yahan pr */}
+      {/* yahan pr  dalengay select*/}
+      <select className="candidate-select" name="actions">
+        {actions.map((step, index) => (
+          <option key={index} value={step.text}>
+            {step.text}
+          </option>
+        ))}
+      </select>
+      <div className="">
+        <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold w-full">
+          Select All
+        </button>
+      </div>
+      <div className="">
+        <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold w-full">
+          Confirm
+        </button>
+      </div>
+
+      <select className="candidate-select" name="steps">
+        {steps.map((step, index) => (
+          <option key={index} value={step.text}>
+            {step.text}
+          </option>
+        ))}
+      </select>
 
       <div id="last-col-candlist" className="flex  items-center">
         <label
