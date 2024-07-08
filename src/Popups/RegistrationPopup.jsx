@@ -9,10 +9,8 @@ import { getCitiesOfState } from "src/Utils/locationUtils.js";
 import { validateUsername, validateZipcode } from "src/Utils/SanitizeInput";
 
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
-  const { cands, userDetails } = useContext(MyCandContext);
-
+  const { cands, userDetails, newDataNames } = useContext(MyCandContext);
   const { activeListings } = useContext(MyContext);
-  const [candNames, setNames] = useState([]);
   const [selectedDocId, setSelectedDocId] = useState();
   const [selectedDetails, setSelectedDetails] = useState({
     DocId: "",
@@ -27,16 +25,6 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
 
   const [successMsg, setSuccessMsg] = useState("");
   const [showsuccess, setShowSuccess] = useState(false);
-
-  useEffect(() => {
-    if (cands && cands.length > 0) {
-      let names = cands.map((cand) => ({
-        name: cand.firstName,
-        docId: cand.docId,
-      }));
-      setNames(names);
-    }
-  }, [cands]);
 
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
@@ -108,12 +96,13 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
                 {registrationType === "TC"
                   ? "Territory Check"
                   : "Formal Registration"}
+                {console.log(newDataNames)}
               </h2>
               {registrationType === "TC" ? (
                 <FormTC
                   selectedDetails={selectedDetails}
                   setSelectedDocId={setSelectedDocId}
-                  candNames={candNames}
+                  candNames={newDataNames}
                   selectedDocId={selectedDocId}
                   userDetails={userDetails}
                   activeListings={activeListings}
@@ -123,7 +112,7 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
                 />
               ) : (
                 <Form
-                  candNames={candNames}
+                  candNames={newDataNames}
                   candDetails={cands}
                   activeListings={activeListings}
                 />

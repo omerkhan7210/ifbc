@@ -29,7 +29,11 @@ const ListingDataContext = ({ children }) => {
       return axios.get(url);
     },
     {
-      staleTime: 86400,
+      staleTime: 86400 * 1000 * 30, // 1 day in milliseconds
+      cacheTime: 86400 * 1000 * 30, // 3 days in milliseconds
+      refetchOnWindowFocus: false, // Disable refetch on window focus
+      refetchOnMount: false, // Disable refetch on mount
+      refetchOnReconnect: false, // Disable refetch on reconnect
     }
   );
 

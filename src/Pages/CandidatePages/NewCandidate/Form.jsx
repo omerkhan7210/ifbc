@@ -305,6 +305,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           LostReason: formFields.lostreason ?? "",
           CategoryRating: formFields.categoryrating ?? "",
           AgentUserId: userDetails.docId,
+          isArchive: false,
         };
 
         const baseUrl =
@@ -383,45 +384,48 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
     try {
       if (allFieldsValid) {
-        const formData = {
-          candidateId: selectedDocId,
-          AgentId: userDetails.docId,
-          listingsIds: JSON.stringify(activeListings).replace(/[^0-9,]/g, ""),
-          InterRequest: selectedDetails.IncludeNameInTerritoryRequest ?? false,
-          docType: "FR",
-          Status: "Pending",
-          Message: "",
-        };
+        activeListings.map(async (id) => {
+          const formData = {
+            candidateId: selectedDocId,
+            AgentId: userDetails.docId,
+            listingsIds: id.toString(),
+            InterRequest:
+              selectedDetails.IncludeNameInTerritoryRequest ?? false,
+            docType: "FR",
+            Status: "Pending",
+            Message: "",
+          };
 
-        const jsonData = JSON.stringify(formData);
-        const baseUrl =
-          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
+          const jsonData = JSON.stringify(formData);
+          const baseUrl =
+            "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
 
-        // Send the POST request using Axios
-        const response = await axios.post(baseUrl, jsonData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          // Send the POST request using Axios
+          const response = await axios.post(baseUrl, jsonData, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.status === 200 || response.status === 201) {
+            setFormErrors({});
+            setSuccessMsg(`Congratulations! You have now sent your Formal Registration!
+                          It will be delivered to the email account associated with the this concepts profile. For your records, a time stamped copy of this email will be sent to you as well.
+                          Acceptance of your candidate can only be done by the concept you are referring them to. You will need a written response from a representative of this concept for confirmation of your submission.
+                          This will count as a pre-registration of your candidate. Full registration requires complete contact information and a scheduled appointment with the franchisor. Certain franchisors may require additional requirements as well.
+                          For your convenience, a full registration may be submitted by using the the Formal Registration button located on the concepts profile.
+                          `);
+            setShowSuccess(true);
+            setLoading(false);
+            setTimeout(() => {
+              window.location.href = "/messages/formal-registration";
+            }, 3000);
+          } else {
+            setFormErrors({ error: response.data });
+            setLoading(false);
+            window.scrollTo(0, 500);
+            // Handle unexpected response
+          }
         });
-        if (response.status === 200 || response.status === 201) {
-          setFormErrors({});
-          setSuccessMsg(`Congratulations! You have now sent your Formal Registration!
-                        It will be delivered to the email account associated with the this concepts profile. For your records, a time stamped copy of this email will be sent to you as well.
-                        Acceptance of your candidate can only be done by the concept you are referring them to. You will need a written response from a representative of this concept for confirmation of your submission.
-                        This will count as a pre-registration of your candidate. Full registration requires complete contact information and a scheduled appointment with the franchisor. Certain franchisors may require additional requirements as well.
-                        For your convenience, a full registration may be submitted by using the the Formal Registration button located on the concepts profile.
-                        `);
-          setShowSuccess(true);
-          setLoading(false);
-          setTimeout(() => {
-            window.location.href = "/messages/formal-registration";
-          }, 3000);
-        } else {
-          setFormErrors({ error: response.data });
-          setLoading(false);
-          window.scrollTo(0, 500);
-          // Handle unexpected response
-        }
       } else {
         setFormErrors((prev) => ({
           ...prev,
