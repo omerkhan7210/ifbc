@@ -138,7 +138,7 @@ const ImageColumn = () => {
 
 const About = () => {
   return (
-    <section className="py-[30px] bg-white">
+    <section className="py-[30px] bg-white my-10">
       <div className="theme-container mx-auto grid grid-cols-6 lg:grid-cols-12 sm:gap-[63px]">
         <TextColumn />
         <ImageColumn />

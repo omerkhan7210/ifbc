@@ -9,149 +9,143 @@ import PageTransition from "src/Animations/PageTransition";
 const MainAbout = () => {
   return (
     <PageTransition>
-      <div id="smooth-wrapper">
+      <div
+        id="top-text"
+        className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
+        style={{
+          background: "url(/images/accounts/calculator.jpeg)",
+          backgroundAttachment: "fixed",
+          backgroundPosition: "top center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
+        <h1 className="max-md:text-3xl md:text-7xl text-white  font-bold text-center z-20">
+          About
+        </h1>
+      </div>
+      <div id="smooth-wrapper" className="md:mx-10">
         <div id="smooth-content">
           <main className="w-full">
-            <div
-              id="top-text"
-              className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
-              style={{
-                background: "url(/images/accounts/calculator.jpeg)",
-                backgroundAttachment: "fixed",
-                backgroundPosition: "top center",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "cover",
-              }}
-            >
-              <h1 className="max-md:text-3xl md:text-7xl text-white  font-bold text-center z-20">
-                About
-              </h1>
-            </div>
             <About />
             <ServicesGrid />
-            <About2 />
-
+            <AboutHarjeet />
             <Testimonials />
-            <div className="md:text-xl max-md:text-sm md:mx-16 max-md:mx-5">
-              <div className="max-md:flex-col flex gap-5">
-                <div className="flex flex-col gap-3">
-                  <h1 className="text-3xl font-bold">
-                    About IFBC-President & CEO
-                  </h1>
-                  <p className="text-xl font-bold ">
-                    H.S.Tiwana: Navigating Diverse Entrepreneurial Horizons with
-                    Expertise
-                  </p>
-                  <p>
-                    Welcome to a world where your business aspirations take
-                    flight. H.S. Tiwana, a seasoned entrepreneur and franchise
-                    expert, invites you to embark on a journey through the
-                    dynamic realm of business, marked by rich experiences and
-                    proven success across various industries.
-                  </p>
-                  <p className="text-xl font-bold ">
-                    Educational and Professional Pillars
-                  </p>
-                  <p>
-                    H.S.Tiwana melds the academic and practical, fortified by an
-                    MBA in Sales and Marketing Operations. His educational
-                    foundation serves as the bedrock upon which his practical
-                    experiences across varied business ventures are built,
-                    offering a holistic and well-rounded approach to business
-                    consultancy and franchise advice.
-                  </p>
-                  <p className="text-xl font-bold">
-                    A Spectrum of Entrepreneurial Ventures
-                  </p>
-                  <p>
-                    From restaurants and coffee shops to grocery stores and gas
-                    stations, H.S.Tiwana’s entrepreneurial journey has woven
-                    through various industries, each offering its own unique
-                    insights and challenges. His successful ownership and
-                    operation of various enterprises across different sectors
-                    stand testament to his versatile and pragmatic approach to
-                    business.
-                  </p>
-                  <p className="text-xl font-bold">
-                    In the Realm of Real Estate and Finance
-                  </p>
-                  <p>
-                    H.S.Tiwana’s ventures are not confined to the tangible
-                    aspects of business but extend into the realms of property
-                    and finance. His experience as a Realtor provides him a deep
-                    understanding of market dynamics and property valuation,
-                    while his tenure as a Loan Officer equips him with the
-                    financial acumen to navigate the complex financial
-                    landscapes of mortgages and loans.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <img
-                    decoding="async"
-                    width={1921}
-                    height={2235}
-                    src="https://s30012.pcdn.co/wp-content/uploads/sites/194/2023/09/broker.jpg"
-                    className="attachment-full size-full wp-image-168"
-                    alt
-                  />
-                  <h1 className="text-2xl font-bold text-center">
-                    H.S. Tiwana – MBA
-                  </h1>
-                  <h1 className="text-xl font-bold text-center">
-                    IFBC - President & CEO
-                  </h1>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3">
-                <p className="text-xl font-bold">
-                  Guidance Through Retail and Management
-                </p>
-                <p>
-                  Recognized for his skills in retail and merchandising, Harjeet
-                  unveils a treasure trove of knowledge in retail operations.
-                  His insights into customer engagement, inventory management,
-                  and operational efficiency are pivotal for steering a
-                  franchise towards success and sustainability.
-                </p>
-
-                <p className="text-xl font-bold">
-                  A Companion on Your Business Journey
-                </p>
-                <p>
-                  Harjeet is more than a consultant; he’s a companion and mentor
-                  on your entrepreneurial journey. His diverse experiences, from
-                  hands-on management to business ownership, afford him a
-                  profound understanding of the challenges and opportunities
-                  encountered at every stage of the business lifecycle.
-                </p>
-
-                <p className="text-xl font-bold">
-                  Investing in People and Opportunities
-                </p>
-                <p>
-                  Owning a staffing company and being an active investor,
-                  Harjeet demonstrates his capability to understand various
-                  industry dynamics and showcases his belief in investing in
-                  people and opportunities alike.
-                </p>
-
-                <p className="text-xl font-bold">
-                  Book a Consultation with H.S.Tiwana
-                </p>
-                <p>
-                  Unlock a world of opportunities and expert advice. Schedule a
-                  consultation with H.S.Tiwana and take the first step towards
-                  realizing your business dreams. From insightful advice on
-                  franchising to strategic planning for your business ventures,
-                  H.S.Tiwana is here to guide you at every step.
-                </p>
-              </div>
-            </div>
             <PreFooter />
           </main>
         </div>
       </div>
     </PageTransition>
+  );
+};
+
+const AboutHarjeet = () => {
+  return (
+    <div className="md:text-xl max-md:text-sm  max-md:mx-5 my-10">
+      <div className="max-md:flex-col flex gap-5">
+        <div className="flex flex-col gap-3">
+          <h1 className="text-3xl font-bold">About IFBC-President & CEO</h1>
+          <p className="text-xl font-bold ">
+            H.S.Tiwana: Navigating Diverse Entrepreneurial Horizons with
+            Expertise
+          </p>
+          <p>
+            Welcome to a world where your business aspirations take flight. H.S.
+            Tiwana, a seasoned entrepreneur and franchise expert, invites you to
+            embark on a journey through the dynamic realm of business, marked by
+            rich experiences and proven success across various industries.
+          </p>
+          <p className="text-xl font-bold ">
+            Educational and Professional Pillars
+          </p>
+          <p>
+            H.S.Tiwana melds the academic and practical, fortified by an MBA in
+            Sales and Marketing Operations. His educational foundation serves as
+            the bedrock upon which his practical experiences across varied
+            business ventures are built, offering a holistic and well-rounded
+            approach to business consultancy and franchise advice.
+          </p>
+          <p className="text-xl font-bold">
+            A Spectrum of Entrepreneurial Ventures
+          </p>
+          <p>
+            From restaurants and coffee shops to grocery stores and gas
+            stations, H.S.Tiwana’s entrepreneurial journey has woven through
+            various industries, each offering its own unique insights and
+            challenges. His successful ownership and operation of various
+            enterprises across different sectors stand testament to his
+            versatile and pragmatic approach to business.
+          </p>
+          <p className="text-xl font-bold">
+            In the Realm of Real Estate and Finance
+          </p>
+          <p>
+            H.S.Tiwana’s ventures are not confined to the tangible aspects of
+            business but extend into the realms of property and finance. His
+            experience as a Realtor provides him a deep understanding of market
+            dynamics and property valuation, while his tenure as a Loan Officer
+            equips him with the financial acumen to navigate the complex
+            financial landscapes of mortgages and loans.
+          </p>
+        </div>
+        <div className="flex flex-col gap-2">
+          <img
+            decoding="async"
+            width={1921}
+            height={2235}
+            src="https://s30012.pcdn.co/wp-content/uploads/sites/194/2023/09/broker.jpg"
+            className="attachment-full size-full wp-image-168"
+            alt
+          />
+          <h1 className="text-2xl font-bold text-center">H.S. Tiwana – MBA</h1>
+          <h1 className="text-xl font-bold text-center">
+            IFBC - President & CEO
+          </h1>
+        </div>
+      </div>
+      <div className="flex flex-col gap-3">
+        <p className="text-xl font-bold">
+          Guidance Through Retail and Management
+        </p>
+        <p>
+          Recognized for his skills in retail and merchandising, Harjeet unveils
+          a treasure trove of knowledge in retail operations. His insights into
+          customer engagement, inventory management, and operational efficiency
+          are pivotal for steering a franchise towards success and
+          sustainability.
+        </p>
+
+        <p className="text-xl font-bold">
+          A Companion on Your Business Journey
+        </p>
+        <p>
+          Harjeet is more than a consultant; he’s a companion and mentor on your
+          entrepreneurial journey. His diverse experiences, from hands-on
+          management to business ownership, afford him a profound understanding
+          of the challenges and opportunities encountered at every stage of the
+          business lifecycle.
+        </p>
+
+        <p className="text-xl font-bold">
+          Investing in People and Opportunities
+        </p>
+        <p>
+          Owning a staffing company and being an active investor, Harjeet
+          demonstrates his capability to understand various industry dynamics
+          and showcases his belief in investing in people and opportunities
+          alike.
+        </p>
+
+        <p className="text-xl font-bold">Book a Consultation with H.S.Tiwana</p>
+        <p>
+          Unlock a world of opportunities and expert advice. Schedule a
+          consultation with H.S.Tiwana and take the first step towards realizing
+          your business dreams. From insightful advice on franchising to
+          strategic planning for your business ventures, H.S.Tiwana is here to
+          guide you at every step.
+        </p>
+      </div>
+    </div>
   );
 };
 
@@ -319,7 +313,7 @@ const ServicesGrid = () => {
     },
   ];
   return (
-    <section className="py-[10px] bg-white">
+    <section className="py-[10px] bg-white my-10">
       <div className="theme-container mx-auto w-full">
         <h2 className="max-w-[747px] font-semibold text-24 sm:text-48 text-main-black text-center mx-auto mt-5">
           Our Vision

@@ -155,6 +155,20 @@ const TableFormatData = ({ cands, format }) => {
 };
 
 const GridFormatData = ({ format, cands }) => {
+  const steps = [
+    { text: "Initial Call Attempt" },
+    { text: "Connected" },
+    { text: "Spoton/Candidate Research" },
+    { text: "Research & Prep Presentation" },
+    { text: "Present/Franchise Review" },
+    { text: "Intro to Zor" },
+    { text: "Franchise Due Diligence" },
+    { text: "Validation - FSO" },
+    { text: "Discovery Day/Award - FSO" },
+    { text: "Closed Won" },
+    { text: "Closed Lost" },
+    { text: "On Hold" },
+  ];
   return (
     <div
       id="container"
