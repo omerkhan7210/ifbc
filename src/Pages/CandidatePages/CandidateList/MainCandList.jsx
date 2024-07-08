@@ -155,21 +155,6 @@ const TableFormatData = ({ cands, format }) => {
 };
 
 const GridFormatData = ({ format, cands }) => {
-  const steps = [
-    { text: "Initial Call Attempt" },
-    { text: "Connected" },
-    { text: "Spoton/Candidate Research" },
-    { text: "Research & Prep Presentation" },
-    { text: "Present/Franchise Review" },
-    { text: "Intro to Zor" },
-    { text: "Franchise Due Diligence" },
-    { text: "Validation - FSO" },
-    { text: "Discovery Day/Award - FSO" },
-    { text: "Closed Won" },
-    { text: "Closed Lost" },
-    { text: "On Hold" },
-  ];
-
   return (
     <div
       id="container"
@@ -290,133 +275,31 @@ const SearchingInput = () => {
   );
 };
 
-const CandidateSearch = ({ property, anotherText, normalText }) => {
-  const [activeDD, setActiveDD] = useState(false);
-  const { cands, filters, setFilters } = useContext(MyCandContext);
-  let uniqueFranchisedCands = [];
-  if (property === "") {
-    if (normalText === "Bulk Actions") {
-      uniqueFranchisedCands = [
-        "Bulk Actions",
-        "Delete",
-        "Update Lead Source",
-        "Update Deal Stage",
-        "Merge Candidates",
-        "Add Candidates to Hubspot",
-      ];
-    } else if (normalText === "Deal Stage") {
-      uniqueFranchisedCands = [
-        "Initial Call Attempt",
-        "Connected",
-        "Spoton/Candidate Research",
-        "Research & Prep Presentation",
-        "Present/Franchise Review",
-        "Intro to Zor",
-        "Franchise Due Diligence",
-        "Validation - FSO",
-        "Discovery Day/Award - FSO",
-        "Closed Won",
-        "Closed Lost",
-        "On Hold",
-      ];
-    } else if (normalText === "CoBroker or Agent") {
-      uniqueFranchisedCands = ["Agent"];
-    } else if (normalText === "Candidate Lead Source") {
-      uniqueFranchisedCands = ["IFBC", "Website", "Networking", "Calendly"];
-    }
-  }
-  const [selectedCands, setSelectedCands] = useState(
-    (filters && filters[property]) || []
-  );
-
-  const handleCandSelection = (cand) => {
-    const candLower = cand.toLowerCase();
-    let newSelCats = [];
-    const isCatSelected = selectedCands.includes(candLower);
-    if (isCatSelected) {
-      newSelCats = selectedCands.filter((item) => item !== candLower);
-    } else {
-      newSelCats = [...selectedCands, candLower];
-    }
-    setSelectedCands(newSelCats);
-  };
-
-  useEffect(() => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [property]: selectedCands,
-    }));
-  }, [selectedCands, property, setFilters]);
-
-  return (
-    <div className="relative w-full group flex flex-col gap-2 ">
-      <button
-        className="py-2.5 px-3 w-full md:text-sm text-site hover:bg-custom-heading-color hover:text-white focus:bg-custom-heading-color focus:text-white transition-all duration-300 bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold"
-        onClick={() => setActiveDD(!activeDD)}
-      >
-        {selectedCands.length > 0 ? anotherText : normalText}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-4 h-4"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M4.5 5.25l7.5 7.5 7.5-7.5m-15 6l7.5 7.5 7.5-7.5"
-          />
-        </svg>
-      </button>
-      <div
-        className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${
-          activeDD ? "h-52" : "h-0 opacity-0"
-        } duration-200 bg-white  border border-dimmed text-sm md:text-sm overflow-y-scroll`}
-      >
-        {uniqueFranchisedCands.map((cand, index) => {
-          return (
-            <div className="flex justify-between items-center" key={index}>
-              <div
-                onClick={() => handleCandSelection(cand)}
-                className={`text-black w-full block cursor-pointer hover:bg-slate-300   hover:text-link px-3 py-2`}
-              >
-                <span>{cand}</span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-};
-
 const FiltersRow = ({ setFilterCands, cands, filters, loading }) => {
-  const candData = [
-    {
-      anotherText: "Bulk Actions",
-      normalText: "Bulk Actions",
-      property: "",
-    },
-    {
-      anotherText: "Deal Stage",
-      normalText: "Deal Stage",
-      property: "",
-    },
-    {
-      anotherText: "CoBroker or Agent",
-      normalText: "CoBroker or Agent",
-      property: "",
-    },
-    {
-      anotherText: "Candidate Lead Source",
-      normalText: "Candidate Lead Source",
-      property: "",
-    },
-  ];
-
   const filterKeys = ["search", "dealstage", "agent", "leadsource"];
+
+  const steps = [
+    { text: "Initial Call Attempt" },
+    { text: "Connected" },
+    { text: "Spoton/Candidate Research" },
+    { text: "Research & Prep Presentation" },
+    { text: "Present/Franchise Review" },
+    { text: "Intro to Zor" },
+    { text: "Franchise Due Diligence" },
+    { text: "Validation - FSO" },
+    { text: "Discovery Day/Award - FSO" },
+    { text: "Closed Won" },
+    { text: "Closed Lost" },
+    { text: "On Hold" },
+  ];
+  const actions = [
+    "Bulk Actions",
+    "Delete",
+    "Update Lead Source",
+    "Update Deal Stage",
+    "Merge Candidates",
+    "Add Candidates to Hubspot",
+  ];
 
   useEffect(() => {
     if (cands.length > 0) {
@@ -456,14 +339,7 @@ const FiltersRow = ({ setFilterCands, cands, filters, loading }) => {
       id="filters-dd"
       className=" md:grid grid-cols-5 max-md:flex flex-col gap-5 mb-5"
     >
-      {candData.map((data, index) => (
-        <CandidateSearch
-          key={index}
-          normalText={data.normalText}
-          anotherText={data.anotherText}
-          property={data.property}
-        />
-      ))}
+      {/* yahan pr */}
 
       <div id="last-col-candlist" className="flex  items-center">
         <label
