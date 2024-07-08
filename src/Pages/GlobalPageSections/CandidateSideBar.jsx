@@ -1,17 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 import { MyTCFRContext } from "src/Context/TCFRDataContext";
-import { MyContext } from "src/Context/ListingDataContext";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
 import FormatRawDate from "src/Utils/FormatRawDate";
 import { Link, NavLink } from "react-router-dom";
 import BarLoader from "src/Animations/BarLoader";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const CandidateSideBar = () => {
   const [active, setActive] = useState(false);
   const { newData, loadingTCFR } = useContext(MyTCFRContext);
-  const { listings, loading } = useContext(MyContext);
-  const { cands } = useContext(MyCandContext);
 
   useEffect(() => {
     document.querySelector("html").style.overflow = active ? "hidden" : "auto";
@@ -37,11 +35,8 @@ const CandidateSideBar = () => {
       >
         <ToggleButton active={active} setActive={setActive} />
         <ActivityGridContainer
-          listings={listings}
-          cands={cands}
           newData={newData}
           active={active}
-          loading={loading}
           loadingTCFR={loadingTCFR}
         />
       </motion.div>
@@ -50,25 +45,8 @@ const CandidateSideBar = () => {
 };
 
 const ToggleButton = ({ active, setActive }) => {
-  const [hidden, setHidden] = useState(false);
-
-  const { scrollY } = useScroll();
-  const body = document.body;
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious();
-    const maxScrollHeight = body.scrollHeight - window.innerHeight; // Maximum scroll height
-
-    if (latest > previous && latest > maxScrollHeight * 0.8) {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
-  });
   return (
-    <motion.button
-      initial={{ y: 0 }}
-      animate={{ y: hidden && window.innerWidth > 768 ? "-80%" : 0 }}
+    <button
       onClick={() => setActive(!active)}
       className={`absolute -top-16 right-32 bg-custom-heading-color px-4 py-5 flex items-center justify-center rounded-tl rounded-tr md:w-64 max-md:w-full max-md:right-0 text-white z-[99999]`}
     >
@@ -93,36 +71,56 @@ const ToggleButton = ({ active, setActive }) => {
           ></path>
         </motion.svg>
       </div>
-    </motion.button>
+    </button>
   );
 };
 
-const ActivityGridContainer = ({
-  loading,
-  loadingTCFR,
-  active,
-  newData,
-  cands,
-  listings,
-}) => {
-  const [newDataNames, setNewDataNames] = useState([]);
+const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api`;
+
+const fetchCandidatesByIds = async (candidateIds) => {
+  const promises = candidateIds.map((id) =>
+    axios.get(`${baseUrl}/candidates/${id}`)
+  );
+  const results = await Promise.all(promises);
+  return results.map((result) => result.data);
+};
+const fetchCandidate = async (candidateId) => {
+  const { data } = await axios.get(`${baseUrl}/candidates/${candidateId}`);
+  return data;
+};
+
+const fetchListing = async (listingId) => {
+  const { data } = await axios.get(`${baseUrl}/listings/${listingId}`);
+  return data;
+};
+
+const ActivityGridContainer = ({ loadingTCFR, active, newData }) => {
   const [filteredData, setFilteredData] = useState([]);
+  const [candIds, setCandIds] = useState([]);
   const [selectedCandId, setSelectedCandId] = useState("");
 
   useEffect(() => {
     if (newData && newData.length > 0) {
-      const candids = new Set(newData.map((data) => data.candidateId));
-      const uniqueids = Array.from(candids);
-      const filteredCands = cands.filter((cand) =>
-        uniqueids.includes(cand.docId)
-      );
-      const names = filteredCands.map((filteredCand) => ({
-        value: filteredCand.docId,
-        name: filteredCand.firstName + " " + filteredCand.lastName,
-      }));
-      setNewDataNames(names);
+      const ids = newData.map((data) => data.candidateId);
+      const uniqueIds = [...new Set(ids)];
+      setCandIds(uniqueIds);
     }
   }, [newData]);
+
+  const { data: newDataNames, isLoading: isLoadingNames } = useQuery(
+    ["candidates", candIds],
+    () => fetchCandidatesByIds(candIds),
+    {
+      enabled: candIds.length > 0,
+      cacheTime: 86400 * 3,
+      select: (data) => {
+        return data.map((cand) => ({
+          name: cand.firstName + " " + cand.lastName,
+          value: cand.docId,
+        }));
+      },
+    }
+  );
 
   useEffect(() => {
     if (selectedCandId && selectedCandId !== "0") {
@@ -135,7 +133,7 @@ const ActivityGridContainer = ({
     }
   }, [newData, selectedCandId]);
 
-  return !loading && !loadingTCFR ? (
+  return !loadingTCFR && !isLoadingNames ? (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{
@@ -164,7 +162,7 @@ const ActivityGridContainer = ({
               id="candidate-names"
               onChange={(e) => setSelectedCandId(e.target.value)}
             >
-              <option value="0">No Candidates Selected</option>
+              <option value="">No Candidates Selected</option>
               {newDataNames &&
                 newDataNames.length > 0 &&
                 newDataNames.map((name, index) => (
@@ -182,9 +180,7 @@ const ActivityGridContainer = ({
         className={`max-md:block ${filteredData && filteredData.length > 0 ? "grid" : "flex flex-col h-full items-center"} md:max-xl:grid-cols-2 xl:max-2xl:grid-cols-3 2xl:grid-cols-4 gap-3`}
       >
         {filteredData && filteredData.length > 0 ? (
-          filteredData.map((card, index) => (
-            <Card key={index} card={card} listings={listings} cands={cands} />
-          ))
+          filteredData.map((card, index) => <Card key={index} card={card} />)
         ) : (
           <h1 className="w-full text-white flex justify-center text-3xl items-center h-full">
             No Registrations
@@ -199,88 +195,100 @@ const ActivityGridContainer = ({
   );
 };
 
-const Card = ({ card, cands, listings }) => {
-  const [filteredListing, setFilteredListing] = useState();
-  const [filteredCand, setFilteredCand] = useState();
-  useEffect(() => {
-    if (listings && listings.length > 0) {
-      const filtered = listings.find(
-        (listing) => listing.docId == card.listingsIds
-      );
-      setFilteredListing(filtered || null);
+const Card = ({ card }) => {
+  const { data: filteredCand, isLoading: isLoadingCand } = useQuery(
+    ["candidate", card.candidateId],
+    () => fetchCandidate(card.candidateId),
+    {
+      enabled: !!card.candidateId,
+      cacheTime: 86400 * 3,
     }
-  }, [listings, card.listingsIds]);
+  );
 
-  useEffect(() => {
-    if (cands && cands.length > 0) {
-      const filtered = cands.find((cand) => cand.docId === card.candidateId);
-      setFilteredCand(filtered || null);
+  const { data: filteredListing, isLoading: isLoadingListing } = useQuery(
+    ["listing", card.listingsIds],
+    () => fetchListing(card.listingsIds),
+    {
+      enabled: !!card.listingsIds,
+      cacheTime: 86400 * 3,
     }
-  }, [cands, card.candidateId]);
+  );
 
   return (
     <div
+      id="main-card-container"
       key={card}
-      className=" bg-white rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md"
+      className={`rounded-b-lg ${card.isArchive ? " border-4  border-gray-800" : ""}`}
     >
-      <div id="status-container" className="flex justify-between">
-        <h1 className="candidate-territory">
-          {card.docType.trim() === "TC"
-            ? "Territory Check"
-            : "Formal Registration"}
-        </h1>
-        <h1
-          className={`${card.status.toLowerCase() === "pending" ? "candidate-pending" : "candidate-available"}`}
-        >
-          {card.status}
-        </h1>
-      </div>
-      <div className="flex justify-center items-center w-full mt-4 gap-3">
-        <img src={`/${filteredListing?.imgUrl}`} alt="smash" className="w-14" />
-        <p className="text-lg font-bold text-custom-heading-color">
-          {filteredListing?.name}
-        </p>
-      </div>
-      <div className="flex justify-center">
-        <div className="py-3">
-          <p className="text-md font-bold  text-custom-dark-blue ">
-            Candidate Information
-          </p>
-          <ul>
-            <li className="text-sm text-custom-grey">
-              {filteredCand?.firstName} {filteredCand?.lastName}
-            </li>
-            <li className="text-sm text-custom-grey">
-              {filteredCand?.territoryCity} {filteredCand?.territoryState},{" "}
-              {filteredCand?.territoryZipcode}
-            </li>
-            <li className="text-sm text-custom-grey"> {FormatRawDate(card)}</li>
-          </ul>
+      {!isLoadingListing && !isLoadingCand ? (
+        <div className=" bg-white relative rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md">
+          <div id="status-container" className="flex justify-between">
+            <h1 className="candidate-territory">
+              {card?.docType?.trim() === "TC"
+                ? "Territory Check"
+                : "Formal Registration"}
+            </h1>
+            <h1
+              className={`${card.status?.toLowerCase() === "pending" ? "candidate-pending" : "candidate-available"}`}
+            >
+              {card.status}
+            </h1>
+          </div>
+          <div className="flex justify-center items-center w-full mt-4 gap-3">
+            <img
+              src={`/${filteredListing?.imgUrl}`}
+              alt="smash"
+              className="w-14"
+            />
+            <p className="text-lg font-bold text-custom-heading-color">
+              {filteredListing?.name}
+            </p>
+          </div>
+          <div className="flex justify-center">
+            <div className="py-3 ">
+              <p className="text-md font-bold  text-custom-dark-blue text-center">
+                Candidate Information
+              </p>
+              <ul>
+                <li className="text-sm text-custom-grey text-center">
+                  {filteredCand?.firstName} {filteredCand?.lastName}
+                </li>
+                <li className="text-sm text-custom-grey text-center">
+                  {filteredCand?.territoryCity} {filteredCand?.territoryState},{" "}
+                  {filteredCand?.territoryZipcode}
+                </li>
+                <li className="text-sm text-custom-grey text-center">
+                  {" "}
+                  {FormatRawDate(card)}
+                </li>
+              </ul>
+            </div>
+            <div className="py-3 ml-8">
+              <p className="text-md font-bold  text-custom-dark-blue text-center">
+                Company Information
+              </p>
+              <ul>
+                <li className="text-sm text-custom-grey text-center">
+                  {filteredListing?.username}
+                </li>
+                <li className="text-sm text-custom-grey underline text-center">
+                  <a href={"tel:" + filteredListing?.phone}>
+                    {filteredListing?.phone}
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="text-sm flex gap-2 items-center justify-between">
+            <p></p>
+          </div>
         </div>
-        <div className="py-3 ml-8">
-          <p className="text-md font-bold  text-custom-dark-blue ">
-            Company Information
-          </p>
-          <ul>
-            <li className="text-sm text-custom-grey">
-              {filteredListing?.username}
-            </li>
-            <li className="text-sm text-custom-grey underline">
-              <a href={"tel:" + filteredListing?.phone}>
-                {filteredListing?.phone}
-              </a>
-            </li>
-          </ul>
+      ) : (
+        <div className="grid place-items-center">
+          <img src="/images/banners/loading.gif" alt="" />
         </div>
-      </div>
-      <div className="text-sm flex gap-2 items-center justify-between">
-        <Link to={`/inbox/${card?.docId}`} className="candidate-btn w-full">
-          MESSAGE
-        </Link>
-        <button className="candidate-btn w-full">SEND RE-CHECK</button>
-      </div>
+      )}
     </div>
   );
 };
-
 export default CandidateSideBar;

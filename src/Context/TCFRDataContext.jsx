@@ -22,27 +22,24 @@ const TCFRDataContext = ({ children }) => {
     },
     {
       cacheTime: 86400,
+      select: (data) => {
+        const allData = data?.data.filter(
+          (msg) => msg.agentId === userDetails.docId
+        );
+        return allData;
+      },
     }
   );
 
   useEffect(() => {
-    if (!isLoading && data) {
-      const allData = data?.data.filter(
-        (data) => data.agentId === userDetails.docId
-      );
-      setAll(allData);
-    }
-  }, [isLoading, data]); // Empty dependency array to run once on component mount
-
-  useEffect(() => {
-    if (all && all.length > 0) {
+    if (data && data.length > 0) {
       const sanitizelistingsIds = (listingsIds) => {
         // Remove any non-numeric and non-comma characters
         const sanitized = listingsIds.replace(/[^0-9,]/g, "");
         return sanitized.split(",").filter((id) => id.trim() !== "");
       };
 
-      const transformedData = all.flatMap((item, index) => {
+      const transformedData = data.flatMap((item) => {
         const listingsIdsArray = sanitizelistingsIds(item.listingsIds);
 
         return listingsIdsArray.map((listingId, index) => ({
@@ -55,7 +52,7 @@ const TCFRDataContext = ({ children }) => {
       dispatch(addAllRegistrations(transformedData));
       setNewData(transformedData);
     }
-  }, [all]);
+  }, [data]);
 
   return (
     <MyTCFRContext.Provider

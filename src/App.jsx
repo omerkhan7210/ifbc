@@ -56,11 +56,6 @@ const App = () => {
       <ListingDataContext>
         <CandidatesDataContext>
           <TCFRDataContext>
-            {(loc.pathname.includes("listings") ||
-              loc.pathname.includes("candidate") ||
-              loc.pathname.includes("messages")) &&
-              token &&
-              role !== "N" && <CandidateSideBar />}
             <RegisterationPopup
               setShow={setShow}
               show={show}
@@ -69,6 +64,14 @@ const App = () => {
           </TCFRDataContext>
         </CandidatesDataContext>
       </ListingDataContext>
+
+      <TCFRDataContext>
+        {(loc.pathname.includes("listings") ||
+          loc.pathname.includes("candidate") ||
+          loc.pathname.includes("messages")) &&
+          token &&
+          role === "C" && <CandidateSideBar />}
+      </TCFRDataContext>
       {token && <Footer />}
     </QueryClientProvider>
   );
