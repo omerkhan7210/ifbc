@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
+import { useQuery } from "react-query";
 import BarLoader from "src/Animations/BarLoader";
 import { MyContext } from "src/Context/ListingDataContext";
 
@@ -8,21 +9,21 @@ const BottomBar = ({ listingContent }) => {
   const [htmlContent, sethtmlContent] = useState(null);
   const { role } = useContext(MyContext);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/listingscontent/${listingContent.name}`;
-      try {
-        const response = await axios.get(url);
-        if (response.data !== "") {
-          sethtmlContent(response.data.content);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
+  const fetchData = async (listingContentName) => {
+    const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/listingscontent/${listingContentName}`;
+    console.log(url);
+    const response = await axios.get(url);
+    return response.data;
+  };
 
-    fetchData();
-  }, [listingContent]);
+  const { data, error, isLoading } = useQuery(
+    ["listingsContent", listingContent.name],
+    () => fetchData(listingContent.name),
+    {
+      staleTime: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
+    }
+  );
+
   const replaceWords = (text) => {
     if (!text) return text;
     return text.replace(/fba/g, "ifbc").replace(/FBA/g, "IFBC");
@@ -39,7 +40,7 @@ const BottomBar = ({ listingContent }) => {
 
   useEffect(() => {
     const document = window.document;
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && !isLoading && data) {
       const entryDirectChild = document.querySelector(".entry-content>div");
       entryDirectChild?.classList.add("flex", "items-start", "gap-5");
       const tabsList = document.querySelector(".entry-content ul.tabs");
@@ -187,7 +188,7 @@ const BottomBar = ({ listingContent }) => {
           const url = btn.getAttribute("href");
           if (url && url.includes("s26232.pcdn.co")) {
             const filename = url.split("/").pop().split("?")[0];
-            const newUrl = `/${filename}`;
+            const newUrl = `https://ifbcreact.s3.us-east-1.amazonaws.com/${filename}`;
             const isValid = await checkLinkStatus(newUrl);
             console.log(newUrl);
 
@@ -219,51 +220,53 @@ const BottomBar = ({ listingContent }) => {
             (role === "C" || role === "N")
           ) {
             heading.style.display = "none";
-            if (heading.nextElementSibling.children[0]?.tagName !== "EM") {
+            if (heading?.nextElementSibling.children[0]?.tagName !== "EM") {
               heading.nextElementSibling.style.display = "none";
             }
             if (
-              heading.nextElementSibling.nextElementSibling.children[0]
+              heading?.nextElementSibling?.nextElementSibling?.children[0]
                 ?.tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.style.display =
                 "none";
             }
             if (
-              heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .children[0]?.tagName !== "EM"
+              heading?.nextElementSibling?.nextElementSibling
+                ?.nextElementSibling?.children[0]?.tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";
             }
 
             if (
-              heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling &&
-              heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling.children[0]?.tagName !== "EM"
+              heading?.nextElementSibling?.nextElementSibling
+                ?.nextElementSibling?.nextElementSibling &&
+              heading?.nextElementSibling?.nextElementSibling
+                ?.nextElementSibling?.nextElementSibling?.children[0]
+                ?.tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";
             }
 
             if (
-              heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling.nextElementSibling &&
-              heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling.nextElementSibling.children[0]?.tagName !==
-                "EM"
+              heading?.nextElementSibling?.nextElementSibling
+                ?.nextElementSibling?.nextElementSibling?.nextElementSibling &&
+              heading?.nextElementSibling?.nextElementSibling
+                ?.nextElementSibling?.nextElementSibling?.nextElementSibling
+                ?.children[0]?.tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";
             }
 
             if (
-              heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling.nextElementSibling.nextElementSibling &&
-              heading.nextElementSibling.nextElementSibling.nextElementSibling
-                .nextElementSibling.nextElementSibling.nextElementSibling
-                .children[0]?.tagName !== "EM"
+              heading?.nextElementSibling?.nextElementSibling
+                ?.nextElementSibling?.nextElementSibling?.nextElementSibling
+                ?.nextElementSibling &&
+              heading?.nextElementSibling?.nextElementSibling
+                ?.nextElementSibling?.nextElementSibling?.nextElementSibling
+                ?.nextElementSibling.children[0]?.tagName !== "EM"
             ) {
               heading.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.style.display =
                 "none";
@@ -286,7 +289,7 @@ const BottomBar = ({ listingContent }) => {
         tabs[5].style.display = "none";
       }
     }
-  }, [htmlContent]);
+  }, [isLoading, data]);
 
   return (
     <article
@@ -297,14 +300,14 @@ const BottomBar = ({ listingContent }) => {
         {listingContent.name}
       </h3>
 
-      {htmlContent ? (
+      {data ? (
         <div
           className="post post-599099 fba-franchise type-fba-franchise status-publish has-post-thumbnail hentry concept_categories-business-services concept_categories-home-improvement"
           id="post-599099"
         >
           <div className="mb-8">
             <div
-              dangerouslySetInnerHTML={{ __html: htmlContent }}
+              dangerouslySetInnerHTML={{ __html: data.content }}
               className="post post-599099 fba-franchise type-fba-franchise status-publish has-post-thumbnail hentry concept_categories-business-services concept_categories-home-improvement"
               id="post-599099"
             ></div>
