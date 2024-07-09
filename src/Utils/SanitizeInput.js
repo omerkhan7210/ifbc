@@ -16,7 +16,7 @@ export function sanitizeInput(input) {
 
 export function validateUsername(username) {
   // Basic username validation: alphanumeric, underscores, spaces, starts with a letter, 3-16 characters long
-  return /^[a-zA-Z][a-zA-Z0-9_ ]{2,15}$/.test(username);
+  return /^[a-zA-Z][a-zA-Z0-9_ ]{2,30}$/.test(username);
 }
 
 export function validateZipcode(zipcode) {

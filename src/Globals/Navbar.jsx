@@ -177,7 +177,7 @@ const Navbar = ({ active, setActive }) => {
             >
               <a
                 onClick={() => setActive(!active)}
-                className={` bg-custom-heading-color px-4 py-5 flex items-center justify-center  rounded  text-center  text-white z-[99999] cursor-pointer`}
+                className={` bg-custom-heading-color px-4 py-5 flex items-center justify-center  rounded  text-center  text-white  cursor-pointer`}
               >
                 <div className="text-white text-base font-bold flex items-center">
                   No Candidate Selected

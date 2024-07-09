@@ -202,9 +202,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
   const handleStateChange = (e) => {
     const stateCode = e.target.value;
     setSelectedState(stateCode);
-    setFormFields((prev) => {
-      return { ...prev, state: selectedState };
-    });
+    setFormFields((prev) => ({ ...prev, state: stateCode }));
     const cityList = getCitiesOfState("US", stateCode);
     setCities(cityList);
   };
@@ -481,7 +479,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             type="text"
           />{" "}
           {formErrors.name && formErrors.name === "invalid" && (
-            <p className=" text-white text-xs py-2 flex justify-between">
+            <p className=" text-red text-xs py-2 flex justify-between">
               Invalid username. It should be 3-16 characters long and can
               include letters, numbers, underscores, and spaces.
             </p>
@@ -502,7 +500,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               type="email"
             />
             {formErrors.email && formErrors.email === "invalid" && (
-              <p className=" text-white text-xs py-2 flex justify-between">
+              <p className=" text-red text-xs py-2 flex justify-between">
                 Invalid Email (john@example.com)
               </p>
             )}
@@ -522,7 +520,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               defaultValue={""}
             />{" "}
             {formErrors.phone && formErrors.phone === "invalid" && (
-              <p className=" text-white text-xs py-2 flex justify-between">
+              <p className=" text-red text-xs py-2 flex justify-between">
                 Invalid Phone Number (Please use numbers only)
               </p>
             )}

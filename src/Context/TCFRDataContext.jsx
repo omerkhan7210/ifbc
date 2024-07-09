@@ -22,8 +22,8 @@ const TCFRDataContext = ({ children }) => {
     {
       cacheTime: 86400,
       select: (data) => {
-        const allData = data?.data.filter(
-          (msg) => msg.agentId === userDetails.docId
+        const allData = data?.data?.filter(
+          (msg) => msg?.agentId === userDetails?.docId
         );
         return allData;
       },
