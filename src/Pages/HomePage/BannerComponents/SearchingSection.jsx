@@ -11,7 +11,7 @@ const SearchingSection = () => {
   const [selectedCats, setSelectedCats] = useState([]);
   const history = useNavigate();
   useEffect(() => {
-    if (role && role === "N") {
+    if (!role || role === "N") {
       const filterDataa = [
         {
           anotherText: "Select Category",
@@ -155,7 +155,7 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
   };
   return (
     <div
-      className={`relative w-full group flex flex-col gap-2 col-span-12 ${role !== "N" ? "md:col-span-3" : "md:col-span-6"}`}
+      className={`relative w-full group flex flex-col gap-2 col-span-12 ${role && role !== "N" ? "md:col-span-3" : "md:col-span-6"}`}
     >
       <button
         className={`h-16 px-4 text-md w-full capitalize text-white bg-custom-heading-color hover:bg-custom-heading-color transition-all duration-250 focus:bg-custom-heading-color focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold ${
