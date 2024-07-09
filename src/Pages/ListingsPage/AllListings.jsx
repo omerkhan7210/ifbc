@@ -21,7 +21,14 @@ const AllListings = () => {
     role,
   } = useContext(MyContext);
   const [filterListings, setFilterListings] = useState();
-  const totalNoOfListings = window.innerWidth < 768 ? 10 : 25;
+  const totalNoOfListings =
+    window.innerWidth < 768
+      ? showActiveListings
+        ? activeListings.length
+        : 10
+      : showActiveListings
+        ? activeListings.length
+        : 25;
 
   const filterKeys = [
     "search",
@@ -87,6 +94,7 @@ const AllListings = () => {
       // Get current listings
       const indexOfLastListing = currentPage * totalNoOfListings;
       const indexOfFirstListing = indexOfLastListing - totalNoOfListings;
+
       let currentListings = filteredListings.slice(
         indexOfFirstListing,
         indexOfLastListing
@@ -98,7 +106,7 @@ const AllListings = () => {
   // Change page
   const paginate = (pageNumber) => {
     window.scrollTo({
-      top: window.innerWidth < 768 ? 1150 : 0,
+      top: window.innerWidth < 768 ? 1150 : 500,
       behavior: "smooth",
     });
     setCurrentPage(pageNumber);

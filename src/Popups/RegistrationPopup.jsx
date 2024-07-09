@@ -2,14 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 import DialogBox from "./DialogBox";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
-import { twMerge } from "tailwind-merge";
 import axios from "axios";
 import Form from "src/Pages/CandidatePages/NewCandidate/Form";
 import { getCitiesOfState } from "src/Utils/locationUtils.js";
 import { validateUsername, validateZipcode } from "src/Utils/SanitizeInput";
 
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
-  const { cands, userDetails, newDataNames } = useContext(MyCandContext);
+  const { cands, userDetails, loading } = useContext(MyCandContext);
   const { activeListings } = useContext(MyContext);
   const [selectedDocId, setSelectedDocId] = useState();
   const [selectedDetails, setSelectedDetails] = useState({
@@ -22,9 +21,19 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
     territoryNotes: "",
     IncludeNameInTerritoryRequest: false,
   });
-
+  const [newDataNames, setNewDataNames] = useState([]);
   const [successMsg, setSuccessMsg] = useState("");
   const [showsuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!loading && cands && cands.length > 0) {
+      const filtered = cands.map((cand) => ({
+        name: cand.firstName + " " + cand.lastName,
+        docId: cand.docId,
+      }));
+      setNewDataNames(filtered);
+    }
+  }, [cands, loading]);
 
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
@@ -96,7 +105,6 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
                 {registrationType === "TC"
                   ? "Territory Check"
                   : "Formal Registration"}
-                {console.log(newDataNames)}
               </h2>
               {registrationType === "TC" ? (
                 <FormTC
@@ -160,6 +168,15 @@ const FormTC = ({
     const cityList = getCitiesOfState("US", stateCode);
     setCities(cityList);
   };
+
+  useEffect(() => {
+    if (selectedDetails && selectedDetails.territoryState) {
+      setSelectedState(selectedDetails.territoryState);
+      const cityList = getCitiesOfState("US", selectedDetails.territoryState);
+      setCities(cityList);
+    }
+  }, [selectedDetails?.territoryState]);
+
   const states = [
     { value: "AL", text: "Alabama" },
     { value: "AK", text: "Alaska" },
@@ -337,37 +354,46 @@ const FormTC = ({
     setFormErrors(formErrors);
 
     try {
-      if (allFieldsValid) {
-        const formData = {
-          candidateId: selectedDocId ?? 0,
-          AgentId: userDetails.docId ?? 0,
-          listingsIds:
-            JSON.stringify(activeListings).replace(/[^0-9,]/g, "") ?? "",
-          InterRequest: selectedDetails.IncludeNameInTerritoryRequest ?? false,
-          docType: "TC",
-          Status: "Pending",
-          Message: "",
-          email: "",
-        };
+      if (allFieldsValid && activeListings && activeListings.length > 0) {
+        activeListings.map(async (id) => {
+          const formData = {
+            candidateId: selectedDocId ?? 0,
+            AgentId: userDetails.docId ?? 0,
+            listingsIds: id.toString() ?? "",
+            InterRequest:
+              selectedDetails.IncludeNameInTerritoryRequest ?? false,
+            docType: "TC",
+            Status: "Pending",
+            Message: "",
+            email: "",
+            isArchive: false,
+            isTrash: false,
+            isFav: false,
+            isRead: false,
+            territoryState: selectedDetails?.territoryState,
+            territoryCity: selectedDetails?.territoryCity,
+            territoryZipcode: selectedDetails?.territoryZipcode,
+          };
 
-        const baseUrl =
-          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
+          const baseUrl =
+            "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
 
-        // Send the POST request using Axios
-        const response = await axios.post(baseUrl, formData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
+          // Send the POST request using Axios
+          const response = await axios.post(baseUrl, formData, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          if (response.status === 201) {
+            setFormErrors({});
+            setSuccessMsg("Territory Check Send Successfully.");
+            setShowSuccess(true);
+            setLoading(false);
+            setTimeout(() => {
+              window.location.href = "/messages/territory-check";
+            }, 3000);
+          }
         });
-        if (response.status === 201) {
-          setFormErrors({});
-          setSuccessMsg("Territory Check Send Successfully.");
-          setShowSuccess(true);
-          setLoading(false);
-          setTimeout(() => {
-            window.location.href = "/messages/territory-check";
-          }, 3000);
-        }
       } else {
         setFormErrors((prev) => ({
           ...prev,
@@ -479,7 +505,11 @@ const FormTC = ({
               {" "}
               {!selectedState && <option value={""}>Select a state</option>}
               {states.map((state, index) => (
-                <option key={index} value={state.value}>
+                <option
+                  key={index}
+                  value={state.value}
+                  selected={selectedDetails?.territoryState === state.value}
+                >
                   {state.text}
                 </option>
               ))}
@@ -487,26 +517,42 @@ const FormTC = ({
           </div>
           <div className="flex flex-col w-full">
             <p className="candidate-paragraph">City</p>
-            <select
-              onChange={handleInputChange}
-              name="territoryCity"
-              className="candidate-input w-full"
-              style={{
-                borderColor: formErrors.territoryCity ? "red" : undefined,
-              }}
-            >
-              {cities.map((city, index) =>
-                !selectedState ? (
+            {cities.length > 0 ? (
+              <select
+                onChange={handleInputChange}
+                name="territoryCity"
+                className="candidate-select w-full"
+                style={{
+                  borderColor: formErrors.territoryCity ? "red" : undefined,
+                }}
+              >
+                {!selectedState ? (
                   <option value="" disabled>
                     Select a state first
                   </option>
                 ) : (
-                  <option key={index} value={city.name}>
-                    {city.name}
-                  </option>
-                )
-              )}
-            </select>
+                  cities.map((city, index) => (
+                    <option
+                      key={index}
+                      value={city.name}
+                      selected={selectedDetails?.territoryCity === city.name}
+                    >
+                      {city.name}
+                    </option>
+                  ))
+                )}
+              </select>
+            ) : (
+              <input
+                onChange={handleInputChange}
+                name="territoryCity"
+                className="candidate-select w-full"
+                style={{
+                  borderColor: formErrors.territoryCity ? "red" : undefined,
+                }}
+                type="text"
+              />
+            )}
           </div>
 
           <div className="flex flex-col w-full">

@@ -11,7 +11,6 @@ const BottomBar = ({ listingContent }) => {
 
   const fetchData = async (listingContentName) => {
     const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/listingscontent/${listingContentName}`;
-    console.log(url);
     const response = await axios.get(url);
     return response.data;
   };
@@ -190,7 +189,6 @@ const BottomBar = ({ listingContent }) => {
             const filename = url.split("/").pop().split("?")[0];
             const newUrl = `https://ifbcreact.s3.us-east-1.amazonaws.com/${filename}`;
             const isValid = await checkLinkStatus(newUrl);
-            console.log(newUrl);
 
             if (!isValid) {
               btn.style.display = "none";

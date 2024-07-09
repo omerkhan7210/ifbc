@@ -76,8 +76,6 @@ const MainMessages = () => {
     }
   }, [filters.status, loadingTCFR]);
 
-  console.log(filteredMessages, filters);
-
   return (
     <PageTransition>
       <div
@@ -110,7 +108,6 @@ const MainMessages = () => {
             id="cards-container"
             className={`${filteredMessages && filteredMessages.length > 0 ? "grid" : ""} grid-cols-1 md:grid-cols-3 gap-5`}
           >
-            {console.log()}
             {filteredMessages && filteredMessages.length > 0 ? (
               filteredMessages.map((card, index) => (
                 <Card
@@ -408,8 +405,6 @@ const SecondRow = ({
       axios
         .put(url + message.docId, formData)
         .then((response) => {
-          console.log(response);
-
           // // Handle successful response
           if (response.status === 204) {
             setShow(true);
