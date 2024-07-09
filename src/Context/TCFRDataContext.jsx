@@ -12,7 +12,7 @@ const TCFRDataContext = ({ children }) => {
   const dispatch = useDispatch();
   const [candIds, setCandIds] = useState([]);
 
-  const url = `http://backend.ifbc.co/api`;
+  const url = `https://backend.ifbc.co/api`;
 
   const { data, isLoading, error } = useQuery(
     "MESSAGES",

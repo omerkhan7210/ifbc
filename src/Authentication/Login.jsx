@@ -23,7 +23,7 @@ const Login = () => {
   const [error, setError] = useState({});
 
   const getUserDetails = async (token) => {
-    const url = "http://backend.ifbc.co/api/users/userdata";
+    const url = "https://backend.ifbc.co/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -90,7 +90,7 @@ const Login = () => {
     setError(formErrors);
 
     try {
-      const baseUrl = `http://backend.ifbc.co/api/login`;
+      const baseUrl = `https://backend.ifbc.co/api/login`;
       if (allFieldsValid) {
         const requestData = {
           email: formFields.email,

@@ -19,7 +19,7 @@ const Profile = () => {
   const [haveChanges, setHaveChanges] = useState(false);
 
   const getUserDetails = async () => {
-    const url = "http://backend.ifbc.co/api/users/userdata";
+    const url = "https://backend.ifbc.co/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -90,7 +90,7 @@ const Profile = () => {
       if (allFieldsValid) {
         // formdata
 
-        const baseUrl = "http://backend.ifbc.co/api/users";
+        const baseUrl = "https://backend.ifbc.co/api/users";
 
         // Send the PUT request using Axios
         const response = await axios.put(

@@ -47,7 +47,7 @@ const CandidateSideBar = ({ active, setActive }) => {
   );
 };
 
-const baseUrl = `http://backend.ifbc.co/api`;
+const baseUrl = `https://backend.ifbc.co/api`;
 
 const fetchCandidate = async (candidateId) => {
   const { data } = await axios.get(`${baseUrl}/candidates/${candidateId}`);

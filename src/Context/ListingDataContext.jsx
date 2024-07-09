@@ -22,7 +22,7 @@ const ListingDataContext = ({ children }) => {
       : null;
 
   const endPoint = role !== "N" ? "Listings" : "ListingsView";
-  const url = `http://backend.ifbc.co/api/listingsmstr`;
+  const url = `https://backend.ifbc.co/api/listingsmstr`;
   const { data, isLoading, error, isFetching } = useQuery("FRANCHISE", () => {
     return axios.get(url);
   });

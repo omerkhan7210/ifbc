@@ -275,7 +275,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
       };
 
       const jsonData = JSON.stringify(formData);
-      const baseUrl = "http://backend.ifbc.co/api/checkout";
+      const baseUrl = "https://backend.ifbc.co/api/checkout";
 
       // Send the POST request using Axios
       const response = await axios.post(baseUrl, jsonData, {
