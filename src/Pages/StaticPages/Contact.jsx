@@ -209,7 +209,7 @@ const Contact = () => {
         };
 
         const response = await axios.post(
-          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/contactus",
+          "http://backend.ifbc.co/api/contactus",
           formData
         );
 

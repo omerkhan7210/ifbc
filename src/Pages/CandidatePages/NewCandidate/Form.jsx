@@ -308,8 +308,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           isArchive: false,
         };
 
-        const baseUrl =
-          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/candidates";
+        const baseUrl = "http://backend.ifbc.co/api/candidates";
         let response = "";
 
         // Send the POST request using Axios
@@ -397,8 +396,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           };
 
           const jsonData = JSON.stringify(formData);
-          const baseUrl =
-            "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
+          const baseUrl = "http://backend.ifbc.co/api/registrations";
 
           // Send the POST request using Axios
           const response = await axios.post(baseUrl, jsonData, {

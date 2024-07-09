@@ -39,8 +39,7 @@ const Registration = () => {
     return re.test(username);
   };
   const getUserDetails = async (token) => {
-    const url =
-      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/users/userdata";
+    const url = "http://backend.ifbc.co/api/users/userdata";
 
     try {
       const response = await axios.get(url, {

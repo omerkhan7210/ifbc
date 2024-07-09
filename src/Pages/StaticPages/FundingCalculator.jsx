@@ -113,7 +113,7 @@ const FundingCalculator = () => {
           totalNet: data.totalNet,
         };
         const response = await axios.post(
-          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/fundcalculator",
+          "http://backend.ifbc.co/api/fundcalculator",
           formData
         );
 
