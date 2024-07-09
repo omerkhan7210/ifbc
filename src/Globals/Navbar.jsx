@@ -3,7 +3,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 
-const Navbar = () => {
+const Navbar = ({ active, setActive }) => {
   const style = ({ isActive }) => ({
     background: isActive ? "rgb(0 17 54)" : "",
   });
@@ -170,6 +170,21 @@ const Navbar = () => {
               Search Franchises (SF)
             </NavLink>
           </li>
+          {role === "C" && (
+            <li
+              id="menu-item-552360"
+              className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
+            >
+              <a
+                onClick={() => setActive(!active)}
+                className={` bg-custom-heading-color px-4 py-5 flex items-center justify-center  rounded  text-center  text-white z-[99999] cursor-pointer`}
+              >
+                <div className="text-white text-base font-bold flex items-center">
+                  No Candidate Selected
+                </div>
+              </a>
+            </li>
+          )}
         </ul>
       </div>
     </div>

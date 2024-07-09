@@ -11,6 +11,7 @@ const TCFRDataContext = ({ children }) => {
   const [newData, setNewData] = useState();
   const dispatch = useDispatch();
   const [candIds, setCandIds] = useState([]);
+
   const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api`;
 
   const { data, isLoading, error } = useQuery(

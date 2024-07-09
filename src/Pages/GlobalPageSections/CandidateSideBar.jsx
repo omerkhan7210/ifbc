@@ -7,8 +7,7 @@ import BarLoader from "src/Animations/BarLoader";
 import { useQuery } from "react-query";
 import axios from "axios";
 
-const CandidateSideBar = () => {
-  const [active, setActive] = useState(false);
+const CandidateSideBar = ({ active, setActive }) => {
   const { newData, loadingTCFR, newDataNames, isLoadingNames } =
     useContext(MyTCFRContext);
 
@@ -32,49 +31,19 @@ const CandidateSideBar = () => {
           transition: { duration: 1, type: "spring", bounce: 0.1 },
         }}
         id="right-side-container"
-        className={`bg-custom-heading-color fixed bottom-0  right-0 w-full h-[60%] transition-[width] z-[99999] drop-shadow-md`}
+        className={`bg-custom-heading-color fixed bottom-0  right-0 w-full h-[100%] transition-[width] z-[99999] drop-shadow-md`}
       >
-        <ToggleButton active={active} setActive={setActive} />
+        {/* <ToggleButton active={active} setActive={setActive} /> */}
         <ActivityGridContainer
           newData={newData}
           active={active}
+          setActive={setActive}
           loadingTCFR={loadingTCFR}
           newDataNames={newDataNames}
           isLoadingNames={isLoadingNames}
         />
       </motion.div>
     </>
-  );
-};
-
-const ToggleButton = ({ active, setActive }) => {
-  return (
-    <button
-      onClick={() => setActive(!active)}
-      className={`absolute -top-16 right-32 bg-custom-heading-color px-4 py-5 flex items-center justify-center rounded-tl rounded-tr md:w-64 max-md:w-full max-md:right-0 text-white z-[99999]`}
-    >
-      <div className="text-white text-base font-bold flex items-center">
-        No Candidate Selected
-        <motion.svg
-          initial={{ rotate: 180 }}
-          animate={{ rotate: active ? 0 : 180 }}
-          xmlns="http://www.w3.org/2000/svg"
-          width="100%"
-          height="100%"
-          viewBox="-0.5 0 25 25"
-          className="w-4 h-4 stroke-white ml-2"
-          fill="none"
-        >
-          <path
-            d="M2.5 8.1728L11.4706 16.6434C11.75 16.9081 12.1912 16.9081 12.4853 16.6434L21.5 8.15808"
-            stroke="currentColor"
-            strokeMiterlimit="10"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          ></path>
-        </motion.svg>
-      </div>
-    </button>
   );
 };
 
@@ -96,6 +65,7 @@ const ActivityGridContainer = ({
   newData,
   newDataNames,
   isLoadingNames,
+  setActive,
 }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedCandId, setSelectedCandId] = useState("");
@@ -122,7 +92,7 @@ const ActivityGridContainer = ({
     >
       <div
         id="top-candidate-sidebar"
-        className="flex md:justify-between max-md:flex-col max-md:gap-4 max-md:w-full"
+        className="flex md:justify-between max-md:flex-col max-md:gap-4 max-md:w-full py-5 md:px-10"
       >
         <h2 className="side-bar-first-heading text-3xl">Recent Activity</h2>
 
@@ -151,6 +121,26 @@ const ActivityGridContainer = ({
             </select>
           )}
         </div>
+
+        <button
+          className="absolute top-3 right-6"
+          onClick={() => setActive(false)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="white"
+            className="size-12"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+            />
+          </svg>
+        </button>
       </div>
 
       <div

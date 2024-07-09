@@ -23,6 +23,8 @@ const App = () => {
   const [registrationType, setRegistrationType] = useState("");
   const loc = useLocation();
 
+  const [active, setActive] = useState(false);
+
   useEffect(() => {
     dispatch(generateUuid());
     dispatch;
@@ -42,6 +44,8 @@ const App = () => {
           <Header
             mobileActive={mobileActive}
             setMobileActive={setMobileActive}
+            active={active}
+            setActive={setActive}
           />
           {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
         </ListingDataContext>
@@ -70,7 +74,9 @@ const App = () => {
           loc.pathname.includes("candidate") ||
           loc.pathname.includes("messages")) &&
           token &&
-          role === "C" && <CandidateSideBar />}
+          role === "C" && (
+            <CandidateSideBar active={active} setActive={setActive} />
+          )}
       </TCFRDataContext>
       {token && <Footer />}
     </QueryClientProvider>

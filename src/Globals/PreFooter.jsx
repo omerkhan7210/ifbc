@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const PreFooter = () => {
   return (
@@ -35,7 +36,7 @@ const PreFooter = () => {
                 Let our free financial calculator tell you.
               </h2>
 
-              <a href="">
+              <NavLink to="/funding-calculator">
                 <div className="home-two-btn-white-rev group before:bg-white after:bg-white hover:border-it-blue transition-all duration-500 w-fit">
                   <span className="text-base group-hover:text-it-blue text-white transition-all duration-300 font-semibold font-inter relative z-10 py-0.5">
                     Get Consultation
@@ -58,7 +59,7 @@ const PreFooter = () => {
                     />
                   </svg>
                 </div>
-              </a>
+              </NavLink>
             </div>
           </div>
         </div>

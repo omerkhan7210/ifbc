@@ -25,7 +25,7 @@ const Logo = () => {
   );
 };
 
-const Header = ({ mobileActive, setMobileActive }) => {
+const Header = ({ mobileActive, setMobileActive, setActive, active }) => {
   const [hidden, setHidden] = useState(false);
 
   const { scrollY } = useScroll();
@@ -126,7 +126,7 @@ const Header = ({ mobileActive, setMobileActive }) => {
           />
         </div>
 
-        <Navbar />
+        <Navbar setActive={setActive} active={active} />
       </nav>
     </motion.header>
   );

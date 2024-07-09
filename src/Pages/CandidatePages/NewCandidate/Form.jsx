@@ -841,7 +841,7 @@ const FormFirstRow = ({
         className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
       >
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Phone Number</p>
+          <p className="candidate-label">Phone Number*</p>
 
           <input
             type="number"
@@ -863,7 +863,7 @@ const FormFirstRow = ({
           )}
         </div>
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Email</p>
+          <p className="candidate-label">Email*</p>
           <input
             type="email"
             name="email"
@@ -997,7 +997,7 @@ const FormSecondRow = ({
           )}
         </div>
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Zip / Postal Code</p>
+          <p className="candidate-label">Zip / Postal Code*</p>
           <input
             type="number"
             name="territoryzipcode"
@@ -1134,7 +1134,7 @@ const FormThirdRow = ({
             )}
           </div>
           <div className="candidate-sub-childs">
-            <p className="candidate-label">Zip / Postal Code</p>
+            <p className="candidate-label">Zip / Postal Code*</p>
             <input
               onChange={handleInputChange}
               type="number"
