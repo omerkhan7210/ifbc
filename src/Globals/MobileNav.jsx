@@ -42,7 +42,7 @@ const MobileNav = ({ setMobileActive }) => {
       </div>
       <div className="menu-franchisor-container">
         <ul id="menu-franchisor" className="menu">
-          {role !== "N" && (
+          {role && role !== "N" && (
             <li
               id="menu-item-552289"
               className="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552289"
@@ -100,6 +100,20 @@ const MobileNav = ({ setMobileActive }) => {
             className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
           >
             <Link to="/listings">Franchises List Search</Link>
+          </li>
+
+          <li
+            id="menu-item-552290"
+            className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+          >
+            <a href="https://calendly.com/info-ifbc">Book an Appointment</a>
+          </li>
+
+          <li
+            id="menu-item-552290"
+            className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+          >
+            <Link to="/checkout">Checkout</Link>
           </li>
 
           <li

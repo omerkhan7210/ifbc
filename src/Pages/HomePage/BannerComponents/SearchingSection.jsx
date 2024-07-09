@@ -20,9 +20,9 @@ const SearchingSection = () => {
         },
 
         {
-          anotherText: "Select Investment Range",
-          normalText: "Investment Range",
-          property: "investmentRange",
+          anotherText: "Select Year Established",
+          normalText: "Year Established",
+          property: "yearEstablished",
         },
       ];
       setSearchConfigs(filterDataa);

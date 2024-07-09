@@ -115,7 +115,7 @@ const Login = () => {
             localStorage.setItem("token", userToken);
             dispatch(setToken(true));
 
-            history("/");
+            window.location.href = "/";
           }, 3000);
         }
       } else {
@@ -151,7 +151,7 @@ const Login = () => {
 
   return (
     <PageTransition>
-      <div className="w-full h-screen grid place-items-center">
+      <div className="w-full h-full grid place-items-center py-28">
         <div className="w-[350px] md:w-[450px] flex justify-center flex-col items-center ">
           <form
             className="bg-white w-full shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] rounded px-4 md:px-8 pt-6 pb-8 mb-4"

@@ -21,7 +21,6 @@ const ListingDataContext = ({ children }) => {
       ? userDetails.userType
       : null;
 
-  const endPoint = role !== "N" ? "Listings" : "ListingsView";
   const url = `https://backend.ifbc.co/api/listingsmstr`;
   const { data, isLoading, error, isFetching } = useQuery("FRANCHISE", () => {
     return axios.get(url);

@@ -36,20 +36,18 @@ const App = () => {
 
   const queryClient = new QueryClient();
 
-  // return
   return (
     <QueryClientProvider client={queryClient}>
-      {token && (
-        <ListingDataContext>
-          <Header
-            mobileActive={mobileActive}
-            setMobileActive={setMobileActive}
-            active={active}
-            setActive={setActive}
-          />
-          {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
-        </ListingDataContext>
-      )}
+      <ListingDataContext>
+        <Header
+          mobileActive={mobileActive}
+          setMobileActive={setMobileActive}
+          active={active}
+          setActive={setActive}
+        />
+        {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
+      </ListingDataContext>
+
       <AnimatePresence mode="wait">
         <RouteRenderer
           isAuthenticated={token}
@@ -74,11 +72,12 @@ const App = () => {
           loc.pathname.includes("candidate") ||
           loc.pathname.includes("messages")) &&
           token &&
+          role &&
           role === "C" && (
             <CandidateSideBar active={active} setActive={setActive} />
           )}
       </TCFRDataContext>
-      {token && <Footer />}
+      <Footer />
     </QueryClientProvider>
   );
 };

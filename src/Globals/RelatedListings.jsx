@@ -35,8 +35,8 @@ const RelatedListings = () => {
       <div className="max-w-5xl m-auto flex items-center h-full">
         <Swiper
           modules={[Navigation, Autoplay, Pagination, A11y, EffectCoverflow]}
-          spaceBetween={role !== "N" ? 50 : 20}
-          slidesPerView={role !== "N" ? 3 : 2}
+          spaceBetween={role && role !== "N" ? 50 : 20}
+          slidesPerView={3}
           centeredSlides
           initialSlide={12}
           effect="coverflow"

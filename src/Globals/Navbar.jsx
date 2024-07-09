@@ -18,7 +18,7 @@ const Navbar = ({ active, setActive }) => {
     <div className="max-md:hidden md:block  relative">
       <div className="menu-broker-container mx-auto">
         <ul id="menu-broker" className="menu">
-          {role !== "N" && (
+          {role && role !== "N" && (
             <li
               id="menu-item-552041"
               className={` current_page_item menu-item menu-item-type-custom menu-item-object-custom  current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552041`}

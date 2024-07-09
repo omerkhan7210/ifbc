@@ -181,7 +181,7 @@ const BottomBar = ({ listingContent }) => {
           ".button.tertiary-button"
         );
         for (const btn of itemButtons) {
-          if (role !== "C") {
+          if (!role || role !== "C") {
             btn.style.display = "none";
           }
           const url = btn.getAttribute("href");

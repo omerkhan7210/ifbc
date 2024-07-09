@@ -59,7 +59,7 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
   };
   return (
     <div className="grid grid-cols-12 gap-3 items-center">
-      {role !== "N" && (
+      {role && role !== "N" && (
         <div
           id="form-button-container"
           className="flex flex-col gap-2 w-full justify-between h-full sm:col-span-6 col-span-12 lg:col-span-4"
@@ -83,10 +83,10 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
 
       <div
         className={`grid grid-cols-12 col-span-12 sm:col-span-6 ${
-          role !== "N" ? "lg:col-span-4" : "lg:col-span-6"
+          role && role !== "N" ? "lg:col-span-4" : "lg:col-span-6"
         } w-full gap-3 sm:gap-3 `}
       >
-        {role !== "N" && (
+        {role && role !== "N" && (
           <div className="col-span-12">
             <select onChange={handleTools} className="candidate-select w-full">
               <option value="">Tools</option>
@@ -113,7 +113,7 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
         <button
           className={`${
             activeListings.length > 0
-              ? role !== "N"
+              ? role && role !== "N"
                 ? "col-span-6"
                 : "col-span-12"
               : "col-span-12"
@@ -126,7 +126,7 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
         {activeListings.length > 0 && (
           <button
             className={`${
-              role !== "N" ? "col-span-6" : "col-span-12"
+              role && role !== "N" ? "col-span-6" : "col-span-12"
             } border-2 border-red-900 hover:bg-red-900 hover:text-white transition-all duration-500 py-2 px-5  w-full md:w-auto tertiary-button text-red-900`}
             onClick={() => {
               setShowActiveListings(false);
@@ -140,7 +140,7 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
 
       <div
         className={`col-span-12 ${
-          role !== "N" ? "lg:col-span-4" : "lg:col-span-6"
+          role && role !== "N" ? "lg:col-span-4" : "lg:col-span-6"
         } md:flex md:mb-4 mb-0 flex-col h-full ${
           activeListings && activeListings.length > 0
             ? "justify-between "

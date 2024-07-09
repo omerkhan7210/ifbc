@@ -81,7 +81,7 @@ const ListingsColumns = ({ listing, index, slider }) => {
           {listing.name}
         </h1>
         <p className="text-sm text-black/80 text-center">
-          {listing.shortDescription}
+          {listing.shortdescription}
         </p>
 
         <div

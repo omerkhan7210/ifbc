@@ -119,7 +119,7 @@ const AllListings = () => {
   ) : (
     <>
       <div className="flex-col flex md:flex-row gap-5 md:gap-0 justify-between items-center">
-        {role !== "N" && (
+        {role && role !== "N" && (
           <>
             <p className="ml-5 text-custom-heading-color font-bold">
               Showing {paginationListings?.length} out of{" "}
