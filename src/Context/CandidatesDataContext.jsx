@@ -15,7 +15,7 @@ const CandidatesDataContext = ({ children }) => {
       ? userDetails.userType
       : null;
 
-  const url = `http://backend.ifbc.co/api/candidates`;
+  const url = `https://backend.ifbc.co/api/candidates`;
   const { data, isLoading, error } = useQuery("CANDIDATES", () => {
     return axios.get(url);
   });

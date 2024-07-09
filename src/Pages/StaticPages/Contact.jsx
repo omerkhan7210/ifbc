@@ -209,7 +209,7 @@ const Contact = () => {
         };
 
         const response = await axios.post(
-          "http://backend.ifbc.co/api/contactus",
+          "https://backend.ifbc.co/api/contactus",
           formData
         );
 

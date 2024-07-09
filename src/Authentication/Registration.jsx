@@ -39,7 +39,7 @@ const Registration = () => {
     return re.test(username);
   };
   const getUserDetails = async (token) => {
-    const url = "http://backend.ifbc.co/api/users/userdata";
+    const url = "https://backend.ifbc.co/api/users/userdata";
 
     try {
       const response = await axios.get(url, {

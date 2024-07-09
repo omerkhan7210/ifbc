@@ -308,7 +308,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           isArchive: false,
         };
 
-        const baseUrl = "http://backend.ifbc.co/api/candidates";
+        const baseUrl = "https://backend.ifbc.co/api/candidates";
         let response = "";
 
         // Send the POST request using Axios
@@ -396,7 +396,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           };
 
           const jsonData = JSON.stringify(formData);
-          const baseUrl = "http://backend.ifbc.co/api/registrations";
+          const baseUrl = "https://backend.ifbc.co/api/registrations";
 
           // Send the POST request using Axios
           const response = await axios.post(baseUrl, jsonData, {

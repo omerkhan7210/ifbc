@@ -10,7 +10,7 @@ const BottomBar = ({ listingContent }) => {
   const { role } = useContext(MyContext);
 
   const fetchData = async (listingContentName) => {
-    const url = `http://backend.ifbc.co/api/listingscontent/${listingContentName}`;
+    const url = `https://backend.ifbc.co/api/listingscontent/${listingContentName}`;
     const response = await axios.get(url);
     return response.data;
   };
