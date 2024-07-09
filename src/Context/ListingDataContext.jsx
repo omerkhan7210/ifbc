@@ -22,20 +22,10 @@ const ListingDataContext = ({ children }) => {
       : null;
 
   const endPoint = role !== "N" ? "Listings" : "ListingsView";
-  const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/${endPoint}`;
-  const { data, isLoading, error, isFetching } = useQuery(
-    "FRANCHISE",
-    () => {
-      return axios.get(url);
-    },
-    {
-      staleTime: 86400 * 1000 * 30, // 1 day in milliseconds
-      cacheTime: 86400 * 1000 * 30, // 3 days in milliseconds
-      refetchOnWindowFocus: false, // Disable refetch on window focus
-      refetchOnMount: false, // Disable refetch on mount
-      refetchOnReconnect: false, // Disable refetch on reconnect
-    }
-  );
+  const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/listingsmstr`;
+  const { data, isLoading, error, isFetching } = useQuery("FRANCHISE", () => {
+    return axios.get(url);
+  });
 
   useEffect(() => {
     if (!isLoading && data) {

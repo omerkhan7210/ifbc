@@ -773,25 +773,38 @@ const FormFirstRow = ({
         <div className="candidate-sub-childs">
           <p className="candidate-label">First Name*</p>
 
-          <select
-            id="firstname"
-            name="firstname"
-            className="candidate-input w-full"
-            style={{
-              borderColor: formErrors.firstname ? "red" : undefined,
-            }}
-            onChange={(e) => {
-              setSelectedDocId(e.target.value);
-            }}
-          >
-            {!selectedDocId && <option value="">Choose any Candidate</option>}
-            {candNames &&
-              candNames.map((cand) => (
-                <option key={cand.docId} value={cand.docId}>
-                  {cand.name}
-                </option>
-              ))}
-          </select>
+          {candNames && candNames.length > 0 ? (
+            <select
+              id="firstname"
+              name="firstname"
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.firstname ? "red" : undefined,
+              }}
+              onChange={(e) => {
+                setSelectedDocId(e.target.value);
+              }}
+            >
+              {!selectedDocId && <option value="">Choose any Candidate</option>}
+              {candNames &&
+                candNames.map((cand) => (
+                  <option key={cand.docId} value={cand.docId}>
+                    {cand.name}
+                  </option>
+                ))}
+            </select>
+          ) : (
+            <input
+              type="text"
+              onChange={handleInputChange}
+              name="firstName"
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.firstname ? "red" : undefined,
+              }}
+              required
+            />
+          )}
 
           {formErrors.firstname && formErrors.firstname === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
