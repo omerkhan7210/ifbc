@@ -16,7 +16,6 @@ import { convertToMSSQLDate } from "src/Utils/ConvertDate";
 import { getCitiesOfState } from "src/Utils/locationUtils";
 
 const Form = ({ candDetails, candNames, activeListings }) => {
-  const [additionalFormFields, setAdditionalFormFields] = useState({});
   const { userDetails } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
@@ -29,6 +28,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [citiesC, setCitiesC] = useState([]);
   const [selectedStateT, setSelectedStateT] = useState(null);
   const [selectedStateC, setSelectedStateC] = useState(null);
+  const [addContacts, setAddContacts] = useState(0);
+  const [additionalContacts, setAdditionalContacts] = useState([]);
+
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
       const filtered = candDetails.filter(
@@ -309,7 +311,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           isArchive: false,
         };
 
-        const baseUrl = "https://backend.ifbc.co/api/candidates";
+        const baseUrl =
+          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/candidates";
         let response = "";
 
         // Send the POST request using Axios
@@ -397,7 +400,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           };
 
           const jsonData = JSON.stringify(formData);
-          const baseUrl = "https://backend.ifbc.co/api/registrations";
+          const baseUrl =
+            "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
 
           // Send the POST request using Axios
           const response = await axios.post(baseUrl, jsonData, {
@@ -449,39 +453,37 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     if (newName === "closedate") {
       inputValue = convertToMSSQLDate(value);
     }
-    if (name.includes("additional")) {
-      // Extract the field name without "additional"
-      const newName = name.replace("additional-", "");
 
-      // Update the state to add or update the corresponding field object
-      setAdditionalFormFields((prevFields) => {
-        // Check if the field already exists in the array
-        const fieldIndex = prevFields.findIndex(
-          (field) => field.name === newName
-        );
+    if (name.startsWith("additional")) {
+      const index = parseInt(name.split("_")[1], 10); // Extract index from name
+      const updatedContacts = [...additionalContacts];
+      console.log(updatedContacts);
 
-        if (fieldIndex !== -1) {
-          // Field exists, update its value
-          const updatedFields = [...prevFields];
-          updatedFields[fieldIndex] = { name: newName, value };
-          return updatedFields;
-        } else {
-          // Field does not exist, add it to the array
-          return [...prevFields, { name: newName, value }];
-        }
-      });
+      if (updatedContacts[index]) {
+        updatedContacts[index] = {
+          ...updatedContacts[index],
+          [name.split("_")[0]]: value,
+        };
+      } else {
+        updatedContacts[index] = {
+          [name.split("_")[0]]: value,
+        };
+      }
+
+      setAdditionalContacts(updatedContacts);
     } else {
       setFormFields((prevFields) => ({
         ...prevFields,
         [newName]: inputValue,
       }));
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        [newName]: "",
-      }));
     }
+
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [newName]: "",
+    }));
   };
-  console.log(additionalFormFields);
+  console.log(additionalContacts);
   return (
     <>
       <DialogBox show={showsuccess} setShow={setShowSuccess}>
@@ -540,6 +542,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           setSelectedDocId={setSelectedDocId}
           selectedDocId={selectedDocId}
           selectedDetails={selectedDetails}
+          addContacts={addContacts}
+          setAddContacts={setAddContacts}
         />
         <FormSecondRow
           stateDD={stateDD}
@@ -625,9 +629,9 @@ const FormFirstRow = ({
   selectedDocId,
   setSelectedDocId,
   selectedDetails,
+  addContacts,
+  setAddContacts,
 }) => {
-  const [addContacts, setAddContacts] = useState(0);
-
   const addContactDiv = (index) => {
     return (
       <div
@@ -646,7 +650,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalFirstName"
+              name={`additionalFirstName_${index}`}
               className="candidate-input"
               required
             />
@@ -656,7 +660,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalLastName"
+              name={`additionalLastName_${index}`}
               className="candidate-input"
               required
             />
@@ -671,7 +675,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalPhone"
+              name={`additionalPhone_${index}`}
               className="candidate-input"
               required
             />
@@ -681,7 +685,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalEmail"
+              name={`additionalEmail_${index}`}
               className="candidate-input"
               required
             />
