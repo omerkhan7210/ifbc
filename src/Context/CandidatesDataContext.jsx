@@ -8,6 +8,7 @@ const CandidatesDataContext = ({ children }) => {
   const token = useSelector((state) => state.counter.token);
   const [filters, setFilters] = useState(null);
   const userDetails = useSelector((state) => state.counter.userDetails);
+  const [candIds, setCandIds] = useState([]);
 
   const role =
     userDetails && typeof userDetails === "object"
@@ -30,6 +31,40 @@ const CandidatesDataContext = ({ children }) => {
       },
     }
   );
+
+  const fetchCandidatesByIds = async (candidateIds) => {
+    const promises = candidateIds.map((id) =>
+      axios.get(
+        `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/candidates/${id}`
+      )
+    );
+    const results = await Promise.all(promises);
+    return results.map((result) => result.data);
+  };
+
+  useEffect(() => {
+    if (data && data.length > 0) {
+      const ids = data.map((data) => data.docId);
+      const uniqueIds = [...new Set(ids)];
+      setCandIds(uniqueIds);
+    }
+  }, [data]);
+  console.log(data);
+
+  const { data: newDataNames, isLoading: isLoadingNames } = useQuery(
+    ["candidates", candIds],
+    () => fetchCandidatesByIds(candIds),
+    {
+      enabled: candIds.length > 0,
+      cacheTime: 86400 * 3,
+      select: (data) => {
+        return data.map((cand) => ({
+          name: cand.firstName + " " + cand.lastName,
+          value: cand.docId,
+        }));
+      },
+    }
+  );
   return (
     <MyCandContext.Provider
       value={{
@@ -37,6 +72,8 @@ const CandidatesDataContext = ({ children }) => {
         cands: (!isLoading && data) || [],
         loading: isLoading,
         loadingError: error,
+        newDataNames,
+        isLoadingNames,
         filters,
         setFilters,
         userDetails,

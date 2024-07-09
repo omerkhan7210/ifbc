@@ -25,17 +25,14 @@ const MainMessages = () => {
   const { newData, loadingTCFR } = useContext(MyTCFRContext);
   const [selectedMessages, setSelectedMessages] = useState([]);
   const [filteredMessages, setFilteredMessages] = useState([]);
-  const [filters, setFilters] = useState({
-    type: "All",
-    status: "Inbox",
-  });
+  const [filters, setFilters] = useState({});
   useEffect(() => {
     if (name === "territory-check") {
-      setFilters({ type: "TC" });
+      setFilters({ type: "TC", status: "Inbox" });
     } else if (name === "formal-registration") {
-      setFilters({ type: "FR" });
+      setFilters({ type: "FR", status: "Inbox" });
     } else if (name === "inbox") {
-      setFilters({ type: "All" });
+      setFilters({ type: "All", status: "Inbox" });
     }
     setFilters((prev) => ({
       ...prev,
@@ -57,12 +54,14 @@ const MainMessages = () => {
         setFilteredMessages([]);
       }
     }
-  }, [filters]);
+  }, [filters, newData]);
 
   useEffect(() => {
     if (filteredMessages && filteredMessages.length > 0 && filters.status) {
       let filterStatus = [];
-      if (filters.status === "Archived") {
+      if (filters.status === "Inbox") {
+        setFilteredMessages(filteredMessages);
+      } else if (filters.status === "Archived") {
         filterStatus = filteredMessages.filter(
           (listing) => listing.isArchive === true
         );
@@ -75,7 +74,9 @@ const MainMessages = () => {
         setFilteredMessages(filterStatus);
       }
     }
-  }, [filters.status]);
+  }, [filters.status, loadingTCFR]);
+
+  console.log(filteredMessages, filters);
 
   return (
     <PageTransition>
@@ -109,6 +110,7 @@ const MainMessages = () => {
             id="cards-container"
             className={`${filteredMessages && filteredMessages.length > 0 ? "grid" : ""} grid-cols-1 md:grid-cols-3 gap-5`}
           >
+            {console.log()}
             {filteredMessages && filteredMessages.length > 0 ? (
               filteredMessages.map((card, index) => (
                 <Card
@@ -140,7 +142,11 @@ const Card = ({ card, selectedMessages, setSelectedMessages }) => {
     () => fetchCandidate(card.candidateId),
     {
       enabled: !!card.candidateId,
-      cacheTime: 86400 * 3,
+      staleTime: 86400 * 1000, // 1 day in milliseconds
+      cacheTime: 86400 * 1000 * 3, // 3 days in milliseconds
+      refetchOnWindowFocus: false, // Disable refetch on window focus
+      refetchOnMount: false, // Disable refetch on mount
+      refetchOnReconnect: false, // Disable refetch on reconnect
     }
   );
 
@@ -149,7 +155,10 @@ const Card = ({ card, selectedMessages, setSelectedMessages }) => {
     () => fetchListing(card.listingsIds),
     {
       enabled: !!card.listingsIds,
-      cacheTime: 86400 * 3,
+      cacheTime: 86400 * 1000 * 3, // 3 days in milliseconds
+      refetchOnWindowFocus: false, // Disable refetch on window focus
+      refetchOnMount: false, // Disable refetch on mount
+      refetchOnReconnect: false, // Disable refetch on reconnect
     }
   );
 
@@ -419,6 +428,15 @@ const SecondRow = ({
     });
     // Make a GET request to fetch the data
   };
+
+  const arraysEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false;
+    const sortedArr1 = [...arr1].sort();
+    const sortedArr2 = [...arr2].sort();
+    return sortedArr1.every((value, index) => value === sortedArr2[index]);
+  };
+  const allSelected = arraysEqual(selectedMessages, allMessagesIds);
+
   return (
     <>
       <DialogBox show={show} setShow={setShow}>
@@ -436,13 +454,13 @@ const SecondRow = ({
           id="bulkaction-container"
           className="flex gap-5 items-center justify-center"
         >
-          {selectedMessages === filteredMessages ? (
+          {allSelected ? (
             <button
               onClick={() => setSelectedMessages([])}
               id="select-all-btn"
               className="candidate-btn w-full flex justify-center items-center gap-3"
             >
-              Unselect All
+              Unselect
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

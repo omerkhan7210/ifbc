@@ -21,7 +21,7 @@ FROM nginx:alpine
 # Copy the Nginx configuration file
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy the build output from the build stage to the nginx web server directory
+# Copy the build output from the build stage to the nginx web server directory hello
 COPY --from=build /app/build /usr/share/nginx/html
 
 # Expose port 3000 or by default port 80 to the outside world

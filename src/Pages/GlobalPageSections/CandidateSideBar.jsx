@@ -9,7 +9,8 @@ import axios from "axios";
 
 const CandidateSideBar = () => {
   const [active, setActive] = useState(false);
-  const { newData, loadingTCFR } = useContext(MyTCFRContext);
+  const { newData, loadingTCFR, newDataNames, isLoadingNames } =
+    useContext(MyTCFRContext);
 
   useEffect(() => {
     document.querySelector("html").style.overflow = active ? "hidden" : "auto";
@@ -38,6 +39,8 @@ const CandidateSideBar = () => {
           newData={newData}
           active={active}
           loadingTCFR={loadingTCFR}
+          newDataNames={newDataNames}
+          isLoadingNames={isLoadingNames}
         />
       </motion.div>
     </>
@@ -77,13 +80,6 @@ const ToggleButton = ({ active, setActive }) => {
 
 const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api`;
 
-const fetchCandidatesByIds = async (candidateIds) => {
-  const promises = candidateIds.map((id) =>
-    axios.get(`${baseUrl}/candidates/${id}`)
-  );
-  const results = await Promise.all(promises);
-  return results.map((result) => result.data);
-};
 const fetchCandidate = async (candidateId) => {
   const { data } = await axios.get(`${baseUrl}/candidates/${candidateId}`);
   return data;
@@ -94,33 +90,15 @@ const fetchListing = async (listingId) => {
   return data;
 };
 
-const ActivityGridContainer = ({ loadingTCFR, active, newData }) => {
+const ActivityGridContainer = ({
+  loadingTCFR,
+  active,
+  newData,
+  newDataNames,
+  isLoadingNames,
+}) => {
   const [filteredData, setFilteredData] = useState([]);
-  const [candIds, setCandIds] = useState([]);
   const [selectedCandId, setSelectedCandId] = useState("");
-
-  useEffect(() => {
-    if (newData && newData.length > 0) {
-      const ids = newData.map((data) => data.candidateId);
-      const uniqueIds = [...new Set(ids)];
-      setCandIds(uniqueIds);
-    }
-  }, [newData]);
-
-  const { data: newDataNames, isLoading: isLoadingNames } = useQuery(
-    ["candidates", candIds],
-    () => fetchCandidatesByIds(candIds),
-    {
-      enabled: candIds.length > 0,
-      cacheTime: 86400 * 3,
-      select: (data) => {
-        return data.map((cand) => ({
-          name: cand.firstName + " " + cand.lastName,
-          value: cand.docId,
-        }));
-      },
-    }
-  );
 
   useEffect(() => {
     if (selectedCandId && selectedCandId !== "0") {

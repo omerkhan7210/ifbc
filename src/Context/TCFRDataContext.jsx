@@ -7,18 +7,16 @@ export const MyTCFRContext = createContext();
 
 const TCFRDataContext = ({ children }) => {
   const [filters, setFilters] = useState(null);
-  const [all, setAll] = useState([]);
-
   const userDetails = useSelector((state) => state.counter.userDetails);
   const [newData, setNewData] = useState();
   const dispatch = useDispatch();
+  const [candIds, setCandIds] = useState([]);
+  const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api`;
 
-  const url =
-    "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
   const { data, isLoading, error } = useQuery(
     "CANDIDATES",
     () => {
-      return axios.get(url);
+      return axios.get(`${url}/registrations`);
     },
     {
       cacheTime: 86400,
@@ -54,12 +52,45 @@ const TCFRDataContext = ({ children }) => {
     }
   }, [data]);
 
+  const fetchCandidatesByIds = async (candidateIds) => {
+    const promises = candidateIds.map((id) =>
+      axios.get(`${url}/candidates/${id}`)
+    );
+    const results = await Promise.all(promises);
+    return results.map((result) => result.data);
+  };
+
+  useEffect(() => {
+    if (newData && newData.length > 0) {
+      const ids = newData.map((data) => data.candidateId);
+      const uniqueIds = [...new Set(ids)];
+      setCandIds(uniqueIds);
+    }
+  }, [newData]);
+
+  const { data: newDataNames, isLoading: isLoadingNames } = useQuery(
+    ["candidates", candIds],
+    () => fetchCandidatesByIds(candIds),
+    {
+      enabled: candIds.length > 0,
+      cacheTime: 86400 * 3,
+      select: (data) => {
+        return data.map((cand) => ({
+          name: cand.firstName + " " + cand.lastName,
+          value: cand.docId,
+        }));
+      },
+    }
+  );
+
   return (
     <MyTCFRContext.Provider
       value={{
         newData,
         loadingError: error,
         loadingTCFR: isLoading,
+        newDataNames,
+        isLoadingNames,
         filters,
         setFilters,
       }}
