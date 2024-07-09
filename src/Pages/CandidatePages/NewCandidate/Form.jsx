@@ -16,6 +16,7 @@ import { convertToMSSQLDate } from "src/Utils/ConvertDate";
 import { getCitiesOfState } from "src/Utils/locationUtils";
 
 const Form = ({ candDetails, candNames, activeListings }) => {
+  const [additionalFormFields, setAdditionalFormFields] = useState([]);
   const { userDetails } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
@@ -443,6 +444,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     let inputValue = type === "checkbox" ? checked : sanitizeInput(value);
     const newName = name.toLowerCase();
 
@@ -746,6 +748,8 @@ const FormFirstRow = ({
       </div>
     );
   };
+
+  console.log(addContacts);
   return (
     <div id="first-row" className={`${candDetails ? "" : "py-10"}`}>
       <h1 className="candidate-sub-heading ">
