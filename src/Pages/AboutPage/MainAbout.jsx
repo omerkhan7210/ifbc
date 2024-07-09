@@ -49,13 +49,9 @@ const AboutHarjeet = () => {
 
   const ShowMoreText = () => {
     setShow(!show);
-    // ye ku hatare bhai jakr search kro kia hota conditional render
-
-    // state ko true krwaogay na
   };
-  console.log(show);
   return (
-    <div className="max-md:mx-5 my-10">
+    <div className="max-md:mx-5 my-20">
       <div className="max-md:flex-col flex gap-5">
         <div className="flex flex-col gap-3">
           <h1 className="font-semibold text-24 sm:text-48 text-custom-heading-color">
@@ -116,19 +112,18 @@ const AboutHarjeet = () => {
           </p>
 
           <button
-            className="candidate-btn md:mt-6 w-[50%] md:mx-56 max-md:w-full"
+            className="candidate-btn w-[50%] max-md:w-full mr-auto"
             onClick={ShowMoreText}
           >
-            {show ? "Read Less" : "Read More"}
+            {show ? "Read Less" : "Read More Harjeet Tirwana"}
           </button>
         </div>
         <div className="flex flex-col gap-2">
           <img
             decoding="async"
-            width={1921}
             height={2000}
             src="https://s30012.pcdn.co/wp-content/uploads/sites/194/2023/09/broker.jpg"
-            className="attachment-full size-full wp-image-168"
+            className="attachment-full size-full object-cover"
             alt
           />
           <h1 className="text-2xl  font-bold text-custom-heading-color text-center">
@@ -139,27 +134,18 @@ const AboutHarjeet = () => {
           </h1>
         </div>
       </div>
-      {/* yahan pr text ana tha to hum conditional rendering use krengay */}
-      {/* kese krte pta hai? */}
-      {/* pehle button bnaenge na ek us k click per ye component render hoga phr han
-      pr chalo banalete */}
-      {/* conditional render? iska mtlb ye hai koi cheez kisi condition pr show/render krwana*/}
-      {/* hamari state ka naam kia tha? show,setShow */}
-      {/* {show -> ye state ek tareekay se hamari condition hai true false return hora na} */}
-      {show && <ExtraText />}
-      {/* button text ke uper ajeebsa lagra */}
-      {/* dalo isme onclick event */}
 
-      {/* uper wali ka mtlb smjhaskte? state check ker ra he wo us k hisab se extraTxt render ker ra he to kab render hogy? jab true hojae state or agr nhi hai to kia hoga? null tum ye bhi krskte lekn ye tareeka extra line larha agr tumhe else may null laana to tum && ye use krlo nh if else sahi he mtlb turnery nhi nhi wo to sahi hai bhai lekn jab else may null laana hota to hum ye istemaal krte */}
-      {/* {show agr true hoga tab hi extratext aega warna kch bhi nhi show hoga wohi baat hogyi lekn ye sahi hai} */}
+      <ExtraText show={show} />
     </div>
   );
 };
 
 // may ek alag component banara extra text ka
-const ExtraText = () => {
+const ExtraText = ({ show }) => {
   return (
-    <div className="flex flex-col gap-3 my-5">
+    <div
+      className={`flex flex-col gap-3 my-5 transition-all duration-500 ${show ? "" : "h-0 overflow-hidden"}`}
+    >
       <p className="text-xl  font-bold text-custom-heading-color">
         A Companion on Your Business Journey
       </p>
@@ -358,9 +344,9 @@ const ServicesGrid = () => {
     },
   ];
   return (
-    <section className="py-[10px] bg-white my-10">
+    <section className="py-[10px] bg-white mb-20">
       <div className="theme-container mx-auto w-full">
-        <h2 className="max-w-[747px] font-semibold text-24 sm:text-48 text-main-black text-center mx-auto mt-5">
+        {/* <h2 className="max-w-[747px] font-semibold text-24 sm:text-48 text-main-black text-center mx-auto mt-5">
           Our Vision
         </h2>
         <p className="text-center text-xl mt-4">
@@ -368,7 +354,7 @@ const ServicesGrid = () => {
           direct, transparent, and empowering pathways for entrepreneurs,
           setting a global standard for integrity, opportunity, and excellence
           in franchise consultation.”
-        </p>
+        </p> */}
         <h2 className="max-w-[747px] font-semibold text-24 sm:text-48 text-main-black text-center mx-auto mt-5">
           Our Values at IFBC
         </h2>

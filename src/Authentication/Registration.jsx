@@ -59,7 +59,7 @@ const Registration = () => {
           userType: someUserDetails.userType,
         };
       } else {
-        console.log("No user details found");
+        console.error("No user details found");
       }
     } catch (error) {
       // Handle error

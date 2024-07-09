@@ -14,7 +14,7 @@ const TCFRDataContext = ({ children }) => {
   const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api`;
 
   const { data, isLoading, error } = useQuery(
-    "CANDIDATES",
+    "MESSAGES",
     () => {
       return axios.get(`${url}/registrations`);
     },

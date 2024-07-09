@@ -274,7 +274,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
         cartListings: JSON.stringify(cartListings),
       };
 
-      console.log(formData);
       const jsonData = JSON.stringify(formData);
       const baseUrl =
         "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/checkout";

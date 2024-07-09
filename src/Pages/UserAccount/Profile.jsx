@@ -32,7 +32,7 @@ const Profile = () => {
         const someUserDetails = response.data;
         setUserDetails(someUserDetails);
       } else {
-        console.log("No user details found");
+        console.error("No user details found");
       }
     } catch (error) {
       // Handle error
