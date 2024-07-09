@@ -16,7 +16,7 @@ import { convertToMSSQLDate } from "src/Utils/ConvertDate";
 import { getCitiesOfState } from "src/Utils/locationUtils";
 
 const Form = ({ candDetails, candNames, activeListings }) => {
-  const [additionalFormFields, setAdditionalFormFields] = useState([]);
+  const [additionalFormFields, setAdditionalFormFields] = useState({});
   const { userDetails } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
@@ -309,7 +309,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           isArchive: false,
         };
 
-        const baseUrl = "http://backend.ifbc.co/api/candidates";
+        const baseUrl =
+          "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/candidates";
         let response = "";
 
         // Send the POST request using Axios
@@ -397,7 +398,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           };
 
           const jsonData = JSON.stringify(formData);
-          const baseUrl = "http://backend.ifbc.co/api/registrations";
+          const baseUrl =
+            "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
 
           // Send the POST request using Axios
           const response = await axios.post(baseUrl, jsonData, {
@@ -449,17 +451,39 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     if (newName === "closedate") {
       inputValue = convertToMSSQLDate(value);
     }
+    if (name.includes("additional")) {
+      // Extract the field name without "additional"
+      const newName = name.replace("additional-", "");
 
-    setFormFields((prevFields) => ({
-      ...prevFields,
-      [newName]: inputValue,
-    }));
-    setFormErrors((prevErrors) => ({
-      ...prevErrors,
-      [newName]: "",
-    }));
+      // Update the state to add or update the corresponding field object
+      setAdditionalFormFields((prevFields) => {
+        // Check if the field already exists in the array
+        const fieldIndex = prevFields.findIndex(
+          (field) => field.name === newName
+        );
+
+        if (fieldIndex !== -1) {
+          // Field exists, update its value
+          const updatedFields = [...prevFields];
+          updatedFields[fieldIndex] = { name: newName, value };
+          return updatedFields;
+        } else {
+          // Field does not exist, add it to the array
+          return [...prevFields, { name: newName, value }];
+        }
+      });
+    } else {
+      setFormFields((prevFields) => ({
+        ...prevFields,
+        [newName]: inputValue,
+      }));
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        [newName]: "",
+      }));
+    }
   };
-
+  console.log(additionalFormFields);
   return (
     <>
       <DialogBox show={showsuccess} setShow={setShowSuccess}>
