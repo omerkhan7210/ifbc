@@ -10,7 +10,7 @@ import { MyTCFRContext } from "src/Context/TCFRDataContext";
 import DialogBox from "src/Popups/DialogBox";
 import FormatRawDate from "src/Utils/FormatRawDate";
 
-const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api`;
+const baseUrl = `http://backend.ifbc.co/api`;
 const fetchCandidate = async (candidateId) => {
   const { data } = await axios.get(`${baseUrl}/candidates/${candidateId}`);
   return data;
@@ -390,8 +390,7 @@ const SecondRow = ({
     e.preventDefault();
     //setLoading(true);
 
-    const url =
-      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations/";
+    const url = "http://backend.ifbc.co/api/registrations/";
 
     allSelectedMessagesData.map((message) => {
       const formData = {

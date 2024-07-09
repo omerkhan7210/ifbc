@@ -375,8 +375,7 @@ const FormTC = ({
             territoryZipcode: selectedDetails?.territoryZipcode,
           };
 
-          const baseUrl =
-            "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/registrations";
+          const baseUrl = "http://backend.ifbc.co/api/registrations";
 
           // Send the POST request using Axios
           const response = await axios.post(baseUrl, formData, {

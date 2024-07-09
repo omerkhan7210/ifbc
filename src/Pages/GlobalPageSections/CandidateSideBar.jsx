@@ -47,7 +47,7 @@ const CandidateSideBar = ({ active, setActive }) => {
   );
 };
 
-const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api`;
+const baseUrl = `http://backend.ifbc.co/api`;
 
 const fetchCandidate = async (candidateId) => {
   const { data } = await axios.get(`${baseUrl}/candidates/${candidateId}`);

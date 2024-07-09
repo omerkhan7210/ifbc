@@ -23,8 +23,7 @@ const Login = () => {
   const [error, setError] = useState({});
 
   const getUserDetails = async (token) => {
-    const url =
-      "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/users/userdata";
+    const url = "http://backend.ifbc.co/api/users/userdata";
 
     try {
       const response = await axios.get(url, {
@@ -91,7 +90,7 @@ const Login = () => {
     setError(formErrors);
 
     try {
-      const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/login`;
+      const baseUrl = `http://backend.ifbc.co/api/login`;
       if (allFieldsValid) {
         const requestData = {
           email: formFields.email,

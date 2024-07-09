@@ -15,7 +15,7 @@ const CandidatesDataContext = ({ children }) => {
       ? userDetails.userType
       : null;
 
-  const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/candidates`;
+  const url = `http://backend.ifbc.co/api/candidates`;
   const { data, isLoading, error } = useQuery("CANDIDATES", () => {
     return axios.get(url);
   });

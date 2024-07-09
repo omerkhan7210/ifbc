@@ -16,7 +16,7 @@ const FundingResult = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/fundcalculator/${docId}`
+        `http://backend.ifbc.co/api/fundcalculator/${docId}`
       );
       if (response.status === 200) {
         setData(response.data);
