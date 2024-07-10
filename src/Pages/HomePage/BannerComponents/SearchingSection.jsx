@@ -131,19 +131,13 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
     });
   }, [selectedCat]);
 
-  const textToRemove =
-    "Please see Item 7 within the FDD for details on the estimated Investment Range";
   let uniqueItems =
     property === "franchisedUnits" ||
     property === "franchiseFee" ||
     property === "yearEstablished"
-      ? [
-          ...new Set(
-            listings.map((listing) =>
-              removeSpecificText(listing[property], textToRemove)
-            )
-          ),
-        ].sort((a, b) => extractMinValue(a) - extractMinValue(b))
+      ? [...new Set(listings.map((listing) => listing[property]))].sort(
+          (a, b) => extractMinValue(a) - extractMinValue(b)
+        )
       : [...new Set(listings.map((listing) => listing[property]))].sort(
           (a, b) => a.localeCompare(b)
         );

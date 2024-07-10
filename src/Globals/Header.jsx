@@ -229,8 +229,6 @@ const AccountDD = ({ userDetails, token, hidden }) => {
     }
   }, [role]);
 
-  console.log(role);
-
   const handleLogOut = () => {
     localStorage.removeItem("userDetails");
     localStorage.removeItem("token");

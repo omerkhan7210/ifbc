@@ -5,8 +5,8 @@ export function validateEmail(email) {
 }
 
 export function validatePhone(phone) {
-  // Basic phone number validation
-  return /^[0-9]{11}$/.test(phone); // Adjust regex as needed
+  // Basic phone number validation for US (10 or 11 digits)
+  return /^[0-9]{10,11}$/.test(phone);
 }
 
 export function sanitizeInput(input) {

@@ -13,6 +13,8 @@ import RouteRenderer from "./RouteRenderer";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import RegisterationPopup from "./Popups/RegistrationPopup";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { persistQueryClient } from "react-query/persistQueryClient-experimental";
+import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -34,7 +36,22 @@ const App = () => {
     setMobileActive(false);
   }, [loc.pathname]);
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        cacheTime: 1000 * 60 * 60 * 24 * 5, // 5 days
+      },
+    },
+  });
+
+  const sessionStoragePersistor = createWebStoragePersistor({
+    storage: window.sessionStorage,
+  });
+
+  persistQueryClient({
+    queryClient,
+    persistor: sessionStoragePersistor,
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

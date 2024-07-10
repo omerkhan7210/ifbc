@@ -185,9 +185,6 @@ const Contact = () => {
         } else if (newKey === "contactName" && !validateUsername(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
-        } else if (newKey === "contactCompany" && !validateUsername(value)) {
-          formErrors[newKey] = "invalid";
-          allFieldsValid = false;
         } else {
           formErrors[newKey] = "";
         }
@@ -264,7 +261,7 @@ const Contact = () => {
           </p>
         </div>
       </DialogBox>
-      <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[90%] mx-auto">
+      <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[95%] mx-auto">
         <ServicesGrid />
         <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[750px] ">
           <img
@@ -320,21 +317,9 @@ const Contact = () => {
                     onChange={handleChange}
                     type="text"
                     name="contactCompany"
-                    id="floating_company"
                     className="candidate-input w-full"
-                    style={{
-                      borderColor: formErrors.contactCompany
-                        ? "red"
-                        : undefined,
-                    }}
                     placeholder="Company (Ex. Google)"
                   />
-                  {formErrors.contactCompany &&
-                    formErrors.contactCompany === "invalid" && (
-                      <p className=" text-white text-xs py-2 flex justify-between">
-                        Invalid Company Name (Please start with alphabets)
-                      </p>
-                    )}
                 </div>
               </div>
 

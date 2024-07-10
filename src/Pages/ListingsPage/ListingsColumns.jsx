@@ -17,13 +17,6 @@ const ListingsColumns = ({ listing, index, slider }) => {
 
   const isActive = activeListings?.includes(listing.docId) ? true : false;
 
-  const textToRemove =
-    "Please see Item 7 within the FDD for details on the estimated Investment Range";
-  const uniqueInvestmentRange = removeSpecificText(
-    listing.investmentRange,
-    textToRemove
-  );
-
   const handleCardClick = () => {
     // Find the index of the listing to be removed
     const index = activeListings.findIndex(
@@ -88,9 +81,9 @@ const ListingsColumns = ({ listing, index, slider }) => {
           id="text-content"
           className={` flex flex-col items-center justify-center gap-3 mt-3 w-full`}
         >
-          {uniqueInvestmentRange && (
+          {listing.investmentRange && (
             <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg w-full">
-              Cash Required: {uniqueInvestmentRange?.split(":")[1]}
+              Cash Required: {listing.investmentRange}
             </p>
           )}
 

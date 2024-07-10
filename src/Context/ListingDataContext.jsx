@@ -11,7 +11,6 @@ export const MyContext = createContext();
 const ListingDataContext = ({ children }) => {
   const [showActiveListings, setShowActiveListings] = useState(false);
   const [filters, setFilters] = useState(null);
-  const [listings, setListings] = useState([]);
   const activeListings = useSelector((state) => state.counter.activeListings);
   const [paginationListings, setPaginationListings] = useState();
   const userDetails = useSelector((state) => state.counter.userDetails);
@@ -22,25 +21,42 @@ const ListingDataContext = ({ children }) => {
       : null;
 
   const url = `https://backend.ifbc.co/api/listingsmstr`;
-  const { data, isLoading, error, isFetching } = useQuery("FRANCHISE", () => {
-    return axios.get(url);
-  });
-
-  useEffect(() => {
-    if (!isLoading && data) {
-      const normalFLS = data?.data.filter(
-        (data) => data.listingMemberships !== ""
-      );
-      setListings(normalFLS);
+  const { data, isLoading, error, isFetching } = useQuery(
+    "FRANCHISE",
+    () => {
+      return axios.get(url);
+    },
+    {
+      staleTime: 86400 * 30,
+      refetchInterval: false,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      select: (data) => {
+        if (!role || role === "N") {
+          return data?.data.map((d) => ({
+            docId: d.docId,
+            name: d.name,
+            imgUrl: d.imgUrl,
+            yearEstablished: d.yearEstablished,
+            category: d.category,
+            investmentRange: d.investmentRange,
+          }));
+        } else {
+          const normalFLS = data?.data?.filter(
+            (data) => data.listingMemberships !== ""
+          );
+          return normalFLS;
+        }
+      },
     }
-    // Make a GET request to fetch the data
-  }, [data, isLoading]); // Empty dependency array to run once on component mount
+  );
 
   return (
     <MyContext.Provider
       value={{
         userDetails,
-        listings,
+        listings: data || [],
         loading: isLoading,
         loadingError: error,
         activeListings,

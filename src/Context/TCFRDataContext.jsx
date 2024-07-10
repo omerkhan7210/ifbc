@@ -12,12 +12,20 @@ const TCFRDataContext = ({ children }) => {
   const dispatch = useDispatch();
   const [candIds, setCandIds] = useState([]);
 
+  const role =
+    userDetails && typeof userDetails === "object"
+      ? userDetails.userType
+      : null;
+
   const url = `https://backend.ifbc.co/api`;
 
   const { data, isLoading, error } = useQuery(
     "MESSAGES",
     () => {
-      return axios.get(`${url}/registrations`);
+      if (role && role !== "N") {
+        return axios.get(`${url}/registrations`);
+      }
+      return;
     },
     {
       cacheTime: 86400,
