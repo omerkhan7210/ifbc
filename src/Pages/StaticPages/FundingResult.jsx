@@ -131,7 +131,7 @@ const FundingResult = () => {
                 If you would like to learn how you may qualify in the future you
                 may reach out to{" "}
                 <a className="underline" href="tel:(800) 927-0203">
-                  (800) 927-0203
+                  91-HELP-IFBC
                 </a>{" "}
                 or book a meeting with a specialist{" "}
                 <a className="underline" href="https://calendly.com/info-ifbc">

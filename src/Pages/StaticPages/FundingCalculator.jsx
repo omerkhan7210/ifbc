@@ -99,7 +99,7 @@ const FundingCalculator = () => {
           lastName: data.lastName,
           email: data.email,
           phone: data.phone,
-          message: data.message,
+          message: data.message ?? "",
           franchiseLocation: data.franchiseLocation,
           creditScore: data.creditScore,
           launching: data.launching,
