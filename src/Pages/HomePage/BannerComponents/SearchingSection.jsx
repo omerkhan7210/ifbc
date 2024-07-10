@@ -18,7 +18,11 @@ const SearchingSection = () => {
           normalText: "Category",
           property: "category",
         },
-
+        {
+          anotherText: "Select Investment Range",
+          normalText: "Investment Range",
+          property: "investmentRange",
+        },
         {
           anotherText: "Select Year Established",
           normalText: "Year Established",
