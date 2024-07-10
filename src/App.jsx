@@ -35,23 +35,23 @@ const App = () => {
   useEffect(() => {
     setMobileActive(false);
   }, [loc.pathname]);
+  const queryClient = new QueryClient();
+  // const queryClient = new QueryClient({
+  //   defaultOptions: {
+  //     queries: {
+  //       cacheTime: 1000 * 60 * 60 * 24 * 5, // 5 days
+  //     },
+  //   },
+  // });
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        cacheTime: 1000 * 60 * 60 * 24 * 5, // 5 days
-      },
-    },
-  });
+  // const sessionStoragePersistor = createWebStoragePersistor({
+  //   storage: window.sessionStorage,
+  // });
 
-  const sessionStoragePersistor = createWebStoragePersistor({
-    storage: window.sessionStorage,
-  });
-
-  persistQueryClient({
-    queryClient,
-    persistor: sessionStoragePersistor,
-  });
+  // persistQueryClient({
+  //   queryClient,
+  //   persistor: sessionStoragePersistor,
+  // });
 
   return (
     <QueryClientProvider client={queryClient}>
