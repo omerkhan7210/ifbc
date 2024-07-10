@@ -138,7 +138,8 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
   let uniqueItems =
     property === "franchisedUnits" ||
     property === "franchiseFee" ||
-    property === "yearEstablished"
+    property === "yearEstablished" ||
+    property === "investmentRange"
       ? [...new Set(listings.map((listing) => listing[property]))].sort(
           (a, b) => extractMinValue(a) - extractMinValue(b)
         )

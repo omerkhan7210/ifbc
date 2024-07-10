@@ -85,21 +85,12 @@ const ShoppingCart = ({ cartListings, listings }) => {
 
       <div
         id="sub-container"
-        className="divide-y-2 divide-custom-heading-color/10 w-full h-[550px] overflow-y-scroll "
+        className="divide-y-2 divide-custom-heading-color/10 w-full h-[550px] overflow-y-auto "
       >
         {/* items-row */}
         {listings
           .filter((listing) => cartListings.includes(listing.docId))
           .map((listing, index) => {
-            // Use a regular expression to find the investment range
-            const investmentRangeMatch = listing?.investmentRange?.match(
-              /Investment Range: \$[\d,]+ - \$[\d,]+/
-            );
-
-            const investmentRange = investmentRangeMatch
-              ? investmentRangeMatch[0]?.split(":")[1]
-              : "";
-
             return (
               <div
                 key={index}
@@ -124,7 +115,14 @@ const ShoppingCart = ({ cartListings, listings }) => {
                     <h2 className="text-md font-bold">{listing.name}</h2>
 
                     <h2 className="text-xs">
-                      Cash Required: <b>{investmentRange}</b>
+                      Category: <b>{listing.category}</b>
+                    </h2>
+                    <h2 className="text-xs">
+                      Cash Required: <b>{listing.investmentRange}</b>
+                    </h2>
+                    <h2 className="text-xs">
+                      Year Established:{" "}
+                      <b>{listing.yearEstablished.split(":")[1]}</b>
                     </h2>
                   </div>
                 </div>
