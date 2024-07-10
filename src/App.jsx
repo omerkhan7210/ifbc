@@ -13,9 +13,6 @@ import RouteRenderer from "./RouteRenderer";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import RegisterationPopup from "./Popups/RegistrationPopup";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { persistQueryClient } from "react-query/persistQueryClient-experimental";
-import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
-
 const App = () => {
   const dispatch = useDispatch();
   const [mobileActive, setMobileActive] = useState(false);
