@@ -28,6 +28,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [citiesC, setCitiesC] = useState([]);
   const [selectedStateT, setSelectedStateT] = useState(null);
   const [selectedStateC, setSelectedStateC] = useState(null);
+  const [addContacts, setAddContacts] = useState(0);
+  const [additionalContacts, setAdditionalContacts] = useState([]);
+
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
       const filtered = candDetails.filter(
@@ -331,11 +334,84 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         }
         if (response.status === 201) {
           setFormErrors({});
-          setSuccessMsg("Candidate Information Saved Successfully!");
-          setLoading(false);
-          setTimeout(() => {
-            window.location.href = "/candidate-list";
-          }, 3000);
+          // iske andar krna tha btaya to tha
+          const docId = response.data.docId;
+          // yahan pr loop cchalao additionalContacts iska (map method) may ata hun phr ye kro jab tk ok
+          // bhai har chez gpt se ku puchre khud bhi kro
+          additionalContacts.map(async (object) => {
+            const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
+            // apne wale names lao niche wali 2 fileds haitenge ye select daalo apne wale may sahi he name change kro
+            // daldya?
+            // const reqFields = [
+            //   "additionalFirstName",
+            //   "additionalLastName",
+            //   "additionalEmail",
+            //   "additionalPhone",
+            // ];
+            // let addContactDataValid = true;
+            // let formErrors = {};
+
+            // reqFields.forEach((field) => {
+            //   const newKey = field;
+            //   const value = object[newKey]?.trim() || "";
+
+            //   if (!value) {
+            //     formErrors[newKey] = "This field is required";
+            //     addContactDataValid = false;
+            //   } else {
+            //     // Field-specific validations
+            //     if (newKey === "additionalEmail" && !validateEmail(value)) {
+            //       formErrors[newKey] = "invalid";
+            //       addContactDataValid = false;
+            //     } else if (
+            //       newKey === "additionalPhone" &&
+            //       !validatePhone(value)
+            //     ) {
+            //       formErrors[newKey] = "invalid";
+            //       addContactDataValid = false;
+            //     } else if (
+            //       newKey === "additionalFirstName" &&
+            //       !validateUsername(value)
+            //     ) {
+            //       formErrors[newKey] = "invalid";
+            //       addContactDataValid = false;
+            //     } else if (
+            //       newKey === "additionalLastName" &&
+            //       !validateUsername(value)
+            //     ) {
+            //       formErrors[newKey] = "invalid";
+            //       addContactDataValid = false;
+            //     } else {
+            //       formErrors[newKey] = "";
+            //     }
+            //   }
+            // });
+
+            // setFormErrors(formErrors);
+
+            // if (addContactDataValid) {
+            const formData = {
+              firstName: object.additionalFirstName,
+              lastName: object.additionalLastName,
+              email: object.additionalEmail,
+              phone: object.additionalPhone,
+              relationShip: object.additionalRelationship,
+              candidateId: docId,
+            };
+            response = await axios.post(additionalContactAddUrl, formData, {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+            if (response.status === 201) {
+              setSuccessMsg("Candidate Information Saved Successfully!");
+              setLoading(false);
+              setTimeout(() => {
+                window.location.href = "/candidate-list";
+              }, 3000);
+            }
+            // }
+          });
         } else if (response.status === 204) {
           setSuccessMsg("Candidate Information Saved Successfully!");
           setShowSuccess(true);
@@ -439,7 +515,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const { name, value, type, checked } = e.target;
     let inputValue = type === "checkbox" ? checked : sanitizeInput(value);
     const newName = name.toLowerCase();
@@ -448,10 +524,36 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       inputValue = convertToMSSQLDate(value);
     }
 
-    setFormFields((prevFields) => ({
-      ...prevFields,
-      [newName]: inputValue,
-    }));
+    if (name.startsWith("additional")) {
+      const splittedName = name.split("_");
+      const index = parseInt(splittedName[1]); // Extract index from name
+
+      // Create a copy of additionalContacts array
+      const updatedContacts = additionalContacts ? [...additionalContacts] : [];
+      // Ensure updatedContacts[index] is initialized if it doesn't exist
+      if (!updatedContacts[index]) {
+        updatedContacts[index] = {};
+      }
+
+      // Check if both additionalFirstName and additionalLastName exist in updatedContacts[index]
+      updatedContacts[index] = {
+        ...updatedContacts[index],
+        [splittedName[0]]: value,
+      };
+
+      // Update additionalContacts state
+      setAdditionalContacts(
+        updatedContacts.filter((contact) => Object.keys(contact).length > 0)
+      );
+    } else {
+      // Update formFields state
+      setFormFields((prevFields) => ({
+        ...prevFields,
+        [name]: inputValue,
+      }));
+    }
+
+    // Reset form error for the current input
     setFormErrors((prevErrors) => ({
       ...prevErrors,
       [newName]: "",
@@ -516,6 +618,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           setSelectedDocId={setSelectedDocId}
           selectedDocId={selectedDocId}
           selectedDetails={selectedDetails}
+          addContacts={addContacts}
+          setAddContacts={setAddContacts}
         />
         <FormSecondRow
           stateDD={stateDD}
@@ -601,9 +705,9 @@ const FormFirstRow = ({
   selectedDocId,
   setSelectedDocId,
   selectedDetails,
+  addContacts,
+  setAddContacts,
 }) => {
-  const [addContacts, setAddContacts] = useState(0);
-
   const addContactDiv = (index) => {
     return (
       <div
@@ -622,7 +726,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalFirstName"
+              name={`additionalFirstName_${index}`}
               className="candidate-input"
               required
             />
@@ -632,7 +736,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalLastName"
+              name={`additionalLastName_${index}`}
               className="candidate-input"
               required
             />
@@ -647,7 +751,7 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalPhone"
+              name={`additionalPhone_${index}`}
               className="candidate-input"
               required
             />
@@ -657,10 +761,24 @@ const FormFirstRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="additionalEmail"
+              name={`additionalEmail_${index}`}
               className="candidate-input"
               required
             />
+          </div>
+
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">Relationship to Primary Candidate</p>
+            <select
+              onChange={handleInputChange}
+              className="candidate-input"
+              name={`additionalRelationship_${index}`}
+            >
+              <option value="">Select One</option>
+              <option value="Business Partner">Business Partner</option>
+              <option value="Spouse">Spouse</option>
+              <option value="Family Member">Family Member</option>
+            </select>
           </div>
         </div>
         <div id="button-container" className="w-full flex justify-center">
@@ -744,6 +862,7 @@ const FormFirstRow = ({
       </div>
     );
   };
+
   return (
     <div id="first-row" className={`${candDetails ? "" : "py-10"}`}>
       <h1 className="candidate-sub-heading ">
@@ -773,7 +892,6 @@ const FormFirstRow = ({
 
           {candNames && candNames.length > 0 ? (
             <select
-              id="firstname"
               name="firstname"
               className="candidate-input w-full"
               style={{
@@ -795,7 +913,7 @@ const FormFirstRow = ({
             <input
               type="text"
               onChange={handleInputChange}
-              name="firstName"
+              name="firstname"
               className="candidate-input w-full"
               style={{
                 borderColor: formErrors.firstname ? "red" : undefined,
@@ -907,7 +1025,7 @@ const FormFirstRow = ({
       {addContacts > 0 && (
         <div className="flex flex-col gap-8 mt-5">
           {Array.from({ length: addContacts }).map((_, index) =>
-            addContactDiv(index + 1)
+            addContactDiv(index)
           )}
         </div>
       )}
