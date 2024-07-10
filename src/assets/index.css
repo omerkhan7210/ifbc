@@ -116,3 +116,7 @@
 .funding-questions {
   @apply text-black max-md:text-sm md:text-lg mb-2;
 }
+
+.candidate-profile-icons {
+  @apply size-8 p-2 rounded-2xl text-white bg-custom-heading-color  mr-4;
+}

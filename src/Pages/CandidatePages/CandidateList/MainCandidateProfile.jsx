@@ -53,7 +53,7 @@ const MainCandidateProfile = () => {
           loading={loading}
           setCandDetails={setCandDetails}
         />
-        <div className="md:grid col-span-9 max-md:block max-md:col-span-12 w-full">
+        <div className="col-span-9 max-md:block max-md:col-span-12 w-full">
           <Form candDetails={candDetails} />
         </div>
       </div>
@@ -79,6 +79,10 @@ const LeftSideCardContainer = ({
     //   text: "Activity",
     //   setShow: setActivityOn,
     // },
+    {
+      text: " View Contact",
+      setShow: setRegOn,
+    },
     {
       text: "FLS Criteria",
       setShow: setFlsOn,
@@ -152,10 +156,10 @@ const LeftSideCardContainer = ({
         <div className=" flex items-center">
           <input type="checkbox" id="archived" defaultValue={1} />
           <label
-            className="text-sm text-medium-gold font-serif ml-2 mb-0"
+            className="text-sm text-custom-dark-blue font-serif ml-2 mb-0"
             htmlFor="archived"
           >
-            Archived Candidates
+            Archive Candidate
           </label>
         </div>
 
@@ -166,19 +170,7 @@ const LeftSideCardContainer = ({
           </p>
         </div>
 
-        <div className=" w-[17em] bg-white  rounded-[1em] overflow-hidden relative group p-4 z-0 border-[#2176ff] border-2 ">
-          <div className="circle absolute h-[5em] w-[5em] -top-[2.5em] -right-[3.5em] rounded-full bg-[#2176ff] group-hover:scale-[1270%] duration-500 z-[-1] op " />
-
-          {/* icons */}
-          <ExtraButtonIcons />
-          {/* button */}
-          <div className="flex  align-middle">
-            <button className="p-3 px-4 w-full font-semibold border-2 border-[#2176ff] group-hover:bg-white rounded-md mr-2 mb-3 mt-3">
-              View Contact
-            </button>
-          </div>
-        </div>
-
+        <ExtraButtonIcons />
         {/* buttons */}
         {profileButtons.map((btn, index) => (
           <button
@@ -215,7 +207,7 @@ const LeftSideCardContainer = ({
         </Link>
 
         <button className="candidate-btn w-full" onClick={handleEdit}>
-          {loading ? "Loading..." : "SAVE CANDIDATE INFORMATION"}
+          {loading ? "Loading..." : "Save Information"}
         </button>
       </div>
     )
@@ -696,14 +688,14 @@ const Description = ({ card, listings }) => {
 
 const ExtraButtonIcons = () => {
   return (
-    <div className="flex mt-3 mb-3">
+    <div className="flex mt-3 mb-3 justify-between w-full">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-8 p-[6px] text-white rounded-2xl bg-[#2176ff] group-hover:bg-white group-hover:text-black mr-4"
+        className="candidate-profile-icons"
       >
         <path
           strokeLinecap="round"
@@ -717,7 +709,7 @@ const ExtraButtonIcons = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-8 p-[6px] rounded-2xl text-white bg-[#2176ff] group-hover:bg-white group-hover:text-black mr-4"
+        className="candidate-profile-icons"
       >
         <path
           strokeLinecap="round"
@@ -731,7 +723,7 @@ const ExtraButtonIcons = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-8 p-[6px] rounded-2xl text-white bg-[#2176ff] group-hover:bg-white group-hover:text-black mr-4"
+        className="candidate-profile-icons"
       >
         <path
           strokeLinecap="round"
@@ -745,7 +737,7 @@ const ExtraButtonIcons = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-8 p-[6px] rounded-2xl text-white bg-[#2176ff] group-hover:bg-white group-hover:text-black mr-4"
+        className="candidate-profile-icons"
       >
         <path
           strokeLinecap="round"
@@ -759,7 +751,7 @@ const ExtraButtonIcons = () => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="size-8 p-[6px] rounded-2xl text-white bg-[#2176ff] group-hover:bg-white group-hover:text-black "
+        className="candidate-profile-icons "
       >
         <path
           strokeLinecap="round"

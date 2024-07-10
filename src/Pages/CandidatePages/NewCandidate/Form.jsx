@@ -14,7 +14,22 @@ import {
 } from "src/Utils/SanitizeInput";
 import { convertToMSSQLDate } from "src/Utils/ConvertDate";
 import { getCitiesOfState } from "src/Utils/locationUtils";
+import { useQuery } from "react-query";
+function convertKeysToLowercase(obj) {
+  if (typeof obj !== "object" || obj === null) {
+    return obj;
+  }
 
+  if (Array.isArray(obj)) {
+    return obj.map((item) => convertKeysToLowercase(item));
+  }
+
+  return Object.keys(obj).reduce((acc, key) => {
+    const lowerKey = key.toLowerCase();
+    acc[lowerKey] = convertKeysToLowercase(obj[key]);
+    return acc;
+  }, {});
+}
 const Form = ({ candDetails, candNames, activeListings }) => {
   const { userDetails } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState({});
@@ -45,11 +60,44 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   }, [selectedDocId, candDetails]);
 
+  const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
+
+  const getAdditionalContacts = async () => {
+    const response = await axios.get(additionalContactAddUrl);
+    return response.data;
+  };
+
+  const { data: contacts, isLoading } = useQuery(
+    "contacts",
+    getAdditionalContacts,
+    {
+      select: (data) => {
+        return data?.filter(
+          (contact) => contact.candidateId === candDetails?.docId
+        );
+      },
+      cacheTime: 24000,
+      enabled: !!candDetails,
+      refetchOnWindowFocus: false,
+      refetchInterval: false,
+    }
+  );
+
   useEffect(() => {
     if (candDetails) {
       setFormFields(convertKeysToLowercase(candDetails));
     }
   }, [candDetails]);
+
+  useEffect(() => {
+    for (const [key, value] of Object.entries(formFields)) {
+      if (key === "sameasterritoryrequested" && value) {
+        formFields.currentcity && delete formFields.currentcity;
+        formFields.currentzipcode && delete formFields.currentzipcode;
+        formFields.currentstate && delete formFields.currentstate;
+      }
+    }
+  }, [formFields]);
 
   const states = [
     { value: "AL", text: "Alabama" },
@@ -118,6 +166,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     { value: "SK", text: "Saskatchewan" },
     { value: "YT", text: "Yukon Territory" },
   ];
+
   const handleStateChange = (e, name) => {
     const stateCode = e.target.value;
     const cityList = getCitiesOfState("US", stateCode);
@@ -136,6 +185,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       };
     });
   };
+
   const stateDD = (name) => {
     return (
       <select
@@ -152,9 +202,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             key={index}
             value={state.value}
             {...(candDetails
-              ? { selected: `${name}state` === candDetails[`${name}state`] }
+              ? { selected: state.value === candDetails[`${name}State`] }
               : {
-                  selected: `${name}state` === selectedDetails[`${name}state`],
+                  selected: state.value === selectedDetails[`${name}State`],
                 })}
           >
             {state.text}
@@ -164,30 +214,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     );
   };
 
-  useEffect(() => {
-    for (const [key, value] of Object.entries(formFields)) {
-      if (key === "sameasterritoryrequested" && value) {
-        formFields.currentcity && delete formFields.currentcity;
-        formFields.currentzipcode && delete formFields.currentzipcode;
-        formFields.currentstate && delete formFields.currentstate;
-      }
-    }
-  }, [formFields]);
-  function convertKeysToLowercase(obj) {
-    if (typeof obj !== "object" || obj === null) {
-      return obj;
-    }
-
-    if (Array.isArray(obj)) {
-      return obj.map((item) => convertKeysToLowercase(item));
-    }
-
-    return Object.keys(obj).reduce((acc, key) => {
-      const lowerKey = key.toLowerCase();
-      acc[lowerKey] = convertKeysToLowercase(obj[key]);
-      return acc;
-    }, {});
-  }
   const handleSubmit = async () => {
     setLoading(true);
 
@@ -240,7 +266,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     try {
       if (allFieldsValid) {
         const formData = {
-          ...(candDetails?.docId ? { DocId: candDetails?.docId ?? "" } : {}),
+          ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
           closeDate: formFields.closedate ?? "",
           firstName: formFields.firstname ?? "",
           lastName: formFields.lastname ?? "",
@@ -316,15 +342,17 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
         // Send the POST request using Axios
         if (candDetails) {
-          response = await axios.put(
-            `${baseUrl}/${candDetails?.docId}`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          console.log(formFields, candDetails?.docId);
+
+          // response = await axios.put(
+          //   `${baseUrl}/${candDetails?.docId}`,
+          //   formData,
+          //   {
+          //     headers: {
+          //       "Content-Type": "application/json",
+          //     },
+          //   }
+          // );
         } else {
           response = await axios.post(baseUrl, formData, {
             headers: {
@@ -620,6 +648,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           selectedDetails={selectedDetails}
           addContacts={addContacts}
           setAddContacts={setAddContacts}
+          contacts={contacts}
         />
         <FormSecondRow
           stateDD={stateDD}
@@ -707,13 +736,19 @@ const FormFirstRow = ({
   selectedDetails,
   addContacts,
   setAddContacts,
+  contacts,
 }) => {
-  const addContactDiv = (index) => {
+  const addContactDiv = (contact, index) => {
+    const relationships = ["Business Partner", "Spouse", "Family Member"];
+    const handleRemoveAdditionalContact = async (docId) => {
+      const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts/${docId}`;
+      await axios.delete(additionalContactAddUrl);
+    };
     return (
       <div
         key={index}
         id={`additional-contact-row-${index}`}
-        className="p-5 border-2 border-custom-heading-color shadow-lg"
+        className="p-5 border-2 border-custom-heading-color shadow-lg my-5"
       >
         <h1 className="candidate-sub-heading">Additional Contact</h1>
         <div
@@ -722,13 +757,13 @@ const FormFirstRow = ({
         >
           <div className="candidate-sub-childs">
             <p className="candidate-label">First Name</p>
-
             <input
               onChange={handleInputChange}
               type="text"
               name={`additionalFirstName_${index}`}
               className="candidate-input"
               required
+              defaultValue={contact ? contact.firstName : ""}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -739,6 +774,7 @@ const FormFirstRow = ({
               name={`additionalLastName_${index}`}
               className="candidate-input"
               required
+              defaultValue={contact ? contact.lastName : ""}
             />
           </div>
         </div>
@@ -750,20 +786,22 @@ const FormFirstRow = ({
             <p className="candidate-label">Phone Number</p>
             <input
               onChange={handleInputChange}
-              type="text"
+              type="tel"
               name={`additionalPhone_${index}`}
               className="candidate-input"
               required
+              defaultValue={contact ? contact.phone : ""}
             />
           </div>
           <div className="candidate-sub-childs">
             <p className="candidate-label">Email</p>
             <input
               onChange={handleInputChange}
-              type="text"
+              type="email"
               name={`additionalEmail_${index}`}
               className="candidate-input"
               required
+              defaultValue={contact ? contact.email : ""}
             />
           </div>
 
@@ -775,19 +813,36 @@ const FormFirstRow = ({
               name={`additionalRelationship_${index}`}
             >
               <option value="">Select One</option>
-              <option value="Business Partner">Business Partner</option>
-              <option value="Spouse">Spouse</option>
-              <option value="Family Member">Family Member</option>
+              {relationships.map((relationship, idx) => (
+                <option
+                  key={idx}
+                  value={relationship}
+                  selected={
+                    contact ? contact.relationShip === relationship : false
+                  }
+                >
+                  {relationship}
+                </option>
+              ))}
             </select>
           </div>
         </div>
         <div id="button-container" className="w-full flex justify-center">
-          <button
-            className="candidate-btn"
-            onClick={() => setAddContacts((prevContacts) => prevContacts - 1)}
-          >
-            REMOVE CONTACT
-          </button>
+          {contact ? (
+            <button
+              className="candidate-btn"
+              onClick={() => handleRemoveAdditionalContact(contact.docId)}
+            >
+              REMOVE CONTACT
+            </button>
+          ) : (
+            <button
+              className="candidate-btn"
+              onClick={() => setAddContacts((prevContacts) => prevContacts - 1)}
+            >
+              REMOVE CONTACT
+            </button>
+          )}
         </div>
       </div>
     );
@@ -864,7 +919,7 @@ const FormFirstRow = ({
   };
 
   return (
-    <div id="first-row" className={`${candDetails ? "" : "py-10"}`}>
+    <div id="first-row" className={`${candDetails ? "" : "py-10"} py-5`}>
       <h1 className="candidate-sub-heading ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -919,6 +974,9 @@ const FormFirstRow = ({
                 borderColor: formErrors.firstname ? "red" : undefined,
               }}
               required
+              {...(candNames && candNames.length > 0
+                ? { value: selectedDetails?.firstName }
+                : { defaultValue: candDetails?.firstName })}
             />
           )}
 
@@ -1014,6 +1072,13 @@ const FormFirstRow = ({
           )}
         </div>
       </div>
+
+      {contacts && contacts.length > 0 && (
+        <div className="flex flex-col gap-8 mt-5">
+          {contacts.map((contact, index) => addContactDiv(contact, index))}
+        </div>
+      )}
+
       <div id="button-container" className="w-full flex justify-center">
         <button
           className="candidate-btn"
@@ -1025,7 +1090,7 @@ const FormFirstRow = ({
       {addContacts > 0 && (
         <div className="flex flex-col gap-8 mt-5">
           {Array.from({ length: addContacts }).map((_, index) =>
-            addContactDiv(index)
+            addContactDiv(null, index)
           )}
         </div>
       )}
@@ -1089,8 +1154,8 @@ const FormSecondRow = ({
                   key={city.name}
                   value={city.name}
                   {...(candNames && candNames.length > 0
-                    ? { selected: selectedDetails?.territorycity }
-                    : { selected: candDetails?.territorycity })}
+                    ? { selected: selectedDetails?.territoryCity }
+                    : { selected: candDetails?.territoryCity })}
                 >
                   {city.name}
                 </option>
@@ -1123,8 +1188,8 @@ const FormSecondRow = ({
             }}
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.territoryZipCode }
-              : { defaultValue: candDetails?.territoryZipCode })}
+              ? { value: selectedDetails?.territoryZipcode }
+              : { defaultValue: candDetails?.territoryZipcode })}
           />
         </div>
       </div>
@@ -1229,8 +1294,8 @@ const FormThirdRow = ({
                     key={city.name}
                     value={city.name}
                     {...(candNames && candNames.length > 0
-                      ? { selected: selectedDetails?.currentcity }
-                      : { selected: candDetails?.currentcity })}
+                      ? { selected: selectedDetails?.currentCity }
+                      : { selected: candDetails?.currentCity })}
                   >
                     {city.name}
                   </option>
@@ -1244,8 +1309,8 @@ const FormThirdRow = ({
                 className="candidate-input w-full"
                 required
                 {...(candNames && candNames.length > 0
-                  ? { value: selectedDetails?.currentcity }
-                  : { defaultValue: candDetails?.currentcity })}
+                  ? { value: selectedDetails?.currentCity }
+                  : { defaultValue: candDetails?.currentCity })}
               />
             )}
           </div>
@@ -1261,8 +1326,8 @@ const FormThirdRow = ({
               }}
               required
               {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.currentZipCode }
-                : { defaultValue: candDetails?.currentZipCode })}
+                ? { value: selectedDetails?.currentZipcode }
+                : { defaultValue: candDetails?.currentZipcode })}
             />
           </div>
         </div>
