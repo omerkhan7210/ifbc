@@ -13,6 +13,8 @@ import RouteRenderer from "./RouteRenderer";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import RegisterationPopup from "./Popups/RegistrationPopup";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { persistQueryClient } from "react-query/persistQueryClient-experimental";
+import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -34,22 +36,35 @@ const App = () => {
     setMobileActive(false);
   }, [loc.pathname]);
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        cacheTime: 1000 * 60 * 60 * 24 * 5, // 5 days
+      },
+    },
+  });
 
-  // return
+  const sessionStoragePersistor = createWebStoragePersistor({
+    storage: window.sessionStorage,
+  });
+
+  persistQueryClient({
+    queryClient,
+    persistor: sessionStoragePersistor,
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
-      {token && (
-        <ListingDataContext>
-          <Header
-            mobileActive={mobileActive}
-            setMobileActive={setMobileActive}
-            active={active}
-            setActive={setActive}
-          />
-          {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
-        </ListingDataContext>
-      )}
+      <ListingDataContext>
+        <Header
+          mobileActive={mobileActive}
+          setMobileActive={setMobileActive}
+          active={active}
+          setActive={setActive}
+        />
+        {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
+      </ListingDataContext>
+
       <AnimatePresence mode="wait">
         <RouteRenderer
           isAuthenticated={token}
@@ -74,11 +89,12 @@ const App = () => {
           loc.pathname.includes("candidate") ||
           loc.pathname.includes("messages")) &&
           token &&
+          role &&
           role === "C" && (
             <CandidateSideBar active={active} setActive={setActive} />
           )}
       </TCFRDataContext>
-      {token && <Footer />}
+      <Footer />
     </QueryClientProvider>
   );
 };

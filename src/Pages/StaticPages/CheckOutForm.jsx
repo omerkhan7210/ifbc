@@ -85,7 +85,7 @@ const ShoppingCart = ({ cartListings, listings }) => {
 
       <div
         id="sub-container"
-        className="divide-y-2 divide-custom-heading-color/10 w-full h-[330px] overflow-y-scroll "
+        className="divide-y-2 divide-custom-heading-color/10 w-full h-[550px] overflow-y-scroll "
       >
         {/* items-row */}
         {listings
@@ -160,7 +160,7 @@ const ShoppingCart = ({ cartListings, listings }) => {
       >
         <NavLink
           to="/listings"
-          className="candidate-btn flex items-center w-64 justify-between"
+          className="candidate-btn flex items-center md:w-64 justify-between max-md:w-full"
         >
           See More Listings
           <svg
@@ -202,9 +202,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
   const handleStateChange = (e) => {
     const stateCode = e.target.value;
     setSelectedState(stateCode);
-    setFormFields((prev) => {
-      return { ...prev, state: selectedState };
-    });
+    setFormFields((prev) => ({ ...prev, state: stateCode }));
     const cityList = getCitiesOfState("US", stateCode);
     setCities(cityList);
   };
@@ -481,13 +479,13 @@ const LeftSidebar = ({ cartListings, listings }) => {
             type="text"
           />{" "}
           {formErrors.name && formErrors.name === "invalid" && (
-            <p className=" text-white text-xs py-2 flex justify-between">
+            <p className=" text-red text-xs py-2 flex justify-between">
               Invalid username. It should be 3-16 characters long and can
               include letters, numbers, underscores, and spaces.
             </p>
           )}
         </div>
-        <div className="mt-6 flex flex-row space-x-2">
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="state">
               Email
@@ -502,7 +500,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               type="email"
             />
             {formErrors.email && formErrors.email === "invalid" && (
-              <p className=" text-white text-xs py-2 flex justify-between">
+              <p className=" text-red text-xs py-2 flex justify-between">
                 Invalid Email (john@example.com)
               </p>
             )}
@@ -522,13 +520,13 @@ const LeftSidebar = ({ cartListings, listings }) => {
               defaultValue={""}
             />{" "}
             {formErrors.phone && formErrors.phone === "invalid" && (
-              <p className=" text-white text-xs py-2 flex justify-between">
+              <p className=" text-red text-xs py-2 flex justify-between">
                 Invalid Phone Number (Please use numbers only)
               </p>
             )}
           </div>
         </div>
-        <div className="mt-6 flex flex-row space-x-2">
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="state">
               State
@@ -593,7 +591,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             />
           </div>
         </div>
-        <div className="mt-6 flex flex-row space-x-2">
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="country">
               Desired Location
@@ -669,7 +667,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
         </p>
         <div className="mt-6 flex justify-center">
           <button
-            className="candidate-btn w-64 flex justify-between items-center"
+            className="candidate-btn md:w-64 flex justify-between items-center max-md:w-full"
             type="submit"
             onClick={handleSubmit}
           >

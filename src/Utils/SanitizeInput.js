@@ -5,8 +5,8 @@ export function validateEmail(email) {
 }
 
 export function validatePhone(phone) {
-  // Basic phone number validation
-  return /^[0-9]{11}$/.test(phone); // Adjust regex as needed
+  // Basic phone number validation for US (10 or 11 digits)
+  return /^[0-9]{10,11}$/.test(phone);
 }
 
 export function sanitizeInput(input) {
@@ -16,7 +16,7 @@ export function sanitizeInput(input) {
 
 export function validateUsername(username) {
   // Basic username validation: alphanumeric, underscores, spaces, starts with a letter, 3-16 characters long
-  return /^[a-zA-Z][a-zA-Z0-9_ ]{2,15}$/.test(username);
+  return /^[a-zA-Z][a-zA-Z0-9_ ]{2,30}$/.test(username);
 }
 
 export function validateZipcode(zipcode) {

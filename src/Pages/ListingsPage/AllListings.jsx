@@ -33,26 +33,17 @@ const AllListings = () => {
   const filterKeys = [
     "search",
     "category",
-    "units",
+    "franchisedUnits",
     "franchiseFee",
     "investmentRange",
-    "Item19",
-    "Liquidity",
-    "MinimumNetWorth",
-    "MonthCash",
-    "Multiple",
-    "NationalAdvertising",
-    "NumberofEmployees",
-    "OwnedUnits",
-    "PassiveOwnership",
-    "ProjectedNewUnits",
-    "RampUp",
-    "Royalty",
-    "RoyaltyDescription",
-    "Single",
-    "Territories",
-    "TypeofBusiness",
-    "YearEstablished",
+    "liquidity",
+    "minimumNetWorth",
+    "monthCash",
+    "numberofEmployees",
+    "ownedUnits",
+    "projectedNewUnits",
+    "rampUp",
+    "yearEstablished",
   ];
 
   // Effect to reset currentPage to 1 when filters change
@@ -119,7 +110,7 @@ const AllListings = () => {
   ) : (
     <>
       <div className="flex-col flex md:flex-row gap-5 md:gap-0 justify-between items-center">
-        {role !== "N" && (
+        {role && role !== "N" && (
           <>
             <p className="ml-5 text-custom-heading-color font-bold">
               Showing {paginationListings?.length} out of{" "}

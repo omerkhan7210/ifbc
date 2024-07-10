@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
+import { extractMinValue, removeSpecificText } from "src/Utils/SanitizeInput";
 
 const CategorySearch = ({ property, anotherText, normalText }) => {
   const [activeDD, setActiveDD] = useState(false);
@@ -15,28 +16,38 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     if (isCatSelected) {
       newSelCats = selectedCats.filter((item) => item !== catLower);
     } else {
-      newSelCats = [...selectedCats, catLower];
+      newSelCats = [catLower];
     }
+    setActiveDD(false);
     setSelectedCats(newSelCats);
   };
 
   useEffect(() => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
+    setFilters({
       [property]: selectedCats,
-    }));
+    });
   }, [selectedCats, property, setFilters]);
 
-  const uniqueFranchisedCats = [
-    ...new Set(
-      listings
-        .map((listing) => listing[property])
-        .filter(
-          (value) => value !== "" && value !== null && value !== undefined
-        )
-    ),
-  ];
-
+  const uniqueFranchisedCats =
+    property === "investmentRange"
+      ? [
+          ...new Set(
+            listings
+              .map((listing) => listing[property])
+              .filter(
+                (value) => value !== "" && value !== null && value !== undefined
+              )
+          ),
+        ].sort((a, b) => extractMinValue(a) - extractMinValue(b))
+      : [
+          ...new Set(
+            listings
+              .map((listing) => listing[property])
+              .filter(
+                (value) => value !== "" && value !== null && value !== undefined
+              )
+          ),
+        ].sort((a, b) => a.localeCompare(b));
   return (
     <div className="relative w-full group flex flex-col gap-2 mb-5">
       <button
@@ -65,6 +76,9 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
         } duration-200 bg-white  border border-dimmed text-sm md:text-sm overflow-y-scroll`}
       >
         {uniqueFranchisedCats.map((cat, index) => {
+          const length = listings.filter(
+            (listing) => listing[property] === cat
+          ).length;
           return (
             <div className="flex justify-between items-center" key={index}>
               <div
@@ -72,12 +86,8 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
                 className={`text-black w-full block cursor-pointer hover:bg-slate-300 hover:text-link px-3 py-2`}
               >
                 <span>
-                  {cat} (
-                  {
-                    listings.filter((listing) => listing[property] === cat)
-                      .length
-                  }
-                  )
+                  {cat}
+                  {property !== "investmentRange" && `(${length})`}
                 </span>
               </div>
             </div>

@@ -29,12 +29,12 @@ const ToggleButton = ({ mobileActive, setMobileActive }) => {
         />
         <motion.span
           variants={VARIANTS.bottom}
-          className="absolute h-1 w-3 bg-white"
+          className="absolute h-1 w-7 bg-white"
           style={{
             x: "-50%",
             y: "50%",
-            bottom: "35%",
-            left: "calc(50% + 8px)",
+            bottom: "50%",
+            left: "calc(50% + 0px)",
           }}
         />
       </motion.button>
@@ -70,7 +70,7 @@ const VARIANTS = {
     closed: {
       rotate: ["45deg", "0deg", "0deg"],
       bottom: ["50%", "50%", "35%"],
-      left: "calc(50% + 10px)",
+      left: "calc(50% + 0px)",
     },
   },
 };

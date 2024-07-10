@@ -36,7 +36,7 @@ const initialState = {
     JSON.parse(localStorage.getItem("userDetails")) &&
     typeof JSON.parse(localStorage.getItem("userDetails")) === "object"
       ? JSON.parse(localStorage.getItem("userDetails"))?.userType
-      : null,
+      : "N",
   activeListings: JSON.parse(localStorage.getItem("activeListings")) || [],
   token: token && token !== "" && verifyTokenExpiry(token),
 };

@@ -18,7 +18,7 @@ const Navbar = ({ active, setActive }) => {
     <div className="max-md:hidden md:block  relative">
       <div className="menu-broker-container mx-auto">
         <ul id="menu-broker" className="menu">
-          {role !== "N" && (
+          {role && role !== "N" && (
             <li
               id="menu-item-552041"
               className={` current_page_item menu-item menu-item-type-custom menu-item-object-custom  current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552041`}
@@ -177,7 +177,7 @@ const Navbar = ({ active, setActive }) => {
             >
               <a
                 onClick={() => setActive(!active)}
-                className={` bg-custom-heading-color px-4 py-5 flex items-center justify-center  rounded  text-center  text-white z-[99999] cursor-pointer`}
+                className={` bg-custom-heading-color px-4 py-5 flex items-center justify-center  rounded  text-center  text-white  cursor-pointer`}
               >
                 <div className="text-white text-base font-bold flex items-center">
                   No Candidate Selected

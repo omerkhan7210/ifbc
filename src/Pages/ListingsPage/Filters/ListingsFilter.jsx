@@ -6,7 +6,7 @@ const ListingsFilter = () => {
   const { filters, setFilters, role } = useContext(MyContext);
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
-    if (role && role === "N") {
+    if (!role || role === "N") {
       const filterDataa = [
         {
           anotherText: "Select Category",
@@ -18,6 +18,11 @@ const ListingsFilter = () => {
           anotherText: "Select Investment Range",
           normalText: "Investment Range",
           property: "investmentRange",
+        },
+        {
+          anotherText: "Select Year Established",
+          normalText: "Year Established",
+          property: "yearEstablished",
         },
       ];
       setFilterData(filterDataa);
@@ -97,12 +102,11 @@ const ListingsFilter = () => {
     filters &&
     Object.entries(filters)?.filter(([key, value]) => value.length > 0);
 
-  const handleRemoveFilter = (key, value) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [key]: prevFilters[key].filter((filterValue) => filterValue !== value),
-    }));
-  };
+  // const handleRemoveFilter = (key, value) => {
+  //   setFilters((prevFilters) => ({
+  //     [key]: prevFilters[key].filter((filterValue) => filterValue !== value),
+  //   }));
+  // };
   return (
     <div id="main-filter-container">
       {hasActiveFilters && (
@@ -126,12 +130,12 @@ const ListingsFilter = () => {
                       {key.replace(/([A-Z])/g, " $1").trim()} :{" "}
                       {value.replace(/^.*?:/, "").trim()}
                     </span>
-                    <button
+                    {/* <button
                       className="ml-2 text-red-600 font-bold cursor-pointer"
                       onClick={() => handleRemoveFilter(key, value)}
                     >
                       X
-                    </button>
+                    </button> */}
                   </li>
                 ))
               )}
