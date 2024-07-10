@@ -45,25 +45,9 @@ const ListingsFilter = () => {
         },
 
         {
-          anotherText: "Select Single",
-          normalText: "Single",
-          property: "single",
-        },
-        {
-          anotherText: "Select Multiple",
-          normalText: "Multiple",
-          property: "multiple",
-        },
-
-        {
           anotherText: "Select Owned Units",
           normalText: "Owned Units",
           property: "ownedUnits",
-        },
-        {
-          anotherText: "Select Passive Ownership",
-          normalText: "Passive Ownership",
-          property: "passiveOwnership",
         },
 
         {
@@ -76,11 +60,6 @@ const ListingsFilter = () => {
           anotherText: "Select Liquidity",
           normalText: "Liquidity",
           property: "liquidity",
-        },
-        {
-          anotherText: "Select Territories",
-          normalText: "Territories",
-          property: "territories",
         },
 
         {
