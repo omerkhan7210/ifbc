@@ -25,7 +25,13 @@ const Logo = () => {
   );
 };
 
-const Header = ({ mobileActive, setMobileActive, setActive, active }) => {
+const Header = ({
+  mobileActive,
+  setMobileActive,
+  setActive,
+  active,
+  selectedCandName,
+}) => {
   const [hidden, setHidden] = useState(false);
 
   const { scrollY } = useScroll();
@@ -126,7 +132,11 @@ const Header = ({ mobileActive, setMobileActive, setActive, active }) => {
           />
         </div>
 
-        <Navbar setActive={setActive} active={active} />
+        <Navbar
+          setActive={setActive}
+          active={active}
+          selectedCandName={selectedCandName}
+        />
       </nav>
     </motion.header>
   );
@@ -261,7 +271,6 @@ const AccountDD = ({ userDetails, token, hidden }) => {
       animate={{ y: hidden && window.innerWidth > 768 ? "200%" : 0 }}
       className="hs-dropdown relative md:inline-flex max-sm:hidden"
     >
-      {console.log(token)}
       {token ? (
         <>
           <button

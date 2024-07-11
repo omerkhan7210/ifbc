@@ -35,8 +35,6 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
       ? userDetails.userType
       : null;
 
-  console.log(role);
-
   const consultantRoutes = [
     {
       path: "/listings-details/:name",

@@ -23,6 +23,7 @@ const App = () => {
   const loc = useLocation();
 
   const [active, setActive] = useState(false);
+  const [selectedCandName, setSelectedCandName] = useState({});
 
   useEffect(() => {
     dispatch(generateUuid());
@@ -58,6 +59,7 @@ const App = () => {
           setMobileActive={setMobileActive}
           active={active}
           setActive={setActive}
+          selectedCandName={selectedCandName}
         />
         {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
       </ListingDataContext>
@@ -88,7 +90,11 @@ const App = () => {
           token &&
           role &&
           role === "C" && (
-            <CandidateSideBar active={active} setActive={setActive} />
+            <CandidateSideBar
+              active={active}
+              setActive={setActive}
+              setSelectedCandName={setSelectedCandName}
+            />
           )}
       </TCFRDataContext>
       <Footer />

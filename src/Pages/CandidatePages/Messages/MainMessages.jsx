@@ -180,7 +180,7 @@ const Card = ({ card, selectedMessages, setSelectedMessages }) => {
       className={`rounded-b-lg ${card.isArchive ? " border-4  border-gray-800" : ""}`}
     >
       {!isLoadingListing && !isLoadingCand ? (
-        <div className=" bg-white relative rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md">
+        <div className=" bg-white relative rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md h-full">
           <div class="flex justify-center items-center absolute top-1/2">
             <label class="container">
               <input

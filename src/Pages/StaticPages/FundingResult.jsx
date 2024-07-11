@@ -105,8 +105,7 @@ const FundingResult = () => {
               <>
                 <br />
                 <br />
-                High - Your debt to income ratio is what lending institutions
-                prefer to see. Great job!
+                Your debt to income ratio is High!
                 <br />
                 <br />
                 Your maximum total investment is{" "}

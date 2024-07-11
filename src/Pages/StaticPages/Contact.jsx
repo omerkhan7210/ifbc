@@ -8,7 +8,6 @@ import {
   validatePhone,
   validateUsername,
 } from "src/Utils/SanitizeInput";
-import { twMerge } from "tailwind-merge";
 
 const ServicesGrid = () => {
   return (
@@ -153,7 +152,13 @@ const Contact = () => {
       ...data,
       [name]: inputValue,
     });
+
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
+  console.log(formErrors);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -163,6 +168,9 @@ const Contact = () => {
       "contactEmail",
       "contactCompany",
       "contactPhone",
+      "contactPath",
+      "contactReason",
+      "contactComments",
     ];
     let allFieldsValid = true;
     let formErrors = {};
@@ -335,7 +343,9 @@ const Contact = () => {
                     placeholder="Your Name"
                     className="candidate-input w-full"
                     style={{
-                      borderColor: formErrors.contactName ? "red" : "undefined",
+                      border: formErrors.contactName
+                        ? "2px solid red"
+                        : "undefined",
                     }}
                   />
                   {formErrors.contactName &&
@@ -367,7 +377,9 @@ const Contact = () => {
                     id="floating_email"
                     className="candidate-input w-full"
                     style={{
-                      borderColor: formErrors.email ? "red" : undefined,
+                      border: formErrors.contactEmail
+                        ? "2px solid red"
+                        : undefined,
                     }}
                     placeholder="Email address"
                   />
@@ -390,7 +402,9 @@ const Contact = () => {
                     name="contactPhone"
                     className="candidate-input w-full"
                     style={{
-                      borderColor: formErrors.contactPhone ? "red" : undefined,
+                      border: formErrors.contactPhone
+                        ? "2px solid red"
+                        : undefined,
                     }}
                     placeholder="Phone number (123-456-7890)"
                   />{" "}
@@ -408,6 +422,11 @@ const Contact = () => {
                   id="contactPath"
                   name="contactPath"
                   className="contact-select w-full"
+                  style={{
+                    border: formErrors.contactPath
+                      ? "2px solid red"
+                      : undefined,
+                  }}
                 >
                   {contactPath.map((option) => (
                     <option key={option.value} value={option.label}>
@@ -422,6 +441,11 @@ const Contact = () => {
                   id="reason"
                   name="contactReason"
                   className="contact-select w-full"
+                  style={{
+                    border: formErrors.contactReason
+                      ? "2px solid red"
+                      : undefined,
+                  }}
                 >
                   {Reason.map((option) => (
                     <option key={option.value} value={option.label}>
@@ -438,6 +462,11 @@ const Contact = () => {
                 rows={4}
                 placeholder="Comments"
                 className="contact-input"
+                style={{
+                  border: formErrors.contactComments
+                    ? "2px solid red"
+                    : undefined,
+                }}
               />
 
               <label htmlFor="" className="block  text-white font-bold py-3">

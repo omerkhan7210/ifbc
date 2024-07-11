@@ -55,7 +55,7 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
   const projectedNewUnits = generateRangeArray(0, 200, 50, false);
   const liquidity = generateRangeArray(10000, 300000, 10000, true);
   const yearEstablished = generateRangeArray(1950, 2020, 5, false);
-  const monthCash = generateRangeArray(5000, 150000, 20000, false);
+  const monthCash = generateRangeArray(5000, 150000, 20000, true);
 
   const categories = [
     "Advertising",
@@ -138,8 +138,8 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
       </button>
       <div
         className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${
-          activeDD ? "h-96" : "h-0 opacity-0"
-        } duration-200 bg-white  border border-dimmed text-sm md:text-sm overflow-y-scroll`}
+          activeDD ? "h-48" : "h-0 opacity-0"
+        } duration-200 bg-white  border border-dimmed text-sm md:text-sm overflow-auto`}
       >
         {uniqueFranchisedCats.map((cat, index) => {
           const length = listings.filter(

@@ -7,7 +7,7 @@ import BarLoader from "src/Animations/BarLoader";
 import { useQuery } from "react-query";
 import axios from "axios";
 
-const CandidateSideBar = ({ active, setActive }) => {
+const CandidateSideBar = ({ active, setActive, setSelectedCandName }) => {
   const { newData, loadingTCFR, newDataNames, isLoadingNames } =
     useContext(MyTCFRContext);
 
@@ -41,6 +41,7 @@ const CandidateSideBar = ({ active, setActive }) => {
           loadingTCFR={loadingTCFR}
           newDataNames={newDataNames}
           isLoadingNames={isLoadingNames}
+          setSelectedCandName={setSelectedCandName}
         />
       </motion.div>
     </>
@@ -66,6 +67,7 @@ const ActivityGridContainer = ({
   newDataNames,
   isLoadingNames,
   setActive,
+  setSelectedCandName,
 }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedCandId, setSelectedCandId] = useState("");
@@ -80,6 +82,17 @@ const ActivityGridContainer = ({
       setFilteredData(newData);
     }
   }, [newData, selectedCandId]);
+
+  const handleSelectCand = (e) => {
+    setSelectedCandId(e.target.value);
+    const selectedName = newDataNames.find(
+      (name) => name.value == e.target.value
+    );
+
+    setSelectedCandName(
+      selectedName ? { name: selectedName.name, docId: e.target.value } : null
+    );
+  };
 
   return !loadingTCFR && !isLoadingNames ? (
     <motion.div
@@ -108,7 +121,7 @@ const ActivityGridContainer = ({
               className="md:w-64 max-md:text-center px-2   candidate-select capitalize max-md:w-full"
               name="candidate-names "
               id="candidate-names"
-              onChange={(e) => setSelectedCandId(e.target.value)}
+              onChange={handleSelectCand}
             >
               <option value="">No Candidates Selected</option>
               {newDataNames &&
@@ -189,7 +202,7 @@ const Card = ({ card }) => {
       className={`rounded-b-lg ${card.isArchive ? " border-4  border-gray-800" : ""}`}
     >
       {!isLoadingListing && !isLoadingCand ? (
-        <div className=" bg-white relative rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md">
+        <div className=" bg-white relative rounded-b-lg border-t-8 border-custom-grey px-4 py-5 flex flex-col justify-around shadow-md h-full">
           <div id="status-container" className="flex justify-between">
             <h1 className="candidate-territory">
               {card?.docType?.trim() === "TC"

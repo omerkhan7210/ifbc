@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 
-const Navbar = ({ active, setActive }) => {
+const Navbar = ({ active, setActive, selectedCandName }) => {
   const style = ({ isActive }) => ({
     background: isActive ? "rgb(0 17 54)" : "",
   });
@@ -13,11 +13,12 @@ const Navbar = ({ active, setActive }) => {
     color: isActive ? "white" : "",
   });
 
-  const { role } = useContext(MyContext);
+  const { role, token } = useContext(MyContext);
+  const loc = useLocation();
   return (
     <div className="max-md:hidden md:block  relative">
       <div className="menu-broker-container mx-auto">
-        <ul id="menu-broker" className="menu">
+        <ul id="menu-broker" className="menu items-center">
           {role && role !== "N" && (
             <li
               id="menu-item-552041"
@@ -170,21 +171,29 @@ const Navbar = ({ active, setActive }) => {
               Search Franchises (SF)
             </NavLink>
           </li>
-          {role === "C" && (
-            <li
-              id="menu-item-552360"
-              className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
-            >
-              <a
-                onClick={() => setActive(!active)}
-                className={` bg-custom-heading-color px-4 py-5 flex items-center justify-center  rounded  text-center  text-white  cursor-pointer`}
+          {(loc.pathname.includes("listings") ||
+            loc.pathname.includes("candidate") ||
+            loc.pathname.includes("messages")) &&
+            token &&
+            role &&
+            role === "C" && (
+              <li
+                id="menu-item-552360"
+                className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
               >
-                <div className="text-white text-base font-bold flex items-center">
-                  No Candidate Selected
-                </div>
-              </a>
-            </li>
-          )}
+                <button
+                  onClick={() => setActive(!active)}
+                  className={` bg-custom-grey px-6 py-4 flex items-center justify-center  rounded  text-center  text-white  cursor-pointer ml-5`}
+                >
+                  <div className="text-white text-base font-bold flex items-center">
+                    {console.log(selectedCandName)}
+                    {selectedCandName && selectedCandName.name
+                      ? selectedCandName.name
+                      : "No Candidate Selected"}
+                  </div>
+                </button>
+              </li>
+            )}
         </ul>
       </div>
     </div>
