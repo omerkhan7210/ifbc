@@ -22,11 +22,11 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     setSelectedCats(newSelCats);
   };
 
-  useEffect(() => {
-    setFilters({
-      [property]: selectedCats,
-    });
-  }, [selectedCats, property, setFilters]);
+  // useEffect(() => {
+  //   setFilters({
+  //     [property]: selectedCats,
+  //   });
+  // }, [selectedCats, property, setFilters]);
 
   const uniqueFranchisedCats =
     property === "investmentRange"

@@ -5,6 +5,7 @@ import CategorySearch from "./CategorySearch";
 const ListingsFilter = () => {
   const { filters, setFilters, role } = useContext(MyContext);
   const [filterData, setFilterData] = useState([]);
+
   useEffect(() => {
     if (!role || role === "N") {
       const filterDataa = [

@@ -31,12 +31,14 @@ const AllListings = () => {
         : 25;
 
   const filterKeys = [
-    "search",
+    "searchByCategoryName",
+    "searchByFranchiseName",
     "category",
     "franchisedUnits",
     "franchiseFee",
     "investmentRange",
     "liquidity",
+    "investmentRange",
     "minimumNetWorth",
     "monthCash",
     "numberofEmployees",
@@ -61,19 +63,73 @@ const AllListings = () => {
                 filters[key] !== "" &&
                 filters[key].length > 0
               ) {
-                if (Array.isArray(filters[key]) && key === "search") {
-                  return filters["search"].some((searchString) =>
+                if (
+                  Array.isArray(filters[key]) &&
+                  key === "searchByCategoryName"
+                ) {
+                  return filters["searchByCategoryName"].some((searchString) =>
                     listing.category.toLowerCase().includes(searchString)
                   );
-                } else if (Array.isArray(filters[key]) && key !== "search") {
-                  return filters[key].some(
-                    (filterValue) =>
-                      listing[key]?.toLowerCase() === filterValue.toLowerCase()
+                } else if (
+                  Array.isArray(filters[key]) &&
+                  key === "searchByFranchiseName"
+                ) {
+                  return filters["searchByFranchiseName"].some((searchString) =>
+                    listing.name.toLowerCase().includes(searchString)
                   );
+                } else if (
+                  (Array.isArray(filters[key]) && key === "franchiseFee") ||
+                  key === "franchisedUnits"
+                ) {
+                  return filters[key].some((filterValue) => {
+                    const splittedFilterValue = filterValue.split("-");
+                    const minValueFilter = Number(
+                      splittedFilterValue[0]?.trim()?.replace(/[$,]/g, "")
+                    );
+                    const maxValueFilter = Number(
+                      splittedFilterValue[1]?.trim()?.replace(/[$,]/g, "")
+                    );
+                    const newListingValue = Number(
+                      listing[key]?.trim()?.replace(/[$,]/g, "")
+                    );
+
+                    return (
+                      newListingValue >= minValueFilter &&
+                      newListingValue <= maxValueFilter
+                    );
+                  });
+                } else if (
+                  (Array.isArray(filters[key]) && key === "franchiseFee") ||
+                  key === "investmentRange"
+                ) {
+                  return filters[key].some((filterValue) => {
+                    const splittedFilterValue = filterValue.split("-");
+                    const splittedListingValue = listing[key].split("-");
+
+                    const minValueFilter = Number(
+                      splittedFilterValue[0]?.trim()?.replace(/[$,]/g, "")
+                    );
+                    const maxValueFilter = Number(
+                      splittedFilterValue[1]?.trim()?.replace(/[$,]/g, "")
+                    );
+
+                    const minValueListing = Number(
+                      splittedListingValue[0]?.trim()?.replace(/[$,]/g, "")
+                    );
+                    const maxValueListing = Number(
+                      splittedListingValue[1]?.trim()?.replace(/[$,]/g, "")
+                    );
+
+                    return (
+                      minValueListing <= minValueFilter ||
+                      (minValueListing >= minValueFilter &&
+                        maxValueListing <= maxValueFilter)
+                    );
+                  });
                 } else {
                   return listing[key]
                     ?.toLowerCase()
-                    .includes(filters[key].toLowerCase());
+                    .includes(filters[key][0].toLowerCase());
                 }
               }
               return true;

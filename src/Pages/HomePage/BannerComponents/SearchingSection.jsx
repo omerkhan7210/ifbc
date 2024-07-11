@@ -7,7 +7,7 @@ import { extractMinValue, removeSpecificText } from "src/Utils/SanitizeInput";
 const SearchingSection = () => {
   const [searchConfigs, setSearchConfigs] = useState([]);
   const ref = useRef();
-  const { setFilters, role } = useContext(MyContext);
+  const { setFilters, role, filters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
   const history = useNavigate();
   useEffect(() => {
@@ -49,9 +49,9 @@ const SearchingSection = () => {
         },
 
         {
-          anotherText: "Select Year Established",
-          normalText: "Year Established",
-          property: "yearEstablished",
+          anotherText: "Select Investment Range",
+          normalText: "Investment Range",
+          property: "investmentRange",
         },
       ];
       setSearchConfigs(filterDataa);
@@ -71,8 +71,7 @@ const SearchingSection = () => {
       setFilters({ ...uniqueFilters });
     } else {
       setFilters({
-        ...uniqueFilters,
-        search: [searchValue],
+        searchByFranchiseName: [searchValue],
       });
     }
 
@@ -126,32 +125,88 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
   const [selectedCat, setSelectedCat] = useState("");
   const { listings, role, loading } = useContext(MyContext);
 
-  useEffect(() => {
-    setSelectedCats((prevCats) => {
-      if (selectedCat && !prevCats.includes(selectedCat)) {
-        return [...prevCats, { [property]: [selectedCat] }];
+  const generateRangeArray = (start, end, step, check) => {
+    let rangeArray = [];
+    for (let i = start; i < end; i += step) {
+      let rangeEnd = i + step;
+      if (rangeEnd > end) rangeEnd = end; // Ensure the final range does not exceed 'end'
+
+      if (check) {
+        rangeArray.push(
+          `$${i.toLocaleString()} - $${rangeEnd.toLocaleString()}`
+        );
+      } else {
+        rangeArray.push(`${i} - ${rangeEnd}`);
       }
-      return prevCats;
-    });
+    }
+    return rangeArray;
+  };
+
+  const franchiseFee = generateRangeArray(1000, 200000, 10000, true);
+
+  const franchisedUnits = generateRangeArray(0, 1500, 100, false);
+
+  const investmentRange = generateRangeArray(5000, 1000000, 50000, true);
+
+  const categories = [
+    "Advertising",
+    "Automotive",
+    "Beauty & Spa",
+    "Business Management & Coaching",
+    "Print",
+    "Copy & Mailing",
+    "Signs",
+    "Business Services",
+    "Child Education",
+    " STEM & Tutoring",
+    "Child Services & Products",
+    " Home Improvement",
+    " Interior/Exterior Design",
+    "Cleaning: Residential & Commercial",
+    " Pet Care & Grooming",
+    " Restoration",
+    "Computer Technology",
+    "Distribution Services",
+    "Dry Cleaning-Laundry",
+    "Financial Services",
+    "Fitness",
+    "Special Event Planning",
+    "Food & Beverage: Restaurant/QSR/Catering",
+    "Sports & Recreation",
+    "Food: Coffee/Tea/Smoothies/Sweets",
+    "Food: Stores & Catering",
+    "Health/Medical",
+    "Maintenance & Repair",
+    "Staffing",
+    " Real Estate",
+    " Retail",
+    "Health/Wellness",
+    " Senior Care: Medical/Non-Medical Option",
+  ];
+
+  useEffect(() => {
+    setSelectedCats([{ [property]: [selectedCat] }]);
   }, [selectedCat]);
 
-  let uniqueItems =
-    property === "franchisedUnits" ||
-    property === "franchiseFee" ||
-    property === "yearEstablished" ||
-    property === "investmentRange"
-      ? [...new Set(listings.map((listing) => listing[property]))].sort(
-          (a, b) => extractMinValue(a) - extractMinValue(b)
-        )
-      : [...new Set(listings.map((listing) => listing[property]))].sort(
-          (a, b) => a.localeCompare(b)
-        );
+  let uniqueItems = [];
+  if (property === "franchiseFee") {
+    uniqueItems = franchiseFee;
+  } else if (property === "franchisedUnits") {
+    uniqueItems = franchisedUnits;
+  } else if (property === "investmentRange") {
+    uniqueItems = investmentRange;
+  } else if (property === "category") {
+    uniqueItems = categories;
+  }
 
   const handleRemoveCat = (property, selectedCat) => {
+    setActiveDD(false);
+    setSelectedCat("");
     setSelectedCats((prevSelectedCats) =>
       prevSelectedCats.filter((cat) => cat[property] !== selectedCat)
     );
   };
+
   return (
     <div
       className={`relative w-full group flex flex-col gap-2 col-span-12 ${role && role !== "N" ? "md:col-span-3" : "md:col-span-4"}`}
@@ -167,8 +222,6 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
             {selectedCat}
             <svg
               onClick={() => {
-                setActiveDD(false);
-                setSelectedCat("");
                 handleRemoveCat(key, selectedCat);
               }}
               xmlns="http://www.w3.org/2000/svg"
@@ -212,23 +265,21 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
       >
         {!loading &&
           uniqueItems &&
-          uniqueItems.map(
-            (item, index) =>
-              item.trim() !== "" && (
-                <div className="flex justify-between items-center" key={index}>
-                  <div
-                    onClick={() => {
-                      setActiveDD(false);
-                      setSelectedCat(item);
-                    }}
-                    className="text-black w-full block cursor-pointer hover:text-link px-3 
+          uniqueItems.map((item, index) => (
+            <div className="flex justify-between items-center" key={index}>
+              <div
+                onClick={() => {
+                  setActiveDD(false);
+                  setSelectedCat("");
+                  setSelectedCat(item.trim());
+                }}
+                className="text-black w-full block cursor-pointer hover:text-link px-3 
               py-2 hover:bg-slate-200"
-                  >
-                    <span>{item}</span>
-                  </div>
-                </div>
-              )
-          )}
+              >
+                <span>{item}</span>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );

@@ -168,19 +168,6 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
 };
 
 const MainListings = ({ setShow, setRegistrationType }) => {
-  const { loading } = useContext(MyContext);
-
-  useLayoutEffect(() => {
-    if (loading) {
-      document.querySelector("html").style.overflowY = "hidden";
-      document.querySelector("html").style.height = "100%";
-    }
-    if (!loading) {
-      document.querySelector("html").style.overflow = "auto";
-      document.querySelector("html").style.height = "auto";
-    }
-  }, [loading]);
-
   return (
     <PageTransition>
       <div
