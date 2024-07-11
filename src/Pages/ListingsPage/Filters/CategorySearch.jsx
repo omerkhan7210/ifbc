@@ -48,7 +48,7 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
 
   const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
-  const investmentRange = generateRangeArray(5000, 300000, 10000, true);
+  const investmentRange = generateRangeArray(15000, 300000, 30000, true);
 
   const ownedUnits = generateRangeArray(0, 200, 50, false);
 

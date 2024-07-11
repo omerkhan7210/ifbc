@@ -7,8 +7,10 @@ import { extractMinValue, removeSpecificText } from "src/Utils/SanitizeInput";
 const SearchingSection = () => {
   const [searchConfigs, setSearchConfigs] = useState([]);
   const ref = useRef();
-  const { setFilters, role, filters } = useContext(MyContext);
+  const { setFilters, role } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
+
+  const [selectedCat, setSelectedCat] = useState("");
   const history = useNavigate();
   useEffect(() => {
     if (!role || role === "N") {
@@ -60,9 +62,6 @@ const SearchingSection = () => {
 
   const handleSearchInputChange = () => {
     const searchValue = ref.current.value;
-
-    // Usage
-    // Convert the uniqueFiltersArray to a single object
     const uniqueFilters = selectedCats.reduce((acc, current) => {
       return { ...acc, ...current };
     }, {});
@@ -105,6 +104,7 @@ const SearchingSection = () => {
             key={index}
             config={config}
             setSelectedCats={setSelectedCats}
+            selectedCats={selectedCats}
           />
         ))}
       </div>
@@ -119,11 +119,10 @@ const SearchingSection = () => {
   );
 };
 
-const SearchDropdown = ({ config, setSelectedCats }) => {
+const SearchDropdown = ({ config, setSelectedCats, selectedCats }) => {
   const { property, anotherText } = config;
   const [activeDD, setActiveDD] = useState(false);
-  const [selectedCat, setSelectedCat] = useState("");
-  const { listings, role, loading } = useContext(MyContext);
+  const { role, loading } = useContext(MyContext);
 
   const generateRangeArray = (start, end, step, check) => {
     let rangeArray = [];
@@ -151,7 +150,7 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
 
   const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
-  const investmentRange = generateRangeArray(5000, 300000, 10000, true);
+  const investmentRange = generateRangeArray(15000, 300000, 30000, true);
   const yearEstablished = generateRangeArray(1950, 2020, 5, false);
 
   const categories = [
@@ -190,10 +189,6 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
     "STEM & Tutoring",
   ];
 
-  useEffect(() => {
-    setSelectedCats([{ [property]: [selectedCat] }]);
-  }, [selectedCat]);
-
   let uniqueItems = [];
   if (property === "franchiseFee") {
     uniqueItems = franchiseFee;
@@ -209,7 +204,6 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
 
   const handleRemoveCat = (property, selectedCat) => {
     setActiveDD(false);
-    setSelectedCat("");
     setSelectedCats((prevSelectedCats) =>
       prevSelectedCats.filter((cat) => cat[property] !== selectedCat)
     );
@@ -221,16 +215,22 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
     >
       <button
         className={`h-16 px-4 text-md w-full capitalize text-white bg-custom-heading-color hover:bg-custom-heading-color transition-all duration-250 focus:bg-custom-heading-color focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold ${
-          selectedCat ? "text-xs" : ""
+          selectedCats &&
+          selectedCats[property] &&
+          selectedCats[0][property] !== ""
+            ? "text-xs"
+            : ""
         }`}
         onClick={() => setActiveDD(!activeDD)}
       >
-        {selectedCat && selectedCat !== "" ? (
+        {selectedCats &&
+        selectedCats.length > 0 &&
+        Object.keys(selectedCats[0])[0] === property ? (
           <>
-            {selectedCat}
+            {selectedCats[0][property]}
             <svg
               onClick={() => {
-                handleRemoveCat(key, selectedCat);
+                handleRemoveCat(key, selectedCats[0][property]);
               }}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -278,8 +278,7 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
               <div
                 onClick={() => {
                   setActiveDD(false);
-                  setSelectedCat("");
-                  setSelectedCat(item.trim());
+                  setSelectedCats([{ [property]: [item] }]);
                 }}
                 className="text-black w-full block cursor-pointer hover:text-link px-3 
               py-2 hover:bg-slate-200"
