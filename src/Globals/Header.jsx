@@ -203,7 +203,6 @@ const CartIcon = ({ hidden }) => {
 
 const AccountDD = ({ userDetails, token, hidden }) => {
   const [active, setActive] = useState(false);
-  const history = useNavigate();
   const dispatch = useDispatch();
   const { role } = useContext(MyContext);
   const [roleName, setRoleName] = useState("Member");
@@ -262,6 +261,7 @@ const AccountDD = ({ userDetails, token, hidden }) => {
       animate={{ y: hidden && window.innerWidth > 768 ? "200%" : 0 }}
       className="hs-dropdown relative md:inline-flex max-sm:hidden"
     >
+      {console.log(token)}
       {token ? (
         <>
           <button

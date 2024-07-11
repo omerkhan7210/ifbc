@@ -152,6 +152,7 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
   const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
   const investmentRange = generateRangeArray(5000, 300000, 10000, true);
+  const yearEstablished = generateRangeArray(1950, 2020, 5, false);
 
   const categories = [
     "Advertising",
@@ -202,6 +203,8 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
     uniqueItems = investmentRange;
   } else if (property === "category") {
     uniqueItems = categories;
+  } else if (property === "yearEstablished") {
+    uniqueItems = yearEstablished;
   }
 
   const handleRemoveCat = (property, selectedCat) => {

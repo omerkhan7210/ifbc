@@ -54,6 +54,8 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
 
   const projectedNewUnits = generateRangeArray(0, 200, 50, false);
   const liquidity = generateRangeArray(10000, 300000, 10000, true);
+  const yearEstablished = generateRangeArray(1950, 2020, 5, false);
+  const monthCash = generateRangeArray(5000, 150000, 20000, false);
 
   const categories = [
     "Advertising",
@@ -106,6 +108,10 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     uniqueFranchisedCats = projectedNewUnits;
   } else if (property === "liquidity") {
     uniqueFranchisedCats = liquidity;
+  } else if (property === "yearEstablished") {
+    uniqueFranchisedCats = yearEstablished;
+  } else if (property === "monthCash") {
+    uniqueFranchisedCats = monthCash;
   }
 
   return (

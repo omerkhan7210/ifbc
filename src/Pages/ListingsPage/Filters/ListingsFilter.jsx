@@ -50,11 +50,16 @@ const ListingsFilter = () => {
           normalText: "Owned Units",
           property: "ownedUnits",
         },
+        {
+          anotherText: "Select Projected New Units",
+          normalText: "Projected New Units",
+          property: "projectedNewUnits",
+        },
 
         {
-          anotherText: "Select Ramp Up",
-          normalText: "Ramp Up",
-          property: "rampUp",
+          anotherText: "Select Month Cash",
+          normalText: "Month Cash",
+          property: "monthCash",
         },
 
         {

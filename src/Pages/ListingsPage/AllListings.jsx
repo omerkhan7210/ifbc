@@ -44,7 +44,6 @@ const AllListings = () => {
     "numberofEmployees",
     "ownedUnits",
     "projectedNewUnits",
-    "rampUp",
     "yearEstablished",
   ];
 
@@ -81,7 +80,10 @@ const AllListings = () => {
                   (Array.isArray(filters[key]) && key === "franchiseFee") ||
                   key === "franchisedUnits" ||
                   key === "ownedUnits" ||
-                  key === "liquidity"
+                  key === "liquidity" ||
+                  key === "yearEstablished" ||
+                  key === "projectedNewUnits" ||
+                  key === "monthCash"
                 ) {
                   return filters[key].some((filterValue) => {
                     const splittedFilterValue = filterValue.split("-");
@@ -107,7 +109,7 @@ const AllListings = () => {
                     );
                   });
                 } else if (
-                  (Array.isArray(filters[key]) && key === "franchiseFee") ||
+                  Array.isArray(filters[key]) &&
                   key === "investmentRange"
                 ) {
                   return filters[key].some((filterValue) => {
