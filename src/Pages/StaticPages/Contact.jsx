@@ -234,22 +234,57 @@ const Contact = () => {
   };
 
   const Reason = [
-    { value: "", label: "My inquiry is about..." },
+    { value: "", label: "My Inquiry is About" },
     {
-      value: "Product or service suggestion",
-      label: "Product or service suggestion",
+      value: "Product or Service Suggestion",
+      label: "Product or Service Suggestion",
     },
     {
-      value: "Feedback on how we are doing",
-      label: "Feedback on how we are doing",
+      value: "Feedback on How We Are Doing",
+      label: "Feedback on How We Are Doing",
     },
-    { value: "Account support", label: "Account support" },
+    { value: "Account Support", label: "Account Support" },
     {
-      value: "Additional advertising options",
-      label: "Additional advertising options",
+      value: "Additional Advertising Options",
+      label: "Additional Advertising Options",
     },
-    { value: "Technical support", label: "Technical support" },
-    { value: "General questions", label: "General questions" },
+    { value: "Technical Support", label: "Technical Support" },
+    { value: "General Questions", label: "General Questions" },
+  ];
+
+  const contactPath = [
+    { value: "", label: "Choose Your Path" },
+
+    {
+      value: "Schedule a Free Tour With IFBC ",
+      label: "Schedule a Free Tour With IFBC",
+    },
+
+    {
+      value: "Start a New Career as Franchise Consultant",
+      label: "Start a New Career as Franchise Consultant",
+    },
+
+    {
+      value: "Already a Consultant? Join IFBC!",
+      label: "Already a Consultant? Join IFBC!",
+    },
+
+    {
+      value: "Franchisors: Grow Your Franchise With IFBC",
+      label: "Franchisors: Grow Your Franchise With IFBC",
+    },
+
+    {
+      value: "Suppliers: Become an Approved IFBC Vendor Memeber",
+      label: "Suppliers: Become an Approved IFBC Vendor Memeber",
+    },
+
+    { value: "Become a Franchise Owner", label: "Become a Franchise Owner" },
+
+    { value: "Help Me Sell My Franchise", label: "Help Me Sell My Franchise" },
+
+    { value: "Other", label: "Other" },
   ];
   // return
   return (
@@ -367,7 +402,20 @@ const Contact = () => {
                     )}
                 </div>
               </div>
-
+              <div className="relative z-0 w-full mb-5 group ">
+                <select
+                  onChange={handleChange}
+                  id="contactPath"
+                  name="contactPath"
+                  className="contact-select w-full"
+                >
+                  {contactPath.map((option) => (
+                    <option key={option.value} value={option.label}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="relative z-0 w-full mb-5 group ">
                 <select
                   onChange={handleChange}
