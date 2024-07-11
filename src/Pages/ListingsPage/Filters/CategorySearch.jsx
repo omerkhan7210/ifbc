@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
-import { extractMinValue, removeSpecificText } from "src/Utils/SanitizeInput";
+import { extractMinValue } from "src/Utils/SanitizeInput";
 
 const CategorySearch = ({ property, anotherText, normalText }) => {
   const [activeDD, setActiveDD] = useState(false);
@@ -21,12 +21,6 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     setActiveDD(false);
     setSelectedCats(newSelCats);
   };
-
-  // useEffect(() => {
-  //   setFilters({
-  //     [property]: selectedCats,
-  //   });
-  // }, [selectedCats, property, setFilters]);
 
   const uniqueFranchisedCats =
     property === "investmentRange"
