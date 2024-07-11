@@ -11,11 +11,15 @@ const SearchingComponent = () => {
     const keyword = ref.current.value;
     setSearchKeyword(keyword);
 
-    // Update the filters state with the search keyword
-    setFilters({
-      ...filters,
-      search: [keyword],
-    });
+    if (keyword !== "") {
+      // Update the filters state with the search keyword
+      setFilters({
+        searchByCategoryName: [keyword],
+      });
+    } else {
+      // Update the filters state with the search keyword
+      setFilters({});
+    }
   };
 
   return (
