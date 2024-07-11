@@ -79,7 +79,9 @@ const AllListings = () => {
                   );
                 } else if (
                   (Array.isArray(filters[key]) && key === "franchiseFee") ||
-                  key === "franchisedUnits"
+                  key === "franchisedUnits" ||
+                  key === "ownedUnits" ||
+                  key === "liquidity"
                 ) {
                   return filters[key].some((filterValue) => {
                     const splittedFilterValue = filterValue.split("-");
@@ -93,6 +95,12 @@ const AllListings = () => {
                       listing[key]?.trim()?.replace(/[$,]/g, "")
                     );
 
+                    if (filterValue.includes(">")) {
+                      const maxValue = Number(
+                        filterValue.split("> ")[1]?.trim()?.replace(/[$,]/g, "")
+                      );
+                      return newListingValue >= maxValue;
+                    }
                     return (
                       newListingValue >= minValueFilter &&
                       newListingValue <= maxValueFilter
@@ -120,10 +128,15 @@ const AllListings = () => {
                       splittedListingValue[1]?.trim()?.replace(/[$,]/g, "")
                     );
 
+                    if (filterValue.includes(">")) {
+                      const maxValue = Number(
+                        filterValue.split("> ")[1]?.trim()?.replace(/[$,]/g, "")
+                      );
+                      return minValueListing >= maxValue;
+                    }
                     return (
-                      minValueListing <= minValueFilter ||
-                      (minValueListing >= minValueFilter &&
-                        maxValueListing <= maxValueFilter)
+                      minValueListing >= minValueFilter &&
+                      maxValueListing <= maxValueFilter
                     );
                   });
                 } else {
@@ -184,7 +197,9 @@ const AllListings = () => {
 
       <div
         id="listing-columns"
-        className="max-md:block grid md:max-lg:grid-cols-2 lg:max-2xl:grid-cols-3 2xl:grid-cols-4"
+        className={`max-md:block ${
+          paginationListings && paginationListings.length > 0 ? "grid" : ""
+        } md:max-lg:grid-cols-2 lg:max-2xl:grid-cols-3 2xl:grid-cols-4`}
       >
         {showActiveListings &&
           paginationListings
@@ -194,13 +209,20 @@ const AllListings = () => {
             ))}
 
         {!showActiveListings &&
-          paginationListings?.map((listing, index) =>
+        paginationListings &&
+        paginationListings.length > 0 ? (
+          paginationListings.map((listing, index) =>
             window.innerWidth < 768 && index < 10 ? (
               <ListingsColumns key={index} index={index} listing={listing} />
             ) : (
               <ListingsColumns key={index} index={index} listing={listing} />
             )
-          )}
+          )
+        ) : (
+          <h1 className="text-custom-heading-color text-4xl w-full p-5 capitalize">
+            No Franchises Found For This Filter, Please try another filter
+          </h1>
+        )}
       </div>
       {/* Pagination */}
 

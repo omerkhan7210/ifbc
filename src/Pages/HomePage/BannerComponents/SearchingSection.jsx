@@ -139,14 +139,19 @@ const SearchDropdown = ({ config, setSelectedCats }) => {
         rangeArray.push(`${i} - ${rangeEnd}`);
       }
     }
+    if (check) {
+      rangeArray.push(`> $${end}`);
+    } else {
+      rangeArray.push(`> ${end}`);
+    }
     return rangeArray;
   };
 
-  const franchiseFee = generateRangeArray(1000, 200000, 10000, true);
+  const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
 
-  const franchisedUnits = generateRangeArray(0, 1500, 100, false);
+  const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
-  const investmentRange = generateRangeArray(5000, 1000000, 50000, true);
+  const investmentRange = generateRangeArray(5000, 300000, 10000, true);
 
   const categories = [
     "Advertising",

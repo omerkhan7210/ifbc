@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
-import { extractMinValue } from "src/Utils/SanitizeInput";
 
 const CategorySearch = ({ property, anotherText, normalText }) => {
   const [activeDD, setActiveDD] = useState(false);
@@ -9,7 +8,7 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     (filters && filters[property]) || []
   );
 
-  const handleCatSelection = (cat) => {
+  const handleCatSelection = (cat, property) => {
     const catLower = cat.toLowerCase();
     let newSelCats = [];
     const isCatSelected = selectedCats.includes(catLower);
@@ -20,28 +19,95 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     }
     setActiveDD(false);
     setSelectedCats(newSelCats);
+    setFilters({ [property]: newSelCats });
   };
 
-  const uniqueFranchisedCats =
-    property === "investmentRange"
-      ? [
-          ...new Set(
-            listings
-              .map((listing) => listing[property])
-              .filter(
-                (value) => value !== "" && value !== null && value !== undefined
-              )
-          ),
-        ].sort((a, b) => extractMinValue(a) - extractMinValue(b))
-      : [
-          ...new Set(
-            listings
-              .map((listing) => listing[property])
-              .filter(
-                (value) => value !== "" && value !== null && value !== undefined
-              )
-          ),
-        ].sort((a, b) => a.localeCompare(b));
+  const generateRangeArray = (start, end, step, check) => {
+    let rangeArray = [];
+    for (let i = start; i < end; i += step) {
+      let rangeEnd = i + step;
+      if (rangeEnd > end) rangeEnd = end; // Ensure the final range does not exceed 'end'
+
+      if (check) {
+        rangeArray.push(
+          `$${i.toLocaleString()} - $${rangeEnd.toLocaleString()}`
+        );
+      } else {
+        rangeArray.push(`${i} - ${rangeEnd}`);
+      }
+    }
+    if (check) {
+      rangeArray.push(`> $${end}`);
+    } else {
+      rangeArray.push(`> ${end}`);
+    }
+    return rangeArray;
+  };
+
+  const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
+
+  const franchisedUnits = generateRangeArray(0, 1000, 100, false);
+
+  const investmentRange = generateRangeArray(5000, 300000, 10000, true);
+
+  const ownedUnits = generateRangeArray(0, 200, 50, false);
+
+  const projectedNewUnits = generateRangeArray(0, 200, 50, false);
+  const liquidity = generateRangeArray(10000, 300000, 10000, true);
+
+  const categories = [
+    "Advertising",
+    "Automotive",
+    "Beauty & Spa",
+    "Business Management & Coaching",
+    "Business Services",
+    "Child Education",
+    "Child Services & Products",
+    "Cleaning: Residential & Commercial",
+    "Computer Technology",
+    "Copy & Mailing",
+    "Distribution Services",
+    "Dry Cleaning-Laundry",
+    "Financial Services",
+    "Fitness",
+    "Food & Beverage: Restaurant/QSR/Catering",
+    "Food: Coffee/Tea/Smoothies/Sweets",
+    "Food: Stores & Catering",
+    "Health/Medical",
+    "Health/Wellness",
+    "Home Improvement",
+    "Interior/Exterior Design",
+    "Maintenance & Repair",
+    "Pet Care & Grooming",
+    "Print",
+    "Real Estate",
+    "Restoration",
+    "Retail",
+    "Senior Care: Medical/Non-Medical Option",
+    "Signs",
+    "Special Event Planning",
+    "Sports & Recreation",
+    "Staffing",
+    "STEM & Tutoring",
+  ];
+
+  let uniqueFranchisedCats = [];
+  if (property === "franchiseFee") {
+    uniqueFranchisedCats = franchiseFee;
+  } else if (property === "franchisedUnits") {
+    uniqueFranchisedCats = franchisedUnits;
+  } else if (property === "investmentRange") {
+    uniqueFranchisedCats = investmentRange;
+  } else if (property === "category") {
+    uniqueFranchisedCats = categories;
+  } else if (property === "ownedUnits") {
+    uniqueFranchisedCats = ownedUnits;
+  } else if (property === "projectedNewUnits") {
+    uniqueFranchisedCats = projectedNewUnits;
+  } else if (property === "liquidity") {
+    uniqueFranchisedCats = liquidity;
+  }
+
   return (
     <div className="relative w-full group flex flex-col gap-2 mb-5">
       <button
@@ -76,13 +142,10 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
           return (
             <div className="flex justify-between items-center" key={index}>
               <div
-                onClick={() => handleCatSelection(cat)}
+                onClick={() => handleCatSelection(cat, property)}
                 className={`text-black w-full block cursor-pointer hover:bg-slate-300 hover:text-link px-3 py-2`}
               >
-                <span>
-                  {cat}
-                  {property !== "investmentRange" && `(${length})`}
-                </span>
+                <span>{cat}</span>
               </div>
             </div>
           );
