@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { MyContext } from "src/Context/ListingDataContext";
@@ -9,7 +8,6 @@ import {
   incrementActiveListing,
   incrementByListing,
 } from "src/Redux/listingReducer";
-import { removeSpecificText } from "src/Utils/SanitizeInput";
 
 const ListingsColumns = ({ listing, index, slider }) => {
   const { activeListings, role } = useContext(MyContext);
@@ -45,13 +43,15 @@ const ListingsColumns = ({ listing, index, slider }) => {
         ...(!slider && { scale: isActive ? 0.95 : 0.9 }),
         transition: { duration: 1, delay: index * 0.1 },
       }}
-      onClick={handleCardClick} // Correctly call handleCardClick here
+      onClick={role && role !== "N" ? handleCardClick : () => {}} // Correctly call handleCardClick here
       className="flex flex-col justify-between gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[1px_1px_5px_grey] min-h-[450px] "
     >
       <motion.div
         id="image-container"
         className="w-full h-full relative flex justify-center"
-        whileTap={{ scale: isActive ? 0.9 : 1 }}
+        {...(role && role !== "N"
+          ? { whileTap: { scale: isActive ? 0.9 : 1 } }
+          : {})}
       >
         <img
           src={

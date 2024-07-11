@@ -6,32 +6,37 @@ import { MyContext } from "src/Context/ListingDataContext";
 import BarLoader from "src/Animations/BarLoader";
 import PageTransition from "src/Animations/PageTransition";
 import RelatedListings from "src/Globals/RelatedListings";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const MainDetails = ({ setShow, show, setRegistrationType }) => {
   const url = useParams();
   const pName = url.name;
-  const { listings, loading } = useContext(MyContext);
-  const [listingContent, setListingContent] = useState();
 
-  useLayoutEffect(() => {
-    if (loading) {
-      document.querySelector("html").style.overflowY = "hidden";
-      document.querySelector("html").style.height = "100%";
-    }
-    if (!loading) {
-      document.querySelector("html").style.overflow = "auto";
-      document.querySelector("html").style.height = "auto";
-    }
-  }, [loading]);
+  const urlApi = `https://backend.ifbc.co/api/listingsOwner`;
 
-  useEffect(() => {
-    listings.map((listing) => {
-      const url = listing.name.toLowerCase().split(" ").join("-");
-      if (url === pName) {
-        setListingContent(listing);
-      }
-    });
-  }, [listings]);
+  const {
+    data: listingContent,
+    isLoading,
+    error,
+    isFetching,
+  } = useQuery(
+    "FRANCHISEOWNER",
+    () => {
+      return axios.get(urlApi);
+    },
+    {
+      staleTime: 86400 * 30,
+      refetchInterval: false,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      select: (data) => {
+        console.log(data);
+        return data?.data.filter((owner) => owner.name === pName);
+      },
+    }
+  );
 
   return (
     <PageTransition>
@@ -41,19 +46,18 @@ const MainDetails = ({ setShow, show, setRegistrationType }) => {
         tabIndex={-1}
         className="max-w-7xl px-6 mx-auto gap-x-10 "
       >
-        {!loading && listingContent && 
-      <>  
-      <TopBar
-      listingContent={listingContent}
-      setShow={setShow}
-      show={show}
-      setRegistrationType={setRegistrationType}
-    />
-    <BottomBar listingContent={listingContent} />
-    </>
-}
+        {!isLoading && listingContent && (
+          <>
+            <TopBar
+              listingContent={listingContent}
+              setShow={setShow}
+              show={show}
+              setRegistrationType={setRegistrationType}
+            />
+            <BottomBar listingContent={listingContent} />
+          </>
+        )}
       </main>
-      <RelatedListings />
     </PageTransition>
   );
 };

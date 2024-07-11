@@ -39,12 +39,10 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
     {
       path: "/listings-details/:name",
       element: (
-        <ListingDataContext>
-          <MainDetails
-            setShow={setShow}
-            setRegistrationType={setRegistrationType}
-          />
-        </ListingDataContext>
+        <MainDetails
+          setShow={setShow}
+          setRegistrationType={setRegistrationType}
+        />
       ),
     },
 

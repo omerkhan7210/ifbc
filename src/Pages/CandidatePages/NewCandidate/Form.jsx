@@ -342,8 +342,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
         // Send the POST request using Axios
         if (candDetails) {
-          console.log(formFields, candDetails?.docId);
-
           // response = await axios.put(
           //   `${baseUrl}/${candDetails?.docId}`,
           //   formData,

@@ -33,6 +33,7 @@ const App = () => {
   useEffect(() => {
     if (!token) {
       localStorage.removeItem("userDetails");
+      localStorage.removeItem("token");
     }
   }, [token]);
 

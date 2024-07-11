@@ -133,11 +133,7 @@ const AllListings = () => {
                       );
                       return minValueListing >= maxValue;
                     }
-                    console.log(
-                      minValueListing >= minValueFilter,
-                      maxValueListing <= maxValueFilter,
-                      listing.name
-                    );
+
                     return (
                       minValueListing >= minValueFilter &&
                       maxValueListing <= maxValueFilter
@@ -223,7 +219,7 @@ const AllListings = () => {
             )
           )
         ) : (
-          <h1 className="text-custom-heading-color text-4xl w-full p-5 capitalize">
+          <h1 className="text-custom-heading-color text-4xl w-full p-5 capitalize w-full">
             No Franchises Found For This Filter, Please try another filter
           </h1>
         )}
