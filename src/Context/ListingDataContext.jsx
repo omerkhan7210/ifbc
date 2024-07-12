@@ -41,6 +41,7 @@ const ListingDataContext = ({ children }) => {
             yearEstablished: d.yearEstablished,
             category: d.category,
             investmentRange: d.investmentRange,
+            shortdescription: d.shortdescription,
           }));
         } else {
           const normalFLS = data?.data?.filter(
