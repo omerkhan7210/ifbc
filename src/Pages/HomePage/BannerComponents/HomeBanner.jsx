@@ -106,7 +106,7 @@ const HomeBanner = () => {
     <>
       <section
         id="homebanner"
-        className="w-full min-h-[600px] relative flex flex-col  items-center "
+        className="w-full min-h-[500px] relative flex flex-col  items-center "
       >
         <Swiper
           modules={[Autoplay, Pagination, EffectFade]}
@@ -119,7 +119,7 @@ const HomeBanner = () => {
             disableOnInteraction: false,
             stopOnLastSlide: false,
           }}
-          className="w-full swiperslidehomebannermain  min-h-[600px] flex h-full flex-col  z-10 relative"
+          className="w-full swiperslidehomebannermain  min-h-[500px] flex h-full flex-col  z-10 relative"
         >
           {slidesData.map((slide, index) => (
             <SwiperSlide key={index}>
@@ -133,9 +133,10 @@ const HomeBanner = () => {
                 }}
               >
                 <h1
-                  className="max-md:text-3xl z-50 relative md:max-2xl:text-6xl text-7xl max-md:px-5  text-center text-white"
+                  className="max-md:text-3xl  z-50 relative md:max-2xl:text-6xl text-7xl max-md:px-5  text-center text-white"
                   style={{
                     lineHeight: window.innerWidth > 768 ? "5rem" : "40px",
+                    textShadow: "1px 1px 10px black",
                   }}
                 >
                   {slide.text}

@@ -181,7 +181,7 @@ const CartIcon = ({ hidden }) => {
   return (
     <motion.div
       initial={{ y: 0 }}
-      animate={{ y: hidden && window.innerWidth > 768 ? "225%" : 0 }}
+      animate={{ y: hidden && window.innerWidth > 768 ? "190%" : 0 }}
     >
       <NavLink
         to="/checkout"

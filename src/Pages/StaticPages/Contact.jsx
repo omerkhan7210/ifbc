@@ -169,8 +169,8 @@ const Contact = () => {
       "contactPhone",
       "contactPath",
       "contactReason",
-      "contactComments",
     ];
+
     let allFieldsValid = true;
     let formErrors = {};
 
@@ -211,6 +211,7 @@ const Contact = () => {
           contactComments: data.contactComments ?? "",
           contactPath: data.contactPath,
           contactCopy: data.contactCopy ?? false,
+          contactPath: data.contactPath,
         };
 
         const response = await axios.post(
