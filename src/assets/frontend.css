@@ -6602,9 +6602,16 @@ nav#header-nav ul.menu {
 nav#header-nav ul.menu > li {
   height: 100%;
   transition: background 0.5s ease-in-out;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /* background: rgb(227, 228, 230); */
+  background-color: white;
+  margin-inline: 5px;
 }
 
 nav#header-nav ul.menu > li:hover {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   box-sizing: border-box;
   --tw-bg-opacity: 1;
   background: rgb(7, 55, 158);
@@ -6649,14 +6656,19 @@ nav#header-nav ul.menu > li.current-menu-item > a {
 
 nav#header-nav ul.menu a {
   display: block;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+  padding: 0.8rem;
   font-size: 1rem;
   line-height: 1.5rem;
   --tw-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
+
+  color: rgb(0, 0, 0);
+}
+
+nav#header-nav ul.menu a:hover {
+  color: white !important;
+}
+nav#header-nav ul.menu > li:hover ul.menu a {
+  color: white !important;
 }
 
 nav#header-nav ul.menu > li > ul {
@@ -12789,7 +12801,7 @@ blockquote {
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.3);
   width: 100%;
   min-height: 600px;
   z-index: 15;

@@ -74,24 +74,7 @@ const FranchiseOwner = () => {
 
   return (
     <PageTransition>
-      <PageTitle title={"New Candidate"} />
       <div id="wrapper">
-        <div
-          id="top-text"
-          className="py-24 mb-8 relative flex flex-col gap-2 before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/50 before:z-10"
-          style={{
-            background: "url(/images/banners/franchise-owner.jpg)",
-          }}
-        >
-          <h1 className="text-5xl text-white font-bold text-center z-20">
-            How To Become A Franchise Owner: Step By Step
-          </h1>
-          <p className="text-center text-xl relative text-white z-50">
-            By now, you likely know whether or not you’re interested in learning
-            more about the business opportunity <br /> If you want to own a
-            franchise, it’s time to take action!
-          </p>
-        </div>
         <div id="steps-container" className="theme-container my-10">
           <p className="mb-3">
             Regardless of which sector of the industry you’re looking to pursue,

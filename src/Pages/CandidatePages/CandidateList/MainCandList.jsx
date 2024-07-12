@@ -9,44 +9,60 @@ import DialogBox from "src/Popups/DialogBox";
 import Papa from "papaparse";
 import FormatRawDate from "src/Utils/FormatRawDate";
 
+const cleanKeys = (data) => {
+  if (Array.isArray(data)) {
+    return data.map((item) => cleanKeys(item));
+  } else if (typeof data === "object" && data !== null) {
+    return Object.keys(data).reduce((acc, key) => {
+      const newKey = key.replace(/\s+/g, "").replace(/[^a-zA-Z0-9]/g, "");
+      acc[newKey] = cleanKeys(data[key]);
+      return acc;
+    }, {});
+  }
+  return data;
+};
+
 const MainCandList = () => {
-  const { cands, loading, filters } = useContext(MyCandContext);
+  const { cands, loading } = useContext(MyCandContext);
+  const [selectedCandidates, setSelectedCandidates] = useState([]);
+  const [filteredCandidates, setFilteredCandidates] = useState([]);
+
+  const [filterCands, setFilterCands] = useState();
   const [format, setFormat] = useState(
     window.innerWidth > 768 ? "table" : "grid"
   );
-  const [filterCands, setFilterCands] = useState();
-
-  const cleanKeys = (data) => {
-    if (Array.isArray(data)) {
-      return data.map((item) => cleanKeys(item));
-    } else if (typeof data === "object" && data !== null) {
-      return Object.keys(data).reduce((acc, key) => {
-        const newKey = key.replace(/\s+/g, "").replace(/[^a-zA-Z0-9]/g, "");
-        acc[newKey] = cleanKeys(data[key]);
-        return acc;
-      }, {});
-    }
-    return data;
+  // Function to handle checkbox change
+  const handleCheckboxChange = (docId) => {
+    setSelectedCandidates((prevSelected) => {
+      // Check if docId already exists in selectedMessages
+      const index = prevSelected.indexOf(docId);
+      if (index === -1) {
+        // Add docId if it doesn't exist
+        return [...prevSelected, docId];
+      } else {
+        // Remove docId if it exists
+        return prevSelected.filter((sN) => sN !== docId);
+      }
+    });
   };
+
+  useEffect(() => {
+    if (cands?.length > 0) {
+      if (filterCands?.status) {
+        const filterStatus =
+          filterCands?.status === "N/A"
+            ? cands.filter((cand) => cand.pipelineStep === "")
+            : cands.filter((cand) => cand.pipelineStep === filterCands?.status);
+        setFilteredCandidates(filterStatus);
+      } else {
+        setFilteredCandidates(cands);
+      }
+    }
+  }, [filterCands?.status, loading]);
 
   return (
     // page banner
     <PageTransition>
-      <div
-        id="top-text"
-        className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
-        style={{
-          background: "url(/images/banners/candidatelist1.jpeg)",
-          backgroundAttachment: "fixed",
-          backgroundPosition: "top center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      >
-        <h1 className="max-md:text-4xl md:text-7xl text-white font-bold text-center z-20text-white font-bold text-center z-20">
-          Candidate List
-        </h1>
-      </div>
       <div className="flex flex-col gap-5 md:max-w-7xl md:mx-auto md:my-20 max-md:mx-5 max-md:my-5">
         <div
           id="cand-list-top"
@@ -55,16 +71,20 @@ const MainCandList = () => {
           <div className="  flex items-center ">
             <NavLink
               to="/new-candidate"
-              className="candidate-btn w-full text-center"
+              className="candidate-secondary-btn w-full text-center"
             >
               New Candidate
             </NavLink>
           </div>
           <div className="flex items-center ">
-            <SearchingInput />
+            <SearchingInput setFilterCands={setFilterCands} />
           </div>
           <div className=" md:flex items-center ">
-            <input type="date" className="candidate-input w-full" />
+            <input
+              type="datetime-local"
+              className="candidate-input w-full"
+              onChange={() => setFilterCands({ datetime: e.target.value })}
+            />
           </div>
         </div>
 
@@ -72,24 +92,29 @@ const MainCandList = () => {
 
         <FiltersRow
           setFilterCands={setFilterCands}
+          filterCands={filterCands}
           cands={cands}
-          filters={filters}
-          loading={loading}
+          selectedCandidates={selectedCandidates}
+          setSelectedCandidates={setSelectedCandidates}
         />
 
-        {!loading && filterCands && (
+        {!loading && (
           <>
             {window.innerWidth > 768 && (
               <TableFormatData
                 loading={loading}
-                cands={filterCands}
+                cands={filteredCandidates}
                 format={format}
+                selectedCandidates={selectedCandidates}
+                handleCheckboxChange={handleCheckboxChange}
               />
             )}
             <GridFormatData
               loading={loading}
-              cands={filterCands}
+              cands={filteredCandidates}
               format={format}
+              selectedCandidates={selectedCandidates}
+              handleCheckboxChange={handleCheckboxChange}
             />
           </>
         )}
@@ -98,16 +123,26 @@ const MainCandList = () => {
   );
 };
 
-const TableFormatData = ({ cands, format }) => {
+const TableFormatData = ({
+  cands,
+  format,
+  selectedCandidates,
+  handleCheckboxChange,
+}) => {
   return (
     <div
       id="cand-table-format"
       className={`${format === "table" ? "block" : "hidden"} mt-2 `}
     >
       <div className="relative overflow-x-auto shadow-md ">
-        <table className="w-full text-sm text-left rtl:text-right text-black ">
+        <table
+          className="w-full text-sm text-left rtl:text-right text-black "
+          align="center"
+        >
           <thead className="text-md text-center text-white uppercase bg-[#2176ff]">
             <tr>
+              {" "}
+              <th scope="col" className="px-6 py-3"></th>
               <th scope="col" className="px-6 py-3">
                 Name
               </th>
@@ -123,27 +158,43 @@ const TableFormatData = ({ cands, format }) => {
             </tr>
           </thead>
           <tbody>
-            {cands.length > 0 &&
+            {cands?.length > 0 &&
               cands.map((cand) => {
                 const formatted = FormatRawDate(cand);
                 return (
-                  <tr className=" border-b text-center ">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-lg text-gray-900 whitespace-nowrap capitalize"
-                    >
+                  <tr
+                    className=" border-b text-center cursor-pointer hover:bg-slate-100"
+                    onClick={() => {
+                      handleCheckboxChange(cand.docId);
+                    }}
+                  >
+                    <td className="px-3 py-7 text-base capitalize ">
+                      <label class=" h-full flex items-center ">
+                        <input
+                          class="peer cursor-pointer hidden after:opacity-100"
+                          checked={selectedCandidates.includes(cand.docId)}
+                          onChange={() => {
+                            handleCheckboxChange(cand.docId);
+                          }}
+                          type="checkbox"
+                        />
+                        <span class="inline-block w-5 h-5 border-2 relative cursor-pointer after:content-[''] after:absolute after:top-2/4 after:left-2/4 after:-translate-x-1/2 after:-translate-y-1/2 after:w-[10px] after:h-[10px] after:bg-[#141414] after:rounded-[2px] after:opacity-0 peer-checked:after:opacity-100"></span>
+                      </label>
+                    </td>
+                    <td className="px-3 py-7 text-base capitalize ">
                       <NavLink
                         to={`/candidate-profile/${cand.docId} `}
+                        className="hover:underline"
                       >{`${cand.firstName} ${cand.lastName}`}</NavLink>
-                    </th>
-                    <td className="px-6 py-4 text-base">
+                    </td>
+                    <td className="px-3 py-4 text-base">
                       <a href={`tel:${cand.phone}`}>{cand.phone}</a> <br />
                       <a href={`mailto:${cand.email}`}>{cand.email}</a>
                     </td>
-                    <td className="px-6 py-4 text-base">
+                    <td className="px-3 py-4 text-base">
                       {cand.pipelineStep ? cand.pipelineStep : "N/A"}
                     </td>
-                    <td className="px-6 py-4 text-base">{formatted}</td>
+                    <td className="px-3 py-4 text-base">{formatted}</td>
                   </tr>
                 );
               })}
@@ -184,7 +235,7 @@ const GridFormatData = ({ format, cands }) => {
             </h1>
           </div>
           <div className="p-7 flex flex-col gap-5">
-            {cands.length > 0 &&
+            {cands?.length > 0 &&
               cands.map((cand) => {
                 return <Card cand={cand} />;
               })}
@@ -246,18 +297,17 @@ const Card = ({ cand }) => {
   );
 };
 
-const SearchingInput = () => {
+const SearchingInput = ({ setFilterCands }) => {
   const ref = useRef();
-  const { filters, setFilters } = useContext(MyCandContext);
   const [searchKeyword, setSearchKeyword] = useState("");
   const handleSearchInputChange = () => {
     const keyword = ref.current.value;
     setSearchKeyword(keyword);
 
     // Update the filters state with the search keyword
-    setFilters({
+    setFilterCands({
       ...filters,
-      search: [keyword],
+      search: keyword,
     });
   };
 
@@ -289,10 +339,17 @@ const SearchingInput = () => {
   );
 };
 
-const FiltersRow = ({ setFilterCands, cands, filters, loading }) => {
-  const filterKeys = ["search", "dealstage", "agent", "leadsource"];
+const FiltersRow = ({
+  setFilterCands,
+  cands,
+  selectedCandidates,
+  setSelectedCandidates,
+  filterCands,
+}) => {
+  const filterKeys = ["search", "status"];
 
   const steps = [
+    { text: "N/A" },
     { text: "Initial Call Attempt" },
     { text: "Connected" },
     { text: "Spoton/Candidate Research" },
@@ -315,66 +372,193 @@ const FiltersRow = ({ setFilterCands, cands, filters, loading }) => {
     { text: "Add Candidates to Hubspot" },
   ];
 
-  // ye dono add krdo abhi thk he
+  const [allCandidatesIds, setAllCandidatesIds] = useState([]);
+  const [show, setShow] = useState(false);
+  const [allSelectedCandData, setAllSelectedCandData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (cands.length > 0) {
-      const filteredCands = filters
-        ? cands.filter((listing) => {
-            return filterKeys.every((key) => {
-              if (
-                filters.hasOwnProperty(key) &&
-                filters[key] !== "" &&
-                filters[key].length > 0
-              ) {
-                if (Array.isArray(filters[key]) && key === "search") {
-                  return filters["search"].some((searchString) =>
-                    listing.firstName.toLowerCase().includes(searchString)
-                  );
-                } else if (Array.isArray(filters[key]) && key !== "search") {
-                  return filters[key].some(
-                    (filterValue) =>
-                      listing[key]?.toLowerCase() === filterValue.toLowerCase()
-                  );
-                } else {
-                  return listing[key]
-                    ?.toLowerCase()
-                    .includes(filters[key].toLowerCase());
-                }
-              }
-              return true;
-            });
-          })
-        : cands;
-      setFilterCands(filteredCands);
+    if (cands && cands.length > 0) {
+      const docIds = cands.map((cand) => cand.docId);
+      const uniquedocIds = [...new Set(docIds)];
+      setAllCandidatesIds(uniquedocIds);
     }
-  }, [cands, filters, loading]);
+  }, [cands]);
+
+  // useEffect(() => {
+  //   if (cands.length > 0) {
+  //     const filteredCands = filters
+  //       ? cands.filter((listing) => {
+  //           return filterKeys.every((key) => {
+  //             if (
+  //               filters.hasOwnProperty(key) &&
+  //               filters[key] !== "" &&
+  //               filters[key].length > 0
+  //             ) {
+  //               if (Array.isArray(filters[key]) && key === "search") {
+  //                 return filters["search"].some((searchString) =>
+  //                   listing.firstName.toLowerCase().includes(searchString)
+  //                 );
+  //               } else if (Array.isArray(filters[key]) && key === "status") {
+  //                 return filters["status"].some((searchString) =>
+  //                   listing.firstName.toLowerCase().includes(searchString)
+  //                 );
+  //               } else {
+  //                 return listing[key]
+  //                   ?.toLowerCase()
+  //                   .includes(filters[key].toLowerCase());
+  //               }
+  //             }
+  //             return true;
+  //           });
+  //         })
+  //       : cands;
+  //     setFilterCands(filteredCands);
+  //   }
+  // }, [cands, filters]);
+
+  useEffect(() => {
+    if (cands && cands.length > 0) {
+      const allMessages = cands.filter((cand) =>
+        selectedCandidates.includes(cand.docId)
+      );
+      setAllSelectedCandData(allMessages);
+    }
+  }, [selectedCandidates]);
+
+  const handleBulkActions = (e) => {
+    e.preventDefault();
+    const value = e.target.value;
+    setFilterCands((prev) => ({
+      ...prev,
+      action: value,
+    }));
+  };
+  const arraysEqual = (arr1, arr2) => {
+    if (arr1.length !== arr2.length) return false;
+    const sortedArr1 = [...arr1].sort();
+    const sortedArr2 = [...arr2].sort();
+    return sortedArr1.every((value, index) => value === sortedArr2[index]);
+  };
+  const allSelected = arraysEqual(selectedCandidates, allCandidatesIds);
+
+  const handleStatusChange = (e) => {
+    e.preventDefault();
+    setFilterCands((prev) => ({
+      ...prev,
+      status: e.target.value,
+    }));
+  };
+
+  const handleEdit = async (e) => {
+    e.preventDefault();
+    //setLoading(true);
+
+    const url = "https://backend.ifbc.co/api/candidates/";
+
+    allSelectedCandData.map((cand) => {
+      const formData = {
+        ...cand,
+        isArchive: filterCands.action === "Archive" ? true : false,
+        DealStage: filterCands.action === "Update Deal Stage" ? true : false,
+      };
+
+      axios
+        .put(url + cand.docId, formData)
+        .then((response) => {
+          // // Handle successful response
+          if (response.status === 204) {
+            setShow(true);
+            setTimeout(() => {
+              setShow(false);
+              window.location.reload();
+            }, 3000);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          // Handle error
+          setLoadingError(true);
+          console.error("Error fetching data:", error);
+        });
+    });
+    // Make a GET request to fetch the data
+  };
 
   return (
     <div
       id="filters-dd"
-      className=" md:grid grid-cols-5 max-md:flex flex-col gap-5 mb-5"
+      className={`${filterCands?.action !== "Bulk Actions" ? "grid-cols-5" : "grid-cols-4"} md:grid  max-md:flex flex-col gap-5 mb-5`}
     >
+      {allSelected ? (
+        <button
+          onClick={() => setSelectedCandidates([])}
+          id="select-all-btn"
+          className="candidate-btn w-full flex justify-center items-center gap-3"
+        >
+          Unselect
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+            />
+          </svg>
+        </button>
+      ) : (
+        <button
+          onClick={() => setSelectedCandidates(allCandidatesIds)}
+          id="select-all-btn"
+          className="candidate-btn w-full flex justify-center items-center gap-3"
+        >
+          Select All
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+            />
+          </svg>
+        </button>
+      )}
       {/* yahan pr  dalengay select*/}
-      <select className="candidate-select" name="actions">
+      <select
+        className="candidate-select"
+        name="actions"
+        onChange={handleBulkActions}
+      >
         {actions.map((step, index) => (
           <option key={index} value={step.text}>
             {step.text}
           </option>
         ))}
       </select>
-      <div className="">
-        <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold w-full">
-          Select All
-        </button>
-      </div>
-      <div className="">
+
+      {filterCands?.action !== "Bulk Actions" && (
         <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold w-full">
           Confirm
         </button>
-      </div>
+      )}
 
-      <select className="candidate-select" name="steps">
+      <select
+        className="candidate-select"
+        name="steps"
+        onChange={handleStatusChange}
+      >
         {steps.map((step, index) => (
           <option key={index} value={step.text}>
             {step.text}
@@ -575,10 +759,10 @@ const ImportExport = ({ setFormat, format, cands }) => {
         className="candidate-btn w-full"
         onClick={() => handleExport(cands)}
       >
-        EXPORT
+        Export
       </button>
       <button className="candidate-btn w-full" onClick={() => setShow(true)}>
-        IMPORT
+        Import
       </button>
 
       {window.innerWidth > 768 && (
