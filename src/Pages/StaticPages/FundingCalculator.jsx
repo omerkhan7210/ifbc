@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
 import {
@@ -38,7 +38,24 @@ const FundingCalculator = () => {
       ...prevData,
       [name]: inputValue,
     }));
+
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
+  useEffect(() => {
+    // Check if all keys except 'error' are not empty
+    const allFieldsFilled = Object.keys(data).every((key) => data[key] !== "");
+
+    // If all fields are filled, remove the 'error' key from formErrors
+    if (allFieldsFilled) {
+      setFormErrors((prevErrors) => {
+        const { error, ...remainingErrors } = prevErrors;
+        return remainingErrors;
+      });
+    }
+  }, [data]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -218,7 +235,7 @@ const FundingCalculator = () => {
           </p>
         </div>
         {formErrors.error && (
-          <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
+          <p className="border border-[#dc2626] text-[#dc2626] p-4 flex justify-between">
             {formErrors.error}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -246,11 +263,11 @@ const FundingCalculator = () => {
                 name="firstName"
                 className="candidate-input w-full"
                 style={{
-                  borderColor: formErrors.firstName ? "red" : undefined,
+                  borderColor: formErrors.firstName ? "#dc2626" : undefined,
                 }}
               />
               {formErrors.firstName && formErrors.firstName === "invalid" && (
-                <p className=" text-red-600 py-2 flex justify-between">
+                <p className=" text-[#dc2626] py-2 flex justify-between">
                   Invalid username. It should be 3-16 characters long and can
                   include letters, numbers, underscores, and spaces.
                 </p>
@@ -264,11 +281,11 @@ const FundingCalculator = () => {
                 name="lastName"
                 className="candidate-input w-full"
                 style={{
-                  borderColor: formErrors.lastName ? "red" : undefined,
+                  borderColor: formErrors.lastName ? "#dc2626" : undefined,
                 }}
               />{" "}
               {formErrors.lastName && formErrors.lastName === "invalid" && (
-                <p className=" text-red-600 py-2 flex justify-between">
+                <p className=" text-[#dc2626] py-2 flex justify-between">
                   Invalid username. It should be 3-16 characters long and can
                   include letters, numbers, underscores, and spaces.
                 </p>
@@ -284,11 +301,11 @@ const FundingCalculator = () => {
                 name="email"
                 className="candidate-input w-full"
                 style={{
-                  borderColor: formErrors.email ? "red" : undefined,
+                  borderColor: formErrors.email ? "#dc2626" : undefined,
                 }}
               />
               {formErrors.email && formErrors.email === "invalid" && (
-                <p className=" text-red-600 py-2 flex justify-between">
+                <p className=" text-[#dc2626] py-2 flex justify-between">
                   Invalid Email (john@example.com)
                 </p>
               )}
@@ -301,11 +318,11 @@ const FundingCalculator = () => {
                 name="phone"
                 className="candidate-input w-full"
                 style={{
-                  borderColor: formErrors.phone ? "red" : undefined,
+                  borderColor: formErrors.phone ? "#dc2626" : undefined,
                 }}
               />{" "}
               {formErrors.phone && formErrors.phone === "invalid" && (
-                <p className=" text-red-600 py-2 flex justify-between">
+                <p className=" text-[#dc2626] py-2 flex justify-between">
                   Invalid Phone Number (Please use numbers only)
                 </p>
               )}
@@ -326,10 +343,12 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="funding-questions">
+              <p
+                className={`funding-questions ${formErrors.franchiseLocation ? "border border-[#dc2626] p-2 w-full" : ""}`}
+              >
                 What type of franchise location are you most interested in?
                 {!data.franchiseLocation && (
-                  <span className="text-red-700 italic">(Required)</span>
+                  <span className="text-[#dc2626] italic">(Required)</span>
                 )}
               </p>
             </div>
@@ -407,11 +426,13 @@ const FundingCalculator = () => {
           </div>
 
           <div className="my-10">
-            <p className="funding-questions ">
+            <p
+              className={`funding-questions ${formErrors.downPayment ? "border border-[#dc2626] p-2 w-full" : ""}`}
+            >
               How much cash do you have available for a downpayment and working
               capital (include retirement accounts)?{" "}
               {data.downPayment === 0 && (
-                <span className="text-red-700 italic">(Required)</span>
+                <span className="text-[#dc2626] italic">(Required)</span>
               )}
             </p>
 
@@ -442,10 +463,12 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="funding-questions">
+              <p
+                className={`funding-questions ${formErrors.creditScore ? "border border-[#dc2626] p-2 w-full" : ""}`}
+              >
                 What is your most recent credit score?
                 {!data.creditScore && (
-                  <span className="text-red-700 italic">(Required)</span>
+                  <span className="text-[#dc2626] italic">(Required)</span>
                 )}
               </p>
             </div>
@@ -524,11 +547,13 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="funding-questions">
+              <p
+                className={`funding-questions ${formErrors.launching ? "border border-[#dc2626] p-2 w-full" : ""}`}
+              >
                 Do you have a working spouse or partner who can cover living
                 expenses while the business is launching?{" "}
                 {!data.launching && (
-                  <span className="text-red-700 italic">(Required)</span>
+                  <span className="text-[#dc2626] italic">(Required)</span>
                 )}
               </p>
             </div>
@@ -589,10 +614,12 @@ const FundingCalculator = () => {
           </div>
 
           <div className="my-10">
-            <p className="funding-questions">
+            <p
+              className={`funding-questions ${formErrors.houseHold ? "border border-[#dc2626] p-2 w-full" : ""}`}
+            >
               What is your annual household income?
               {data.houseHold === 0 && (
-                <span className="text-red-700 italic">(Required)</span>
+                <span className="text-[#dc2626] italic">(Required)</span>
               )}
             </p>
             <div>
@@ -619,10 +646,12 @@ const FundingCalculator = () => {
             </div>
           </div>
           <div className="my-10">
-            <p className="funding-questions">
+            <p
+              className={`funding-questions ${formErrors.debtPayments ? "border border-[#dc2626] p-2 w-full" : ""}`}
+            >
               What are your monthly personal debt payments?{" "}
               {data.debtPayments === 0 && (
-                <span className="text-red-700 italic">(Required)</span>
+                <span className="text-[#dc2626] italic">(Required)</span>
               )}
             </p>
 
@@ -653,10 +682,12 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="funding-questions">
+              <p
+                className={`funding-questions ${formErrors.creditHistory ? "border border-[#dc2626] p-2 w-full" : ""}`}
+              >
                 Do you have a minimum 5-year credit history?
                 {!data.creditHistory && (
-                  <span className="text-red-700 italic">(Required)</span>
+                  <span className="text-[#dc2626] italic">(Required)</span>
                 )}
               </p>
             </div>
@@ -700,10 +731,12 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="funding-questions">
+              <p
+                className={`funding-questions ${formErrors.bankruptcies ? "border border-[#dc2626] p-2 w-full" : ""}`}
+              >
                 Bankruptcies within the last 7 years{" "}
                 {!data.bankruptcies && (
-                  <span className="text-red-700 italic">(Required)</span>
+                  <span className="text-[#dc2626] italic">(Required)</span>
                 )}
               </p>
             </div>
@@ -782,13 +815,15 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="funding-questions">
+              <p
+                className={`funding-questions ${formErrors.percentage ? "border border-[#dc2626] p-2 w-full" : ""}`}
+              >
                 On your credit cards, what percentage of the credit limit are
                 you using (your statement balances divided by your credit
                 limits)?{" "}
                 {formErrors.percentage ||
                   (!data.percentage && (
-                    <span className="text-red-700 italic">(Required)</span>
+                    <span className="text-[#dc2626] italic">(Required)</span>
                   ))}
               </p>
             </div>
@@ -850,11 +885,13 @@ const FundingCalculator = () => {
 
           <div className="my-10">
             <div className="flex gap-2 items-center">
-              <p className="funding-questions">
-                Do you own real estate?{" "}
+              <p
+                className={`funding-questions ${formErrors.realState ? "border border-[#dc2626] p-2 w-full" : ""}`}
+              >
+                Do you own real estate?
                 {formErrors.realState ||
                   (!data.realState && (
-                    <span className="text-red-700 italic">(Required)</span>
+                    <span className="text-[#dc2626] italic">(Required)</span>
                   ))}
               </p>
             </div>
@@ -897,10 +934,12 @@ const FundingCalculator = () => {
           </div>
 
           <div className="my-10">
-            <p className="funding-questions">
+            <p
+              className={`funding-questions ${formErrors.totalNet ? "border border-[#dc2626] p-2 w-full" : ""}`}
+            >
               What is your total net worth?{" "}
               {data.totalNet === 0 && (
-                <span className="text-red-700 italic">(Required)</span>
+                <span className="text-[#dc2626] italic">(Required)</span>
               )}
             </p>
 

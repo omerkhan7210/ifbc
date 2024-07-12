@@ -158,7 +158,6 @@ const Contact = () => {
       [name]: "",
     }));
   };
-  console.log(formErrors);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

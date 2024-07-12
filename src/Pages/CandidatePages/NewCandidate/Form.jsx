@@ -63,7 +63,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   }, [selectedDocId, candDetails]);
 
   const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
-  const additionalTerritoriesAddUrl = ``;
+  const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
 
   const getAdditionalContacts = async () => {
     const response = await axios.get(additionalContactAddUrl);
@@ -234,6 +234,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     );
   };
 
+  //Additional Contact
+
   const handleSubmitContact = () => {
     additionalContacts.map(async (object) => {
       const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
@@ -314,34 +316,80 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     });
   };
 
-  const handleSubmitTerritory = () => {
-    additionalTerritories.map(async (object) => {
-      const additionalTerritoriesAddUrl = ``;
+  const handleSubmitTerritory = async () => {
+    let allValid = true; // Flag to track if all validations pass
 
-      const formData = {
-        territoryState: object.territoryState,
-        territoryCity: object.territoryCity,
-        territoryZipCode: object.territoryZipCode,
-        territorynotes: object.territorynotes,
-        parentId: docId,
-        parent_Type: "R",
-        isPrimary: false,
-      };
-      response = await axios.post(additionalTerritoriesAddUrl, formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.status === 201) {
-        setSuccessMsg("Territory Information Saved Successfully!");
-        setLoading(false);
-        setTimeout(() => {
-          window.location.href = "/candidate-list";
-        }, 3000);
-      }
-      // }
-    });
+    await Promise.all(
+      additionalTerritories.map(async (object) => {
+        const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
+
+        // Basic validations
+        if (
+          !object.territoryState ||
+          !object.territoryCity ||
+          !object.territoryZipCode
+        ) {
+          console.error("Validation Error: Missing required fields");
+          allValid = false;
+          return; // Skip further processing for this object
+        }
+
+        // Format validation for zip code (example: 5 digits)
+        const zipCodeRegex = /^\d{5}$/;
+        if (!zipCodeRegex.test(object.territoryZipCode)) {
+          console.error("Validation Error: Invalid zip code format");
+          allValid = false;
+          return; // Skip further processing for this object
+        }
+
+        const formData = {
+          territoryState: object.territoryState,
+          territoryCity: object.territoryCity,
+          territoryZipCode: object.territoryZipCode,
+          territorynotes: object.territorynotes,
+          parentId: docId,
+          parent_Type: "R",
+          isPrimary: false,
+        };
+
+        try {
+          const response = await axios.post(
+            additionalTerritoriesAddUrl,
+            formData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (response.status === 201) {
+            setSuccessMsg("Territory Information Saved Successfully!");
+            setLoading(false);
+            setTimeout(() => {
+              window.location.href = "/candidate-list";
+            }, 3000);
+          } else {
+            console.error(
+              "Error saving territory information:",
+              response.status
+            );
+            allValid = false;
+          }
+        } catch (error) {
+          console.error("Error saving territory information:", error);
+          allValid = false;
+        }
+      })
+    );
+
+    if (!allValid) {
+      // Handle invalid form data
+      console.error("Invalid form data");
+      // Optionally, show user a message or take corrective action
+    }
   };
+
   const handleSubmit = async () => {
     setLoading(true);
 
@@ -470,8 +518,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
         // Send the POST request using Axios
         if (candDetails) {
-          console.log(formFields, candDetails?.docId);
-
           // response = await axios.put(
           //   `${baseUrl}/${candDetails?.docId}`,
           //   formData,

@@ -180,13 +180,13 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
               <li
                 id="menu-item-552360"
                 className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
+                style={{ background: "transparent" }}
               >
                 <button
                   onClick={() => setActive(!active)}
                   className={` bg-custom-grey px-6 py-4 flex items-center justify-center  rounded  text-center  text-white  cursor-pointer ml-5`}
                 >
                   <div className="text-white text-base font-bold flex items-center">
-                    {console.log(selectedCandName)}
                     {selectedCandName && selectedCandName.name
                       ? selectedCandName.name
                       : "No Candidate Selected"}

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { useContext } from "react";
-import { MyContext } from "src/Context/ListingDataContext";
+import { useSelector } from "react-redux";
 import ReportIssue from "src/Popups/ReportIssue";
-import { twMerge } from "tailwind-merge";
 
 const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
   const data = [
@@ -173,7 +171,7 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
       isLink: listingContent?.website,
     },
   ];
-  const { role } = useContext(MyContext);
+  const role = useSelector((state) => state.counter.role);
   const [showReport, setShowReport] = useState(false);
   // ye states pass hongy
   const handleOpenRegistration = (type) => {

@@ -31,8 +31,8 @@ const HomeBanner = () => {
           />
         </svg>
       ),
-      min: 20,
-      max: 25,
+      min: 5,
+      max: 10,
     },
     {
       id: "Recent",
@@ -53,8 +53,8 @@ const HomeBanner = () => {
           />
         </svg>
       ),
-      min: 70,
-      max: 75,
+      min: 1,
+      max: 6,
     },
     {
       id: "Trending",
@@ -75,8 +75,8 @@ const HomeBanner = () => {
           />
         </svg>
       ),
-      min: 50,
-      max: 55,
+      min: 10,
+      max: 15,
     },
   ];
   const slidesData = [
@@ -167,11 +167,42 @@ const HomeBanner = () => {
 };
 
 const ListingBox = ({ id, bgcolor, svg, min, max }) => {
-  const { listings } = useContext(MyContext);
-
   const uniqueFranchisedCats = [
-    ...new Set(listings.map((listing) => listing.category)),
+    "Advertising",
+    "Automotive",
+    "Beauty & Spa",
+    "Business Management & Coaching",
+    "Business Services",
+    "Child Education",
+    "Child Services & Products",
+    "Cleaning: Residential & Commercial",
+    "Computer Technology",
+    "Copy & Mailing",
+    "Distribution Services",
+    "Dry Cleaning-Laundry",
+    "Financial Services",
+    "Fitness",
+    "Food & Beverage: Restaurant/QSR/Catering",
+    "Food: Coffee/Tea/Smoothies/Sweets",
+    "Food: Stores & Catering",
+    "Health/Medical",
+    "Health/Wellness",
+    "Home Improvement",
+    "Interior/Exterior Design",
+    "Maintenance & Repair",
+    "Pet Care & Grooming",
+    "Print",
+    "Real Estate",
+    "Restoration",
+    "Retail",
+    "Senior Care: Medical/Non-Medical Option",
+    "Signs",
+    "Special Event Planning",
+    "Sports & Recreation",
+    "Staffing",
+    "STEM & Tutoring",
   ];
+
   const { setFilters } = useContext(MyContext);
   const history = useNavigate();
   const handleSearchInputChange = (cat) => {

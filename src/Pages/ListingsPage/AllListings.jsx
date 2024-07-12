@@ -3,10 +3,6 @@ import ListingsColumns from "./ListingsColumns";
 import BarLoader from "src/Animations/BarLoader";
 import Pagination from "../GlobalPageSections/Pagination";
 import { MyContext } from "src/Context/ListingDataContext";
-import ToolEmail from "src/Popups/ToolEmail";
-import handleInputChange from "src/Utils/handleInputChange";
-import ToolInformation from "src/Popups/ToolInformation";
-import ToolComparison from "src/Popups/ToolComparison";
 
 const AllListings = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,7 +24,7 @@ const AllListings = () => {
         : 10
       : showActiveListings
         ? activeListings.length
-        : 25;
+        : 24;
 
   const filterKeys = [
     "searchByCategoryName",
@@ -77,13 +73,14 @@ const AllListings = () => {
                     listing.name.toLowerCase().includes(searchString)
                   );
                 } else if (
-                  (Array.isArray(filters[key]) && key === "franchiseFee") ||
-                  key === "franchisedUnits" ||
-                  key === "ownedUnits" ||
-                  key === "liquidity" ||
-                  key === "yearEstablished" ||
-                  key === "projectedNewUnits" ||
-                  key === "monthCash"
+                  Array.isArray(filters[key]) &&
+                  (key === "franchiseFee" ||
+                    key === "franchisedUnits" ||
+                    key === "ownedUnits" ||
+                    key === "liquidity" ||
+                    key === "yearEstablished" ||
+                    key === "projectedNewUnits" ||
+                    key === "monthCash")
                 ) {
                   return filters[key].some((filterValue) => {
                     const splittedFilterValue = filterValue.split("-");
@@ -136,6 +133,7 @@ const AllListings = () => {
                       );
                       return minValueListing >= maxValue;
                     }
+
                     return (
                       minValueListing >= minValueFilter &&
                       maxValueListing <= maxValueFilter
@@ -180,21 +178,21 @@ const AllListings = () => {
     </div>
   ) : (
     <>
-      <div className="flex-col flex md:flex-row gap-5 md:gap-0 justify-between items-center">
+      <div
+        className={`flex-col flex md:flex-row gap-5 md:gap-0 ${role && role !== "N" ? "justify-between" : "justify-center"} items-center`}
+      >
         {role && role !== "N" && (
-          <>
-            <p className="ml-5 text-custom-heading-color font-bold">
-              Showing {paginationListings?.length} out of{" "}
-              {filterListings ? filterListings.length : listings.length}{" "}
-              Franchises
-            </p>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}
-              onPageChange={paginate}
-            />
-          </>
+          <p className="ml-5 text-custom-heading-color font-bold">
+            Showing {paginationListings?.length} out of{" "}
+            {filterListings ? filterListings.length : listings.length}{" "}
+            Franchises
+          </p>
         )}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}
+          onPageChange={paginate}
+        />
       </div>
 
       <div
@@ -221,7 +219,7 @@ const AllListings = () => {
             )
           )
         ) : (
-          <h1 className="text-custom-heading-color text-4xl w-full p-5 capitalize">
+          <h1 className="text-custom-heading-color text-4xl w-full p-5 capitalize w-full">
             No Franchises Found For This Filter, Please try another filter
           </h1>
         )}

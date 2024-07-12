@@ -31,6 +31,13 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    if (!token) {
+      localStorage.removeItem("userDetails");
+      localStorage.removeItem("token");
+    }
+  }, [token]);
+
+  useEffect(() => {
     setMobileActive(false);
   }, [loc.pathname]);
   const queryClient = new QueryClient();

@@ -2,12 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useQuery } from "react-query";
+import { useSelector } from "react-redux";
 import BarLoader from "src/Animations/BarLoader";
-import { MyContext } from "src/Context/ListingDataContext";
 
 const BottomBar = ({ listingContent }) => {
-  const [htmlContent, sethtmlContent] = useState(null);
-  const { role } = useContext(MyContext);
+  const role = useSelector((state) => state.counter.role);
 
   const fetchData = async (listingContentName) => {
     const url = `https://backend.ifbc.co/api/listingscontent/${listingContentName}`;

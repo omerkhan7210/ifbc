@@ -127,7 +127,9 @@ const MainMessages = () => {
           </div>
         </div>
       ) : (
-        <BarLoader bgcolor={"blue"} />
+        <div className="grid place-items-center p-10">
+          <BarLoader bgcolor={"blue"} />
+        </div>
       )}
     </PageTransition>
   );
@@ -160,16 +162,16 @@ const Card = ({ card, selectedMessages, setSelectedMessages }) => {
   );
 
   // Function to handle checkbox change
-  const handleCheckboxChange = (serialNumber) => {
+  const handleCheckboxChange = (docId) => {
     setSelectedMessages((prevSelected) => {
       // Check if docId already exists in selectedMessages
-      const index = prevSelected.indexOf(serialNumber);
+      const index = prevSelected.indexOf(docId);
       if (index === -1) {
         // Add docId if it doesn't exist
-        return [...prevSelected, serialNumber];
+        return [...prevSelected, docId];
       } else {
         // Remove docId if it exists
-        return prevSelected.filter((sN) => sN !== serialNumber);
+        return prevSelected.filter((sN) => sN !== docId);
       }
     });
   };
@@ -185,9 +187,9 @@ const Card = ({ card, selectedMessages, setSelectedMessages }) => {
             <label class="container">
               <input
                 class="peer cursor-pointer hidden after:opacity-100"
-                checked={selectedMessages.includes(card.serialNumber)}
+                checked={selectedMessages.includes(card.docId)}
                 onChange={() => {
-                  handleCheckboxChange(card.serialNumber);
+                  handleCheckboxChange(card.docId);
                 }}
                 type="checkbox"
               />
@@ -362,16 +364,16 @@ const SecondRow = ({
   const [show, setShow] = useState(false);
   useEffect(() => {
     if (filteredMessages && filteredMessages.length > 0) {
-      const serialNumbers = filteredMessages.map((msg) => msg.serialNumber);
-      const uniqueSerialNumbers = [...new Set(serialNumbers)];
-      setAllMessagesIds(uniqueSerialNumbers);
+      const docIds = filteredMessages.map((msg) => msg.docId);
+      const uniquedocIds = [...new Set(docIds)];
+      setAllMessagesIds(uniquedocIds);
     }
   }, [filteredMessages]);
 
   useEffect(() => {
     if (filteredMessages && filteredMessages.length > 0) {
       const allMessages = filteredMessages.filter((msg) =>
-        selectedMessages.includes(msg.serialNumber)
+        selectedMessages.includes(msg.docId)
       );
       setAllSelectedMessagesData(allMessages);
     }
