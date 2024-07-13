@@ -40,7 +40,7 @@ const CandidatesDataContext = ({ children }) => {
   const getAllCandidates = async () => {
     setLoading(true);
 
-    const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/candidates`;
+    const url = `https://backend.ifbc.co/api/candidates`;
 
     // Make a GET request to fetch the data
     axios
