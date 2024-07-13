@@ -57,7 +57,7 @@ const About2 = () => {
           <div className="relative">
             <img
               src="/images/home-seven/about.png"
-              className=" object-cover rounded"
+              className=" object-cover rounded-3xl"
             />
 
             <div className="w-[100px] aspect-square rounded-[10px] bg-it-blue flex justify-center items-center absolute -top-[50px] -right-[0px] md:-right-[50px]">
