@@ -2,7 +2,6 @@ import React, { useContext, useRef, useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
-import { extractMinValue, removeSpecificText } from "src/Utils/SanitizeInput";
 
 const SearchingSection = () => {
   const [searchConfigs, setSearchConfigs] = useState([]);

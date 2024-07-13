@@ -106,7 +106,7 @@ const Registration = () => {
       coverimage: formFields.coverimage ?? "",
     };
     try {
-      const baseUrl = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/users`;
+      const baseUrl = `https://backend.ifbc.co/api/users`;
 
       setLoading(true);
 

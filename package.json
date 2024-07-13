@@ -4,7 +4,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com",
+  "proxy": "https://backend.ifbc.co",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

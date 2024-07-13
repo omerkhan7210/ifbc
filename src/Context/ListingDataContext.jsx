@@ -65,7 +65,7 @@ const ListingDataContext = ({ children }) => {
     setLoading(true);
     const endPoint = role !== "N" ? "Listings" : "ListingsView";
 
-    const url = `http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com/api/${endPoint}`;
+    const url = `https://backend.ifbc.co/api/${endPoint}`;
     const responseData = await axios
       .get(url)
       .then(async (response) => {
