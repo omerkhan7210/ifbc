@@ -4,13 +4,17 @@ import { MyContext } from "src/Context/ListingDataContext";
 
 const MobileNav = ({ setMobileActive }) => {
   const [submenuactive, setsubmenuactive] = useState(false);
-  const { userDetails, token } = useContext(MyContext);
   const handleLogOut = () => {
     localStorage.setItem("token", false);
     localStorage.removeItem("userDetails");
     history("/");
   };
-  const { role } = useContext(MyContext);
+  const token = useSelector((state) => state.counter.token);
+  const userDetails = useSelector((state) => state.counter.userDetails);
+  const role =
+    userDetails && typeof userDetails === "object"
+      ? userDetails.userType
+      : null;
 
   return (
     <nav
@@ -42,7 +46,7 @@ const MobileNav = ({ setMobileActive }) => {
       </div>
       <div className="menu-franchisor-container">
         <ul id="menu-franchisor" className="menu">
-          {role && role !== "N" && (
+          {role && role !== "N" && token && (
             <li
               id="menu-item-552289"
               className="menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552289"
@@ -115,13 +119,29 @@ const MobileNav = ({ setMobileActive }) => {
           >
             <Link to="/checkout">Checkout</Link>
           </li>
-
-          <li
-            id="menu-item-552290"
-            className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
-          >
-            <Link to="/profile">Profile</Link>
-          </li>
+          {token ? (
+            <li
+              id="menu-item-552290"
+              className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+            >
+              <Link to="/profile">Profile</Link>
+            </li>
+          ) : (
+            <>
+              <li
+                id="menu-item-552290"
+                className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+              >
+                <Link to="/login">Sign in</Link>
+              </li>
+              <li
+                id="menu-item-552290"
+                className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+              >
+                <Link to="/registration">Sign up</Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
       {token && (
