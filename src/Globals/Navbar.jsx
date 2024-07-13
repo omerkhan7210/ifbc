@@ -4,11 +4,14 @@ import { NavLink, useLocation } from "react-router-dom";
 const Navbar = ({ active, setActive, selectedCandName }) => {
   const style = ({ isActive }) => ({
     background: isActive ? "rgb(0 17 54)" : "",
+    color: isActive ? "white" : "",
+    borderTopLeftRadius: isActive ? "10px" : "",
+    borderTopRightRadius: isActive ? "10px" : "",
   });
 
   const innerNavLinkStyle = ({ isActive }) => ({
     background: isActive ? "rgb(0 17 54)" : "",
-    color: isActive ? "white" : "",
+    color: isActive ? "white!important" : "",
   });
 
   const token = useSelector((state) => state.counter.token);

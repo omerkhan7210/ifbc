@@ -12,7 +12,7 @@ import { generateUuid } from "./Redux/listingReducer";
 import RouteRenderer from "./RouteRenderer";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import RegisterationPopup from "./Popups/RegistrationPopup";
-import { QueryClient, QueryClientProvider } from "react-query";
+// import { QueryClient, QueryClientProvider } from "react-query";
 const App = () => {
   const dispatch = useDispatch();
   const [mobileActive, setMobileActive] = useState(false);
@@ -40,7 +40,7 @@ const App = () => {
   useEffect(() => {
     setMobileActive(false);
   }, [loc.pathname]);
-  const queryClient = new QueryClient();
+  //const queryClient = new QueryClient();
   // const queryClient = new QueryClient({
   //   defaultOptions: {
   //     queries: {
@@ -59,7 +59,8 @@ const App = () => {
   // });
 
   return (
-    <QueryClientProvider client={queryClient}>
+    // <QueryClientProvider client={queryClient}>
+    <>
       <Header
         mobileActive={mobileActive}
         setMobileActive={setMobileActive}
@@ -103,7 +104,8 @@ const App = () => {
           )}
       </TCFRDataContext>
       <Footer />
-    </QueryClientProvider>
+    </>
+    // </QueryClientProvider>
   );
 };
 

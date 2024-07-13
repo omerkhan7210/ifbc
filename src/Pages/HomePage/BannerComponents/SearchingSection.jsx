@@ -92,7 +92,11 @@ const SearchingSection = () => {
   };
 
   return (
-    <div id="searching-contianer" className="grid grid-cols-12 gap-2   p-5">
+    <div
+      id="searching-contianer"
+      className="grid grid-cols-12 gap-2   p-5"
+      ref={dropdownRef}
+    >
       <div className="relative col-span-12 md:col-span-4  flex items-center">
         <input
           type="search"

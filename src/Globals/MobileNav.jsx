@@ -119,13 +119,28 @@ const MobileNav = ({ setMobileActive }) => {
           >
             <Link to="/checkout">Checkout</Link>
           </li>
-          {token && (
+          {token ? (
             <li
               id="menu-item-552290"
               className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
             >
               <Link to="/profile">Profile</Link>
             </li>
+          ) : (
+            <>
+              <li
+                id="menu-item-552290"
+                className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+              >
+                <Link to="/login">Sign in</Link>
+              </li>
+              <li
+                id="menu-item-552290"
+                className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
+              >
+                <Link to="/registration">Sign up</Link>
+              </li>
+            </>
           )}
         </ul>
       </div>
