@@ -82,20 +82,13 @@ const HomeBanner = () => {
   const slidesData = [
     {
       image: "/images/accounts/backgroundimage.jpg",
-      text: "The Best Franchise Opportunities Are Available For You!",
-    },
-    {
-      image: "/images/accounts/backgroundimage.jpg",
       text: "Discover Amazing Business Ventures Today!",
     },
     {
       image: "/images/accounts/backgroundimage.jpg",
       text: "Unlock Your Potential with Our Franchises!",
     },
-    {
-      image: "/images/accounts/backgroundimage.jpg",
-      text: "Join the Fastest-Growing Brands in the Industry!",
-    },
+
     {
       image: "/images/accounts/backgroundimage.jpg",
       text: "Start Your Journey to Business Success Today!",
@@ -124,7 +117,7 @@ const HomeBanner = () => {
           {slidesData.map((slide, index) => (
             <SwiperSlide key={index}>
               <div
-                className="swiperslidehomebanner w-full  md:px-32 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-32 xl:pt-20  items-center"
+                className="swiperslidehomebanner w-full  md:px-32 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-52 xl:pt-32  items-center"
                 style={{
                   background: `url(${slide.image})`,
                   backgroundPosition: "center",
@@ -146,7 +139,7 @@ const HomeBanner = () => {
           ))}
           {/* swiper end */}
         </Swiper>
-        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-64 2xl:top-72 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
+        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-52 2xl:top-56 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
           <SearchingSection />
         </div>
       </section>
