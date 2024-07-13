@@ -236,149 +236,114 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   //Additional Contact
 
-  const handleSubmitContact = () => {
+  const handleSubmitContact = async (docId) => {
     additionalContacts.map(async (object) => {
       const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
-      // apne wale names lao niche wali 2 fileds haitenge ye select daalo apne wale may sahi he name change kro
-      // daldya?
-      // const reqFields = [
-      //   "additionalFirstName",
-      //   "additionalLastName",
-      //   "additionalEmail",
-      //   "additionalPhone",
-      // ];
-      // let addContactDataValid = true;
-      // let formErrors = {};
+      try {
+        // if (addContactDataValid) {
+        const formData = {
+          firstName: object.additionalFirstName,
+          lastName: object.additionalLastName,
+          email: object.additionalEmail,
+          phone: object.additionalPhone,
+          relationShip: object.additionalRelationship,
+          candidateId: docId,
+        };
+        console.log(formData);
+        const response = await axios.post(additionalContactAddUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
-      // reqFields.forEach((field) => {
-      //   const newKey = field;
-      //   const value = object[newKey]?.trim() || "";
+        //Additional Territories
 
-      //   if (!value) {
-      //     formErrors[newKey] = "This field is required";
-      //     addContactDataValid = false;
-      //   } else {
-      //     // Field-specific validations
-      //     if (newKey === "additionalEmail" && !validateEmail(value)) {
-      //       formErrors[newKey] = "invalid";
-      //       addContactDataValid = false;
-      //     } else if (
-      //       newKey === "additionalPhone" &&
-      //       !validatePhone(value)
-      //     ) {
-      //       formErrors[newKey] = "invalid";
-      //       addContactDataValid = false;
-      //     } else if (
-      //       newKey === "additionalFirstName" &&
-      //       !validateUsername(value)
-      //     ) {
-      //       formErrors[newKey] = "invalid";
-      //       addContactDataValid = false;
-      //     } else if (
-      //       newKey === "additionalLastName" &&
-      //       !validateUsername(value)
-      //     ) {
-      //       formErrors[newKey] = "invalid";
-      //       addContactDataValid = false;
-      //     } else {
-      //       formErrors[newKey] = "";
-      //     }
-      //   }
-      // });
-
-      // setFormErrors(formErrors);
-
-      // if (addContactDataValid) {
-      const formData = {
-        firstName: object.additionalFirstName,
-        lastName: object.additionalLastName,
-        email: object.additionalEmail,
-        phone: object.additionalPhone,
-        relationShip: object.additionalRelationship,
-        candidateId: docId,
-      };
-      response = await axios.post(additionalContactAddUrl, formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      //Additional Territories
-
-      if (response.status === 201) {
-        setSuccessMsg("Candidate Information Saved Successfully!");
-        setLoading(false);
-        setTimeout(() => {
-          window.location.href = "/candidate-list";
-        }, 3000);
+        if (response.status === 201) {
+          setSuccessMsg("Candidate Information Saved Successfully!");
+          setLoading(false);
+          setTimeout(() => {
+            window.location.href = "/candidate-list";
+          }, 3000);
+        }
+        // }
+      } catch (error) {
+        console.error(error);
       }
-      // }
     });
   };
 
-  const handleSubmitTerritory = async () => {
+  const handleSubmitTerritory = async (docId) => {
+    let formErrors = {};
     let allValid = true; // Flag to track if all validations pass
 
     await Promise.all(
       additionalTerritories.map(async (object) => {
         const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
 
-        // Basic validations
+        // is wale may srf zipcode ko check krwana tha
+        // Field-specific validations
+        // agr object may territoryzipcode missing hoga to ye error aega
+        // ab agr in teeno may se koi bhi empty hua ya hua hi nhi object may to error ajaega
+        // ab agr in teeno may se koi bhi empty hua ye check nhi hora lekn mtlb
+        // abhi srf ye hora
+        // {territoryZipCode:"" } iska mtlb ke object may terrZip hai ya nhi bas ye check hora lekn ye nhi hora ke empty hai ya nhi
+        // object?.territoryZipCode !== '' hum isse check krhe ke null to nhi hai value
+        // issi tarah baaki sab ka bhi check krengay
         if (
+          !object.territoryZipCode ||
+          object?.territoryZipCode === "" ||
           !object.territoryState ||
+          object?.territoryState === "" ||
           !object.territoryCity ||
-          !object.territoryZipCode
+          object?.territoryCity === ""
         ) {
-          console.error("Validation Error: Missing required fields");
-          allValid = false;
-          return; // Skip further processing for this object
+          // ye wala
+          formErrors["territoryZipCode"] = "This field is required";
+          allFieldsValid = false;
         }
-
-        // Format validation for zip code (example: 5 digits)
-        const zipCodeRegex = /^\d{5}$/;
-        if (!zipCodeRegex.test(object.territoryZipCode)) {
-          console.error("Validation Error: Invalid zip code format");
-          allValid = false;
-          return; // Skip further processing for this object
-        }
-
-        const formData = {
-          territoryState: object.territoryState,
-          territoryCity: object.territoryCity,
-          territoryZipCode: object.territoryZipCode,
-          territorynotes: object.territorynotes,
-          parentId: docId,
-          parent_Type: "R",
-          isPrimary: false,
-        };
-
-        try {
-          const response = await axios.post(
-            additionalTerritoriesAddUrl,
-            formData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-
-          if (response.status === 201) {
-            setSuccessMsg("Territory Information Saved Successfully!");
-            setLoading(false);
-            setTimeout(() => {
-              window.location.href = "/candidate-list";
-            }, 3000);
-          } else {
-            console.error(
-              "Error saving territory information:",
-              response.status
-            );
+        // agr missing nhi hoga to else may jaega
+        else {
+          // else may phr zipcode validate hoga ke sahi hai ya nhi
+          // humne ek method banaya wa already wo yahan pr nhi kahin or bana wa hai
+          // agr sahi nhi daala hua to error aega invalid
+          if (!validateZipcode(object.territoryZipCode)) {
+            formErrors["territoryZipCode"] = "invalid";
             allValid = false;
           }
-        } catch (error) {
-          console.error("Error saving territory information:", error);
-          allValid = false;
+          // agr sahi hua to saare error hatjaengay or allValid wala boolean true hi rahega
+          else {
+            formErrors["territoryZipCode"] = "";
+          }
+        }
+
+        setFormErrors(formErrors);
+        // agr uper sab sahi hua or allValid true hi raha to hum if may chlejaengay
+        // acha isme mene baaki sabka check nhi krwaya ke empty agr hon to uska bhi check krwana hoga
+        if (allValid) {
+          const formData = {
+            territoryState: object.territoryState,
+            territoryCity: object.territoryCity,
+            territoryZipCode: object.territoryZipCode,
+            territorynotes: object.territorynotes,
+            parentId: docId,
+            parent_Type: "R",
+            isPrimary: false,
+          };
+
+          try {
+            const response = await axios.post(
+              additionalTerritoriesAddUrl,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+          } catch (error) {
+            console.error("Error saving territory information:", error);
+            allValid = false;
+          }
         }
       })
     );
@@ -868,6 +833,11 @@ const FormFirstRow = ({
               type="text"
               name={`additionalFirstName_${index}`}
               className="candidate-input"
+              // ye error agr aega to border red hojaega ye har jaga add kro
+              // aese hoga har additional wali field pr smjhgye?  han ha ok krke btao phr ok
+              style={{
+                borderColor: formErrors.additionalFirstName ? "red" : undefined,
+              }}
               required
               defaultValue={contact ? contact.firstName : ""}
             />
@@ -879,6 +849,9 @@ const FormFirstRow = ({
               type="text"
               name={`additionalLastName_${index}`}
               className="candidate-input"
+              style={{
+                borderColor: formErrors.additionalLastName ? "red" : undefined,
+              }}
               required
               defaultValue={contact ? contact.lastName : ""}
             />
@@ -895,6 +868,9 @@ const FormFirstRow = ({
               type="tel"
               name={`additionalPhone_${index}`}
               className="candidate-input"
+              style={{
+                borderColor: formErrors.additionalPhone ? "red" : undefined,
+              }}
               required
               defaultValue={contact ? contact.phone : ""}
             />
@@ -906,6 +882,9 @@ const FormFirstRow = ({
               type="email"
               name={`additionalEmail_${index}`}
               className="candidate-input"
+              style={{
+                borderColor: formErrors.additionalEmail ? "red" : undefined,
+              }}
               required
               defaultValue={contact ? contact.email : ""}
             />
@@ -916,6 +895,11 @@ const FormFirstRow = ({
             <select
               onChange={handleInputChange}
               className="candidate-input"
+              style={{
+                borderColor: formErrors.additionalRelationship
+                  ? "red"
+                  : undefined,
+              }}
               name={`additionalRelationship_${index}`}
             >
               <option value="">Select One</option>

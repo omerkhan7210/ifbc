@@ -6,7 +6,6 @@ export const MyCandContext = createContext();
 
 const CandidatesDataContext = ({ children }) => {
   const token = useSelector((state) => state.counter.token);
-  const [filters, setFilters] = useState(null);
   const userDetails = useSelector((state) => state.counter.userDetails);
   const [cands, setCands] = useState([]);
 
@@ -40,8 +39,6 @@ const CandidatesDataContext = ({ children }) => {
         cands,
         loading: isLoading,
         loadingError: error,
-        filters,
-        setFilters,
         userDetails,
         token,
       }}

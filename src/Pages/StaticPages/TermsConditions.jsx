@@ -4,21 +4,6 @@ import PageTransition from "src/Animations/PageTransition";
 const TermsConditions = () => {
   return (
     <PageTransition>
-      <div
-        id="top-text"
-        className="p-10  relative flex flex-col gap-2 justify-center items-center before:absolute before:content-[''] before:top-0 before:w-full before:h-full before:bg-custom-heading-color/60 md:min-h-[400px] before:z-10"
-        style={{
-          background: "url(/images/accounts/conditions.jfif)",
-          backgroundAttachment: "fixed",
-          backgroundPosition: "top center",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-        }}
-      >
-        <h1 className="max-md:text-3xl md:text-7xl text-white  font-bold text-center z-20">
-          Terms And Conditions
-        </h1>
-      </div>
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-8">IFBC Terms & Conditions</h1>
 

@@ -9,8 +9,25 @@ const SearchingSection = () => {
   const ref = useRef();
   const { setFilters, role } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
+  const [activeDD, setActiveDD] = useState(false);
+  const dropdownRef = useRef(null);
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setActiveDD("");
+    }
+  };
 
-  const [selectedCat, setSelectedCat] = useState("");
+  useEffect(() => {
+    if (activeDD) {
+      document.addEventListener("click", handleClickOutside);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [activeDD]);
   const history = useNavigate();
   useEffect(() => {
     if (!role || role === "N") {
@@ -19,16 +36,13 @@ const SearchingSection = () => {
           anotherText: "Select Category",
           normalText: "Category",
           property: "category",
+          color: "#e3e4e6",
         },
         {
           anotherText: "Select Investment Range",
           normalText: "Investment Range",
           property: "investmentRange",
-        },
-        {
-          anotherText: "Select Year Established",
-          normalText: "Year Established",
-          property: "yearEstablished",
+          color: "#e3e4e6",
         },
       ];
       setSearchConfigs(filterDataa);
@@ -78,14 +92,14 @@ const SearchingSection = () => {
   };
 
   return (
-    <div id="searching-contianer" className="flex flex-col gap-2 p-5">
-      <div className="relative col-span-12 md:col-span-12  flex items-center">
+    <div id="searching-contianer" className="grid grid-cols-12 gap-2   p-5">
+      <div className="relative col-span-12 md:col-span-4  flex items-center">
         <input
           type="search"
           id="search-field"
           placeholder="Search Any Listing"
           ref={ref}
-          className="block w-full px-2 py-3 text-sm   focus:border-custom-heading-color border-2 text-black pr-10 rounded-none outline-none bg-white"
+          className="block w-full px-2 h-12 text-sm rounded-lg  text-black pr-10  outline-none bg-white"
         />
 
         <button className=" absolute right-2.5 top-5.5 w-4 h-4">
@@ -98,20 +112,19 @@ const SearchingSection = () => {
           </svg>
         </button>
       </div>
-      <div className="grid grid-cols-12 gap-1">
-        {searchConfigs.map((config, index) => (
-          <SearchDropdown
-            key={index}
-            config={config}
-            setSelectedCats={setSelectedCats}
-            selectedCats={selectedCats}
-          />
-        ))}
-      </div>
-
+      {searchConfigs.map((config, index) => (
+        <SearchDropdown
+          key={index}
+          config={config}
+          setSelectedCats={setSelectedCats}
+          selectedCats={selectedCats}
+          activeDD={activeDD}
+          setActiveDD={setActiveDD}
+        />
+      ))}
       <button
         onClick={handleSearchInputChange}
-        className="max-md:w-full md:w-1/2 relative items-center justify-start overflow-hidden font-medium transition-all duration-500 bg-white hover:bg-custom-heading-color hover:text-white group py-1.5 px-2.5 mx-auto h-12 text-center"
+        className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
       >
         Search
       </button>
@@ -119,10 +132,15 @@ const SearchingSection = () => {
   );
 };
 
-const SearchDropdown = ({ config, setSelectedCats, selectedCats }) => {
-  const { property, anotherText } = config;
-  const [activeDD, setActiveDD] = useState(false);
-  const { role, loading } = useContext(MyContext);
+const SearchDropdown = ({
+  config,
+  setSelectedCats,
+  selectedCats,
+  setActiveDD,
+  activeDD,
+}) => {
+  const { property, anotherText, color } = config;
+  const { loading } = useContext(MyContext);
 
   const generateRangeArray = (start, end, step, check) => {
     let rangeArray = [];
@@ -150,8 +168,7 @@ const SearchDropdown = ({ config, setSelectedCats, selectedCats }) => {
 
   const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
-  const investmentRange = generateRangeArray(15000, 300000, 30000, true);
-  const yearEstablished = generateRangeArray(1950, 2020, 5, false);
+  const investmentRange = generateRangeArray(15000, 1000000, 100000, true);
 
   const categories = [
     "Advertising",
@@ -209,19 +226,28 @@ const SearchDropdown = ({ config, setSelectedCats, selectedCats }) => {
     );
   };
 
+  const handleDropdown = (property) => {
+    if (activeDD === property) {
+      setActiveDD("");
+    } else {
+      setActiveDD(property);
+    }
+  };
+
   return (
     <div
-      className={`relative w-full group flex flex-col gap-2 col-span-12 ${role && role !== "N" ? "md:col-span-3" : "md:col-span-4"}`}
+      className="relative w-full group flex flex-col gap-2 col-span-12 md:col-span-3 h-12 rounded-lg "
+      style={{ background: `${color}` }}
     >
       <button
-        className={`h-16 px-4 text-md w-full capitalize text-white bg-custom-heading-color hover:bg-custom-heading-color transition-all duration-250 focus:bg-custom-heading-color focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold ${
+        className={`h-full px-4 text-sm w-full capitalize text-[#000000]  transition-all duration-250  focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold  ${
           selectedCats &&
           selectedCats[property] &&
           selectedCats[0][property] !== ""
             ? "text-xs"
             : ""
         }`}
-        onClick={() => setActiveDD(!activeDD)}
+        onClick={() => handleDropdown(property)}
       >
         {selectedCats &&
         selectedCats.length > 0 &&
@@ -251,10 +277,10 @@ const SearchDropdown = ({ config, setSelectedCats, selectedCats }) => {
             {anotherText !== "" && anotherText}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="white"
+              fill="currentColor"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
-              stroke="white"
+              stroke="currentColor"
               className="w-4 h-4"
             >
               <path
@@ -267,8 +293,8 @@ const SearchDropdown = ({ config, setSelectedCats, selectedCats }) => {
         )}
       </button>
       <div
-        className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full ${
-          activeDD ? "h-[300px]" : "h-0 opacity-0"
+        className={`absolute z-[99] top-[100%] left-[50%] translate-x-[-50%] shadow-lg w-full rounded-lg mt-1 ${
+          activeDD === property ? "h-[300px]" : "h-0 opacity-0"
         } duration-200 bg-white border border-dimmed text-sm md:text-sm overflow-x-hidden overflow-scroll ]`}
       >
         {!loading &&

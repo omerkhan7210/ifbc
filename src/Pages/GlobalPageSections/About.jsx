@@ -20,7 +20,7 @@ const TextColumn = () => {
       <h1 className="px-5 bg-main-gray border border-it-blue/20 text-it-blue font-medium rounded-[30px] w-fit">
         Who we are?
       </h1>
-      <h2 className="font-semibold text-2xl sm:text-48 text-custom-heading-color mt-5">
+      <h2 className="font-bold md:text-4xl max-md:text-2xl text-custom-heading-color mt-5">
         About IFBC
       </h2>
       <p className="mt-3">
