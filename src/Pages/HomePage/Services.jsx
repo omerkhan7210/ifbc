@@ -6,7 +6,7 @@ const Services = () => {
       <div className="theme-container mx-auto grid grid-cols-6 lg:grid-cols-12 gap-[30px]">
         <div className="col-span-6 flex flex-col">
           <div id="text-container" className="order-2 md:order-1">
-            <h2 className="max-w-[747px] font-semibold text-24 sm:text-48 text-main-black mt-5">
+            <h2 className="font-bold md:text-4xl max-md:text-2xl text-custom-heading-color mt-5">
               Reasons to Choose a Franchise Business Model for Your Next Venture
             </h2>
             <p className="mt-5">
@@ -17,11 +17,16 @@ const Services = () => {
             </p>
           </div>
           <div className="w-full relative mt-[40px] order-1 md:order-2">
-            <img
+            {/* <img
               src="/images/home-seven/process-1.png"
               alt="Services 1"
               className="w-full"
-            />
+            /> */}
+
+            <video width="700" controls>
+              <source src="/video/videoplayback.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
             <button className="w-[50px] sm:w-[100px] aspect-square rounded-[10px] flex justify-center items-center absolute -bottom-[25px] sm:-bottom-[50px] right-0 bg-it-blue">
               <svg
                 width={22}
