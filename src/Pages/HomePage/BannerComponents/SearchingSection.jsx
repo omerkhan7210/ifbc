@@ -124,7 +124,7 @@ const SearchingSection = () => {
       ))}
       <button
         onClick={handleSearchInputChange}
-        className="w-full md:col-span-2  relative items-center justify-start overflow-hidden font-medium transition-all duration-500 bg-[#1256c4]  group py-1.5  mx-auto h-12 text-center text-white rounded-lg"
+        className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
       >
         Search
       </button>

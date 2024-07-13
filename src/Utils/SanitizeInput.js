@@ -1,3 +1,5 @@
+// ye saaray alag alag validation methods hain
+// kahin pr bhi use krskte in sab ko
 // Example validation functions
 export function validateEmail(email) {
   // Basic email validation

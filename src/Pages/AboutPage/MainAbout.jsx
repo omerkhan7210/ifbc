@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import About from "../GlobalPageSections/About";
 import About2 from "../GlobalPageSections/About2";
 
@@ -31,15 +31,24 @@ const MainAbout = () => {
 const AboutHarjeet = () => {
   // ek state banegy pehle banao show setshow
   const [show, setShow] = useState(false);
+  const buttonRef = useRef(null);
+  const extraTextRef = useRef(null);
 
   const ShowMoreText = () => {
     setShow(!show);
+
+    if (!show && buttonRef.current) {
+      buttonRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
   };
   return (
     <div className="max-md:mx-5 my-20">
       <div className="max-md:flex-col flex gap-5">
         <div className="flex flex-col gap-3">
-          <h1 className="font-semibold text-24 sm:text-48 text-custom-heading-color">
+          <h1 className="font-bold md:text-4xl max-md:text-2xl text-custom-heading-color">
             About IFBC-President & CEO
           </h1>
           <p className="text-xl  font-bold text-custom-heading-color ">
@@ -97,6 +106,7 @@ const AboutHarjeet = () => {
           </p>
 
           <button
+            ref={buttonRef}
             className="candidate-btn w-[50%] max-md:w-full mr-auto"
             onClick={ShowMoreText}
           >
@@ -120,7 +130,7 @@ const AboutHarjeet = () => {
         </div>
       </div>
 
-      <ExtraText show={show} />
+      <ExtraText show={show} ref={extraTextRef} />
     </div>
   );
 };
@@ -340,7 +350,7 @@ const ServicesGrid = () => {
           setting a global standard for integrity, opportunity, and excellence
           in franchise consultation.”
         </p> */}
-        <h2 className="max-w-[747px] font-semibold text-24 sm:text-48 text-main-black text-center mx-auto mt-5">
+        <h2 className="font-bold md:text-4xl max-md:text-2xl text-custom-heading-color text-center mx-auto mt-5">
           Our Values at IFBC
         </h2>
         <div className="grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-12  gap-[30px] mt-[20px]">
