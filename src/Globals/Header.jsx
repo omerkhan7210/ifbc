@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { MyContext } from "src/Context/ListingDataContext";
 import ToggleButton from "./ToggleButton";
 import { useDispatch, useSelector } from "react-redux";
 import { setToken } from "src/Redux/listingReducer";
@@ -147,8 +146,12 @@ const RightSideButtonsContainer = ({
   setMobileActive,
   hidden,
 }) => {
-  const { token, userDetails, role } = useContext(MyContext);
-
+  const userDetails = useSelector((state) => state.counter.userDetails);
+  const token = useSelector((state) => state.counter.token);
+  const role =
+    userDetails && typeof userDetails === "object"
+      ? userDetails.userType
+      : null;
   return (
     <div className="md:flex md:justify-end md:items-start md:pt-1 md:gap-5 ">
       {/* button appointment */}
@@ -164,7 +167,7 @@ const RightSideButtonsContainer = ({
       {/* cart icon */}
       {(!role || role === "N") && <CartIcon hidden={hidden} />}
       {/* USER BUTTON */}
-      <AccountDD token={token} userDetails={userDetails} />
+      <AccountDD token={token} userDetails={userDetails} role={role} />
 
       {/* TOGGLE BUTTON */}
       <ToggleButton
@@ -211,10 +214,9 @@ const CartIcon = ({ hidden }) => {
   );
 };
 
-const AccountDD = ({ userDetails, token, hidden }) => {
+const AccountDD = ({ userDetails, token, hidden, role }) => {
   const [active, setActive] = useState(false);
   const dispatch = useDispatch();
-  const { role } = useContext(MyContext);
   const [roleName, setRoleName] = useState("Member");
   const loc = useLocation();
 

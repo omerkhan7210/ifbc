@@ -60,16 +60,14 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ListingDataContext>
-        <Header
-          mobileActive={mobileActive}
-          setMobileActive={setMobileActive}
-          active={active}
-          setActive={setActive}
-          selectedCandName={selectedCandName}
-        />
-        {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
-      </ListingDataContext>
+      <Header
+        mobileActive={mobileActive}
+        setMobileActive={setMobileActive}
+        active={active}
+        setActive={setActive}
+        selectedCandName={selectedCandName}
+      />
+      {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
 
       <AnimatePresence mode="wait">
         <RouteRenderer
