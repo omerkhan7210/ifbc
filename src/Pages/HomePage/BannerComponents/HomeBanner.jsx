@@ -81,15 +81,15 @@ const HomeBanner = () => {
   ];
   const slidesData = [
     {
-      image: "/images/banners/banner.png",
+      image: "/images/banners/banner4.png",
       text: "The Best Franchise Opportunities Are Available For You!",
     },
     {
-      image: "/images/banners/banner2.png",
+      image: "/images/banners/banner4.png",
       text: "Discover Amazing Business Ventures Today!",
     },
     {
-      image: "/images/banners/banner3.png",
+      image: "/images/banners/banner4.png",
       text: "Unlock Your Potential with Our Franchises!",
     },
     {
@@ -97,7 +97,7 @@ const HomeBanner = () => {
       text: "Join the Fastest-Growing Brands in the Industry!",
     },
     {
-      image: "/images/banners/banner5.png",
+      image: "/images/banners/banner4.png",
       text: "Start Your Journey to Business Success Today!",
     },
   ];
@@ -133,7 +133,7 @@ const HomeBanner = () => {
                 }}
               >
                 <h1
-                  className="max-md:text-3xl  z-50 relative md:max-2xl:text-6xl text-7xl max-md:px-5  text-center text-white"
+                  className="max-md:text-xl  z-50 relative  md:text-5xl max-md:px-5  text-center text-white"
                   style={{
                     lineHeight: window.innerWidth > 768 ? "5rem" : "40px",
                     textShadow: "1px 1px 10px black",

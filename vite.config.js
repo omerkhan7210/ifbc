@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   // server: {
   //   proxy: {
-  //     "/api": "http://ifbc-dotnet-backend-env.eba-k4f4mzqg.us-east-1.elasticbeanstalk.com",
+  //     "/api": "https://backend.ifbc.co",
   //   },
   // },
   build: {

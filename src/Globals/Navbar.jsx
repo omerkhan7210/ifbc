@@ -1,17 +1,26 @@
-import { useContext, useEffect } from "react";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
-import { MyContext } from "src/Context/ListingDataContext";
 
 const Navbar = ({ active, setActive, selectedCandName }) => {
-  const style = ({ isActive }) => ({});
+  const style = ({ isActive }) => ({
+    background: isActive ? "rgb(0 17 54)" : "",
+    color: isActive ? "white" : "",
+    borderTopLeftRadius: isActive ? "10px" : "",
+    borderTopRightRadius: isActive ? "10px" : "",
+  });
 
   const innerNavLinkStyle = ({ isActive }) => ({
     background: isActive ? "rgb(0 17 54)" : "",
-    color: isActive ? "white" : "",
+    color: isActive ? "white!important" : "",
   });
 
-  const { role, token } = useContext(MyContext);
+  const token = useSelector((state) => state.counter.token);
+  const userDetails = useSelector((state) => state.counter.userDetails);
+  const role =
+    userDetails && typeof userDetails === "object"
+      ? userDetails.userType
+      : null;
+
   const loc = useLocation();
   return (
     <div className="max-md:hidden md:block  relative">

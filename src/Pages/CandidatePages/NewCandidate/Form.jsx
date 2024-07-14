@@ -44,7 +44,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [selectedStateT, setSelectedStateT] = useState(null);
   const [selectedStateC, setSelectedStateC] = useState(null);
   const [addContacts, setAddContacts] = useState(0);
+  const [addTerritory, setAddTerritory] = useState(0);
   const [additionalContacts, setAdditionalContacts] = useState([]);
+  const [additionalTerritories, setAdditionalTerritories] = useState([]);
 
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
@@ -61,9 +63,15 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   }, [selectedDocId, candDetails]);
 
   const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
+  const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
 
   const getAdditionalContacts = async () => {
     const response = await axios.get(additionalContactAddUrl);
+    return response.data;
+  };
+
+  const getAdditionalTerritories = async () => {
+    const response = await axios.get(additionalTerritoriesAddUrl);
     return response.data;
   };
 
@@ -82,6 +90,18 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       refetchInterval: false,
     }
   );
+
+  const { data: territory } = useQuery("territory", getAdditionalTerritories, {
+    select: (data) => {
+      return data?.filter(
+        (territory) => territory.candidateId === candDetails?.docId
+      );
+    },
+    cacheTime: 24000,
+    enabled: !!candDetails,
+    refetchOnWindowFocus: false,
+    refetchInterval: false,
+  });
 
   useEffect(() => {
     if (candDetails) {
@@ -212,6 +232,127 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         ))}
       </select>
     );
+  };
+
+  //Additional Contact
+
+  const handleSubmitContact = async (docId) => {
+    additionalContacts.map(async (object) => {
+      const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
+      try {
+        // if (addContactDataValid) {
+        const formData = {
+          firstName: object.additionalFirstName,
+          lastName: object.additionalLastName,
+          email: object.additionalEmail,
+          phone: object.additionalPhone,
+          relationShip: object.additionalRelationship,
+          candidateId: docId,
+        };
+        console.log(formData);
+        const response = await axios.post(additionalContactAddUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        //Additional Territories
+
+        if (response.status === 201) {
+          setSuccessMsg("Candidate Information Saved Successfully!");
+          setLoading(false);
+          setTimeout(() => {
+            window.location.href = "/candidate-list";
+          }, 3000);
+        }
+        // }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  };
+
+  const handleSubmitTerritory = async (docId) => {
+    let formErrors = {};
+    let allValid = true; // Flag to track if all validations pass
+
+    await Promise.all(
+      additionalTerritories.map(async (object) => {
+        const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
+
+        // is wale may srf zipcode ko check krwana tha
+        // Field-specific validations
+        // agr object may territoryzipcode missing hoga to ye error aega
+        // ab agr in teeno may se koi bhi empty hua ya hua hi nhi object may to error ajaega
+        // ab agr in teeno may se koi bhi empty hua ye check nhi hora lekn mtlb
+        // abhi srf ye hora
+        // {territoryZipCode:"" } iska mtlb ke object may terrZip hai ya nhi bas ye check hora lekn ye nhi hora ke empty hai ya nhi
+        // object?.territoryZipCode !== '' hum isse check krhe ke null to nhi hai value
+        // issi tarah baaki sab ka bhi check krengay
+        if (
+          !object.territoryZipCode ||
+          object?.territoryZipCode === "" ||
+          !object.territoryState ||
+          object?.territoryState === "" ||
+          !object.territoryCity ||
+          object?.territoryCity === ""
+        ) {
+          // ye wala
+          formErrors["territoryZipCode"] = "This field is required";
+          allFieldsValid = false;
+        }
+        // agr missing nhi hoga to else may jaega
+        else {
+          // else may phr zipcode validate hoga ke sahi hai ya nhi
+          // humne ek method banaya wa already wo yahan pr nhi kahin or bana wa hai
+          // agr sahi nhi daala hua to error aega invalid
+          if (!validateZipcode(object.territoryZipCode)) {
+            formErrors["territoryZipCode"] = "invalid";
+            allValid = false;
+          }
+          // agr sahi hua to saare error hatjaengay or allValid wala boolean true hi rahega
+          else {
+            formErrors["territoryZipCode"] = "";
+          }
+        }
+
+        setFormErrors(formErrors);
+        // agr uper sab sahi hua or allValid true hi raha to hum if may chlejaengay
+        // acha isme mene baaki sabka check nhi krwaya ke empty agr hon to uska bhi check krwana hoga
+        if (allValid) {
+          const formData = {
+            territoryState: object.territoryState,
+            territoryCity: object.territoryCity,
+            territoryZipCode: object.territoryZipCode,
+            territorynotes: object.territorynotes,
+            parentId: docId,
+            parent_Type: "R",
+            isPrimary: false,
+          };
+
+          try {
+            const response = await axios.post(
+              additionalTerritoriesAddUrl,
+              formData,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+          } catch (error) {
+            console.error("Error saving territory information:", error);
+            allValid = false;
+          }
+        }
+      })
+    );
+
+    if (!allValid) {
+      // Handle invalid form data
+      console.error("Invalid form data");
+      // Optionally, show user a message or take corrective action
+    }
   };
 
   const handleSubmit = async () => {
@@ -364,80 +505,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           const docId = response.data.docId;
           // yahan pr loop cchalao additionalContacts iska (map method) may ata hun phr ye kro jab tk ok
           // bhai har chez gpt se ku puchre khud bhi kro
-          additionalContacts.map(async (object) => {
-            const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
-            // apne wale names lao niche wali 2 fileds haitenge ye select daalo apne wale may sahi he name change kro
-            // daldya?
-            // const reqFields = [
-            //   "additionalFirstName",
-            //   "additionalLastName",
-            //   "additionalEmail",
-            //   "additionalPhone",
-            // ];
-            // let addContactDataValid = true;
-            // let formErrors = {};
+          handleSubmitContact();
 
-            // reqFields.forEach((field) => {
-            //   const newKey = field;
-            //   const value = object[newKey]?.trim() || "";
-
-            //   if (!value) {
-            //     formErrors[newKey] = "This field is required";
-            //     addContactDataValid = false;
-            //   } else {
-            //     // Field-specific validations
-            //     if (newKey === "additionalEmail" && !validateEmail(value)) {
-            //       formErrors[newKey] = "invalid";
-            //       addContactDataValid = false;
-            //     } else if (
-            //       newKey === "additionalPhone" &&
-            //       !validatePhone(value)
-            //     ) {
-            //       formErrors[newKey] = "invalid";
-            //       addContactDataValid = false;
-            //     } else if (
-            //       newKey === "additionalFirstName" &&
-            //       !validateUsername(value)
-            //     ) {
-            //       formErrors[newKey] = "invalid";
-            //       addContactDataValid = false;
-            //     } else if (
-            //       newKey === "additionalLastName" &&
-            //       !validateUsername(value)
-            //     ) {
-            //       formErrors[newKey] = "invalid";
-            //       addContactDataValid = false;
-            //     } else {
-            //       formErrors[newKey] = "";
-            //     }
-            //   }
-            // });
-
-            // setFormErrors(formErrors);
-
-            // if (addContactDataValid) {
-            const formData = {
-              firstName: object.additionalFirstName,
-              lastName: object.additionalLastName,
-              email: object.additionalEmail,
-              phone: object.additionalPhone,
-              relationShip: object.additionalRelationship,
-              candidateId: docId,
-            };
-            response = await axios.post(additionalContactAddUrl, formData, {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-            if (response.status === 201) {
-              setSuccessMsg("Candidate Information Saved Successfully!");
-              setLoading(false);
-              setTimeout(() => {
-                window.location.href = "/candidate-list";
-              }, 3000);
-            }
-            // }
-          });
+          handleSubmitTerritory();
         } else if (response.status === 204) {
           setSuccessMsg("Candidate Information Saved Successfully!");
           setShowSuccess(true);
@@ -658,6 +728,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           selectedStateT={selectedStateT}
           formFields={formFields}
           citiesT={citiesT}
+          addTerritory={addTerritory}
+          setAddTerritory={setAddTerritory}
+          territory={territory}
         />
         <FormThirdRow
           stateDD={stateDD}
@@ -760,6 +833,11 @@ const FormFirstRow = ({
               type="text"
               name={`additionalFirstName_${index}`}
               className="candidate-input"
+              // ye error agr aega to border red hojaega ye har jaga add kro
+              // aese hoga har additional wali field pr smjhgye?  han ha ok krke btao phr ok
+              style={{
+                borderColor: formErrors.additionalFirstName ? "red" : undefined,
+              }}
               required
               defaultValue={contact ? contact.firstName : ""}
             />
@@ -771,6 +849,9 @@ const FormFirstRow = ({
               type="text"
               name={`additionalLastName_${index}`}
               className="candidate-input"
+              style={{
+                borderColor: formErrors.additionalLastName ? "red" : undefined,
+              }}
               required
               defaultValue={contact ? contact.lastName : ""}
             />
@@ -787,6 +868,9 @@ const FormFirstRow = ({
               type="tel"
               name={`additionalPhone_${index}`}
               className="candidate-input"
+              style={{
+                borderColor: formErrors.additionalPhone ? "red" : undefined,
+              }}
               required
               defaultValue={contact ? contact.phone : ""}
             />
@@ -798,6 +882,9 @@ const FormFirstRow = ({
               type="email"
               name={`additionalEmail_${index}`}
               className="candidate-input"
+              style={{
+                borderColor: formErrors.additionalEmail ? "red" : undefined,
+              }}
               required
               defaultValue={contact ? contact.email : ""}
             />
@@ -808,6 +895,11 @@ const FormFirstRow = ({
             <select
               onChange={handleInputChange}
               className="candidate-input"
+              style={{
+                borderColor: formErrors.additionalRelationship
+                  ? "red"
+                  : undefined,
+              }}
               name={`additionalRelationship_${index}`}
             >
               <option value="">Select One</option>
@@ -841,76 +933,6 @@ const FormFirstRow = ({
               REMOVE CONTACT
             </button>
           )}
-        </div>
-      </div>
-    );
-  };
-  const addTerritoryDiv = (index) => {
-    return (
-      <div
-        key={index}
-        id={`additional-contact-row-${index}`}
-        className="p-5 border-2 border-custom-heading-color shadow-lg"
-      >
-        <h1 className="candidate-sub-heading">Additional Territory</h1>
-        <div
-          id="first-sub-row"
-          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
-        >
-          <div className="candidate-sub-childs">
-            <p className="candidate-label">First Name</p>
-
-            <input
-              onChange={handleInputChange}
-              type="text"
-              name="additionalFirstName"
-              className="candidate-input"
-              required
-            />
-          </div>
-          <div className="candidate-sub-childs">
-            <p className="candidate-label">Last Name</p>
-            <input
-              onChange={handleInputChange}
-              type="text"
-              name="additionalLastName"
-              className="candidate-input"
-              required
-            />
-          </div>
-        </div>
-        <div
-          id="second-sub-row"
-          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
-        >
-          <div className="candidate-sub-childs">
-            <p className="candidate-label">Phone Number</p>
-            <input
-              onChange={handleInputChange}
-              type="text"
-              name="additionalPhone"
-              className="candidate-input"
-              required
-            />
-          </div>
-          <div className="candidate-sub-childs">
-            <p className="candidate-label">Email</p>
-            <input
-              onChange={handleInputChange}
-              type="text"
-              name="additionalEmail"
-              className="candidate-input"
-              required
-            />
-          </div>
-        </div>
-        <div id="button-container" className="w-full flex justify-center">
-          <button
-            className="candidate-btn"
-            onClick={() => setAddContacts((prevContacts) => prevContacts - 1)}
-          >
-            REMOVE TERRITORY
-          </button>
         </div>
       </div>
     );
@@ -1106,7 +1128,119 @@ const FormSecondRow = ({
   selectedStateT,
   formFields,
   citiesT,
+  addTerritory,
+  setAddTerritory,
+  territory,
 }) => {
+  const addTerritoryDiv = (index) => {
+    return (
+      <div
+        key={index}
+        id={`additional-contact-row-${index}`}
+        className="p-5 border-2 border-custom-heading-color shadow-lg"
+      >
+        <h1 className="candidate-sub-heading">Additional Territory</h1>
+        <div
+          id="first-sub-row"
+          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        >
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">State / Province*</p>
+
+            {/* state dd */}
+            {stateDD("territory")}
+          </div>
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">City*</p>
+            {selectedStateT && citiesT.length > 0 ? (
+              <select
+                className="candidate-select"
+                name="territorycity"
+                onChange={handleInputChange}
+              >
+                {!formFields.territorycity && (
+                  <option value="">Select City</option>
+                )}
+                {citiesT.map((city) => (
+                  <option
+                    key={city.name}
+                    value={city.name}
+                    {...(candNames && candNames.length > 0
+                      ? { selected: selectedDetails?.territoryCity }
+                      : { selected: candDetails?.territoryCity })}
+                  >
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                onChange={handleInputChange}
+                type="text"
+                name="territorycity"
+                className="candidate-input w-full"
+                style={{
+                  borderColor: formErrors.territorycity ? "red" : undefined,
+                }}
+                required
+                {...(candNames && candNames.length > 0
+                  ? { value: selectedDetails?.territoryCity }
+                  : { defaultValue: candDetails?.territoryCity })}
+              />
+            )}
+          </div>
+
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">Zip / Postal Code*</p>
+            <input
+              type="number"
+              name="territoryzipcode"
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.territoryzipcode ? "red" : undefined,
+              }}
+              onChange={handleInputChange}
+              {...(candNames && candNames.length > 0
+                ? { value: selectedDetails?.territoryZipcode }
+                : { defaultValue: candDetails?.territoryZipcode })}
+            />
+          </div>
+        </div>
+        <div
+          id="second-sub-row"
+          className="gap-[15px] sm:flex-row sm:gap-[35px]"
+        >
+          <div id="fourth-sub-row" className="candidate-sub-childs">
+            <p className="candidate-label">Territory Notes</p>
+            <textarea
+              onChange={handleInputChange}
+              name="territoryNotes"
+              rows={10}
+              className="candidate-input"
+              {...(candNames && candNames.length > 0
+                ? { value: selectedDetails?.territoryNotes }
+                : { defaultValue: candDetails?.territoryNotes })}
+            ></textarea>
+          </div>
+        </div>
+        <div id="button-container" className="w-full flex justify-center gap-5">
+          <button
+            className="candidate-btn"
+            onClick={() => setAddTerritory((prevContacts) => prevContacts - 1)}
+          >
+            REMOVE TERRITORY
+          </button>
+
+          <button
+            className="candidate-secondary-btn"
+            // onClick={() => setAddTerritory((prevContacts) => prevContacts - 1)}
+          >
+            MAKE PRIMARY TERRITORY
+          </button>
+        </div>
+      </div>
+    );
+  };
   return (
     <div id="second-row" className="py-5">
       <h1 className="candidate-sub-heading">
@@ -1203,9 +1337,30 @@ const FormSecondRow = ({
             : { defaultValue: candDetails?.territoryNotes })}
         ></textarea>
       </div>
+
+      {/* {territory && territory.length > 0 && (
+        <div className="flex flex-col gap-8 mt-5">
+          {territory.map((territory, index) =>
+            addTerritoryDiv(territory, index)
+          )}
+        </div>
+      )} */}
       <div id="button-container" className="w-full flex justify-center">
-        <button className="candidate-btn">ADD ADDITIONAL TERRITORY</button>
+        <button
+          className="candidate-btn"
+          onClick={() => setAddTerritory((prevTerritory) => prevTerritory + 1)}
+        >
+          ADD ADDITIONAL TERRITORY
+        </button>
       </div>
+
+      {addTerritory > 0 && (
+        <div className="flex flex-col gap-8 mt-5">
+          {Array.from({ length: addTerritory }).map((_, index) =>
+            addTerritoryDiv(null, index)
+          )}
+        </div>
+      )}
     </div>
   );
 };
