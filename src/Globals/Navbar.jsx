@@ -4,9 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 
 const Navbar = ({ active, setActive, selectedCandName }) => {
-  const style = ({ isActive }) => ({
-    background: isActive ? "rgb(0 17 54)" : "",
-  });
+  const style = ({ isActive }) => ({});
 
   const innerNavLinkStyle = ({ isActive }) => ({
     background: isActive ? "rgb(0 17 54)" : "",

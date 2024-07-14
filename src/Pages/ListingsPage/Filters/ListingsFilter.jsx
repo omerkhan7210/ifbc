@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 import CategorySearch from "./CategorySearch";
+import SearchingComponent from "../SearchingComponent";
 
 const ListingsFilter = () => {
   const { filters, setFilters, role } = useContext(MyContext);
@@ -94,6 +95,11 @@ const ListingsFilter = () => {
   // };
   return (
     <div id="main-filter-container">
+      {(!role || role === "N") && (
+        <div className="w-full my-5">
+          <SearchingComponent />
+        </div>
+      )}
       {hasActiveFilters && (
         <div className="mb-4">
           <button

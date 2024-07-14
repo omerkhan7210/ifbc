@@ -188,6 +188,7 @@ const AllListings = () => {
             Franchises
           </p>
         )}
+
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}
