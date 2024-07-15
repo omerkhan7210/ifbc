@@ -306,13 +306,16 @@ const Contact = () => {
       </DialogBox>
       <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[95%] mx-auto">
         <ServicesGrid />
-        <div className="bg-custom-heading-color rounded-lg grid max-md:grid-cols-1 md:grid-cols-2 h-[750px] ">
+        <div className=" rounded-3xl grid max-md:grid-cols-1 md:grid-cols-2 h-[650px] gap-4">
           <img
             src="/images/banners/contact.jpg"
             alt=""
-            className="h-[750px] w-full object-cover rounded-l-lg  "
+            className="h-[670px] w-full object-cover md:rounded-3xl max-md:rounded-3xl"
           />
-          <div id="form-right " className="flex flex-col justify-center w-full">
+          <div
+            id="form-right "
+            className="flex flex-col justify-center w-full max-md:bg-custom-heading-color bg-custom-heading-color  md:rounded-3xl  max-md:rounded-3xl "
+          >
             <form className=" px-10 rounded-lg my-5 " onSubmit={handleSubmit}>
               {formErrors.error && (
                 <p className="border-2 border-white text-white p-4 flex justify-between my-5">
