@@ -118,7 +118,7 @@ const AboutHarjeet = () => {
             decoding="async"
             height={2000}
             src="https://s30012.pcdn.co/wp-content/uploads/sites/194/2023/09/broker.jpg"
-            className="attachment-full size-full object-cover"
+            className="attachment-full size-full object-cover rounded-3xl"
             alt
           />
           <h1 className="text-2xl  font-bold text-custom-heading-color text-center">
