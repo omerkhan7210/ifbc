@@ -48,7 +48,7 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
 
   const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
-  const investmentRange = generateRangeArray(15000, 300000, 30000, true);
+  const investmentRange = generateRangeArray(10000, 300000, 30000, true);
 
   const ownedUnits = generateRangeArray(0, 200, 50, false);
 
@@ -63,11 +63,10 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     "Beauty & Spa",
     "Business Management & Coaching",
     "Business Services",
-    "Child Education",
+    "Child Education, STEM & Tutoring",
     "Child Services & Products",
     "Cleaning: Residential & Commercial",
     "Computer Technology",
-    "Copy & Mailing",
     "Distribution Services",
     "Dry Cleaning-Laundry",
     "Financial Services",
@@ -80,17 +79,29 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     "Home Improvement",
     "Interior/Exterior Design",
     "Maintenance & Repair",
+    "Moving, Storage & Junk Removal",
+    "Painting",
     "Pet Care & Grooming",
-    "Print",
+    "Pest Control",
+    "Print, Copy & Mailing",
     "Real Estate",
     "Restoration",
     "Retail",
+    "Security",
     "Senior Care: Medical/Non-Medical Option",
     "Signs",
     "Special Event Planning",
     "Sports & Recreation",
     "Staffing",
-    "STEM & Tutoring",
+    "Travel Planning",
+    "Vending",
+  ];
+
+  const territories = [
+    "United States",
+    "Canada: Willing To Register",
+    "International",
+    "Canada: Registered",
   ];
 
   let uniqueFranchisedCats = [];
@@ -112,6 +123,8 @@ const CategorySearch = ({ property, anotherText, normalText }) => {
     uniqueFranchisedCats = yearEstablished;
   } else if (property === "monthCash") {
     uniqueFranchisedCats = monthCash;
+  } else if (property === "territories") {
+    uniqueFranchisedCats = territories;
   }
 
   return (

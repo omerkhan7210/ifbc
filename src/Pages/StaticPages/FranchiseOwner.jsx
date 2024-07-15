@@ -75,7 +75,7 @@ const FranchiseOwner = () => {
   return (
     <PageTransition>
       <div id="wrapper">
-        <div id="steps-container" className="theme-container my-10">
+        <div id="steps-container" className="theme-container my-10 mx-auto">
           <p className="mb-3">
             Regardless of which sector of the industry you’re looking to pursue,
             the process toward ownership takes anywhere from 3 months to a year

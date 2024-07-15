@@ -21,6 +21,11 @@ const ListingsFilter = () => {
           normalText: "Investment Range",
           property: "investmentRange",
         },
+        // {
+        //   anotherText: "Select Territories",
+        //   normalText: "Territories",
+        //   property: "territories",
+        // },
         {
           anotherText: "Select Year Established",
           normalText: "Year Established",

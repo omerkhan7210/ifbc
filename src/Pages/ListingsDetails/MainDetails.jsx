@@ -32,7 +32,6 @@ const MainDetails = ({ setShow, show, setRegistrationType }) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       select: (data) => {
-        console.log(data);
         return data?.data.filter((owner) => owner.name === pName);
       },
     }

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
+import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import { MyContext } from "src/Context/ListingDataContext";
 
 const MobileNav = ({ setMobileActive }) => {
   const [submenuactive, setsubmenuactive] = useState(false);

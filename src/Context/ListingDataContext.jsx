@@ -63,9 +63,8 @@ const ListingDataContext = ({ children }) => {
 
   const getAllListings = async () => {
     setLoading(true);
-    const endPoint = role !== "N" ? "Listings" : "ListingsView";
 
-    const url = `https://backend.ifbc.co/api/${endPoint}`;
+    const url = `https://backend.ifbc.co/api/listingsmstr`;
     const responseData = await axios
       .get(url)
       .then(async (response) => {

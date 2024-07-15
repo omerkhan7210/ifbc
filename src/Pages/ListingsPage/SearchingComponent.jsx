@@ -14,7 +14,7 @@ const SearchingComponent = () => {
     if (keyword !== "") {
       // Update the filters state with the search keyword
       setFilters({
-        searchByCategoryName: [keyword],
+        search: [keyword],
       });
     } else {
       // Update the filters state with the search keyword

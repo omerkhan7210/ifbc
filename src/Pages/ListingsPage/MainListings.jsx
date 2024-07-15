@@ -175,7 +175,7 @@ const MainListings = ({ setShow, setRegistrationType }) => {
   return (
     <PageTransition>
       <main
-        className="	   grid grid-cols-12 gap-6 relative px-10 py-5"
+        className="	   grid grid-cols-12 gap-6 relative md:px-10 max-md:px-5 py-5"
         id="main"
       >
         <div className="col-span-12">
@@ -187,7 +187,7 @@ const MainListings = ({ setShow, setRegistrationType }) => {
 
         <div
           id="left-sidebar"
-          className="md:col-span-3  sm:col-span-6 col-span-12 my-5 bg-white"
+          className="md:col-span-3  sm:col-span-6 col-span-12 md:my-5 bg-white"
         >
           <ListingsFilter />
         </div>
