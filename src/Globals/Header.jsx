@@ -155,7 +155,7 @@ const RightSideButtonsContainer = ({
   return (
     <div className="md:flex md:justify-end md:items-start md:pt-1 md:gap-5 ">
       {/* button appointment */}
-      {(!role || role === "N") && (
+      {(!role || role === "N") && !token && (
         <a
           href="https://calendly.com/info-ifbc"
           className="duration-500 max-md:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-10  text-sm h-10"
@@ -165,7 +165,7 @@ const RightSideButtonsContainer = ({
       )}
 
       {/* cart icon */}
-      {(!role || role === "N") && <CartIcon hidden={hidden} />}
+      {(!role || role === "N") && !token && <CartIcon hidden={hidden} />}
       {/* USER BUTTON */}
       <AccountDD token={token} userDetails={userDetails} role={role} />
 

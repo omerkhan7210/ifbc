@@ -22,3 +22,10 @@ export default defineConfig({
     exclude: ["js-big-decimal"],
   },
 });
+
+const labels = document.querySelectorAll(".form-label--checkbox");
+labels.forEach((label) => {
+  if (label.textContent.includes("Disposable Lids")) {
+    label.textContent.replace("Lids", "");
+  }
+});

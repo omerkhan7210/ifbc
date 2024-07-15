@@ -40,7 +40,11 @@ const App = () => {
 
   useEffect(() => {
     setMobileActive(false);
-    if (loc.pathname === "/checkout") {
+    if (
+      loc.pathname === "/checkout" ||
+      loc.pathname.includes("/result") ||
+      loc.pathname.includes("/messages")
+    ) {
       document
         .querySelector("#app")
         .classList.add("flex", "flex-col", "justify-between", "min-h-screen");

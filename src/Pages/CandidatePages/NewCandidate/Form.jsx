@@ -13,10 +13,13 @@ import {
   validateZipcode,
 } from "src/Utils/SanitizeInput";
 import { convertToMSSQLDate } from "src/Utils/ConvertDate";
+
+import { useQuery } from "react-query";
+import { City } from "country-state-city";
+
 const getCitiesOfState = (countryCode, stateCode) => {
   return City.getCitiesOfState(countryCode, stateCode);
 };
-import { useQuery } from "react-query";
 function convertKeysToLowercase(obj) {
   if (typeof obj !== "object" || obj === null) {
     return obj;

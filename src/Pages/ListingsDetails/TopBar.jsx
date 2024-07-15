@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import ReportIssue from "src/Popups/ReportIssue";
 
@@ -173,6 +174,7 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
   ];
   const role = useSelector((state) => state.counter.role);
   const [showReport, setShowReport] = useState(false);
+  const [showListingDetails, setShowListingDetails] = useState(false);
   // ye states pass hongy
   const handleOpenRegistration = (type) => {
     setRegistrationType(type);
@@ -182,6 +184,16 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
   const ShowListing = () => {
     setShowReport(true);
   };
+
+  // Determine if we should show listing details
+  useEffect(() => {
+    const hasValidListings = data.some((listingLi, index) => {
+      const indexLimitListing = role === "A" ? index < 3 : index === 0;
+      return indexLimitListing && listingLi.text;
+    });
+
+    setShowListingDetails(hasValidListings);
+  }, [data, role]);
   return (
     <section className="flex flex-col w-full justify-between items-center border-b border-custom-dark-blue/10 mb-4 mt-4 ">
       <div className="lg:mb-2 flex justify-center items-center flex-col">
@@ -197,15 +209,13 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
       </div>
       <div
         id="content-container"
-        className="grid grid-cols-12 gap-6  mt-8 justify-between  max-md:w-full"
+        className="gap-6  mt-8 justify-between  w-full"
       >
         <div
           id="buttons-container"
-          className="flex flex-col gap-3 w-full  justify-start items-center mb-2 col-span-12 md:col-span-4"
+          className="flex gap-3 w-full  justify-start items-center mb-2"
         >
-          {/* yahan pr button banao aesa banega */}
-          {/* yahan banado button show hojaega sahi he */}
-          <button onClick={ShowListing} className="candidate-btn">
+          <button onClick={ShowListing} className="candidate-btn w-full">
             Report an issue with this listing
           </button>
           <ReportIssue showReport={showReport} setShowReport={setShowReport} />
@@ -239,12 +249,16 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
           </button>
         </div>
 
-        <div className="col-span-12 md:col-span-4">
-          <ul className="flex flex-col gap-4  items-start h-full col-span-12  md:col-span-4">
-            <h2 className="candidate-small-heading">Listing Details</h2>
+        <div
+          className={`col-span-12 ${showListingDetails ? "md:col-span-4" : "hidden"}`}
+        >
+          <ul className="flex flex-col gap-4  items-start h-full ">
+            {showListingDetails && (
+              <h2 className="candidate-small-heading">Listing Details</h2>
+            )}
             {data.map((listingLi, index) => {
               const indexLimitListing = role === "A" ? index < 3 : index === 0;
-              if (indexLimitListing) {
+              if (indexLimitListing && listingLi.text) {
                 return (
                   <li
                     key={index}

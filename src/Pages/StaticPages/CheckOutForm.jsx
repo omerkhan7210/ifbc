@@ -24,6 +24,8 @@ import {
   validateUsername,
   validateZipcode,
 } from "src/Utils/SanitizeInput";
+import { City } from "country-state-city";
+
 const getCitiesOfState = (countryCode, stateCode) => {
   return City.getCitiesOfState(countryCode, stateCode);
 };

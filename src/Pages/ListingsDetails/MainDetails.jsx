@@ -2,12 +2,10 @@ import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import TopBar from "./TopBar";
 import { useParams } from "react-router-dom";
 import BottomBar from "./BottomBar";
-import { MyContext } from "src/Context/ListingDataContext";
-import BarLoader from "src/Animations/BarLoader";
 import PageTransition from "src/Animations/PageTransition";
-import RelatedListings from "src/Globals/RelatedListings";
 import { useQuery } from "react-query";
 import axios from "axios";
+import BarLoader from "src/Animations/BarLoader";
 
 const MainDetails = ({ setShow, show, setRegistrationType }) => {
   const url = useParams();
@@ -15,12 +13,7 @@ const MainDetails = ({ setShow, show, setRegistrationType }) => {
 
   const urlApi = `https://backend.ifbc.co/api/listingsOwner`;
 
-  const {
-    data: listingContent,
-    isLoading,
-    error,
-    isFetching,
-  } = useQuery(
+  const { data: listingContent, isLoading } = useQuery(
     "FRANCHISEOWNER",
     () => {
       return axios.get(urlApi);
@@ -32,7 +25,12 @@ const MainDetails = ({ setShow, show, setRegistrationType }) => {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
       select: (data) => {
-        return data?.data.filter((owner) => owner.name === pName);
+        const filtered = data?.data.filter(
+          (owner) =>
+            owner.name.toLowerCase() ===
+            pName.toLowerCase().split("-").join(" ")
+        );
+        return filtered[0];
       },
     }
   );
@@ -45,16 +43,22 @@ const MainDetails = ({ setShow, show, setRegistrationType }) => {
         tabIndex={-1}
         className="max-w-7xl px-6 mx-auto gap-x-10 "
       >
-        {!isLoading && listingContent && (
-          <>
-            <TopBar
-              listingContent={listingContent}
-              setShow={setShow}
-              show={show}
-              setRegistrationType={setRegistrationType}
-            />
-            <BottomBar listingContent={listingContent} />
-          </>
+        {!isLoading ? (
+          listingContent && (
+            <>
+              <TopBar
+                listingContent={listingContent}
+                setShow={setShow}
+                show={show}
+                setRegistrationType={setRegistrationType}
+              />
+              <BottomBar listingContent={listingContent} />
+            </>
+          )
+        ) : (
+          <div className="grid place-items-center min-h-screen">
+            <BarLoader bgcolor={"blue"} />
+          </div>
         )}
       </main>
     </PageTransition>

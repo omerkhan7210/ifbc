@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 
 const SearchingSection = () => {
-  const [searchConfigs, setSearchConfigs] = useState([]);
   const ref = useRef();
-  const { setFilters, role } = useContext(MyContext);
+  const { setFilters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
   const [activeDD, setActiveDD] = useState(false);
   const dropdownRef = useRef(null);
@@ -28,50 +27,18 @@ const SearchingSection = () => {
     };
   }, [activeDD]);
   const history = useNavigate();
-  useEffect(() => {
-    if (!role || role === "N") {
-      const filterDataa = [
-        {
-          anotherText: "Select Category",
-          normalText: "Category",
-          property: "category",
-          color: "#e3e4e6",
-        },
-        {
-          anotherText: "Select Investment Range",
-          normalText: "Investment Range",
-          property: "investmentRange",
-          color: "#e3e4e6",
-        },
-      ];
-      setSearchConfigs(filterDataa);
-    } else {
-      const filterDataa = [
-        {
-          anotherText: "Select Category",
-          normalText: "Category",
-          property: "category",
-        },
-        {
-          anotherText: "Select Franchise Fee",
-          normalText: "Franchise Fee",
-          property: "franchiseFee",
-        },
-        {
-          anotherText: "Select Franchise Units",
-          normalText: "Franchise Units",
-          property: "franchisedUnits",
-        },
-
-        {
-          anotherText: "Select Investment Range",
-          normalText: "Investment Range",
-          property: "investmentRange",
-        },
-      ];
-      setSearchConfigs(filterDataa);
-    }
-  }, [role]);
+  const filterDataa = [
+    {
+      anotherText: "Select Category",
+      normalText: "Category",
+      property: "category",
+    },
+    {
+      anotherText: "Select Investment Range",
+      normalText: "Investment Range",
+      property: "investmentRange",
+    },
+  ];
 
   const handleSearchInputChange = (e) => {
     e.preventDefault();
@@ -117,7 +84,7 @@ const SearchingSection = () => {
           </svg>
         </button>
       </div>
-      {searchConfigs.map((config, index) => (
+      {filterDataa.map((config, index) => (
         <SearchDropdown
           key={index}
           config={config}
@@ -144,8 +111,7 @@ const SearchDropdown = ({
   setActiveDD,
   activeDD,
 }) => {
-  const { property, anotherText, color } = config;
-  const { loading } = useContext(MyContext);
+  const { property, anotherText } = config;
 
   const generateRangeArray = (start, end, step, check) => {
     let rangeArray = [];
@@ -244,7 +210,7 @@ const SearchDropdown = ({
   return (
     <div
       className="relative w-full group flex flex-col gap-2 col-span-12 md:col-span-3 h-12 rounded-lg "
-      style={{ background: `${color}` }}
+      style={{ background: "#e3e4e6 " }}
     >
       <button
         className={`h-full px-4 text-sm w-full capitalize text-[#000000]  transition-all duration-250  focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold  ${
@@ -303,8 +269,7 @@ const SearchDropdown = ({
           activeDD === property ? "h-[300px]" : "h-0 opacity-0"
         } duration-200 bg-white border border-dimmed text-sm md:text-sm overflow-x-hidden overflow-scroll ]`}
       >
-        {!loading &&
-          uniqueItems &&
+        {uniqueItems &&
           uniqueItems.map((item, index) => (
             <div className="flex justify-between items-center" key={index}>
               <div

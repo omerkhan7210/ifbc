@@ -4,11 +4,12 @@ import DialogBox from "./DialogBox";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import axios from "axios";
 import Form from "src/Pages/CandidatePages/NewCandidate/Form";
+
+import { validateUsername, validateZipcode } from "src/Utils/SanitizeInput";
+import { City } from "country-state-city";
 const getCitiesOfState = (countryCode, stateCode) => {
   return City.getCitiesOfState(countryCode, stateCode);
 };
-import { validateUsername, validateZipcode } from "src/Utils/SanitizeInput";
-
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
   const { cands, userDetails, loading } = useContext(MyCandContext);
   const { activeListings } = useContext(MyContext);

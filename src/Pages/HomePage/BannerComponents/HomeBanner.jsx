@@ -82,16 +82,19 @@ const HomeBanner = () => {
   const slidesData = [
     {
       image: "/images/accounts/backgroundimage.jpg",
+      image: "/images/accounts/backgroundimage.jpg",
       text: "Discover Amazing Business Ventures Today!",
     },
     {
+      image: "/images/accounts/backgroundimage.jpg",
       image: "/images/accounts/backgroundimage.jpg",
       text: "Unlock Your Potential with Our Franchises!",
     },
 
     {
       image: "/images/accounts/backgroundimage.jpg",
-      text: "Start Your Journey to Business Success Today!",
+      image: "/images/accounts/backgroundimage.jpg",
+      text: "Start Your Journey to Business Success!",
     },
   ];
 
@@ -117,11 +120,7 @@ const HomeBanner = () => {
           {slidesData.map((slide, index) => (
             <SwiperSlide key={index}>
               <div
-<<<<<<< HEAD
-                className="swiperslidehomebanner w-full  md:px-32 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-52 xl:pt-32  items-center"
-=======
                 className="swiperslidehomebanner w-full  md:px-32 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-32 xl:pt-40  items-center"
->>>>>>> 7693feb1042b09cf15e504e2852db0ac719424c7
                 style={{
                   background: `url(${slide.image})`,
                   backgroundPosition: "center",
@@ -132,7 +131,7 @@ const HomeBanner = () => {
                 <h1
                   className="max-md:text-xl  z-50 relative  md:text-5xl max-md:px-5  text-center text-white"
                   style={{
-                    lineHeight: window.innerWidth > 768 ? "5rem" : "40px",
+                    lineHeight: window.innerWidth > 768 ? "3rem" : "40px",
                     textShadow: "1px 1px 10px black",
                   }}
                 >
@@ -143,11 +142,7 @@ const HomeBanner = () => {
           ))}
           {/* swiper end */}
         </Swiper>
-<<<<<<< HEAD
-        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-52 2xl:top-56 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
-=======
-        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-64 2xl:top-64 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
->>>>>>> 7693feb1042b09cf15e504e2852db0ac719424c7
+        <div className="absolute bg-transparent max-md:top-44 md:top-60 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
           <SearchingSection />
         </div>
       </section>
