@@ -73,7 +73,6 @@ const ListingsColumns = ({ listing, index, slider }) => {
         >
           {listing.name}
         </h1>
-        {console.log(listing)}
         <p className="text-sm text-black/80 text-center">
           {listing.shortdescription}
         </p>

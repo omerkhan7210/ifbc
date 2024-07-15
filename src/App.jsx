@@ -12,6 +12,7 @@ import { generateUuid } from "./Redux/listingReducer";
 import RouteRenderer from "./RouteRenderer";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import RegisterationPopup from "./Popups/RegistrationPopup";
+import { QueryClient, QueryClientProvider } from "react-query";
 // import { QueryClient, QueryClientProvider } from "react-query";
 const App = () => {
   const dispatch = useDispatch();
@@ -39,8 +40,23 @@ const App = () => {
 
   useEffect(() => {
     setMobileActive(false);
+    if (loc.pathname === "/checkout") {
+      document
+        .querySelector("#app")
+        .classList.add("flex", "flex-col", "justify-between", "min-h-screen");
+    } else {
+      document
+        .querySelector("#app")
+        .classList.remove(
+          "flex",
+          "flex-col",
+          "justify-between",
+          "min-h-screen"
+        );
+    }
   }, [loc.pathname]);
-  //const queryClient = new QueryClient();
+
+  const queryClient = new QueryClient();
   // const queryClient = new QueryClient({
   //   defaultOptions: {
   //     queries: {
@@ -59,8 +75,7 @@ const App = () => {
   // });
 
   return (
-    // <QueryClientProvider client={queryClient}>
-    <>
+    <QueryClientProvider client={queryClient}>
       <Header
         mobileActive={mobileActive}
         setMobileActive={setMobileActive}
@@ -104,8 +119,7 @@ const App = () => {
           )}
       </TCFRDataContext>
       <Footer />
-    </>
-    // </QueryClientProvider>
+    </QueryClientProvider>
   );
 };
 

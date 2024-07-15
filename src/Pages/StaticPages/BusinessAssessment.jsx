@@ -43,7 +43,7 @@ const BusinessAssessment = () => {
             <h2 className="font-bold text-custom-dark-blue max-md:text-sm md:text-xl">
               BUSINESS ASSESSMENT
             </h2>
-            <p className="max-md:text-3xl md:text-5xl font-bold capitalize">
+            <p className="text-3xl font-bold capitalize">
               Our assessment helps to quickly narrow down the field that is
               right for you
             </p>

@@ -4,7 +4,9 @@ import DialogBox from "./DialogBox";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import axios from "axios";
 import Form from "src/Pages/CandidatePages/NewCandidate/Form";
-import { getCitiesOfState } from "src/Utils/locationUtils.js";
+const getCitiesOfState = (countryCode, stateCode) => {
+  return City.getCitiesOfState(countryCode, stateCode);
+};
 import { validateUsername, validateZipcode } from "src/Utils/SanitizeInput";
 
 const RegisterationPopup = ({ setShow, show, registrationType }) => {

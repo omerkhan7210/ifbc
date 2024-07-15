@@ -117,7 +117,11 @@ const HomeBanner = () => {
           {slidesData.map((slide, index) => (
             <SwiperSlide key={index}>
               <div
+<<<<<<< HEAD
                 className="swiperslidehomebanner w-full  md:px-32 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-52 xl:pt-32  items-center"
+=======
+                className="swiperslidehomebanner w-full  md:px-32 min-h-[600px]  flex flex-col justify-start max-md:pt-16 md:max-xl:pt-32 xl:pt-40  items-center"
+>>>>>>> 7693feb1042b09cf15e504e2852db0ac719424c7
                 style={{
                   background: `url(${slide.image})`,
                   backgroundPosition: "center",
@@ -139,7 +143,11 @@ const HomeBanner = () => {
           ))}
           {/* swiper end */}
         </Swiper>
+<<<<<<< HEAD
         <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-52 2xl:top-56 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
+=======
+        <div className="absolute bg-transparent max-md:top-44 md:max-2xl:top-64 2xl:top-64 w-full mx-auto flex flex-col gap-10 z-20 md:px-32 max-md:px-4 ">
+>>>>>>> 7693feb1042b09cf15e504e2852db0ac719424c7
           <SearchingSection />
         </div>
       </section>

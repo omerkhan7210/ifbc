@@ -24,7 +24,9 @@ import {
   validateUsername,
   validateZipcode,
 } from "src/Utils/SanitizeInput";
-import { getCitiesOfState } from "src/Utils/locationUtils";
+const getCitiesOfState = (countryCode, stateCode) => {
+  return City.getCitiesOfState(countryCode, stateCode);
+};
 
 const CheckOutForm = () => {
   const { listings } = useContext(MyContext);

@@ -27,8 +27,7 @@ const AllListings = () => {
         : 24;
 
   const filterKeys = [
-    "searchByCategoryName",
-    "searchByFranchiseName",
+    "search",
     "category",
     "franchisedUnits",
     "franchiseFee",
@@ -41,6 +40,7 @@ const AllListings = () => {
     "ownedUnits",
     "projectedNewUnits",
     "yearEstablished",
+    "territories",
   ];
 
   // Effect to reset currentPage to 1 when filters change
@@ -58,19 +58,18 @@ const AllListings = () => {
                 filters[key] !== "" &&
                 filters[key].length > 0
               ) {
-                if (
-                  Array.isArray(filters[key]) &&
-                  key === "searchByCategoryName"
-                ) {
-                  return filters["searchByCategoryName"].some((searchString) =>
-                    listing.category.toLowerCase().includes(searchString)
+                if (Array.isArray(filters[key]) && key === "search") {
+                  return filters["search"].some(
+                    (searchString) =>
+                      listing.name.toLowerCase().includes(searchString) ||
+                      listing.category.toLowerCase().includes(searchString)
                   );
                 } else if (
                   Array.isArray(filters[key]) &&
-                  key === "searchByFranchiseName"
+                  key === "territories"
                 ) {
-                  return filters["searchByFranchiseName"].some((searchString) =>
-                    listing.name.toLowerCase().includes(searchString)
+                  return filters["territories"].some((searchString) =>
+                    listing.territories.toLowerCase().includes(searchString)
                   );
                 } else if (
                   Array.isArray(filters[key]) &&
@@ -188,6 +187,7 @@ const AllListings = () => {
             Franchises
           </p>
         )}
+
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(filterListings?.length / totalNoOfListings)}

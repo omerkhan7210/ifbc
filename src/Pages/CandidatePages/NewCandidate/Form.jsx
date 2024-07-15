@@ -13,7 +13,9 @@ import {
   validateZipcode,
 } from "src/Utils/SanitizeInput";
 import { convertToMSSQLDate } from "src/Utils/ConvertDate";
-import { getCitiesOfState } from "src/Utils/locationUtils";
+const getCitiesOfState = (countryCode, stateCode) => {
+  return City.getCitiesOfState(countryCode, stateCode);
+};
 import { useQuery } from "react-query";
 function convertKeysToLowercase(obj) {
   if (typeof obj !== "object" || obj === null) {
@@ -249,7 +251,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           relationShip: object.additionalRelationship,
           candidateId: docId,
         };
-        console.log(formData);
         const response = await axios.post(additionalContactAddUrl, formData, {
           headers: {
             "Content-Type": "application/json",

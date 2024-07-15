@@ -125,7 +125,7 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
           </button>
         )}
 
-        {activeListings.length > 0 && (
+        {role && role !== "N" && activeListings.length > 0 && (
           <button
             className={`${
               role && role !== "N" ? "col-span-6" : "col-span-12"
@@ -140,31 +140,33 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
         )}
       </div>
 
-      <div
-        className={`col-span-12 ${
-          role && role !== "N" ? "lg:col-span-4" : "lg:col-span-12"
-        } md:flex md:mb-4 mb-0 flex-col h-full ${
-          activeListings && activeListings.length > 0
-            ? "justify-between "
-            : "justify-start"
-        } `}
-      >
-        <SearchingComponent />
+      {role && role !== "N" && (
+        <div
+          className={`col-span-12 ${
+            role && role !== "N" ? "lg:col-span-4" : "lg:col-span-6"
+          } md:flex md:mb-4 mb-0 flex-col h-full ${
+            activeListings && activeListings.length > 0
+              ? "justify-between "
+              : "justify-start"
+          } `}
+        >
+          <SearchingComponent />
 
-        {activeListings && activeListings.length > 0 && (
-          <button
-            type="button"
-            onClick={() => setShowActiveListings(!showActiveListings)}
-            className={`border-2 border-custom-blue  hover:bg-custom-blue  hover:text-white transition-all duration-500 py-2 px-5 w-full whitespace-nowrap mr-4 ${
-              showActiveListings
-                ? "text-white bg-custom-blue"
-                : "text-custom-blue"
-            }`}
-          >
-            My Selection <span> ({activeListings.length}) </span>
-          </button>
-        )}
-      </div>
+          {activeListings && activeListings.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setShowActiveListings(!showActiveListings)}
+              className={`border-2 border-custom-blue  hover:bg-custom-blue  hover:text-white transition-all duration-500 py-2 px-5 w-full whitespace-nowrap mr-4 ${
+                showActiveListings
+                  ? "text-white bg-custom-blue"
+                  : "text-custom-blue"
+              }`}
+            >
+              My Selection <span> ({activeListings.length}) </span>
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };
@@ -173,7 +175,7 @@ const MainListings = ({ setShow, setRegistrationType }) => {
   return (
     <PageTransition>
       <main
-        className="	 md:p-10  grid grid-cols-12 gap-6 relative max-md:p-5"
+        className="	   grid grid-cols-12 gap-6 relative md:px-10 max-md:px-5 py-5"
         id="main"
       >
         <div className="col-span-12">
@@ -185,7 +187,7 @@ const MainListings = ({ setShow, setRegistrationType }) => {
 
         <div
           id="left-sidebar"
-          className="md:col-span-3  sm:col-span-6 col-span-12 my-5 bg-white"
+          className="md:col-span-3  sm:col-span-6 col-span-12 md:my-5 bg-white"
         >
           <ListingsFilter />
         </div>

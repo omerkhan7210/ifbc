@@ -26,15 +26,9 @@ import Contact from "./Pages/StaticPages/Contact";
 import FundingResult from "./Pages/StaticPages/FundingResult";
 import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
 import TermsConditions from "./Pages/StaticPages/TermsConditions";
+import { useEffect, useState } from "react";
 
 const RouteRenderer = ({ setRegistrationType, setShow }) => {
-  const userDetails = useSelector((state) => state.counter.userDetails);
-
-  const role =
-    userDetails && typeof userDetails === "object"
-      ? userDetails.userType
-      : null;
-
   const consultantRoutes = [
     {
       path: "/listings-details/:name",
@@ -182,6 +176,12 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
       ),
     },
   ];
+  const userDetails = useSelector((state) => state.counter.userDetails);
+
+  const role =
+    userDetails && typeof userDetails === "object"
+      ? userDetails.userType
+      : null;
 
   const routes = useRoutes(
     !role || role === "N"

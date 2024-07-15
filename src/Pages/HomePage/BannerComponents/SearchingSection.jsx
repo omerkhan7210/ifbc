@@ -73,7 +73,8 @@ const SearchingSection = () => {
     }
   }, [role]);
 
-  const handleSearchInputChange = () => {
+  const handleSearchInputChange = (e) => {
+    e.preventDefault();
     const searchValue = ref.current.value;
     const uniqueFilters = selectedCats.reduce((acc, current) => {
       return { ...acc, ...current };
@@ -83,7 +84,7 @@ const SearchingSection = () => {
       setFilters({ ...uniqueFilters });
     } else {
       setFilters({
-        searchByFranchiseName: [searchValue],
+        search: [searchValue],
       });
     }
 
@@ -91,10 +92,11 @@ const SearchingSection = () => {
   };
 
   return (
-    <div
+    <form
       id="searching-contianer"
       className="grid grid-cols-12 gap-2   p-5"
       ref={dropdownRef}
+      onSubmit={handleSearchInputChange}
     >
       <div className="relative col-span-12 md:col-span-4  flex items-center">
         <input
@@ -126,12 +128,12 @@ const SearchingSection = () => {
         />
       ))}
       <button
-        onClick={handleSearchInputChange}
+        type="submit"
         className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
       >
         Search
       </button>
-    </div>
+    </form>
   );
 };
 
@@ -171,7 +173,7 @@ const SearchDropdown = ({
 
   const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
-  const investmentRange = generateRangeArray(15000, 1000000, 100000, true);
+  const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
 
   const categories = [
     "Advertising",
@@ -179,11 +181,10 @@ const SearchDropdown = ({
     "Beauty & Spa",
     "Business Management & Coaching",
     "Business Services",
-    "Child Education",
+    "Child Education, STEM & Tutoring",
     "Child Services & Products",
     "Cleaning: Residential & Commercial",
     "Computer Technology",
-    "Copy & Mailing",
     "Distribution Services",
     "Dry Cleaning-Laundry",
     "Financial Services",
@@ -196,17 +197,22 @@ const SearchDropdown = ({
     "Home Improvement",
     "Interior/Exterior Design",
     "Maintenance & Repair",
+    "Moving,Storage & Junk Removal",
+    "Painting",
     "Pet Care & Grooming",
-    "Print",
+    "Pest Control",
+    "Print, Copy & Mailing",
     "Real Estate",
     "Restoration",
     "Retail",
+    "Security",
     "Senior Care: Medical/Non-Medical Option",
     "Signs",
     "Special Event Planning",
     "Sports & Recreation",
     "Staffing",
-    "STEM & Tutoring",
+    "Travel Planning",
+    "Vending",
   ];
 
   let uniqueItems = [];
@@ -222,11 +228,9 @@ const SearchDropdown = ({
     uniqueItems = yearEstablished;
   }
 
-  const handleRemoveCat = (property, selectedCat) => {
+  const handleRemoveCat = () => {
     setActiveDD(false);
-    setSelectedCats((prevSelectedCats) =>
-      prevSelectedCats.filter((cat) => cat[property] !== selectedCat)
-    );
+    setSelectedCats([]);
   };
 
   const handleDropdown = (property) => {
@@ -251,6 +255,7 @@ const SearchDropdown = ({
             : ""
         }`}
         onClick={() => handleDropdown(property)}
+        type="button"
       >
         {selectedCats &&
         selectedCats.length > 0 &&
@@ -258,9 +263,7 @@ const SearchDropdown = ({
           <>
             {selectedCats[0][property]}
             <svg
-              onClick={() => {
-                handleRemoveCat(key, selectedCats[0][property]);
-              }}
+              onClick={handleRemoveCat}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
