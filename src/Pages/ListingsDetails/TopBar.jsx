@@ -213,7 +213,7 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
       >
         <div
           id="buttons-container"
-          className="flex gap-3 w-full  justify-start items-center mb-2"
+          className="flex gap-3 w-full  justify-start items-center mb-2 max-md:flex-col"
         >
           <button onClick={ShowListing} className="candidate-btn w-full">
             Report an issue with this listing

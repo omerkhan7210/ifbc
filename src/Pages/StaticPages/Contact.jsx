@@ -300,7 +300,9 @@ const Contact = () => {
       <DialogBox show={show} setShow={setShow}>
         <div className="bg-white p-10">
           <p className="text-3xl text-center text-custom-heading-color">
-            Message send successfully! <br /> We will contact you soon{" "}
+            Thank you for taking the time to contact us.
+            <br />A IFBC customer service representative will contact you within
+            two business days.
           </p>
         </div>
       </DialogBox>

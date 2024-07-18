@@ -81,7 +81,7 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
                   : "text-custom-blue"
               }`}
             >
-              My Selection <span> ({activeListings.length}) </span>
+              My Selection ({activeListings.length})
             </button>
           ) : (
             <button
