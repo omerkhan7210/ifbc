@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
 import {
@@ -168,7 +169,6 @@ const Contact = () => {
       "contactCompany",
       "contactPhone",
       "contactPath",
-      "contactReason",
     ];
 
     let allFieldsValid = true;
@@ -210,7 +210,7 @@ const Contact = () => {
           contactPhone: data.contactPhone,
           contactComments: data.contactComments ?? "",
           contactCopy: data.contactCopy ?? false,
-          contactPath: data.contactPath,
+          contactPath: data.contactPath ?? "",
         };
 
         const response = await axios.post(
@@ -224,7 +224,7 @@ const Contact = () => {
           setTimeout(() => {
             setShow(false);
             window.location.href = "/";
-          }, 3000);
+          }, 10000);
         }
       } else {
         setFormErrors((prev) => ({
@@ -240,25 +240,6 @@ const Contact = () => {
       console.error("Error:", error);
     }
   };
-
-  const Reason = [
-    { value: "", label: "My Inquiry is About" },
-    {
-      value: "Product or Service Suggestion",
-      label: "Product or Service Suggestion",
-    },
-    {
-      value: "Feedback on How We Are Doing",
-      label: "Feedback on How We Are Doing",
-    },
-    { value: "Account Support", label: "Account Support" },
-    {
-      value: "Additional Advertising Options",
-      label: "Additional Advertising Options",
-    },
-    { value: "Technical Support", label: "Technical Support" },
-    { value: "General Questions", label: "General Questions" },
-  ];
 
   const contactPath = [
     { value: "", label: "Choose Your Path" },
@@ -291,7 +272,21 @@ const Contact = () => {
     { value: "Become a Franchise Owner", label: "Become a Franchise Owner" },
 
     { value: "Help Me Sell My Franchise", label: "Help Me Sell My Franchise" },
-
+    {
+      value: "Product or Service Suggestion",
+      label: "Product or Service Suggestion",
+    },
+    {
+      value: "Feedback on How We Are Doing",
+      label: "Feedback on How We Are Doing",
+    },
+    { value: "Account Support", label: "Account Support" },
+    {
+      value: "Additional Advertising Options",
+      label: "Additional Advertising Options",
+    },
+    { value: "Technical Support", label: "Technical Support" },
+    { value: "General Questions", label: "General Questions" },
     { value: "Other", label: "Other" },
   ];
   // return
@@ -299,10 +294,15 @@ const Contact = () => {
     <PageTransition>
       <DialogBox show={show} setShow={setShow}>
         <div className="bg-white p-10">
-          <p className="text-3xl text-center text-custom-heading-color">
+          <p className="text-xl text-center text-custom-heading-color">
             Thank you for taking the time to contact us.
             <br />A IFBC customer service representative will contact you within
-            two business days.
+            two business days. <br /> For the mean time you can indulge yourself
+            in searching some franchises <br />
+            <br />
+            <NavLink to="/listings" className="candidate-btn w-[50%]">
+              SEARCH FRANCHISES
+            </NavLink>
           </p>
         </div>
       </DialogBox>
@@ -316,21 +316,21 @@ const Contact = () => {
           />
           <div
             id="form-right "
-            className="flex flex-col justify-center w-full max-md:bg-custom-heading-color bg-custom-heading-color  md:rounded-3xl   "
+            className="flex flex-col justify-center w-full bg-custom-dark-blue/30  md:rounded-3xl   "
           >
             <form
               className=" md:px-10 rounded-lg my-5 max-md:py-5 max-md:px-5 "
               onSubmit={handleSubmit}
             >
               {formErrors.error && (
-                <p className="border-2 border-white text-white p-4 flex justify-between my-5">
+                <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between my-5">
                   {formErrors.error}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
-                    stroke="white"
+                    stroke="red"
                     className="size-5"
                   >
                     <path
@@ -352,13 +352,13 @@ const Contact = () => {
                     className="contact-input w-full"
                     style={{
                       border: formErrors.contactName
-                        ? "2px solid red"
+                        ? "1px solid red"
                         : "undefined",
                     }}
                   />
                   {formErrors.contactName &&
                     formErrors.contactName === "invalid" && (
-                      <p className=" text-white text-xs py-2 flex justify-between">
+                      <p className=" text-red-600 text-xs py-2 flex justify-between">
                         Invalid username. It should be 3-16 characters long and
                         can include letters, numbers, underscores, and spaces.
                       </p>
@@ -386,14 +386,14 @@ const Contact = () => {
                     className="contact-input w-full"
                     style={{
                       border: formErrors.contactEmail
-                        ? "2px solid red"
+                        ? "1px solid red"
                         : undefined,
                     }}
                     placeholder="Email address"
                   />
                   {formErrors.contactEmail &&
                     formErrors.contactEmail === "invalid" && (
-                      <p className=" text-white text-xs py-2 flex justify-between">
+                      <p className=" text-red-600 text-xs py-2 flex justify-between">
                         Invalid Email (john@example.com)
                       </p>
                     )}
@@ -411,14 +411,14 @@ const Contact = () => {
                     className="contact-input w-full"
                     style={{
                       border: formErrors.contactPhone
-                        ? "2px solid red"
+                        ? "1px solid red"
                         : undefined,
                     }}
                     placeholder="Phone number (123-456-7890)"
                   />{" "}
                   {formErrors.contactPhone &&
                     formErrors.contactPhone === "invalid" && (
-                      <p className=" text-white text-xs py-2 flex justify-between">
+                      <p className=" text-red-600 text-xs py-2 flex justify-between">
                         Invalid Phone Number (Please use numbers only)
                       </p>
                     )}
@@ -432,30 +432,11 @@ const Contact = () => {
                   className="contact-select w-full"
                   style={{
                     border: formErrors.contactPath
-                      ? "2px solid red"
+                      ? "1px solid red"
                       : undefined,
                   }}
                 >
                   {contactPath.map((option) => (
-                    <option key={option.value} value={option.label}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="relative z-0 w-full mb-5 group ">
-                <select
-                  onChange={handleChange}
-                  id="reason"
-                  name="contactReason"
-                  className="contact-select w-full"
-                  style={{
-                    border: formErrors.contactReason
-                      ? "2px solid red"
-                      : undefined,
-                  }}
-                >
-                  {Reason.map((option) => (
                     <option key={option.value} value={option.label}>
                       {option.label}
                     </option>
@@ -472,23 +453,27 @@ const Contact = () => {
                 className="contact-input"
                 style={{
                   border: formErrors.contactComments
-                    ? "2px solid red"
+                    ? "1px solid red"
                     : undefined,
                 }}
               />
 
-              <label htmlFor="" className="block  text-white font-bold py-3">
+              <label
+                htmlFor="contactCopy"
+                className=" text-sm text-custom-heading-color py-3 font-bold flex items-center"
+              >
                 <input
                   type="checkbox"
                   name="contactCopy"
-                  id=""
+                  id="contactCopy"
                   onChange={handleChange}
+                  className="border-none"
                 />
                 Send a copy of this message to me
               </label>
 
               {/* Terms and conditions message */}
-              <p className="text-sm text-white text-left">
+              <p className="text-sm text-custom-heading-color font-bold text-left">
                 By submitting the form, you agree to receive calls, text
                 messages, or emails from <a href="https://ifbc.co">ifbc.co</a>{" "}
                 at the contact information provided. <br />
@@ -497,15 +482,12 @@ const Contact = () => {
                 See{" "}
                 <a
                   href="/terms-conditions"
-                  className="text-white font-extrabold underline"
+                  className=" font-extrabold underline"
                 >
                   Terms & Conditions
                 </a>{" "}
                 and{" "}
-                <a
-                  href="/privacy-policy"
-                  className="text-white font-extrabold underline"
-                >
+                <a href="/privacy-policy" className=" font-extrabold underline">
                   Privacy Policy
                 </a>{" "}
                 for additional details.
@@ -513,7 +495,7 @@ const Contact = () => {
               <div className="my-3 flex justify-center">
                 <button
                   type="submit"
-                  className="border-2 w-full border-custom-heading-color bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
+                  className="border-2 w-full  bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
                 >
                   {loading ? "Loading..." : "Submit"}
                 </button>

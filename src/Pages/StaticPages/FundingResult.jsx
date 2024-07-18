@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import BarLoader from "src/Animations/BarLoader";
 import PageTransition from "src/Animations/PageTransition";
 import { formatCurrency } from "src/Utils/SanitizeInput";
@@ -57,7 +57,7 @@ const FundingResult = () => {
                 <br />
                 <br />
                 Your maximum total investment is{" "}
-                {formatCurrency(data?.debtPayments)}. Look for franchises below
+                {formatCurrency(data?.downPayment)}. Look for franchises below
                 this number in initial investment.
                 <br />
                 <br />
@@ -76,11 +76,21 @@ const FundingResult = () => {
                 order by talking to an expert now.
                 <br />
                 <br />
-                Book a meeting with a specialist{" "}
+                If you would like to learn how you may qualify in the future you
+                may reach out to{" "}
+                <a className="underline" href="tel:(800) 927-0203">
+                  91-HELP-IFBC
+                </a>{" "}
+                or book a meeting with a specialist{" "}
                 <a className="underline" href="https://calendly.com/info-ifbc">
                   here
                 </a>
                 .
+                <br /> For the mean time you can indulge yourself in searching
+                some franchises <br />
+                <NavLink to="/listings" className="candidate-btn w-[50%]">
+                  SEARCH FRANCHISES
+                </NavLink>
               </>
             ) : (
               <>
@@ -90,7 +100,7 @@ const FundingResult = () => {
                 <br />
                 <br />
                 Your maximum total investment is{" "}
-                {formatCurrency(data?.debtPayments)}. Look for franchises below
+                {formatCurrency(data?.downPayment)}. Look for franchises below
                 this number in initial investment.
                 <br />
                 <br />
@@ -118,6 +128,12 @@ const FundingResult = () => {
                   here
                 </a>
                 .
+                <br /> For the mean time you can indulge yourself in searching
+                some franchises <br />
+                <br />
+                <NavLink to="/listings" className="candidate-btn w-[50%]">
+                  SEARCH FRANCHISES
+                </NavLink>
               </>
             )}
           </p>

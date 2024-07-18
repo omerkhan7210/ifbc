@@ -61,7 +61,7 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
   };
   const roleCheck = role && role !== "N" && token;
   return (
-    <div className="grid grid-cols-12 gap-3 items-center md:w-[50%] mx-auto">
+    <div className="grid grid-cols-12 gap-3 items-center md:w-[60%] mx-auto">
       {roleCheck && (
         <div
           className={`col-span-12 ${
