@@ -103,7 +103,7 @@ const MobileNav = ({ setMobileActive }) => {
             id="menu-item-552290"
             className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
           >
-            <Link to="/listings">Franchises List Search</Link>
+            <Link to="/listings"> Search Franchises (SF)</Link>
           </li>
 
           <li

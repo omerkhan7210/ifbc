@@ -306,17 +306,20 @@ const Contact = () => {
       </DialogBox>
       <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[95%] mx-auto">
         <ServicesGrid />
-        <div className=" rounded-3xl grid max-md:grid-cols-1 md:grid-cols-2 h-[650px] gap-4">
+        <div className=" md:rounded-3xl grid max-md:grid-cols-1 md:grid-cols-2 md:h-[650px] md:gap-4">
           <img
             src="/images/banners/contact.jpg"
             alt=""
-            className="h-[670px] w-full object-cover md:rounded-3xl max-md:rounded-3xl"
+            className="md:h-[670px] w-full object-cover md:rounded-3xl "
           />
           <div
             id="form-right "
-            className="flex flex-col justify-center w-full max-md:bg-custom-heading-color bg-custom-heading-color  md:rounded-3xl  max-md:rounded-3xl "
+            className="flex flex-col justify-center w-full max-md:bg-custom-heading-color bg-custom-heading-color  md:rounded-3xl   "
           >
-            <form className=" px-10 rounded-lg my-5 " onSubmit={handleSubmit}>
+            <form
+              className=" md:px-10 rounded-lg my-5 max-md:py-5 max-md:px-5 "
+              onSubmit={handleSubmit}
+            >
               {formErrors.error && (
                 <p className="border-2 border-white text-white p-4 flex justify-between my-5">
                   {formErrors.error}
@@ -336,7 +339,7 @@ const Contact = () => {
                   </svg>
                 </p>
               )}
-              <div className="flex gap-3 justify-between">
+              <div className="flex md:gap-3 justify-between max-md:flex-col">
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     onChange={handleChange}
@@ -344,7 +347,7 @@ const Contact = () => {
                     name="contactName"
                     id="name"
                     placeholder="Your Name"
-                    className="candidate-input w-full"
+                    className="contact-input w-full"
                     style={{
                       border: formErrors.contactName
                         ? "2px solid red"
@@ -365,20 +368,20 @@ const Contact = () => {
                     onChange={handleChange}
                     type="text"
                     name="contactCompany"
-                    className="candidate-input w-full"
+                    className="contact-input w-full"
                     placeholder="Company (Ex. Google)"
                   />
                 </div>
               </div>
 
-              <div className="flex gap-3 justify-between">
+              <div className="flex md:gap-3 justify-between max-md:flex-col">
                 <div className="relative z-0 w-full mb-5 group">
                   <input
                     onChange={handleChange}
                     type="email"
                     name="contactEmail"
                     id="floating_email"
-                    className="candidate-input w-full"
+                    className="contact-input w-full"
                     style={{
                       border: formErrors.contactEmail
                         ? "2px solid red"
@@ -403,7 +406,7 @@ const Contact = () => {
                     type="tel"
                     onChange={handleChange}
                     name="contactPhone"
-                    className="candidate-input w-full"
+                    className="contact-input w-full"
                     style={{
                       border: formErrors.contactPhone
                         ? "2px solid red"

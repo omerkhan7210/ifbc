@@ -3,7 +3,7 @@ import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
-import { addAllListings } from "src/Redux/listingReducer";
+// import { addAllListings } from "src/Redux/listingReducer";
 
 // Step 1: Create a new context
 export const MyContext = createContext();
@@ -21,94 +21,94 @@ const ListingDataContext = ({ children }) => {
       ? userDetails.userType
       : null;
 
-  const reduxListings = useSelector((state) => state.counter.listings);
-  const [listings, setListings] = useState([]);
-  const [loading, setLoading] = useState();
-  const [loadingError, setLoadingError] = useState();
+  //const reduxListings = useSelector((state) => state.counter.listings);
+  //const [listings, setListings] = useState([]);
+  //const [loading, setLoading] = useState();
+  // const [loadingError, setLoadingError] = useState();
 
   const url = `https://backend.ifbc.co/api/listingsmstr`;
-  // const { data, isLoading, error, isFetching } = useQuery(
-  //   "FRANCHISE",
-  //   () => {
-  //     return axios.get(url);
-  //   },
-  //   {
-  //     staleTime: 86400 * 30,
-  //     refetchInterval: false,
-  //     refetchOnMount: false,
-  //     refetchOnWindowFocus: false,
-  //     refetchOnReconnect: false,
-  //     select: (data) => {
-  //       if (!role || role === "N") {
-  //         return data?.data.map((d) => ({
-  //           docId: d.docId,
-  //           name: d.name,
-  //           imgUrl: d.imgUrl,
-  //           yearEstablished: d.yearEstablished,
-  //           category: d.category,
-  //           investmentRange: d.investmentRange,
-  //           shortdescription: d.shortdescription,
-  //         }));
-  //       } else {
-  //         const normalFLS = data?.data?.filter(
-  //           (data) => data.listingMemberships !== ""
-  //         );
-  //         return normalFLS;
-  //       }
-  //     },
-  //   }
-  // );
-
-  const dispatch = useDispatch();
-
-  const getAllListings = async () => {
-    setLoading(true);
-
-    const url = `https://backend.ifbc.co/api/listingsmstr`;
-    const responseData = await axios
-      .get(url)
-      .then(async (response) => {
-        // Handle successful response
-        if (response.data.length > 0) {
-          setLoading(false);
-          return response.data;
-        }
-      })
-      .catch((error) => {
-        // Handle error
-        setLoadingError(true);
-        console.error("Error fetching data:", error);
-      });
-    return responseData;
-  };
-
-  useEffect(() => {
-    const GetData = async () => {
-      if (reduxListings && reduxListings.length > 0) {
-        setListings(reduxListings);
-      } else {
-        const listings = await getAllListings();
-        if (listings && listings.length > 0) {
-          const normalFLS = await listings.filter(
+  const { data, isLoading, error, isFetching } = useQuery(
+    "FRANCHISE",
+    () => {
+      return axios.get(url);
+    },
+    {
+      staleTime: 86400 * 30,
+      refetchInterval: false,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      select: (data) => {
+        if (!role || role === "N") {
+          return data?.data.map((d) => ({
+            docId: d.docId,
+            name: d.name,
+            imgUrl: d.imgUrl,
+            yearEstablished: d.yearEstablished,
+            category: d.category,
+            investmentRange: d.investmentRange,
+            shortdescription: d.shortdescription,
+          }));
+        } else {
+          const normalFLS = data?.data?.filter(
             (data) => data.listingMemberships !== ""
           );
-          dispatch(addAllListings(normalFLS));
-          setListings(normalFLS);
+          return normalFLS;
         }
-      }
-    };
-    GetData();
+      },
+    }
+  );
 
-    // Make a GET request to fetch the data
-  }, [listings]); // Empty dependency array to run once on component mount
+  // const dispatch = useDispatch();
+
+  // const getAllListings = async () => {
+  //   setLoading(true);
+
+  //   const url = `https://backend.ifbc.co/api/listingsmstr`;
+  //   const responseData = await axios
+  //     .get(url)
+  //     .then(async (response) => {
+  //       // Handle successful response
+  //       if (response.data.length > 0) {
+  //         setLoading(false);
+  //         return response.data;
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       // Handle error
+  //       setLoadingError(true);
+  //       console.error("Error fetching data:", error);
+  //     });
+  //   return responseData;
+  // };
+
+  // useEffect(() => {
+  //   const GetData = async () => {
+  //     if (reduxListings && reduxListings.length > 0) {
+  //       setListings(reduxListings);
+  //     } else {
+  //       const listings = await getAllListings();
+  //       if (listings && listings.length > 0) {
+  //         const normalFLS = await listings.filter(
+  //           (data) => data.listingMemberships !== ""
+  //         );
+  //         dispatch(addAllListings(normalFLS));
+  //         setListings(normalFLS);
+  //       }
+  //     }
+  //   };
+  //   GetData();
+
+  //   // Make a GET request to fetch the data
+  // }, [listings]); // Empty dependency array to run once on component mount
 
   return (
     <MyContext.Provider
       value={{
         userDetails,
-        listings,
-        loading,
-        loadingError,
+        listings: data || [],
+        loading: isLoading,
+        loadingError: error,
         activeListings,
         filters,
         setFilters,

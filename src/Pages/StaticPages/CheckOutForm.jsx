@@ -1,7 +1,4 @@
-import React, { useLayoutEffect } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
-
+import React from "react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -24,11 +21,7 @@ import {
   validateUsername,
   validateZipcode,
 } from "src/Utils/SanitizeInput";
-import { City } from "country-state-city";
-
-const getCitiesOfState = (countryCode, stateCode) => {
-  return City.getCitiesOfState(countryCode, stateCode);
-};
+import data from "../../../public/files/data.json"; // Adjust the path if necessary
 
 const CheckOutForm = () => {
   const { listings } = useContext(MyContext);
@@ -74,7 +67,7 @@ const ShoppingCart = ({ cartListings, listings }) => {
 
       <div
         id="sub-container"
-        className="divide-y-2 divide-custom-heading-color/10 w-full h-[550px] overflow-y-auto "
+        className="divide-y-2 divide-custom-heading-color/10 w-full md:h-[550px] overflow-y-auto "
       >
         {/* items-row */}
         {listings
@@ -185,12 +178,112 @@ const LeftSidebar = ({ cartListings, listings }) => {
   const dispatch = useDispatch();
   const [cities, setCities] = useState([]);
   const [selectedState, setSelectedState] = useState(null);
+  const capitalOptions = [
+    { value: "10000", label: "Less than $10,000" },
+    { value: "20000", label: "$20,000" },
+    { value: "30000", label: "$30,000" },
+    { value: "40000", label: "$40,000" },
+    { value: "50000", label: "$50,000" },
+    { value: "60000", label: "$60,000" },
+    { value: "70000", label: "$70,000" },
+    { value: "80000", label: "$80,000" },
+    { value: "90000", label: "$90,000" },
+    { value: "100000", label: "$100,000" },
+    { value: "150000", label: "$150,000" },
+    { value: "200000", label: "$200,000" },
+    { value: "250000", label: "$250,000" },
+    { value: "300000", label: "$300,000" },
+    { value: "350000", label: "$350,000" },
+    { value: "400000", label: "$400,000" },
+    { value: "450000", label: "$450,000" },
+    { value: "500000", label: "$500,000" },
+    { value: "500001", label: "$500,000+" },
+  ];
+  const states = [
+    { value: "AL", text: "Alabama" },
+    { value: "AB", text: "Alberta" },
+    { value: "AK", text: "Alaska" },
+    { value: "AZ", text: "Arizona" },
+    { value: "AR", text: "Arkansas" },
+    { value: "BC", text: "British Columbia" },
+    { value: "CA", text: "California" },
+    { value: "CO", text: "Colorado" },
+    { value: "CT", text: "Connecticut" },
+    { value: "DE", text: "Delaware" },
+    { value: "DC", text: "District Of Columbia" },
+    { value: "FL", text: "Florida" },
+    { value: "GA", text: "Georgia" },
+    { value: "HI", text: "Hawaii" },
+    { value: "ID", text: "Idaho" },
+    { value: "IL", text: "Illinois" },
+    { value: "IN", text: "Indiana" },
+    { value: "IA", text: "Iowa" },
+    { value: "KS", text: "Kansas" },
+    { value: "KY", text: "Kentucky" },
+    { value: "LA", text: "Louisiana" },
+    { value: "ME", text: "Maine" },
+    { value: "MB", text: "Manitoba" },
+    { value: "MD", text: "Maryland" },
+    { value: "MA", text: "Massachusetts" },
+    { value: "MI", text: "Michigan" },
+    { value: "MN", text: "Minnesota" },
+    { value: "MS", text: "Mississippi" },
+    { value: "MO", text: "Missouri" },
+    { value: "MT", text: "Montana" },
+    { value: "NE", text: "Nebraska" },
+    { value: "NV", text: "Nevada" },
+    { value: "NB", text: "New Brunswick" },
+    { value: "NH", text: "New Hampshire" },
+    { value: "NJ", text: "New Jersey" },
+    { value: "NM", text: "New Mexico" },
+    { value: "NY", text: "New York" },
+    { value: "NL", text: "Newfoundland and Labrador" },
+    { value: "NC", text: "North Carolina" },
+    { value: "ND", text: "North Dakota" },
+    { value: "NT", text: "Northwest Territories" },
+    { value: "NS", text: "Nova Scotia" },
+    { value: "NU", text: "Nunavut" },
+    { value: "OH", text: "Ohio" },
+    { value: "OK", text: "Oklahoma" },
+    { value: "ON", text: "Ontario" },
+    { value: "OR", text: "Oregon" },
+    { value: "PA", text: "Pennsylvania" },
+    { value: "PE", text: "Prince Edward Island" },
+    { value: "QC", text: "Quebec" },
+    { value: "RI", text: "Rhode Island" },
+    { value: "SC", text: "South Carolina" },
+    { value: "SD", text: "South Dakota" },
+    { value: "SK", text: "Saskatchewan" },
+    { value: "TN", text: "Tennessee" },
+    { value: "TX", text: "Texas" },
+    { value: "UT", text: "Utah" },
+    { value: "VT", text: "Vermont" },
+    { value: "VA", text: "Virginia" },
+    { value: "WA", text: "Washington" },
+    { value: "WV", text: "West Virginia" },
+    { value: "WI", text: "Wisconsin" },
+    { value: "WY", text: "Wyoming" },
+    { value: "YT", text: "Yukon Territory" },
+    { value: "INT", text: "International" },
+  ];
+  const getCitiesOfState = (stateCode) => {
+    const state = states.find((s) => s.value === stateCode);
+    if (state) {
+      const stateName = state.text;
+      console.log(stateName);
+
+      return data[stateName] || [];
+    } else {
+      return [];
+    }
+  };
 
   const handleStateChange = (e) => {
     const stateCode = e.target.value;
     setSelectedState(stateCode);
     setFormFields((prev) => ({ ...prev, state: stateCode }));
-    const cityList = getCitiesOfState("US", stateCode);
+    const cityList = getCitiesOfState(stateCode);
+    console.log(cityList);
     setCities(cityList);
   };
 
@@ -311,94 +404,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
       [name]: "",
     }));
   };
-  const capitalOptions = [
-    { value: "10000", label: "Less than $10,000" },
-    { value: "20000", label: "$20,000" },
-    { value: "30000", label: "$30,000" },
-    { value: "40000", label: "$40,000" },
-    { value: "50000", label: "$50,000" },
-    { value: "60000", label: "$60,000" },
-    { value: "70000", label: "$70,000" },
-    { value: "80000", label: "$80,000" },
-    { value: "90000", label: "$90,000" },
-    { value: "100000", label: "$100,000" },
-    { value: "150000", label: "$150,000" },
-    { value: "200000", label: "$200,000" },
-    { value: "250000", label: "$250,000" },
-    { value: "300000", label: "$300,000" },
-    { value: "350000", label: "$350,000" },
-    { value: "400000", label: "$400,000" },
-    { value: "450000", label: "$450,000" },
-    { value: "500000", label: "$500,000" },
-    { value: "500001", label: "$500,000+" },
-  ];
-  const states = [
-    { value: "AL", text: "Alabama" },
-    { value: "AK", text: "Alaska" },
-    { value: "AZ", text: "Arizona" },
-    { value: "AR", text: "Arkansas" },
-    { value: "CA", text: "California" },
-    { value: "CO", text: "Colorado" },
-    { value: "CT", text: "Connecticut" },
-    { value: "DE", text: "Delaware" },
-    { value: "DC", text: "District Of Columbia" },
-    { value: "FL", text: "Florida" },
-    { value: "GA", text: "Georgia" },
-    { value: "HI", text: "Hawaii" },
-    { value: "ID", text: "Idaho" },
-    { value: "IL", text: "Illinois" },
-    { value: "IN", text: "Indiana" },
-    { value: "IA", text: "Iowa" },
-    { value: "KS", text: "Kansas" },
-    { value: "KY", text: "Kentucky" },
-    { value: "LA", text: "Louisiana" },
-    { value: "ME", text: "Maine" },
-    { value: "MD", text: "Maryland" },
-    { value: "MA", text: "Massachusetts" },
-    { value: "MI", text: "Michigan" },
-    { value: "MN", text: "Minnesota" },
-    { value: "MS", text: "Mississippi" },
-    { value: "MO", text: "Missouri" },
-    { value: "MT", text: "Montana" },
-    { value: "NE", text: "Nebraska" },
-    { value: "NV", text: "Nevada" },
-    { value: "NH", text: "New Hampshire" },
-    { value: "NJ", text: "New Jersey" },
-    { value: "NM", text: "New Mexico" },
-    { value: "NY", text: "New York" },
-    { value: "NC", text: "North Carolina" },
-    { value: "ND", text: "North Dakota" },
-    { value: "OH", text: "Ohio" },
-    { value: "OK", text: "Oklahoma" },
-    { value: "OR", text: "Oregon" },
-    { value: "PA", text: "Pennsylvania" },
-    { value: "RI", text: "Rhode Island" },
-    { value: "SC", text: "South Carolina" },
-    { value: "SD", text: "South Dakota" },
-    { value: "TN", text: "Tennessee" },
-    { value: "TX", text: "Texas" },
-    { value: "UT", text: "Utah" },
-    { value: "VT", text: "Vermont" },
-    { value: "VA", text: "Virginia" },
-    { value: "WA", text: "Washington" },
-    { value: "WV", text: "West Virginia" },
-    { value: "WI", text: "Wisconsin" },
-    { value: "WY", text: "Wyoming" },
-    { value: "INT", text: "International" },
-    { value: "AB", text: "Alberta" },
-    { value: "BC", text: "British Columbia" },
-    { value: "MB", text: "Manitoba" },
-    { value: "NB", text: "New Brunswick" },
-    { value: "NL", text: "Newfoundland and Labrador" },
-    { value: "NT", text: "Northwest Territories" },
-    { value: "NS", text: "Nova Scotia" },
-    { value: "NU", text: "Nunavut" },
-    { value: "ON", text: "Ontario" },
-    { value: "PE", text: "Prince Edward Island" },
-    { value: "QC", text: "Quebec" },
-    { value: "SK", text: "Saskatchewan" },
-    { value: "YT", text: "Yukon Territory" },
-  ];
 
   return (
     <div id="left-side-checkout-form" className="col-span-7">
@@ -493,9 +498,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             )}
           </div>
           <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="city">
-              Phone
-            </label>
+            <label className="text-custom-heading-color">Phone</label>
             <input
               onChange={handleInputChange}
               name="phone"
@@ -536,21 +539,19 @@ const LeftSidebar = ({ cartListings, listings }) => {
           </div>
 
           <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="city">
-              City
-            </label>
+            <label className="text-custom-heading-color">City</label>
             {selectedState && cities.length > 0 ? (
               <select
                 name="city"
-                className="candidate-select w-full"
+                className="candidate-select w-full capitalize"
                 style={{ borderColor: formErrors.city ? "red" : undefined }}
                 onChange={handleInputChange}
               >
                 {!formFields.city && <option value="">Select City</option>}
 
                 {cities.map((city) => (
-                  <option key={city.name} value={city.name}>
-                    {city.name}
+                  <option key={city} value={city}>
+                    {city}
                   </option>
                 ))}
               </select>
@@ -558,8 +559,9 @@ const LeftSidebar = ({ cartListings, listings }) => {
               <input
                 type="text"
                 name="city"
-                id=""
                 className="candidate-input w-full"
+                style={{ borderColor: formErrors.city ? "red" : undefined }}
+                onChange={handleInputChange}
               />
             )}
           </div>

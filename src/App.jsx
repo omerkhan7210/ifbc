@@ -13,7 +13,8 @@ import RouteRenderer from "./RouteRenderer";
 import TCFRDataContext from "./Context/TCFRDataContext";
 import RegisterationPopup from "./Popups/RegistrationPopup";
 import { QueryClient, QueryClientProvider } from "react-query";
-// import { QueryClient, QueryClientProvider } from "react-query";
+import { persistQueryClient } from "react-query/persistQueryClient-experimental";
+import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
 const App = () => {
   const dispatch = useDispatch();
   const [mobileActive, setMobileActive] = useState(false);
@@ -40,43 +41,29 @@ const App = () => {
 
   useEffect(() => {
     setMobileActive(false);
-    if (
-      loc.pathname === "/checkout" ||
-      loc.pathname.includes("/result") ||
-      loc.pathname.includes("/messages")
-    ) {
-      document
-        .querySelector("#app")
-        .classList.add("flex", "flex-col", "justify-between", "min-h-screen");
-    } else {
-      document
-        .querySelector("#app")
-        .classList.remove(
-          "flex",
-          "flex-col",
-          "justify-between",
-          "min-h-screen"
-        );
-    }
+
+    document
+      .querySelector("#app")
+      .classList.add("flex", "flex-col", "justify-between", "min-h-screen");
   }, [loc.pathname]);
 
-  const queryClient = new QueryClient();
-  // const queryClient = new QueryClient({
-  //   defaultOptions: {
-  //     queries: {
-  //       cacheTime: 1000 * 60 * 60 * 24 * 5, // 5 days
-  //     },
-  //   },
-  // });
+  //const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        cacheTime: 1000 * 60 * 60 * 24 * 3, // 5 days
+      },
+    },
+  });
 
-  // const sessionStoragePersistor = createWebStoragePersistor({
-  //   storage: window.sessionStorage,
-  // });
+  const sessionStoragePersistor = createWebStoragePersistor({
+    storage: window.sessionStorage,
+  });
 
-  // persistQueryClient({
-  //   queryClient,
-  //   persistor: sessionStoragePersistor,
-  // });
+  persistQueryClient({
+    queryClient,
+    persistor: sessionStoragePersistor,
+  });
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -109,18 +96,13 @@ const App = () => {
       </ListingDataContext>
 
       <TCFRDataContext>
-        {(loc.pathname.includes("listings") ||
-          loc.pathname.includes("candidate") ||
-          loc.pathname.includes("messages")) &&
-          token &&
-          role &&
-          role === "C" && (
-            <CandidateSideBar
-              active={active}
-              setActive={setActive}
-              setSelectedCandName={setSelectedCandName}
-            />
-          )}
+        {token && role && role === "C" && (
+          <CandidateSideBar
+            active={active}
+            setActive={setActive}
+            setSelectedCandName={setSelectedCandName}
+          />
+        )}
       </TCFRDataContext>
       <Footer />
     </QueryClientProvider>

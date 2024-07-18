@@ -1,8 +1,6 @@
-import React, { useContext, useRef, useState } from "react";
-import { MyContext } from "src/Context/ListingDataContext";
+import { useRef, useState } from "react";
 
-const SearchingComponent = () => {
-  const { filters, setFilters } = useContext(MyContext);
+const SearchingComponent = ({ setFilters }) => {
   const ref = useRef();
 
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -49,5 +47,4 @@ const SearchingComponent = () => {
     </div>
   );
 };
-
 export default SearchingComponent;
