@@ -196,7 +196,7 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
   }, [data, role]);
   return (
     <section className="flex flex-col w-full justify-between items-center border-b border-custom-dark-blue/10 mb-4 mt-4 ">
-      <div className="lg:mb-2 flex justify-center items-center flex-col">
+      <div className="lg:mb-2 flex justify-between flex-col items-center ">
         <img
           width={300}
           height={300}
@@ -206,6 +206,24 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
           decoding="async"
           fetchpriority="high"
         />
+
+        <ul className=" flex-col gap-4 h-full max-md:items-center">
+          {/* <h2 className="candidate-small-heading">User Details</h2> */}
+          {data.map((listingLi, index) => {
+            const indexLimit = role === "A" ? 2 : 6;
+            if (index > indexLimit) {
+              return (
+                <li
+                  key={index}
+                  className="flex items-center gap-1 max-md:justify-center max-md:w-full"
+                >
+                  {listingLi.icon}
+                  {listingLi.text}
+                </li>
+              );
+            }
+          })}
+        </ul>
       </div>
       <div
         id="content-container"
@@ -215,9 +233,6 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
           id="buttons-container"
           className="flex gap-3 w-full  justify-start items-center mb-2 max-md:flex-col"
         >
-          <button onClick={ShowListing} className="candidate-btn w-full">
-            Report an issue with this listing
-          </button>
           <ReportIssue showReport={showReport} setShowReport={setShowReport} />
           <select className="candidate-select w-full">
             <option value>Concept Actions</option>
@@ -240,12 +255,8 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
           >
             Formal Registration
           </button>
-          <button
-            className="candidate-btn w-full"
-            type="button"
-            data-custom-open="rate"
-          >
-            Rate Concept
+          <button onClick={ShowListing} className="candidate-btn w-full ">
+            Report an issue with this Listing
           </button>
         </div>
 
@@ -273,25 +284,7 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
           </ul>
         </div>
 
-        <div className="col-span-12 md:col-span-4">
-          <ul className="flex flex-col gap-4 items-start h-full max-md:items-center">
-            <h2 className="candidate-small-heading">User Details</h2>
-            {data.map((listingLi, index) => {
-              const indexLimit = role === "A" ? 2 : 6;
-              if (index > indexLimit) {
-                return (
-                  <li
-                    key={index}
-                    className="flex items-center gap-1 max-md:justify-center max-md:w-full"
-                  >
-                    {listingLi.icon}
-                    {listingLi.text}
-                  </li>
-                );
-              }
-            })}
-          </ul>
-        </div>
+        <div className="col-span-12 md:col-span-4"></div>
       </div>
     </section>
   );
