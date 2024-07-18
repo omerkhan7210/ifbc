@@ -28,7 +28,7 @@
 }
 
 .contact-select {
-  @apply bg-gray-50  text-gray-700   block p-2 text-sm focus:outline-none;
+  @apply bg-gray-50  text-gray-700   block p-2 text-sm focus:outline-none placeholder:text-sm placeholder:text-gray-400;
 }
 
 .candidate-normal-input {

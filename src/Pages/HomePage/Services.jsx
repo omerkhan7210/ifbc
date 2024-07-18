@@ -23,24 +23,15 @@ const Services = () => {
               className="w-full"
             /> */}
 
-            <video width="700" controls>
+            <video
+              className="w-full h-[1150px] object-cover"
+              controls={true}
+              muted={true}
+              loop={true}
+            >
               <source src="/video/videoplayback.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <button className="w-[50px] sm:w-[100px] aspect-square rounded-[10px] flex justify-center items-center absolute -bottom-[25px] sm:-bottom-[50px] right-0 bg-it-blue">
-              <svg
-                width={22}
-                height={24}
-                viewBox="0 0 22 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M20.0613 15.1781L5.47652 23.5123C3.03627 24.9067 0 23.1447 0 20.3342V3.66584C0 0.855278 3.03627 -0.906735 5.47652 0.487697L20.0613 8.82185C22.5204 10.2271 22.5204 13.7729 20.0613 15.1781Z"
-                  fill="white"
-                />
-              </svg>
-            </button>
           </div>
         </div>
         <Steps />

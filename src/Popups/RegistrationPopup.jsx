@@ -6,10 +6,8 @@ import axios from "axios";
 import Form from "src/Pages/CandidatePages/NewCandidate/Form";
 
 import { validateUsername, validateZipcode } from "src/Utils/SanitizeInput";
-import { City } from "country-state-city";
-const getCitiesOfState = (countryCode, stateCode) => {
-  return City.getCitiesOfState(countryCode, stateCode);
-};
+import data from "../../public/files/data.json"; // Adjust the path if necessary
+
 const RegisterationPopup = ({ setShow, show, registrationType }) => {
   const { cands, userDetails, loading } = useContext(MyCandContext);
   const { activeListings } = useContext(MyContext);
@@ -158,33 +156,13 @@ const FormTC = ({
   const [loading, setLoading] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedState, setSelectedState] = useState(null);
-
-  const handleStateChange = (e) => {
-    const stateCode = e.target.value;
-    setSelectedState(stateCode);
-    setSelectedDetails((prev) => {
-      return {
-        ...prev,
-        territoryState: stateCode,
-      };
-    });
-    const cityList = getCitiesOfState("US", stateCode);
-    setCities(cityList);
-  };
-
-  useEffect(() => {
-    if (selectedDetails && selectedDetails.territoryState) {
-      setSelectedState(selectedDetails.territoryState);
-      const cityList = getCitiesOfState("US", selectedDetails.territoryState);
-      setCities(cityList);
-    }
-  }, [selectedDetails?.territoryState]);
-
   const states = [
     { value: "AL", text: "Alabama" },
+    { value: "AB", text: "Alberta" },
     { value: "AK", text: "Alaska" },
     { value: "AZ", text: "Arizona" },
     { value: "AR", text: "Arkansas" },
+    { value: "BC", text: "British Columbia" },
     { value: "CA", text: "California" },
     { value: "CO", text: "Colorado" },
     { value: "CT", text: "Connecticut" },
@@ -201,6 +179,7 @@ const FormTC = ({
     { value: "KY", text: "Kentucky" },
     { value: "LA", text: "Louisiana" },
     { value: "ME", text: "Maine" },
+    { value: "MB", text: "Manitoba" },
     { value: "MD", text: "Maryland" },
     { value: "MA", text: "Massachusetts" },
     { value: "MI", text: "Michigan" },
@@ -210,19 +189,28 @@ const FormTC = ({
     { value: "MT", text: "Montana" },
     { value: "NE", text: "Nebraska" },
     { value: "NV", text: "Nevada" },
+    { value: "NB", text: "New Brunswick" },
     { value: "NH", text: "New Hampshire" },
     { value: "NJ", text: "New Jersey" },
     { value: "NM", text: "New Mexico" },
     { value: "NY", text: "New York" },
+    { value: "NL", text: "Newfoundland and Labrador" },
     { value: "NC", text: "North Carolina" },
     { value: "ND", text: "North Dakota" },
+    { value: "NT", text: "Northwest Territories" },
+    { value: "NS", text: "Nova Scotia" },
+    { value: "NU", text: "Nunavut" },
     { value: "OH", text: "Ohio" },
     { value: "OK", text: "Oklahoma" },
+    { value: "ON", text: "Ontario" },
     { value: "OR", text: "Oregon" },
     { value: "PA", text: "Pennsylvania" },
+    { value: "PE", text: "Prince Edward Island" },
+    { value: "QC", text: "Quebec" },
     { value: "RI", text: "Rhode Island" },
     { value: "SC", text: "South Carolina" },
     { value: "SD", text: "South Dakota" },
+    { value: "SK", text: "Saskatchewan" },
     { value: "TN", text: "Tennessee" },
     { value: "TX", text: "Texas" },
     { value: "UT", text: "Utah" },
@@ -232,21 +220,39 @@ const FormTC = ({
     { value: "WV", text: "West Virginia" },
     { value: "WI", text: "Wisconsin" },
     { value: "WY", text: "Wyoming" },
-    { value: "INT", text: "International" },
-    { value: "AB", text: "Alberta" },
-    { value: "BC", text: "British Columbia" },
-    { value: "MB", text: "Manitoba" },
-    { value: "NB", text: "New Brunswick" },
-    { value: "NL", text: "Newfoundland and Labrador" },
-    { value: "NT", text: "Northwest Territories" },
-    { value: "NS", text: "Nova Scotia" },
-    { value: "NU", text: "Nunavut" },
-    { value: "ON", text: "Ontario" },
-    { value: "PE", text: "Prince Edward Island" },
-    { value: "QC", text: "Quebec" },
-    { value: "SK", text: "Saskatchewan" },
     { value: "YT", text: "Yukon Territory" },
+    { value: "INT", text: "International" },
   ];
+
+  const getCitiesOfState = (stateCode) => {
+    const state = states.find((s) => s.value === stateCode);
+    if (state) {
+      const stateName = state.text;
+      return data[stateName] || [];
+    } else {
+      return [];
+    }
+  };
+  const handleStateChange = (e) => {
+    const stateCode = e.target.value;
+    setSelectedState(stateCode);
+    setSelectedDetails((prev) => {
+      return {
+        ...prev,
+        territoryState: stateCode,
+      };
+    });
+    const cityList = getCitiesOfState(stateCode);
+    setCities(cityList);
+  };
+
+  useEffect(() => {
+    if (selectedDetails && selectedDetails.territoryState) {
+      setSelectedState(selectedDetails.territoryState);
+      const cityList = getCitiesOfState(selectedDetails.territoryState);
+      setCities(cityList);
+    }
+  }, [selectedDetails?.territoryState]);
 
   const addContactDiv = (index) => {
     return (
@@ -536,10 +542,13 @@ const FormTC = ({
                   cities.map((city, index) => (
                     <option
                       key={index}
-                      value={city.name}
-                      selected={selectedDetails?.territoryCity === city.name}
+                      value={city}
+                      selected={
+                        selectedDetails?.territoryCity.toLowerCase() ===
+                        city.toLowerCase()
+                      }
                     >
-                      {city.name}
+                      {city}
                     </option>
                   ))
                 )}

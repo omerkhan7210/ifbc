@@ -1,8 +1,7 @@
-import { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import AllListings from "./AllListings";
-import ListingsFilter from "./Filters/ListingsFilter";
+import ListingsFilter from "./ListingsFilter";
 import { MyContext } from "src/Context/ListingDataContext";
-import SearchingComponent from "./SearchingComponent";
 import PageTransition from "src/Animations/PageTransition";
 import RelatedListings from "src/Globals/RelatedListings";
 import { useDispatch } from "react-redux";
@@ -14,6 +13,7 @@ import {
 import ToolInformation from "src/Popups/ToolInformation";
 import ToolEmail from "src/Popups/ToolEmail";
 import ToolComparison from "src/Popups/ToolComparison";
+import SearchingComponent from "./SearchingComponent";
 
 const ExtraTools = ({ setShow, setRegistrationType }) => {
   const [showEmail, setShowEmail] = useState(false);
@@ -25,6 +25,8 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
     setShowActiveListings,
     paginationListings,
     role,
+    setFilters,
+    token,
   } = useContext(MyContext);
   const dispatch = useDispatch();
 
@@ -57,38 +59,52 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
       setShowComparison(true);
     }
   };
+  const roleCheck = role && role !== "N" && token;
   return (
-    <div className="grid grid-cols-12 gap-3 items-center">
-      {role && role !== "N" && (
+    <div className="grid grid-cols-12 gap-3 items-center md:w-[50%] mx-auto">
+      {roleCheck && (
         <div
-          id="form-button-container"
-          className="flex flex-col gap-2 w-full justify-between h-full sm:col-span-6 col-span-12 lg:col-span-4"
+          className={`col-span-12 ${
+            roleCheck ? "lg:col-span-4" : "lg:col-span-6"
+          } md:flex md:mb-4 mb-0 flex-col h-full 
+              justify-between 
+           `}
         >
-          <button
-            className="candidate-btn w-full"
-            value="tc"
-            onClick={() => handleOpenRegistration("TC")}
-          >
-            Territory Checks
-          </button>
-          <button
-            className="candidate-btn w-full"
-            value="fr"
-            onClick={() => handleOpenRegistration("FR")}
-          >
-            Formal Registrations
-          </button>
+          <SearchingComponent setFilters={setFilters} />
+          {activeListings && activeListings.length > 0 ? (
+            <button
+              type="button"
+              onClick={() => setShowActiveListings(!showActiveListings)}
+              className={`border-2 border-custom-blue  hover:bg-custom-blue  hover:text-white transition-all duration-500 py-2 px-5 w-full whitespace-nowrap mr-4 rounded-md ${
+                showActiveListings
+                  ? "text-white bg-custom-blue"
+                  : "text-custom-blue"
+              }`}
+            >
+              My Selection <span> ({activeListings.length}) </span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              className={`border-2 border-custom-blue  cursor-default transition-all duration-500 py-2 px-5 w-full whitespace-nowrap mr-4 rounded-md text-custom-blue`}
+            >
+              No Franchise Selected
+            </button>
+          )}
         </div>
       )}
 
       <div
         className={`grid grid-cols-12 col-span-12  ${
-          role && role !== "N" ? "lg:col-span-4 " : "lg:col-span-12"
+          roleCheck ? "lg:col-span-4 " : "lg:col-span-12"
         } w-full gap-3 sm:gap-3 `}
       >
-        {role && role !== "N" && (
+        {roleCheck && (
           <div className="col-span-12">
-            <select onChange={handleTools} className="candidate-select w-full">
+            <select
+              onChange={handleTools}
+              className="candidate-select w-full rounded-md"
+            >
               <option value="">Tools</option>
               <option value="email"> Email Selected Franchises </option>
               <option value="info"> Create Information Packet </option>
@@ -110,26 +126,26 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
           setShowComparison={setShowComparison}
         />
 
-        {role && role !== "N" && (
+        {roleCheck && (
           <button
             className={`${
               activeListings.length > 0
-                ? role && role !== "N"
+                ? roleCheck
                   ? "col-span-6"
                   : "col-span-12"
                 : "col-span-12"
-            } border-2 border-green-900 hover:bg-green-900 hover:text-white transition-all duration-500 py-2 px-5 w-full md:w-auto tertiary-button text-green-900`}
+            } border-2 border-green-900 hover:bg-green-900 hover:text-white transition-all duration-500 py-2 px-5 w-full md:w-auto tertiary-button text-green-900 rounded-md`}
             onClick={selectAllListings}
           >
             Select All
           </button>
         )}
 
-        {role && role !== "N" && activeListings.length > 0 && (
+        {roleCheck && activeListings.length > 0 && (
           <button
             className={`${
-              role && role !== "N" ? "col-span-6" : "col-span-12"
-            } border-2 border-red-900 hover:bg-red-900 hover:text-white transition-all duration-500 py-2 px-5  w-full md:w-auto tertiary-button text-red-900`}
+              roleCheck ? "col-span-6" : "col-span-12"
+            } border-2 border-red-900 hover:bg-red-900 hover:text-white transition-all duration-500 py-2 px-5  w-full md:w-auto tertiary-button text-red-900 rounded-md`}
             onClick={() => {
               setShowActiveListings(false);
               dispatch(decrementAllActiveListing());
@@ -140,31 +156,25 @@ const ExtraTools = ({ setShow, setRegistrationType }) => {
         )}
       </div>
 
-      {role && role !== "N" && (
+      {roleCheck && (
         <div
-          className={`col-span-12 ${
-            role && role !== "N" ? "lg:col-span-4" : "lg:col-span-6"
-          } md:flex md:mb-4 mb-0 flex-col h-full ${
-            activeListings && activeListings.length > 0
-              ? "justify-between "
-              : "justify-start"
-          } `}
+          id="form-button-container"
+          className="flex flex-col gap-2 w-full justify-between h-full sm:col-span-6 col-span-12 lg:col-span-4"
         >
-          <SearchingComponent />
-
-          {activeListings && activeListings.length > 0 && (
-            <button
-              type="button"
-              onClick={() => setShowActiveListings(!showActiveListings)}
-              className={`border-2 border-custom-blue  hover:bg-custom-blue  hover:text-white transition-all duration-500 py-2 px-5 w-full whitespace-nowrap mr-4 ${
-                showActiveListings
-                  ? "text-white bg-custom-blue"
-                  : "text-custom-blue"
-              }`}
-            >
-              My Selection <span> ({activeListings.length}) </span>
-            </button>
-          )}
+          <button
+            className="candidate-btn w-full"
+            value="tc"
+            onClick={() => handleOpenRegistration("TC")}
+          >
+            Territory Checks
+          </button>
+          <button
+            className="candidate-btn w-full"
+            value="fr"
+            onClick={() => handleOpenRegistration("FR")}
+          >
+            Formal Registrations
+          </button>
         </div>
       )}
     </div>

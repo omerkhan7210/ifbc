@@ -1,5 +1,5 @@
 import React from "react";
-import HomeBanner from "./BannerComponents/HomeBanner";
+import HomeBanner from "./HomeBanner";
 import About from "../GlobalPageSections/About";
 import About2 from "../GlobalPageSections/About2";
 import Services from "./Services";

@@ -111,12 +111,9 @@ const Login = () => {
           setSuccessMsg("Login Successfull");
           setLoading(false);
           setButtonText("Redirecting...");
-          setTimeout(() => {
-            localStorage.setItem("token", userToken);
-            dispatch(setToken(true));
-
-            window.location.href = "/";
-          }, 3000);
+          localStorage.setItem("token", userToken);
+          dispatch(setToken(true));
+          window.location.href = "/";
         }
       } else {
         setError((prev) => ({

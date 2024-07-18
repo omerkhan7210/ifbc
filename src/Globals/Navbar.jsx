@@ -178,25 +178,20 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
               Search Franchises (SF)
             </NavLink>
           </li>
-          {(loc.pathname.includes("listings") ||
-            loc.pathname.includes("candidate") ||
-            loc.pathname.includes("messages")) &&
-            token &&
-            role &&
-            role === "C" && (
-              <li
-                id="menu-item-552360"
-                className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
-              >
-                <NavLink onClick={() => setActive(!active)}>
-                  <div className="text-custom-heading-color text-base  flex items-center">
-                    {selectedCandName && selectedCandName.name
-                      ? selectedCandName.name
-                      : "No Candidate Selected"}
-                  </div>
-                </NavLink>
-              </li>
-            )}
+          {token && role && role === "C" && (
+            <li
+              id="menu-item-552360"
+              className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-552360"
+            >
+              <NavLink onClick={() => setActive(!active)}>
+                <div className="text-custom-heading-color text-base  flex items-center">
+                  {selectedCandName && selectedCandName.name
+                    ? selectedCandName.name
+                    : "No Candidate Selected"}
+                </div>
+              </NavLink>
+            </li>
+          )}
         </ul>
       </div>
     </div>

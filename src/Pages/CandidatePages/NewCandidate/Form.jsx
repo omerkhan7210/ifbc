@@ -15,11 +15,8 @@ import {
 import { convertToMSSQLDate } from "src/Utils/ConvertDate";
 
 import { useQuery } from "react-query";
-import { City } from "country-state-city";
+import data from "../../../../public/files/data.json"; // Adjust the path if necessary
 
-const getCitiesOfState = (countryCode, stateCode) => {
-  return City.getCitiesOfState(countryCode, stateCode);
-};
 function convertKeysToLowercase(obj) {
   if (typeof obj !== "object" || obj === null) {
     return obj;
@@ -126,9 +123,11 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const states = [
     { value: "AL", text: "Alabama" },
+    { value: "AB", text: "Alberta" },
     { value: "AK", text: "Alaska" },
     { value: "AZ", text: "Arizona" },
     { value: "AR", text: "Arkansas" },
+    { value: "BC", text: "British Columbia" },
     { value: "CA", text: "California" },
     { value: "CO", text: "Colorado" },
     { value: "CT", text: "Connecticut" },
@@ -145,6 +144,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     { value: "KY", text: "Kentucky" },
     { value: "LA", text: "Louisiana" },
     { value: "ME", text: "Maine" },
+    { value: "MB", text: "Manitoba" },
     { value: "MD", text: "Maryland" },
     { value: "MA", text: "Massachusetts" },
     { value: "MI", text: "Michigan" },
@@ -154,19 +154,28 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     { value: "MT", text: "Montana" },
     { value: "NE", text: "Nebraska" },
     { value: "NV", text: "Nevada" },
+    { value: "NB", text: "New Brunswick" },
     { value: "NH", text: "New Hampshire" },
     { value: "NJ", text: "New Jersey" },
     { value: "NM", text: "New Mexico" },
     { value: "NY", text: "New York" },
+    { value: "NL", text: "Newfoundland and Labrador" },
     { value: "NC", text: "North Carolina" },
     { value: "ND", text: "North Dakota" },
+    { value: "NT", text: "Northwest Territories" },
+    { value: "NS", text: "Nova Scotia" },
+    { value: "NU", text: "Nunavut" },
     { value: "OH", text: "Ohio" },
     { value: "OK", text: "Oklahoma" },
+    { value: "ON", text: "Ontario" },
     { value: "OR", text: "Oregon" },
     { value: "PA", text: "Pennsylvania" },
+    { value: "PE", text: "Prince Edward Island" },
+    { value: "QC", text: "Quebec" },
     { value: "RI", text: "Rhode Island" },
     { value: "SC", text: "South Carolina" },
     { value: "SD", text: "South Dakota" },
+    { value: "SK", text: "Saskatchewan" },
     { value: "TN", text: "Tennessee" },
     { value: "TX", text: "Texas" },
     { value: "UT", text: "Utah" },
@@ -176,25 +185,22 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     { value: "WV", text: "West Virginia" },
     { value: "WI", text: "Wisconsin" },
     { value: "WY", text: "Wyoming" },
-    { value: "INT", text: "International" },
-    { value: "AB", text: "Alberta" },
-    { value: "BC", text: "British Columbia" },
-    { value: "MB", text: "Manitoba" },
-    { value: "NB", text: "New Brunswick" },
-    { value: "NL", text: "Newfoundland and Labrador" },
-    { value: "NT", text: "Northwest Territories" },
-    { value: "NS", text: "Nova Scotia" },
-    { value: "NU", text: "Nunavut" },
-    { value: "ON", text: "Ontario" },
-    { value: "PE", text: "Prince Edward Island" },
-    { value: "QC", text: "Quebec" },
-    { value: "SK", text: "Saskatchewan" },
     { value: "YT", text: "Yukon Territory" },
+    { value: "INT", text: "International" },
   ];
+  const getCitiesOfState = (stateCode) => {
+    const state = states.find((s) => s.value === stateCode);
 
+    if (state) {
+      const stateName = state.text;
+      return data[stateName] || [];
+    } else {
+      return [];
+    }
+  };
   const handleStateChange = (e, name) => {
     const stateCode = e.target.value;
-    const cityList = getCitiesOfState("US", stateCode);
+    const cityList = getCitiesOfState(stateCode);
 
     if (name === "territory") {
       setSelectedStateT(stateCode);
@@ -1134,7 +1140,6 @@ const FormSecondRow = ({
   citiesT,
   addTerritory,
   setAddTerritory,
-  territory,
 }) => {
   const addTerritoryDiv = (index) => {
     return (
@@ -1167,13 +1172,13 @@ const FormSecondRow = ({
                 )}
                 {citiesT.map((city) => (
                   <option
-                    key={city.name}
-                    value={city.name}
+                    key={city}
+                    value={city}
                     {...(candNames && candNames.length > 0
                       ? { selected: selectedDetails?.territoryCity }
                       : { selected: candDetails?.territoryCity })}
                   >
-                    {city.name}
+                    {city}
                   </option>
                 ))}
               </select>
@@ -1287,13 +1292,13 @@ const FormSecondRow = ({
               )}
               {citiesT.map((city) => (
                 <option
-                  key={city.name}
-                  value={city.name}
+                  key={city}
+                  value={city}
                   {...(candNames && candNames.length > 0
                     ? { selected: selectedDetails?.territoryCity }
                     : { selected: candDetails?.territoryCity })}
                 >
-                  {city.name}
+                  {city}
                 </option>
               ))}
             </select>
@@ -1448,13 +1453,13 @@ const FormThirdRow = ({
                 )}
                 {citiesC.map((city) => (
                   <option
-                    key={city.name}
-                    value={city.name}
+                    key={city}
+                    value={city}
                     {...(candNames && candNames.length > 0
                       ? { selected: selectedDetails?.currentCity }
                       : { selected: candDetails?.currentCity })}
                   >
-                    {city.name}
+                    {city}
                   </option>
                 ))}
               </select>

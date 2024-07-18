@@ -3,52 +3,39 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
-import {
-  A11y,
-  Autoplay,
-  EffectFade,
-  Navigation,
-  Pagination,
-  Scrollbar,
-} from "swiper/modules";
+import { A11y, Autoplay, Navigation, Pagination } from "swiper/modules";
 
 const Testimonials = () => {
   const reviews = [
     {
-      text: "This consultancy has been instrumental in expanding our franchise internationally. Their expertise and tailored strategies have driven remarkable growth. Highly recommended!",
       image: "/images/accounts/ndtv.png",
-      name: "Nathaniel S. Mitchell",
-      title: "CEO & Founder",
+      title: "NDTV",
+      link: "",
     },
     {
-      text: "Exceptional service! Their in-depth knowledge of global markets helped us navigate complex regulations and achieve successful franchise launches.",
       image: "/images/accounts/global.png",
-      name: "Laura M. Thomas",
-      title: "CTO",
+      title: "GLOBAL",
+      link: "",
     },
     {
-      text: "The team’s insights and strategic guidance were invaluable in establishing our presence in new regions. Their support made the process seamless and efficient.",
       image: "/images/accounts/trt.png",
-      name: "John D. Carter",
-      title: "Tech Lead",
+      title: "TRT",
+      link: "",
     },
     {
-      text: "The team’s insights and strategic guidance were invaluable in establishing our presence in new regions. Their support made the process seamless and efficient.",
       image: "/images/accounts/cnbc.png",
-      name: "Emily R. Johnson",
-      title: "Product Manager",
+      title: "CNBC",
+      link: "",
     },
     {
-      text: "They provided us with a clear roadmap and invaluable support throughout our franchise expansion journey. Their professionalism and expertise are top-notch.",
       image: "/images/accounts/cnn.png",
-      name: "Michael A. Brown",
-      title: "Head of Development",
+      title: "CNN",
+      link: "",
     },
     {
-      text: "Working with this consultancy was a game-changer. Their strategic insights and hands-on approach helped us achieve our international franchise goals with ease.",
       image: "/images/accounts/fox.png",
-      name: "Sarah L. Davis",
-      title: "Senior Engineer",
+      title: "FOX",
+      link: "",
     },
   ];
 
@@ -77,7 +64,7 @@ const Testimonials = () => {
               <div className="flex flex-col items-center relative pt-[52px] pb-10 px-10 bg-white rounded-2xl ">
                 <img
                   src={review.image}
-                  alt={review.text}
+                  alt={review.title}
                   className="mx-auto w-64 rounded-3xl"
                 />
               </div>

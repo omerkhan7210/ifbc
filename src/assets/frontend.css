@@ -10400,14 +10400,6 @@ blockquote {
   text-align: right;
 }
 
-. {
-  font-family: basic-sans, Helvetica, sans-serif;
-}
-
-. {
-  font-family: eskorte-latin, Arial, Helvetica, serif;
-}
-
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -12706,7 +12698,7 @@ blockquote {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke: #c8ccd4;
-  strokewidth: 1.5;
+  stroke-width: 1.5;
   transform: translate3d(0, 0, 0);
   transition: all 0.2s ease;
 }
