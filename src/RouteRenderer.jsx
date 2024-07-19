@@ -50,14 +50,6 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
     },
 
     {
-      path: "/new-candidate",
-      element: (
-        <CandidatesDataContext>
-          <MainNewCand />
-        </CandidatesDataContext>
-      ),
-    },
-    {
       path: "/messages/:name",
       element: (
         <TCFRDataContext>
@@ -90,6 +82,14 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
   ];
 
   const staticRoutes = [
+    {
+      path: "/new-candidate",
+      element: (
+        <CandidatesDataContext>
+          <MainNewCand />
+        </CandidatesDataContext>
+      ),
+    },
     {
       path: "/login",
       element: <Login />,

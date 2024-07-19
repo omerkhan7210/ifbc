@@ -224,7 +224,7 @@ const Contact = () => {
           setTimeout(() => {
             setShow(false);
             window.location.href = "/";
-          }, 10000);
+          }, 20000);
         }
       } else {
         setFormErrors((prev) => ({

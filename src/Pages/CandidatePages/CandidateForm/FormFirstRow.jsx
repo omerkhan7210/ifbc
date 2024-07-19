@@ -312,7 +312,7 @@ const FormFirstRow = ({
         </div>
       </div>
 
-      {contacts && contacts.length > 0 && (
+      {/* {contacts && contacts.length > 0 && (
         <div className="flex flex-col gap-8 mt-5">
           {contacts.map((contact, index) => (
             <AddContactDiv
@@ -324,16 +324,16 @@ const FormFirstRow = ({
             />
           ))}
         </div>
-      )}
+      )} */}
 
-      <div id="button-container" className="w-full flex justify-center">
+      {/* <div id="button-container" className="w-full flex justify-center">
         <button
           className="candidate-btn"
           onClick={() => setAddContacts((prevContacts) => prevContacts + 1)}
         >
           ADD ADDITIONAL CONTACTS
         </button>
-      </div>
+      </div> */}
       {addContacts > 0 && (
         <div className="flex flex-col gap-8 mt-5">
           {Array.from({ length: addContacts }).map((_, index) => (

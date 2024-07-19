@@ -164,6 +164,9 @@ const FormSecondRow = ({
               className="candidate-select"
               name="territorycity"
               onChange={handleInputChange}
+              style={{
+                borderColor: formErrors.territorycity ? "red" : undefined,
+              }}
             >
               {!formFields.territorycity && (
                 <option value="">Select City</option>
@@ -210,6 +213,11 @@ const FormSecondRow = ({
               ? { value: selectedDetails?.territoryZipcode }
               : { defaultValue: candDetails?.territoryZipcode })}
           />
+          {formErrors?.territoryzipcode === "invalid" && (
+            <p className=" text-red-600 py-2 flex justify-between">
+              Invalid zipcode. It should be 5 digits long!
+            </p>
+          )}
         </div>
       </div>
       <div id="fourth-sub-row" className="candidate-sub-childs">
@@ -225,7 +233,7 @@ const FormSecondRow = ({
         ></textarea>
       </div>
 
-      {territorys && territorys.length > 0 && (
+      {/* {territorys && territorys.length > 0 && (
         <div className="flex flex-col gap-8 mt-5">
           {territorys.map((territory, index) => (
             <AddTerritoryDiv
@@ -249,7 +257,7 @@ const FormSecondRow = ({
         >
           ADD ADDITIONAL TERRITORY
         </button>
-      </div>
+      </div> */}
 
       {addTerritory > 0 && (
         <div className="flex flex-col gap-8 mt-5">

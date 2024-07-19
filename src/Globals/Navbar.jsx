@@ -37,6 +37,11 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
       path: "/listings",
       label: "Search Franchises (SF)",
     },
+    {
+      id: "menu-item-552362",
+      path: "/new-candidate",
+      label: "Candidate",
+    },
   ];
 
   return (

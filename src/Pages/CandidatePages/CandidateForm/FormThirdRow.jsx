@@ -61,13 +61,13 @@ const FormThirdRow = ({
           className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
         >
           <div className="candidate-sub-childs">
-            <p className="candidate-label">State / Province*</p>
+            <p className="candidate-label">State / Province</p>
 
             {/* state dd */}
             {stateDD("current")}
           </div>
           <div className="candidate-sub-childs">
-            <p className="candidate-label">City*</p>
+            <p className="candidate-label">City</p>
             {selectedStateC && citiesC.length > 0 ? (
               <select
                 className="candidate-select"
@@ -103,7 +103,7 @@ const FormThirdRow = ({
             )}
           </div>
           <div className="candidate-sub-childs">
-            <p className="candidate-label">Zip / Postal Code*</p>
+            <p className="candidate-label">Zip / Postal Code</p>
             <input
               onChange={handleInputChange}
               type="number"

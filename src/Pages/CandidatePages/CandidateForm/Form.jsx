@@ -36,7 +36,7 @@ function convertKeysToLowercase(obj) {
   }, {});
 }
 const Form = ({ candDetails, candNames, activeListings }) => {
-  const { userDetails } = useContext(MyCandContext);
+  const { userDetails, role } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -248,207 +248,208 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   };
 
   //Additional Contact
-  const handleSubmitContact = async (docId) => {
-    let allFieldsValid = true;
-    let formErrors = {};
+  // const handleSubmitContact = async (docId) => {
+  //   let allFieldsValid = true;
+  //   let formErrors = {};
 
-    if (additionalContacts.length > 0) {
-      await Promise.all(
-        additionalContacts.map(async (object, index) => {
-          const reqFields = [
-            "additionalFirstName",
-            "additionalLastName",
-            "additionalEmail",
-            "additionalPhone",
-            "additionalRelationship",
-          ];
+  //   if (additionalContacts.length > 0) {
+  //     await Promise.all(
+  //       additionalContacts.map(async (object, index) => {
+  //         const reqFields = [
+  //           "additionalFirstName",
+  //           "additionalLastName",
+  //           "additionalEmail",
+  //           "additionalPhone",
+  //           "additionalRelationship",
+  //         ];
 
-          reqFields.forEach((field) => {
-            const newKey = field;
-            const value = formFields[newKey]?.trim() || "";
+  //         reqFields.forEach((field) => {
+  //           const newKey = field;
+  //           const value = formFields[newKey]?.trim() || "";
 
-            if (!value) {
-              formErrors[newKey] = "This field is required";
-              allFieldsValid = false;
-            } else {
-              // Field-specific validations
-              if (newKey === "additionalEmail" && !validateEmail(value)) {
-                formErrors[`${newKey}_${index}`] = "invalid";
-                allFieldsValid = false;
-              } else if (
-                newKey === "additionalPhone" &&
-                !validatePhone(value)
-              ) {
-                formErrors[`${newKey}_${index}`] = "invalid";
-                allFieldsValid = false;
-              } else if (
-                newKey === "additionalFirstName" &&
-                !validateUsername(value)
-              ) {
-                formErrors[`${newKey}_${index}`] = "invalid";
-                allFieldsValid = false;
-              } else if (
-                newKey === "additionalLastName" &&
-                !validateUsername(value)
-              ) {
-                formErrors[`${newKey}_${index}`] = "invalid";
-                allFieldsValid = false;
-              } else if (
-                newKey === "additionalRelationship" &&
-                !validateUsername(value)
-              ) {
-                formErrors[`${newKey}_${index}`] = "invalid";
-                allFieldsValid = false;
-              } else {
-                formErrors[newKey] = "";
-              }
-            }
-          });
+  //           if (!value) {
+  //             formErrors[newKey] = "This field is required";
+  //             allFieldsValid = false;
+  //           } else {
+  //             // Field-specific validations
+  //             if (newKey === "additionalEmail" && !validateEmail(value)) {
+  //               formErrors[`${newKey}_${index}`] = "invalid";
+  //               allFieldsValid = false;
+  //             } else if (
+  //               newKey === "additionalPhone" &&
+  //               !validatePhone(value)
+  //             ) {
+  //               formErrors[`${newKey}_${index}`] = "invalid";
+  //               allFieldsValid = false;
+  //             } else if (
+  //               newKey === "additionalFirstName" &&
+  //               !validateUsername(value)
+  //             ) {
+  //               formErrors[`${newKey}_${index}`] = "invalid";
+  //               allFieldsValid = false;
+  //             } else if (
+  //               newKey === "additionalLastName" &&
+  //               !validateUsername(value)
+  //             ) {
+  //               formErrors[`${newKey}_${index}`] = "invalid";
+  //               allFieldsValid = false;
+  //             } else if (
+  //               newKey === "additionalRelationship" &&
+  //               !validateUsername(value)
+  //             ) {
+  //               formErrors[`${newKey}_${index}`] = "invalid";
+  //               allFieldsValid = false;
+  //             } else {
+  //               formErrors[newKey] = "";
+  //             }
+  //           }
+  //         });
 
-          setFormErrors(formErrors);
+  //         setFormErrors(formErrors);
 
-          if (allFieldsValid) {
-            const formData = {
-              firstName: object.additionalFirstName,
-              lastName: object.additionalLastName,
-              email: object.additionalEmail,
-              phone: object.additionalPhone,
-              relationShip: object.additionalRelationship,
-              candidateId: docId,
-            };
-            // try {
-            //   await axios.post(additionalContactAddUrl, formData, {
-            //     headers: {
-            //       "Content-Type": "application/json",
-            //     },
-            //   });
-            // } catch (error) {
-            //   console.error(error);
-            // }
-          }
-        })
-      );
-    } else {
-      const reqFields = [
-        "additionalFirstName",
-        "additionalLastName",
-        "additionalEmail",
-        "additionalPhone",
-        "additionalRelationship",
-      ];
+  //         if (allFieldsValid) {
+  //           const formData = {
+  //             firstName: object.additionalFirstName,
+  //             lastName: object.additionalLastName,
+  //             email: object.additionalEmail,
+  //             phone: object.additionalPhone,
+  //             relationShip: object.additionalRelationship,
+  //             candidateId: docId,
+  //           };
+  //           // try {
+  //           //   await axios.post(additionalContactAddUrl, formData, {
+  //           //     headers: {
+  //           //       "Content-Type": "application/json",
+  //           //     },
+  //           //   });
+  //           // } catch (error) {
+  //           //   console.error(error);
+  //           // }
+  //         }
+  //       })
+  //     );
+  //   } else {
+  //     const reqFields = [
+  //       "additionalFirstName",
+  //       "additionalLastName",
+  //       "additionalEmail",
+  //       "additionalPhone",
+  //       "additionalRelationship",
+  //     ];
 
-      reqFields.forEach((field) => {
-        const newKey = field;
-        const value = formFields[newKey]?.trim() || "";
+  //     reqFields.forEach((field) => {
+  //       const newKey = field;
+  //       const value = formFields[newKey]?.trim() || "";
 
-        if (!value) {
-          formErrors[`${newKey}_0`] = "This field is required";
-          allFieldsValid = false;
-        } else {
-          // Field-specific validations
-          if (newKey === "additionalEmail" && !validateEmail(value)) {
-            formErrors[`${newKey}_1`] = "invalid";
-            allFieldsValid = false;
-          } else if (newKey === "additionalPhone" && !validatePhone(value)) {
-            formErrors[`${newKey}_1`] = "invalid";
-            allFieldsValid = false;
-          } else if (
-            newKey === "additionalFirstName" &&
-            !validateUsername(value)
-          ) {
-            formErrors[`${newKey}_1`] = "invalid";
-            allFieldsValid = false;
-          } else if (
-            newKey === "additionalLastName" &&
-            !validateUsername(value)
-          ) {
-            formErrors[`${newKey}_1`] = "invalid";
-            allFieldsValid = false;
-          } else if (
-            newKey === "additionalRelationship" &&
-            !validateUsername(value)
-          ) {
-            formErrors[`${newKey}_1`] = "invalid";
-            allFieldsValid = false;
-          } else {
-            formErrors[newKey] = "";
-          }
-        }
-      });
+  //       if (!value) {
+  //         formErrors[`${newKey}_0`] = "This field is required";
+  //         allFieldsValid = false;
+  //       } else {
+  //         // Field-specific validations
+  //         if (newKey === "additionalEmail" && !validateEmail(value)) {
+  //           formErrors[`${newKey}_1`] = "invalid";
+  //           allFieldsValid = false;
+  //         } else if (newKey === "additionalPhone" && !validatePhone(value)) {
+  //           formErrors[`${newKey}_1`] = "invalid";
+  //           allFieldsValid = false;
+  //         } else if (
+  //           newKey === "additionalFirstName" &&
+  //           !validateUsername(value)
+  //         ) {
+  //           formErrors[`${newKey}_1`] = "invalid";
+  //           allFieldsValid = false;
+  //         } else if (
+  //           newKey === "additionalLastName" &&
+  //           !validateUsername(value)
+  //         ) {
+  //           formErrors[`${newKey}_1`] = "invalid";
+  //           allFieldsValid = false;
+  //         } else if (
+  //           newKey === "additionalRelationship" &&
+  //           !validateUsername(value)
+  //         ) {
+  //           formErrors[`${newKey}_1`] = "invalid";
+  //           allFieldsValid = false;
+  //         } else {
+  //           formErrors[newKey] = "";
+  //         }
+  //       }
+  //     });
 
-      setFormErrors(formErrors);
+  //     setFormErrors(formErrors);
 
-      console.log(formErrors);
-    }
-  };
+  //     console.log(formErrors);
+  //   }
+  // };
 
-  const handleSubmitTerritory = async (docId) => {
-    await Promise.all(
-      additionalTerritories.map(async (object) => {
-        const reqFields = [
-          "territoryZipCode",
-          "territoryState",
-          "territoryCity",
-        ];
-        let allFieldsValid = true;
-        let formErrors = {};
+  // const handleSubmitTerritory = async (docId) => {
+  //   await Promise.all(
+  //     additionalTerritories.map(async (object) => {
+  //       const reqFields = [
+  //         "territoryZipCode",
+  //         "territoryState",
+  //         "territoryCity",
+  //       ];
+  //       let allFieldsValid = true;
+  //       let formErrors = {};
 
-        reqFields.forEach((field) => {
-          const newKey = field;
-          const value = object[newKey]?.trim() || "";
+  //       reqFields.forEach((field) => {
+  //         const newKey = field;
+  //         const value = object[newKey]?.trim() || "";
 
-          if (!value) {
-            formErrors[newKey] = "This field is required";
-            allFieldsValid = false;
-          } else {
-            if (newKey === "territoryCity" && !validateUsername(value)) {
-              formErrors[`${newKey}_${index}`] = "invalid";
-              allFieldsValid = false;
-            } else if (
-              newKey === "territoryZipCode" &&
-              !validateZipcode(value)
-            ) {
-              formErrors[`${newKey}_${index}`] = "invalid";
-              allFieldsValid = false;
-            } else {
-              formErrors[newKey] = "";
-            }
-          }
-        });
+  //         if (!value) {
+  //           formErrors[newKey] = "This field is required";
+  //           allFieldsValid = false;
+  //         } else {
+  //           if (newKey === "territoryCity" && !validateUsername(value)) {
+  //             formErrors[`${newKey}_${index}`] = "invalid";
+  //             allFieldsValid = false;
+  //           } else if (
+  //             newKey === "territoryZipCode" &&
+  //             !validateZipcode(value)
+  //           ) {
+  //             formErrors[`${newKey}_${index}`] = "invalid";
+  //             allFieldsValid = false;
+  //           } else {
+  //             formErrors[newKey] = "";
+  //           }
+  //         }
+  //       });
 
-        setFormErrors(formErrors);
+  //       setFormErrors(formErrors);
 
-        if (allFieldsValid) {
-          const formData = {
-            territoryState: object.territoryState,
-            territoryCity: object.territoryCity,
-            territoryZipCode: object.territoryZipCode,
-            territorynotes: object.territorynotes,
-            parentId: docId,
-            parent_Type: "R",
-            isPrimary: false,
-          };
+  //       if (allFieldsValid) {
+  //         const formData = {
+  //           territoryState: object.territoryState,
+  //           territoryCity: object.territoryCity,
+  //           territoryZipCode: object.territoryZipCode,
+  //           territorynotes: object.territorynotes,
+  //           parentId: docId,
+  //           parent_Type: "R",
+  //           isPrimary: false,
+  //         };
 
-          try {
-            await axios.post(additionalTerritoriesAddUrl, formData, {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
-          } catch (error) {
-            console.error("Error saving territory information:", error);
-            allValid = false;
-          }
-        }
-      })
-    );
+  //         try {
+  //           await axios.post(additionalTerritoriesAddUrl, formData, {
+  //             headers: {
+  //               "Content-Type": "application/json",
+  //             },
+  //           });
+  //         } catch (error) {
+  //           console.error("Error saving territory information:", error);
+  //           allValid = false;
+  //         }
+  //       }
+  //     })
+  //   );
 
-    if (!allValid) {
-      // Handle invalid form data
-      console.error("Invalid form data");
-      // Optionally, show user a message or take corrective action
-    }
-  };
+  //   if (!allValid) {
+  //     // Handle invalid form data
+  //     console.error("Invalid form data");
+  //     // Optionally, show user a message or take corrective action
+  //   }
+  // };
+  console.log(formErrors);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -460,6 +461,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       "email",
       "territorystate",
       "territorycity",
+      "territoryzipcode",
     ];
     let allFieldsValid = true;
     let formErrors = {};
@@ -498,6 +500,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     });
 
     setFormErrors(formErrors);
+    console.log(formErrors);
 
     try {
       if (allFieldsValid) {
@@ -569,69 +572,74 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           PipelineStep: formFields.pipelinestep ?? "",
           LostReason: formFields.lostreason ?? "",
           CategoryRating: formFields.categoryrating ?? "",
-          AgentUserId: userDetails.docId,
+          AgentUserId: userDetails?.docId ?? 0,
           isArchive: false,
         };
 
         const baseUrl = "https://backend.ifbc.co/api/candidates";
         let response = "";
 
-        // // Send the POST request using Axios
-        // if (candDetails) {
-        //   response = await axios.put(
-        //     `${baseUrl}/${candDetails?.docId}`,
-        //     formData,
-        //     {
-        //       headers: {
-        //         "Content-Type": "application/json",
-        //       },
-        //     }
-        //   );
-        // } else {
-        //   response = await axios.post(baseUrl, formData, {
-        //     headers: {
-        //       "Content-Type": "application/json",
-        //     },
-        //   });
-        // }
-        // if (response.status === 201) {
-        setFormErrors({});
-        //const docId = response.data.docId;
-        if (addContacts > 0) {
-          //await handleSubmitContact(docId);
-          await handleSubmitContact(21);
+        // Send the POST request using Axios
+        if (candDetails) {
+          response = await axios.put(
+            `${baseUrl}/${candDetails?.docId}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        } else {
+          response = await axios.post(baseUrl, formData, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
         }
-        if (addTerritory > 0) {
-          //await handleSubmitTerritory(docId);
-          await handleSubmitTerritory(21);
-        }
-        //setSuccessMsg("Candidate Information Saved Successfully!");
-        setLoading(false);
-        // setTimeout(() => {
-        //   window.location.href = "/candidate-list";
-        // }, 3000);
-      }
-      // else if (response.status === 204) {
-      //   setSuccessMsg("Candidate Information Saved Successfully!");
-      //   setShowSuccess(true);
-      //   setLoading(false);
-      // }
-      else {
-        // setFormErrors({  });
-        setLoading(false);
-        window.scrollTo(0, 500);
-        // Handle unexpected response
-      }
-      // } else {
-      //   setFormErrors((prev) => ({
-      //     ...prev,
-      //     error: "Please fill in all the required fields",
-      //   }));
-      //   setLoading(false);
-      //   window.scrollTo(0, 400);
+        if (response.status === 201) {
+          setFormErrors({});
+          setShowSuccess(true);
 
-      //   // Handle invalid fields (e.g., show validation errors)
-      // }
+          //const docId = response.data.docId;
+          // if (addContacts > 0) {
+          //   //await handleSubmitContact(docId);
+          //   await handleSubmitContact(21);
+          // }
+          // if (addTerritory > 0) {
+          //   // await handleSubmitTerritory(docId);
+          //   await handleSubmitTerritory(21);
+          // }
+          setSuccessMsg(
+            role && role === "C"
+              ? "Candidate Information Saved Successfully!"
+              : "Your Request has been submitted successfully!"
+          );
+          setLoading(false);
+          setTimeout(() => {
+            window.location.href =
+              role && role === "C" ? "/candidate-list" : "/";
+          }, 3000);
+        } else if (response.status === 204) {
+          setSuccessMsg("Candidate Information Saved Successfully!");
+          setShowSuccess(true);
+          setLoading(false);
+        } else {
+          // setFormErrors({  });
+          setLoading(false);
+          window.scrollTo(0, 100);
+          // Handle unexpected response
+        }
+      } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Please fill in all the required fields",
+        }));
+        setLoading(false);
+        window.scrollTo(0, 100);
+
+        // Handle invalid fields (e.g., show validation errors)
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -769,26 +777,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     <>
       <DialogBox show={showsuccess} setShow={setShowSuccess}>
         <div className="bg-white p-5 py-10 grid place-items-center text-3xl text-custom-heading-color">
-          <button
-            className="absolute top-5 right-10"
-            onClick={() => setShowSuccess(false)}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="red"
-              className="size-9"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-              />
-            </svg>
-          </button>
-
           {successMsg}
         </div>
       </DialogBox>
