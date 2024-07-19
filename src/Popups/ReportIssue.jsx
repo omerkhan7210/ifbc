@@ -95,7 +95,7 @@ const ReportIssue = ({ showReport, setShowReport }) => {
         </div>
 
         <div className="">
-          <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
+          <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2 max-md:w-full font-semibold">
             Submit
           </button>
         </div>

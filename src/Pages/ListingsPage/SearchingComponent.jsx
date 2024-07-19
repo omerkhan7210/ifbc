@@ -21,7 +21,7 @@ const SearchingComponent = ({ setFilters }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative max-md:pb-3">
       <input
         type="search"
         id="search-field"
@@ -29,7 +29,7 @@ const SearchingComponent = ({ setFilters }) => {
         value={searchKeyword}
         ref={ref}
         onChange={handleSearchInputChange}
-        className="block w-full p-3 text-sm text-black pr-10 outline-none bg-gray-200"
+        className="block w-full p-3 text-sm text-black pr-10 outline-none bg-gray-200 "
       />
 
       <button
