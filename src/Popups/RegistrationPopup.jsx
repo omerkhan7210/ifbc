@@ -102,7 +102,7 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
         >
           {activeListings && activeListings.length > 0 ? (
             <>
-              <h2 className="text-custom-heading-color font-bold text-5xl uppercase text-center">
+              <h2 className="text-custom-heading-color font-bold md:text-5xl uppercase text-center max-md:text-3xl">
                 {registrationType === "TC"
                   ? "Territory Check"
                   : "Formal Registration"}
@@ -128,7 +128,7 @@ const RegisterationPopup = ({ setShow, show, registrationType }) => {
               )}
             </>
           ) : (
-            <h1 className="text-3xl text-center font-semibold text-custom-heading-color h-full flex items-center">
+            <h1 className="md:text-3xl max-md:text-2xl text-center font-semibold text-custom-heading-color h-full flex items-center">
               No Franchises Selected for the report. To send a territory check
               please make sure that you have checkmarked all franchise
               selections you wish to send a territory check to.
