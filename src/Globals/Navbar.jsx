@@ -11,7 +11,7 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
 
   const innerNavLinkStyle = ({ isActive }) => ({
     background: isActive ? "rgb(0 17 54)" : "",
-    color: isActive ? "white!important" : "",
+    color: isActive ? "white" : "",
   });
 
   const token = useSelector((state) => state.counter.token);

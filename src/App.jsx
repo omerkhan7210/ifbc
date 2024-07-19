@@ -68,44 +68,52 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Header
-        mobileActive={mobileActive}
-        setMobileActive={setMobileActive}
-        active={active}
-        setActive={setActive}
-        selectedCandName={selectedCandName}
-      />
-      {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
-
       <AnimatePresence mode="wait">
+        <Header
+          mobileActive={mobileActive}
+          setMobileActive={setMobileActive}
+          active={active}
+          setActive={setActive}
+          selectedCandName={selectedCandName}
+        />
+        {mobileActive && (
+          <MobileNav
+            setMobileActive={setMobileActive}
+            active={active}
+            setActive={setActive}
+            selectedCandName={selectedCandName}
+          />
+        )}
+
         <RouteRenderer
           isAuthenticated={token}
           setShow={setShow}
           setRegistrationType={setRegistrationType}
         />
-      </AnimatePresence>
-      <ListingDataContext>
-        <CandidatesDataContext>
-          <TCFRDataContext>
-            <RegisterationPopup
-              setShow={setShow}
-              show={show}
-              registrationType={registrationType}
-            />
-          </TCFRDataContext>
-        </CandidatesDataContext>
-      </ListingDataContext>
 
-      <TCFRDataContext>
-        {token && role && role === "C" && (
-          <CandidateSideBar
-            active={active}
-            setActive={setActive}
-            setSelectedCandName={setSelectedCandName}
-          />
-        )}
-      </TCFRDataContext>
-      <Footer />
+        <ListingDataContext>
+          <CandidatesDataContext>
+            <TCFRDataContext>
+              <RegisterationPopup
+                setShow={setShow}
+                show={show}
+                registrationType={registrationType}
+              />
+            </TCFRDataContext>
+          </CandidatesDataContext>
+        </ListingDataContext>
+
+        <TCFRDataContext>
+          {token && role && role === "C" && (
+            <CandidateSideBar
+              active={active}
+              setActive={setActive}
+              setSelectedCandName={setSelectedCandName}
+            />
+          )}
+        </TCFRDataContext>
+        <Footer />
+      </AnimatePresence>
     </QueryClientProvider>
   );
 };
