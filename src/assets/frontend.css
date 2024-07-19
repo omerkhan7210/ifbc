@@ -6597,6 +6597,7 @@ nav#header-nav ul.menu {
   display: flex;
   list-style-type: none;
   padding-left: 0px;
+  margin-top: 10px;
 }
 
 nav#header-nav ul.menu > li {
@@ -6647,6 +6648,10 @@ nav#header-nav ul.menu > li:hover {
   transition-duration: 150ms;
 }
 
+nav#header-nav ul.menu > li:hover ul.menu li a {
+  color: white !important;
+}
+
 nav#header-nav ul.menu > li.current-menu-item > a {
   --tw-bg-opacity: 1;
   background-color: rgb(0 17 54);
@@ -6657,23 +6662,27 @@ nav#header-nav ul.menu > li.current-menu-item > a {
 nav#header-nav ul.menu a {
   display: block;
   padding: 0.8rem;
-  font-size: 1rem;
+  font-size: 14px;
   line-height: 1.5rem;
   --tw-text-opacity: 1;
 
   color: rgb(0, 0, 0);
 }
 
-nav#header-nav ul.menu a:hover {
+nav#header-nav ul.menu > li ul.menu a:hover {
   color: white !important;
 }
-nav#header-nav ul.menu > li:hover ul.menu a {
+nav#header-nav .sub-menu:hover ul.menu a {
+  color: white !important;
+}
+
+nav#header-nav ul.menu > li ul.menu a:hover {
   color: white !important;
 }
 
 nav#header-nav ul.menu > li > ul {
   position: absolute;
-  top: 5rem;
+  top: 3.5rem;
   left: 0px;
   z-index: 50;
   margin-top: -0.5rem;

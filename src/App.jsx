@@ -36,6 +36,8 @@ const App = () => {
     if (!token) {
       localStorage.removeItem("userDetails");
       localStorage.removeItem("token");
+      localStorage.removeItem("role");
+      window.location.href = "/login";
     }
   }, [token]);
 

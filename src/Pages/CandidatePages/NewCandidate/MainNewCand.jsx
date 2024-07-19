@@ -1,5 +1,5 @@
 import PageTransition from "src/Animations/PageTransition";
-import Form from "./Form";
+import Form from "../CandidateForm/Form";
 
 const MainNewCand = () => {
   return (

@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
-import Form from "../NewCandidate/Form";
+import Form from "../CandidateForm/Form";
 import MessagePopup from "src/Popups/MessagePopup";
 import { MyTCFRContext } from "src/Context/TCFRDataContext";
 import BarLoader from "src/Animations/BarLoader";

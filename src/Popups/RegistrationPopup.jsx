@@ -3,7 +3,7 @@ import { MyContext } from "src/Context/ListingDataContext";
 import DialogBox from "./DialogBox";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import axios from "axios";
-import Form from "src/Pages/CandidatePages/NewCandidate/Form";
+import Form from "src/Pages/CandidatePages/CandidateForm/Form";
 
 import { validateUsername, validateZipcode } from "src/Utils/SanitizeInput";
 import data from "../../public/files/data.json"; // Adjust the path if necessary

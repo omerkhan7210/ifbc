@@ -4,8 +4,186 @@ import BarLoader from "src/Animations/BarLoader";
 import Pagination from "../GlobalPageSections/Pagination";
 import { MyContext } from "src/Context/ListingDataContext";
 
-const AllListings = () => {
+import { useDispatch } from "react-redux";
+import {
+  decrementAllActiveListing,
+  incrementActiveListing,
+} from "src/Redux/listingReducer";
+
+import ToolInformation from "src/Popups/ToolInformation";
+import ToolEmail from "src/Popups/ToolEmail";
+import ToolComparison from "src/Popups/ToolComparison";
+import SearchingComponent from "./SearchingComponent";
+
+const ExtraTools = ({ setShow, setRegistrationType }) => {
+  const [showEmail, setShowEmail] = useState(false);
+  const [showInformation, setShowInformation] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
+  const {
+    activeListings,
+    showActiveListings,
+    setShowActiveListings,
+    paginationListings,
+    role,
+    setFilters,
+    token,
+  } = useContext(MyContext);
+  const dispatch = useDispatch();
+
+  const selectAllListings = () => {
+    // Get an array of all listing names currently displayed on the page
+    paginationListings?.map((listing) =>
+      dispatch(incrementActiveListing(listing.docId))
+    );
+
+    // Update the activeListings state to include all listing names
+  };
+
+  const handleOpenRegistration = (type) => {
+    setRegistrationType(type);
+    setShow(true);
+  };
+
+  const handleTools = (e) => {
+    // getting selected value from select
+    const value = e.target.value;
+    //select krne pr value arhi
+
+    if (value === "email") {
+      setShowEmail(true);
+    }
+    // issi tarah baaki dono ki bhi states true hongy
+    else if (value === "info") {
+      setShowInformation(true);
+    } else if (value === "comparison") {
+      setShowComparison(true);
+    }
+  };
+  const roleCheck = role && role !== "N" && token;
+  return (
+    <div className="grid grid-cols-12 gap-3 items-center">
+      {roleCheck && (
+        <div
+          className={`col-span-12 ${
+            roleCheck ? "lg:col-span-4" : "lg:col-span-6"
+          } md:flex md:mb-4 mb-0 flex-col h-full 
+              justify-between 
+           `}
+        >
+          <SearchingComponent setFilters={setFilters} />
+          {activeListings && activeListings.length > 0 ? (
+            <button
+              type="button"
+              onClick={() => setShowActiveListings(!showActiveListings)}
+              className={`border-2 border-custom-blue  hover:bg-custom-blue  hover:text-white transition-all duration-500 py-2 px-5 w-full whitespace-nowrap mr-4 rounded-md ${
+                showActiveListings
+                  ? "text-white bg-custom-blue"
+                  : "text-custom-blue"
+              }`}
+            >
+              My Selection ({activeListings.length})
+            </button>
+          ) : (
+            <button
+              type="button"
+              className={`border-2 border-custom-blue  cursor-default transition-all duration-500 py-2 px-5 w-full whitespace-nowrap mr-4 rounded-md text-custom-blue`}
+            >
+              No Franchise Selected
+            </button>
+          )}
+        </div>
+      )}
+
+      <div
+        className={`grid grid-cols-12 col-span-12  ${
+          roleCheck ? "lg:col-span-4 " : "lg:col-span-12"
+        } w-full gap-3 sm:gap-3 `}
+      >
+        {roleCheck && (
+          <div className="col-span-12">
+            <select
+              onChange={handleTools}
+              className="candidate-select w-full rounded-md"
+            >
+              <option value="">Tools</option>
+              <option value="email"> Email Selected Franchises </option>
+              <option value="info"> Create Information Packet </option>
+              {/* <option value="comparison"> Create Comparison Report </option>
+              <option value="2-min"> Download 2-Min Drill Packet </option>
+              <option value="one-sheet"> Download One Sheet Packets </option> */}
+            </select>
+          </div>
+        )}
+
+        <ToolEmail showEmail={showEmail} setShowEmail={setShowEmail} />
+
+        <ToolInformation
+          showInformation={showInformation}
+          setShowInformation={setShowInformation}
+        />
+        <ToolComparison
+          showComparison={showComparison}
+          setShowComparison={setShowComparison}
+        />
+
+        {roleCheck && (
+          <button
+            className={`${
+              activeListings.length > 0
+                ? roleCheck
+                  ? "col-span-6"
+                  : "col-span-12"
+                : "col-span-12"
+            } border-2 border-green-900 hover:bg-green-900 hover:text-white transition-all duration-500 py-2 px-5 w-full md:w-auto tertiary-button text-green-900 rounded-md`}
+            onClick={selectAllListings}
+          >
+            Select All
+          </button>
+        )}
+
+        {roleCheck && activeListings.length > 0 && (
+          <button
+            className={`${
+              roleCheck ? "col-span-6" : "col-span-12"
+            } border-2 border-red-900 hover:bg-red-900 hover:text-white transition-all duration-500 py-2 px-5  w-full md:w-auto tertiary-button text-red-900 rounded-md`}
+            onClick={() => {
+              setShowActiveListings(false);
+              dispatch(decrementAllActiveListing());
+            }}
+          >
+            Clear All
+          </button>
+        )}
+      </div>
+
+      {roleCheck && (
+        <div
+          id="form-button-container"
+          className="flex flex-col gap-2 w-full justify-between h-full sm:col-span-6 col-span-12 lg:col-span-4"
+        >
+          <button
+            className="candidate-btn w-full"
+            value="tc"
+            onClick={() => handleOpenRegistration("TC")}
+          >
+            Territory Checks
+          </button>
+          <button
+            className="candidate-btn w-full"
+            value="fr"
+            onClick={() => handleOpenRegistration("FR")}
+          >
+            Formal Registrations
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const AllListings = ({ setRegistrationType, setShow }) => {
   const [currentPage, setCurrentPage] = useState(1);
+
   const {
     filters,
     paginationListings,
@@ -176,7 +354,8 @@ const AllListings = () => {
       <BarLoader bgcolor={"blue"} />
     </div>
   ) : (
-    <>
+    <div className="flex flex-col gap-3">
+      <ExtraTools setShow={setShow} setRegistrationType={setRegistrationType} />
       <div
         className={`flex-col flex md:flex-row gap-5 md:gap-0 ${role && role !== "N" ? "justify-between" : "justify-center"} items-center`}
       >
@@ -233,7 +412,7 @@ const AllListings = () => {
           onPageChange={paginate}
         />
       </div>
-    </>
+    </div>
   );
 };
 

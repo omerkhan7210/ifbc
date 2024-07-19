@@ -7,8 +7,8 @@ const ListingsFilter = () => {
   const [filterData, setFilterData] = useState([]);
   const [activeDD, setActiveDD] = useState(false);
   const dropdownRef = useRef(null);
-
-  const roleCheck = !role || (role === "N" && !token);
+  console.log(!role, role === "N", !token, role);
+  const roleCheck = (!role || role === "N") && !token;
   useEffect(() => {
     if (roleCheck) {
       const filterDataa = [
