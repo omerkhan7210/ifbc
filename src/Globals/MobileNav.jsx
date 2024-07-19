@@ -2,7 +2,12 @@ import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
 
-const MobileNav = ({ setMobileActive }) => {
+const MobileNav = ({
+  setMobileActive,
+  active,
+  setActive,
+  selectedCandName,
+}) => {
   const [submenuactive, setsubmenuactive] = useState(false);
   const handleLogOut = () => {
     localStorage.setItem("token", false);
@@ -141,6 +146,21 @@ const MobileNav = ({ setMobileActive }) => {
                 <Link to="/registration">Sign up</Link>
               </li>
             </>
+          )}
+
+          {token && role && role === "C" && (
+            <li
+              id="menu-item-552360"
+              className="menu-item menu-item-type-custom menu-item-object-custom menu-item-552360"
+            >
+              <NavLink onClick={() => setActive(!active)}>
+                <div className="text-custom-heading-color text-[14px]  flex items-center">
+                  {selectedCandName && selectedCandName.name
+                    ? selectedCandName.name
+                    : "No Candidate Selected"}
+                </div>
+              </NavLink>
+            </li>
           )}
         </ul>
       </div>

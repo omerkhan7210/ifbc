@@ -37,7 +37,6 @@ const App = () => {
       localStorage.removeItem("userDetails");
       localStorage.removeItem("token");
       localStorage.removeItem("role");
-      window.location.href = "/login";
     }
   }, [token]);
 
@@ -76,7 +75,14 @@ const App = () => {
         setActive={setActive}
         selectedCandName={selectedCandName}
       />
-      {mobileActive && <MobileNav setMobileActive={setMobileActive} />}
+      {mobileActive && (
+        <MobileNav
+          setMobileActive={setMobileActive}
+          active={active}
+          setActive={setActive}
+          selectedCandName={selectedCandName}
+        />
+      )}
 
       <AnimatePresence mode="wait">
         <RouteRenderer

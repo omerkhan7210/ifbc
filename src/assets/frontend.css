@@ -6611,45 +6611,16 @@ nav#header-nav ul.menu > li {
 }
 
 nav#header-nav ul.menu > li:hover {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  box-sizing: border-box;
-  --tw-bg-opacity: 1;
   background: rgb(7, 55, 158);
-  transition-property:
-    color,
-    background-color,
-    border-color,
-    text-decoration-color,
-    fill,
-    stroke,
-    opacity,
-    box-shadow,
-    transform,
-    filter,
-    -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
-  transition-property:
-    color,
-    background-color,
-    border-color,
-    text-decoration-color,
-    fill,
-    stroke,
-    opacity,
-    box-shadow,
-    transform,
-    filter,
-    backdrop-filter,
-    -webkit-backdrop-filter;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
+  color: white !important;
 }
 
-nav#header-nav ul.menu > li:hover ul.menu li a {
-  color: white !important;
+nav#header-nav ul.menu > li:hover > a {
+  color: white;
+}
+/* Ensure submenu a elements are not affected by the top-level hover */
+nav#header-nav ul.menu > li:hover ul.sub-menu a {
+  color: black; /* or specify your desired color */
 }
 
 nav#header-nav ul.menu > li.current-menu-item > a {
@@ -6667,10 +6638,6 @@ nav#header-nav ul.menu a {
   --tw-text-opacity: 1;
 
   color: rgb(0, 0, 0);
-}
-
-nav#header-nav ul.menu > li:hover ul.menu a {
-  color: white !important;
 }
 
 nav#header-nav ul.menu > li > ul {
@@ -6759,7 +6726,6 @@ nav#header-nav ul.menu > li:hover > ul a {
 
 nav#header-nav ul.menu > li:hover > ul a:hover {
   --tw-text-opacity: 1;
-
   text-decoration-line: underline;
 }
 
@@ -6915,7 +6881,7 @@ nav#mobile-nav ul.menu a {
   padding-bottom: 1.5rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  font-size: 1.125rem;
+  font-size: 15px;
   line-height: 1.75rem;
   --tw-text-opacity: 1;
 }
