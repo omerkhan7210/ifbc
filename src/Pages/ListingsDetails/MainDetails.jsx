@@ -41,7 +41,7 @@ const MainDetails = ({ setShow, show, setRegistrationType }) => {
         id="main"
         role="main"
         tabIndex={-1}
-        className="max-w-7xl px-6 mx-auto gap-x-10 "
+        className="md:max-w-7xl px-6 mx-auto  max-md:w-full max-md:overflow-hidden"
       >
         {!isLoading ? (
           listingContent && (

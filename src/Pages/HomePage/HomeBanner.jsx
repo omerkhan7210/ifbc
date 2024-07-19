@@ -80,16 +80,16 @@ const HomeBanner = () => {
   ];
   const slidesData = [
     {
-      image: "/images/accounts/bg.jpg",
+      image: "/images/accounts/backgroundimage.jpg",
       text: "Discover Amazing Business Ventures Today!",
     },
     {
-      image: "/images/accounts/bg.jpg",
+      image: "/images/accounts/backgroundimage.jpg",
       text: "Unlock Your Potential with Our Franchises!",
     },
 
     {
-      image: "/images/accounts/bg.jpg",
+      image: "/images/accounts/backgroundimage.jpg",
       text: "Start Your Journey to Business Success!",
     },
   ];
