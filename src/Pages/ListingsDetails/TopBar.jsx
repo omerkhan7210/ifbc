@@ -231,7 +231,7 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
       >
         <div
           id="buttons-container"
-          className="flex gap-3 w-full  justify-start items-center mb-2"
+          className="flex gap-3 w-full  justify-start items-center mb-2 max-md:flex-col"
         >
           <ReportIssue showReport={showReport} setShowReport={setShowReport} />
           <select className="candidate-select w-full">

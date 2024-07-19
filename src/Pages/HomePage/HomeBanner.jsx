@@ -90,7 +90,7 @@ const HomeBanner = () => {
 
     {
       image: "/images/accounts/bg.jpg",
-      text: "Start Your Journey to Business Success Today!",
+      text: "Start Your Journey to Business Success!",
     },
   ];
 

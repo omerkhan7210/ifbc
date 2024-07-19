@@ -81,6 +81,11 @@ const ListingsFilter = () => {
           normalText: "Year Established",
           property: "yearEstablished",
         },
+        {
+          anotherText: "Select Territories",
+          normalText: "Territories",
+          property: "territories",
+        },
       ];
       setFilterData(filterDataa);
     }
