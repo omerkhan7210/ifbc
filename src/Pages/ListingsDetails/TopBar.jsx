@@ -284,7 +284,7 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
           </ul>
         </div>
 
-        <div className="col-span-12 md:col-span-4"></div>
+        {/* <div className="col-span-12 md:col-span-4"></div> */}
       </div>
     </section>
   );
