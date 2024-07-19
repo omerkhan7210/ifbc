@@ -166,7 +166,7 @@ const FormThirdRow = ({
             onChange={handleInputChange}
             name="closeDate"
             type="datetime-local"
-            className="candidate-input"
+            className="candidate-input max-md:w-full"
             placeholder="Select date"
             {...(candNames && candNames.length > 0
               ? { value: selectedDetails?.closeDate }
