@@ -1534,13 +1534,13 @@ const FormThirdRow = ({
               : { defaultValue: candDetails?.dealSourceCost })}
           />
         </div>
-        <div className="candidate-sub-childs">
+        <div className="candidate-sub-childs max-md:w-full">
           <p className="candidate-label">Close Date</p>
           <input
             onChange={handleInputChange}
             name="closeDate"
             type="datetime-local"
-            className="candidate-input"
+            className="candidate-input max-md:w-full"
             placeholder="Select date"
             {...(candNames && candNames.length > 0
               ? { value: selectedDetails?.closeDate }

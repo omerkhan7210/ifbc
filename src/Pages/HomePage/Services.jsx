@@ -24,7 +24,7 @@ const Services = () => {
             /> */}
 
             <video
-              className="w-full h-[1150px] object-cover"
+              className="w-full h-[1150px] object-cover rounded-3xl"
               controls={true}
               muted={true}
               loop={true}

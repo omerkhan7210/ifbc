@@ -460,7 +460,7 @@ const Contact = () => {
 
               <label
                 htmlFor="contactCopy"
-                className=" text-sm text-custom-heading-color py-3 font-bold flex items-center"
+                className=" text-sm text-custom-heading-color py-3 flex items-center"
               >
                 <input
                   type="checkbox"
@@ -473,21 +473,18 @@ const Contact = () => {
               </label>
 
               {/* Terms and conditions message */}
-              <p className="text-sm text-custom-heading-color font-bold text-left">
+              <p className="text-sm text-custom-heading-color text-left">
                 By submitting the form, you agree to receive calls, text
                 messages, or emails from <a href="https://ifbc.co">ifbc.co</a>{" "}
                 at the contact information provided. <br />
                 Message rates may apply. <br />
                 Text STOP to cancel text messaging at any time. <br />
                 See{" "}
-                <a
-                  href="/terms-conditions"
-                  className=" font-extrabold underline"
-                >
+                <a href="/terms-conditions" className=" underline">
                   Terms & Conditions
                 </a>{" "}
                 and{" "}
-                <a href="/privacy-policy" className=" font-extrabold underline">
+                <a href="/privacy-policy" className=" underline">
                   Privacy Policy
                 </a>{" "}
                 for additional details.

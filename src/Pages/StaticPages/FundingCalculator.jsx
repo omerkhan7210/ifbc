@@ -338,7 +338,7 @@ const FundingCalculator = () => {
                   type="range"
                   name="downPayment"
                   min={0}
-                  max={1000000}
+                  max={5000000}
                   defaultValue={0}
                   step={500}
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
@@ -376,7 +376,7 @@ const FundingCalculator = () => {
                       `candidate-funding-btn w-full ${data.creditScore === "below 680" ? "bg-custom-dark-blue text-white" : ""}`
                     )}
                   >
-                    below 680
+                    Below 679
                   </span>
                 </label>
 
@@ -393,7 +393,7 @@ const FundingCalculator = () => {
                       `candidate-funding-btn w-full ${data.creditScore === "680 - 715" ? "bg-custom-dark-blue text-white" : ""}`
                     )}
                   >
-                    680 - 715
+                    680 - 739
                   </span>
                 </label>
               </div>
@@ -411,7 +411,7 @@ const FundingCalculator = () => {
                       `candidate-funding-btn w-full ${data.creditScore === "716 - 750" ? "bg-custom-dark-blue text-white" : ""}`
                     )}
                   >
-                    716 - 750
+                    740 - 779
                   </span>
                 </label>
 
@@ -428,7 +428,7 @@ const FundingCalculator = () => {
                       `candidate-funding-btn w-full ${data.creditScore === "Above 750" ? "bg-custom-dark-blue text-white" : ""}`
                     )}
                   >
-                    Above 750
+                    780 - 850
                   </span>
                 </label>
               </div>
@@ -524,7 +524,7 @@ const FundingCalculator = () => {
                   type="range"
                   name="houseHold"
                   min={0}
-                  max={1000000}
+                  max={5000000}
                   defaultValue={0}
                   step={500}
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
@@ -558,7 +558,7 @@ const FundingCalculator = () => {
                   type="range"
                   name="debtPayments"
                   min={0}
-                  max={1000000}
+                  max={5000000}
                   defaultValue={0}
                   step={500}
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "
@@ -846,7 +846,7 @@ const FundingCalculator = () => {
                   type="range"
                   name="totalNet"
                   min={0}
-                  max={1000000}
+                  max={5000000}
                   defaultValue={0}
                   step={500}
                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer "

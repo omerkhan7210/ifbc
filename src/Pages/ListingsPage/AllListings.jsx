@@ -165,7 +165,7 @@ const AllListings = () => {
   // Change page
   const paginate = (pageNumber) => {
     window.scrollTo({
-      top: window.innerWidth < 768 ? 1150 : 500,
+      top: window.innerWidth < 768 ? 1000 : 500,
       behavior: "smooth",
     });
     setCurrentPage(pageNumber);
