@@ -10,8 +10,6 @@ import "src/assets/css/swiper-bundle.min.css";
 import "src/assets/css/output.css";
 import { store } from "./Redux/store.jsx";
 import { Provider } from "react-redux";
-import { SpeedInsights } from "@vercel/speed-insights/react";
-import { Analytics } from "@vercel/analytics/react";
 // ErrorBoundary functional component
 const ErrorBoundary = ({ children }) => {
   const [hasError, setHasError] = useState(false);
@@ -36,8 +34,6 @@ ReactDOM.createRoot(document.getElementById("app")).render(
           element={
             <ErrorBoundary>
               <Provider store={store}>
-                <SpeedInsights />
-                <Analytics />
                 <App />
               </Provider>
             </ErrorBoundary>
