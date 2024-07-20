@@ -343,7 +343,7 @@ const AllListings = ({ setRegistrationType, setShow }) => {
   // Change page
   const paginate = (pageNumber) => {
     window.scrollTo({
-      top: window.innerWidth < 768 ? 1000 : 500,
+      top: window.innerWidth < 768 ? 1000 : 100,
       behavior: "smooth",
     });
     setCurrentPage(pageNumber);

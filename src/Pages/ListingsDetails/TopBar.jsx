@@ -218,7 +218,9 @@ const TopBar = ({ listingContent, setShow, setRegistrationType }) => {
                   className="flex items-center gap-1 max-md:justify-center max-md:w-full"
                 >
                   {listingLi.icon}
-                  {listingLi.text}
+                  <a target="blank" href={listingLi.isLink}>
+                    {listingLi.text}
+                  </a>
                 </li>
               );
             }

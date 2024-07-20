@@ -37,12 +37,19 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
       path: "/listings",
       label: "Search Franchises (SF)",
     },
+  ];
+
+  const extraLink = [
     {
       id: "menu-item-552362",
       path: "/new-candidate",
-      label: "Candidate",
+      label: "Apply Now",
     },
   ];
+
+  const combinedNavLinks = !token ? [...navItems, ...extraLink] : navItems;
+
+  // pehle iska dekhte bhai phr uska krte
 
   return (
     <div className="max-md:hidden md:block  relative">
@@ -176,12 +183,17 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
           </li>
         )}
 
-        {navItems.map((item) => (
+        {combinedNavLinks.map((item) => (
           <li
             key={item.id}
             id={item.id}
             className="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"
           >
+            {/* token srf ek boolean hai jo login pr set hojata login krega banda to true hojaega logout krega to false hojaega */}
+            {/* !token ka mtlb hum check krhe ke token false hi hai ya nhi */}
+            {/*  item.path ye hamare links arhe */}
+            {/* {ye chaar links arhe hain tum path ki jaga label bhi use krskte the condition may id bhi use krskte aese same kaam krega } */}
+
             <NavLink to={item.path} style={style}>
               {item.label}
             </NavLink>
