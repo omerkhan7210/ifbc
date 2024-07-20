@@ -12775,3 +12775,16 @@ blockquote {
     width: 100%;
   }
 }
+
+/* tailwind se lag to rha hai pr wo overwrite hora hume border lana */
+.border-stepper {
+  border: 1px solid rgb(33, 118, 255) !important;
+}
+@media screen and (min-width: 768px) {
+  .StepperContainer-0-2-1 {
+    padding: 40px 150px !important;
+  }
+}
+
+/* abhi bhi overwrite hora */
+/* !important lagane se ye wala style ab overwrite nhi hoskta */

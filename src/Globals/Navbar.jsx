@@ -49,8 +49,6 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
 
   const combinedNavLinks = !token ? [...navItems, ...extraLink] : navItems;
 
-  // pehle iska dekhte bhai phr uska krte
-
   return (
     <div className="max-md:hidden md:block  relative">
       <ul className="menu">

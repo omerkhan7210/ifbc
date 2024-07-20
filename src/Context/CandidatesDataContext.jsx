@@ -72,7 +72,7 @@ const CandidatesDataContext = ({ children }) => {
     <MyCandContext.Provider
       value={{
         role,
-        cands: data || [],
+        cands,
         loading: isLoading,
         loadingError: error,
         userDetails,

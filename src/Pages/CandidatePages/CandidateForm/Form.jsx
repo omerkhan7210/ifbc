@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useContext } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import Tabs from "../NewCandidate/Tabs";
 import { MyCandContext } from "src/Context/CandidatesDataContext";
 import DialogBox from "src/Popups/DialogBox";
 import {
@@ -14,11 +13,13 @@ import {
 } from "src/Utils/SanitizeInput";
 import { convertToMSSQLDate } from "src/Utils/ConvertDate";
 
-import { useQuery } from "react-query";
-import data from "../../../../public/files/data.json"; // Adjust the path if necessary
-import FormFirstRow from "./FormFirstRow";
-import FormSecondRow from "./FormSecondRow";
-import FormThirdRow from "./FormThirdRow";
+import { Stepper } from "react-form-stepper";
+import Initial from "./Steps/Initial";
+import CandidateProfile from "./Steps/CandidateProfile";
+import Eligibility from "./Steps/Eligibility";
+import Experience from "./Steps/Experience";
+import Wants from "./Steps/Wants";
+import FranchiseCategories from "./Steps/FranchiseCategories";
 
 function convertKeysToLowercase(obj) {
   if (typeof obj !== "object" || obj === null) {
@@ -44,10 +45,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [selectedDocId, setSelectedDocId] = useState();
   const [selectedDetails, setSelectedDetails] = useState({});
   const [showsuccess, setShowSuccess] = useState(false);
-  const [citiesT, setCitiesT] = useState([]);
-  const [citiesC, setCitiesC] = useState([]);
-  const [selectedStateT, setSelectedStateT] = useState(null);
-  const [selectedStateC, setSelectedStateC] = useState(null);
   const [addContacts, setAddContacts] = useState(0);
   const [addTerritory, setAddTerritory] = useState(0);
   const [additionalContacts, setAdditionalContacts] = useState([]);
@@ -69,44 +66,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   }, [selectedDocId, candDetails]);
 
-  const getAdditionalContacts = async () => {
-    const response = await axios.get(additionalContactAddUrl);
-    return response.data;
-  };
-
-  const getAdditionalTerritories = async () => {
-    const response = await axios.get(additionalTerritoriesAddUrl);
-    return response.data;
-  };
-
-  const { data: contacts, isLoading } = useQuery(
-    "contacts",
-    getAdditionalContacts,
-    {
-      select: (data) => {
-        return data?.filter(
-          (contact) => contact.candidateId === candDetails?.docId
-        );
-      },
-      cacheTime: 24000,
-      enabled: !!candDetails,
-      refetchOnWindowFocus: false,
-      refetchInterval: false,
-    }
-  );
-
-  const { data: territorys } = useQuery("territory", getAdditionalTerritories, {
-    select: (data) => {
-      return data?.filter(
-        (territory) => territory.candidateId === candDetails?.docId
-      );
-    },
-    cacheTime: 24000,
-    enabled: !!candDetails,
-    refetchOnWindowFocus: false,
-    refetchInterval: false,
-  });
-
   useEffect(() => {
     if (candDetails) {
       setFormFields(convertKeysToLowercase(candDetails));
@@ -122,130 +81,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       }
     }
   }, [formFields]);
-
-  const states = [
-    { value: "AL", text: "Alabama" },
-    { value: "AB", text: "Alberta" },
-    { value: "AK", text: "Alaska" },
-    { value: "AZ", text: "Arizona" },
-    { value: "AR", text: "Arkansas" },
-    { value: "BC", text: "British Columbia" },
-    { value: "CA", text: "California" },
-    { value: "CO", text: "Colorado" },
-    { value: "CT", text: "Connecticut" },
-    { value: "DE", text: "Delaware" },
-    { value: "DC", text: "District Of Columbia" },
-    { value: "FL", text: "Florida" },
-    { value: "GA", text: "Georgia" },
-    { value: "HI", text: "Hawaii" },
-    { value: "ID", text: "Idaho" },
-    { value: "IL", text: "Illinois" },
-    { value: "IN", text: "Indiana" },
-    { value: "IA", text: "Iowa" },
-    { value: "KS", text: "Kansas" },
-    { value: "KY", text: "Kentucky" },
-    { value: "LA", text: "Louisiana" },
-    { value: "ME", text: "Maine" },
-    { value: "MB", text: "Manitoba" },
-    { value: "MD", text: "Maryland" },
-    { value: "MA", text: "Massachusetts" },
-    { value: "MI", text: "Michigan" },
-    { value: "MN", text: "Minnesota" },
-    { value: "MS", text: "Mississippi" },
-    { value: "MO", text: "Missouri" },
-    { value: "MT", text: "Montana" },
-    { value: "NE", text: "Nebraska" },
-    { value: "NV", text: "Nevada" },
-    { value: "NB", text: "New Brunswick" },
-    { value: "NH", text: "New Hampshire" },
-    { value: "NJ", text: "New Jersey" },
-    { value: "NM", text: "New Mexico" },
-    { value: "NY", text: "New York" },
-    { value: "NL", text: "Newfoundland and Labrador" },
-    { value: "NC", text: "North Carolina" },
-    { value: "ND", text: "North Dakota" },
-    { value: "NT", text: "Northwest Territories" },
-    { value: "NS", text: "Nova Scotia" },
-    { value: "NU", text: "Nunavut" },
-    { value: "OH", text: "Ohio" },
-    { value: "OK", text: "Oklahoma" },
-    { value: "ON", text: "Ontario" },
-    { value: "OR", text: "Oregon" },
-    { value: "PA", text: "Pennsylvania" },
-    { value: "PE", text: "Prince Edward Island" },
-    { value: "QC", text: "Quebec" },
-    { value: "RI", text: "Rhode Island" },
-    { value: "SC", text: "South Carolina" },
-    { value: "SD", text: "South Dakota" },
-    { value: "SK", text: "Saskatchewan" },
-    { value: "TN", text: "Tennessee" },
-    { value: "TX", text: "Texas" },
-    { value: "UT", text: "Utah" },
-    { value: "VT", text: "Vermont" },
-    { value: "VA", text: "Virginia" },
-    { value: "WA", text: "Washington" },
-    { value: "WV", text: "West Virginia" },
-    { value: "WI", text: "Wisconsin" },
-    { value: "WY", text: "Wyoming" },
-    { value: "YT", text: "Yukon Territory" },
-    { value: "INT", text: "International" },
-  ];
-  const getCitiesOfState = (stateCode) => {
-    const state = states.find((s) => s.value === stateCode);
-
-    if (state) {
-      const stateName = state.text;
-      return data[stateName] || [];
-    } else {
-      return [];
-    }
-  };
-  const handleStateChange = (e, name) => {
-    const stateCode = e.target.value;
-    const cityList = getCitiesOfState(stateCode);
-
-    if (name === "territory") {
-      setSelectedStateT(stateCode);
-      setCitiesT(cityList);
-    } else {
-      setSelectedStateC(stateCode);
-      setCitiesC(cityList);
-    }
-    setFormFields((prev) => {
-      return {
-        ...prev,
-        [`${name}state`]: stateCode,
-      };
-    });
-  };
-
-  const stateDD = (name) => {
-    return (
-      <select
-        onChange={(e) => handleStateChange(e, name)}
-        name={`${name}state`}
-        className="candidate-select w-full"
-        style={{
-          borderColor: formErrors[`${name}state`] ? "red" : undefined,
-        }}
-      >
-        {!formFields[`${name}state`] && <option value="">Select State</option>}
-        {states.map((state, index) => (
-          <option
-            key={index}
-            value={state.value}
-            {...(candDetails
-              ? { selected: state.value === candDetails[`${name}State`] }
-              : {
-                  selected: state.value === selectedDetails[`${name}State`],
-                })}
-          >
-            {state.text}
-          </option>
-        ))}
-      </select>
-    );
-  };
 
   //Additional Contact
   // const handleSubmitContact = async (docId) => {
@@ -449,7 +284,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   //     // Optionally, show user a message or take corrective action
   //   }
   // };
-  console.log(formErrors);
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -773,16 +607,137 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   };
 
+  // default step 0 hoga 0 se start hora
+  const [step, setStep] = useState(0);
+
+  const handleSwitchCase = () => {
+    window.scrollTo({
+      top: window.innerWidth < 768 ? 1000 : 0,
+      behavior: "smooth",
+    });
+    switch (step) {
+      // iska mtlb ye hai ke step jab 0 hoga to candprofile wala component render hoga
+      case 0:
+        return (
+          <CandidateProfile
+            addContacts={addContacts}
+            candDetails={candDetails}
+            candNames={candNames}
+            formErrors={formErrors}
+            formFields={formFields}
+            handleInputChange={handleInputChange}
+            selectedDetails={selectedDetails}
+            selectedDocId={selectedDocId}
+            setAddContacts={setAddContacts}
+            setSelectedDocId={setSelectedDocId}
+            addTerritory={addTerritory}
+            setAddTerritory={setAddTerritory}
+            setFormFields={setFormFields}
+            setStep={setStep}
+          />
+        );
+
+      // jab step 1 hoga mtlb next step hoga to initial ajaega
+      case 1:
+        return (
+          <Initial
+            handleInputChange={handleInputChange}
+            candDetails={candDetails}
+            candNames={candNames}
+            selectedDetails={selectedDetails}
+            setStep={setStep}
+          />
+        );
+
+      // mene eligibility wale ko bhi separate krdya taake may usse bhi step ke tor pr use krskun
+      // case 2 mtlb step 3
+      // ek bhund ye hai uper scroll nhi hora pta nhi lagra change hua ya nhi wohi function chalao na paginate wala
+      case 2:
+        return (
+          <Eligibility
+            handleInputChange={handleInputChange}
+            candDetails={candDetails}
+            candNames={candNames}
+            selectedDetails={selectedDetails}
+            setStep={setStep}
+          />
+        );
+      case 3:
+        return (
+          <Experience
+            handleInputChange={handleInputChange}
+            candDetails={candDetails}
+            candNames={candNames}
+            selectedDetails={selectedDetails}
+            setStep={setStep}
+          />
+        );
+
+      case 4:
+        return (
+          <Wants
+            handleInputChange={handleInputChange}
+            candDetails={candDetails}
+            candNames={candNames}
+            selectedDetails={selectedDetails}
+            setStep={setStep}
+          />
+        );
+
+      case 5:
+        return (
+          <FranchiseCategories
+            setStep={setStep}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+          />
+        );
+      default:
+        break;
+    }
+  };
+
   return (
-    <>
+    <form>
       <DialogBox show={showsuccess} setShow={setShowSuccess}>
         <div className="bg-white p-5 py-10 grid place-items-center text-3xl text-custom-heading-color">
           {successMsg}
         </div>
       </DialogBox>
+
+      {/* ye jo labels hain na inme hamare step ke names aengay tum is site se dekhkr daaldo yahan pr*/}
+      {/* smjhgye?  han wo m dal dunga daldo may namaz prhkr arha k*/}
+      {/* daldye?an humein tabs nhi laane*/}
+
+      {/* hume ek state banani hogy step ke liye jisme step number aega 1 2 3 4 etc */}
+      {/* aagay ka krskte ho? kerta hu koshish  */}
+      <Stepper
+        steps={[
+          { label: "Candidate Profile" },
+          { label: "Initial Qualifying" },
+          { label: "Eligibility" },
+          { label: "Experience" },
+          { label: "Wants" },
+          { label: "Franchise Categories" },
+        ]}
+        activeStep={step}
+        styleConfig={{
+          activeBgColor: "#2b7cff",
+          activeTextColor: "#fff",
+          inactiveBgColor: "#fff",
+          inactiveBorderColor: "#2b7cff",
+          inactiveTextColor: "#2b7cff",
+          completedBgColor: "#fff",
+          completedTextColor: "#2b7cff",
+          size: "3em",
+        }}
+        className={"stepper"}
+        stepClassName={"stepper__step border-stepper"}
+      />
+
       <div
         id="main-new-candidate-form-container"
-        className={` divide-y-2 divide-custom-dark-blue/10   ${candDetails ? "" : "max-w-7xl mx-auto my-10 col-span-12"} `}
+        className={`  ${candDetails ? "" : "md:max-w-[60%] mx-auto mb-10 col-span-12"} `}
       >
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
@@ -803,60 +758,28 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             </svg>
           </p>
         )}
-        <FormFirstRow
-          handleInputChange={handleInputChange}
-          formErrors={formErrors}
-          candDetails={candDetails}
-          candNames={candNames}
-          setSelectedDocId={setSelectedDocId}
-          selectedDocId={selectedDocId}
-          selectedDetails={selectedDetails}
-          addContacts={addContacts}
-          setAddContacts={setAddContacts}
-          contacts={contacts}
-        />
-        <FormSecondRow
-          stateDD={stateDD}
-          handleInputChange={handleInputChange}
-          formErrors={formErrors}
-          candDetails={candDetails}
-          candNames={candNames}
-          selectedDetails={selectedDetails}
-          selectedStateT={selectedStateT}
-          formFields={formFields}
-          citiesT={citiesT}
-          addTerritory={addTerritory}
-          setAddTerritory={setAddTerritory}
-          territorys={territorys}
-        />
-        <FormThirdRow
-          stateDD={stateDD}
-          handleInputChange={handleInputChange}
-          setFormFields={setFormFields}
-          formErrors={formErrors}
-          candDetails={candDetails}
-          candNames={candNames}
-          selectedDetails={selectedDetails}
-          selectedStateC={selectedStateC}
-          formFields={formFields}
-          citiesC={citiesC}
-        />
+
+        {/* mene ek separate component banadya step 1 ke liye kunke 1 2 3 rows jo thin wo step 1 may hi thin isliye un teeno ko ek may krdya ab mjhe switch case banana */}
+        {/* switch or if else same hi hote lekn if else may condition tum sahi se define krskte switch may bas simple si hoskti */}
 
         {/* tabs */}
-        <Tabs
+        {/* hum pehle tabs ko alag alag hisse may tordete abhi sab ek hi may arha */}
+        {/* <Tabs
           handleInputChange={handleInputChange}
           candDetails={candDetails}
           candNames={candNames}
           selectedDetails={selectedDetails}
-        />
-        {/* submit button */}
+        /> */}
+
+        {handleSwitchCase()}
       </div>
 
+      {/* hume isme ye text bhi nhi laana ye last step may show hoga */}
       <div
         id="button-container"
         className="flex flex-col gap-5 items-center justify-center my-10 col-span-12"
       >
-        {!candDetails && (
+        {/* {!candDetails && (
           <p className="text-sm text-white text-left my-6 bg-custom-heading-color p-5">
             By submitting the form, you agree to receive calls, text messages,
             or emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
@@ -872,8 +795,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             </a>{" "}
             for additional details.
           </p>
-        )}
-        {candNames && candDetails ? (
+        )} */}
+        {/* {candNames && candDetails ? (
           <button
             className="candidate-btn w-96"
             onClick={handleSubmitRegistration}
@@ -888,9 +811,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
                 ? "EDIT CANDIDATE INFORMATION"
                 : "SUBMIT CANDIDATE INFORMATION"}
           </button>
-        )}
+        )} */}
       </div>
-    </>
+    </form>
   );
 };
 
