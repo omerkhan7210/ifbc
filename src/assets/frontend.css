@@ -12780,9 +12780,13 @@ blockquote {
 .border-stepper {
   border: 1px solid rgb(33, 118, 255) !important;
 }
+.StepperContainer-0-2-1 {
+  overflow-x: scroll !important;
+}
 @media screen and (min-width: 768px) {
   .StepperContainer-0-2-1 {
     padding: 40px 150px !important;
+    overflow-x: unset !important;
   }
 }
 
