@@ -288,53 +288,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const handleSubmit = async () => {
     setLoading(true);
 
-    // const reqFields = [
-    //   "firstname",
-    //   "lastname",
-    //   "phone",
-    //   "email",
-    //   "territorystate",
-    //   "territorycity",
-    //   "territoryzipcode",
-    // ];
-    // let allFieldsValid = true;
-    // let formErrors = {};
-
-    // reqFields.forEach((field) => {
-    //   const newKey = field.toLowerCase().split(" ").join("");
-    //   const value = formFields[newKey]?.trim() || "";
-
-    //   if (!value) {
-    //     formErrors[newKey] = "This field is required";
-    //     allFieldsValid = false;
-    //   } else {
-    //     // Field-specific validations
-    //     if (newKey === "email" && !validateEmail(value)) {
-    //       formErrors[newKey] = "invalid";
-    //       allFieldsValid = false;
-    //     } else if (newKey === "phone" && !validatePhone(value)) {
-    //       formErrors[newKey] = "invalid";
-    //       allFieldsValid = false;
-    //     } else if (newKey === "firstname" && !validateUsername(value)) {
-    //       formErrors[newKey] = "invalid";
-    //       allFieldsValid = false;
-    //     } else if (newKey === "lastname" && !validateUsername(value)) {
-    //       formErrors[newKey] = "invalid";
-    //       allFieldsValid = false;
-    //     } else if (newKey === "territoryzipcode" && !validateZipcode(value)) {
-    //       formErrors[newKey] = "invalid";
-    //       allFieldsValid = false;
-    //     } else if (newKey === "currentzipcode" && !validateZipcode(value)) {
-    //       formErrors[newKey] = "invalid";
-    //       allFieldsValid = false;
-    //     } else {
-    //       formErrors[newKey] = "";
-    //     }
-    //   }
-    // });
-
-    // setFormErrors(formErrors);
-
     try {
       if (allFieldsValid) {
         const formData = {
