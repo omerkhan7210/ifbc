@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Initial = ({
   handleInputChange,
@@ -130,298 +131,304 @@ const Initial = ({
   ];
   // ye hamara dusra step hai idhr hum log dobara stepper laengay
   return (
-    <>
-      <div id="initial-qualifying" className="candidate-tabs-content">
-        <h1 className="candidate-sub-heading ">
+    <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        transition: { duration: 3, type: "spring", bounce: 0.2 },
+      }}
+      id="initial-qualifying"
+      className="candidate-tabs-content"
+    >
+      <h1 className="candidate-sub-heading ">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="size-9"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+          />
+        </svg>
+        Initial Qualifying
+      </h1>
+
+      <div>
+        <p className="candidate-questions">
+          How much money are you wanting to invest in the franchise?
+        </p>
+      </div>
+      <select
+        onChange={handleInputChange}
+        name="InvestmentFranchise"
+        id="money"
+        className="candidate-select"
+      >
+        {investmentOptions.map((option) => (
+          <option
+            key={option.value}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.investmentFranchise
+                : candDetails?.investmentFranchise
+            }
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+
+      <div>
+        <p className="candidate-questions">Do you have a need for funding?</p>
+      </div>
+      <select
+        onChange={handleInputChange}
+        name="Funding"
+        id="Funding"
+        className="candidate-select"
+      >
+        {fundingOptions.map((option) => (
+          <option
+            key={option.value}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.funding
+                : candDetails?.funding
+            }
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div>
+        <p className="candidate-questions">
+          What is your approximate credit score?
+        </p>
+      </div>
+      <select
+        onChange={handleInputChange}
+        name="CreditScore"
+        id="score"
+        className="candidate-select"
+      >
+        {creditScoreOptions.map((option, index) => (
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.creditScore
+                : candDetails?.creditScore
+            }
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div>
+        <p className="candidate-questions">Net Worth?</p>
+      </div>
+      <select
+        onChange={handleInputChange}
+        name="Networth"
+        id="worth"
+        className="candidate-select"
+      >
+        {netWorthOptions.map((option, index) => (
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.netWorth
+                : candDetails?.netWorth
+            }
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div>
+        <p className="candidate-questions">Liquid Cash?</p>
+      </div>
+      <select
+        onChange={handleInputChange}
+        name="LiquidCash"
+        id="liquid-cash"
+        className="candidate-select"
+      >
+        {liquidCashOptions.map((option, index) => (
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.liquidCash
+                : candDetails?.liquidCash
+            }
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div>
+        <p className="candidate-questions">
+          What caused you to start looking for a franchise?
+        </p>
+      </div>
+      <select
+        onChange={handleInputChange}
+        name="FranchiseCause"
+        id="franchise"
+        className="candidate-select"
+      >
+        {reasonOptions.map((option, index) => (
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.franchiseCause
+                : candDetails?.franchiseCause
+            }
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div>
+        <p className="candidate-questions">
+          What is your professional background?
+        </p>
+      </div>
+      <select
+        onChange={handleInputChange}
+        name="ProfessionalBackground"
+        id="background"
+        className="candidate-select"
+      >
+        {backgroundOptions.map((option, index) => (
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.professionalBackground
+                : candDetails?.professionalBackground
+            }
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div className="candidate-input-container">
+        <p className="candidate-questions">
+          What franchises are you interested in?
+        </p>
+        <input
+          onChange={handleInputChange}
+          type="text"
+          name="FranchiseInterested"
+          className="candidate-input"
+          required
+          {...(candNames && candNames.length > 0
+            ? { value: selectedDetails?.franchiseInterested }
+            : { defaultValue: candDetails?.franchiseInterested })}
+        />
+      </div>
+      <div>
+        <p className="candidate-questions">What is your time frame?</p>
+      </div>
+      <select
+        onChange={handleInputChange}
+        name="TimeFrame"
+        id="time-frame"
+        className="candidate-select"
+      >
+        {timeFrameOptions.map((option, index) => (
+          <option
+            key={index}
+            value={option.value}
+            selected={
+              candNames && candNames.length > 0
+                ? selectedDetails?.timeFrame
+                : candDetails?.timeFrame
+            }
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
+      <div className="mt-5">
+        <label htmlFor="message" className="candidate-questions">
+          Notes
+        </label>
+        <textarea
+          onChange={handleInputChange}
+          name="InitialQualifyingNote"
+          id="message"
+          rows={3}
+          className="candidate-input"
+          defaultValue={candDetails?.InitialQualifyingNote}
+        />
+      </div>
+
+      {/* button container */}
+      <div
+        id="button-container-initial"
+        className="flex justify-center items-center mt-5 md:gap-10 max-md:flex-col max-md:gap-5"
+      >
+        <button
+          className="candidate-btn w-72 flex items-center justify-between"
+          onClick={() => setStep((prevStep) => prevStep - 1)}
+        >
+          {" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="size-9"
+            className="size-6"
           >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
             />
           </svg>
-          Initial Qualifying
-        </h1>
-
-        <div>
-          <p className="candidate-questions">
-            How much money are you wanting to invest in the franchise?
-          </p>
-        </div>
-        <select
-          onChange={handleInputChange}
-          name="InvestmentFranchise"
-          id="money"
-          className="candidate-select"
+          Candidate Profile
+        </button>
+        <button
+          className="candidate-btn w-72 flex items-center justify-between"
+          onClick={() => setStep((prevStep) => prevStep + 1)}
         >
-          {investmentOptions.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              selected={
-                candNames && candNames.length > 0
-                  ? selectedDetails?.investmentFranchise
-                  : candDetails?.investmentFranchise
-              }
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-
-        <div>
-          <p className="candidate-questions">Do you have a need for funding?</p>
-        </div>
-        <select
-          onChange={handleInputChange}
-          name="Funding"
-          id="Funding"
-          className="candidate-select"
-        >
-          {fundingOptions.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              selected={
-                candNames && candNames.length > 0
-                  ? selectedDetails?.funding
-                  : candDetails?.funding
-              }
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div>
-          <p className="candidate-questions">
-            What is your approximate credit score?
-          </p>
-        </div>
-        <select
-          onChange={handleInputChange}
-          name="CreditScore"
-          id="score"
-          className="candidate-select"
-        >
-          {creditScoreOptions.map((option, index) => (
-            <option
-              key={index}
-              value={option.value}
-              selected={
-                candNames && candNames.length > 0
-                  ? selectedDetails?.creditScore
-                  : candDetails?.creditScore
-              }
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div>
-          <p className="candidate-questions">Net Worth?</p>
-        </div>
-        <select
-          onChange={handleInputChange}
-          name="Networth"
-          id="worth"
-          className="candidate-select"
-        >
-          {netWorthOptions.map((option, index) => (
-            <option
-              key={index}
-              value={option.value}
-              selected={
-                candNames && candNames.length > 0
-                  ? selectedDetails?.netWorth
-                  : candDetails?.netWorth
-              }
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div>
-          <p className="candidate-questions">Liquid Cash?</p>
-        </div>
-        <select
-          onChange={handleInputChange}
-          name="LiquidCash"
-          id="liquid-cash"
-          className="candidate-select"
-        >
-          {liquidCashOptions.map((option, index) => (
-            <option
-              key={index}
-              value={option.value}
-              selected={
-                candNames && candNames.length > 0
-                  ? selectedDetails?.liquidCash
-                  : candDetails?.liquidCash
-              }
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div>
-          <p className="candidate-questions">
-            What caused you to start looking for a franchise?
-          </p>
-        </div>
-        <select
-          onChange={handleInputChange}
-          name="FranchiseCause"
-          id="franchise"
-          className="candidate-select"
-        >
-          {reasonOptions.map((option, index) => (
-            <option
-              key={index}
-              value={option.value}
-              selected={
-                candNames && candNames.length > 0
-                  ? selectedDetails?.franchiseCause
-                  : candDetails?.franchiseCause
-              }
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div>
-          <p className="candidate-questions">
-            What is your professional background?
-          </p>
-        </div>
-        <select
-          onChange={handleInputChange}
-          name="ProfessionalBackground"
-          id="background"
-          className="candidate-select"
-        >
-          {backgroundOptions.map((option, index) => (
-            <option
-              key={index}
-              value={option.value}
-              selected={
-                candNames && candNames.length > 0
-                  ? selectedDetails?.professionalBackground
-                  : candDetails?.professionalBackground
-              }
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div className="candidate-input-container">
-          <p className="candidate-questions">
-            What franchises are you interested in?
-          </p>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            name="FranchiseInterested"
-            className="candidate-input"
-            required
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.franchiseInterested }
-              : { defaultValue: candDetails?.franchiseInterested })}
-          />
-        </div>
-        <div>
-          <p className="candidate-questions">What is your time frame?</p>
-        </div>
-        <select
-          onChange={handleInputChange}
-          name="TimeFrame"
-          id="time-frame"
-          className="candidate-select"
-        >
-          {timeFrameOptions.map((option, index) => (
-            <option
-              key={index}
-              value={option.value}
-              selected={
-                candNames && candNames.length > 0
-                  ? selectedDetails?.timeFrame
-                  : candDetails?.timeFrame
-              }
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <div className="mt-5">
-          <label htmlFor="message" className="candidate-questions">
-            Notes
-          </label>
-          <textarea
-            onChange={handleInputChange}
-            name="InitialQualifyingNote"
-            id="message"
-            rows={3}
-            className="candidate-input"
-            defaultValue={candDetails?.InitialQualifyingNote}
-          />
-        </div>
-
-        {/* button container */}
-        <div
-          id="button-container-initial"
-          className="flex justify-center items-center mt-5 md:gap-10 max-md:flex-col max-md:gap-5"
-        >
-          <button
-            className="candidate-btn w-72 flex items-center justify-between"
-            onClick={() => setStep((prevStep) => prevStep - 1)}
+          Eligibility
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
           >
-            {" "}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
-              />
-            </svg>
-            Candidate Profile
-          </button>
-          <button
-            className="candidate-btn w-72 flex items-center justify-between"
-            onClick={() => setStep((prevStep) => prevStep + 1)}
-          >
-            Eligibility
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </button>
-        </div>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+            />
+          </svg>
+        </button>
       </div>
-      {/* next step button */}
-    </>
+    </motion.div>
   );
 };
 

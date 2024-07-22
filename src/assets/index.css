@@ -62,7 +62,7 @@
 }
 
 .candidate-tabs-content {
-  @apply p-6 flex flex-col bg-gray-50  max-w-full text-gray-500  rounded-lg w-full;
+  @apply p-6 flex flex-col bg-gray-50  max-w-full text-gray-500  rounded-lg w-full shadow-[1px_10px_50px_-10px_rgba(0,0,0,0.3)];
 }
 
 .candidate-pending {
