@@ -132,20 +132,13 @@ const FormSecondRow = ({
   setAddTerritory,
   territorys,
   citiesC,
+  listingNames,
 }) => {
-  const [listingNames, setListingNames] = useState([]);
+  // hum blkl parent component may se lekr arhe taakay baar baar calling na ho api ki kunke parent component hamara ek hi dafa render hona hai bas to first time pr jab page load hoga tab hi srf api call hogy phr nhi hogy back ya aagay jaane pr
+  // ab nhi hui dekha? loading wagera kch nhi aya han dekha agr koi cheez baar baar re render hori to usse parent component ya kisi context may rakhkr use krskte taakay ek hi cheez baar baar call na ho
+  // in fields may bhi conditions lagengy saari jese baaki may lagi wi hain ye to required nahi hena?
+  // req nhi lekn diukhni to chayein na jab koi dalega to gayab thori honi chayei sahi he han
   const [selectedFranchises, setSelectedFranchises] = useState(0);
-  useEffect(() => {
-    // const response = axios.get("https://backend.ifbc.co/api/listingsmstr");
-    // console.log(response);
-    axios.get("https://backend.ifbc.co/api/listingsmstr").then((response) => {
-      const listingNames = response.data.map((listings) => ({
-        name: listings.name,
-        docId: listings.docId,
-      }));
-      setListingNames(listingNames);
-    });
-  }, []);
 
   const handleFranchiseSelect = (e) => {
     const selecteddocId = e.target.value;
@@ -185,16 +178,16 @@ const FormSecondRow = ({
             {" "}
             What franchises are you interested in?*
           </p>
-          <select
-            name="franchiseinterested"
-            className="candidate-select w-full"
-            style={{
-              borderColor: formErrors.franchiseinterested ? "red" : undefined,
-            }}
-            onChange={handleFranchiseSelect}
-          >
-            {listingNames.length > 0 &&
-              listingNames
+          {listingNames?.length > 0 ? (
+            <select
+              name="franchiseinterested"
+              className="candidate-select w-full"
+              style={{
+                borderColor: formErrors.franchiseinterested ? "red" : undefined,
+              }}
+              onChange={handleFranchiseSelect}
+            >
+              {listingNames
                 // .filter((data) => {
                 //   const selectFranchise = selectedFranchises.includes(
                 //     data.docId.toString()
@@ -210,7 +203,10 @@ const FormSecondRow = ({
                     {item.name}
                   </option>
                 ))}
-          </select>
+            </select>
+          ) : (
+            <h1>Loading...</h1>
+          )}
         </div>
 
         <div className="candidate-sub-childs">

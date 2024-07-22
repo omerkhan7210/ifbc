@@ -19,25 +19,9 @@ const Eligibility = ({
   return (
     <div id="eligibility" className="candidate-tabs-content">
       <h1 className="candidate-sub-heading ">Eligibility</h1>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
-          How do you plan on funding the business?
-        </p>
-        <input
-          onChange={handleInputChange}
-          name="FundingBusiness"
-          type="text"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.fundingBusiness }
-            : { defaultValue: candDetails?.fundingBusiness })}
-        />
-      </div>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
-          What is the value of your 401k/IRA?
-        </p>
+
+      <div className="candidate-sub-childs">
+        <p className="candidate-label">What is the value of your 401k/IRA?</p>
         <input
           onChange={handleInputChange}
           name="EligibilityValue"
@@ -51,7 +35,7 @@ const Eligibility = ({
       </div>
       <div>
         <div>
-          <p className="candidate-questions">
+          <p className="candidate-label">
             Have you been in the military or could you qualify for a VA loan? Do
             you qualify for any of these discounts
           </p>
@@ -77,24 +61,9 @@ const Eligibility = ({
           ))}
         </select>
       </div>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
-          Is your current net worth over $500,000? If not, what is your current
-          net worth?
-        </p>
-        <input
-          onChange={handleInputChange}
-          name="CurrentNetworth"
-          type="text"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.currentNetworth }
-            : { defaultValue: candDetails?.currentNetworth })}
-        />
-      </div>
+
       <div className="flex flex-col">
-        <p className="candidate-questions">
+        <p className="candidate-label">
           Have you or your spouse ever been convicted of something other than a
           minor traffic violation?
         </p>
@@ -144,7 +113,7 @@ const Eligibility = ({
         </ul>
       </div>
       <div className="flex flex-col">
-        <p className="candidate-questions">
+        <p className="candidate-label">
           Are you or your spouse subject to a pending litigation or unsatisfied
           judgment?
         </p>
@@ -192,8 +161,8 @@ const Eligibility = ({
           </li>
         </ul>
       </div>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
+      <div className="candidate-sub-childs">
+        <p className="candidate-label">
           Have you or your spouse ever declared bankruptcy? If yes, when was it
           discharged?
         </p>
@@ -206,19 +175,6 @@ const Eligibility = ({
           {...(candNames && candNames.length > 0
             ? { value: selectedDetails?.bankruptcy }
             : { defaultValue: candDetails?.bankruptcy })}
-        />
-      </div>
-      <div className="mt-5">
-        <label htmlFor="message" className="candidate-questions">
-          Notes
-        </label>
-        <textarea
-          onChange={handleInputChange}
-          name="EligibilityNote"
-          id="message"
-          rows={10}
-          className="candidate-input"
-          defaultValue={candDetails?.EligibilityNote}
         />
       </div>
 

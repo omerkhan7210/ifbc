@@ -27,6 +27,7 @@ const CandidateProfile = ({
   setFormFields,
   setStep,
   setFormErrors,
+  listingNames,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
@@ -87,13 +88,13 @@ const CandidateProfile = ({
           <option
             key={index}
             value={state.value}
-            selected={
-              candNames
-                ? candDetails
-                  ? state.value === candDetails[`${name}State`]
-                  : false
-                : state.value === selectedDetails[`${name}State`]
-            }
+            {...(candNames
+              ? candDetails
+                ? { selected: state.value === candDetails[`${name}State`] }
+                : {
+                    selected: state.value === selectedDetails[`${name}State`],
+                  }
+              : { selected: formFields[`${name}state`] === state.value })}
           >
             {state.text}
           </option>
@@ -270,6 +271,7 @@ const CandidateProfile = ({
         addContacts={addContacts}
         setAddContacts={setAddContacts}
         contacts={contacts}
+        formFields={formFields}
       />
       <FormSecondRow
         stateDD={stateDD}
@@ -285,6 +287,7 @@ const CandidateProfile = ({
         setAddTerritory={setAddTerritory}
         territorys={territorys}
         citiesC={citiesC}
+        listingNames={listingNames}
       />
       {/* <FormThirdRow
         stateDD={stateDD}

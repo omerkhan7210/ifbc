@@ -39,10 +39,7 @@ const FranchiseCategories = ({ handleSubmit, handleInputChange, setStep }) => {
     { name: "retail", label: "Retail" },
     { name: "security", label: "Security" },
     { name: "seniorcare", label: "Senior Care: Medical/Non-Medical" },
-    {
-      name: "seniorcareoption",
-      label: "Senior Care: Medical/Non-Medical Option",
-    },
+
     { name: "signs", label: "Signs" },
     { name: "eventplanning", label: "Special Event Planning" },
     { name: "sportsrecreation", label: "Sports & Recreation" },
