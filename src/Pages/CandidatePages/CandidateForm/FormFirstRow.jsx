@@ -148,6 +148,7 @@ const AddContactDiv = ({
 const FormFirstRow = ({
   handleInputChange,
   formErrors,
+  formFields,
   candDetails,
   candNames,
   selectedDocId,
@@ -216,9 +217,11 @@ const FormFirstRow = ({
                 borderColor: formErrors.firstname ? "red" : undefined,
               }}
               required
-              {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.firstName }
-                : { defaultValue: candDetails?.firstName })}
+              {...(candNames
+                ? candNames.length > 0
+                  ? { value: selectedDetails?.firstName }
+                  : { defaultValue: candDetails?.firstName }
+                : { value: formFields?.firstname })}
             />
           )}
 
@@ -240,9 +243,11 @@ const FormFirstRow = ({
               borderColor: formErrors.lastname ? "red" : undefined,
             }}
             required
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.lastName }
-              : { defaultValue: candDetails?.lastName })}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.lastName }
+                : { defaultValue: candDetails?.lastName }
+              : { value: formFields?.lastname })}
           />
           {formErrors.lastname && formErrors.lastname === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
@@ -268,9 +273,11 @@ const FormFirstRow = ({
             }}
             onChange={handleInputChange}
             required
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.phone }
-              : { defaultValue: candDetails?.phone })}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.phone }
+                : { defaultValue: candDetails?.phone }
+              : { value: formFields?.phone })}
           />
           {formErrors.phone && formErrors.phone === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
@@ -289,9 +296,11 @@ const FormFirstRow = ({
             }}
             required
             onChange={handleInputChange}
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.email }
-              : { defaultValue: candDetails?.email })}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.email }
+                : { defaultValue: candDetails?.email }
+              : { value: formFields?.email })}
           />
 
           {formErrors.email && formErrors.email === "invalid" && (

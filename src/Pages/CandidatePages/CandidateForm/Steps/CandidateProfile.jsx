@@ -87,11 +87,13 @@ const CandidateProfile = ({
           <option
             key={index}
             value={state.value}
-            {...(candDetails
-              ? { selected: state.value === candDetails[`${name}State`] }
-              : {
-                  selected: state.value === selectedDetails[`${name}State`],
-                })}
+            selected={
+              candNames
+                ? candDetails
+                  ? state.value === candDetails[`${name}State`]
+                  : false
+                : state.value === selectedDetails[`${name}State`]
+            }
           >
             {state.text}
           </option>

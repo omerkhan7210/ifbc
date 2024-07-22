@@ -288,9 +288,11 @@ const FormSecondRow = ({
                 borderColor: formErrors.territorycity ? "red" : undefined,
               }}
               required
-              {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.territoryCity }
-                : { defaultValue: candDetails?.territoryCity })}
+              {...(candNames
+                ? candNames.length > 0
+                  ? { value: selectedDetails?.territoryCity }
+                  : { defaultValue: candDetails?.territoryCity }
+                : { value: formFields?.territorycity })}
             />
           )}
         </div>
@@ -340,9 +342,11 @@ const FormSecondRow = ({
                 borderColor: formErrors.currentcity ? "red" : undefined,
               }}
               required
-              {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.currentCity }
-                : { defaultValue: candDetails?.currentCity })}
+              {...(candNames
+                ? candNames.length > 0
+                  ? { value: selectedDetails?.currentCity }
+                  : { defaultValue: candDetails?.currentCity }
+                : { value: formFields?.currentcity })}
             />
           )}
         </div>
@@ -356,9 +360,11 @@ const FormSecondRow = ({
               borderColor: formErrors.currentzipcode ? "red" : undefined,
             }}
             onChange={handleInputChange}
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.currentZipcode }
-              : { defaultValue: candDetails?.currentZipcode })}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.currentZipcode }
+                : { defaultValue: candDetails?.currentZipcode }
+              : { value: formFields?.currentzipcode })}
           />
           {formErrors?.currentzipcode === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
