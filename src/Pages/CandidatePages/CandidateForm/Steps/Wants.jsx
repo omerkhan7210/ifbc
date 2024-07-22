@@ -425,19 +425,6 @@ const Wants = ({
           </li>
         </ul>
       </div>
-      <div className="mt-5">
-        <label htmlFor="message" className="candidate-questions">
-          Notes
-        </label>
-        <textarea
-          onChange={handleInputChange}
-          name="WantNote"
-          id="message"
-          rows={10}
-          className="candidate-input"
-          defaultValue={candDetails?.WantNote}
-        />
-      </div>
 
       <div
         id="button-container-initial"

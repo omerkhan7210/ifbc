@@ -560,6 +560,20 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   // default step 0 hoga 0 se start hora
   const [step, setStep] = useState(0);
+  const [listingNames, setListingNames] = useState([]);
+
+  // this useEffect api is used for getting listing names with doc ids
+  useEffect(() => {
+    // const response = axios.get("https://backend.ifbc.co/api/listingsmstr");
+    // console.log(response);
+    axios.get("https://backend.ifbc.co/api/listingsmstr").then((response) => {
+      const listingNames = response.data.map((listings) => ({
+        name: listings.name,
+        docId: listings.docId,
+      }));
+      setListingNames(listingNames);
+    });
+  }, []);
 
   const handleSwitchCase = () => {
     // window.scrollTo({
@@ -586,6 +600,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setFormFields={setFormFields}
             setStep={setStep}
             setFormErrors={setFormErrors}
+            listingNames={listingNames}
           />
         );
 

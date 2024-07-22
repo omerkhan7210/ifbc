@@ -39,6 +39,7 @@ const initialState = {
       : "N",
   activeListings: JSON.parse(localStorage.getItem("activeListings")) || [],
   token: token && token !== "" && verifyTokenExpiry(token),
+  // redux may state ko save krwadeta kunke masle ye hora jab hum back jaate to api dobara call hojati ya to hum ek or kaam krskte
 };
 
 export const listingReducer = createSlice({

@@ -160,7 +160,7 @@ const FormFirstRow = ({
 }) => {
   const relationships = ["Business Partner", "Spouse", "Family Member"];
 
-  console.log(formErrors);
+  console.log(formFields);
   return (
     <div id="first-row" className={`${candDetails ? "" : "py-10"} py-5`}>
       <h1 className="candidate-sub-heading ">
@@ -341,6 +341,11 @@ const FormFirstRow = ({
             }}
             required
             // defaultValue={contact ? contact.firstName : ""}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.additionalFirstName }
+                : { defaultValue: candDetails?.additionalFirstName }
+              : { value: formFields?.additionalFirstName })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -354,6 +359,11 @@ const FormFirstRow = ({
               borderColor: formErrors?.additionalLastName ? "red" : undefined,
             }}
             required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.additionalLastName }
+                : { defaultValue: candDetails?.additionalLastName }
+              : { value: formFields?.additionalLastName })}
             // defaultValue={contact ? contact.lastName : ""}
           />
         </div>
@@ -373,6 +383,11 @@ const FormFirstRow = ({
               borderColor: formErrors?.additionalPhone ? "red" : undefined,
             }}
             required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.additionalPhone }
+                : { defaultValue: candDetails?.additionalPhone }
+              : { value: formFields?.additionalPhone })}
             // defaultValue={contact ? contact.phone : ""}
           />
         </div>
@@ -387,6 +402,11 @@ const FormFirstRow = ({
               borderColor: formErrors?.additionalEmail ? "red" : undefined,
             }}
             required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.additionalEmail }
+                : { defaultValue: candDetails?.additionalEmail }
+              : { value: formFields?.additionalEmail })}
             // defaultValue={contact ? contact.email : ""}
           />
         </div>
@@ -408,6 +428,7 @@ const FormFirstRow = ({
               <option
                 key={idx}
                 value={relationship}
+                selected={formFields?.additionalRelationship === relationship}
                 // selected={
                 //   contact ? contact.relationShip === relationship : false
                 // }
