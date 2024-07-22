@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const AddContactDiv = ({
   contact,
@@ -148,6 +148,7 @@ const AddContactDiv = ({
 const FormFirstRow = ({
   handleInputChange,
   formErrors,
+  formFields,
   candDetails,
   candNames,
   selectedDocId,
@@ -157,6 +158,9 @@ const FormFirstRow = ({
   setAddContacts,
   contacts,
 }) => {
+  const relationships = ["Business Partner", "Spouse", "Family Member"];
+
+  console.log(formErrors);
   return (
     <div id="first-row" className={`${candDetails ? "" : "py-10"} py-5`}>
       <h1 className="candidate-sub-heading ">
@@ -213,9 +217,11 @@ const FormFirstRow = ({
                 borderColor: formErrors.firstname ? "red" : undefined,
               }}
               required
-              {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.firstName }
-                : { defaultValue: candDetails?.firstName })}
+              {...(candNames
+                ? candNames.length > 0
+                  ? { value: selectedDetails?.firstName }
+                  : { defaultValue: candDetails?.firstName }
+                : { value: formFields?.firstname })}
             />
           )}
 
@@ -237,9 +243,11 @@ const FormFirstRow = ({
               borderColor: formErrors.lastname ? "red" : undefined,
             }}
             required
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.lastName }
-              : { defaultValue: candDetails?.lastName })}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.lastName }
+                : { defaultValue: candDetails?.lastName }
+              : { value: formFields?.lastname })}
           />
           {formErrors.lastname && formErrors.lastname === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
@@ -265,9 +273,11 @@ const FormFirstRow = ({
             }}
             onChange={handleInputChange}
             required
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.phone }
-              : { defaultValue: candDetails?.phone })}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.phone }
+                : { defaultValue: candDetails?.phone }
+              : { value: formFields?.phone })}
           />
           {formErrors.phone && formErrors.phone === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
@@ -286,10 +296,13 @@ const FormFirstRow = ({
             }}
             required
             onChange={handleInputChange}
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.email }
-              : { defaultValue: candDetails?.email })}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.email }
+                : { defaultValue: candDetails?.email }
+              : { value: formFields?.email })}
           />
+
           {formErrors.email && formErrors.email === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
               Invalid Email (john@example.com)
@@ -309,6 +322,100 @@ const FormFirstRow = ({
               </svg>
             </p>
           )}
+        </div>
+      </div>
+
+      <div
+        id="first-sub-row"
+        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+      >
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">Partner/Candidate First Name</p>
+          <input
+            onChange={handleInputChange}
+            type="text"
+            name={`additionalFirstName`}
+            className="candidate-input"
+            style={{
+              borderColor: formErrors?.additionalFirstName ? "red" : undefined,
+            }}
+            required
+            // defaultValue={contact ? contact.firstName : ""}
+          />
+        </div>
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">Partner/Candidate Last Name</p>
+          <input
+            onChange={handleInputChange}
+            type="text"
+            name={`additionalLastName`}
+            className="candidate-input"
+            style={{
+              borderColor: formErrors?.additionalLastName ? "red" : undefined,
+            }}
+            required
+            // defaultValue={contact ? contact.lastName : ""}
+          />
+        </div>
+      </div>
+      <div
+        id="second-sub-row"
+        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+      >
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">Partner/Candidate Phone Number</p>
+          <input
+            onChange={handleInputChange}
+            type="tel"
+            name={`additionalPhone`}
+            className="candidate-input"
+            style={{
+              borderColor: formErrors?.additionalPhone ? "red" : undefined,
+            }}
+            required
+            // defaultValue={contact ? contact.phone : ""}
+          />
+        </div>
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">Partner/Candidate Email</p>
+          <input
+            onChange={handleInputChange}
+            type="email"
+            name={`additionalEmail`}
+            className="candidate-input"
+            style={{
+              borderColor: formErrors?.additionalEmail ? "red" : undefined,
+            }}
+            required
+            // defaultValue={contact ? contact.email : ""}
+          />
+        </div>
+
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">Relationship to Primary Candidate</p>
+          <select
+            onChange={handleInputChange}
+            className="candidate-input"
+            style={{
+              borderColor: formErrors?.additionalRelationship
+                ? "red"
+                : undefined,
+            }}
+            name={`additionalRelationship`}
+          >
+            <option value="">Select One</option>
+            {relationships.map((relationship, idx) => (
+              <option
+                key={idx}
+                value={relationship}
+                // selected={
+                //   contact ? contact.relationShip === relationship : false
+                // }
+              >
+                {relationship}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -334,7 +441,7 @@ const FormFirstRow = ({
           ADD ADDITIONAL CONTACTS
         </button>
       </div> */}
-      {addContacts > 0 && (
+      {/* {addContacts > 0 && (
         <div className="flex flex-col gap-8 mt-5">
           {Array.from({ length: addContacts }).map((_, index) => (
             <AddContactDiv
@@ -346,7 +453,7 @@ const FormFirstRow = ({
             />
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 };
