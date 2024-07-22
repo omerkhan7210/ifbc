@@ -1,3 +1,6 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 const AddTerritoryDiv = ({
   territory,
   index,
@@ -96,6 +99,7 @@ const AddTerritoryDiv = ({
           ></textarea>
         </div>
       </div>
+
       <div id="button-container" className="w-full flex justify-center gap-5">
         <button
           className="candidate-btn"
@@ -127,7 +131,31 @@ const FormSecondRow = ({
   addTerritory,
   setAddTerritory,
   territorys,
+  citiesC,
 }) => {
+  const [listingNames, setListingNames] = useState([]);
+  const [selectedFranchises, setSelectedFranchises] = useState(0);
+  useEffect(() => {
+    // const response = axios.get("https://backend.ifbc.co/api/listingsmstr");
+    // console.log(response);
+    axios.get("https://backend.ifbc.co/api/listingsmstr").then((response) => {
+      const listingNames = response.data.map((listings) => ({
+        name: listings.name,
+        docId: listings.docId,
+      }));
+      setListingNames(listingNames);
+    });
+  }, []);
+
+  const handleFranchiseSelect = (e) => {
+    const selecteddocId = e.target.value;
+    handleInputChange(e);
+    // setSelectedFranchises((previousId) => [...previousId, selecteddocId]);
+    setSelectedFranchises(selecteddocId);
+  };
+
+  console.log(formFields);
+
   return (
     <div id="second-row" className="py-5">
       <h1 className="candidate-sub-heading">
@@ -147,18 +175,85 @@ const FormSecondRow = ({
         </svg>
         Requested Territory
       </h1>
+
       <div
         id="third-sub-row"
         className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
       >
         <div className="candidate-sub-childs">
-          <p className="candidate-label">State / Province*</p>
+          <p className="candidate-label">
+            {" "}
+            What franchises are you interested in?*
+          </p>
+          <select
+            name="franchiseinterested"
+            className="candidate-select w-full"
+            style={{
+              borderColor: formErrors.franchiseinterested ? "red" : undefined,
+            }}
+            onChange={handleFranchiseSelect}
+          >
+            {listingNames.length > 0 &&
+              listingNames
+                // .filter((data) => {
+                //   const selectFranchise = selectedFranchises.includes(
+                //     data.docId.toString()
+                //   );
+                //   return !selectFranchise;
+                // })
+
+                .map((item) => (
+                  <option
+                    value={item.docId}
+                    selected={formFields?.franchiseinterested == item.docId}
+                  >
+                    {item.name}
+                  </option>
+                ))}
+          </select>
+        </div>
+
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">
+            {" "}
+            Requested Territory Zip / Postal Code*
+          </p>
+          <input
+            type="number"
+            name="territoryzipcode"
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.territoryzipcode ? "red" : undefined,
+            }}
+            onChange={handleInputChange}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.territoryZipcode }
+                : { defaultValue: candDetails?.territoryZipcode }
+              : { value: formFields?.territoryzipcode })}
+          />
+          {formErrors?.territoryzipcode === "invalid" && (
+            <p className=" text-red-600 py-2 flex justify-between">
+              Invalid zipcode. It should be 5 digits long!
+            </p>
+          )}
+        </div>
+      </div>
+      <div
+        id="third-sub-row"
+        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+      >
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">
+            {" "}
+            Requested Territory State / Province*
+          </p>
 
           {/* state dd */}
           {stateDD("territory")}
         </div>
         <div className="candidate-sub-childs">
-          <p className="candidate-label">City*</p>
+          <p className="candidate-label"> Requested Territory City*</p>
           {selectedStateT && citiesT.length > 0 ? (
             <select
               className="candidate-select"
@@ -199,28 +294,81 @@ const FormSecondRow = ({
             />
           )}
         </div>
+      </div>
+
+      <div
+        id="third-sub-row"
+        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+      >
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Zip / Postal Code*</p>
+          <p className="candidate-label"> Current State / Province*</p>
+
+          {/* state dd */}
+          {stateDD("current")}
+        </div>
+        <div className="candidate-sub-childs">
+          <p className="candidate-label"> Current City*</p>
+          {selectedStateT && citiesT.length > 0 ? (
+            <select
+              className="candidate-select"
+              name="currentcity"
+              onChange={handleInputChange}
+              style={{
+                borderColor: formErrors.currentcity ? "red" : undefined,
+              }}
+            >
+              {!formFields.currentcity && <option value="">Select City</option>}
+              {citiesC.map((city, index) => (
+                <option
+                  key={index}
+                  value={city}
+                  {...(candNames && candNames.length > 0
+                    ? { selected: selectedDetails?.currentCity }
+                    : { selected: candDetails?.currentCity })}
+                >
+                  {city}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input
+              onChange={handleInputChange}
+              type="text"
+              name="currentcity"
+              className="candidate-input w-full"
+              style={{
+                borderColor: formErrors.currentcity ? "red" : undefined,
+              }}
+              required
+              {...(candNames && candNames.length > 0
+                ? { value: selectedDetails?.currentCity }
+                : { defaultValue: candDetails?.currentCity })}
+            />
+          )}
+        </div>
+        <div className="candidate-sub-childs">
+          <p className="candidate-label"> Current Zip / Postal Code*</p>
           <input
             type="number"
-            name="territoryzipcode"
+            name="currentzipcode"
             className="candidate-input w-full"
             style={{
-              borderColor: formErrors.territoryzipcode ? "red" : undefined,
+              borderColor: formErrors.currentzipcode ? "red" : undefined,
             }}
             onChange={handleInputChange}
             {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.territoryZipcode }
-              : { defaultValue: candDetails?.territoryZipcode })}
+              ? { value: selectedDetails?.currentZipcode }
+              : { defaultValue: candDetails?.currentZipcode })}
           />
-          {formErrors?.territoryzipcode === "invalid" && (
+          {formErrors?.currentzipcode === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
               Invalid zipcode. It should be 5 digits long!
             </p>
           )}
         </div>
       </div>
-      <div id="fourth-sub-row" className="candidate-sub-childs">
+
+      {/* <div id="fourth-sub-row" className="candidate-sub-childs">
         <p className="candidate-label">Territory Notes</p>
         <textarea
           onChange={handleInputChange}
@@ -231,14 +379,14 @@ const FormSecondRow = ({
             ? { value: selectedDetails?.territoryNotes }
             : { defaultValue: candDetails?.territoryNotes })}
         ></textarea>
-      </div>
+      </div> */}
 
       {/* {territorys && territorys.length > 0 && (
         <div className="flex flex-col gap-8 mt-5">
           {territorys.map((territory, index) => (
             <AddTerritoryDiv
               territory={territory}
-              index={index}
+              index={index} 
               handleInputChange={handleInputChange}
               formErrors={formErrors}
               stateDD={stateDD}

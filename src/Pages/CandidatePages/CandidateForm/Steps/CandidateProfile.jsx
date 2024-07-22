@@ -5,6 +5,12 @@ import FormThirdRow from "../FormThirdRow";
 import { useQuery } from "react-query";
 
 import data from "../../../../../public/files/data.json"; // Adjust the path if necessary
+import {
+  validateEmail,
+  validatePhone,
+  validateUsername,
+  validateZipcode,
+} from "src/Utils/SanitizeInput";
 const CandidateProfile = ({
   handleInputChange,
   formErrors,
@@ -20,6 +26,7 @@ const CandidateProfile = ({
   setAddTerritory,
   setFormFields,
   setStep,
+  setFormErrors,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
@@ -190,6 +197,63 @@ const CandidateProfile = ({
     });
   };
 
+  const handleCanProfile = () => {
+    const reqFields = [
+      "firstname",
+      "lastname",
+      "phone",
+      "email",
+      "territorystate",
+      "territorycity",
+      "territoryzipcode",
+      "franchiseInterested",
+      "currentcity",
+      "currentzipcode",
+      "currentState",
+    ];
+    let allFieldsValid = true;
+    let formErrors = {};
+
+    reqFields.forEach((field) => {
+      const newKey = field.toLowerCase().split(" ").join("");
+      const value = formFields[newKey]?.trim() || "";
+
+      if (!value) {
+        formErrors[newKey] = "This field is required";
+        allFieldsValid = false;
+      } else {
+        // Field-specific validations
+        if (newKey === "email" && !validateEmail(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "phone" && !validatePhone(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "firstname" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "lastname" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "territoryzipcode" && !validateZipcode(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "currentzipcode" && !validateZipcode(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else {
+          formErrors[newKey] = "";
+        }
+      }
+    });
+
+    setFormErrors(formErrors);
+
+    if (allFieldsValid) {
+      setStep((prevStep) => prevStep + 1);
+    }
+  };
+
   return (
     <div className="candidate-tabs-content">
       {" "}
@@ -218,8 +282,9 @@ const CandidateProfile = ({
         addTerritory={addTerritory}
         setAddTerritory={setAddTerritory}
         territorys={territorys}
+        citiesC={citiesC}
       />
-      <FormThirdRow
+      {/* <FormThirdRow
         stateDD={stateDD}
         handleInputChange={handleInputChange}
         setFormFields={setFormFields}
@@ -230,7 +295,7 @@ const CandidateProfile = ({
         selectedStateC={selectedStateC}
         formFields={formFields}
         citiesC={citiesC}
-      />
+      /> */}
       {/* submit button ki jaga next button aega jo next step pr lekr jaega */}
       <div
         id="button-container-initial"
@@ -238,7 +303,7 @@ const CandidateProfile = ({
       >
         <button
           className="candidate-btn w-72 flex items-center justify-between"
-          onClick={() => setStep((prevStep) => prevStep + 1)}
+          onClick={handleCanProfile}
         >
           Initial Qualifying
           <svg

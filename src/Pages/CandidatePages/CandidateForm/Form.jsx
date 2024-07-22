@@ -288,53 +288,52 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const handleSubmit = async () => {
     setLoading(true);
 
-    const reqFields = [
-      "firstname",
-      "lastname",
-      "phone",
-      "email",
-      "territorystate",
-      "territorycity",
-      "territoryzipcode",
-    ];
-    let allFieldsValid = true;
-    let formErrors = {};
+    // const reqFields = [
+    //   "firstname",
+    //   "lastname",
+    //   "phone",
+    //   "email",
+    //   "territorystate",
+    //   "territorycity",
+    //   "territoryzipcode",
+    // ];
+    // let allFieldsValid = true;
+    // let formErrors = {};
 
-    reqFields.forEach((field) => {
-      const newKey = field.toLowerCase().split(" ").join("");
-      const value = formFields[newKey]?.trim() || "";
+    // reqFields.forEach((field) => {
+    //   const newKey = field.toLowerCase().split(" ").join("");
+    //   const value = formFields[newKey]?.trim() || "";
 
-      if (!value) {
-        formErrors[newKey] = "This field is required";
-        allFieldsValid = false;
-      } else {
-        // Field-specific validations
-        if (newKey === "email" && !validateEmail(value)) {
-          formErrors[newKey] = "invalid";
-          allFieldsValid = false;
-        } else if (newKey === "phone" && !validatePhone(value)) {
-          formErrors[newKey] = "invalid";
-          allFieldsValid = false;
-        } else if (newKey === "firstname" && !validateUsername(value)) {
-          formErrors[newKey] = "invalid";
-          allFieldsValid = false;
-        } else if (newKey === "lastname" && !validateUsername(value)) {
-          formErrors[newKey] = "invalid";
-          allFieldsValid = false;
-        } else if (newKey === "territoryzipcode" && !validateZipcode(value)) {
-          formErrors[newKey] = "invalid";
-          allFieldsValid = false;
-        } else if (newKey === "currentzipcode" && !validateZipcode(value)) {
-          formErrors[newKey] = "invalid";
-          allFieldsValid = false;
-        } else {
-          formErrors[newKey] = "";
-        }
-      }
-    });
+    //   if (!value) {
+    //     formErrors[newKey] = "This field is required";
+    //     allFieldsValid = false;
+    //   } else {
+    //     // Field-specific validations
+    //     if (newKey === "email" && !validateEmail(value)) {
+    //       formErrors[newKey] = "invalid";
+    //       allFieldsValid = false;
+    //     } else if (newKey === "phone" && !validatePhone(value)) {
+    //       formErrors[newKey] = "invalid";
+    //       allFieldsValid = false;
+    //     } else if (newKey === "firstname" && !validateUsername(value)) {
+    //       formErrors[newKey] = "invalid";
+    //       allFieldsValid = false;
+    //     } else if (newKey === "lastname" && !validateUsername(value)) {
+    //       formErrors[newKey] = "invalid";
+    //       allFieldsValid = false;
+    //     } else if (newKey === "territoryzipcode" && !validateZipcode(value)) {
+    //       formErrors[newKey] = "invalid";
+    //       allFieldsValid = false;
+    //     } else if (newKey === "currentzipcode" && !validateZipcode(value)) {
+    //       formErrors[newKey] = "invalid";
+    //       allFieldsValid = false;
+    //     } else {
+    //       formErrors[newKey] = "";
+    //     }
+    //   }
+    // });
 
-    setFormErrors(formErrors);
-    console.log(formErrors);
+    // setFormErrors(formErrors);
 
     try {
       if (allFieldsValid) {
@@ -566,55 +565,54 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       inputValue = convertToMSSQLDate(value);
     }
 
-    if (name.startsWith("additional")) {
-      const splittedName = name.split("_");
-      const index = parseInt(splittedName[1]); // Extract index from name
+    // if (name.startsWith("additional")) {
+    //   const splittedName = name.split("_");
+    //   const index = parseInt(splittedName[1]); // Extract index from name
 
-      // Create a copy of additionalContacts array
-      const updatedContacts = additionalContacts ? [...additionalContacts] : [];
-      // Ensure updatedContacts[index] is initialized if it doesn't exist
-      if (!updatedContacts[index]) {
-        updatedContacts[index] = {};
-      }
+    //   // Create a copy of additionalContacts array
+    //   const updatedContacts = additionalContacts ? [...additionalContacts] : [];
+    //   // Ensure updatedContacts[index] is initialized if it doesn't exist
+    //   if (!updatedContacts[index]) {
+    //     updatedContacts[index] = {};
+    //   }
 
-      // Check if both additionalFirstName and additionalLastName exist in updatedContacts[index]
-      updatedContacts[index] = {
-        ...updatedContacts[index],
-        [splittedName[0]]: value,
-      };
+    //   // Check if both additionalFirstName and additionalLastName exist in updatedContacts[index]
+    //   updatedContacts[index] = {
+    //     ...updatedContacts[index],
+    //     [splittedName[0]]: value,
+    //   };
 
-      // Update additionalContacts state
-      setAdditionalContacts(
-        updatedContacts.filter((contact) => Object.keys(contact).length > 0)
-      );
-      console.log(name, formErrors);
-      // Reset form error for the current input
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: "",
-      }));
-    } else {
-      // Update formFields state
-      setFormFields((prevFields) => ({
-        ...prevFields,
-        [name]: inputValue,
-      }));
-      // Reset form error for the current input
-      setFormErrors((prevErrors) => ({
-        ...prevErrors,
-        [newName]: "",
-      }));
-    }
+    //   // Update additionalContacts state
+    //   setAdditionalContacts(
+    //     updatedContacts.filter((contact) => Object.keys(contact).length > 0)
+    //   );
+    //   // Reset form error for the current input
+    //   setFormErrors((prevErrors) => ({
+    //     ...prevErrors,
+    //     [name]: "",
+    //   }));
+    // } else {
+    // Update formFields state
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: inputValue,
+    }));
+    // Reset form error for the current input
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [newName]: "",
+    }));
+    // }
   };
 
   // default step 0 hoga 0 se start hora
   const [step, setStep] = useState(0);
 
   const handleSwitchCase = () => {
-    window.scrollTo({
-      top: window.innerWidth < 768 ? 1000 : 0,
-      behavior: "smooth",
-    });
+    // window.scrollTo({
+    //   top: window.innerWidth < 768 ? 1000 : 0,
+    //   behavior: "smooth",
+    // });
     switch (step) {
       // iska mtlb ye hai ke step jab 0 hoga to candprofile wala component render hoga
       case 0:
@@ -634,6 +632,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setAddTerritory={setAddTerritory}
             setFormFields={setFormFields}
             setStep={setStep}
+            setFormErrors={setFormErrors}
           />
         );
 
