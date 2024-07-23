@@ -1,5 +1,6 @@
 import React from "react";
 
+import { motion } from "framer-motion";
 const FranchiseCategories = ({ handleSubmit, handleInputChange, setStep }) => {
   const selectData = [
     { name: "advertising", label: "Advertising" },
@@ -48,7 +49,16 @@ const FranchiseCategories = ({ handleSubmit, handleInputChange, setStep }) => {
     { name: "vending", label: "Vending" },
   ];
   return (
-    <div id="fls-criteria" className="candidate-tabs-content">
+    <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        transition: { duration: 3, type: "spring", bounce: 0.2 },
+      }}
+      id="fls-criteria"
+      className="candidate-tabs-content"
+    >
       <h1 className="candidate-sub-heading ">Franchise Categories</h1>
 
       <div id="container2" className="py-4 mb-2">
@@ -125,7 +135,7 @@ const FranchiseCategories = ({ handleSubmit, handleInputChange, setStep }) => {
           </svg>
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

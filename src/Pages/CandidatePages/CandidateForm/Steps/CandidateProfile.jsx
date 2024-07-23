@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import FormFirstRow from "../FormFirstRow";
 import FormSecondRow from "../FormSecondRow";
-import FormThirdRow from "../FormThirdRow";
 import { useQuery } from "react-query";
 
 import data from "../../../../../public/files/data.json"; // Adjust the path if necessary
