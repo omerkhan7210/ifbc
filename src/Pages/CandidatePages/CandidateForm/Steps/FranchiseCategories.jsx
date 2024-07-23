@@ -1,6 +1,11 @@
 import React from "react";
 
-const FranchiseCategories = ({ handleSubmit, handleInputChange, setStep }) => {
+const FranchiseCategories = ({
+  handleSubmit,
+  handleInputChange,
+  setStep,
+  formFields,
+}) => {
   const selectData = [
     { name: "advertising", label: "Advertising" },
     { name: "automotive", label: "Automotive" },
