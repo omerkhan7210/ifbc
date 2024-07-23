@@ -147,8 +147,6 @@ const FormSecondRow = ({
     setSelectedFranchises(selecteddocId);
   };
 
-  console.log(formFields);
-
   return (
     <div id="second-row" className="py-5">
       <h1 className="candidate-sub-heading">

@@ -6,6 +6,7 @@ const Experience = ({
   candDetails,
   candNames,
   selectedDetails,
+  formFields,
 }) => {
   return (
     <motion.div
@@ -19,93 +20,113 @@ const Experience = ({
       className="candidate-tabs-content"
     >
       <h1 className="candidate-sub-heading ">Experience</h1>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
-          Have you ever owned a business before?
-        </p>
-        <input
-          onChange={handleInputChange}
-          name="BusinessBefore"
-          type="text"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.businessBefore }
-            : { defaultValue: candDetails?.businessBefore })}
-        />
+
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-input-container">
+          <p className="candidate-questions">
+            Have you ever owned a business before?
+          </p>
+          <input
+            onChange={handleInputChange}
+            name="BusinessBefore"
+            type="text"
+            className="candidate-input"
+            required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.businessBefore }
+                : { defaultValue: candDetails?.businessBefore }
+              : { value: formFields?.BusinessBefore })}
+          />
+        </div>
+        <div className="candidate-input-container">
+          <p className="candidate-questions">
+            Do you have any marketing experience?
+          </p>
+          <input
+            onChange={handleInputChange}
+            name="MarketingExperience"
+            type="text"
+            className="candidate-input"
+            required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.marketingExperience }
+                : { defaultValue: candDetails?.marketingExperience }
+              : { value: formFields?.MarketingExperience })}
+          />
+        </div>
       </div>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
-          Do you have any marketing experience?
-        </p>
-        <input
-          onChange={handleInputChange}
-          name="MarketingExperience"
-          type="text"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.marketingExperience }
-            : { defaultValue: candDetails?.marketingExperience })}
-        />
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-input-container">
+          <p className="candidate-questions">
+            Do you have any management experience?
+          </p>
+          <input
+            onChange={handleInputChange}
+            name="ManagementExperience"
+            type="text"
+            className="candidate-input"
+            required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.managementExperience }
+                : { defaultValue: candDetails?.managementExperience }
+              : { value: formFields?.ManagementExperience })}
+          />
+        </div>
+        <div className="candidate-input-container">
+          <p className="candidate-questions">Do you have sales experience?</p>
+          <input
+            onChange={handleInputChange}
+            name="SalesExperience"
+            type="text"
+            className="candidate-input"
+            required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.salesExperience }
+                : { defaultValue: candDetails?.salesExperience }
+              : { value: formFields?.SalesExperience })}
+          />
+        </div>
       </div>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
-          Do you have any management experience?
-        </p>
-        <input
-          onChange={handleInputChange}
-          name="ManagementExperience"
-          type="text"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.managementExperience }
-            : { defaultValue: candDetails?.managementExperience })}
-        />
-      </div>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">Do you have sales experience?</p>
-        <input
-          onChange={handleInputChange}
-          name="SalesExperience"
-          type="text"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.salesExperience }
-            : { defaultValue: candDetails?.salesExperience })}
-        />
-      </div>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
-          Do you have experience in reviewing financial statements?
-        </p>
-        <input
-          onChange={handleInputChange}
-          name="ReviewFinancialStatement"
-          type="text"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.reviewFinancialStatement }
-            : { defaultValue: candDetails?.reviewFinancialStatement })}
-        />
-      </div>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
-          Do you have customer service and account management experience?
-        </p>
-        <input
-          onChange={handleInputChange}
-          name="CSExperience"
-          type="text"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.csExperience }
-            : { defaultValue: candDetails?.csExperience })}
-        />
+
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-input-container">
+          <p className="candidate-questions">
+            Do you have experience in reviewing financial statements?
+          </p>
+          <input
+            onChange={handleInputChange}
+            name="ReviewFinancialStatement"
+            type="text"
+            className="candidate-input"
+            required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.reviewFinancialStatement }
+                : { defaultValue: candDetails?.reviewFinancialStatement }
+              : { value: formFields?.ReviewFinancialStatement })}
+          />
+        </div>
+        <div className="candidate-input-container">
+          <p className="candidate-questions">
+            Do you have customer and account management experience?
+          </p>
+          <input
+            onChange={handleInputChange}
+            name="CSExperience"
+            type="text"
+            className="candidate-input"
+            required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.cSExperience }
+                : { defaultValue: candDetails?.cSExperience }
+              : { value: formFields?.CSExperience })}
+          />
+        </div>
       </div>
 
       <div

@@ -7,6 +7,7 @@ const Eligibility = ({
   candNames,
   selectedDetails,
   setStep,
+  formFields,
 }) => {
   const militaryOptions = [
     { value: "", label: "Select one" },
@@ -17,6 +18,7 @@ const Eligibility = ({
     { value: "Conversion", label: "Conversion" },
     { value: "Existing Franchisee", label: "Existing Franchisee" },
   ];
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -100 }}
@@ -30,162 +32,191 @@ const Eligibility = ({
     >
       <h1 className="candidate-sub-heading ">Eligibility</h1>
 
-      <div className="candidate-sub-childs">
-        <p className="candidate-label">What is the value of your 401k/IRA?</p>
-        <input
-          onChange={handleInputChange}
-          name="EligibilityValue"
-          type="number"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.eligibilityValue }
-            : { defaultValue: candDetails?.eligibilityValue })}
-        />
-      </div>
-      <div>
-        <div>
-          <p className="candidate-label">
-            Have you been in the military or could you qualify for a VA loan? Do
-            you qualify for any of these discounts
-          </p>
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-sub-childs">
+          <div>
+            <p className="candidate-label">
+              Have you been in the military or could you qualify for a VA loan?
+              Do you qualify for any of these discounts
+            </p>
+          </div>
+          <select
+            onChange={handleInputChange}
+            name="VALoan"
+            id="Qualify"
+            className="candidate-select w-full"
+          >
+            {militaryOptions.map((option, index) => (
+              <option
+                key={index}
+                value={option.value}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? { selected: selectedDetails?.VALoan === option.value }
+                    : { selected: candDetails?.VALoan === option.value }
+                  : { selected: formFields?.VALoan === option.value })}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
-        <select
-          onChange={handleInputChange}
-          name="VALoan"
-          id="Qualify"
-          className="candidate-select w-full"
-        >
-          {militaryOptions.map((option, index) => (
-            <option
-              key={index}
-              value={option.value}
-              selected={
-                candNames && candNames.length > 0
-                  ? selectedDetails?.vALoan
-                  : candDetails?.vALoan
-              }
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
+
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">
+            Have you or your spouse ever declared bankruptcy? If yes, when was
+            it discharged?
+          </p>
+          <input
+            onChange={handleInputChange}
+            name="Bankruptcy"
+            type="text"
+            className="candidate-input"
+            required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.bankruptcy }
+                : { defaultValue: candDetails?.bankruptcy }
+              : { value: formFields?.Bankruptcy })}
+          />
+        </div>
       </div>
 
-      <div className="flex flex-col">
-        <p className="candidate-label">
-          Have you or your spouse ever been convicted of something other than a
-          minor traffic violation?
-        </p>
-        <ul className="flex mt-3 items-center">
-          <li className="mr-4 flex items-center">
-            <input
-              onChange={handleInputChange}
-              type="radio"
-              className="mr-2"
-              name="TrafficViolation"
-              defaultValue="true"
-              {...(candNames && candNames.length > 0
-                ? { checked: selectedDetails?.trafficViolation === "true" }
-                : {
-                    defaultChecked: candDetails?.trafficViolation === "true",
-                  })}
-            />
-            <label
-              className="candidate-radio-text"
-              htmlFor="Have you or your spouse ever been convicted of something other
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-sub-childs">
+          <p className="candidate-label">What is the value of your 401k/IRA?</p>
+          <input
+            onChange={handleInputChange}
+            name="EligibilityValue"
+            type="number"
+            className="candidate-input"
+            required
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.eligibilityValue }
+                : { defaultValue: candDetails?.eligibilityValue }
+              : { value: formFields?.EligibilityValue })}
+          />
+        </div>
+      </div>
+
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="flex flex-col">
+          <p className="candidate-label">
+            Have you or your spouse ever been convicted of something other than
+            a minor traffic violation?
+          </p>
+          <ul className="flex mt-3 items-center">
+            <li className="mr-4 flex items-center">
+              <input
+                onChange={handleInputChange}
+                type="radio"
+                className="mr-2"
+                name="TrafficViolation"
+                defaultValue="true"
+                {...(candNames
+                  ? candNames.length > 0
+                    ? { checked: selectedDetails?.trafficViolation === "true" }
+                    : {
+                        defaultChecked:
+                          candDetails?.trafficViolation === "true",
+                      }
+                  : { checked: formFields?.TrafficViolation === "true" })}
+              />
+              <label
+                className="candidate-radio-text"
+                htmlFor="Have you or your spouse ever been convicted of something other
           than a minor traffic violation?_yes"
-            >
-              Yes
-            </label>
-          </li>
-          <li className="flex items-center">
-            <input
-              onChange={handleInputChange}
-              type="radio"
-              className="mr-2"
-              name="TrafficViolation"
-              defaultValue="false"
-              {...(candNames && candNames.length > 0
-                ? { checked: selectedDetails?.trafficViolation === "false" }
-                : {
-                    defaultChecked: candDetails?.trafficViolation === "false",
-                  })}
-            />
-            <label
-              className="candidate-radio-text"
-              htmlFor="Have you or your spouse ever been convicted of something other
+              >
+                Yes
+              </label>
+            </li>
+            <li className="flex items-center">
+              <input
+                onChange={handleInputChange}
+                type="radio"
+                className="mr-2"
+                name="TrafficViolation"
+                defaultValue="false"
+                {...(candNames
+                  ? candNames.length > 0
+                    ? { checked: selectedDetails?.trafficViolation === "false" }
+                    : {
+                        defaultChecked:
+                          candDetails?.trafficViolation === "false",
+                      }
+                  : { checked: formFields?.TrafficViolation === "false" })}
+              />
+              <label
+                className="candidate-radio-text"
+                htmlFor="Have you or your spouse ever been convicted of something other
           than a minor traffic violation?_no"
-            >
-              No
-            </label>
-          </li>
-        </ul>
-      </div>
-      <div className="flex flex-col">
-        <p className="candidate-label">
-          Are you or your spouse subject to a pending litigation or unsatisfied
-          judgment?
-        </p>
-        <ul className="flex mt-3 items-center mt-3">
-          <li className="mr-4 flex items-center">
-            <input
-              onChange={handleInputChange}
-              type="radio"
-              className="mr-2"
-              name="Unsatisfiedjudgment"
-              defaultValue="true"
-              {...(candNames && candNames.length > 0
-                ? { checked: selectedDetails?.unSatisfiedJudgment === "true" }
-                : {
-                    defaultChecked: candDetails?.unSatisfiedJudgment === "true",
-                  })}
-            />
-            <label
-              className="candidate-radio-text"
-              htmlFor="Are you or your spouse subject to a pending litigation or unsatisfied judgment?_yes"
-            >
-              Yes
-            </label>
-          </li>
-          <li className="flex items-center">
-            <input
-              onChange={handleInputChange}
-              type="radio"
-              className="mr-2"
-              name="Unsatisfiedjudgment"
-              defaultValue="false"
-              {...(candNames && candNames.length > 0
-                ? { checked: selectedDetails?.unSatisfiedJudgment === "false" }
-                : {
-                    defaultChecked:
-                      candDetails?.unSatisfiedJudgment === "false",
-                  })}
-            />
-            <label
-              className="candidate-radio-text"
-              htmlFor="Are you or your spouse subject to a pending litigation or unsatisfied judgment?_no"
-            >
-              No
-            </label>
-          </li>
-        </ul>
-      </div>
-      <div className="candidate-sub-childs">
-        <p className="candidate-label">
-          Have you or your spouse ever declared bankruptcy? If yes, when was it
-          discharged?
-        </p>
-        <input
-          onChange={handleInputChange}
-          name="Bankruptcy"
-          type="text"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.bankruptcy }
-            : { defaultValue: candDetails?.bankruptcy })}
-        />
+              >
+                No
+              </label>
+            </li>
+          </ul>
+        </div>
+        <div className="flex flex-col">
+          <p className="candidate-label">
+            Are you or your spouse subject to a pending litigation or
+            unsatisfied judgment?
+          </p>
+          <ul className="flex mt-3 items-center mt-3">
+            <li className="mr-4 flex items-center">
+              <input
+                onChange={handleInputChange}
+                type="radio"
+                className="mr-2"
+                name="Unsatisfiedjudgment"
+                defaultValue="true"
+                {...(candNames
+                  ? candNames.length > 0
+                    ? {
+                        checked:
+                          selectedDetails?.unsatisfiedjudgment === "true",
+                      }
+                    : {
+                        defaultChecked:
+                          candDetails?.unsatisfiedjudgment === "true",
+                      }
+                  : { checked: formFields?.Unsatisfiedjudgment === "true" })}
+              />
+              <label
+                className="candidate-radio-text"
+                htmlFor="Are you or your spouse subject to a pending litigation or unsatisfied judgment?_yes"
+              >
+                Yes
+              </label>
+            </li>
+            <li className="flex items-center">
+              <input
+                onChange={handleInputChange}
+                type="radio"
+                className="mr-2"
+                name="Unsatisfiedjudgment"
+                defaultValue="false"
+                {...(candNames
+                  ? candNames.length > 0
+                    ? {
+                        checked:
+                          selectedDetails?.unsatisfiedjudgment === "false",
+                      }
+                    : {
+                        defaultChecked:
+                          candDetails?.unsatisfiedjudgment === "false",
+                      }
+                  : { checked: formFields?.Unsatisfiedjudgment === "false" })}
+              />
+              <label
+                className="candidate-radio-text"
+                htmlFor="Are you or your spouse subject to a pending litigation or unsatisfied judgment?_no"
+              >
+                No
+              </label>
+            </li>
+          </ul>
+        </div>
       </div>
 
       {/* button container */}

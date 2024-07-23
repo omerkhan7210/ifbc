@@ -613,6 +613,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             candNames={candNames}
             selectedDetails={selectedDetails}
             setStep={setStep}
+            formFields={formFields}
           />
         );
 
@@ -627,6 +628,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             candNames={candNames}
             selectedDetails={selectedDetails}
             setStep={setStep}
+            formFields={formFields}
           />
         );
       case 3:
@@ -637,6 +639,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             candNames={candNames}
             selectedDetails={selectedDetails}
             setStep={setStep}
+            formFields={formFields}
           />
         );
 
@@ -648,6 +651,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             candNames={candNames}
             selectedDetails={selectedDetails}
             setStep={setStep}
+            formFields={formFields}
           />
         );
 
@@ -657,6 +661,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setStep={setStep}
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
+            formFields={formFields}
+            candDetails={candDetails}
+            candNames={candNames}
           />
         );
       default:

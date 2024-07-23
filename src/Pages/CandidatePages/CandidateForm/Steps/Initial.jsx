@@ -7,6 +7,7 @@ const Initial = ({
   candNames,
   selectedDetails,
   setStep,
+  formFields,
 }) => {
   const investmentOptions = [
     { value: "", label: "Select one" },
@@ -130,6 +131,7 @@ const Initial = ({
     { value: "Unsure at the moment", label: "Unsure at the moment" },
   ];
   // ye hamara dusra step hai idhr hum log dobara stepper laengay
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -100 }}
@@ -158,227 +160,249 @@ const Initial = ({
         </svg>
         Initial Qualifying
       </h1>
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-sub-childs">
+          <div>
+            <p className="candidate-label">
+              How much money are you wanting to invest in the franchise?
+            </p>
+          </div>
+          <select
+            onChange={handleInputChange}
+            name="InvestmentFranchise"
+            id="money"
+            className="candidate-select"
+          >
+            {investmentOptions.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? {
+                        selected:
+                          selectedDetails?.investmentFranchise === option.value,
+                      }
+                    : {
+                        selected:
+                          candDetails?.investmentFranchise === option.value,
+                      }
+                  : {
+                      selected:
+                        formFields?.InvestmentFranchise === option.value,
+                    })}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="candidate-sub-childs">
+          <div>
+            <p className="candidate-label">Do you have a need for funding?</p>
+          </div>
+          <select
+            onChange={handleInputChange}
+            name="Funding"
+            id="Funding"
+            className="candidate-select"
+          >
+            {fundingOptions.map((option) => (
+              <option
+                key={option.value}
+                value={option.value}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? { selected: selectedDetails?.funding === option.value }
+                    : { selected: candDetails?.funding === option.value }
+                  : { selected: formFields?.Funding === option.value })}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
 
-      <div>
-        <p className="candidate-questions">
-          How much money are you wanting to invest in the franchise?
-        </p>
-      </div>
-      <select
-        onChange={handleInputChange}
-        name="InvestmentFranchise"
-        id="money"
-        className="candidate-select"
-      >
-        {investmentOptions.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-            selected={
-              candNames && candNames.length > 0
-                ? selectedDetails?.investmentFranchise
-                : candDetails?.investmentFranchise
-            }
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-sub-childs">
+          <div>
+            <p className="candidate-label">
+              What is your approximate credit score?
+            </p>
+          </div>
+          <select
+            onChange={handleInputChange}
+            name="CreditScore"
+            id="score"
+            className="candidate-select"
           >
-            {option.label}
-          </option>
-        ))}
-      </select>
+            {creditScoreOptions.map((option, index) => (
+              <option
+                key={index}
+                value={option.value}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? {
+                        selected: selectedDetails?.CreditScore === option.value,
+                      }
+                    : { selected: candDetails?.CreditScore === option.value }
+                  : { selected: formFields?.CreditScore === option.value })}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="candidate-sub-childs">
+          <div>
+            <p className="candidate-label">Net Worth?</p>
+          </div>
+          <select
+            onChange={handleInputChange}
+            name="Networth"
+            id="worth"
+            className="candidate-select"
+          >
+            {netWorthOptions.map((option, index) => (
+              <option
+                key={index}
+                value={option.value}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? { selected: selectedDetails?.Networth === option.value }
+                    : { selected: candDetails?.Networth === option.value }
+                  : { selected: formFields?.Networth === option.value })}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
 
-      <div>
-        <p className="candidate-questions">Do you have a need for funding?</p>
-      </div>
-      <select
-        onChange={handleInputChange}
-        name="Funding"
-        id="Funding"
-        className="candidate-select"
-      >
-        {fundingOptions.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-            selected={
-              candNames && candNames.length > 0
-                ? selectedDetails?.funding
-                : candDetails?.funding
-            }
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-sub-childs">
+          <div>
+            <p className="candidate-label">Liquid Cash?</p>
+          </div>
+          <select
+            onChange={handleInputChange}
+            name="LiquidCash"
+            id="liquid-cash"
+            className="candidate-select"
           >
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <div>
-        <p className="candidate-questions">
-          What is your approximate credit score?
-        </p>
-      </div>
-      <select
-        onChange={handleInputChange}
-        name="CreditScore"
-        id="score"
-        className="candidate-select"
-      >
-        {creditScoreOptions.map((option, index) => (
-          <option
-            key={index}
-            value={option.value}
-            selected={
-              candNames && candNames.length > 0
-                ? selectedDetails?.creditScore
-                : candDetails?.creditScore
-            }
+            {liquidCashOptions.map((option, index) => (
+              <option
+                key={index}
+                value={option.value}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? { selected: selectedDetails?.LiquidCash === option.value }
+                    : { selected: candDetails?.LiquidCash === option.value }
+                  : { selected: formFields?.LiquidCash === option.value })}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="candidate-sub-childs">
+          <div>
+            <p className="candidate-label">
+              What caused you to start looking for a franchise?
+            </p>
+          </div>
+          <select
+            onChange={handleInputChange}
+            name="FranchiseCause"
+            id="franchise"
+            className="candidate-select"
           >
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <div>
-        <p className="candidate-questions">Net Worth?</p>
+            {reasonOptions.map((option, index) => (
+              <option
+                key={index}
+                value={option.value}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? {
+                        selected:
+                          selectedDetails?.FranchiseCause === option.value,
+                      }
+                    : { selected: candDetails?.FranchiseCause === option.value }
+                  : { selected: formFields?.FranchiseCause === option.value })}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-      <select
-        onChange={handleInputChange}
-        name="Networth"
-        id="worth"
-        className="candidate-select"
-      >
-        {netWorthOptions.map((option, index) => (
-          <option
-            key={index}
-            value={option.value}
-            selected={
-              candNames && candNames.length > 0
-                ? selectedDetails?.netWorth
-                : candDetails?.netWorth
-            }
+
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-sub-childs">
+          <div>
+            <p className="candidate-label">
+              What is your professional background?
+            </p>
+          </div>
+          <select
+            onChange={handleInputChange}
+            name="ProfessionalBackground"
+            id="background"
+            className="candidate-select"
           >
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <div>
-        <p className="candidate-questions">Liquid Cash?</p>
-      </div>
-      <select
-        onChange={handleInputChange}
-        name="LiquidCash"
-        id="liquid-cash"
-        className="candidate-select"
-      >
-        {liquidCashOptions.map((option, index) => (
-          <option
-            key={index}
-            value={option.value}
-            selected={
-              candNames && candNames.length > 0
-                ? selectedDetails?.liquidCash
-                : candDetails?.liquidCash
-            }
+            {backgroundOptions.map((option, index) => (
+              <option
+                key={index}
+                value={option.value}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? {
+                        selected:
+                          selectedDetails?.ProfessionalBackground ===
+                          option.value,
+                      }
+                    : {
+                        selected:
+                          candDetails?.ProfessionalBackground === option.value,
+                      }
+                  : {
+                      selected:
+                        formFields?.ProfessionalBackground === option.value,
+                    })}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="candidate-sub-childs">
+          <div>
+            <p className="candidate-label">What is your time frame?</p>
+          </div>
+          <select
+            onChange={handleInputChange}
+            name="TimeFrame"
+            id="time-frame"
+            className="candidate-select"
           >
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <div>
-        <p className="candidate-questions">
-          What caused you to start looking for a franchise?
-        </p>
-      </div>
-      <select
-        onChange={handleInputChange}
-        name="FranchiseCause"
-        id="franchise"
-        className="candidate-select"
-      >
-        {reasonOptions.map((option, index) => (
-          <option
-            key={index}
-            value={option.value}
-            selected={
-              candNames && candNames.length > 0
-                ? selectedDetails?.franchiseCause
-                : candDetails?.franchiseCause
-            }
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <div>
-        <p className="candidate-questions">
-          What is your professional background?
-        </p>
-      </div>
-      <select
-        onChange={handleInputChange}
-        name="ProfessionalBackground"
-        id="background"
-        className="candidate-select"
-      >
-        {backgroundOptions.map((option, index) => (
-          <option
-            key={index}
-            value={option.value}
-            selected={
-              candNames && candNames.length > 0
-                ? selectedDetails?.professionalBackground
-                : candDetails?.professionalBackground
-            }
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <div className="candidate-input-container">
-        <p className="candidate-questions">
-          What franchises are you interested in?
-        </p>
-        <input
-          onChange={handleInputChange}
-          type="text"
-          name="FranchiseInterested"
-          className="candidate-input"
-          required
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.franchiseInterested }
-            : { defaultValue: candDetails?.franchiseInterested })}
-        />
-      </div>
-      <div>
-        <p className="candidate-questions">What is your time frame?</p>
-      </div>
-      <select
-        onChange={handleInputChange}
-        name="TimeFrame"
-        id="time-frame"
-        className="candidate-select"
-      >
-        {timeFrameOptions.map((option, index) => (
-          <option
-            key={index}
-            value={option.value}
-            selected={
-              candNames && candNames.length > 0
-                ? selectedDetails?.timeFrame
-                : candDetails?.timeFrame
-            }
-          >
-            {option.label}
-          </option>
-        ))}
-      </select>
-      <div className="mt-5">
-        <label htmlFor="message" className="candidate-questions">
-          Notes
-        </label>
-        <textarea
-          onChange={handleInputChange}
-          name="InitialQualifyingNote"
-          id="message"
-          rows={3}
-          className="candidate-input"
-          defaultValue={candDetails?.InitialQualifyingNote}
-        />
+            {timeFrameOptions.map((option, index) => (
+              <option
+                key={index}
+                value={option.value}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? { selected: selectedDetails?.TimeFrame === option.value }
+                    : { selected: candDetails?.TimeFrame === option.value }
+                  : { selected: formFields?.TimeFrame === option.value })}
+              >
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
 
       {/* button container */}
