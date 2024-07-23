@@ -339,7 +339,6 @@ const FormFirstRow = ({
             style={{
               borderColor: formErrors?.additionalFirstName ? "red" : undefined,
             }}
-            required
             // defaultValue={contact ? contact.firstName : ""}
             {...(candNames
               ? candNames.length > 0
@@ -358,7 +357,6 @@ const FormFirstRow = ({
             style={{
               borderColor: formErrors?.additionalLastName ? "red" : undefined,
             }}
-            required
             {...(candNames
               ? candNames.length > 0
                 ? { value: selectedDetails?.additionalLastName }
@@ -382,7 +380,6 @@ const FormFirstRow = ({
             style={{
               borderColor: formErrors?.additionalPhone ? "red" : undefined,
             }}
-            required
             {...(candNames
               ? candNames.length > 0
                 ? { value: selectedDetails?.additionalPhone }
@@ -401,7 +398,6 @@ const FormFirstRow = ({
             style={{
               borderColor: formErrors?.additionalEmail ? "red" : undefined,
             }}
-            required
             {...(candNames
               ? candNames.length > 0
                 ? { value: selectedDetails?.additionalEmail }

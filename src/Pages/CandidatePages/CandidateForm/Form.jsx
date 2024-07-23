@@ -662,6 +662,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
             formFields={formFields}
+            candDetails={candDetails}
+            candNames={candNames}
           />
         );
       default:

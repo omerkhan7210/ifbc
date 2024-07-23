@@ -1,10 +1,13 @@
 import React from "react";
+import handleInputChange from "src/Utils/handleInputChange";
 
 const FranchiseCategories = ({
   handleSubmit,
   handleInputChange,
   setStep,
   formFields,
+  candDetails,
+  candNames,
 }) => {
   const selectData = [
     { name: "advertising", label: "Advertising" },
@@ -52,6 +55,8 @@ const FranchiseCategories = ({
     { name: "travelplanning", label: "Travel Planning" },
     { name: "vending", label: "Vending" },
   ];
+
+  console.log(formFields);
   return (
     <div id="fls-criteria" className="candidate-tabs-content">
       <h1 className="candidate-sub-heading ">Franchise Categories</h1>
@@ -77,7 +82,13 @@ const FranchiseCategories = ({
                 <span className="text-black">{item.label}</span>
               </label>
             </div>
-            <Select name={item.name} onChange={handleInputChange} />
+            <Select
+              name={item.name}
+              handleInputChange={handleInputChange}
+              candNames={candNames}
+              formFields={formFields}
+              candDetails={candDetails}
+            />
           </div>
         ))}
         {/* <h1 className="text-lg text-[#2176ff] font-bold">FLS Filters</h1> */}
@@ -134,22 +145,49 @@ const FranchiseCategories = ({
   );
 };
 
-const Select = ({ name }) => {
+const Select = ({ name, handleInputChange, candNames, formFields }) => {
+  const franchiseRating = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
   return (
     <div className="mt-2">
       <div className="mr-4 w-full">
-        <select id={name} name={name} className=" candidate-select w-full">
+        <select
+          onChange={handleInputChange}
+          id={name}
+          name={name}
+          className=" candidate-select w-full"
+        >
           <option selected>Select a rating</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
+          {franchiseRating.map((option, index) => {
+            console.log(formFields && formFields[name]);
+            return (
+              <option
+                key={index}
+                value={option}
+                {...(candNames
+                  ? candNames.length > 0
+                    ? {
+                        selected:
+                          selectedDetails &&
+                          selectedDetails[name] &&
+                          selectedDetails[name] === option,
+                      }
+                    : {
+                        selected:
+                          candDetails &&
+                          candDetails[name] &&
+                          candDetails[name] === option,
+                      }
+                  : {
+                      selected:
+                        formFields &&
+                        formFields[name] &&
+                        formFields[name] === option,
+                    })}
+              >
+                {option}
+              </option>
+            );
+          })}
         </select>
       </div>
     </div>
