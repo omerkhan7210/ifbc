@@ -215,7 +215,7 @@ const FormSecondRow = ({
             Requested Territory Zip / Postal Code*
           </p>
           <input
-            type="number"
+            type="tel"
             name="territoryzipcode"
             className="candidate-input w-full"
             style={{
@@ -349,7 +349,7 @@ const FormSecondRow = ({
         <div className="candidate-sub-childs">
           <p className="candidate-label"> Current Zip / Postal Code*</p>
           <input
-            type="number"
+            type="tel"
             name="currentzipcode"
             className="candidate-input w-full"
             style={{

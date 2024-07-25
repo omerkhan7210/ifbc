@@ -141,7 +141,7 @@ const Initial = ({
         transition: { duration: 3, type: "spring", bounce: 0.2 },
       }}
       id="initial-qualifying"
-      className="candidate-tabs-content"
+      className="md:max-w-3xl md:mx-auto max-md:mx-5"
     >
       <h1 className="candidate-sub-heading ">
         <svg
@@ -199,7 +199,9 @@ const Initial = ({
         </div>
         <div className="candidate-sub-childs">
           <div>
-            <p className="candidate-label">Do you have a need for funding?</p>
+            <p className="candidate-label md:mb-5">
+              Do you have a need for funding?
+            </p>
           </div>
           <select
             onChange={handleInputChange}
@@ -281,8 +283,8 @@ const Initial = ({
         </div>
       </div>
 
-      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
-        <div className="candidate-sub-childs">
+      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col">
+        <div className="candidate-sub-childs ">
           <div>
             <p className="candidate-label">Liquid Cash?</p>
           </div>
@@ -307,7 +309,7 @@ const Initial = ({
             ))}
           </select>
         </div>
-        <div className="candidate-sub-childs">
+        <div className="candidate-sub-childs md:w-[49%]">
           <div>
             <p className="candidate-label">
               What caused you to start looking for a franchise?
@@ -429,13 +431,13 @@ const Initial = ({
               d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
             />
           </svg>
-          Candidate Profile
+          Previous
         </button>
         <button
           className="candidate-btn w-72 flex items-center justify-between"
           onClick={() => setStep((prevStep) => prevStep + 1)}
         >
-          Eligibility
+          Next
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

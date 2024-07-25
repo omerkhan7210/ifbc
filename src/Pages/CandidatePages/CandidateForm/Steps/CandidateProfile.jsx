@@ -258,7 +258,7 @@ const CandidateProfile = ({
   };
 
   return (
-    <div className="candidate-tabs-content">
+    <div className="md:max-w-3xl md:mx-auto max-md:mx-5">
       {" "}
       <FormFirstRow
         handleInputChange={handleInputChange}
@@ -310,7 +310,7 @@ const CandidateProfile = ({
           className="candidate-btn w-72 flex items-center justify-between"
           onClick={handleCanProfile}
         >
-          Initial Qualifying
+          Next
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

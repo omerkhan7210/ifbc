@@ -10,7 +10,7 @@ const Wants = ({
 }) => {
   console.log(formFields);
   return (
-    <div id="wants" className="candidate-tabs-content">
+    <div id="wants" className="md:max-w-3xl md:mx-auto max-md:mx-5">
       <h1 className="candidate-sub-heading ">Wants</h1>
 
       <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
@@ -536,13 +536,13 @@ const Wants = ({
               d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
             />
           </svg>
-          Experience
+          Previous
         </button>
         <button
           className="candidate-btn w-72 flex items-center justify-between"
           onClick={() => setStep((prevStep) => prevStep + 1)}
         >
-          Franchise Category
+          Next
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

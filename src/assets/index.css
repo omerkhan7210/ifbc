@@ -16,23 +16,23 @@
 }
 .candidate-funding-btn {
   @apply border
-  text-center border-custom-dark-blue text-custom-dark-blue px-5 rounded transition-all duration-500 py-2  font-semibold;
+  text-center border-custom-dark-blue text-custom-dark-blue p-1.5 rounded transition-all duration-500   font-semibold;
 }
 
 .candidate-input {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block p-1.5 focus:outline-none focus:ring-1;
 }
 
 .contact-input {
-  @apply bg-gray-50  text-gray-800 text-sm   block p-2 focus:outline-none placeholder:text-xs placeholder:text-gray-400;
+  @apply bg-gray-50  text-gray-800 text-sm   block p-1 focus:outline-none placeholder:text-xs placeholder:text-gray-400;
 }
 
 .contact-select {
-  @apply bg-gray-50  text-gray-700   block p-2 text-sm focus:outline-none placeholder:text-sm placeholder:text-gray-400;
+  @apply bg-gray-50  text-gray-700   block p-1 text-sm focus:outline-none placeholder:text-sm placeholder:text-gray-400;
 }
 
 .candidate-normal-input {
-  @apply bg-gray-50 border border-custom-grey text-custom-dark-blue text-sm  block p-2.5 focus:outline-none focus:ring-1;
+  @apply bg-gray-50 border border-custom-grey text-custom-dark-blue text-sm  block p-1 focus:outline-none focus:ring-1;
 }
 
 .candidate-label {
@@ -58,7 +58,7 @@
 }
 
 .candidate-select {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue font-bold text-sm  block p-2.5 focus:outline-none focus:ring-1;
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue font-bold text-sm  block p-1.5 focus:outline-none focus:ring-1;
 }
 
 .candidate-tabs-content {
@@ -114,7 +114,7 @@
 }
 
 .funding-questions {
-  @apply text-black max-md:text-sm md:text-lg mb-2;
+  @apply text-black max-md:text-sm md:text-lg;
 }
 
 .candidate-profile-icons {

@@ -17,7 +17,7 @@ const Experience = ({
         transition: { duration: 3, type: "spring", bounce: 0.2 },
       }}
       id="experience"
-      className="candidate-tabs-content"
+      className="md:max-w-3xl md:mx-auto max-md:mx-5"
     >
       <h1 className="candidate-sub-heading ">Experience</h1>
 
@@ -152,13 +152,13 @@ const Experience = ({
               d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
             />
           </svg>
-          Eligibility
+          Previous
         </button>
         <button
           className="candidate-btn w-72 flex items-center justify-between"
           onClick={() => setStep((prevStep) => prevStep + 1)}
         >
-          Wants
+          Next
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

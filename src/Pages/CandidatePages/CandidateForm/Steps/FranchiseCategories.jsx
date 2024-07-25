@@ -58,7 +58,7 @@ const FranchiseCategories = ({
 
   console.log(formFields);
   return (
-    <div id="fls-criteria" className="candidate-tabs-content">
+    <div id="fls-criteria" className="md:max-w-3xl md:mx-auto max-md:mx-5">
       <h1 className="candidate-sub-heading ">Franchise Categories</h1>
 
       <div id="container2" className="py-4 mb-2">
@@ -118,7 +118,7 @@ const FranchiseCategories = ({
               d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
             />
           </svg>
-          Wants
+          Previous
         </button>
         <button
           className="candidate-btn w-72 flex items-center justify-between"

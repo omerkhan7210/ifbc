@@ -576,7 +576,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               className="candidate-input w-full"
               style={{ borderColor: formErrors.zipcode ? "red" : undefined }}
               id="zip"
-              type="number"
+              type="tel"
             />
           </div>
         </div>

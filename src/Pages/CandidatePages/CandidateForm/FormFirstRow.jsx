@@ -265,7 +265,7 @@ const FormFirstRow = ({
           <p className="candidate-label">Phone Number*</p>
 
           <input
-            type="number"
+            type="tel"
             name="phone"
             className="candidate-input w-full"
             style={{
