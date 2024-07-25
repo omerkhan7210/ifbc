@@ -1,6 +1,6 @@
 import React from "react";
-import handleInputChange from "src/Utils/handleInputChange";
 
+import { motion } from "framer-motion";
 const FranchiseCategories = ({
   handleSubmit,
   handleInputChange,

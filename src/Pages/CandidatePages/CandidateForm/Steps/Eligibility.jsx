@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const Eligibility = ({
   handleInputChange,
@@ -19,7 +20,16 @@ const Eligibility = ({
   ];
 
   return (
-    <div id="eligibility" className="md:max-w-3xl md:mx-auto max-md:mx-5">
+    <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        transition: { duration: 3, type: "spring", bounce: 0.2 },
+      }}
+      id="eligibility"
+      className="candidate-tabs-content"
+    >
       <h1 className="candidate-sub-heading ">Eligibility</h1>
 
       <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
@@ -152,7 +162,7 @@ const Eligibility = ({
             Are you or your spouse subject to a pending litigation or
             unsatisfied judgment?
           </p>
-          <ul className="flex mt-3 items-center mt-3">
+          <ul className="flex items-center mt-3">
             <li className="mr-4 flex items-center">
               <input
                 onChange={handleInputChange}
@@ -257,7 +267,7 @@ const Eligibility = ({
           </svg>
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -349,7 +349,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
         timeFrame: formFields.timeFrame ?? "1-3 months",
         availCapital: formFields.availCapital ?? "Less than $10,000",
         newsletter: formFields.newsletter ?? false,
-        cartListings: JSON.stringify(cartListings),
+        cartListings: "1,2,3",
       };
 
       const jsonData = JSON.stringify(formData);
