@@ -506,7 +506,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               className="candidate-input"
               style={{ borderColor: formErrors.phone ? "red" : undefined }}
               id="phone"
-              type="number"
+              type="tel"
               defaultValue={""}
             />{" "}
             {formErrors.phone && formErrors.phone === "invalid" && (

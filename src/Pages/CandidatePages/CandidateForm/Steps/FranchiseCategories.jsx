@@ -56,7 +56,6 @@ const FranchiseCategories = ({
     { name: "vending", label: "Vending" },
   ];
 
-  console.log(formFields);
   return (
     <div id="fls-criteria" className="md:max-w-3xl md:mx-auto max-md:mx-5">
       <h1 className="candidate-sub-heading ">Franchise Categories</h1>
