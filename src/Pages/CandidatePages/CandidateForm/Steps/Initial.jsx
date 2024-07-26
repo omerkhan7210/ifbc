@@ -140,319 +140,343 @@ const Initial = ({
         x: 0,
         transition: { duration: 3, type: "spring", bounce: 0.2 },
       }}
-      id="initial-qualifying"
-      className="md:max-w-3xl md:mx-auto max-md:mx-5"
+      id="eligibility"
+      className="candidate-tabs-content"
     >
-      <h1 className="candidate-sub-heading ">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="size-9"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-          />
-        </svg>
-        Initial Qualifying
-      </h1>
-      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
-        <div className="candidate-sub-childs">
-          <div>
-            <p className="candidate-label">
-              How much money are you wanting to invest in the franchise?
-            </p>
-          </div>
-          <select
-            onChange={handleInputChange}
-            name="InvestmentFranchise"
-            id="money"
-            className="candidate-select"
-          >
-            {investmentOptions.map((option) => (
-              <option
-                key={option.value}
-                value={option.value}
-                {...(candNames
-                  ? candNames.length > 0
-                    ? {
-                        selected:
-                          selectedDetails?.investmentFranchise === option.value,
-                      }
-                    : {
-                        selected:
-                          candDetails?.investmentFranchise === option.value,
-                      }
-                  : {
-                      selected:
-                        formFields?.InvestmentFranchise === option.value,
-                    })}
-              >
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="candidate-sub-childs">
-          <div>
-            <p className="candidate-label md:mb-5">
-              Do you have a need for funding?
-            </p>
-          </div>
-          <select
-            onChange={handleInputChange}
-            name="Funding"
-            id="Funding"
-            className="candidate-select"
-          >
-            {fundingOptions.map((option) => (
-              <option
-                key={option.value}
-                value={option.value}
-                {...(candNames
-                  ? candNames.length > 0
-                    ? { selected: selectedDetails?.funding === option.value }
-                    : { selected: candDetails?.funding === option.value }
-                  : { selected: formFields?.Funding === option.value })}
-              >
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
-        <div className="candidate-sub-childs">
-          <div>
-            <p className="candidate-label">
-              What is your approximate credit score?
-            </p>
-          </div>
-          <select
-            onChange={handleInputChange}
-            name="CreditScore"
-            id="score"
-            className="candidate-select"
-          >
-            {creditScoreOptions.map((option, index) => (
-              <option
-                key={index}
-                value={option.value}
-                {...(candNames
-                  ? candNames.length > 0
-                    ? {
-                        selected: selectedDetails?.CreditScore === option.value,
-                      }
-                    : { selected: candDetails?.CreditScore === option.value }
-                  : { selected: formFields?.CreditScore === option.value })}
-              >
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="candidate-sub-childs">
-          <div>
-            <p className="candidate-label">Net Worth?</p>
-          </div>
-          <select
-            onChange={handleInputChange}
-            name="Networth"
-            id="worth"
-            className="candidate-select"
-          >
-            {netWorthOptions.map((option, index) => (
-              <option
-                key={index}
-                value={option.value}
-                {...(candNames
-                  ? candNames.length > 0
-                    ? { selected: selectedDetails?.Networth === option.value }
-                    : { selected: candDetails?.Networth === option.value }
-                  : { selected: formFields?.Networth === option.value })}
-              >
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col">
-        <div className="candidate-sub-childs ">
-          <div>
-            <p className="candidate-label">Liquid Cash?</p>
-          </div>
-          <select
-            onChange={handleInputChange}
-            name="LiquidCash"
-            id="liquid-cash"
-            className="candidate-select"
-          >
-            {liquidCashOptions.map((option, index) => (
-              <option
-                key={index}
-                value={option.value}
-                {...(candNames
-                  ? candNames.length > 0
-                    ? { selected: selectedDetails?.LiquidCash === option.value }
-                    : { selected: candDetails?.LiquidCash === option.value }
-                  : { selected: formFields?.LiquidCash === option.value })}
-              >
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="candidate-sub-childs md:w-[49%]">
-          <div>
-            <p className="candidate-label">
-              What caused you to start looking for a franchise?
-            </p>
-          </div>
-          <select
-            onChange={handleInputChange}
-            name="FranchiseCause"
-            id="franchise"
-            className="candidate-select"
-          >
-            {reasonOptions.map((option, index) => (
-              <option
-                key={index}
-                value={option.value}
-                {...(candNames
-                  ? candNames.length > 0
-                    ? {
-                        selected:
-                          selectedDetails?.FranchiseCause === option.value,
-                      }
-                    : { selected: candDetails?.FranchiseCause === option.value }
-                  : { selected: formFields?.FranchiseCause === option.value })}
-              >
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
-        <div className="candidate-sub-childs">
-          <div>
-            <p className="candidate-label">
-              What is your professional background?
-            </p>
-          </div>
-          <select
-            onChange={handleInputChange}
-            name="ProfessionalBackground"
-            id="background"
-            className="candidate-select"
-          >
-            {backgroundOptions.map((option, index) => (
-              <option
-                key={index}
-                value={option.value}
-                {...(candNames
-                  ? candNames.length > 0
-                    ? {
-                        selected:
-                          selectedDetails?.ProfessionalBackground ===
-                          option.value,
-                      }
-                    : {
-                        selected:
-                          candDetails?.ProfessionalBackground === option.value,
-                      }
-                  : {
-                      selected:
-                        formFields?.ProfessionalBackground === option.value,
-                    })}
-              >
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="candidate-sub-childs">
-          <div>
-            <p className="candidate-label">What is your time frame?</p>
-          </div>
-          <select
-            onChange={handleInputChange}
-            name="TimeFrame"
-            id="time-frame"
-            className="candidate-select"
-          >
-            {timeFrameOptions.map((option, index) => (
-              <option
-                key={index}
-                value={option.value}
-                {...(candNames
-                  ? candNames.length > 0
-                    ? { selected: selectedDetails?.TimeFrame === option.value }
-                    : { selected: candDetails?.TimeFrame === option.value }
-                  : { selected: formFields?.TimeFrame === option.value })}
-              >
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      {/* button container */}
-      <div
-        id="button-container-initial"
-        className="flex justify-center items-center mt-5 md:gap-10 max-md:flex-col max-md:gap-5"
-      >
-        <button
-          className="candidate-btn w-72 flex items-center justify-between"
-          onClick={() => setStep((prevStep) => prevStep - 1)}
-        >
-          {" "}
+      <div className="md:max-w-3xl md:mx-auto max-md:mx-5 md:ml-[100px] md:mr-[100px]">
+        <h1 className="candidate-sub-heading ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="size-6"
+            className="size-9"
           >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+              d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
             />
           </svg>
-          Previous
-        </button>
-        <button
-          className="candidate-btn w-72 flex items-center justify-between"
-          onClick={() => setStep((prevStep) => prevStep + 1)}
-        >
-          Next
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
+          Initial Qualifying
+        </h1>
+        <div className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]">
+          <div className="candidate-sub-childs">
+            <div>
+              <p className="candidate-label">
+                How much money are you wanting to invest in the franchise?
+              </p>
+            </div>
+            <select
+              onChange={handleInputChange}
+              name="InvestmentFranchise"
+              id="money"
+              className="candidate-select "
+            >
+              {investmentOptions.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? {
+                          selected:
+                            selectedDetails?.investmentFranchise ===
+                            option.value,
+                        }
+                      : {
+                          selected:
+                            candDetails?.investmentFranchise === option.value,
+                        }
+                    : {
+                        selected:
+                          formFields?.InvestmentFranchise === option.value,
+                      })}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="candidate-sub-childs">
+            <div>
+              <p className="candidate-label md:mb-5">
+                Do you have a need for funding?
+              </p>
+            </div>
+            <select
+              onChange={handleInputChange}
+              name="Funding"
+              id="Funding"
+              className="candidate-select "
+            >
+              {fundingOptions.map((option) => (
+                <option
+                  key={option.value}
+                  value={option.value}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? { selected: selectedDetails?.funding === option.value }
+                      : { selected: candDetails?.funding === option.value }
+                    : { selected: formFields?.Funding === option.value })}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+          <div className="candidate-sub-childs">
+            <div>
+              <p className="candidate-label">
+                What is your approximate credit score?
+              </p>
+            </div>
+            <select
+              onChange={handleInputChange}
+              name="CreditScore"
+              id="score"
+              className="candidate-select"
+            >
+              {creditScoreOptions.map((option, index) => (
+                <option
+                  key={index}
+                  value={option.value}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? {
+                          selected:
+                            selectedDetails?.CreditScore === option.value,
+                        }
+                      : { selected: candDetails?.CreditScore === option.value }
+                    : { selected: formFields?.CreditScore === option.value })}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="candidate-sub-childs">
+            <div>
+              <p className="candidate-label md:mb-5">Net Worth?</p>
+            </div>
+            <select
+              onChange={handleInputChange}
+              name="Networth"
+              id="worth"
+              className="candidate-select"
+            >
+              {netWorthOptions.map((option, index) => (
+                <option
+                  key={index}
+                  value={option.value}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? { selected: selectedDetails?.Networth === option.value }
+                      : { selected: candDetails?.Networth === option.value }
+                    : { selected: formFields?.Networth === option.value })}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col">
+          <div className="candidate-sub-childs ">
+            <div>
+              <p className="candidate-label md:mb-5">Liquid Cash?</p>
+            </div>
+            <select
+              onChange={handleInputChange}
+              name="LiquidCash"
+              id="liquid-cash"
+              className="candidate-select"
+            >
+              {liquidCashOptions.map((option, index) => (
+                <option
+                  key={index}
+                  value={option.value}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? {
+                          selected:
+                            selectedDetails?.LiquidCash === option.value,
+                        }
+                      : { selected: candDetails?.LiquidCash === option.value }
+                    : { selected: formFields?.LiquidCash === option.value })}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="candidate-sub-childs">
+            <div>
+              <p className="candidate-label">
+                What caused you to start looking <br></br> for a franchise?
+              </p>
+            </div>
+            <select
+              onChange={handleInputChange}
+              name="FranchiseCause"
+              id="franchise"
+              className="candidate-select"
+            >
+              {reasonOptions.map((option, index) => (
+                <option
+                  key={index}
+                  value={option.value}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? {
+                          selected:
+                            selectedDetails?.FranchiseCause === option.value,
+                        }
+                      : {
+                          selected:
+                            candDetails?.FranchiseCause === option.value,
+                        }
+                    : {
+                        selected: formFields?.FranchiseCause === option.value,
+                      })}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+          <div className="candidate-sub-childs">
+            <div>
+              <p className="candidate-label">
+                What is your professional background?
+              </p>
+            </div>
+            <select
+              onChange={handleInputChange}
+              name="ProfessionalBackground"
+              id="background"
+              className="candidate-select"
+            >
+              {backgroundOptions.map((option, index) => (
+                <option
+                  key={index}
+                  value={option.value}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? {
+                          selected:
+                            selectedDetails?.ProfessionalBackground ===
+                            option.value,
+                        }
+                      : {
+                          selected:
+                            candDetails?.ProfessionalBackground ===
+                            option.value,
+                        }
+                    : {
+                        selected:
+                          formFields?.ProfessionalBackground === option.value,
+                      })}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="candidate-sub-childs">
+            <div>
+              <p className="candidate-label md:mb-5">
+                What is your time frame?
+              </p>
+            </div>
+            <select
+              onChange={handleInputChange}
+              name="TimeFrame"
+              id="time-frame"
+              className="candidate-select"
+            >
+              {timeFrameOptions.map((option, index) => (
+                <option
+                  key={index}
+                  value={option.value}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? {
+                          selected: selectedDetails?.TimeFrame === option.value,
+                        }
+                      : { selected: candDetails?.TimeFrame === option.value }
+                    : { selected: formFields?.TimeFrame === option.value })}
+                >
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* button container */}
+        <div className="flex md:flex-row md:gap-[200px] max-sm:flex-col ">
+          <div
+            id="button-container-initial"
+            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-            />
-          </svg>
-        </button>
+            <button
+              className="candidate-btn w-40 flex items-center justify-between"
+              onClick={() => setStep((prevStep) => prevStep - 1)}
+            >
+              {" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+                />
+              </svg>
+              Previous
+            </button>
+          </div>
+          <div
+            id="button-container-initial"
+            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+          >
+            <button
+              className="candidate-btn  w-40  flex items-center justify-between"
+              onClick={() => setStep((prevStep) => prevStep + 1)}
+            >
+              Next
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </motion.div>
   );

@@ -163,7 +163,7 @@ const FormFirstRow = ({
   console.log(formFields);
   return (
     <div id="first-row" className={`${candDetails ? "" : "py-10"} py-5`}>
-      <h1 className="candidate-sub-heading ">
+      <h1 className="candidate-sub-heading md:mr-20">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -330,7 +330,7 @@ const FormFirstRow = ({
         className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
       >
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Partner/Candidate First Name</p>
+          <p className="candidate-label">Candidate First Name</p>
           <input
             onChange={handleInputChange}
             type="text"
@@ -348,7 +348,7 @@ const FormFirstRow = ({
           />
         </div>
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Partner/Candidate Last Name</p>
+          <p className="candidate-label">Candidate Last Name</p>
           <input
             onChange={handleInputChange}
             type="text"
@@ -371,7 +371,7 @@ const FormFirstRow = ({
         className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
       >
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Partner/Candidate Phone Number</p>
+          <p className="candidate-label">Candidate Phone Number</p>
           <input
             onChange={handleInputChange}
             type="tel"
@@ -389,7 +389,7 @@ const FormFirstRow = ({
           />
         </div>
         <div className="candidate-sub-childs">
-          <p className="candidate-label">Partner/Candidate Email</p>
+          <p className="candidate-label">Candidate Email</p>
           <input
             onChange={handleInputChange}
             type="email"
@@ -406,34 +406,31 @@ const FormFirstRow = ({
             // defaultValue={contact ? contact.email : ""}
           />
         </div>
-
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">Relationship to Primary Candidate</p>
-          <select
-            onChange={handleInputChange}
-            className="candidate-input"
-            style={{
-              borderColor: formErrors?.additionalRelationship
-                ? "red"
-                : undefined,
-            }}
-            name={`additionalRelationship`}
-          >
-            <option value="">Select One</option>
-            {relationships.map((relationship, idx) => (
-              <option
-                key={idx}
-                value={relationship}
-                selected={formFields?.additionalRelationship === relationship}
-                // selected={
-                //   contact ? contact.relationShip === relationship : false
-                // }
-              >
-                {relationship}
-              </option>
-            ))}
-          </select>
-        </div>
+      </div>
+      <div className="candidate-sub-childs">
+        <p className="candidate-label">Relationship</p>
+        <select
+          onChange={handleInputChange}
+          className="candidate-input"
+          style={{
+            borderColor: formErrors?.additionalRelationship ? "red" : undefined,
+          }}
+          name={`additionalRelationship`}
+        >
+          <option value="">Select One</option>
+          {relationships.map((relationship, idx) => (
+            <option
+              key={idx}
+              value={relationship}
+              selected={formFields?.additionalRelationship === relationship}
+              // selected={
+              //   contact ? contact.relationShip === relationship : false
+              // }
+            >
+              {relationship}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* {contacts && contacts.length > 0 && (

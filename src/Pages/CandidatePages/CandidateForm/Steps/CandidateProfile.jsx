@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FormFirstRow from "../FormFirstRow";
 import FormSecondRow from "../FormSecondRow";
 import { useQuery } from "react-query";
+import { motion } from "framer-motion";
 
 import data from "../../../../../public/files/data.json"; // Adjust the path if necessary
 import {
@@ -257,38 +258,48 @@ const CandidateProfile = ({
   };
 
   return (
-    <div className="md:max-w-3xl md:mx-auto max-md:mx-5">
-      {" "}
-      <FormFirstRow
-        handleInputChange={handleInputChange}
-        formErrors={formErrors}
-        candDetails={candDetails}
-        candNames={candNames}
-        setSelectedDocId={setSelectedDocId}
-        selectedDocId={selectedDocId}
-        selectedDetails={selectedDetails}
-        addContacts={addContacts}
-        setAddContacts={setAddContacts}
-        contacts={contacts}
-        formFields={formFields}
-      />
-      <FormSecondRow
-        stateDD={stateDD}
-        handleInputChange={handleInputChange}
-        formErrors={formErrors}
-        candDetails={candDetails}
-        candNames={candNames}
-        selectedDetails={selectedDetails}
-        selectedStateT={selectedStateT}
-        formFields={formFields}
-        citiesT={citiesT}
-        addTerritory={addTerritory}
-        setAddTerritory={setAddTerritory}
-        territorys={territorys}
-        citiesC={citiesC}
-        listingNames={listingNames}
-      />
-      {/* <FormThirdRow
+    <motion.div
+      initial={{ opacity: 0, x: -100 }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        transition: { duration: 3, type: "spring", bounce: 0.2 },
+      }}
+      id="eligibility"
+      className="candidate-tabs-content"
+    >
+      <div className="md:max-w-3xl md:mx-auto max-md:mx-5">
+        {" "}
+        <FormFirstRow
+          handleInputChange={handleInputChange}
+          formErrors={formErrors}
+          candDetails={candDetails}
+          candNames={candNames}
+          setSelectedDocId={setSelectedDocId}
+          selectedDocId={selectedDocId}
+          selectedDetails={selectedDetails}
+          addContacts={addContacts}
+          setAddContacts={setAddContacts}
+          contacts={contacts}
+          formFields={formFields}
+        />
+        <FormSecondRow
+          stateDD={stateDD}
+          handleInputChange={handleInputChange}
+          formErrors={formErrors}
+          candDetails={candDetails}
+          candNames={candNames}
+          selectedDetails={selectedDetails}
+          selectedStateT={selectedStateT}
+          formFields={formFields}
+          citiesT={citiesT}
+          addTerritory={addTerritory}
+          setAddTerritory={setAddTerritory}
+          territorys={territorys}
+          citiesC={citiesC}
+          listingNames={listingNames}
+        />
+        {/* <FormThirdRow
         stateDD={stateDD}
         handleInputChange={handleInputChange}
         setFormFields={setFormFields}
@@ -300,33 +311,34 @@ const CandidateProfile = ({
         formFields={formFields}
         citiesC={citiesC}
       /> */}
-      {/* submit button ki jaga next button aega jo next step pr lekr jaega */}
-      <div
-        id="button-container-initial"
-        className="flex justify-center items-center mt-5 gap-10"
-      >
-        <button
-          className="candidate-btn w-72 flex items-center justify-between"
-          onClick={handleCanProfile}
+        {/* submit button ki jaga next button aega jo next step pr lekr jaega */}
+        <div
+          id="button-container-initial"
+          className="flex items-center mt-5 gap-10"
         >
-          Next
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
+          <button
+            className="candidate-btn w-40 flex items-center justify-between"
+            onClick={handleCanProfile}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-            />
-          </svg>
-        </button>
+            Next
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

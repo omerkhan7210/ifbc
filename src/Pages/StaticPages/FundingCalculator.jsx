@@ -865,7 +865,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="text"
                   name="firstName"
-                  className="candidate-input w-full"
+                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
                   style={{
                     borderColor: formErrors.firstName ? "#dc2626" : undefined,
                   }}
@@ -883,7 +883,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="text"
                   name="lastName"
-                  className="candidate-input w-full"
+                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
                   style={{
                     borderColor: formErrors.lastName ? "#dc2626" : undefined,
                   }}
@@ -903,7 +903,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="email"
                   name="email"
-                  className="candidate-input w-full"
+                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
                   style={{
                     borderColor: formErrors.email ? "#dc2626" : undefined,
                   }}
@@ -920,7 +920,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="tel"
                   name="phone"
-                  className="candidate-input w-full"
+                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
                   style={{
                     borderColor: formErrors.phone ? "#dc2626" : undefined,
                   }}
@@ -941,7 +941,7 @@ const FundingCalculator = () => {
                 name="message"
                 id="message"
                 rows={10}
-                className="candidate-input"
+                className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1"
               />
             </div>
 

@@ -326,6 +326,8 @@ const LeftSidebar = ({ cartListings, listings }) => {
     e.preventDefault();
     setLoading(true);
 
+    console.log("cartListings before submission:", cartListings);
+
     try {
       const allFieldsValid = validateFields();
       if (!allFieldsValid) {
@@ -337,6 +339,17 @@ const LeftSidebar = ({ cartListings, listings }) => {
         window.scrollTo(0, 500);
         return;
       }
+
+      if (!cartListings || cartListings.length === 0) {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Cart listings cannot be empty",
+        }));
+        setLoading(false);
+        window.scrollTo(0, 500);
+        return;
+      }
+
       const formData = {
         name: formFields.name,
         phone: formFields.phone,
@@ -351,6 +364,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
         newsletter: formFields.newsletter ?? false,
         cartListings: JSON.stringify(cartListings),
       };
+      console.log(formData);
 
       const jsonData = JSON.stringify(formData);
       const baseUrl = "https://backend.ifbc.co/api/checkout";
@@ -361,6 +375,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
           "Content-Type": "application/json",
         },
       });
+
       if (response.status === 201) {
         setFormErrors({});
         setSuccessMsg("Thank you for requesting!");
@@ -458,26 +473,28 @@ const LeftSidebar = ({ cartListings, listings }) => {
             </svg>
           </p>
         )}
-        <div className="mt-6">
-          <label className="text-custom-heading-color" htmlFor="name">
-            Name
-          </label>
-          <input
-            onChange={handleInputChange}
-            name="name"
-            placeholder="Your name"
-            className="candidate-input w-full"
-            style={{ borderColor: formErrors.name ? "red" : undefined }}
-            type="text"
-          />{" "}
-          {formErrors.name && formErrors.name === "invalid" && (
-            <p className=" text-red text-xs py-2 flex justify-between">
-              Invalid username. It should be 3-16 characters long and can
-              include letters, numbers, underscores, and spaces.
-            </p>
-          )}
-        </div>
+
         <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5">
+          <div className="">
+            <label className="text-custom-heading-color" htmlFor="name">
+              Name
+            </label>
+            <input
+              onChange={handleInputChange}
+              name="name"
+              placeholder="Your name"
+              className="candidate-input w-full"
+              style={{ borderColor: formErrors.name ? "red" : undefined }}
+              type="text"
+            />{" "}
+            {formErrors.name && formErrors.name === "invalid" && (
+              <p className=" text-red text-xs py-2 flex justify-between">
+                Invalid username. It should be 3-16 characters long and can
+                include letters, numbers, underscores, and spaces.
+              </p>
+            )}
+          </div>
+
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="state">
               Email

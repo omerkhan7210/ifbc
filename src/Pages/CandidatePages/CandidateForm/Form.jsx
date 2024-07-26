@@ -718,7 +718,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : "md:max-w-[60%] mx-auto mb-10 col-span-12"} `}
+        className={`  ${candDetails ? "" : "md:max-w-[50%] items-center justify-center mx-auto mb-10 col-span-12"} `}
       >
         {formErrors.error && (
           <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
