@@ -303,10 +303,10 @@ const CandidateProfile = ({
       {/* submit button ki jaga next button aega jo next step pr lekr jaega */}
       <div
         id="button-container-initial"
-        className="flex justify-center items-center mt-5 gap-10"
+        className="flex items-center mt-5 gap-10"
       >
         <button
-          className="candidate-btn w-72 flex items-center justify-between"
+          className="candidate-btn w-40 flex items-center justify-between"
           onClick={handleCanProfile}
         >
           Next

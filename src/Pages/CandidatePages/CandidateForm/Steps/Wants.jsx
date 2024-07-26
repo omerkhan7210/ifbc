@@ -16,7 +16,8 @@ const Wants = ({
       <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
         <div className="candidate-input-container">
           <p className="candidate-label">
-            What do you find most attractive about being a business owner?
+            What do you find most attractive about <br></br> being a business
+            owner?
           </p>
           <input
             onChange={handleInputChange}
@@ -61,7 +62,7 @@ const Wants = ({
           name="BusinessExpectations"
           id="message"
           rows={10}
-          className="candidate-input"
+          className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 "
           {...(candNames
             ? candNames.length > 0
               ? { value: selectedDetails?.businessExpectations }
@@ -513,51 +514,58 @@ const Wants = ({
           </ul>
         </div>
       </div>
-      <div
-        id="button-container-initial"
-        className="flex justify-center items-center mt-5 gap-10"
-      >
-        <button
-          className="candidate-btn w-72 flex items-center justify-between"
-          onClick={() => setStep((prevStep) => prevStep - 1)}
+      <div className="flex md:flex-row md:gap-[285px] max-sm:flex-col ">
+        <div
+          id="button-container-initial"
+          className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
         >
-          {" "}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
+          <button
+            className="candidate-btn w-40 flex items-center justify-between"
+            onClick={() => setStep((prevStep) => prevStep - 1)}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
-            />
-          </svg>
-          Previous
-        </button>
-        <button
-          className="candidate-btn w-72 flex items-center justify-between"
-          onClick={() => setStep((prevStep) => prevStep + 1)}
+            {" "}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6.75 15.75 3 12m0 0 3.75-3.75M3 12h18"
+              />
+            </svg>
+            Previous
+          </button>
+        </div>
+        <div
+          id="button-container-initial"
+          className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
         >
-          Next
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
+          <button
+            className="candidate-btn  w-40  flex items-center justify-between"
+            onClick={() => setStep((prevStep) => prevStep + 1)}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-            />
-          </svg>
-        </button>
+            Next
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

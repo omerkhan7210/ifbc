@@ -344,28 +344,29 @@ const FormSecondRow = ({
             />
           )}
         </div>
-        <div className="candidate-sub-childs">
-          <p className="candidate-label"> Current Zip / Postal Code*</p>
-          <input
-            type="tel"
-            name="currentzipcode"
-            className="candidate-input w-full"
-            style={{
-              borderColor: formErrors.currentzipcode ? "red" : undefined,
-            }}
-            onChange={handleInputChange}
-            {...(candNames
-              ? candNames.length > 0
-                ? { value: selectedDetails?.currentZipcode }
-                : { defaultValue: candDetails?.currentZipcode }
-              : { value: formFields?.currentzipcode })}
-          />
-          {formErrors?.currentzipcode === "invalid" && (
-            <p className=" text-red-600 py-2 flex justify-between">
-              Invalid zipcode. It should be 5 digits long!
-            </p>
-          )}
-        </div>
+      </div>
+
+      <div className="candidate-sub-childs">
+        <p className="candidate-label"> Current Zip / Postal Code*</p>
+        <input
+          type="tel"
+          name="currentzipcode"
+          className="candidate-input w-full"
+          style={{
+            borderColor: formErrors.currentzipcode ? "red" : undefined,
+          }}
+          onChange={handleInputChange}
+          {...(candNames
+            ? candNames.length > 0
+              ? { value: selectedDetails?.currentZipcode }
+              : { defaultValue: candDetails?.currentZipcode }
+            : { value: formFields?.currentzipcode })}
+        />
+        {formErrors?.currentzipcode === "invalid" && (
+          <p className=" text-red-600 py-2 flex justify-between">
+            Invalid zipcode. It should be 5 digits long!
+          </p>
+        )}
       </div>
 
       {/* <div id="fourth-sub-row" className="candidate-sub-childs">

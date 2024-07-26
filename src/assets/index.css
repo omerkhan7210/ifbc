@@ -19,10 +19,6 @@
   text-center border-custom-dark-blue text-custom-dark-blue p-1.5 rounded transition-all duration-500   font-semibold;
 }
 
-.candidate-input {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block p-1.5 focus:outline-none focus:ring-1;
-}
-
 .contact-input {
   @apply bg-gray-50  text-gray-800 text-sm   block p-1 focus:outline-none placeholder:text-xs placeholder:text-gray-400;
 }
@@ -32,7 +28,7 @@
 }
 
 .candidate-normal-input {
-  @apply bg-gray-50 border border-custom-grey text-custom-dark-blue text-sm  block p-1 focus:outline-none focus:ring-1;
+  @apply bg-gray-50 border border-custom-grey text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1;
 }
 
 .candidate-label {
@@ -46,7 +42,7 @@
 }
 
 .candidate-sub-heading {
-  @apply max-md:text-2xl md:text-4xl font-bold text-custom-heading-color text-center uppercase my-3 flex max-md:flex-col items-center gap-2 justify-center;
+  @apply max-md:text-xl md:text-2xl font-bold text-custom-heading-color text-center uppercase my-3 flex max-md:flex-col items-center gap-2 justify-center;
 }
 
 .candidate-small-heading {
@@ -58,7 +54,10 @@
 }
 
 .candidate-select {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue font-bold text-sm  block p-1.5 focus:outline-none focus:ring-1;
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 md:max-w-60 max-md:w-full;
+}
+.candidate-input {
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 md:max-w-60 max-md:w-full;
 }
 
 .candidate-tabs-content {

@@ -326,6 +326,8 @@ const LeftSidebar = ({ cartListings, listings }) => {
     e.preventDefault();
     setLoading(true);
 
+    console.log("cartListings before submission:", cartListings);
+
     try {
       const allFieldsValid = validateFields();
       if (!allFieldsValid) {
@@ -337,6 +339,17 @@ const LeftSidebar = ({ cartListings, listings }) => {
         window.scrollTo(0, 500);
         return;
       }
+
+      if (!cartListings || cartListings.length === 0) {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Cart listings cannot be empty",
+        }));
+        setLoading(false);
+        window.scrollTo(0, 500);
+        return;
+      }
+
       const formData = {
         name: formFields.name,
         phone: formFields.phone,
@@ -349,7 +362,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
         timeFrame: formFields.timeFrame ?? "1-3 months",
         availCapital: formFields.availCapital ?? "Less than $10,000",
         newsletter: formFields.newsletter ?? false,
-        cartListings: "1,2,3",
+        cartListings: JSON.stringify(cartListings),
       };
 
       const jsonData = JSON.stringify(formData);
@@ -361,6 +374,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
           "Content-Type": "application/json",
         },
       });
+
       if (response.status === 201) {
         setFormErrors({});
         setSuccessMsg("Thank you for requesting!");
