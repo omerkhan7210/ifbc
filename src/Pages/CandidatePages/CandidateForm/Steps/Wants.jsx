@@ -9,6 +9,7 @@ const Wants = ({
   formFields,
 }) => {
   console.log(formFields);
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -100 }}
@@ -39,7 +40,7 @@ const Wants = ({
           Wants
         </h1>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
           <div className="candidate-input-container">
             <p className="candidate-label md:mb-5">
               What do you find most attractive about being a business owner?
@@ -87,17 +88,19 @@ const Wants = ({
             name="BusinessExpectations"
             id="message"
             rows={10}
-            className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 "
-            {...(candNames
-              ? candNames.length > 0
-                ? { value: selectedDetails?.businessExpectations }
-                : { defaultValue: candDetails?.businessExpectations }
-              : { value: formFields?.BusinessExpectations })}
+            className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm block focus:outline-none focus:ring-1"
+            value={
+              candNames
+                ? candNames.length > 0
+                  ? selectedDetails?.businessExpectations
+                  : candDetails?.businessExpectations
+                : formFields?.BusinessExpectations || ""
+            }
           />
         </div>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
-          <div className="candidate-sub-childs">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
+          <div className="candidate-sub-childs ">
             <p className="candidate-label">Do you prefer B2B or B2C?</p>
             <ul className="flex mt-3 items-center">
               <li className="flex mr-4">
@@ -191,7 +194,7 @@ const Wants = ({
                     ? candNames.length > 0
                       ? {
                           checked:
-                            selectedDetails?.physicalLocation === "HHome-based",
+                            selectedDetails?.physicalLocation === "Home-based",
                         }
                       : {
                           defaultChecked:
@@ -232,7 +235,7 @@ const Wants = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
           <div className="candidate-sub-childs">
             <p className="candidate-label">
               Would you prefer to have an inventory or service-based business
@@ -382,7 +385,7 @@ const Wants = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
           <div className="candidate-sub-childs">
             <p className="candidate-label">
               Are you going to be in this business as an owner/operator or do
@@ -548,16 +551,15 @@ const Wants = ({
             </ul>
           </div>
         </div>
-        <div className="flex md:flex-row md:gap-[200px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 max-sm:grid-cols-1">
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
               className="candidate-btn w-40 flex items-center justify-between"
               onClick={() => setStep((prevStep) => prevStep - 1)}
             >
-              {" "}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -577,10 +579,10 @@ const Wants = ({
           </div>
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-6"
           >
             <button
-              className="candidate-btn  w-40  flex items-center justify-between"
+              className="candidate-btn w-40 flex items-center justify-between"
               onClick={() => setStep((prevStep) => prevStep + 1)}
             >
               Next

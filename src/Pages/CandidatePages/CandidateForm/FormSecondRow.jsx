@@ -21,7 +21,7 @@ const AddTerritoryDiv = ({
       <h1 className="candidate-sub-heading">Additional Territory</h1>
       <div
         id="first-sub-row"
-        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">State / Province*</p>
@@ -169,7 +169,7 @@ const FormSecondRow = ({
 
       <div
         id="third-sub-row"
-        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">
@@ -235,7 +235,7 @@ const FormSecondRow = ({
       </div>
       <div
         id="third-sub-row"
-        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">
@@ -294,7 +294,7 @@ const FormSecondRow = ({
 
       <div
         id="third-sub-row"
-        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label"> Current State / Province*</p>

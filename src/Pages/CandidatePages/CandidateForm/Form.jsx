@@ -553,9 +553,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     //   }));
     // } else {
     // Update formFields state
-    setFormFields((prevFields) => ({
-      ...prevFields,
-      [name]: inputValue,
+    setFormFields((prevState) => ({
+      ...prevState,
+      [name]: value,
     }));
     // Reset form error for the current input
     setFormErrors((prevErrors) => ({
