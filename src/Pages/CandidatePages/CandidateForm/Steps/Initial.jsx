@@ -161,8 +161,8 @@ const Initial = ({
           </svg>
           Initial Qualifying
         </h1>
-        <div className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]">
-          <div className="candidate-sub-childs">
+        <div className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px] ">
+          <div className="candidate-sub-childs ">
             <div>
               <p className="candidate-label">
                 How much money are you wanting to invest in the franchise?
@@ -172,7 +172,7 @@ const Initial = ({
               onChange={handleInputChange}
               name="InvestmentFranchise"
               id="money"
-              className="candidate-select "
+              className="candidate-select"
             >
               {investmentOptions.map((option) => (
                 <option
@@ -199,9 +199,9 @@ const Initial = ({
               ))}
             </select>
           </div>
-          <div className="candidate-sub-childs">
+          <div className="candidate-sub-childs ">
             <div>
-              <p className="candidate-label md:mb-5">
+              <p className="candidate-label md:mb-10">
                 Do you have a need for funding?
               </p>
             </div>
@@ -318,7 +318,7 @@ const Initial = ({
           <div className="candidate-sub-childs">
             <div>
               <p className="candidate-label">
-                What caused you to start looking <br></br> for a franchise?
+                What caused you to start looking for a franchise?
               </p>
             </div>
             <select
@@ -424,7 +424,7 @@ const Initial = ({
         </div>
 
         {/* button container */}
-        <div className="flex md:flex-row md:gap-[200px] max-sm:flex-col ">
+        <div className="flex md:flex-row md:gap-[200px] max-md:flex-col ">
           <div
             id="button-container-initial"
             className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
