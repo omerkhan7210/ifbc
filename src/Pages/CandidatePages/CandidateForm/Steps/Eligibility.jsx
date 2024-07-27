@@ -49,7 +49,7 @@ const Eligibility = ({
           Eligibility
         </h1>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1 ">
           <div className="candidate-sub-childs">
             <div>
               <p className="candidate-label md:mb-5">
@@ -99,7 +99,7 @@ const Eligibility = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1 ">
           <div className="candidate-sub-childs">
             <p className="candidate-label">
               What is the value of your 401k/IRA?
@@ -119,7 +119,7 @@ const Eligibility = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1 ">
           <div className="flex flex-col">
             <p className="candidate-label">
               Have you or your spouse ever been convicted of something other
@@ -245,10 +245,10 @@ const Eligibility = ({
 
         {/* button container */}
         {/* lekn hume pehle step ke ilawa baaki saaray steps may previous button bhi chaye hoga agr kisi ko back jana ho to */}
-        <div className="flex md:flex-row md:gap-[200px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 max-sm:grid-cols-1">
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
               className="candidate-btn w-40 flex items-center justify-between"
@@ -274,7 +274,7 @@ const Eligibility = ({
           </div>
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-6"
           >
             <button
               className="candidate-btn  w-40  flex items-center justify-between"

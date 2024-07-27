@@ -161,8 +161,8 @@ const Initial = ({
           </svg>
           Initial Qualifying
         </h1>
-        <div className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px] ">
-          <div className="candidate-sub-childs ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1 ">
+          <div className="candidate-sub-childs">
             <div>
               <p className="candidate-label">
                 How much money are you wanting to invest in the franchise?
@@ -424,10 +424,10 @@ const Initial = ({
         </div>
 
         {/* button container */}
-        <div className="flex md:flex-row md:gap-[200px] max-md:flex-col ">
+        <div className="grid md:grid-cols-2 max-sm:grid-cols-1">
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
               className="candidate-btn w-40 flex items-center justify-between"
@@ -453,7 +453,7 @@ const Initial = ({
           </div>
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-6"
           >
             <button
               className="candidate-btn  w-40  flex items-center justify-between"

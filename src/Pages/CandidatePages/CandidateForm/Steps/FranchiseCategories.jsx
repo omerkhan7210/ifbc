@@ -120,10 +120,10 @@ const FranchiseCategories = ({
           {/* Yahn Tabs Ayainge Fls filtes ke */}
         </div>
 
-        <div className="flex md:flex-row md:gap-[210px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 max-sm:grid-cols-1">
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
               className="candidate-btn w-40 flex items-center justify-between"
@@ -149,7 +149,7 @@ const FranchiseCategories = ({
           </div>
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-3"
           >
             <button
               className="candidate-btn  w-40  flex items-center justify-between"

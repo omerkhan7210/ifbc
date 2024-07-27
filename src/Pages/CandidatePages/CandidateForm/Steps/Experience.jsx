@@ -38,7 +38,7 @@ const Experience = ({
           Experience
         </h1>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
           <div className="candidate-input-container">
             <p className="candidate-questions">
               Have you ever owned a business before?
@@ -74,7 +74,7 @@ const Experience = ({
             />
           </div>
         </div>
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1 ">
           <div className="candidate-input-container">
             <p className="candidate-questions">
               Do you have any management experience?
@@ -111,7 +111,7 @@ const Experience = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
           <div className="candidate-input-container">
             <p className="candidate-questions">
               Do you have experience in reviewing financial statements?
@@ -148,10 +148,10 @@ const Experience = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row md:gap-[200px] max-sm:flex-col ">
+        <div className="grid md:grid-cols-2 max-sm:grid-cols-1">
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
               className="candidate-btn w-40 flex items-center justify-between"
@@ -177,7 +177,7 @@ const Experience = ({
           </div>
           <div
             id="button-container-initial"
-            className="flex items-center mt-5 max-md:flex-col max-md:gap-5"
+            className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-6"
           >
             <button
               className="candidate-btn  w-40  flex items-center justify-between"
