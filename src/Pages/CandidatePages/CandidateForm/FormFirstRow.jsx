@@ -160,7 +160,6 @@ const FormFirstRow = ({
 }) => {
   const relationships = ["Business Partner", "Spouse", "Family Member"];
 
-  console.log(formFields);
   return (
     <div id="first-row" className={`${candDetails ? "" : "py-10"} py-5`}>
       <h1 className="candidate-sub-heading md:mr-20">

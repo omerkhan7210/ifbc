@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import FormFirstRow from "../FormFirstRow";
 import FormSecondRow from "../FormSecondRow";
 import { useQuery } from "react-query";
@@ -11,6 +11,8 @@ import {
   validateUsername,
   validateZipcode,
 } from "src/Utils/SanitizeInput";
+import axios from "axios";
+import { MyCandContext } from "src/Context/CandidatesDataContext";
 const CandidateProfile = ({
   handleInputChange,
   formErrors,
@@ -28,9 +30,14 @@ const CandidateProfile = ({
   setStep,
   setFormErrors,
   listingNames,
+  form,
+  setForm,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { userDetails, role } = useContext(MyCandContext);
+  const [showsuccess, setShowSuccess] = useState(false);
 
   const [selectedStateT, setSelectedStateT] = useState(null);
   const [selectedStateC, setSelectedStateC] = useState(null);
@@ -200,7 +207,9 @@ const CandidateProfile = ({
     });
   };
 
-  const handleCanProfile = () => {
+  const handleCanProfile = async (e) => {
+    e.preventDefault();
+    setLoading(true);
     const reqFields = [
       "firstname",
       "lastname",
@@ -251,9 +260,107 @@ const CandidateProfile = ({
     });
 
     setFormErrors(formErrors);
+    try {
+      if (allFieldsValid) {
+        const formData = {
+          ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
 
-    if (allFieldsValid) {
-      setStep((prevStep) => prevStep + 1);
+          firstName: formFields.firstname ?? "",
+          lastName: formFields.lastname ?? "",
+          Phone: formFields.phone ?? "",
+          Email: formFields.email ?? "",
+          additionalFirstName: formFields.additionalfirstname ?? "",
+          additionalLastName: formFields.additionallastname ?? "",
+          additionalPhone: formFields.additionalphone ?? "",
+          additionalEmail: formFields.additionalemail ?? "",
+          additionalRelationship: formFields.additionalrelationship ?? "",
+          franchiseInterested: formFields.franchiseinterested ?? "",
+          territoryCity: formFields.territorycity ?? "",
+          territoryState: formFields.territorystate ?? "",
+          territoryZipcode: formFields.territoryzipcode ?? "",
+          currentCity: formFields.currentcity ?? "",
+          currentState: formFields.currentstate ?? "",
+          currentZipcode: formFields.currentzipcode ?? "",
+
+          Status: formFields.status ?? "",
+          PipelineStep: formFields.pipelinestep ?? "",
+          lostReason: "string",
+          AgentUserId: userDetails?.docId ?? 0,
+          isArchive: false,
+          isCompleted: true,
+          updateDt: "2024-07-27T15:00:45.871Z",
+        };
+        console.log(formData);
+        const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
+        let response = "";
+
+        // Send the POST request using Axios
+        if (candDetails) {
+          response = await axios.put(
+            `${baseUrl}/${candDetails?.docId}`,
+            formData,
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        } else {
+          response = await axios.post(baseUrl, formData, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        }
+        if (response.status === 201) {
+          setFormErrors({});
+          setForm(response.data.docId);
+          console.log(response);
+          // setShowSuccess(true);
+
+          //const docId = response.data.docId;
+          // if (addContacts > 0) {
+          //   //await handleSubmitContact(docId);
+          //   await handleSubmitContact(21);
+          // }
+          // if (addTerritory > 0) {
+          //   // await handleSubmitTerritory(docId);
+          //   await handleSubmitTerritory(21);
+          // }
+          // setSuccessMsg(
+          //   role && role === "C"
+          //     ? "Candidate Information Saved Successfully!"
+          //     : "Your Request has been submitted successfully!"
+          // );
+          // setSelectedStateC
+          setLoading(false);
+          setStep((prevStep) => prevStep + 1);
+          // setTimeout(() => {
+          //   window.location.href =
+          //     role && role === "C" ? "/candidate-list" : "/";
+          // }, 3000);
+        } else if (response.status === 204) {
+          setSuccessMsg("Candidate Information Saved Successfully!");
+          setShowSuccess(true);
+          setLoading(false);
+        } else {
+          // setFormErrors({  });
+          setLoading(false);
+          window.scrollTo(0, 100);
+          // Handle unexpected response
+        }
+      } else {
+        setFormErrors((prev) => ({
+          ...prev,
+          error: "Please fill in all the required fields",
+        }));
+        setLoading(false);
+        window.scrollTo(0, 100);
+
+        // Handle invalid fields (e.g., show validation errors)
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -320,7 +427,7 @@ const CandidateProfile = ({
             className="candidate-btn w-40 flex items-center justify-between"
             onClick={handleCanProfile}
           >
-            Next
+            {loading ? "Loading..." : "Next"}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

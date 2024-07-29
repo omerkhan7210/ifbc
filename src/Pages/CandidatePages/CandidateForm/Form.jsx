@@ -49,6 +49,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [addTerritory, setAddTerritory] = useState(0);
   const [additionalContacts, setAdditionalContacts] = useState([]);
   const [additionalTerritories, setAdditionalTerritories] = useState([]);
+  const [form, setForm] = useState(0);
   const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
   const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
 
@@ -285,6 +286,60 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   //   }
   // };
 
+  //  territoryNotes: formFields.territorynotes ?? "",
+  // DealSource: formFields.dealsource ?? "",
+  // DealSourceCost: formFields.dealsourcecost ?? "",
+  // ZorackleValue: formFields.zoraclevalue ?? "",
+  // DealValue: formFields.dealvalue ?? "",
+  // About: formFields.about ?? "",
+  // InvestmentFranchise: formFields.investmentfranchise ?? "",
+  // Funding: formFields.funding ?? "",
+  // CreditScore: formFields.creditscore ?? "",
+  // InitialQualifyingNote: formFields.initialqualifyingnote ?? "",
+  // Activities: formFields.activities ?? "",
+  // AttendingNetworkFunction: formFields.attendingnetworkfunction ?? "",
+  // MultiUnitOps: formFields.multiunitops ?? "",
+  // BusinessPartner: formFields.businesspartner ?? "",
+  // FamilyFeel: formFields.familyfeel ?? "",
+  // EmployeesPrefer: formFields.employeesprefer ?? "",
+  // StaffSize: formFields.staffsize ?? "",
+  // ZorakleNotes: formFields.zoraklenotes ?? "",
+  // FundingBusiness: formFields.fundingbusiness ?? "",
+  // RetirementPlan: formFields.retirementplan ?? "",
+  // VALoan: formFields.valoan ?? "",
+  // CurrentNetworth: formFields.currentnetworth ?? "",
+  // TrafficViolation: formFields.trafficviolation ?? "",
+  // Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
+  // Bankruptcy: formFields.bankruptcy ?? "",
+  // EligibilityNote: formFields.eligibilitynote ?? "",
+  // BusinessBefore: formFields.businessbefore ?? "",
+  // MarketingExperience: formFields.marketingexperience ?? "",
+  // ManagementExperice: formFields.managementexperience ?? "",
+  // SalesExperience: formFields.salesexperience ?? "",
+  // ReviewFinancialStatement: formFields.reviewfinancialstatement ?? "",
+  // CSExperience: formFields.csexperience ?? "",
+  // AttractiveBusinessOwner: formFields.attractivebusinessowner ?? "",
+  // HandleNewBusiness: formFields.handlenewbusiness ?? "",
+  // BusinessExpectations: formFields.businessexpectations ?? "",
+  // WantNote: formFields.wantnote ?? "",
+  // PreferB2b: formFields.preferb2b ?? "",
+  // PhysicalLocation: formFields.physicallocation ?? "",
+  // Inventory: formFields.inventory ?? "",
+  // ColdCalling: formFields.coldcalling ?? "",
+  // PassiveMode: formFields.passivemode ?? "",
+  // BusinessHours: formFields.businesshours ?? "",
+  // Networth: formFields.networth ?? "",
+  // LiquidCash: formFields.liquidcash ?? "",
+  // Competency1: formFields.competency1 ?? "",
+  // Competency2: formFields.competency2 ?? "",
+  // Competency3: formFields.competency3 ?? "",
+  // FranchiseCause: formFields.franchisecause ?? "",
+  // ProfessionalBackground: formFields.professionalbackground ?? "",
+  // FranchiseInterested: formFields.franchiseinterested ?? "",
+  // TimeFrame: formFields.timeframe ?? "",
+  // LostReason: formFields.lostreason ?? "",
+  // CategoryRating: formFields.categoryrating ?? "",
+
   const handleSubmit = async () => {
     setLoading(true);
 
@@ -309,66 +364,15 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           currentCity: formFields.currentcity ?? "",
           currentState: formFields.currentstate ?? "",
           currentZipcode: formFields.currentzipcode ?? "",
-          //  territoryNotes: formFields.territorynotes ?? "",
-          // DealSource: formFields.dealsource ?? "",
-          // DealSourceCost: formFields.dealsourcecost ?? "",
-          // ZorackleValue: formFields.zoraclevalue ?? "",
-          // DealValue: formFields.dealvalue ?? "",
-          // About: formFields.about ?? "",
-          // InvestmentFranchise: formFields.investmentfranchise ?? "",
-          // Funding: formFields.funding ?? "",
-          // CreditScore: formFields.creditscore ?? "",
-          // InitialQualifyingNote: formFields.initialqualifyingnote ?? "",
-          // Activities: formFields.activities ?? "",
-          // AttendingNetworkFunction: formFields.attendingnetworkfunction ?? "",
-          // MultiUnitOps: formFields.multiunitops ?? "",
-          // BusinessPartner: formFields.businesspartner ?? "",
-          // FamilyFeel: formFields.familyfeel ?? "",
-          // EmployeesPrefer: formFields.employeesprefer ?? "",
-          // StaffSize: formFields.staffsize ?? "",
-          // ZorakleNotes: formFields.zoraklenotes ?? "",
-          // FundingBusiness: formFields.fundingbusiness ?? "",
-          // RetirementPlan: formFields.retirementplan ?? "",
-          // VALoan: formFields.valoan ?? "",
-          // CurrentNetworth: formFields.currentnetworth ?? "",
-          // TrafficViolation: formFields.trafficviolation ?? "",
-          // Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
-          // Bankruptcy: formFields.bankruptcy ?? "",
-          // EligibilityNote: formFields.eligibilitynote ?? "",
-          // BusinessBefore: formFields.businessbefore ?? "",
-          // MarketingExperience: formFields.marketingexperience ?? "",
-          // ManagementExperice: formFields.managementexperience ?? "",
-          // SalesExperience: formFields.salesexperience ?? "",
-          // ReviewFinancialStatement: formFields.reviewfinancialstatement ?? "",
-          // CSExperience: formFields.csexperience ?? "",
-          // AttractiveBusinessOwner: formFields.attractivebusinessowner ?? "",
-          // HandleNewBusiness: formFields.handlenewbusiness ?? "",
-          // BusinessExpectations: formFields.businessexpectations ?? "",
-          // WantNote: formFields.wantnote ?? "",
-          // PreferB2b: formFields.preferb2b ?? "",
-          // PhysicalLocation: formFields.physicallocation ?? "",
-          // Inventory: formFields.inventory ?? "",
-          // ColdCalling: formFields.coldcalling ?? "",
-          // PassiveMode: formFields.passivemode ?? "",
-          // BusinessHours: formFields.businesshours ?? "",
-          // Networth: formFields.networth ?? "",
-          // LiquidCash: formFields.liquidcash ?? "",
-          // Competency1: formFields.competency1 ?? "",
-          // Competency2: formFields.competency2 ?? "",
-          // Competency3: formFields.competency3 ?? "",
-          // FranchiseCause: formFields.franchisecause ?? "",
-          // ProfessionalBackground: formFields.professionalbackground ?? "",
-          // FranchiseInterested: formFields.franchiseinterested ?? "",
-          // TimeFrame: formFields.timeframe ?? "",
+
           Status: formFields.status ?? "",
           PipelineStep: formFields.pipelinestep ?? "",
-          // LostReason: formFields.lostreason ?? "",
-          // CategoryRating: formFields.categoryrating ?? "",
+
           AgentUserId: userDetails?.docId ?? 0,
           isArchive: false,
           isCompleted: false,
         };
-
+        console.log(formData);
         const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
         let response = "";
 
@@ -608,6 +612,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setStep={setStep}
             setFormErrors={setFormErrors}
             listingNames={listingNames}
+            form={form}
+            setForm={setForm}
           />
         );
 
@@ -621,6 +627,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
+            form={form}
+            setForm={setForm}
           />
         );
 
@@ -636,6 +644,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
+            form={form}
+            setForm={setForm}
           />
         );
       case 3:
@@ -647,6 +657,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
+            form={form}
+            setForm={setForm}
           />
         );
 
@@ -659,6 +671,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
+            form={form}
+            setForm={setForm}
           />
         );
 
@@ -671,6 +685,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             formFields={formFields}
             candDetails={candDetails}
             candNames={candNames}
+            form={form}
+            setForm={setForm}
           />
         );
       default:
