@@ -492,7 +492,7 @@ const Contact = () => {
               <div className="my-3 flex justify-center">
                 <button
                   type="submit"
-                  className="border-2 w-full  bg-white  text-custom-heading-color px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
+                  className="border-2 w-full  bg-white  text-custom-heading-color px-5 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold hover:animate-pulse"
                 >
                   {loading ? "Loading..." : "Submit"}
                 </button>

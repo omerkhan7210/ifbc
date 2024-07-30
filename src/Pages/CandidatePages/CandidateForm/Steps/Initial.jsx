@@ -137,7 +137,6 @@ const Initial = ({
     { value: "More than a year away", label: "More than a year away" },
     { value: "Unsure at the moment", label: "Unsure at the moment" },
   ];
-  // ye hamara dusra step hai idhr hum log dobara stepper laengay
 
   const handleInitial = async (e) => {
     e.preventDefault();
@@ -145,7 +144,7 @@ const Initial = ({
 
     try {
       const formData = {
-        docId: form,
+        ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
         funding: formFields.funding ?? "",
         investmentFranchise: formFields.investmentfranchise ?? "",
         creditScore: formFields.creditscore ?? "",
@@ -180,6 +179,8 @@ const Initial = ({
       }
       if (response.status === 201) {
         setFormErrors({});
+        setForm(response.data.docId);
+        console.log(response);
         // setShowSuccess(true);
 
         //const docId = response.data.docId;
