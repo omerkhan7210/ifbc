@@ -40,6 +40,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const { userDetails, role } = useContext(MyCandContext);
   const [formFields, setFormFields] = useState({});
   const [formErrors, setFormErrors] = useState({});
+  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState(null);
   const [selectedDocId, setSelectedDocId] = useState();
@@ -309,6 +310,11 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           currentCity: formFields.currentcity ?? "",
           currentState: formFields.currentstate ?? "",
           currentZipcode: formFields.currentzipcode ?? "",
+          Status: formFields.status ?? "",
+          PipelineStep: formFields.pipelinestep ?? "",
+          AgentUserId: userDetails?.docId ?? 0,
+          isArchive: false,
+          isCompleted: false,
           //  territoryNotes: formFields.territorynotes ?? "",
           // DealSource: formFields.dealsource ?? "",
           // DealSourceCost: formFields.dealsourcecost ?? "",
@@ -360,13 +366,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           // ProfessionalBackground: formFields.professionalbackground ?? "",
           // FranchiseInterested: formFields.franchiseinterested ?? "",
           // TimeFrame: formFields.timeframe ?? "",
-          Status: formFields.status ?? "",
-          PipelineStep: formFields.pipelinestep ?? "",
+
           // LostReason: formFields.lostreason ?? "",
           // CategoryRating: formFields.categoryrating ?? "",
-          AgentUserId: userDetails?.docId ?? 0,
-          isArchive: false,
-          isCompleted: false,
         };
 
         const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
@@ -377,6 +379,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           response = await axios.put(
             `${baseUrl}/${candDetails?.docId}`,
             formData,
+
             {
               headers: {
                 "Content-Type": "application/json",
@@ -384,6 +387,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             }
           );
         } else {
+          console.log(formData);
           response = await axios.post(baseUrl, formData, {
             headers: {
               "Content-Type": "application/json",
@@ -671,6 +675,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             formFields={formFields}
             candDetails={candDetails}
             candNames={candNames}
+            show={show}
+            setShow={setShow}
           />
         );
       default:
