@@ -961,7 +961,7 @@ const FundingCalculator = () => {
               for additional details.
             </p>
             <div className="flex justify-center">
-              <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
+              <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
                 {loading ? "Loading..." : "Calculate My Results"}
               </button>
             </div>

@@ -483,7 +483,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               onChange={handleInputChange}
               name="name"
               placeholder="Your name"
-              className="candidate-input w-full"
+              className="candidate-select w-full"
               style={{ borderColor: formErrors.name ? "red" : undefined }}
               type="text"
             />{" "}
@@ -503,7 +503,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               onChange={handleInputChange}
               name="email"
               placeholder="Your email"
-              className="candidate-input"
+              className="candidate-input w-full"
               style={{ borderColor: formErrors.email ? "red" : undefined }}
               id="email"
               type="email"
@@ -520,7 +520,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               onChange={handleInputChange}
               name="phone"
               placeholder="Your phone"
-              className="candidate-input"
+              className="candidate-input w-full"
               style={{ borderColor: formErrors.phone ? "red" : undefined }}
               id="phone"
               type="tel"

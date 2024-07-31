@@ -1,6 +1,4 @@
 import React from "react";
-import DialogBox from "src/Popups/DialogBox";
-import { NavLink } from "react-router-dom";
 
 import { motion } from "framer-motion";
 import PageTransition from "src/Animations/PageTransition";
@@ -14,6 +12,8 @@ const FranchiseCategories = ({
   show,
   setShow,
 }) => {
+  const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const selectData = [
     { name: "advertising", label: "Advertising" },
     { name: "automotive", label: "Automotive" },
@@ -60,23 +60,22 @@ const FranchiseCategories = ({
     { name: "travelplanning", label: "Travel Planning" },
     { name: "vending", label: "Vending" },
   ];
-  const SubmitFranchise = (e) => {
+  const handleFranchiseCategories = (e) => {
     e.preventDefault();
-    console.log("form submit");
-    if (allFieldsValid) {
-    }
+
     setShow(true);
+
     setTimeout(() => {
       setShow(false);
       window.location.href = "/";
     }, 2000);
   };
   return (
-    <PageTransition>
+    <>
       <DialogBox show={show} setShow={setShow}>
         <div className="bg-white p-10">
           <p className="text-xl text-center text-custom-heading-color">
-            Thank you for submitting your personal information for us.
+            Thank you for taking the time to contact us.
             <br />A IFBC customer service representative will contact you within
             two business days. <br /> For the mean time you can indulge yourself
             in searching some franchises <br />
@@ -183,7 +182,7 @@ const FranchiseCategories = ({
             >
               <button
                 className="candidate-btn  w-40  flex items-center justify-between"
-                onClick={SubmitFranchise}
+                onClick={handleFranchiseCategories}
               >
                 Submit
                 <svg
@@ -205,7 +204,7 @@ const FranchiseCategories = ({
           </div>
         </div>
       </motion.div>
-    </PageTransition>
+    </>
   );
 };
 

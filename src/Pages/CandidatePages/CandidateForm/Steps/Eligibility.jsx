@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
-
+import { MyCandContext } from "src/Context/CandidatesDataContext";
+import axios from "axios";
 const Eligibility = ({
   handleInputChange,
   candDetails,
@@ -8,7 +9,12 @@ const Eligibility = ({
   selectedDetails,
   setStep,
   formFields,
+  form,
+  setForm,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const [showsuccess, setShowSuccess] = useState(false);
+  const { userDetails, role } = useContext(MyCandContext);
   const militaryOptions = [
     { value: "", label: "Select one" },
     { value: "Veteran", label: "Veteran" },
@@ -18,7 +24,82 @@ const Eligibility = ({
     { value: "Conversion", label: "Conversion" },
     { value: "Existing Franchisee", label: "Existing Franchisee" },
   ];
+  const handleEligibility = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
+    try {
+      const formData = {
+        ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
+
+        VALoan: formFields.valoan ?? "",
+        CurrentNetworth: formFields.currentnetworth ?? "",
+        TrafficViolation: formFields.trafficviolation ?? "",
+        Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
+        Bankruptcy: formFields.bankruptcy ?? "",
+        isCompleted: true,
+      };
+      console.log(formData);
+      const baseUrl = "https://backend.ifbc.co/api/eligibility";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      if (response.status === 201) {
+        setFormErrors({});
+        // setShowSuccess(true);
+
+        //const docId = response.data.docId;
+        // if (addContacts > 0) {
+        //   //await handleSubmitContact(docId);
+        //   await handleSubmitContact(21);
+        // }
+        // if (addTerritory > 0) {
+        //   // await handleSubmitTerritory(docId);
+        //   await handleSubmitTerritory(21);
+        // }
+        // setSuccessMsg(
+        //   role && role === "C"
+        //     ? "Candidate Information Saved Successfully!"
+        //     : "Your Request has been submitted successfully!"
+        // );
+        // setSelectedStateC
+        setLoading(false);
+        setStep((prevStep) => prevStep + 1);
+        // setTimeout(() => {
+        //   window.location.href =
+        //     role && role === "C" ? "/candidate-list" : "/";
+        // }, 3000);
+      } else if (response.status === 204) {
+        setSuccessMsg("Candidate Information Saved Successfully!");
+        setShowSuccess(true);
+        setLoading(false);
+      } else {
+        // setFormErrors({  });
+        setLoading(false);
+        window.scrollTo(0, 100);
+        // Handle unexpected response
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <motion.div
       initial={{ opacity: 0, x: -100 }}
@@ -280,7 +361,7 @@ const Eligibility = ({
               className="candidate-btn  w-40  flex items-center justify-between"
               onClick={() => setStep((prevStep) => prevStep + 1)}
             >
-              Next
+              {loading ? "Loading..." : "Next"}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
