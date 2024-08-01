@@ -575,6 +575,16 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   // default step 0 hoga 0 se start hora
   const [step, setStep] = useState(0);
   const [listingNames, setListingNames] = useState([]);
+  // ek state banara hun blkl parent may taaky ye change na ho render pr is state ko phr har stepmay pass krwadengay
+  const [submittedSteps, setSubmittedSteps] = useState({
+    candprofile: false,
+    initial: false,
+    eligibility: false,
+    experience: false,
+    wants: false,
+    fc: false,
+  });
+  console.log(submittedSteps);
 
   // this useEffect api is used for getting listing names with doc ids
   useEffect(() => {
@@ -617,9 +627,11 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             listingNames={listingNames}
             form={form}
             setForm={setForm}
+            submittedSteps={submittedSteps}
+            setSubmittedSteps={setSubmittedSteps}
           />
         );
-
+      // ye sab may daalo or call bhi krwalo
       // jab step 1 hoga mtlb next step hoga to initial ajaega
       case 1:
         return (
@@ -633,6 +645,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            submittedSteps={submittedSteps}
+            setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -651,6 +665,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            submittedSteps={submittedSteps}
+            setSubmittedSteps={setSubmittedSteps}
           />
         );
       case 3:
@@ -665,6 +681,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            submittedSteps={submittedSteps}
+            setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -680,6 +698,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            submittedSteps={submittedSteps}
+            setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -695,6 +715,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            submittedSteps={submittedSteps}
+            setSubmittedSteps={setSubmittedSteps}
           />
         );
       default:

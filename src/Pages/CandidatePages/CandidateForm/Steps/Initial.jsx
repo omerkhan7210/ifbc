@@ -11,9 +11,10 @@ const Initial = ({
   formFields,
   form,
   setFormErrors,
+  submittedSteps,
+  setSubmittedSteps,
 }) => {
   const [loading, setLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const investmentOptions = [
     { value: "", label: "Select one" },
@@ -25,6 +26,7 @@ const Initial = ({
     { value: "More than $750,000", label: "More than $750,000" },
   ];
   const fundingOptions = [
+    { value: "", label: "Select one" },
     { value: "Required to move forward", label: "Required to move forward" },
     { value: "Looking for options", label: "Looking for options" },
     {
@@ -142,22 +144,28 @@ const Initial = ({
     setLoading(true);
 
     // Check if the data has already been submitted
-    if (isSubmitted) {
+    // iska mtlb subbmitted steps may intiial wlai key agr true hai to ye chalega neeche kch bhi nhi chalega
+    // baar baar data na jaaye isliye ab nhi jaega
+    if (submittedSteps.initial) {
       setLoading(false);
+      setStep((prevStep) => prevStep + 1);
       return;
     }
 
     try {
+      // names galat arhe
+      // camel case arhe
+      // name kro change
       const formData = {
         docid: form,
-        funding: formFields.funding ?? "",
-        investmentFranchise: formFields.investmentfranchise ?? "",
-        creditScore: formFields.creditscore ?? "",
-        networth: formFields.networth ?? "",
-        liquidCash: formFields.liquidcash ?? "",
-        franchiseCause: formFields.franchisecause ?? "",
-        professionalBackground: formFields.professionalbackground ?? "",
-        timeFrame: formFields.timeframe ?? "",
+        funding: formFields.Funding ?? "",
+        investmentFranchise: formFields.InvestmentFranchise ?? "",
+        creditScore: formFields.CreditScore ?? "",
+        networth: formFields.Networth ?? "",
+        liquidCash: formFields.LiquidCash ?? "",
+        franchiseCause: formFields.FranchiseCause ?? "",
+        professionalBackground: formFields.ProfessionalBackground ?? "",
+        timeFrame: formFields.TimeFrame ?? "",
         isCompleted: true,
       };
 
@@ -186,6 +194,8 @@ const Initial = ({
         setFormErrors({});
         // setShowSuccess(true);
         setLoading(false);
+        // ye isliye daalra hu taaky dobara dobara data na jaaye db may
+        setSubmittedSteps((prev) => ({ ...prev, initial: true }));
         setStep((prevStep) => prevStep + 1);
       } else if (response.status === 204) {
         setSuccessMsg("Candidate Information Saved Successfully!");
@@ -209,7 +219,7 @@ const Initial = ({
         x: 0,
         transition: { duration: 3, type: "spring", bounce: 0.2 },
       }}
-      id="eligibility"
+      id="initial"
       className="candidate-tabs-content"
     >
       <div className="md:max-w-3xl md:mx-auto max-md:mx-5 md:ml-[100px] md:mr-[100px]">

@@ -11,17 +11,26 @@ const Experience = ({
   formFields,
   form,
   setForm,
+  submittedSteps,
+  setSubmittedSteps,
 }) => {
   const [loading, setLoading] = useState(false);
   const [showsuccess, setShowSuccess] = useState(false);
   const { userDetails, role } = useContext(MyCandContext);
+
   const handleExperience = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    if (submittedSteps.experience) {
+      setLoading(false);
+      setStep((prevStep) => prevStep + 1);
+      return;
+    }
+
     try {
       const formData = {
-        ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
+        docid: form,
 
         BusinessBefore: formFields.businessbefore ?? "",
         MarketingExperience: formFields.marketingexperience ?? "",
@@ -55,29 +64,11 @@ const Experience = ({
       }
       if (response.status === 201) {
         setFormErrors({});
-        // setShowSuccess(true);
 
-        //const docId = response.data.docId;
-        // if (addContacts > 0) {
-        //   //await handleSubmitContact(docId);
-        //   await handleSubmitContact(21);
-        // }
-        // if (addTerritory > 0) {
-        //   // await handleSubmitTerritory(docId);
-        //   await handleSubmitTerritory(21);
-        // }
-        // setSuccessMsg(
-        //   role && role === "C"
-        //     ? "Candidate Information Saved Successfully!"
-        //     : "Your Request has been submitted successfully!"
-        // );
-        // setSelectedStateC
         setLoading(false);
+        setSubmittedSteps((prev) => ({ ...prev, experience: true }));
+
         setStep((prevStep) => prevStep + 1);
-        // setTimeout(() => {
-        //   window.location.href =
-        //     role && role === "C" ? "/candidate-list" : "/";
-        // }, 3000);
       } else if (response.status === 204) {
         setSuccessMsg("Candidate Information Saved Successfully!");
         setShowSuccess(true);
@@ -265,7 +256,7 @@ const Experience = ({
           >
             <button
               className="candidate-btn  w-40  flex items-center justify-between"
-              onClick={() => setStep((prevStep) => prevStep + 1)}
+              onClick={handleExperience}
             >
               {loading ? "Loading..." : "Next"}
               <svg

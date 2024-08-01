@@ -11,6 +11,8 @@ const FranchiseCategories = ({
   candNames,
   show,
   setShow,
+  submittedSteps,
+  setSubmittedSteps,
 }) => {
   const [loading, setLoading] = useState(false);
   const selectData = [

@@ -11,6 +11,8 @@ const Eligibility = ({
   formFields,
   form,
   setForm,
+  submittedSteps,
+  setSubmittedSteps,
 }) => {
   const [loading, setLoading] = useState(false);
   const [showsuccess, setShowSuccess] = useState(false);
@@ -24,22 +26,30 @@ const Eligibility = ({
     { value: "Conversion", label: "Conversion" },
     { value: "Existing Franchisee", label: "Existing Franchisee" },
   ];
+
+  console.log(formFields);
   const handleEligibility = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    if (submittedSteps.eligibility) {
+      setLoading(false);
+      setStep((prevStep) => prevStep + 1);
+      return;
+    }
+    // check krke daalo
     try {
+      // names galat hongay console log krwakr check krna kese arhe
       const formData = {
-        ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
-
-        VALoan: formFields.valoan ?? "",
-        CurrentNetworth: formFields.currentnetworth ?? "",
-        TrafficViolation: formFields.trafficviolation ?? "",
-        Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
-        Bankruptcy: formFields.bankruptcy ?? "",
+        docid: form,
+        VALoan: formFields.VALoan ?? "",
+        EligibilityValue: formFields.EligibilityValue ?? "",
+        TrafficViolation: formFields.TrafficViolation ?? "",
+        Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
+        Bankruptcy: formFields.Bankruptcy ?? "",
         isCompleted: true,
       };
-      console.log(formData);
+
       const baseUrl = "https://backend.ifbc.co/api/eligibility";
       let response = "";
 
@@ -63,29 +73,11 @@ const Eligibility = ({
       }
       if (response.status === 201) {
         setFormErrors({});
-        // setShowSuccess(true);
 
-        //const docId = response.data.docId;
-        // if (addContacts > 0) {
-        //   //await handleSubmitContact(docId);
-        //   await handleSubmitContact(21);
-        // }
-        // if (addTerritory > 0) {
-        //   // await handleSubmitTerritory(docId);
-        //   await handleSubmitTerritory(21);
-        // }
-        // setSuccessMsg(
-        //   role && role === "C"
-        //     ? "Candidate Information Saved Successfully!"
-        //     : "Your Request has been submitted successfully!"
-        // );
-        // setSelectedStateC
         setLoading(false);
+        setSubmittedSteps((prev) => ({ ...prev, eligibility: true }));
+
         setStep((prevStep) => prevStep + 1);
-        // setTimeout(() => {
-        //   window.location.href =
-        //     role && role === "C" ? "/candidate-list" : "/";
-        // }, 3000);
       } else if (response.status === 204) {
         setSuccessMsg("Candidate Information Saved Successfully!");
         setShowSuccess(true);
@@ -359,7 +351,7 @@ const Eligibility = ({
           >
             <button
               className="candidate-btn  w-40  flex items-center justify-between"
-              onClick={() => setStep((prevStep) => prevStep + 1)}
+              onClick={handleEligibility}
             >
               {loading ? "Loading..." : "Next"}
               <svg

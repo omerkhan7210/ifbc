@@ -31,7 +31,7 @@ const AddTerritoryDiv = ({
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">City*</p>
-          {selectedStateT && citiesT.length > 0 ? (
+          {citiesT.length > 0 ? (
             <select
               className="candidate-select"
               name="territorycity"

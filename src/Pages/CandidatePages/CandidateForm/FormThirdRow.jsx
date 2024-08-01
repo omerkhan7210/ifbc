@@ -68,7 +68,7 @@ const FormThirdRow = ({
           </div>
           <div className="candidate-sub-childs">
             <p className="candidate-label">City</p>
-            {selectedStateC && citiesC.length > 0 ? (
+            {citiesC.length > 0 ? (
               <select
                 className="candidate-select"
                 name="currentcity"

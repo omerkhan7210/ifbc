@@ -31,6 +31,8 @@ const CandidateProfile = ({
   setFormErrors,
   listingNames,
   setForm,
+  submittedSteps,
+  setSubmittedSteps,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
@@ -38,7 +40,6 @@ const CandidateProfile = ({
   const { userDetails } = useContext(MyCandContext);
   const [selectedStateT, setSelectedStateT] = useState(null);
   const [selectedStateC, setSelectedStateC] = useState(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [showSuccess, setShowSuccess] = useState("");
 
   const getAdditionalContacts = async () => {
@@ -211,8 +212,10 @@ const CandidateProfile = ({
     setLoading(true);
 
     // Check if the data has already been submitted
-    if (isSubmitted) {
+    if (submittedSteps.candprofile) {
       setLoading(false);
+      setStep((prevStep) => prevStep + 1);
+
       return;
     }
 
@@ -319,12 +322,12 @@ const CandidateProfile = ({
           setFormErrors({});
           setForm(response.data.docid);
           setLoading(false);
-          setIsSubmitted(true); // Mark the form as submitted
+          setSubmittedSteps((prev) => ({ ...prev, candprofile: true }));
           setStep((prevStep) => prevStep + 1);
         } else if (response.status === 204) {
           setSuccessMsg("Candidate Information Saved Successfully!");
           setShowSuccess(true);
-          setIsSubmitted(true); // Mark the form as submitted
+          setSubmittedSteps((prev) => ({ ...prev, candprofile: true }));
           setLoading(false);
         } else {
           // setFormErrors({  });

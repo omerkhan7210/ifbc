@@ -11,6 +11,8 @@ const Wants = ({
   formFields,
   form,
   setForm,
+  submittedSteps,
+  setSubmittedSteps,
 }) => {
   const [loading, setLoading] = useState(false);
   const [showsuccess, setShowSuccess] = useState(false);
