@@ -88,7 +88,10 @@ const FundingResult = () => {
                 .
                 <br /> For the mean time you can indulge yourself in searching
                 some franchises <br /> <br></br>
-                <NavLink to="/listings" className="candidate-btn w-[50%]">
+                <NavLink
+                  to="/search-franchises"
+                  className="candidate-btn w-[50%]"
+                >
                   SEARCH FRANCHISES
                 </NavLink>
               </>
@@ -131,7 +134,10 @@ const FundingResult = () => {
                 <br /> For the mean time you can indulge yourself in searching
                 some franchises <br />
                 <br />
-                <NavLink to="/listings" className="candidate-btn w-[50%]">
+                <NavLink
+                  to="/search-franchises"
+                  className="candidate-btn w-[50%]"
+                >
                   SEARCH FRANCHISES
                 </NavLink>
               </>

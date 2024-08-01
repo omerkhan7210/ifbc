@@ -83,7 +83,7 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
 
   const staticRoutes = [
     {
-      path: "/new-candidate",
+      path: "/apply-now",
       element: (
         <CandidatesDataContext>
           <MainNewCand />
@@ -111,7 +111,7 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
       ),
     },
     {
-      path: "/listings",
+      path: "/search-franchises",
       element: (
         <ListingDataContext>
           <MainListings

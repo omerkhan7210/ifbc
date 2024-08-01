@@ -10,11 +10,10 @@ const Initial = ({
   setStep,
   formFields,
   form,
-  setForm,
+  setFormErrors,
 }) => {
   const [loading, setLoading] = useState(false);
-  const { userDetails, role } = useContext(MyCandContext);
-  const [showsuccess, setShowSuccess] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const investmentOptions = [
     { value: "", label: "Select one" },
@@ -142,9 +141,15 @@ const Initial = ({
     e.preventDefault();
     setLoading(true);
 
+    // Check if the data has already been submitted
+    if (isSubmitted) {
+      setLoading(false);
+      return;
+    }
+
     try {
       const formData = {
-        ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
+        docid: form,
         funding: formFields.funding ?? "",
         investmentFranchise: formFields.investmentfranchise ?? "",
         creditScore: formFields.creditscore ?? "",
@@ -179,31 +184,9 @@ const Initial = ({
       }
       if (response.status === 201) {
         setFormErrors({});
-        setForm(response.data.docId);
-        console.log(response);
         // setShowSuccess(true);
-
-        //const docId = response.data.docId;
-        // if (addContacts > 0) {
-        //   //await handleSubmitContact(docId);
-        //   await handleSubmitContact(21);
-        // }
-        // if (addTerritory > 0) {
-        //   // await handleSubmitTerritory(docId);
-        //   await handleSubmitTerritory(21);
-        // }
-        // setSuccessMsg(
-        //   role && role === "C"
-        //     ? "Candidate Information Saved Successfully!"
-        //     : "Your Request has been submitted successfully!"
-        // );
-        // setSelectedStateC
         setLoading(false);
         setStep((prevStep) => prevStep + 1);
-        // setTimeout(() => {
-        //   window.location.href =
-        //     role && role === "C" ? "/candidate-list" : "/";
-        // }, 3000);
       } else if (response.status === 204) {
         setSuccessMsg("Candidate Information Saved Successfully!");
         setShowSuccess(true);
@@ -543,7 +526,7 @@ const Initial = ({
           >
             <button
               className="candidate-btn  w-40  flex items-center justify-between"
-              onClick={() => setStep((prevStep) => prevStep + 1)}
+              onClick={handleInitial}
             >
               {loading ? "Loading..." : "Next"}
               <svg

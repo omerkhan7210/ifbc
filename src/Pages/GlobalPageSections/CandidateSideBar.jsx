@@ -113,7 +113,7 @@ const ActivityGridContainer = ({
           id="select-candidate-container"
           className="flex max-md:flex-col gap-5"
         >
-          <NavLink to="/new-candidate" className="candidate-inverted-btn ">
+          <NavLink to="/apply-now" className="candidate-inverted-btn ">
             Add New Candidate
           </NavLink>
           {filteredData && filteredData.length > 0 && (

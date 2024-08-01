@@ -70,7 +70,7 @@ const MainCandList = () => {
         >
           <div className="  flex items-center ">
             <NavLink
-              to="/new-candidate"
+              to="/apply-now"
               className="candidate-secondary-btn w-full text-center"
             >
               New Candidate

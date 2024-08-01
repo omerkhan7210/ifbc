@@ -632,6 +632,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             formFields={formFields}
             form={form}
             setForm={setForm}
+            setFormErrors={setFormErrors}
           />
         );
 
@@ -649,6 +650,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             formFields={formFields}
             form={form}
             setForm={setForm}
+            setFormErrors={setFormErrors}
           />
         );
       case 3:
@@ -662,6 +664,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             formFields={formFields}
             form={form}
             setForm={setForm}
+            setFormErrors={setFormErrors}
           />
         );
 
@@ -676,6 +679,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             formFields={formFields}
             form={form}
             setForm={setForm}
+            setFormErrors={setFormErrors}
           />
         );
 
@@ -690,6 +694,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             candNames={candNames}
             form={form}
             setForm={setForm}
+            setFormErrors={setFormErrors}
           />
         );
       default:

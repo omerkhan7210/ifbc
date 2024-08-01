@@ -139,7 +139,7 @@ const ShoppingCart = ({ cartListings, listings }) => {
         className="flex max-sm:justify-center sm:justify-center items-center py-5 gap-5 "
       >
         <NavLink
-          to="/listings"
+          to="/search-franchises"
           className="candidate-btn flex items-center md:w-64 justify-between max-md:w-full"
         >
           See More Listings
@@ -720,7 +720,7 @@ const NoListingsFound = () => {
       <h1 className="max-md:text-3xl md:text-5xl text-center font-bold text-custom-heading-color">
         NO LISTINGS ADDED TO CART
       </h1>
-      <NavLink to="/listings" className="candidate-btn capitalize">
+      <NavLink to="/search-franchises" className="candidate-btn capitalize">
         Add Listings
       </NavLink>
     </div>

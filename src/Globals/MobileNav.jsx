@@ -64,7 +64,7 @@ const MobileNav = ({
                   id="menu-item-552305"
                   className="menu-item menu-item-type-custom menu-item-object-custom menu-item-552305"
                 >
-                  <NavLink to="/new-candidate/">New Candidate</NavLink>
+                  <NavLink to="/apply-now/">New Candidate</NavLink>
                 </li>
                 <li
                   id="menu-item-552335"
@@ -108,7 +108,7 @@ const MobileNav = ({
             id="menu-item-552290"
             className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
           >
-            <Link to="/listings"> Search Franchises (SF)</Link>
+            <Link to="/search-franchises"> Search Franchises (SF)</Link>
           </li>
 
           <li

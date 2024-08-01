@@ -128,10 +128,10 @@ const FundingCalculator = () => {
           debtPayments: data.debtPayments,
           totalNet: data.totalNet,
         };
-        const response = await axios.post(
-          "https://backend.ifbc.co/api/fundcalculator",
-          formData
-        );
+        const url = "https://backend.ifbc.co/api/fundcalculator";
+        // const url = "https://localhost:7047/api/fundcalculator";
+        const response = await axios.post(url, formData);
+        console.log(response);
 
         if (response.status === 201) {
           setLoading(false);

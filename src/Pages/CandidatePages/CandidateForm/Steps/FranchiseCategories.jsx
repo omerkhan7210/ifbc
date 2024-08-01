@@ -12,7 +12,6 @@ const FranchiseCategories = ({
   show,
   setShow,
 }) => {
-  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const selectData = [
     { name: "advertising", label: "Advertising" },
@@ -80,7 +79,7 @@ const FranchiseCategories = ({
             two business days. <br /> For the mean time you can indulge yourself
             in searching some franchises <br />
             <br />
-            <NavLink to="/listings" className="candidate-btn w-[50%]">
+            <NavLink to="/search-franchises" className="candidate-btn w-[50%]">
               SEARCH FRANCHISES
             </NavLink>
           </p>

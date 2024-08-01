@@ -34,7 +34,7 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
     },
     {
       id: "menu-item-552362",
-      path: "/listings",
+      path: "/search-franchises",
       label: "Search Franchises (SF)",
     },
   ];
@@ -42,7 +42,7 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
   const extraLink = [
     {
       id: "menu-item-552362",
-      path: "/new-candidate",
+      path: "/apply-now",
       label: "Apply Now",
     },
   ];
@@ -57,7 +57,7 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
             id="menu-item-552041"
             className={` current_page_item menu-item menu-item-type-custom menu-item-object-custom  current-menu-ancestor current-menu-parent menu-item-has-children menu-item-552041`}
           >
-            <NavLink to="/new-candidate" style={style} aria-current="page">
+            <NavLink to="/apply-now" style={style} aria-current="page">
               Candidates
             </NavLink>
             <ul className="sub-menu z-[999] relative">
@@ -105,7 +105,7 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
                           Candidate List
                         </NavLink>
                         <NavLink
-                          to="/new-candidate"
+                          to="/apply-now"
                           style={innerNavLinkStyle}
                           aria-current="page"
                         >

@@ -30,17 +30,16 @@ const CandidateProfile = ({
   setStep,
   setFormErrors,
   listingNames,
-  form,
   setForm,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { userDetails, role } = useContext(MyCandContext);
-  const [showsuccess, setShowSuccess] = useState(false);
-
+  const { userDetails } = useContext(MyCandContext);
   const [selectedStateT, setSelectedStateT] = useState(null);
   const [selectedStateC, setSelectedStateC] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showSuccess, setShowSuccess] = useState("");
 
   const getAdditionalContacts = async () => {
     const response = await axios.get(additionalContactAddUrl);
@@ -210,6 +209,13 @@ const CandidateProfile = ({
   const handleCanProfile = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    // Check if the data has already been submitted
+    if (isSubmitted) {
+      setLoading(false);
+      return;
+    }
+
     const reqFields = [
       "firstname",
       "lastname",
@@ -264,7 +270,6 @@ const CandidateProfile = ({
       if (allFieldsValid) {
         const formData = {
           ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
-
           firstName: formFields.firstname ?? "",
           lastName: formFields.lastname ?? "",
           Phone: formFields.phone ?? "",
@@ -281,7 +286,6 @@ const CandidateProfile = ({
           currentCity: formFields.currentcity ?? "",
           currentState: formFields.currentstate ?? "",
           currentZipcode: formFields.currentzipcode ?? "",
-
           Status: formFields.status ?? "",
           PipelineStep: formFields.pipelinestep ?? "",
           lostReason: "string",
@@ -290,7 +294,6 @@ const CandidateProfile = ({
           isCompleted: true,
           updateDt: "2024-07-27T15:00:45.871Z",
         };
-        console.log(formData);
         const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
         let response = "";
 
@@ -314,34 +317,14 @@ const CandidateProfile = ({
         }
         if (response.status === 201) {
           setFormErrors({});
-          setForm(response.data.docId);
-          console.log(response);
-          // setShowSuccess(true);
-
-          //const docId = response.data.docId;
-          // if (addContacts > 0) {
-          //   //await handleSubmitContact(docId);
-          //   await handleSubmitContact(21);
-          // }
-          // if (addTerritory > 0) {
-          //   // await handleSubmitTerritory(docId);
-          //   await handleSubmitTerritory(21);
-          // }
-          // setSuccessMsg(
-          //   role && role === "C"
-          //     ? "Candidate Information Saved Successfully!"
-          //     : "Your Request has been submitted successfully!"
-          // );
-          // setSelectedStateC
+          setForm(response.data.docid);
           setLoading(false);
+          setIsSubmitted(true); // Mark the form as submitted
           setStep((prevStep) => prevStep + 1);
-          // setTimeout(() => {
-          //   window.location.href =
-          //     role && role === "C" ? "/candidate-list" : "/";
-          // }, 3000);
         } else if (response.status === 204) {
           setSuccessMsg("Candidate Information Saved Successfully!");
           setShowSuccess(true);
+          setIsSubmitted(true); // Mark the form as submitted
           setLoading(false);
         } else {
           // setFormErrors({  });

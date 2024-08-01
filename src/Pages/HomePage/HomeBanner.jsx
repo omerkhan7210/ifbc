@@ -211,7 +211,7 @@ const SearchingSection = () => {
       });
     }
 
-    history("/listings");
+    history("/search-franchises");
   };
 
   return (
@@ -487,7 +487,7 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
   const handleSearchInputChange = (cat) => {
     setFilters({ category: [cat] });
 
-    history("/listings");
+    history("/search-franchises");
   };
   return (
     <div
@@ -506,7 +506,7 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
               <li key={listing.name} className="text-sm text-white list-disc ">
                 <button
                   onClick={() => handleSearchInputChange(listing)}
-                  to="/listings"
+                  to="/search-franchises"
                   className="group relative text-left"
                 >
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>

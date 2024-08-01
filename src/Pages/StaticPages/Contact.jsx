@@ -212,11 +212,9 @@ const Contact = () => {
           contactCopy: data.contactCopy ?? false,
           contactPath: data.contactPath ?? "",
         };
-
-        const response = await axios.post(
-          "https://backend.ifbc.co/api/contactus",
-          formData
-        );
+        //const url = "https://backend.ifbc.co/api/contactus";
+        const url = "https://localhost:7047/api/contactus";
+        const response = await axios.post(url, formData);
 
         if (response.status === 201) {
           setShow(true);
@@ -300,7 +298,7 @@ const Contact = () => {
             two business days. <br /> For the mean time you can indulge yourself
             in searching some franchises <br />
             <br />
-            <NavLink to="/listings" className="candidate-btn w-[50%]">
+            <NavLink to="/search-franchises" className="candidate-btn w-[50%]">
               SEARCH FRANCHISES
             </NavLink>
           </p>
