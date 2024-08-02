@@ -161,7 +161,7 @@ const FundingCalculator = () => {
   return (
     <PageTransition>
       <div id="description" className="flex flex-col  gap-5 my-8 ">
-        <div className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-[80%] md:w-[80%] mx-auto">
+        <div className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-full md:w-[50%] mx-auto">
           <p className=" text-md ">
             By Rolling Your IRA, 401(K), 403(B), Keogh Or Other Retirement Funds
             Into A 401(K) Franchise Financing Vehicle
