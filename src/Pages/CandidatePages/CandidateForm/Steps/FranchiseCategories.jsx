@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import { motion } from "framer-motion";
-import PageTransition from "src/Animations/PageTransition";
 const FranchiseCategories = ({
   handleSubmit,
   handleInputChange,
@@ -11,10 +10,7 @@ const FranchiseCategories = ({
   candNames,
   show,
   setShow,
-  submittedSteps,
-  setSubmittedSteps,
 }) => {
-  const [loading, setLoading] = useState(false);
   const selectData = [
     { name: "advertising", label: "Advertising" },
     { name: "automotive", label: "Automotive" },
@@ -61,16 +57,7 @@ const FranchiseCategories = ({
     { name: "travelplanning", label: "Travel Planning" },
     { name: "vending", label: "Vending" },
   ];
-  const handleFranchiseCategories = (e) => {
-    e.preventDefault();
 
-    setShow(true);
-
-    setTimeout(() => {
-      setShow(false);
-      window.location.href = "/";
-    }, 2000);
-  };
   return (
     <>
       <DialogBox show={show} setShow={setShow}>
@@ -183,7 +170,7 @@ const FranchiseCategories = ({
             >
               <button
                 className="candidate-btn  w-40  flex items-center justify-between"
-                onClick={handleFranchiseCategories}
+                onClick={handleSubmit}
               >
                 Submit
                 <svg

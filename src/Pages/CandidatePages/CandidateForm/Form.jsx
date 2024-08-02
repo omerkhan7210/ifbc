@@ -341,106 +341,323 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   // LostReason: formFields.lostreason ?? "",
   // CategoryRating: formFields.categoryrating ?? "",
 
-  const handleSubmit = async () => {
-    setLoading(true);
-
+  const handleSubmitCandProfileApi = async () => {
     try {
-      if (allFieldsValid) {
-        const formData = {
-          ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
-          closeDate: formFields.closedate ?? "",
-          firstName: formFields.firstname ?? "",
-          lastName: formFields.lastname ?? "",
-          Phone: formFields.phone ?? "",
-          Email: formFields.email ?? "",
-          additionalFirstName: formFields.additionalfirstname ?? "",
-          additionalLastName: formFields.additionallastname ?? "",
-          additionalPhone: formFields.additionalphone ?? "",
-          additionalEmail: formFields.additionalemail ?? "",
-          additionalRelationship: formFields.additionalrelationship ?? "",
-          franchiseInterested: formFields.franchiseinterested ?? "",
-          territoryCity: formFields.territorycity ?? "",
-          territoryState: formFields.territorystate ?? "",
-          territoryZipcode: formFields.territoryzipcode ?? "",
-          currentCity: formFields.currentcity ?? "",
-          currentState: formFields.currentstate ?? "",
-          currentZipcode: formFields.currentzipcode ?? "",
+      const formData = {
+        ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
+        firstName: formFields.firstname ?? "",
+        lastName: formFields.lastname ?? "",
+        Phone: formFields.phone ?? "",
+        Email: formFields.email ?? "",
+        additionalFirstName: formFields.additionalfirstname ?? "",
+        additionalLastName: formFields.additionallastname ?? "",
+        additionalPhone: formFields.additionalphone ?? "",
+        additionalEmail: formFields.additionalemail ?? "",
+        additionalRelationship: formFields.additionalrelationship ?? "",
+        franchiseInterested: formFields.franchiseinterested ?? "",
+        territoryCity: formFields.territorycity ?? "",
+        territoryState: formFields.territorystate ?? "",
+        territoryZipcode: formFields.territoryzipcode ?? "",
+        currentCity: formFields.currentcity ?? "",
+        currentState: formFields.currentstate ?? "",
+        currentZipcode: formFields.currentzipcode ?? "",
+        Status: formFields.status ?? "",
+        PipelineStep: formFields.pipelinestep ?? "",
+        lostReason: "string",
+        AgentUserId: userDetails?.docId ?? 0,
+        isArchive: false,
+        isCompleted: true,
+        updateDt: "2024-07-27T15:00:45.871Z",
+      };
+      const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
+      let response = "";
 
-          Status: formFields.status ?? "",
-          PipelineStep: formFields.pipelinestep ?? "",
-
-          AgentUserId: userDetails?.docId ?? 0,
-          isArchive: false,
-          isCompleted: false,
-        };
-        const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
-        let response = "";
-
-        // Send the POST request using Axios
-        if (candDetails) {
-          response = await axios.put(
-            `${baseUrl}/${candDetails?.docId}`,
-            formData,
-
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-        } else {
-          response = await axios.post(baseUrl, formData, {
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
             headers: {
               "Content-Type": "application/json",
             },
-          });
-        }
-        if (response.status === 201) {
-          setFormErrors({});
-          setShowSuccess(true);
-
-          //const docId = response.data.docId;
-          // if (addContacts > 0) {
-          //   //await handleSubmitContact(docId);
-          //   await handleSubmitContact(21);
-          // }
-          // if (addTerritory > 0) {
-          //   // await handleSubmitTerritory(docId);
-          //   await handleSubmitTerritory(21);
-          // }
-          setSuccessMsg(
-            role && role === "C"
-              ? "Candidate Information Saved Successfully!"
-              : "Your Request has been submitted successfully!"
-          );
-          setLoading(false);
-          setTimeout(() => {
-            window.location.href =
-              role && role === "C" ? "/candidate-list" : "/";
-          }, 3000);
-        } else if (response.status === 204) {
-          setSuccessMsg("Candidate Information Saved Successfully!");
-          setShowSuccess(true);
-          setLoading(false);
-        } else {
-          // setFormErrors({  });
-          setLoading(false);
-          window.scrollTo(0, 100);
-          // Handle unexpected response
-        }
+          }
+        );
       } else {
-        setFormErrors((prev) => ({
-          ...prev,
-          error: "Please fill in all the required fields",
-        }));
-        setLoading(false);
-        window.scrollTo(0, 100);
-
-        // Handle invalid fields (e.g., show validation errors)
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       }
+      return response.status;
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleSubmitInitialApi = async () => {
+    try {
+      const formData = {
+        docid: form,
+        funding: formFields.Funding ?? "",
+        investmentFranchise: formFields.InvestmentFranchise ?? "",
+        creditScore: formFields.CreditScore ?? "",
+        networth: formFields.Networth ?? "",
+        liquidCash: formFields.LiquidCash ?? "",
+        franchiseCause: formFields.FranchiseCause ?? "",
+        professionalBackground: formFields.ProfessionalBackground ?? "",
+        timeFrame: formFields.TimeFrame ?? "",
+        isCompleted: true,
+      };
+
+      const baseUrl = "https://backend.ifbc.co/api/initialqualify";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmitEligApi = async () => {
+    // check krke daalo
+    try {
+      // names galat hongay console log krwakr check krna kese arhe
+      const formData = {
+        docid: form,
+        VALoan: formFields.VALoan ?? "",
+        EligibilityValue: formFields.EligibilityValue ?? "",
+        TrafficViolation: formFields.TrafficViolation ?? "",
+        Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
+        Bankruptcy: formFields.Bankruptcy ?? "",
+        isCompleted: true,
+      };
+
+      const baseUrl = "https://backend.ifbc.co/api/eligibility";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmitExpApi = async () => {
+    try {
+      const formData = {
+        docid: form,
+        BusinessBefore: formFields.BusinessBefore ?? "",
+        MarketingExperience: formFields.MarketingExperience ?? "",
+        ManagementExperience: formFields.ManagementExperience ?? "",
+        SalesExperience: formFields.SalesExperience ?? "",
+        ReviewFinancialStatement: formFields.ReviewFinancialStatement ?? "",
+        CSExperience: formFields.CSExperience ?? "",
+        isCompleted: true,
+      };
+      const baseUrl = "https://backend.ifbc.co/api/experience";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmitWantsApi = async () => {
+    try {
+      const formData = {
+        docid: form,
+        AttractiveBusinessOwner: formFields.AttractiveBusinessOwner ?? "",
+        HandleNewBusiness: formFields.HandleNewBusiness ?? "",
+        BusinessExpectations: formFields.BusinessExpectations ?? "",
+        PreferB2b: formFields.PreferB2b ?? "",
+        PhysicalLocation: formFields.PhysicalLocation ?? "",
+        Inventory: formFields.Inventory ?? "",
+        ColdCalling: formFields.ColdCalling ?? "",
+        PassiveMode: formFields.PassiveMode ?? "",
+        BusinessHours: formFields.BusinessHours ?? "",
+        isCompleted: true,
+      };
+      console.log(formData);
+      const baseUrl = "https://backend.ifbc.co/api/wants";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmitFCApi = async () => {};
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    const candProfileResStatus = await handleSubmitCandProfileApi();
+    const initialResStatus = await handleSubmitInitialApi();
+    const eligResStatus = await handleSubmitEligApi();
+    const expResStatus = await handleSubmitExpApi();
+    const wantsResStatus = await handleSubmitWantsApi();
+
+    // try {
+    //   if (allFieldsValid) {
+    //     const formData = {
+    //       docid:form,
+    //       closeDate: formFields.closedate ?? "",
+    //       firstName: formFields.firstname ?? "",
+    //       lastName: formFields.lastname ?? "",
+    //       Phone: formFields.phone ?? "",
+    //       Email: formFields.email ?? "",
+    //       additionalFirstName: formFields.additionalfirstname ?? "",
+    //       additionalLastName: formFields.additionallastname ?? "",
+    //       additionalPhone: formFields.additionalphone ?? "",
+    //       additionalEmail: formFields.additionalemail ?? "",
+    //       additionalRelationship: formFields.additionalrelationship ?? "",
+    //       franchiseInterested: formFields.franchiseinterested ?? "",
+    //       territoryCity: formFields.territorycity ?? "",
+    //       territoryState: formFields.territorystate ?? "",
+    //       territoryZipcode: formFields.territoryzipcode ?? "",
+    //       currentCity: formFields.currentcity ?? "",
+    //       currentState: formFields.currentstate ?? "",
+    //       currentZipcode: formFields.currentzipcode ?? "",
+    //       Status: formFields.status ?? "",
+    //       PipelineStep: formFields.pipelinestep ?? "",
+    //       AgentUserId: userDetails?.docId ?? 0,
+    //       isArchive: false,
+    //       isCompleted: false,
+    //     };
+    //     const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
+    //     let response = "";
+
+    //     // Send the POST request using Axios
+    //     if (candDetails) {
+    //       response = await axios.put(
+    //         `${baseUrl}/${candDetails?.docId}`,
+    //         formData,
+
+    //         {
+    //           headers: {
+    //             "Content-Type": "application/json",
+    //           },
+    //         }
+    //       );
+    //     } else {
+    //       response = await axios.post(baseUrl, formData, {
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //       });
+    //     }
+    //     if (response.status === 201) {
+    //       setFormErrors({});
+    //       setShowSuccess(true);
+
+    //       setSuccessMsg(
+    //         role && role === "C"
+    //           ? "Candidate Information Saved Successfully!"
+    //           : "Your Request has been submitted successfully!"
+    //       );
+    //       setLoading(false);
+    //       setTimeout(() => {
+    //         window.location.href =
+    //           role && role === "C" ? "/candidate-list" : "/";
+    //       }, 3000);
+    //     } else if (response.status === 204) {
+    //       setSuccessMsg("Candidate Information Saved Successfully!");
+    //       setShowSuccess(true);
+    //       setLoading(false);
+    //     } else {
+    //       // setFormErrors({  });
+    //       setLoading(false);
+    //       window.scrollTo(0, 100);
+    //       // Handle unexpected response
+    //     }
+    //   } else {
+    //     setFormErrors((prev) => ({
+    //       ...prev,
+    //       error: "Please fill in all the required fields",
+    //     }));
+    //     setLoading(false);
+    //     window.scrollTo(0, 100);
+
+    //     // Handle invalid fields (e.g., show validation errors)
+    //   }
+    // } catch (error) {
+    //   console.error("Error:", error);
+    // }
   };
 
   const handleSubmitRegistration = async () => {

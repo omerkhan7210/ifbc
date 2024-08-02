@@ -9,74 +9,10 @@ const Experience = ({
   candNames,
   selectedDetails,
   formFields,
-  form,
-  submittedSteps,
-  setSubmittedSteps,
-  setFormErrors,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [showsuccess, setShowSuccess] = useState(false);
-
   const handleExperience = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    if (submittedSteps.experience) {
-      setLoading(false);
-      setStep((prevStep) => prevStep + 1);
-      return;
-    }
-
-    try {
-      const formData = {
-        docid: form,
-        BusinessBefore: formFields.BusinessBefore ?? "",
-        MarketingExperience: formFields.MarketingExperience ?? "",
-        ManagementExperience: formFields.ManagementExperience ?? "",
-        SalesExperience: formFields.SalesExperience ?? "",
-        ReviewFinancialStatement: formFields.ReviewFinancialStatement ?? "",
-        CSExperience: formFields.CSExperience ?? "",
-        isCompleted: true,
-      };
-      const baseUrl = "https://backend.ifbc.co/api/experience";
-      let response = "";
-
-      // Send the POST request using Axios
-      if (candDetails) {
-        response = await axios.put(
-          `${baseUrl}/${candDetails?.docId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      } else {
-        response = await axios.post(baseUrl, formData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-      if (response.status === 201) {
-        setFormErrors({});
-        setLoading(false);
-        setSubmittedSteps((prev) => ({ ...prev, experience: true }));
-        setStep((prevStep) => prevStep + 1);
-      } else if (response.status === 204) {
-        setSuccessMsg("Candidate Information Saved Successfully!");
-        setShowSuccess(true);
-        setLoading(false);
-      } else {
-        // setFormErrors({  });
-        setLoading(false);
-        window.scrollTo(0, 100);
-        // Handle unexpected response
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    setStep((prevStep) => prevStep + 1);
   };
   return (
     <motion.div
@@ -250,7 +186,7 @@ const Experience = ({
             className="candidate-btn  w-40  flex items-center justify-between"
             onClick={handleExperience}
           >
-            {loading ? "Loading..." : "Next"}
+            Next
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

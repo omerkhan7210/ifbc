@@ -9,13 +9,7 @@ const Eligibility = ({
   selectedDetails,
   setStep,
   formFields,
-  form,
-  submittedSteps,
-  setSubmittedSteps,
-  setFormErrors,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [showsuccess, setShowSuccess] = useState(false);
   const militaryOptions = [
     { value: "", label: "Select one" },
     { value: "Veteran", label: "Veteran" },
@@ -28,67 +22,8 @@ const Eligibility = ({
 
   const handleEligibility = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    if (submittedSteps.eligibility) {
-      setLoading(false);
-      setStep((prevStep) => prevStep + 1);
-      return;
-    }
-    // check krke daalo
-    try {
-      // names galat hongay console log krwakr check krna kese arhe
-      const formData = {
-        docid: form,
-        VALoan: formFields.VALoan ?? "",
-        EligibilityValue: formFields.EligibilityValue ?? "",
-        TrafficViolation: formFields.TrafficViolation ?? "",
-        Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
-        Bankruptcy: formFields.Bankruptcy ?? "",
-        isCompleted: true,
-      };
-
-      const baseUrl = "https://backend.ifbc.co/api/eligibility";
-      let response = "";
-
-      // Send the POST request using Axios
-      if (candDetails) {
-        response = await axios.put(
-          `${baseUrl}/${candDetails?.docId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      } else {
-        response = await axios.post(baseUrl, formData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-      if (response.status === 201) {
-        setFormErrors({});
-
-        setLoading(false);
-        setSubmittedSteps((prev) => ({ ...prev, eligibility: true }));
-
-        setStep((prevStep) => prevStep + 1);
-      } else if (response.status === 204) {
-        setSuccessMsg("Candidate Information Saved Successfully!");
-        setShowSuccess(true);
-        setLoading(false);
-      } else {
-        // setFormErrors({  });
-        setLoading(false);
-        window.scrollTo(0, 100);
-        // Handle unexpected response
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    setStep((prevStep) => prevStep + 1);
   };
   return (
     <motion.div
@@ -347,7 +282,7 @@ const Eligibility = ({
             className="candidate-btn  w-40  flex items-center justify-between"
             onClick={handleEligibility}
           >
-            {loading ? "Loading..." : "Next"}
+            Next
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

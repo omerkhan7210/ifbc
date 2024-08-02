@@ -12,7 +12,6 @@ import {
   validateZipcode,
 } from "src/Utils/SanitizeInput";
 import axios from "axios";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
 const CandidateProfile = ({
   handleInputChange,
   formErrors,
@@ -30,17 +29,12 @@ const CandidateProfile = ({
   setStep,
   setFormErrors,
   listingNames,
-  setForm,
-  submittedSteps,
-  setSubmittedSteps,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { userDetails } = useContext(MyCandContext);
   const [selectedStateT, setSelectedStateT] = useState(null);
   const [selectedStateC, setSelectedStateC] = useState(null);
-  const [showSuccess, setShowSuccess] = useState("");
 
   const getAdditionalContacts = async () => {
     const response = await axios.get(additionalContactAddUrl);
@@ -209,15 +203,6 @@ const CandidateProfile = ({
 
   const handleCanProfile = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    // Check if the data has already been submitted
-    if (submittedSteps.candprofile) {
-      setLoading(false);
-      setStep((prevStep) => prevStep + 1);
-
-      return;
-    }
 
     const reqFields = [
       "firstname",
@@ -269,84 +254,18 @@ const CandidateProfile = ({
     });
 
     setFormErrors(formErrors);
-    try {
-      if (allFieldsValid) {
-        const formData = {
-          ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
-          firstName: formFields.firstname ?? "",
-          lastName: formFields.lastname ?? "",
-          Phone: formFields.phone ?? "",
-          Email: formFields.email ?? "",
-          additionalFirstName: formFields.additionalfirstname ?? "",
-          additionalLastName: formFields.additionallastname ?? "",
-          additionalPhone: formFields.additionalphone ?? "",
-          additionalEmail: formFields.additionalemail ?? "",
-          additionalRelationship: formFields.additionalrelationship ?? "",
-          franchiseInterested: formFields.franchiseinterested ?? "",
-          territoryCity: formFields.territorycity ?? "",
-          territoryState: formFields.territorystate ?? "",
-          territoryZipcode: formFields.territoryzipcode ?? "",
-          currentCity: formFields.currentcity ?? "",
-          currentState: formFields.currentstate ?? "",
-          currentZipcode: formFields.currentzipcode ?? "",
-          Status: formFields.status ?? "",
-          PipelineStep: formFields.pipelinestep ?? "",
-          lostReason: "string",
-          AgentUserId: userDetails?.docId ?? 0,
-          isArchive: false,
-          isCompleted: true,
-          updateDt: "2024-07-27T15:00:45.871Z",
-        };
-        const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
-        let response = "";
 
-        // Send the POST request using Axios
-        if (candDetails) {
-          response = await axios.put(
-            `${baseUrl}/${candDetails?.docId}`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-        } else {
-          response = await axios.post(baseUrl, formData, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-        }
-        if (response.status === 201) {
-          setFormErrors({});
-          setForm(response.data.docid);
-          setLoading(false);
-          setSubmittedSteps((prev) => ({ ...prev, candprofile: true }));
-          setStep((prevStep) => prevStep + 1);
-        } else if (response.status === 204) {
-          setSuccessMsg("Candidate Information Saved Successfully!");
-          setShowSuccess(true);
-          setSubmittedSteps((prev) => ({ ...prev, candprofile: true }));
-          setLoading(false);
-        } else {
-          // setFormErrors({  });
-          setLoading(false);
-          window.scrollTo(0, 100);
-          // Handle unexpected response
-        }
-      } else {
-        setFormErrors((prev) => ({
-          ...prev,
-          error: "Please fill in all the required fields",
-        }));
-        setLoading(false);
-        window.scrollTo(0, 100);
+    if (allFieldsValid) {
+      setStep((prevStep) => prevStep + 1);
+    } else {
+      setFormErrors((prev) => ({
+        ...prev,
+        error: "Please fill in all the required fields",
+      }));
+      setLoading(false);
+      window.scrollTo(0, 100);
 
-        // Handle invalid fields (e.g., show validation errors)
-      }
-    } catch (error) {
-      console.error("Error:", error);
+      // Handle invalid fields (e.g., show validation errors)
     }
   };
 

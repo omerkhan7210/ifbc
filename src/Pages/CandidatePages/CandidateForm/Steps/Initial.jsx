@@ -1,7 +1,129 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
-import axios from "axios";
+
+const investmentOptions = [
+  { value: "", label: "Select one" },
+  { value: "$5,000 - $49,999", label: "$5,000 - $49,999" },
+  { value: "$50,000 - $99,999", label: "$50,000 - $99,999" },
+  { value: "$100,000 - $199,999", label: "$100,000 - $199,999" },
+  { value: "$200,000 - $499,999", label: "$200,000 - $499,999" },
+  { value: "$500,000 - $749,999", label: "$500,000 - $749,999" },
+  { value: "More than $750,000", label: "More than $750,000" },
+];
+const fundingOptions = [
+  { value: "", label: "Select one" },
+  { value: "Required to move forward", label: "Required to move forward" },
+  { value: "Looking for options", label: "Looking for options" },
+  {
+    value: "Seeking funding independently",
+    label: "Seeking funding independently",
+  },
+  { value: "No funding required", label: "No funding required" },
+];
+const creditScoreOptions = [
+  { value: "", label: "Select one" },
+  { value: "Excellent - 780 to 850", label: "Excellent - 780 to 850" },
+  { value: "Very good - 740 to 779", label: "Very good - 740 to 779" },
+  {
+    value: "Above average - 720 to 739",
+    label: "Above average - 720 to 739",
+  },
+  { value: "Average - 680 to 719", label: "Average - 680 to 719" },
+  {
+    value: "Below average - 620 to 679",
+    label: "Below average - 620 to 679",
+  },
+  { value: "Poor - 580 to 619", label: "Poor - 580 to 619" },
+  { value: "Very poor - Under 580", label: "Very poor - Under 580" },
+  { value: "I do not know", label: "I do not know" },
+];
+const netWorthOptions = [
+  { value: "", label: "Select one" },
+  { value: "$0 or Negative", label: "$0 or Negative" },
+  { value: "$100,000 or less", label: "$100,000 or less" },
+  { value: "$100,001 to $250,000", label: "$100,001 to $250,000" },
+  { value: "$250,001 to $500,000", label: "$250,001 to $500,000" },
+  { value: "$500,001 to $750,000", label: "$500,001 to $750,000" },
+  { value: "$750,001 to $1,000,000", label: "$750,001 to $1,000,000" },
+  { value: "$1,000,001 to $2,000,000", label: "$1,000,001 to $2,000,000" },
+  { value: "$2,000,001 to $5,000,000", label: "$2,000,001 to $5,000,000" },
+  { value: "$5,000,001 to $10,000,000", label: "$5,000,001 to $10,000,000" },
+  { value: "$10,000,001 or more", label: "$10,000,001 or more" },
+  { value: "I prefer not to answer", label: "I prefer not to answer" },
+];
+const liquidCashOptions = [
+  { value: "", label: "Select one" },
+  { value: "$0", label: "$0" },
+  { value: "$10,000 or under", label: "$10,000 or under" },
+  { value: "$10,001 to $30,000", label: "$10,001 to $30,000" },
+  { value: "$30,001 to $50,000", label: "$30,001 to $50,000" },
+  { value: "$50,001 to $75,000", label: "$50,001 to $75,000" },
+  { value: "$75,001 to $100,000", label: "$75,001 to $100,000" },
+  { value: "$100,001 to $125,000", label: "$100,001 to $125,000" },
+  { value: "$125,001 to $150,000", label: "$125,001 to $150,000" },
+  { value: "$150,001 to $200,000", label: "$150,001 to $200,000" },
+  { value: "$200,001 to $300,000", label: "$200,001 to $300,000" },
+  { value: "$300,001 to $500,000", label: "$300,001 to $500,000" },
+  { value: "$500,001 to $1,000,000", label: "$500,001 to $1,000,000" },
+  { value: "$1,000,001 to $2,500,000", label: "$1,000,001 to $2,500,000" },
+  { value: "$2,500,001 or more", label: "$2,500,001 or more" },
+  { value: "I prefer not to answer", label: "I prefer not to answer" },
+];
+const reasonOptions = [
+  { value: "", label: "Select one" },
+  {
+    value: "I want to own my own business",
+    label: "I want to own my own business",
+  },
+  {
+    value: "I want to transition out of my job",
+    label: "I want to transition out of my job",
+  },
+  {
+    value: "I need more flexibility in my life",
+    label: "I need more flexibility in my life",
+  },
+  {
+    value: "I am looking for a side hustle while I'm still employed",
+    label: "I am looking for a side hustle while I'm still employed",
+  },
+  {
+    value: "I'm seeking another investment to add to my portfolio",
+    label: "I'm seeking another investment to add to my portfolio",
+  },
+  {
+    value: "I want to find a business for a family member",
+    label: "I want to find a business for a family member",
+  },
+];
+const backgroundOptions = [
+  { value: "", label: "Select one" },
+  { value: "No Preference", label: "No Preference" },
+  { value: "Sales", label: "Sales" },
+  { value: "Executive", label: "Executive" },
+  { value: "Manager", label: "Manager" },
+  { value: "IT", label: "IT" },
+  { value: "Admin", label: "Admin" },
+  { value: "Finance", label: "Finance" },
+  { value: "HR", label: "HR" },
+  { value: "Marketing", label: "Marketing" },
+  { value: "Operations", label: "Operations" },
+  { value: "Trades", label: "Trades" },
+  { value: "Laborer", label: "Laborer" },
+  { value: "Logistics", label: "Logistics" },
+];
+const timeFrameOptions = [
+  { value: "", label: "Select one" },
+  { value: "As soon as possible", label: "As soon as possible" },
+  { value: "1 to 3 months", label: "1 to 3 months" },
+  { value: "4 to 6 months", label: "4 to 6 months" },
+  { value: "6 to 12 months", label: "6 to 12 months" },
+  { value: "7 to 9 months", label: "7 to 9 months" },
+  { value: "10 to 12 months", label: "10 to 12 months" },
+  { value: "More than a year away", label: "More than a year away" },
+  { value: "Unsure at the moment", label: "Unsure at the moment" },
+];
+
 const Initial = ({
   handleInputChange,
   candDetails,
@@ -9,198 +131,10 @@ const Initial = ({
   selectedDetails,
   setStep,
   formFields,
-  form,
-  setFormErrors,
-  submittedSteps,
-  setSubmittedSteps,
 }) => {
-  const [loading, setLoading] = useState(false);
-
-  const investmentOptions = [
-    { value: "", label: "Select one" },
-    { value: "$5,000 - $49,999", label: "$5,000 - $49,999" },
-    { value: "$50,000 - $99,999", label: "$50,000 - $99,999" },
-    { value: "$100,000 - $199,999", label: "$100,000 - $199,999" },
-    { value: "$200,000 - $499,999", label: "$200,000 - $499,999" },
-    { value: "$500,000 - $749,999", label: "$500,000 - $749,999" },
-    { value: "More than $750,000", label: "More than $750,000" },
-  ];
-  const fundingOptions = [
-    { value: "", label: "Select one" },
-    { value: "Required to move forward", label: "Required to move forward" },
-    { value: "Looking for options", label: "Looking for options" },
-    {
-      value: "Seeking funding independently",
-      label: "Seeking funding independently",
-    },
-    { value: "No funding required", label: "No funding required" },
-  ];
-  const creditScoreOptions = [
-    { value: "", label: "Select one" },
-    { value: "Excellent - 780 to 850", label: "Excellent - 780 to 850" },
-    { value: "Very good - 740 to 779", label: "Very good - 740 to 779" },
-    {
-      value: "Above average - 720 to 739",
-      label: "Above average - 720 to 739",
-    },
-    { value: "Average - 680 to 719", label: "Average - 680 to 719" },
-    {
-      value: "Below average - 620 to 679",
-      label: "Below average - 620 to 679",
-    },
-    { value: "Poor - 580 to 619", label: "Poor - 580 to 619" },
-    { value: "Very poor - Under 580", label: "Very poor - Under 580" },
-    { value: "I do not know", label: "I do not know" },
-  ];
-  const netWorthOptions = [
-    { value: "", label: "Select one" },
-    { value: "$0 or Negative", label: "$0 or Negative" },
-    { value: "$100,000 or less", label: "$100,000 or less" },
-    { value: "$100,001 to $250,000", label: "$100,001 to $250,000" },
-    { value: "$250,001 to $500,000", label: "$250,001 to $500,000" },
-    { value: "$500,001 to $750,000", label: "$500,001 to $750,000" },
-    { value: "$750,001 to $1,000,000", label: "$750,001 to $1,000,000" },
-    { value: "$1,000,001 to $2,000,000", label: "$1,000,001 to $2,000,000" },
-    { value: "$2,000,001 to $5,000,000", label: "$2,000,001 to $5,000,000" },
-    { value: "$5,000,001 to $10,000,000", label: "$5,000,001 to $10,000,000" },
-    { value: "$10,000,001 or more", label: "$10,000,001 or more" },
-    { value: "I prefer not to answer", label: "I prefer not to answer" },
-  ];
-  const liquidCashOptions = [
-    { value: "", label: "Select one" },
-    { value: "$0", label: "$0" },
-    { value: "$10,000 or under", label: "$10,000 or under" },
-    { value: "$10,001 to $30,000", label: "$10,001 to $30,000" },
-    { value: "$30,001 to $50,000", label: "$30,001 to $50,000" },
-    { value: "$50,001 to $75,000", label: "$50,001 to $75,000" },
-    { value: "$75,001 to $100,000", label: "$75,001 to $100,000" },
-    { value: "$100,001 to $125,000", label: "$100,001 to $125,000" },
-    { value: "$125,001 to $150,000", label: "$125,001 to $150,000" },
-    { value: "$150,001 to $200,000", label: "$150,001 to $200,000" },
-    { value: "$200,001 to $300,000", label: "$200,001 to $300,000" },
-    { value: "$300,001 to $500,000", label: "$300,001 to $500,000" },
-    { value: "$500,001 to $1,000,000", label: "$500,001 to $1,000,000" },
-    { value: "$1,000,001 to $2,500,000", label: "$1,000,001 to $2,500,000" },
-    { value: "$2,500,001 or more", label: "$2,500,001 or more" },
-    { value: "I prefer not to answer", label: "I prefer not to answer" },
-  ];
-  const reasonOptions = [
-    { value: "", label: "Select one" },
-    {
-      value: "I want to own my own business",
-      label: "I want to own my own business",
-    },
-    {
-      value: "I want to transition out of my job",
-      label: "I want to transition out of my job",
-    },
-    {
-      value: "I need more flexibility in my life",
-      label: "I need more flexibility in my life",
-    },
-    {
-      value: "I am looking for a side hustle while I'm still employed",
-      label: "I am looking for a side hustle while I'm still employed",
-    },
-    {
-      value: "I'm seeking another investment to add to my portfolio",
-      label: "I'm seeking another investment to add to my portfolio",
-    },
-    {
-      value: "I want to find a business for a family member",
-      label: "I want to find a business for a family member",
-    },
-  ];
-  const backgroundOptions = [
-    { value: "", label: "Select one" },
-    { value: "No Preference", label: "No Preference" },
-    { value: "Sales", label: "Sales" },
-    { value: "Executive", label: "Executive" },
-    { value: "Manager", label: "Manager" },
-    { value: "IT", label: "IT" },
-    { value: "Admin", label: "Admin" },
-    { value: "Finance", label: "Finance" },
-    { value: "HR", label: "HR" },
-    { value: "Marketing", label: "Marketing" },
-    { value: "Operations", label: "Operations" },
-    { value: "Trades", label: "Trades" },
-    { value: "Laborer", label: "Laborer" },
-    { value: "Logistics", label: "Logistics" },
-  ];
-  const timeFrameOptions = [
-    { value: "", label: "Select one" },
-    { value: "As soon as possible", label: "As soon as possible" },
-    { value: "1 to 3 months", label: "1 to 3 months" },
-    { value: "4 to 6 months", label: "4 to 6 months" },
-    { value: "6 to 12 months", label: "6 to 12 months" },
-    { value: "7 to 9 months", label: "7 to 9 months" },
-    { value: "10 to 12 months", label: "10 to 12 months" },
-    { value: "More than a year away", label: "More than a year away" },
-    { value: "Unsure at the moment", label: "Unsure at the moment" },
-  ];
-
   const handleInitial = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    if (submittedSteps.initial) {
-      setLoading(false);
-      setStep((prevStep) => prevStep + 1);
-      return;
-    }
-
-    try {
-      const formData = {
-        docid: form,
-        funding: formFields.Funding ?? "",
-        investmentFranchise: formFields.InvestmentFranchise ?? "",
-        creditScore: formFields.CreditScore ?? "",
-        networth: formFields.Networth ?? "",
-        liquidCash: formFields.LiquidCash ?? "",
-        franchiseCause: formFields.FranchiseCause ?? "",
-        professionalBackground: formFields.ProfessionalBackground ?? "",
-        timeFrame: formFields.TimeFrame ?? "",
-        isCompleted: true,
-      };
-
-      const baseUrl = "https://backend.ifbc.co/api/initialqualify";
-      let response = "";
-
-      // Send the POST request using Axios
-      if (candDetails) {
-        response = await axios.put(
-          `${baseUrl}/${candDetails?.docId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-      } else {
-        response = await axios.post(baseUrl, formData, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-      if (response.status === 201) {
-        setFormErrors({});
-        setLoading(false);
-        setSubmittedSteps((prev) => ({ ...prev, initial: true }));
-        setStep((prevStep) => prevStep + 1);
-      } else if (response.status === 204) {
-        setSuccessMsg("Candidate Information Saved Successfully!");
-        setShowSuccess(true);
-        setLoading(false);
-      } else {
-        // setFormErrors({  });
-        setLoading(false);
-        window.scrollTo(0, 100);
-        // Handle unexpected response
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    setStep((prevStep) => prevStep + 1);
   };
   return (
     <motion.div
@@ -525,7 +459,7 @@ const Initial = ({
               className="candidate-btn  w-40  flex items-center justify-between"
               onClick={handleInitial}
             >
-              {loading ? "Loading..." : "Next"}
+              Next
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
