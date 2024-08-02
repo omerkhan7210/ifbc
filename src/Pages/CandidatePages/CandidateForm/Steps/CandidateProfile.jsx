@@ -79,7 +79,7 @@ const CandidateProfile = ({
       <select
         onChange={(e) => handleStateChange(e, name)}
         name={`${name}state`}
-        className="candidate-select w-full"
+        className="candidate-select"
         style={{
           borderColor: formErrors[`${name}state`] ? "red" : undefined,
         }}

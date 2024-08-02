@@ -390,6 +390,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           },
         });
       }
+      if (response.status === 201) {
+        setForm(response.data.docid);
+      }
       return response.status;
     } catch (error) {
       console.error("Error:", error);
@@ -604,7 +607,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
 
     const candProfileResStatus = await handleSubmitCandProfileApi();
@@ -613,6 +617,36 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     const expResStatus = await handleSubmitExpApi();
     const wantsResStatus = await handleSubmitWantsApi();
     const fcResStatus = await handleSubmitFCApi();
+    console.log({
+      candProfileResStatus,
+      initialResStatus,
+      eligResStatus,
+      expResStatus,
+      wantsResStatus,
+      fcResStatus,
+    });
+
+    if (
+      candProfileResStatus === 201 &&
+      initialResStatus === 201 &&
+      eligResStatus === 201 &&
+      expResStatus === 201 &&
+      wantsResStatus === 201 &&
+      fcResStatus
+    ) {
+      setFormErrors({});
+      setShowSuccess(true);
+
+      setSuccessMsg(
+        role && role === "C"
+          ? "Candidate Information Saved Successfully!"
+          : "Your Request has been submitted successfully!"
+      );
+      setLoading(false);
+      setTimeout(() => {
+        window.location.href = role && role === "C" ? "/candidate-list" : "/";
+      }, 3000);
+    }
 
     // try {
     //   if (allFieldsValid) {
@@ -1015,13 +1049,13 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           completedTextColor: "#2b7cff",
           size: "3em",
         }}
-        className={"stepper"}
+        className={"stepper md:max-w-7xl mx-auto"}
         stepClassName={"stepper__step border-stepper"}
       />
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : "md:max-w-[50%] items-center justify-center mx-auto mb-10 col-span-12"} `}
+        className={`  ${candDetails ? "" : "md:max-w-[35%] items-center justify-center mx-auto mb-10 col-span-12"} `}
       >
         {/* mene ek separate component banadya step 1 ke liye kunke 1 2 3 rows jo thin wo step 1 may hi thin isliye un teeno ko ek may krdya ab mjhe switch case banana */}
         {/* switch or if else same hi hote lekn if else may condition tum sahi se define krskte switch may bas simple si hoskti */}
