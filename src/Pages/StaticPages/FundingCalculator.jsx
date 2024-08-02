@@ -863,7 +863,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="text"
                   name="firstName"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2 "
+                  className="candidate-input "
                   style={{
                     borderColor: formErrors.firstName ? "#dc2626" : undefined,
                   }}
@@ -881,7 +881,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="text"
                   name="lastName"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                  className="candidate-input"
                   style={{
                     borderColor: formErrors.lastName ? "#dc2626" : undefined,
                   }}
@@ -901,7 +901,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="email"
                   name="email"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                  className="candidate-input"
                   style={{
                     borderColor: formErrors.email ? "#dc2626" : undefined,
                   }}
@@ -918,7 +918,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="tel"
                   name="phone"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                  className="candidate-input"
                   style={{
                     borderColor: formErrors.phone ? "#dc2626" : undefined,
                   }}
