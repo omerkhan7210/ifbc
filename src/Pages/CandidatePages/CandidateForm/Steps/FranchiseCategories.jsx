@@ -1,5 +1,6 @@
-import React from "react";
-
+import React, { useState } from "react";
+import DialogBox from "src/Popups/DialogBox";
+import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageTransition from "src/Animations/PageTransition";
 const FranchiseCategories = ({

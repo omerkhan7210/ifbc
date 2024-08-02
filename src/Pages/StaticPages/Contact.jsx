@@ -347,7 +347,7 @@ const Contact = () => {
                     name="contactName"
                     id="name"
                     placeholder="Your Name"
-                    className="contact-input w-full"
+                    className="contact-input w-full rounded-3xl"
                     style={{
                       border: formErrors.contactName
                         ? "1px solid red"
@@ -368,7 +368,7 @@ const Contact = () => {
                     onChange={handleChange}
                     type="text"
                     name="contactCompany"
-                    className="contact-input w-full"
+                    className="contact-input w-full rounded-3xl"
                     placeholder="Company (Ex. Google)"
                   />
                 </div>
@@ -381,7 +381,7 @@ const Contact = () => {
                     type="email"
                     name="contactEmail"
                     id="floating_email"
-                    className="contact-input w-full"
+                    className="contact-input w-full rounded-3xl"
                     style={{
                       border: formErrors.contactEmail
                         ? "1px solid red"
@@ -406,7 +406,7 @@ const Contact = () => {
                     type="tel"
                     onChange={handleChange}
                     name="contactPhone"
-                    className="contact-input w-full"
+                    className="contact-input w-full rounded-3xl"
                     style={{
                       border: formErrors.contactPhone
                         ? "1px solid red"
@@ -427,7 +427,7 @@ const Contact = () => {
                   onChange={handleChange}
                   id="contactPath"
                   name="contactPath"
-                  className="contact-select w-full"
+                  className="contact-select w-full rounded-3xl"
                   style={{
                     border: formErrors.contactPath
                       ? "1px solid red"
@@ -448,7 +448,7 @@ const Contact = () => {
                 id="comments"
                 rows={4}
                 placeholder="Comments"
-                className="contact-input"
+                className="contact-input rounded-3xl p-3 block"
                 style={{
                   border: formErrors.contactComments
                     ? "1px solid red"
