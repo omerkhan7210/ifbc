@@ -561,7 +561,48 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   };
 
-  const handleSubmitFCApi = async () => {};
+  const handleSubmitFCApi = async () => {
+    try {
+      const formData = {
+        docid: form,
+        AttractiveBusinessOwner: formFields.AttractiveBusinessOwner ?? "",
+        HandleNewBusiness: formFields.HandleNewBusiness ?? "",
+        BusinessExpectations: formFields.BusinessExpectations ?? "",
+        PreferB2b: formFields.PreferB2b ?? "",
+        PhysicalLocation: formFields.PhysicalLocation ?? "",
+        Inventory: formFields.Inventory ?? "",
+        ColdCalling: formFields.ColdCalling ?? "",
+        PassiveMode: formFields.PassiveMode ?? "",
+        BusinessHours: formFields.BusinessHours ?? "",
+        isCompleted: true,
+      };
+      console.log(formData);
+      const baseUrl = "https://backend.ifbc.co/api/franchisecategories";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const handleSubmit = async () => {
     setLoading(true);
@@ -571,6 +612,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     const eligResStatus = await handleSubmitEligApi();
     const expResStatus = await handleSubmitExpApi();
     const wantsResStatus = await handleSubmitWantsApi();
+    const fcResStatus = await handleSubmitFCApi();
 
     // try {
     //   if (allFieldsValid) {
