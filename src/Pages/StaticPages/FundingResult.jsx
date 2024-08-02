@@ -92,7 +92,7 @@ const FundingResult = () => {
                   to="/search-franchises"
                   className="candidate-btn w-[50%]"
                 >
-                  SEARCH FRANCHISES
+                  Search Franchises
                 </NavLink>
               </>
             ) : (
@@ -138,7 +138,7 @@ const FundingResult = () => {
                   to="/search-franchises"
                   className="candidate-btn w-[50%]"
                 >
-                  SEARCH FRANCHISES
+                  Search Franchises
                 </NavLink>
               </>
             )}

@@ -89,7 +89,7 @@ const FranchiseCategories = ({
             in searching some franchises <br />
             <br />
             <NavLink to="/search-franchises" className="candidate-btn w-[50%]">
-              SEARCH FRANCHISES
+              Search Franchise
             </NavLink>
           </p>
         </div>
@@ -133,12 +133,12 @@ const FranchiseCategories = ({
             </p>
           </div>
 
-          <div
-            id="container3"
-            className="border-b border-gray-300  grid grid-cols-2 gap-x-10"
-          >
+          <div id="container3" className="grid grid-cols-2 gap-x-10">
             {selectData.map((item, index) => (
-              <div key={index} className="w-full mr-4">
+              <div
+                key={index}
+                className="w-full mr-4 flex flex-col justify-between my-3"
+              >
                 <div className="mt-2">
                   <label className="flex gap-x-1 items-center mr-6 text-sm">
                     <span className="text-black">{item.label}</span>
@@ -225,7 +225,7 @@ const Select = ({ name, handleInputChange, candNames, formFields }) => {
           onChange={handleInputChange}
           id={name}
           name={name}
-          className="candidate-select w-full"
+          className="candidate-select"
         >
           <option selected>Select a rating</option>
           {franchiseRating.map((option, index) => {

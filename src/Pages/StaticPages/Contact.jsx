@@ -308,7 +308,7 @@ const Contact = () => {
             searching some franchises <br />
             <br />
             <NavLink to="/search-franchises" className="candidate-btn w-[50%]">
-              SEARCH FRANCHISES
+              Search Franchises
             </NavLink>
           </p>
         </div>
