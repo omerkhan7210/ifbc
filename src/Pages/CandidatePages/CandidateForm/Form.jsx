@@ -48,11 +48,11 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [showsuccess, setShowSuccess] = useState(false);
   const [addContacts, setAddContacts] = useState(0);
   const [addTerritory, setAddTerritory] = useState(0);
-  const [additionalContacts, setAdditionalContacts] = useState([]);
-  const [additionalTerritories, setAdditionalTerritories] = useState([]);
+  // const [additionalContacts, setAdditionalContacts] = useState([]);
+  // const [additionalTerritories, setAdditionalTerritories] = useState([]);
   const [form, setForm] = useState(0);
-  const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
-  const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
+  // const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
+  // const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
 
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
@@ -833,14 +833,14 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [step, setStep] = useState(0);
   const [listingNames, setListingNames] = useState([]);
   // ek state banara hun blkl parent may taaky ye change na ho render pr is state ko phr har stepmay pass krwadengay
-  const [submittedSteps, setSubmittedSteps] = useState({
-    candprofile: false,
-    initial: false,
-    eligibility: false,
-    experience: false,
-    wants: false,
-    fc: false,
-  });
+  // const [submittedSteps, setSubmittedSteps] = useState({
+  //   candprofile: false,
+  //   initial: false,
+  //   eligibility: false,
+  //   experience: false,
+  //   wants: false,
+  //   fc: false,
+  // });
 
   // this useEffect api is used for getting listing names with doc ids
   useEffect(() => {
@@ -882,8 +882,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             listingNames={listingNames}
             form={form}
             setForm={setForm}
-            submittedSteps={submittedSteps}
-            setSubmittedSteps={setSubmittedSteps}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
       // ye sab may daalo or call bhi krwalo
@@ -900,8 +900,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
-            submittedSteps={submittedSteps}
-            setSubmittedSteps={setSubmittedSteps}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -920,8 +920,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
-            submittedSteps={submittedSteps}
-            setSubmittedSteps={setSubmittedSteps}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
       case 3:
@@ -936,8 +936,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
-            submittedSteps={submittedSteps}
-            setSubmittedSteps={setSubmittedSteps}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -953,8 +953,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
-            submittedSteps={submittedSteps}
-            setSubmittedSteps={setSubmittedSteps}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -970,8 +970,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
-            submittedSteps={submittedSteps}
-            setSubmittedSteps={setSubmittedSteps}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
+            setShow={setShow}
+            show={show}
           />
         );
       default:
