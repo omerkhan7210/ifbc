@@ -30,6 +30,11 @@ const ListingsColumns = ({ listing, index, slider }) => {
   };
 
   const dispatch = useDispatch();
+
+  const handleRequest = async () => {
+    dispatch(incrementByListing(listing.docId));
+  };
+
   return (
     <motion.div
       initial={{
@@ -140,7 +145,7 @@ const ListingsColumns = ({ listing, index, slider }) => {
           </a>
         ) : (
           <a
-            onClick={() => dispatch(incrementByListing(listing.docId))}
+            onClick={handleRequest}
             className="bg-custom-orange w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
           >
             <span>Request Info</span>

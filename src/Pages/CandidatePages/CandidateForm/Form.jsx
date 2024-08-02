@@ -373,7 +373,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           isArchive: false,
           isCompleted: false,
         };
-        console.log(formData);
         const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
         let response = "";
 
@@ -390,7 +389,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             }
           );
         } else {
-          console.log(formData);
           response = await axios.post(baseUrl, formData, {
             headers: {
               "Content-Type": "application/json",
@@ -584,12 +582,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     wants: false,
     fc: false,
   });
-  console.log(submittedSteps);
 
   // this useEffect api is used for getting listing names with doc ids
   useEffect(() => {
     // const response = axios.get("https://backend.ifbc.co/api/listingsmstr");
-    // console.log(response);
     axios.get("https://backend.ifbc.co/api/listingsmstr").then((response) => {
       const listingNames = response.data.map((listings) => ({
         name: listings.name,
@@ -766,26 +762,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         id="main-new-candidate-form-container"
         className={`  ${candDetails ? "" : "md:max-w-[50%] items-center justify-center mx-auto mb-10 col-span-12"} `}
       >
-        {formErrors.error && (
-          <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
-            {formErrors.error}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
-              />
-            </svg>
-          </p>
-        )}
-
         {/* mene ek separate component banadya step 1 ke liye kunke 1 2 3 rows jo thin wo step 1 may hi thin isliye un teeno ko ek may krdya ab mjhe switch case banana */}
         {/* switch or if else same hi hote lekn if else may condition tum sahi se define krskte switch may bas simple si hoskti */}
 
@@ -807,7 +783,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         className="flex flex-col gap-5 items-center justify-center my-10 col-span-12"
       >
         {/* {!candDetails && (
-          <p className="text-sm text-white text-left my-6 bg-custom-heading-color p-5">
+          <p className="text-xs text-white text-left my-6 bg-custom-heading-color p-5">
             By submitting the form, you agree to receive calls, text messages,
             or emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
             information provided. Message rates may apply. <br />

@@ -23,10 +23,7 @@ const AddContactDiv = ({
       className="p-5 border-2 border-custom-heading-color shadow-lg my-5"
     >
       <h1 className="candidate-sub-heading">Additional Contact</h1>
-      <div
-        id="first-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="first-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">First Name</p>
           <input
@@ -60,10 +57,7 @@ const AddContactDiv = ({
           />
         </div>
       </div>
-      <div
-        id="second-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="second-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">Phone Number</p>
           <input
@@ -162,7 +156,7 @@ const FormFirstRow = ({
 
   return (
     <div id="first-row" className={`${candDetails ? "" : "py-10"} py-5`}>
-      <h1 className="candidate-sub-heading md:mr-20">
+      <h1 className="candidate-sub-heading">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -180,10 +174,7 @@ const FormFirstRow = ({
         Primary Candidate Information
       </h1>
 
-      <div
-        id="first-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="first-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">First Name*</p>
 
@@ -256,10 +247,7 @@ const FormFirstRow = ({
           )}
         </div>
       </div>
-      <div
-        id="second-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="second-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">Phone Number*</p>
 
@@ -324,10 +312,7 @@ const FormFirstRow = ({
         </div>
       </div>
 
-      <div
-        id="first-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="first-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">Candidate First Name</p>
           <input
@@ -365,10 +350,7 @@ const FormFirstRow = ({
           />
         </div>
       </div>
-      <div
-        id="second-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="second-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">Candidate Phone Number</p>
           <input

@@ -16,24 +16,29 @@ const Wants = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [showsuccess, setShowSuccess] = useState(false);
-  const { userDetails, role } = useContext(MyCandContext);
+
+  console.log(formFields);
   const handleWants = async (e) => {
     e.preventDefault();
     setLoading(true);
+    if (submittedSteps.wants) {
+      setLoading(false);
+      setStep((prevStep) => prevStep + 1);
+      return;
+    }
 
     try {
       const formData = {
-        ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
-
-        AttractiveBusinessOwner: formFields.attractivebusinessowner ?? "",
-        HandleNewBusiness: formFields.handlenewbusiness ?? "",
-        BusinessExpectations: formFields.businessexpectations ?? "",
-        PreferB2b: formFields.preferb2b ?? "",
-        PhysicalLocation: formFields.physicallocation ?? "",
-        Inventory: formFields.inventory ?? "",
-        ColdCalling: formFields.coldcalling ?? "",
-        PassiveMode: formFields.passivemode ?? "",
-        BusinessHours: formFields.businesshours ?? "",
+        docid: form,
+        AttractiveBusinessOwner: formFields.AttractiveBusinessOwner ?? "",
+        HandleNewBusiness: formFields.HandleNewBusiness ?? "",
+        BusinessExpectations: formFields.BusinessExpectations ?? "",
+        PreferB2b: formFields.PreferB2b ?? "",
+        PhysicalLocation: formFields.PhysicalLocation ?? "",
+        Inventory: formFields.Inventory ?? "",
+        ColdCalling: formFields.ColdCalling ?? "",
+        PassiveMode: formFields.PassiveMode ?? "",
+        BusinessHours: formFields.BusinessHours ?? "",
         isCompleted: true,
       };
       console.log(formData);
@@ -60,33 +65,14 @@ const Wants = ({
       }
       if (response.status === 201) {
         setFormErrors({});
-        // setShowSuccess(true);
-
-        //const docId = response.data.docId;
-        // if (addContacts > 0) {
-        //   //await handleSubmitContact(docId);
-        //   await handleSubmitContact(21);
-        // }
-        // if (addTerritory > 0) {
-        //   // await handleSubmitTerritory(docId);
-        //   await handleSubmitTerritory(21);
-        // }
-        // setSuccessMsg(
-        //   role && role === "C"
-        //     ? "Candidate Information Saved Successfully!"
-        //     : "Your Request has been submitted successfully!"
-        // );
-        // setSelectedStateC
         setLoading(false);
+        setSubmittedSteps((prev) => ({ ...prev, wants: true }));
         setStep((prevStep) => prevStep + 1);
-        // setTimeout(() => {
-        //   window.location.href =
-        //     role && role === "C" ? "/candidate-list" : "/";
-        // }, 3000);
       } else if (response.status === 204) {
         setSuccessMsg("Candidate Information Saved Successfully!");
         setShowSuccess(true);
         setLoading(false);
+        setStep((prevStep) => prevStep + 1);
       } else {
         // setFormErrors({  });
         setLoading(false);
@@ -108,7 +94,7 @@ const Wants = ({
       id="eligibility"
       className="candidate-tabs-content"
     >
-      <div className="md:max-w-3xl md:mx-auto max-md:mx-5 md:ml-[100px] md:mr-[100px]">
+      <div className="">
         <h1 className="candidate-sub-heading ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -127,9 +113,9 @@ const Wants = ({
           Wants
         </h1>
 
-        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
-          <div className="candidate-input-container">
-            <p className="candidate-label md:mb-5">
+        <div className="candidate-two-col">
+          <div className="candidate-sub-childs">
+            <p className="candidate-label">
               What do you find most attractive about being a business owner?
             </p>
             <input
@@ -145,7 +131,7 @@ const Wants = ({
                 : { value: formFields?.AttractiveBusinessOwner })}
             />
           </div>
-          <div className="candidate-input-container">
+          <div className="candidate-sub-childs">
             <p className="candidate-label">
               From your past experience is there anything you prefer not to
               handle with your new business?
@@ -175,7 +161,7 @@ const Wants = ({
             name="BusinessExpectations"
             id="message"
             rows={10}
-            className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm block focus:outline-none focus:ring-1"
+            className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm block focus:outline-none focus:ring-1 w-full"
             value={
               candNames
                 ? candNames.length > 0
@@ -186,7 +172,7 @@ const Wants = ({
           />
         </div>
 
-        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
+        <div className="candidate-two-col">
           <div className="candidate-sub-childs ">
             <p className="candidate-label">Do you prefer B2B or B2C?</p>
             <ul className="flex mt-3 items-center">
@@ -322,7 +308,7 @@ const Wants = ({
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
+        <div className="candidate-two-col">
           <div className="candidate-sub-childs">
             <p className="candidate-label">
               Would you prefer to have an inventory or service-based business
@@ -472,7 +458,7 @@ const Wants = ({
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1">
+        <div className="candidate-two-col">
           <div className="candidate-sub-childs">
             <p className="candidate-label">
               Are you going to be in this business as an owner/operator or do
@@ -638,7 +624,7 @@ const Wants = ({
             </ul>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 max-sm:grid-cols-1">
+        <div className="candidate-two-col">
           <div
             id="button-container-initial"
             className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
@@ -670,7 +656,7 @@ const Wants = ({
           >
             <button
               className="candidate-btn w-40 flex items-center justify-between"
-              onClick={() => setStep((prevStep) => prevStep + 1)}
+              onClick={handleWants}
             >
               {loading ? "Loading..." : "Next"}
               <svg

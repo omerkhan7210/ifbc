@@ -142,10 +142,6 @@ const Initial = ({
   const handleInitial = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    // Check if the data has already been submitted
-    // iska mtlb subbmitted steps may intiial wlai key agr true hai to ye chalega neeche kch bhi nhi chalega
-    // baar baar data na jaaye isliye ab nhi jaega
     if (submittedSteps.initial) {
       setLoading(false);
       setStep((prevStep) => prevStep + 1);
@@ -153,9 +149,6 @@ const Initial = ({
     }
 
     try {
-      // names galat arhe
-      // camel case arhe
-      // name kro change
       const formData = {
         docid: form,
         funding: formFields.Funding ?? "",
@@ -192,9 +185,7 @@ const Initial = ({
       }
       if (response.status === 201) {
         setFormErrors({});
-        // setShowSuccess(true);
         setLoading(false);
-        // ye isliye daalra hu taaky dobara dobara data na jaaye db may
         setSubmittedSteps((prev) => ({ ...prev, initial: true }));
         setStep((prevStep) => prevStep + 1);
       } else if (response.status === 204) {
@@ -222,7 +213,7 @@ const Initial = ({
       id="initial"
       className="candidate-tabs-content"
     >
-      <div className="md:max-w-3xl md:mx-auto max-md:mx-5 md:ml-[100px] md:mr-[100px]">
+      <div className="">
         <h1 className="candidate-sub-heading ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -240,7 +231,7 @@ const Initial = ({
           </svg>
           Initial Qualifying
         </h1>
-        <div className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1 ">
+        <div className="candidate-two-col ">
           <div className="candidate-sub-childs">
             <div>
               <p className="candidate-label">
@@ -280,9 +271,7 @@ const Initial = ({
           </div>
           <div className="candidate-sub-childs ">
             <div>
-              <p className="candidate-label md:mb-10">
-                Do you have a need for funding?
-              </p>
+              <p className="candidate-label">Do you have a need for funding?</p>
             </div>
             <select
               onChange={handleInputChange}
@@ -307,7 +296,7 @@ const Initial = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-two-col ">
           <div className="candidate-sub-childs">
             <div>
               <p className="candidate-label">
@@ -340,7 +329,7 @@ const Initial = ({
           </div>
           <div className="candidate-sub-childs">
             <div>
-              <p className="candidate-label md:mb-5">Net Worth?</p>
+              <p className="candidate-label">Net Worth?</p>
             </div>
             <select
               onChange={handleInputChange}
@@ -365,10 +354,10 @@ const Initial = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col">
+        <div className="candidate-two-col">
           <div className="candidate-sub-childs ">
             <div>
-              <p className="candidate-label md:mb-5">Liquid Cash?</p>
+              <p className="candidate-label">Liquid Cash?</p>
             </div>
             <select
               onChange={handleInputChange}
@@ -431,7 +420,7 @@ const Initial = ({
           </div>
         </div>
 
-        <div className="flex md:flex-row md:gap-[15px] max-sm:flex-col ">
+        <div className="candidate-two-col ">
           <div className="candidate-sub-childs">
             <div>
               <p className="candidate-label">
@@ -473,9 +462,7 @@ const Initial = ({
 
           <div className="candidate-sub-childs">
             <div>
-              <p className="candidate-label md:mb-5">
-                What is your time frame?
-              </p>
+              <p className="candidate-label">What is your time frame?</p>
             </div>
             <select
               onChange={handleInputChange}
@@ -503,7 +490,7 @@ const Initial = ({
         </div>
 
         {/* button container */}
-        <div className="grid md:grid-cols-2 max-sm:grid-cols-1">
+        <div className="candidate-two-col">
           <div
             id="button-container-initial"
             className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"

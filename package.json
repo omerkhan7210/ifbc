@@ -14,7 +14,8 @@
     "prod": "npm run build && npm run deploy"
   },
   "dependencies": {
-    "@headlessui/react": "^2.0.4",
+    "@headlessui/react": "^2.1.2",
+    "@heroicons/react": "^2.1.5",
     "@mui/material": "^5.15.20",
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.6.8",

@@ -22,6 +22,7 @@ import {
   validateZipcode,
 } from "src/Utils/SanitizeInput";
 import data from "../../../public/files/data.json"; // Adjust the path if necessary
+import ShoppingCartPopup from "src/Popups/ShoppingCartPopup";
 
 const CheckOutForm = () => {
   const { listings } = useContext(MyContext);
@@ -58,16 +59,19 @@ const ShoppingCart = ({ cartListings, listings }) => {
   const dispatch = useDispatch();
 
   return (
-    <div id="main-right-container" className="h-full w-full col-span-5">
+    <div
+      id="main-right-container"
+      className="h-full w-full col-span-5 rounded-3xl shadow-2xl p-8"
+    >
       <div>
-        <h1 className="max-md:text-center text-3xl font-bold capitalize text-custom-heading-color">
+        <h1 className="max-md:text-center text-2xl  capitalize text-custom-heading-color">
           Review Franchises
         </h1>
       </div>
 
       <div
         id="sub-container"
-        className="divide-y-2 divide-custom-heading-color/10 w-full md:h-[550px] overflow-y-auto "
+        className="divide-y-2 divide-custom-heading-color/10 w-full md:h-[400px]  overflow-y-auto "
       >
         {/* items-row */}
         {listings
@@ -101,10 +105,6 @@ const ShoppingCart = ({ cartListings, listings }) => {
                     </h2>
                     <h2 className="text-xs">
                       Cash Required: <b>{listing.investmentRange}</b>
-                    </h2>
-                    <h2 className="text-xs">
-                      Year Established:{" "}
-                      <b>{listing.yearEstablished.split(":")[1]}</b>
                     </h2>
                   </div>
                 </div>
@@ -270,7 +270,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
     const state = states.find((s) => s.value === stateCode);
     if (state) {
       const stateName = state.text;
-      console.log(stateName);
 
       return data[stateName] || [];
     } else {
@@ -283,7 +282,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
     setSelectedState(stateCode);
     setFormFields((prev) => ({ ...prev, state: stateCode }));
     const cityList = getCitiesOfState(stateCode);
-    console.log(cityList);
     setCities(cityList);
   };
 
@@ -325,9 +323,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    console.log("cartListings before submission:", cartListings);
-
     try {
       const allFieldsValid = validateFields();
       if (!allFieldsValid) {
@@ -364,7 +359,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
         newsletter: formFields.newsletter ?? false,
         cartListings: JSON.stringify(cartListings),
       };
-      console.log(formData);
 
       const jsonData = JSON.stringify(formData);
       const baseUrl = "https://backend.ifbc.co/api/checkout";
@@ -421,7 +415,10 @@ const LeftSidebar = ({ cartListings, listings }) => {
   };
 
   return (
-    <div id="left-side-checkout-form" className="col-span-7">
+    <div
+      id="left-side-checkout-form"
+      className="col-span-7 rounded-3xl shadow-2xl p-8"
+    >
       <DialogBox setShow={setShow} show={show}>
         <button
           className="absolute top-5 right-10"
@@ -449,7 +446,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
       </DialogBox>
       <div className="flex flex-col rounded-lg ">
         <div>
-          <h1 className="text-3xl font-bold capitalize text-custom-heading-color max-md:text-center">
+          <h1 className="text-2xl capitalize text-custom-heading-color max-md:text-center">
             Fill in your details
           </h1>
         </div>
@@ -656,7 +653,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
           </div>
         </div>
         {/* Terms and conditions message */}
-        <p className="text-sm text-white text-left my-6 bg-custom-heading-color p-5">
+        <p className="text-xs text-white text-left my-6 bg-custom-heading-color p-5">
           By submitting the form, you agree to receive calls, text messages, or
           emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
           information provided. Message rates may apply. <br />

@@ -131,8 +131,6 @@ const FundingCalculator = () => {
         const url = "https://backend.ifbc.co/api/fundcalculator";
         // const url = "https://localhost:7047/api/fundcalculator";
         const response = await axios.post(url, formData);
-        console.log(response);
-
         if (response.status === 201) {
           setLoading(false);
 
@@ -865,7 +863,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="text"
                   name="firstName"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
+                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2 "
                   style={{
                     borderColor: formErrors.firstName ? "#dc2626" : undefined,
                   }}
@@ -883,7 +881,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="text"
                   name="lastName"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
+                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
                   style={{
                     borderColor: formErrors.lastName ? "#dc2626" : undefined,
                   }}
@@ -903,7 +901,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="email"
                   name="email"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
+                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
                   style={{
                     borderColor: formErrors.email ? "#dc2626" : undefined,
                   }}
@@ -920,7 +918,7 @@ const FundingCalculator = () => {
                   onChange={handleChange}
                   type="tel"
                   name="phone"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
+                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
                   style={{
                     borderColor: formErrors.phone ? "#dc2626" : undefined,
                   }}
@@ -941,11 +939,11 @@ const FundingCalculator = () => {
                 name="message"
                 id="message"
                 rows={10}
-                className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1"
+                className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 p-2"
               />
             </div>
 
-            <p className="text-sm text-white text-left my-6 bg-custom-heading-color p-5">
+            <p className="text-xs text-white text-left my-6 bg-custom-heading-color p-5">
               By submitting the form, you agree to receive calls, text messages,
               or emails from <a href="https://ifbc.co">ifbc.co</a> at the
               contact information provided. Message rates may apply. <br />

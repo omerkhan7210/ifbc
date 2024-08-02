@@ -15,6 +15,7 @@ import RegisterationPopup from "./Popups/RegistrationPopup";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { persistQueryClient } from "react-query/persistQueryClient-experimental";
 import { createWebStoragePersistor } from "react-query/createWebStoragePersistor-experimental";
+import ShoppingCartPopup from "./Popups/ShoppingCartPopup";
 const App = () => {
   const dispatch = useDispatch();
   const [mobileActive, setMobileActive] = useState(false);
@@ -23,9 +24,9 @@ const App = () => {
   const [show, setShow] = useState("");
   const [registrationType, setRegistrationType] = useState("");
   const loc = useLocation();
-
   const [active, setActive] = useState(false);
   const [selectedCandName, setSelectedCandName] = useState({});
+  const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
     dispatch(generateUuid());
@@ -42,7 +43,7 @@ const App = () => {
 
   useEffect(() => {
     setMobileActive(false);
-
+    setShowCart(false);
     document
       .querySelector("#app")
       .classList.add("flex", "flex-col", "justify-between", "min-h-screen");
@@ -75,6 +76,7 @@ const App = () => {
           active={active}
           setActive={setActive}
           selectedCandName={selectedCandName}
+          setShow={setShowCart}
         />
         {mobileActive && (
           <MobileNav
@@ -82,6 +84,7 @@ const App = () => {
             active={active}
             setActive={setActive}
             selectedCandName={selectedCandName}
+            setShow={setShowCart}
           />
         )}
 
@@ -99,6 +102,7 @@ const App = () => {
                 show={show}
                 registrationType={registrationType}
               />
+              <ShoppingCartPopup setShow={setShowCart} show={showCart} />
             </TCFRDataContext>
           </CandidatesDataContext>
         </ListingDataContext>

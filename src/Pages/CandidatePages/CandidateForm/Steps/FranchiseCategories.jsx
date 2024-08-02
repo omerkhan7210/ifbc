@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { motion } from "framer-motion";
 import PageTransition from "src/Animations/PageTransition";
@@ -97,7 +97,7 @@ const FranchiseCategories = ({
         id="eligibility"
         className="candidate-tabs-content"
       >
-        <div className="md:max-w-3xl md:mx-auto max-md:mx-5 md:ml-[100px] md:mr-[100px]">
+        <div className="">
           <h1 className="candidate-sub-heading ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +150,7 @@ const FranchiseCategories = ({
             {/* Yahn Tabs Ayainge Fls filtes ke */}
           </div>
 
-          <div className="grid md:grid-cols-2 max-sm:grid-cols-1">
+          <div className="candidate-two-col">
             <div
               id="button-container-initial"
               className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
@@ -222,7 +222,6 @@ const Select = ({ name, handleInputChange, candNames, formFields }) => {
         >
           <option selected>Select a rating</option>
           {franchiseRating.map((option, index) => {
-            console.log(formFields && formFields[name]);
             return (
               <option
                 key={index}

@@ -20,6 +20,7 @@ const ListingDataContext = ({ children }) => {
     userDetails && typeof userDetails === "object"
       ? userDetails.userType
       : null;
+  const [showCart, setShowCart] = useState(false);
 
   //const reduxListings = useSelector((state) => state.counter.listings);
   //const [listings, setListings] = useState([]);
@@ -101,7 +102,6 @@ const ListingDataContext = ({ children }) => {
 
   //   // Make a GET request to fetch the data
   // }, [listings]); // Empty dependency array to run once on component mount
-
   return (
     <MyContext.Provider
       value={{
@@ -118,6 +118,8 @@ const ListingDataContext = ({ children }) => {
         setPaginationListings,
         token,
         role,
+        showCart,
+        setShowCart,
       }}
     >
       {children}

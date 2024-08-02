@@ -1,3 +1,4 @@
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -212,17 +213,13 @@ const Contact = () => {
           contactCopy: data.contactCopy ?? false,
           contactPath: data.contactPath ?? "",
         };
-        //const url = "https://backend.ifbc.co/api/contactus";
-        const url = "https://localhost:7047/api/contactus";
+        const url = "https://backend.ifbc.co/api/contactus";
+        //const url = "https://localhost:7047/api/contactus";
         const response = await axios.post(url, formData);
 
         if (response.status === 201) {
           setShow(true);
           setLoading(false);
-          setTimeout(() => {
-            setShow(false);
-            window.location.href = "/";
-          }, 20000);
         }
       } else {
         setFormErrors((prev) => ({
@@ -291,12 +288,24 @@ const Contact = () => {
   return (
     <PageTransition>
       <DialogBox show={show} setShow={setShow}>
+        <div className="ml-3 flex h-7 items-center absolute top-5 right-5">
+          <button
+            type="button"
+            onClick={() => setShow(false)}
+            className="relative -m-2 p-2 text-red-600 hover:text-gray-500"
+          >
+            <span className="absolute -inset-0.5" />
+            <span className="sr-only">Close panel</span>
+            <XMarkIcon aria-hidden="true" className="h-6 w-6" />
+          </button>
+        </div>
         <div className="bg-white p-10">
           <p className="text-xl text-center text-custom-heading-color">
             Thank you for taking the time to contact us.
-            <br />A IFBC customer service representative will contact you within
-            two business days. <br /> For the mean time you can indulge yourself
-            in searching some franchises <br />
+            <br />
+            An IFBC customer service representative will contact you within two
+            business days. <br /> For the mean time you can indulge yourself in
+            searching some franchises <br />
             <br />
             <NavLink to="/search-franchises" className="candidate-btn w-[50%]">
               SEARCH FRANCHISES
@@ -304,7 +313,7 @@ const Contact = () => {
           </p>
         </div>
       </DialogBox>
-      <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[95%] mx-auto">
+      <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[65%] mx-auto">
         <ServicesGrid />
         <div className=" md:rounded-3xl grid max-md:grid-cols-1 md:grid-cols-2 md:h-[650px] md:gap-4">
           <img
@@ -448,7 +457,7 @@ const Contact = () => {
                 id="comments"
                 rows={4}
                 placeholder="Comments"
-                className="contact-input"
+                className="contact-input md:w-1/2"
                 style={{
                   border: formErrors.contactComments
                     ? "1px solid red"
@@ -471,7 +480,7 @@ const Contact = () => {
               </label>
 
               {/* Terms and conditions message */}
-              <p className="text-sm text-custom-heading-color text-left">
+              <p className="text-xs text-custom-heading-color text-left">
                 By submitting the form, you agree to receive calls, text
                 messages, or emails from <a href="https://ifbc.co">ifbc.co</a>{" "}
                 at the contact information provided. <br />
