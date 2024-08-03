@@ -653,17 +653,17 @@ const LeftSidebar = ({ cartListings, listings }) => {
           </div>
         </div>
         {/* Terms and conditions message */}
-        <p className="text-xs text-white text-left my-6 bg-custom-heading-color p-5">
+        <p className="text-sm text-custom-heading-color text-left my-6 bg-[#2176ff]/30 p-5 rounded-3xl">
           By submitting the form, you agree to receive calls, text messages, or
           emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
           information provided. Message rates may apply. <br />
           Text STOP to cancel text messaging at any time. <br />
           See{" "}
-          <a href="/terms-conditions" className=" font-extrabold underline">
+          <a href="/terms-conditions" className="  underline">
             Terms & Conditions
           </a>{" "}
           and{" "}
-          <a href="/privacy-policy" className=" font-extrabold underline">
+          <a href="/privacy-policy" className="  underline">
             Privacy Policy
           </a>{" "}
           for additional details.

@@ -856,7 +856,7 @@ const FundingCalculator = () => {
               </div>
             </div>
 
-            <div className="w-full mx-auto flex justify-center items-center flex-col">
+            <div className="w-full mx-auto flex justify-center items-center flex-col shadow-xl p-5 rounded-3xl">
               <div className="flex md:gap-4 max-md:flex-col md:flex-row w-full justify-center">
                 <div className="candidate-sub-childs">
                   <p className="funding-questions">First Name</p>
@@ -864,7 +864,7 @@ const FundingCalculator = () => {
                     onChange={handleChange}
                     type="text"
                     name="firstName"
-                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2 "
+                    className="funding-input "
                     style={{
                       borderColor: formErrors.firstName ? "#dc2626" : undefined,
                     }}
@@ -883,7 +883,7 @@ const FundingCalculator = () => {
                     onChange={handleChange}
                     type="text"
                     name="lastName"
-                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                    className="funding-input"
                     style={{
                       borderColor: formErrors.lastName ? "#dc2626" : undefined,
                     }}
@@ -903,7 +903,7 @@ const FundingCalculator = () => {
                     onChange={handleChange}
                     type="email"
                     name="email"
-                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                    className="funding-input"
                     style={{
                       borderColor: formErrors.email ? "#dc2626" : undefined,
                     }}
@@ -920,7 +920,7 @@ const FundingCalculator = () => {
                     onChange={handleChange}
                     type="tel"
                     name="phone"
-                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                    className="funding-input"
                     style={{
                       borderColor: formErrors.phone ? "#dc2626" : undefined,
                     }}
@@ -932,7 +932,7 @@ const FundingCalculator = () => {
                   )}
                 </div>
               </div>
-              <div className=" flex md:gap-4 flex-col  w-full justify-center max-w-[77%] mx-auto">
+              <div className=" flex md:gap-4 flex-col  w-full justify-center mx-auto max-w-[80%]">
                 <label htmlFor="message" className="funding-questions">
                   Message
                 </label>
@@ -941,22 +941,22 @@ const FundingCalculator = () => {
                   name="message"
                   id="message"
                   rows={10}
-                  className="candidate-input"
+                  className="funding-input"
                 />
               </div>
             </div>
 
-            <p className="text-xs text-white text-left my-6 bg-custom-heading-color p-5">
+            <p className="text-sm text-custom-heading-color text-left my-6 bg-[#2176ff]/30 p-5 rounded-3xl">
               By submitting the form, you agree to receive calls, text messages,
               or emails from <a href="https://ifbc.co">ifbc.co</a> at the
               contact information provided. Message rates may apply. <br />
               Text STOP to cancel text messaging at any time. <br />
               See{" "}
-              <a href="/terms-conditions" className=" font-extrabold underline">
+              <a href="/terms-conditions" className="  underline">
                 Terms & Conditions
               </a>{" "}
               and{" "}
-              <a href="/privacy-policy" className=" font-extrabold underline">
+              <a href="/privacy-policy" className="  underline">
                 Privacy Policy
               </a>{" "}
               for additional details.
