@@ -162,7 +162,7 @@ const FormFirstRow = ({
 
   return (
     <div id="first-row" className={`${candDetails ? "" : "py-10"} py-5`}>
-      <h1 className="candidate-sub-heading md:mr-20">
+      <h1 className="candidate-sub-heading">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
