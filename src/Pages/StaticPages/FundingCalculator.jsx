@@ -856,91 +856,94 @@ const FundingCalculator = () => {
               </div>
             </div>
 
-            <div className="flex md:gap-4 max-md:flex-col md:flex-row ">
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">First Name</p>
-                <input
+            <div className="w-full mx-auto flex justify-center items-center flex-col">
+              <div className="flex md:gap-4 max-md:flex-col md:flex-row w-full justify-center">
+                <div className="candidate-sub-childs">
+                  <p className="funding-questions">First Name</p>
+                  <input
+                    onChange={handleChange}
+                    type="text"
+                    name="firstName"
+                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2 "
+                    style={{
+                      borderColor: formErrors.firstName ? "#dc2626" : undefined,
+                    }}
+                  />
+                  {formErrors.firstName &&
+                    formErrors.firstName === "invalid" && (
+                      <p className=" text-[#dc2626] py-2 flex justify-between">
+                        Invalid username. It should be 3-16 characters long and
+                        can include letters, numbers, underscores, and spaces.
+                      </p>
+                    )}
+                </div>
+                <div className="candidate-sub-childs">
+                  <p className="funding-questions">Last Name</p>
+                  <input
+                    onChange={handleChange}
+                    type="text"
+                    name="lastName"
+                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                    style={{
+                      borderColor: formErrors.lastName ? "#dc2626" : undefined,
+                    }}
+                  />{" "}
+                  {formErrors.lastName && formErrors.lastName === "invalid" && (
+                    <p className=" text-[#dc2626] py-2 flex justify-between">
+                      Invalid username. It should be 3-16 characters long and
+                      can include letters, numbers, underscores, and spaces.
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex md:gap-4 max-md:flex-col md:flex-row w-full  justify-center">
+                <div className="candidate-sub-childs">
+                  <p className="funding-questions">Email </p>
+                  <input
+                    onChange={handleChange}
+                    type="email"
+                    name="email"
+                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                    style={{
+                      borderColor: formErrors.email ? "#dc2626" : undefined,
+                    }}
+                  />
+                  {formErrors.email && formErrors.email === "invalid" && (
+                    <p className=" text-[#dc2626] py-2 flex justify-between">
+                      Invalid Email (john@example.com)
+                    </p>
+                  )}
+                </div>
+                <div className="candidate-sub-childs">
+                  <p className="funding-questions">Phone </p>
+                  <input
+                    onChange={handleChange}
+                    type="tel"
+                    name="phone"
+                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                    style={{
+                      borderColor: formErrors.phone ? "#dc2626" : undefined,
+                    }}
+                  />{" "}
+                  {formErrors.phone && formErrors.phone === "invalid" && (
+                    <p className=" text-[#dc2626] py-2 flex justify-between">
+                      Invalid Phone Number (Please use numbers only)
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className=" flex md:gap-4 flex-col  w-full justify-center max-w-[77%] mx-auto">
+                <label htmlFor="message" className="funding-questions">
+                  Message
+                </label>
+                <textarea
                   onChange={handleChange}
-                  type="text"
-                  name="firstName"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2 "
-                  style={{
-                    borderColor: formErrors.firstName ? "#dc2626" : undefined,
-                  }}
+                  name="message"
+                  id="message"
+                  rows={10}
+                  className="candidate-input"
                 />
-                {formErrors.firstName && formErrors.firstName === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid username. It should be 3-16 characters long and can
-                    include letters, numbers, underscores, and spaces.
-                  </p>
-                )}
               </div>
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">Last Name</p>
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  name="lastName"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
-                  style={{
-                    borderColor: formErrors.lastName ? "#dc2626" : undefined,
-                  }}
-                />{" "}
-                {formErrors.lastName && formErrors.lastName === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid username. It should be 3-16 characters long and can
-                    include letters, numbers, underscores, and spaces.
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="flex md:gap-4 max-md:flex-col md:flex-row ">
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">Email </p>
-                <input
-                  onChange={handleChange}
-                  type="email"
-                  name="email"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
-                  style={{
-                    borderColor: formErrors.email ? "#dc2626" : undefined,
-                  }}
-                />
-                {formErrors.email && formErrors.email === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid Email (john@example.com)
-                  </p>
-                )}
-              </div>
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">Phone </p>
-                <input
-                  onChange={handleChange}
-                  type="tel"
-                  name="phone"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
-                  style={{
-                    borderColor: formErrors.phone ? "#dc2626" : undefined,
-                  }}
-                />{" "}
-                {formErrors.phone && formErrors.phone === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid Phone Number (Please use numbers only)
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="candidate-sub-childs">
-              <label htmlFor="message" className="funding-questions">
-                Message
-              </label>
-              <textarea
-                onChange={handleChange}
-                name="message"
-                id="message"
-                rows={10}
-                className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 p-2"
-              />
             </div>
 
             <p className="text-xs text-white text-left my-6 bg-custom-heading-color p-5">

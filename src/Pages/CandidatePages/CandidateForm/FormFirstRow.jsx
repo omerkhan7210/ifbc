@@ -25,7 +25,7 @@ const AddContactDiv = ({
       <h1 className="candidate-sub-heading">Additional Contact</h1>
       <div
         id="first-sub-row"
-        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px] justify-between jus"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">First Name</p>
@@ -62,7 +62,7 @@ const AddContactDiv = ({
       </div>
       <div
         id="second-sub-row"
-        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px] justify-between"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">Phone Number</p>
@@ -179,7 +179,7 @@ const FormFirstRow = ({
 
       <div
         id="first-sub-row"
-        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px] justify-between"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">First Name*</p>
@@ -251,7 +251,7 @@ const FormFirstRow = ({
       </div>
       <div
         id="second-sub-row"
-        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+        className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px] justify-between"
       >
         <div className="candidate-sub-childs">
           <p className="candidate-label">Phone Number*</p>

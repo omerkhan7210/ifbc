@@ -457,7 +457,7 @@ const Contact = () => {
                 id="comments"
                 rows={4}
                 placeholder="Comments"
-                className="contact-input md:w-1/2"
+                className="contact-input w-full"
                 style={{
                   border: formErrors.contactComments
                     ? "1px solid red"
