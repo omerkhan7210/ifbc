@@ -445,115 +445,28 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       const wantsResStatus = await handleSubmitWantsApi(docid);
       const fcResStatus = await handleSubmitFCApi(docid);
 
-      // if (
-      //   candProfileResStatus === 201 &&
-      //   initialResStatus === 201 &&
-      //   eligResStatus === 201 &&
-      //   expResStatus === 201 &&
-      //   wantsResStatus === 201 &&
-      //   fcResStatus
-      // ) {
-      //   setFormErrors({});
-      //   setShowSuccess(true);
+      if (
+        candProfileResStatus === 201 &&
+        initialResStatus === 201 &&
+        eligResStatus === 201 &&
+        expResStatus === 201 &&
+        wantsResStatus === 201 &&
+        fcResStatus
+      ) {
+        setFormErrors({});
+        setShowSuccess(true);
 
-      //   setSuccessMsg(
-      //     role && role === "C"
-      //       ? "Candidate Information Saved Successfully!"
-      //       : "Your Request has been submitted successfully!"
-      //   );
-      //   setLoading(false);
-      //   setTimeout(() => {
-      //     window.location.href = role && role === "C" ? "/candidate-list" : "/";
-      //   }, 245000);
-      // }
+        setSuccessMsg(
+          role && role === "C"
+            ? "Candidate Information Saved Successfully!"
+            : "Your Request has been submitted successfully!"
+        );
+        setLoading(false);
+        setTimeout(() => {
+          window.location.href = role && role === "C" ? "/candidate-list" : "/";
+        }, 245000);
+      }
     }
-
-    // try {
-    //   if (allFieldsValid) {
-    //     const formData = {
-    //       docid:form,
-    //       closeDate: formFields.closedate ?? "",
-    //       firstName: formFields.firstname ?? "",
-    //       lastName: formFields.lastname ?? "",
-    //       Phone: formFields.phone ?? "",
-    //       Email: formFields.email ?? "",
-    //       additionalFirstName: formFields.additionalfirstname ?? "",
-    //       additionalLastName: formFields.additionallastname ?? "",
-    //       additionalPhone: formFields.additionalphone ?? "",
-    //       additionalEmail: formFields.additionalemail ?? "",
-    //       additionalRelationship: formFields.additionalrelationship ?? "",
-    //       franchiseInterested: formFields.franchiseinterested ?? "",
-    //       territoryCity: formFields.territorycity ?? "",
-    //       territoryState: formFields.territorystate ?? "",
-    //       territoryZipcode: formFields.territoryzipcode ?? "",
-    //       currentCity: formFields.currentcity ?? "",
-    //       currentState: formFields.currentstate ?? "",
-    //       currentZipcode: formFields.currentzipcode ?? "",
-    //       Status: formFields.status ?? "",
-    //       PipelineStep: formFields.pipelinestep ?? "",
-    //       AgentUserId: userDetails?.docId ?? 0,
-    //       isArchive: false,
-    //       isCompleted: false,
-    //     };
-    //     const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
-    //     let response = "";
-
-    //     // Send the POST request using Axios
-    //     if (candDetails) {
-    //       response = await axios.put(
-    //         `${baseUrl}/${candDetails?.docId}`,
-    //         formData,
-
-    //         {
-    //           headers: {
-    //             "Content-Type": "application/json",
-    //           },
-    //         }
-    //       );
-    //     } else {
-    //       response = await axios.post(baseUrl, formData, {
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //         },
-    //       });
-    //     }
-    //     if (response.status === 201) {
-    //       setFormErrors({});
-    //       setShowSuccess(true);
-
-    //       setSuccessMsg(
-    //         role && role === "C"
-    //           ? "Candidate Information Saved Successfully!"
-    //           : "Your Request has been submitted successfully!"
-    //       );
-    //       setLoading(false);
-    //       setTimeout(() => {
-    //         window.location.href =
-    //           role && role === "C" ? "/candidate-list" : "/";
-    //       }, 3000);
-    //     } else if (response.status === 204) {
-    //       setSuccessMsg("Candidate Information Saved Successfully!");
-    //       setShowSuccess(true);
-    //       setLoading(false);
-    //     } else {
-    //       // setFormErrors({  });
-    //       setLoading(false);
-    //       window.scrollTo(0, 100);
-    //       // Handle unexpected response
-    //     }
-    //   } else {
-    //     setFormErrors((prev) => ({
-    //       ...prev,
-    //       error: "Please fill in all the required fields",
-    //     }));
-    //     setLoading(false);
-    //     window.scrollTo(0, 100);
-
-    //     // Handle invalid fields (e.g., show validation errors)
-    //   }
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
   };
 
   const handleSubmitRegistration = async () => {
@@ -878,18 +791,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         id="main-new-candidate-form-container"
         className={`  ${candDetails ? "" : "md:max-w-[45%] items-center justify-center mx-auto mb-10 col-span-12"} `}
       >
-        {/* mene ek separate component banadya step 1 ke liye kunke 1 2 3 rows jo thin wo step 1 may hi thin isliye un teeno ko ek may krdya ab mjhe switch case banana */}
-        {/* switch or if else same hi hote lekn if else may condition tum sahi se define krskte switch may bas simple si hoskti */}
-
-        {/* tabs */}
-        {/* hum pehle tabs ko alag alag hisse may tordete abhi sab ek hi may arha */}
-        {/* <Tabs
-          handleInputChange={handleInputChange}
-          candDetails={candDetails}
-          candNames={candNames}
-          selectedDetails={selectedDetails}
-        /> */}
-
         {handleSwitchCase()}
       </div>
 
@@ -898,23 +799,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         id="button-container"
         className="flex flex-col gap-5 items-center justify-center my-10 col-span-12"
       >
-        {/* {!candDetails && (
-          <p className="text-sm text-custom-heading-color text-left my-6 bg-[#2176ff]/30 p-5 rounded-3xl">
-              By submitting the form, you agree to receive calls, text messages,
-              or emails from <a href="https://ifbc.co">ifbc.co</a> at the
-              contact information provided. Message rates may apply. <br />
-              Text STOP to cancel text messaging at any time. <br />
-              See{" "}
-              <a href="/terms-conditions" className="  underline">
-                Terms & Conditions
-              </a>{" "}
-              and{" "}
-              <a href="/privacy-policy" className="  underline">
-                Privacy Policy
-              </a>{" "}
-              for additional details.
-            </p>
-        )} */}
         {/* {candNames && candDetails ? (
           <button
             className="candidate-btn w-96"

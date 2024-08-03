@@ -225,6 +225,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
     </Transition>
   );
 };
+
 const NoListingsFound = ({ setShow }) => {
   return (
     <div className="flex flex-col justify-center items-center gap-6  h-full">

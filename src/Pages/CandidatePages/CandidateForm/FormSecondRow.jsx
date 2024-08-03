@@ -1,5 +1,4 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const AddTerritoryDiv = ({
   territory,
@@ -130,6 +129,7 @@ const FormSecondRow = ({
   territorys,
   citiesC,
   listingNames,
+  selectedStateC,
 }) => {
   // hum blkl parent component may se lekr arhe taakay baar baar calling na ho api ki kunke parent component hamara ek hi dafa render hona hai bas to first time pr jab page load hoga tab hi srf api call hogy phr nhi hogy back ya aagay jaane pr
   // ab nhi hui dekha? loading wagera kch nhi aya han dekha agr koi cheez baar baar re render hori to usse parent component ya kisi context may rakhkr use krskte taakay ek hi cheez baar baar call na ho
@@ -179,22 +179,14 @@ const FormSecondRow = ({
               }}
               onChange={handleFranchiseSelect}
             >
-              {listingNames
-                // .filter((data) => {
-                //   const selectFranchise = selectedFranchises.includes(
-                //     data.docId.toString()
-                //   );
-                //   return !selectFranchise;
-                // })
-
-                .map((item) => (
-                  <option
-                    value={item.docId}
-                    selected={formFields?.franchiseinterested == item.docId}
-                  >
-                    {item.name}
-                  </option>
-                ))}
+              {listingNames.map((item) => (
+                <option
+                  value={item.docId}
+                  selected={formFields?.franchiseinterested == item.docId}
+                >
+                  {item.name}
+                </option>
+              ))}
             </select>
           ) : (
             <h1>Loading...</h1>
@@ -292,7 +284,7 @@ const FormSecondRow = ({
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label"> Current City*</p>
-          {selectedStateT && citiesT.length > 0 ? (
+          {selectedStateC && citiesC.length > 0 ? (
             <select
               className="candidate-select"
               name="currentcity"

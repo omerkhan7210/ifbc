@@ -38,7 +38,7 @@
   @apply text-black  text-sm mt-2;
 }
 .candidate-radio-text {
-  @apply block text-custom-dark-blue text-sm;
+  @apply block text-custom-heading-color text-sm;
 }
 
 .candidate-sub-heading {
