@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
+
 import {
   formatCurrency,
   sanitizeInput,
@@ -950,72 +951,6 @@ const FundingCalculator = () => {
                   </p>
                 )}
               </div>
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">Last Name</p>
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  name="lastName"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
-                  style={{
-                    borderColor: formErrors.lastName ? "#dc2626" : undefined,
-                  }}
-                />{" "}
-                {formErrors.lastName && formErrors.lastName === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid username. It should be 3-16 characters long and can
-                    include letters, numbers, underscores, and spaces.
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="flex md:gap-4 max-md:flex-col md:flex-row ">
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">Email </p>
-                <input
-                  onChange={handleChange}
-                  type="email"
-                  name="email"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
-                  style={{
-                    borderColor: formErrors.email ? "#dc2626" : undefined,
-                  }}
-                />
-                {formErrors.email && formErrors.email === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid Email (john@example.com)
-                  </p>
-                )}
-              </div>
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">Phone </p>
-                <input
-                  onChange={handleChange}
-                  type="tel"
-                  name="phone"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
-                  style={{
-                    borderColor: formErrors.phone ? "#dc2626" : undefined,
-                  }}
-                />{" "}
-                {formErrors.phone && formErrors.phone === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid Phone Number (Please use numbers only)
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="candidate-sub-childs">
-              <label htmlFor="message" className="funding-questions">
-                Message
-              </label>
-              <textarea
-                onChange={handleChange}
-                name="message"
-                id="message"
-                rows={10}
-                className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 p-2"
-              />
             </div>
 
             <p className="text-sm text-custom-heading-color text-left my-6 bg-[#2176ff]/30 p-5 rounded-3xl">

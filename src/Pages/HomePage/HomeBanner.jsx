@@ -8,6 +8,99 @@ import "swiper/css";
 
 import "swiper/css/effect-fade";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
+import { MultiSelect } from "primereact/multiselect";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
+const categories = [
+  { name: "Advertising", code: "Advertising" },
+  { name: "Automotive", code: "Automotive" },
+  { name: "BeautySpa", code: "Beauty & Spa" },
+  {
+    name: "BusinessManagementCoaching",
+    code: "Business Management & Coaching",
+  },
+  { name: "BusinessServices", code: "Business Services" },
+  {
+    name: "ChildEducationStemTutoring",
+    code: "Child Education, STEM & Tutoring",
+  },
+  { name: "ChildServicesProducts", code: "Child Services & Products" },
+  {
+    name: "CleaningResidentialCommercial",
+    code: "Cleaning: Residential & Commercial",
+  },
+  { name: "ComputerTechnology", code: "Computer Technology" },
+  {
+    name: "DistributionServices",
+    code: "Select a rating Distribution Services",
+  },
+  { name: "DryCleaningLaundry", code: "Dry Cleaning-Laundry" },
+  { name: "FinancialServices", code: "Financial Services" },
+  { name: "Fitness", code: "Fitness" },
+  {
+    name: "FoodBeverageRestaurantQSR",
+    code: "Food & Beverage: Restaurant/QSR/Catering",
+  },
+  {
+    name: "FoodCoffeeTeaSmoothiesSweets",
+    code: "Food: Coffee/Tea/Smoothies/Sweets",
+  },
+  { name: "FoodStoresCatering", code: "Food: Stores & Catering" },
+  { name: "HealthMedical", code: "Health/Medical" },
+  { name: "HealthWellness", code: "Health/Wellness" },
+  { name: "HomeImprovement", code: "Home Improvement" },
+  { name: "InteriorExteriorDesign", code: "Interior/Exterior Design" },
+  { name: "MaintenanceRepair", code: "Maintenance & Repair" },
+  {
+    name: "MovingStorageJunkRemoval",
+    code: "Moving, Storage & Junk Removal",
+  },
+  { name: "Painting", code: "Painting" },
+  { name: "PestControl", code: "Pest Control" },
+  { name: "PetCareGrooming", code: "Pet Care & Grooming" },
+  { name: "PrintCopyMailing", code: "Print, Copy & Mailing" },
+  { name: "RealState", code: "Real Estate" },
+  { name: "Restoration", code: "Restoration" },
+  { name: "Retail", code: "Retail" },
+  { name: "Security", code: "Security" },
+  {
+    name: "SeniorCareMedicalNonMedical",
+    code: "Senior Care: Medical/Non-Medical",
+  },
+
+  { name: "Signs", code: "Signs" },
+  { name: "SpecialEventPlanning", code: "Special Event Planning" },
+  { name: "SportsRecreation", code: "Sports & Recreation" },
+  { name: "Staffing", code: "Staffing" },
+  { name: "TravelPlanning", code: "Travel Planning" },
+  { name: "Vending", code: "Vending" },
+];
+
+const generateRangeArray = (start, end, step, check) => {
+  let rangeArray = [];
+  for (let i = start; i < end; i += step) {
+    let rangeEnd = i + step;
+    if (rangeEnd > end) rangeEnd = end; // Ensure the final range does not exceed 'end'
+
+    if (check) {
+      rangeArray.push(`$${i.toLocaleString()} - $${rangeEnd.toLocaleString()}`);
+    } else {
+      rangeArray.push(`${i} - ${rangeEnd}`);
+    }
+  }
+  if (check) {
+    rangeArray.push(`> $${end}`);
+  } else {
+    rangeArray.push(`> ${end}`);
+  }
+  return rangeArray;
+};
+
+const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
+
+const franchisedUnits = generateRangeArray(0, 1000, 100, false);
+
+const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
 
 const HomeBanner = () => {
   const listingBoxes = [
@@ -161,7 +254,7 @@ const HomeBanner = () => {
 
 const SearchingSection = () => {
   const ref = useRef();
-  const { setFilters } = useContext(MyContext);
+  const { setFilters, filters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
   const [activeDD, setActiveDD] = useState(false);
   const dropdownRef = useRef(null);
@@ -204,14 +297,15 @@ const SearchingSection = () => {
     }, {});
 
     if (searchValue === "") {
-      setFilters({ ...uniqueFilters });
+      setFilters((prev) => ({ ...prev, ...uniqueFilters }));
     } else {
       setFilters({
         search: [searchValue],
       });
     }
+    console.log(selectedCats, uniqueFilters);
 
-    history("/search-franchises");
+    //history("/search-franchises");
   };
 
   return (
@@ -240,7 +334,7 @@ const SearchingSection = () => {
           </svg>
         </button>
       </div>
-      {filterDataa.map((config, index) => (
+      {/* {filterDataa.map((config, index) => (
         <SearchDropdown
           key={index}
           config={config}
@@ -249,7 +343,17 @@ const SearchingSection = () => {
           activeDD={activeDD}
           setActiveDD={setActiveDD}
         />
-      ))}
+      ))} */}
+      <MultiSelect
+        value={selectedCats}
+        onChange={(e) => setSelectedCats(e.value)}
+        options={categories}
+        optionLabel="code"
+        filter
+        placeholder="Select Categories"
+        // maxSelectedLabels={3}
+        className="col-span-3"
+      />
       <button
         type="submit"
         className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
