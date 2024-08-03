@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
-import axios from "axios";
 const Wants = ({
   setStep,
   handleInputChange,
@@ -9,6 +7,7 @@ const Wants = ({
   candNames,
   selectedDetails,
   formFields,
+  setFormErrors,
 }) => {
   const handleWants = async (e) => {
     e.preventDefault();

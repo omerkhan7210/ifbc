@@ -264,7 +264,7 @@ const FormTC = ({
         <h1 className="candidate-sub-heading">Additional Territory</h1>
         <div
           id="first-sub-row"
-          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px] justify-between"
         >
           <div className="candidate-sub-childs">
             <p className="candidate-label">City</p>
@@ -289,7 +289,7 @@ const FormTC = ({
         </div>
         <div
           id="second-sub-row"
-          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px] justify-between"
         >
           <div className="candidate-sub-childs">
             <p className="candidate-label">Zip</p>

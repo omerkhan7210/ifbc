@@ -12,6 +12,7 @@ const FranchiseCategories = ({
   candNames,
   show,
   setShow,
+  loading,
 }) => {
   const selectData = [
     { name: "Advertising", label: "Advertising" },
@@ -192,7 +193,7 @@ const FranchiseCategories = ({
                 className="candidate-btn  w-40  flex items-center justify-between"
                 onClick={handleSubmit}
               >
-                Submit
+                {loading ? "Loading..." : "Submit"}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -225,7 +226,7 @@ const Select = ({ name, handleInputChange, candNames, formFields }) => {
           onChange={handleInputChange}
           id={name}
           name={name}
-          className="candidate-select"
+          className="candidate-select w-full"
         >
           <option selected>Select a rating</option>
           {franchiseRating.map((option, index) => {

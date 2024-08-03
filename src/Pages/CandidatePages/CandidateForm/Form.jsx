@@ -390,19 +390,20 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           },
         });
       }
-      if (response.status === 201) {
-        setForm(response.data.docid);
-      }
-      return response.status;
+
+      return {
+        candProfileResStatus: response.status,
+        docid: response.data.docid,
+      };
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
-  const handleSubmitInitialApi = async () => {
+  const handleSubmitInitialApi = async (docid) => {
     try {
       const formData = {
-        docid: form,
+        docid,
         funding: formFields.Funding ?? "",
         investmentFranchise: formFields.InvestmentFranchise ?? "",
         creditScore: formFields.CreditScore ?? "",
@@ -441,12 +442,12 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   };
 
-  const handleSubmitEligApi = async () => {
+  const handleSubmitEligApi = async (docid) => {
     // check krke daalo
     try {
       // names galat hongay console log krwakr check krna kese arhe
       const formData = {
-        docid: form,
+        docid,
         VALoan: formFields.VALoan ?? "",
         EligibilityValue: formFields.EligibilityValue ?? "",
         TrafficViolation: formFields.TrafficViolation ?? "",
@@ -482,10 +483,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   };
 
-  const handleSubmitExpApi = async () => {
+  const handleSubmitExpApi = async (docid) => {
     try {
       const formData = {
-        docid: form,
+        docid,
         BusinessBefore: formFields.BusinessBefore ?? "",
         MarketingExperience: formFields.MarketingExperience ?? "",
         ManagementExperience: formFields.ManagementExperience ?? "",
@@ -521,10 +522,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   };
 
-  const handleSubmitWantsApi = async () => {
+  const handleSubmitWantsApi = async (docid) => {
     try {
       const formData = {
-        docid: form,
+        docid,
         AttractiveBusinessOwner: formFields.AttractiveBusinessOwner ?? "",
         HandleNewBusiness: formFields.HandleNewBusiness ?? "",
         BusinessExpectations: formFields.BusinessExpectations ?? "",
@@ -564,10 +565,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   };
 
-  const handleSubmitFCApi = async () => {
+  const handleSubmitFCApi = async (docid) => {
     try {
       const formData = {
-        docid: form,
+        docid,
         firstName: formFields.firstname ?? "",
         lastName: formFields.lastname ?? "",
         Phone: formFields.phone ?? "",
@@ -587,10 +588,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         Status: formFields.status ?? "",
         PipelineStep: formFields.pipelinestep ?? "",
         lostReason: "string",
-        AgentUserId: userDetails?.docId ?? 0,
-        isArchive: false,
-        updateDt: "2024-07-27T15:00:45.871Z",
-
         funding: formFields.Funding ?? "",
         investmentFranchise: formFields.InvestmentFranchise ?? "",
         creditScore: formFields.CreditScore ?? "",
@@ -599,20 +596,17 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         franchiseCause: formFields.FranchiseCause ?? "",
         professionalBackground: formFields.ProfessionalBackground ?? "",
         timeFrame: formFields.TimeFrame ?? "",
-
         VALoan: formFields.VALoan ?? "",
         EligibilityValue: formFields.EligibilityValue ?? "",
         TrafficViolation: formFields.TrafficViolation ?? "",
         Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
         Bankruptcy: formFields.Bankruptcy ?? "",
-
         BusinessBefore: formFields.BusinessBefore ?? "",
         MarketingExperience: formFields.MarketingExperience ?? "",
         ManagementExperience: formFields.ManagementExperience ?? "",
         SalesExperience: formFields.SalesExperience ?? "",
         ReviewFinancialStatement: formFields.ReviewFinancialStatement ?? "",
         CSExperience: formFields.CSExperience ?? "",
-
         AttractiveBusinessOwner: formFields.AttractiveBusinessOwner ?? "",
         HandleNewBusiness: formFields.HandleNewBusiness ?? "",
         BusinessExpectations: formFields.BusinessExpectations ?? "",
@@ -660,10 +654,12 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         Signs: formFields.Signs ?? "",
         SpecialEventPlanning: formFields.SpecialEventPlanning ?? "",
         SportsRecreation: formFields.SportsRecreation ?? "",
-
         Staffing: formFields.Staffing ?? "",
         TravelPlanning: formFields.TravelPlanning ?? "",
         Vending: formFields.Vending ?? "",
+        Timezone: formFields.Timezone ?? "",
+        PreferredCallTime: formFields.PreferredCallTime ?? "",
+        RealEstate: formFields.RealEstate ?? "",
         isCompleted: true,
       };
       console.log(formData);
@@ -698,41 +694,35 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     e.preventDefault();
     setLoading(true);
 
-    const candProfileResStatus = await handleSubmitCandProfileApi();
-    const initialResStatus = await handleSubmitInitialApi();
-    const eligResStatus = await handleSubmitEligApi();
-    const expResStatus = await handleSubmitExpApi();
-    const wantsResStatus = await handleSubmitWantsApi();
-    const fcResStatus = await handleSubmitFCApi();
-    console.log({
-      candProfileResStatus,
-      initialResStatus,
-      eligResStatus,
-      expResStatus,
-      wantsResStatus,
-      fcResStatus,
-    });
+    const { candProfileResStatus, docid } = await handleSubmitCandProfileApi();
+    if (docid !== 0) {
+      const initialResStatus = await handleSubmitInitialApi(docid);
+      const eligResStatus = await handleSubmitEligApi(docid);
+      const expResStatus = await handleSubmitExpApi(docid);
+      const wantsResStatus = await handleSubmitWantsApi(docid);
+      const fcResStatus = await handleSubmitFCApi(docid);
 
-    if (
-      candProfileResStatus === 201 &&
-      initialResStatus === 201 &&
-      eligResStatus === 201 &&
-      expResStatus === 201 &&
-      wantsResStatus === 201 &&
-      fcResStatus
-    ) {
-      setFormErrors({});
-      setShowSuccess(true);
+      // if (
+      //   candProfileResStatus === 201 &&
+      //   initialResStatus === 201 &&
+      //   eligResStatus === 201 &&
+      //   expResStatus === 201 &&
+      //   wantsResStatus === 201 &&
+      //   fcResStatus
+      // ) {
+      //   setFormErrors({});
+      //   setShowSuccess(true);
 
-      setSuccessMsg(
-        role && role === "C"
-          ? "Candidate Information Saved Successfully!"
-          : "Your Request has been submitted successfully!"
-      );
-      setLoading(false);
-      setTimeout(() => {
-        window.location.href = role && role === "C" ? "/candidate-list" : "/";
-      }, 3000);
+      //   setSuccessMsg(
+      //     role && role === "C"
+      //       ? "Candidate Information Saved Successfully!"
+      //       : "Your Request has been submitted successfully!"
+      //   );
+      //   setLoading(false);
+      //   setTimeout(() => {
+      //     window.location.href = role && role === "C" ? "/candidate-list" : "/";
+      //   }, 245000);
+      // }
     }
 
     // try {
@@ -1095,6 +1085,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             // setSubmittedSteps={setSubmittedSteps}
             setShow={setShow}
             show={show}
+            loading={loading}
           />
         );
       default:
@@ -1142,7 +1133,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : "md:max-w-[35%] items-center justify-center mx-auto mb-10 col-span-12"} `}
+        className={`  ${candDetails ? "" : "md:max-w-[45%] items-center justify-center mx-auto mb-10 col-span-12"} `}
       >
         {/* mene ek separate component banadya step 1 ke liye kunke 1 2 3 rows jo thin wo step 1 may hi thin isliye un teeno ko ek may krdya ab mjhe switch case banana */}
         {/* switch or if else same hi hote lekn if else may condition tum sahi se define krskte switch may bas simple si hoskti */}
