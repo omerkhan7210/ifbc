@@ -131,8 +131,6 @@ const FundingCalculator = () => {
         const url = "https://backend.ifbc.co/api/fundcalculator";
         // const url = "https://localhost:7047/api/fundcalculator";
         const response = await axios.post(url, formData);
-        console.log(response);
-
         if (response.status === 201) {
           setLoading(false);
 
@@ -163,7 +161,7 @@ const FundingCalculator = () => {
   return (
     <PageTransition>
       <div id="description" className="flex flex-col  gap-5 my-8 ">
-        <div className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-[80%] md:w-[80%] mx-auto">
+        <div className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-full md:w-[50%] mx-auto">
           <p className=" text-md ">
             By Rolling Your IRA, 401(K), 403(B), Keogh Or Other Retirement Funds
             Into A 401(K) Franchise Financing Vehicle
@@ -858,94 +856,97 @@ const FundingCalculator = () => {
               </div>
             </div>
 
-            <div className="flex md:gap-4 max-md:flex-col md:flex-row ">
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">First Name</p>
-                <input
+            <div className="w-full mx-auto flex justify-center items-center flex-col">
+              <div className="flex md:gap-4 max-md:flex-col md:flex-row w-full justify-center">
+                <div className="candidate-sub-childs">
+                  <p className="funding-questions">First Name</p>
+                  <input
+                    onChange={handleChange}
+                    type="text"
+                    name="firstName"
+                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2 "
+                    style={{
+                      borderColor: formErrors.firstName ? "#dc2626" : undefined,
+                    }}
+                  />
+                  {formErrors.firstName &&
+                    formErrors.firstName === "invalid" && (
+                      <p className=" text-[#dc2626] py-2 flex justify-between">
+                        Invalid username. It should be 3-16 characters long and
+                        can include letters, numbers, underscores, and spaces.
+                      </p>
+                    )}
+                </div>
+                <div className="candidate-sub-childs">
+                  <p className="funding-questions">Last Name</p>
+                  <input
+                    onChange={handleChange}
+                    type="text"
+                    name="lastName"
+                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                    style={{
+                      borderColor: formErrors.lastName ? "#dc2626" : undefined,
+                    }}
+                  />{" "}
+                  {formErrors.lastName && formErrors.lastName === "invalid" && (
+                    <p className=" text-[#dc2626] py-2 flex justify-between">
+                      Invalid username. It should be 3-16 characters long and
+                      can include letters, numbers, underscores, and spaces.
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex md:gap-4 max-md:flex-col md:flex-row w-full  justify-center">
+                <div className="candidate-sub-childs">
+                  <p className="funding-questions">Email </p>
+                  <input
+                    onChange={handleChange}
+                    type="email"
+                    name="email"
+                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                    style={{
+                      borderColor: formErrors.email ? "#dc2626" : undefined,
+                    }}
+                  />
+                  {formErrors.email && formErrors.email === "invalid" && (
+                    <p className=" text-[#dc2626] py-2 flex justify-between">
+                      Invalid Email (john@example.com)
+                    </p>
+                  )}
+                </div>
+                <div className="candidate-sub-childs">
+                  <p className="funding-questions">Phone </p>
+                  <input
+                    onChange={handleChange}
+                    type="tel"
+                    name="phone"
+                    className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full p-2"
+                    style={{
+                      borderColor: formErrors.phone ? "#dc2626" : undefined,
+                    }}
+                  />{" "}
+                  {formErrors.phone && formErrors.phone === "invalid" && (
+                    <p className=" text-[#dc2626] py-2 flex justify-between">
+                      Invalid Phone Number (Please use numbers only)
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className=" flex md:gap-4 flex-col  w-full justify-center max-w-[77%] mx-auto">
+                <label htmlFor="message" className="funding-questions">
+                  Message
+                </label>
+                <textarea
                   onChange={handleChange}
-                  type="text"
-                  name="firstName"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
-                  style={{
-                    borderColor: formErrors.firstName ? "#dc2626" : undefined,
-                  }}
+                  name="message"
+                  id="message"
+                  rows={10}
+                  className="candidate-input"
                 />
-                {formErrors.firstName && formErrors.firstName === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid username. It should be 3-16 characters long and can
-                    include letters, numbers, underscores, and spaces.
-                  </p>
-                )}
               </div>
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">Last Name</p>
-                <input
-                  onChange={handleChange}
-                  type="text"
-                  name="lastName"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
-                  style={{
-                    borderColor: formErrors.lastName ? "#dc2626" : undefined,
-                  }}
-                />{" "}
-                {formErrors.lastName && formErrors.lastName === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid username. It should be 3-16 characters long and can
-                    include letters, numbers, underscores, and spaces.
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="flex md:gap-4 max-md:flex-col md:flex-row ">
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">Email </p>
-                <input
-                  onChange={handleChange}
-                  type="email"
-                  name="email"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
-                  style={{
-                    borderColor: formErrors.email ? "#dc2626" : undefined,
-                  }}
-                />
-                {formErrors.email && formErrors.email === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid Email (john@example.com)
-                  </p>
-                )}
-              </div>
-              <div className="candidate-sub-childs">
-                <p className="funding-questions">Phone </p>
-                <input
-                  onChange={handleChange}
-                  type="tel"
-                  name="phone"
-                  className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1 w-full"
-                  style={{
-                    borderColor: formErrors.phone ? "#dc2626" : undefined,
-                  }}
-                />{" "}
-                {formErrors.phone && formErrors.phone === "invalid" && (
-                  <p className=" text-[#dc2626] py-2 flex justify-between">
-                    Invalid Phone Number (Please use numbers only)
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="candidate-sub-childs">
-              <label htmlFor="message" className="funding-questions">
-                Message
-              </label>
-              <textarea
-                onChange={handleChange}
-                name="message"
-                id="message"
-                rows={10}
-                className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm  block  focus:outline-none focus:ring-1"
-              />
             </div>
 
-            <p className="text-sm text-white text-left my-6 bg-custom-heading-color p-5">
+            <p className="text-xs text-white text-left my-6 bg-custom-heading-color p-5">
               By submitting the form, you agree to receive calls, text messages,
               or emails from <a href="https://ifbc.co">ifbc.co</a> at the
               contact information provided. Message rates may apply. <br />

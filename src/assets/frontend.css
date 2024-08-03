@@ -5826,59 +5826,6 @@ video {
   margin-bottom: 1rem;
 }
 
-input[type="text"],
-input[type="tel"],
-input[type="email"],
-input[type="number"],
-input[type="password"],
-input[type="search"]:not(.vs__search),
-textarea {
-  margin: 0px;
-  display: block;
-  width: 100%;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-clip: padding-box;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  font-weight: 400;
-  --tw-text-opacity: 1;
-
-  transition-property:
-    color,
-    background-color,
-    border-color,
-    text-decoration-color,
-    fill,
-    stroke,
-    opacity,
-    box-shadow,
-    transform,
-    filter,
-    -webkit-backdrop-filter;
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
-    backdrop-filter;
-  transition-property:
-    color,
-    background-color,
-    border-color,
-    text-decoration-color,
-    fill,
-    stroke,
-    opacity,
-    box-shadow,
-    transform,
-    filter,
-    backdrop-filter,
-    -webkit-backdrop-filter;
-  transition-duration: 150ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 input.tc-required[type="text"]:not(.does-not-exist) {
   --tw-border-opacity: 1;
   border-color: rgba(150, 201, 190, var(--tw-border-opacity));

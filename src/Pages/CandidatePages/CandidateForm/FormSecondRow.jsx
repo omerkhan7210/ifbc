@@ -19,10 +19,7 @@ const AddTerritoryDiv = ({
       className="p-5 border-2 border-custom-heading-color shadow-lg"
     >
       <h1 className="candidate-sub-heading">Additional Territory</h1>
-      <div
-        id="first-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="first-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">State / Province*</p>
 
@@ -31,7 +28,7 @@ const AddTerritoryDiv = ({
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-label">City*</p>
-          {selectedStateT && citiesT.length > 0 ? (
+          {citiesT.length > 0 ? (
             <select
               className="candidate-select"
               name="territorycity"
@@ -167,10 +164,7 @@ const FormSecondRow = ({
         Requested Territory
       </h1>
 
-      <div
-        id="third-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="third-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">
             {" "}
@@ -233,10 +227,7 @@ const FormSecondRow = ({
           )}
         </div>
       </div>
-      <div
-        id="third-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="third-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">
             {" "}
@@ -292,10 +283,7 @@ const FormSecondRow = ({
         </div>
       </div>
 
-      <div
-        id="third-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
+      <div id="third-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label"> Current State / Province*</p>
 

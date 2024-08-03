@@ -7,6 +7,7 @@ const MobileNav = ({
   active,
   setActive,
   selectedCandName,
+  setShow,
 }) => {
   const [submenuactive, setsubmenuactive] = useState(false);
   const handleLogOut = () => {

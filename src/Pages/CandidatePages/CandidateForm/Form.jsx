@@ -48,11 +48,11 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [showsuccess, setShowSuccess] = useState(false);
   const [addContacts, setAddContacts] = useState(0);
   const [addTerritory, setAddTerritory] = useState(0);
-  const [additionalContacts, setAdditionalContacts] = useState([]);
-  const [additionalTerritories, setAdditionalTerritories] = useState([]);
+  // const [additionalContacts, setAdditionalContacts] = useState([]);
+  // const [additionalTerritories, setAdditionalTerritories] = useState([]);
   const [form, setForm] = useState(0);
-  const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
-  const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
+  // const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
+  // const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
 
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
@@ -341,108 +341,476 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   // LostReason: formFields.lostreason ?? "",
   // CategoryRating: formFields.categoryrating ?? "",
 
-  const handleSubmit = async () => {
-    setLoading(true);
-
+  const handleSubmitCandProfileApi = async () => {
     try {
-      if (allFieldsValid) {
-        const formData = {
-          ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
-          closeDate: formFields.closedate ?? "",
-          firstName: formFields.firstname ?? "",
-          lastName: formFields.lastname ?? "",
-          Phone: formFields.phone ?? "",
-          Email: formFields.email ?? "",
-          additionalFirstName: formFields.additionalfirstname ?? "",
-          additionalLastName: formFields.additionallastname ?? "",
-          additionalPhone: formFields.additionalphone ?? "",
-          additionalEmail: formFields.additionalemail ?? "",
-          additionalRelationship: formFields.additionalrelationship ?? "",
-          franchiseInterested: formFields.franchiseinterested ?? "",
-          territoryCity: formFields.territorycity ?? "",
-          territoryState: formFields.territorystate ?? "",
-          territoryZipcode: formFields.territoryzipcode ?? "",
-          currentCity: formFields.currentcity ?? "",
-          currentState: formFields.currentstate ?? "",
-          currentZipcode: formFields.currentzipcode ?? "",
+      const formData = {
+        ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
+        firstName: formFields.firstname ?? "",
+        lastName: formFields.lastname ?? "",
+        Phone: formFields.phone ?? "",
+        Email: formFields.email ?? "",
+        additionalFirstName: formFields.additionalfirstname ?? "",
+        additionalLastName: formFields.additionallastname ?? "",
+        additionalPhone: formFields.additionalphone ?? "",
+        additionalEmail: formFields.additionalemail ?? "",
+        additionalRelationship: formFields.additionalrelationship ?? "",
+        franchiseInterested: formFields.franchiseinterested ?? "",
+        territoryCity: formFields.territorycity ?? "",
+        territoryState: formFields.territorystate ?? "",
+        territoryZipcode: formFields.territoryzipcode ?? "",
+        currentCity: formFields.currentcity ?? "",
+        currentState: formFields.currentstate ?? "",
+        currentZipcode: formFields.currentzipcode ?? "",
+        Status: formFields.status ?? "",
+        PipelineStep: formFields.pipelinestep ?? "",
+        lostReason: "string",
+        AgentUserId: userDetails?.docId ?? 0,
+        isArchive: false,
+        isCompleted: true,
+        updateDt: "2024-07-27T15:00:45.871Z",
+      };
+      const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
+      let response = "";
 
-          Status: formFields.status ?? "",
-          PipelineStep: formFields.pipelinestep ?? "",
-
-          AgentUserId: userDetails?.docId ?? 0,
-          isArchive: false,
-          isCompleted: false,
-        };
-        console.log(formData);
-        const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
-        let response = "";
-
-        // Send the POST request using Axios
-        if (candDetails) {
-          response = await axios.put(
-            `${baseUrl}/${candDetails?.docId}`,
-            formData,
-
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-        } else {
-          console.log(formData);
-          response = await axios.post(baseUrl, formData, {
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
             headers: {
               "Content-Type": "application/json",
             },
-          });
-        }
-        if (response.status === 201) {
-          setFormErrors({});
-          setShowSuccess(true);
-
-          //const docId = response.data.docId;
-          // if (addContacts > 0) {
-          //   //await handleSubmitContact(docId);
-          //   await handleSubmitContact(21);
-          // }
-          // if (addTerritory > 0) {
-          //   // await handleSubmitTerritory(docId);
-          //   await handleSubmitTerritory(21);
-          // }
-          setSuccessMsg(
-            role && role === "C"
-              ? "Candidate Information Saved Successfully!"
-              : "Your Request has been submitted successfully!"
-          );
-          setLoading(false);
-          setTimeout(() => {
-            window.location.href =
-              role && role === "C" ? "/candidate-list" : "/";
-          }, 3000);
-        } else if (response.status === 204) {
-          setSuccessMsg("Candidate Information Saved Successfully!");
-          setShowSuccess(true);
-          setLoading(false);
-        } else {
-          // setFormErrors({  });
-          setLoading(false);
-          window.scrollTo(0, 100);
-          // Handle unexpected response
-        }
+          }
+        );
       } else {
-        setFormErrors((prev) => ({
-          ...prev,
-          error: "Please fill in all the required fields",
-        }));
-        setLoading(false);
-        window.scrollTo(0, 100);
-
-        // Handle invalid fields (e.g., show validation errors)
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       }
+
+      return {
+        candProfileResStatus: response.status,
+        docid: response.data.docid,
+      };
     } catch (error) {
       console.error("Error:", error);
     }
+  };
+
+  const handleSubmitInitialApi = async (docid) => {
+    try {
+      const formData = {
+        docid,
+        funding: formFields.Funding ?? "",
+        investmentFranchise: formFields.InvestmentFranchise ?? "",
+        creditScore: formFields.CreditScore ?? "",
+        networth: formFields.Networth ?? "",
+        liquidCash: formFields.LiquidCash ?? "",
+        franchiseCause: formFields.FranchiseCause ?? "",
+        professionalBackground: formFields.ProfessionalBackground ?? "",
+        timeFrame: formFields.TimeFrame ?? "",
+        isCompleted: true,
+      };
+
+      const baseUrl = "https://backend.ifbc.co/api/initialqualify";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmitEligApi = async (docid) => {
+    // check krke daalo
+    try {
+      // names galat hongay console log krwakr check krna kese arhe
+      const formData = {
+        docid,
+        VALoan: formFields.VALoan ?? "",
+        EligibilityValue: formFields.EligibilityValue ?? "",
+        TrafficViolation: formFields.TrafficViolation ?? "",
+        Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
+        Bankruptcy: formFields.Bankruptcy ?? "",
+        isCompleted: true,
+      };
+
+      const baseUrl = "https://backend.ifbc.co/api/eligibility";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmitExpApi = async (docid) => {
+    try {
+      const formData = {
+        docid,
+        BusinessBefore: formFields.BusinessBefore ?? "",
+        MarketingExperience: formFields.MarketingExperience ?? "",
+        ManagementExperience: formFields.ManagementExperience ?? "",
+        SalesExperience: formFields.SalesExperience ?? "",
+        ReviewFinancialStatement: formFields.ReviewFinancialStatement ?? "",
+        CSExperience: formFields.CSExperience ?? "",
+        isCompleted: true,
+      };
+      const baseUrl = "https://backend.ifbc.co/api/experience";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmitWantsApi = async (docid) => {
+    try {
+      const formData = {
+        docid,
+        AttractiveBusinessOwner: formFields.AttractiveBusinessOwner ?? "",
+        HandleNewBusiness: formFields.HandleNewBusiness ?? "",
+        BusinessExpectations: formFields.BusinessExpectations ?? "",
+        PreferB2b: formFields.PreferB2b ?? "",
+        PhysicalLocation: formFields.PhysicalLocation ?? "",
+        Inventory: formFields.Inventory ?? "",
+        ColdCalling: formFields.ColdCalling ?? "",
+        PassiveMode: formFields.PassiveMode ?? "",
+        BusinessHours: formFields.BusinessHours ?? "",
+        isCompleted: true,
+      };
+      console.log(formData);
+      const baseUrl = "https://backend.ifbc.co/api/wants";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmitFCApi = async (docid) => {
+    try {
+      const formData = {
+        docid,
+        firstName: formFields.firstname ?? "",
+        lastName: formFields.lastname ?? "",
+        Phone: formFields.phone ?? "",
+        Email: formFields.email ?? "",
+        additionalFirstName: formFields.additionalfirstname ?? "",
+        additionalLastName: formFields.additionallastname ?? "",
+        additionalPhone: formFields.additionalphone ?? "",
+        additionalEmail: formFields.additionalemail ?? "",
+        additionalRelationship: formFields.additionalrelationship ?? "",
+        franchiseInterested: formFields.franchiseinterested ?? "",
+        territoryCity: formFields.territorycity ?? "",
+        territoryState: formFields.territorystate ?? "",
+        territoryZipcode: formFields.territoryzipcode ?? "",
+        currentCity: formFields.currentcity ?? "",
+        currentState: formFields.currentstate ?? "",
+        currentZipcode: formFields.currentzipcode ?? "",
+        Status: formFields.status ?? "",
+        PipelineStep: formFields.pipelinestep ?? "",
+        lostReason: "string",
+        funding: formFields.Funding ?? "",
+        investmentFranchise: formFields.InvestmentFranchise ?? "",
+        creditScore: formFields.CreditScore ?? "",
+        networth: formFields.Networth ?? "",
+        liquidCash: formFields.LiquidCash ?? "",
+        franchiseCause: formFields.FranchiseCause ?? "",
+        professionalBackground: formFields.ProfessionalBackground ?? "",
+        timeFrame: formFields.TimeFrame ?? "",
+        VALoan: formFields.VALoan ?? "",
+        EligibilityValue: formFields.EligibilityValue ?? "",
+        TrafficViolation: formFields.TrafficViolation ?? "",
+        Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
+        Bankruptcy: formFields.Bankruptcy ?? "",
+        BusinessBefore: formFields.BusinessBefore ?? "",
+        MarketingExperience: formFields.MarketingExperience ?? "",
+        ManagementExperience: formFields.ManagementExperience ?? "",
+        SalesExperience: formFields.SalesExperience ?? "",
+        ReviewFinancialStatement: formFields.ReviewFinancialStatement ?? "",
+        CSExperience: formFields.CSExperience ?? "",
+        AttractiveBusinessOwner: formFields.AttractiveBusinessOwner ?? "",
+        HandleNewBusiness: formFields.HandleNewBusiness ?? "",
+        BusinessExpectations: formFields.BusinessExpectations ?? "",
+        PreferB2b: formFields.PreferB2b ?? "",
+        PhysicalLocation: formFields.PhysicalLocation ?? "",
+        Inventory: formFields.Inventory ?? "",
+        ColdCalling: formFields.ColdCalling ?? "",
+        PassiveMode: formFields.PassiveMode ?? "",
+        BusinessHours: formFields.BusinessHours ?? "",
+
+        Advertising: formFields.Advertising ?? "",
+        Automotive: formFields.Automotive ?? "",
+        BeautySpa: formFields.BeautySpa ?? "",
+        BusinessManagementCoaching: formFields.BusinessManagementCoaching ?? "",
+        BusinessServices: formFields.BusinessServices ?? "",
+        ChildEducationStemTutoring: formFields.ChildEducationStemTutoring ?? "",
+        ChildServicesProducts: formFields.ChildServicesProducts ?? "",
+        CleaningResidentialCommercial:
+          formFields.CleaningResidentialCommercial ?? "",
+        ComputerTechnology: formFields.ComputerTechnology ?? "",
+        DistributionServices: formFields.DistributionServices ?? "",
+        DryCleaningLaundry: formFields.DryCleaningLaundry ?? "",
+        FinancialServices: formFields.FinancialServices ?? "",
+        Fitness: formFields.Fitness ?? "",
+        FoodBeverageRestaurantQSR: formFields.FoodBeverageRestaurantQSR ?? "",
+        FoodCoffeeTeaSmoothiesSweets:
+          formFields.FoodCoffeeTeaSmoothiesSweets ?? "",
+        FoodStoresCatering: formFields.FoodStoresCatering ?? "",
+        HealthMedical: formFields.HealthMedical ?? "",
+        HealthWellness: formFields.HealthWellness ?? "",
+        HomeImprovement: formFields.HomeImprovement ?? "",
+        InteriorExteriorDesign: formFields.InteriorExteriorDesign ?? "",
+        MaintenanceRepair: formFields.MaintenanceRepair ?? "",
+        MovingStorageJunkRemoval: formFields.MovingStorageJunkRemoval ?? "",
+        Painting: formFields.Painting ?? "",
+        PestControl: formFields.PestControl ?? "",
+        PetCareGrooming: formFields.PetCareGrooming ?? "",
+        PrintCopyMailing: formFields.PrintCopyMailing ?? "",
+        RealState: formFields.RealState ?? "",
+        Restoration: formFields.Restoration ?? "",
+        Retail: formFields.Retail ?? "",
+        Security: formFields.Security ?? "",
+        SeniorCareMedicalNonMedical:
+          formFields.SeniorCareMedicalNonMedical ?? "",
+        Signs: formFields.Signs ?? "",
+        SpecialEventPlanning: formFields.SpecialEventPlanning ?? "",
+        SportsRecreation: formFields.SportsRecreation ?? "",
+        Staffing: formFields.Staffing ?? "",
+        TravelPlanning: formFields.TravelPlanning ?? "",
+        Vending: formFields.Vending ?? "",
+        Timezone: formFields.Timezone ?? "",
+        PreferredCallTime: formFields.PreferredCallTime ?? "",
+        RealEstate: formFields.RealEstate ?? "",
+        isCompleted: true,
+      };
+      console.log(formData);
+      const baseUrl = "https://backend.ifbc.co/api/franchisecategories";
+      let response = "";
+
+      // Send the POST request using Axios
+      if (candDetails) {
+        response = await axios.put(
+          `${baseUrl}/${candDetails?.docId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+      } else {
+        response = await axios.post(baseUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+      return response.status;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const { candProfileResStatus, docid } = await handleSubmitCandProfileApi();
+    if (docid !== 0) {
+      const initialResStatus = await handleSubmitInitialApi(docid);
+      const eligResStatus = await handleSubmitEligApi(docid);
+      const expResStatus = await handleSubmitExpApi(docid);
+      const wantsResStatus = await handleSubmitWantsApi(docid);
+      const fcResStatus = await handleSubmitFCApi(docid);
+
+      // if (
+      //   candProfileResStatus === 201 &&
+      //   initialResStatus === 201 &&
+      //   eligResStatus === 201 &&
+      //   expResStatus === 201 &&
+      //   wantsResStatus === 201 &&
+      //   fcResStatus
+      // ) {
+      //   setFormErrors({});
+      //   setShowSuccess(true);
+
+      //   setSuccessMsg(
+      //     role && role === "C"
+      //       ? "Candidate Information Saved Successfully!"
+      //       : "Your Request has been submitted successfully!"
+      //   );
+      //   setLoading(false);
+      //   setTimeout(() => {
+      //     window.location.href = role && role === "C" ? "/candidate-list" : "/";
+      //   }, 245000);
+      // }
+    }
+
+    // try {
+    //   if (allFieldsValid) {
+    //     const formData = {
+    //       docid:form,
+    //       closeDate: formFields.closedate ?? "",
+    //       firstName: formFields.firstname ?? "",
+    //       lastName: formFields.lastname ?? "",
+    //       Phone: formFields.phone ?? "",
+    //       Email: formFields.email ?? "",
+    //       additionalFirstName: formFields.additionalfirstname ?? "",
+    //       additionalLastName: formFields.additionallastname ?? "",
+    //       additionalPhone: formFields.additionalphone ?? "",
+    //       additionalEmail: formFields.additionalemail ?? "",
+    //       additionalRelationship: formFields.additionalrelationship ?? "",
+    //       franchiseInterested: formFields.franchiseinterested ?? "",
+    //       territoryCity: formFields.territorycity ?? "",
+    //       territoryState: formFields.territorystate ?? "",
+    //       territoryZipcode: formFields.territoryzipcode ?? "",
+    //       currentCity: formFields.currentcity ?? "",
+    //       currentState: formFields.currentstate ?? "",
+    //       currentZipcode: formFields.currentzipcode ?? "",
+    //       Status: formFields.status ?? "",
+    //       PipelineStep: formFields.pipelinestep ?? "",
+    //       AgentUserId: userDetails?.docId ?? 0,
+    //       isArchive: false,
+    //       isCompleted: false,
+    //     };
+    //     const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
+    //     let response = "";
+
+    //     // Send the POST request using Axios
+    //     if (candDetails) {
+    //       response = await axios.put(
+    //         `${baseUrl}/${candDetails?.docId}`,
+    //         formData,
+
+    //         {
+    //           headers: {
+    //             "Content-Type": "application/json",
+    //           },
+    //         }
+    //       );
+    //     } else {
+    //       response = await axios.post(baseUrl, formData, {
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //         },
+    //       });
+    //     }
+    //     if (response.status === 201) {
+    //       setFormErrors({});
+    //       setShowSuccess(true);
+
+    //       setSuccessMsg(
+    //         role && role === "C"
+    //           ? "Candidate Information Saved Successfully!"
+    //           : "Your Request has been submitted successfully!"
+    //       );
+    //       setLoading(false);
+    //       setTimeout(() => {
+    //         window.location.href =
+    //           role && role === "C" ? "/candidate-list" : "/";
+    //       }, 3000);
+    //     } else if (response.status === 204) {
+    //       setSuccessMsg("Candidate Information Saved Successfully!");
+    //       setShowSuccess(true);
+    //       setLoading(false);
+    //     } else {
+    //       // setFormErrors({  });
+    //       setLoading(false);
+    //       window.scrollTo(0, 100);
+    //       // Handle unexpected response
+    //     }
+    //   } else {
+    //     setFormErrors((prev) => ({
+    //       ...prev,
+    //       error: "Please fill in all the required fields",
+    //     }));
+    //     setLoading(false);
+    //     window.scrollTo(0, 100);
+
+    //     // Handle invalid fields (e.g., show validation errors)
+    //   }
+    // } catch (error) {
+    //   console.error("Error:", error);
+    // }
   };
 
   const handleSubmitRegistration = async () => {
@@ -575,11 +943,19 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   // default step 0 hoga 0 se start hora
   const [step, setStep] = useState(0);
   const [listingNames, setListingNames] = useState([]);
+  // ek state banara hun blkl parent may taaky ye change na ho render pr is state ko phr har stepmay pass krwadengay
+  // const [submittedSteps, setSubmittedSteps] = useState({
+  //   candprofile: false,
+  //   initial: false,
+  //   eligibility: false,
+  //   experience: false,
+  //   wants: false,
+  //   fc: false,
+  // });
 
   // this useEffect api is used for getting listing names with doc ids
   useEffect(() => {
     // const response = axios.get("https://backend.ifbc.co/api/listingsmstr");
-    // console.log(response);
     axios.get("https://backend.ifbc.co/api/listingsmstr").then((response) => {
       const listingNames = response.data.map((listings) => ({
         name: listings.name,
@@ -617,9 +993,11 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             listingNames={listingNames}
             form={form}
             setForm={setForm}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
-
+      // ye sab may daalo or call bhi krwalo
       // jab step 1 hoga mtlb next step hoga to initial ajaega
       case 1:
         return (
@@ -633,6 +1011,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -651,6 +1031,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
       case 3:
@@ -665,6 +1047,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -680,6 +1064,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -695,6 +1081,11 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             form={form}
             setForm={setForm}
             setFormErrors={setFormErrors}
+            // submittedSteps={submittedSteps}
+            // setSubmittedSteps={setSubmittedSteps}
+            setShow={setShow}
+            show={show}
+            loading={loading}
           />
         );
       default:
@@ -736,34 +1127,14 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           completedTextColor: "#2b7cff",
           size: "3em",
         }}
-        className={"stepper"}
+        className={"stepper md:max-w-7xl mx-auto"}
         stepClassName={"stepper__step border-stepper"}
       />
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : "md:max-w-[50%] items-center justify-center mx-auto mb-10 col-span-12 "} `}
+        className={`  ${candDetails ? "" : "md:max-w-[45%] items-center justify-center mx-auto mb-10 col-span-12"} `}
       >
-        {formErrors.error && (
-          <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between">
-            {formErrors.error}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
-              />
-            </svg>
-          </p>
-        )}
-
         {/* mene ek separate component banadya step 1 ke liye kunke 1 2 3 rows jo thin wo step 1 may hi thin isliye un teeno ko ek may krdya ab mjhe switch case banana */}
         {/* switch or if else same hi hote lekn if else may condition tum sahi se define krskte switch may bas simple si hoskti */}
 
@@ -785,7 +1156,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         className="flex flex-col gap-5 items-center justify-center my-10 col-span-12"
       >
         {/* {!candDetails && (
-          <p className="text-sm text-white text-left my-6 bg-custom-heading-color p-5">
+          <p className="text-xs text-white text-left my-6 bg-custom-heading-color p-5">
             By submitting the form, you agree to receive calls, text messages,
             or emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
             information provided. Message rates may apply. <br />

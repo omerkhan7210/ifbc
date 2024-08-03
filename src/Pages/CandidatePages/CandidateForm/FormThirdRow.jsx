@@ -58,7 +58,7 @@ const FormThirdRow = ({
       {!check && (
         <div
           id="fifth-sub-row"
-          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px]"
+          className="flex flex-col gap-[15px] sm:flex-row sm:gap-[35px] justify-between"
         >
           <div className="candidate-sub-childs">
             <p className="candidate-label">State / Province</p>

@@ -41,7 +41,7 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
 
   const extraLink = [
     {
-      id: "menu-item-552362",
+      id: "menu-item-552366",
       path: "/apply-now",
       label: "Apply Now",
     },

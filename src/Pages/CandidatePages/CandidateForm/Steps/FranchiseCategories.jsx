@@ -1,8 +1,7 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import DialogBox from "src/Popups/DialogBox";
 import { NavLink } from "react-router-dom";
-import { motion } from "framer-motion";
-import PageTransition from "src/Animations/PageTransition";
 const FranchiseCategories = ({
   handleSubmit,
   handleInputChange,
@@ -12,64 +11,73 @@ const FranchiseCategories = ({
   candNames,
   show,
   setShow,
+  loading,
 }) => {
-  const [loading, setLoading] = useState(false);
   const selectData = [
-    { name: "advertising", label: "Advertising" },
-    { name: "automotive", label: "Automotive" },
-    { name: "beautyspa", label: "Beauty & Spa" },
-    { name: "businessmanagement", label: "Business Management & Coaching" },
-    { name: "businessservices", label: "Business Services" },
-    { name: "childeducation", label: "Child Education, STEM & Tutoring" },
-    { name: "childservices", label: "Child Services & Products" },
+    { name: "Advertising", label: "Advertising" },
+    { name: "Automotive", label: "Automotive" },
+    { name: "BeautySpa", label: "Beauty & Spa" },
     {
-      name: "cleaningresidential",
+      name: "BusinessManagementCoaching",
+      label: "Business Management & Coaching",
+    },
+    { name: "BusinessServices", label: "Business Services" },
+    {
+      name: "ChildEducationStemTutoring",
+      label: "Child Education, STEM & Tutoring",
+    },
+    { name: "ChildServicesProducts", label: "Child Services & Products" },
+    {
+      name: "CleaningResidentialCommercial",
       label: "Cleaning: Residential & Commercial",
     },
-    { name: "computertechnology", label: "Computer Technology" },
+    { name: "ComputerTechnology", label: "Computer Technology" },
     {
-      name: "ratingdistribution",
+      name: "DistributionServices",
       label: "Select a rating Distribution Services",
     },
-    { name: "drycleaning", label: "Dry Cleaning-Laundry" },
-    { name: "financialservices", label: "Financial Services" },
-    { name: "fitness", label: "Fitness" },
-    { name: "foodbeverage", label: "Food & Beverage: Restaurant/QSR/Catering" },
-    { name: "foodcoffee", label: "Food: Coffee/Tea/Smoothies/Sweets" },
-    { name: "foodstores", label: "Food: Stores & Catering" },
-    { name: "healthmedical", label: "Health/Medical" },
-    { name: "healthwellness", label: "Health/Wellness" },
-    { name: "homeimprovement", label: "Home Improvement" },
-    { name: "design", label: "Interior/Exterior Design" },
-    { name: "maintenance", label: "Maintenance & Repair" },
-    { name: "moving", label: "Moving, Storage & Junk Removal" },
-    { name: "painting", label: "Painting" },
-    { name: "pestcontrol", label: "Pest Control" },
-    { name: "petcare", label: "Pet Care & Grooming" },
-    { name: "print", label: "Print, Copy & Mailing" },
-    { name: "realstate", label: "Real Estate" },
-    { name: "restoration", label: "Restoration" },
-    { name: "retail", label: "Retail" },
-    { name: "security", label: "Security" },
-    { name: "seniorcare", label: "Senior Care: Medical/Non-Medical" },
+    { name: "DryCleaningLaundry", label: "Dry Cleaning-Laundry" },
+    { name: "FinancialServices", label: "Financial Services" },
+    { name: "Fitness", label: "Fitness" },
+    {
+      name: "FoodBeverageRestaurantQSR",
+      label: "Food & Beverage: Restaurant/QSR/Catering",
+    },
+    {
+      name: "FoodCoffeeTeaSmoothiesSweets",
+      label: "Food: Coffee/Tea/Smoothies/Sweets",
+    },
+    { name: "FoodStoresCatering", label: "Food: Stores & Catering" },
+    { name: "HealthMedical", label: "Health/Medical" },
+    { name: "HealthWellness", label: "Health/Wellness" },
+    { name: "HomeImprovement", label: "Home Improvement" },
+    { name: "InteriorExteriorDesign", label: "Interior/Exterior Design" },
+    { name: "MaintenanceRepair", label: "Maintenance & Repair" },
+    {
+      name: "MovingStorageJunkRemoval",
+      label: "Moving, Storage & Junk Removal",
+    },
+    { name: "Painting", label: "Painting" },
+    { name: "PestControl", label: "Pest Control" },
+    { name: "PetCareGrooming", label: "Pet Care & Grooming" },
+    { name: "PrintCopyMailing", label: "Print, Copy & Mailing" },
+    { name: "RealState", label: "Real Estate" },
+    { name: "Restoration", label: "Restoration" },
+    { name: "Retail", label: "Retail" },
+    { name: "Security", label: "Security" },
+    {
+      name: "SeniorCareMedicalNonMedical",
+      label: "Senior Care: Medical/Non-Medical",
+    },
 
-    { name: "signs", label: "Signs" },
-    { name: "eventplanning", label: "Special Event Planning" },
-    { name: "sportsrecreation", label: "Sports & Recreation" },
-    { name: "staffing", label: "Staffing" },
-    { name: "travelplanning", label: "Travel Planning" },
-    { name: "vending", label: "Vending" },
+    { name: "Signs", label: "Signs" },
+    { name: "SpecialEventPlanning", label: "Special Event Planning" },
+    { name: "SportsRecreation", label: "Sports & Recreation" },
+    { name: "Staffing", label: "Staffing" },
+    { name: "TravelPlanning", label: "Travel Planning" },
+    { name: "Vending", label: "Vending" },
   ];
-  const handleFranchiseCategories = (e) => {
-    e.preventDefault();
 
-    setShow(true);
-
-    setTimeout(() => {
-      setShow(false);
-      window.location.href = "/";
-    }, 2000);
-  };
   return (
     <>
       <DialogBox show={show} setShow={setShow}>
@@ -81,7 +89,7 @@ const FranchiseCategories = ({
             in searching some franchises <br />
             <br />
             <NavLink to="/search-franchises" className="candidate-btn w-[50%]">
-              SEARCH FRANCHISES
+              Search Franchise
             </NavLink>
           </p>
         </div>
@@ -96,7 +104,7 @@ const FranchiseCategories = ({
         id="eligibility"
         className="candidate-tabs-content"
       >
-        <div className="md:max-w-3xl md:mx-auto max-md:mx-5 md:ml-[100px] md:mr-[100px]">
+        <div className="">
           <h1 className="candidate-sub-heading ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -125,12 +133,12 @@ const FranchiseCategories = ({
             </p>
           </div>
 
-          <div
-            id="container3"
-            className="border-b border-gray-300  grid grid-cols-2 gap-x-10"
-          >
+          <div id="container3" className="grid grid-cols-2 gap-x-10">
             {selectData.map((item, index) => (
-              <div key={index} className="w-full mr-4">
+              <div
+                key={index}
+                className="w-full mr-4 flex flex-col justify-between my-3"
+              >
                 <div className="mt-2">
                   <label className="flex gap-x-1 items-center mr-6 text-sm">
                     <span className="text-black">{item.label}</span>
@@ -149,7 +157,7 @@ const FranchiseCategories = ({
             {/* Yahn Tabs Ayainge Fls filtes ke */}
           </div>
 
-          <div className="grid md:grid-cols-2 max-sm:grid-cols-1">
+          <div className="candidate-two-col">
             <div
               id="button-container-initial"
               className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
@@ -182,9 +190,9 @@ const FranchiseCategories = ({
             >
               <button
                 className="candidate-btn  w-40  flex items-center justify-between"
-                onClick={handleFranchiseCategories}
+                onClick={handleSubmit}
               >
-                Submit
+                {loading ? "Loading..." : "Submit"}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -221,7 +229,6 @@ const Select = ({ name, handleInputChange, candNames, formFields }) => {
         >
           <option selected>Select a rating</option>
           {franchiseRating.map((option, index) => {
-            console.log(formFields && formFields[name]);
             return (
               <option
                 key={index}

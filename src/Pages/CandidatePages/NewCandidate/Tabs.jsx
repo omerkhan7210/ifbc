@@ -292,7 +292,7 @@ const Zoracle = ({
           growth and success.
         </p>
       </div>
-      <div className="candidate-input-container">
+      <div className="candidate-sub-childs">
         <p className="candidate-questions">
           What work activities do you enjoy?
         </p>
@@ -307,7 +307,7 @@ const Zoracle = ({
             : { defaultValue: candDetails?.activities })}
         />
       </div>
-      <div className="candidate-input-container">
+      <div className="candidate-sub-childs">
         <p className="candidate-questions">
           Are you comfortable attending networking functions to promote your new
           business?
@@ -323,7 +323,7 @@ const Zoracle = ({
             : { defaultValue: candDetails?.attendingNetworkFunction })}
         />
       </div>
-      <div className="candidate-input-container">
+      <div className="candidate-sub-childs">
         <p className="candidate-questions">
           Are you interested in Multiple-Unit Operation or Masters?
         </p>
@@ -338,7 +338,7 @@ const Zoracle = ({
             : { defaultValue: candDetails?.multiUnitOps })}
         />
       </div>
-      <div className="candidate-input-container">
+      <div className="candidate-sub-childs">
         <p className="candidate-questions">
           Are you planning on having a partner in the business?
         </p>
@@ -353,7 +353,7 @@ const Zoracle = ({
             : { defaultValue: candDetails?.businessPartner })}
         />
       </div>
-      <div className="candidate-input-container">
+      <div className="candidate-sub-childs">
         <p className="candidate-questions">
           How does your family feel about your interest in this?
         </p>
@@ -368,7 +368,7 @@ const Zoracle = ({
             : { defaultValue: candDetails?.familyFeel })}
         />
       </div>
-      <div className="candidate-input-container">
+      <div className="candidate-sub-childs">
         <p className="candidate-questions">
           What types of employees would you prefer to work with (if any)?
         </p>
@@ -383,7 +383,7 @@ const Zoracle = ({
             : { defaultValue: candDetails?.employeesPrefer })}
         />
       </div>
-      <div className="candidate-input-container">
+      <div className="candidate-sub-childs">
         <p className="candidate-questions">
           What size staff are you comfortable with?
         </p>

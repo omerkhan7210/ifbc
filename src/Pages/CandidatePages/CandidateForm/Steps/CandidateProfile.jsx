@@ -12,7 +12,6 @@ import {
   validateZipcode,
 } from "src/Utils/SanitizeInput";
 import axios from "axios";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
 const CandidateProfile = ({
   handleInputChange,
   formErrors,
@@ -30,16 +29,12 @@ const CandidateProfile = ({
   setStep,
   setFormErrors,
   listingNames,
-  setForm,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { userDetails } = useContext(MyCandContext);
   const [selectedStateT, setSelectedStateT] = useState(null);
   const [selectedStateC, setSelectedStateC] = useState(null);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [showSuccess, setShowSuccess] = useState("");
 
   const getAdditionalContacts = async () => {
     const response = await axios.get(additionalContactAddUrl);
@@ -84,7 +79,7 @@ const CandidateProfile = ({
       <select
         onChange={(e) => handleStateChange(e, name)}
         name={`${name}state`}
-        className="candidate-select w-full"
+        className="candidate-select"
         style={{
           borderColor: formErrors[`${name}state`] ? "red" : undefined,
         }}
@@ -208,13 +203,6 @@ const CandidateProfile = ({
 
   const handleCanProfile = async (e) => {
     e.preventDefault();
-    setLoading(true);
-
-    // Check if the data has already been submitted
-    if (isSubmitted) {
-      setLoading(false);
-      return;
-    }
 
     const reqFields = [
       "firstname",
@@ -266,84 +254,18 @@ const CandidateProfile = ({
     });
 
     setFormErrors(formErrors);
-    try {
-      if (allFieldsValid) {
-        const formData = {
-          ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
-          firstName: formFields.firstname ?? "",
-          lastName: formFields.lastname ?? "",
-          Phone: formFields.phone ?? "",
-          Email: formFields.email ?? "",
-          additionalFirstName: formFields.additionalfirstname ?? "",
-          additionalLastName: formFields.additionallastname ?? "",
-          additionalPhone: formFields.additionalphone ?? "",
-          additionalEmail: formFields.additionalemail ?? "",
-          additionalRelationship: formFields.additionalrelationship ?? "",
-          franchiseInterested: formFields.franchiseinterested ?? "",
-          territoryCity: formFields.territorycity ?? "",
-          territoryState: formFields.territorystate ?? "",
-          territoryZipcode: formFields.territoryzipcode ?? "",
-          currentCity: formFields.currentcity ?? "",
-          currentState: formFields.currentstate ?? "",
-          currentZipcode: formFields.currentzipcode ?? "",
-          Status: formFields.status ?? "",
-          PipelineStep: formFields.pipelinestep ?? "",
-          lostReason: "string",
-          AgentUserId: userDetails?.docId ?? 0,
-          isArchive: false,
-          isCompleted: true,
-          updateDt: "2024-07-27T15:00:45.871Z",
-        };
-        const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
-        let response = "";
 
-        // Send the POST request using Axios
-        if (candDetails) {
-          response = await axios.put(
-            `${baseUrl}/${candDetails?.docId}`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-        } else {
-          response = await axios.post(baseUrl, formData, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-        }
-        if (response.status === 201) {
-          setFormErrors({});
-          setForm(response.data.docid);
-          setLoading(false);
-          setIsSubmitted(true); // Mark the form as submitted
-          setStep((prevStep) => prevStep + 1);
-        } else if (response.status === 204) {
-          setSuccessMsg("Candidate Information Saved Successfully!");
-          setShowSuccess(true);
-          setIsSubmitted(true); // Mark the form as submitted
-          setLoading(false);
-        } else {
-          // setFormErrors({  });
-          setLoading(false);
-          window.scrollTo(0, 100);
-          // Handle unexpected response
-        }
-      } else {
-        setFormErrors((prev) => ({
-          ...prev,
-          error: "Please fill in all the required fields",
-        }));
-        setLoading(false);
-        window.scrollTo(0, 100);
+    if (allFieldsValid) {
+      setStep((prevStep) => prevStep + 1);
+    } else {
+      setFormErrors((prev) => ({
+        ...prev,
+        error: "Please fill in all the required fields",
+      }));
+      setLoading(false);
+      window.scrollTo(0, 100);
 
-        // Handle invalid fields (e.g., show validation errors)
-      }
-    } catch (error) {
-      console.error("Error:", error);
+      // Handle invalid fields (e.g., show validation errors)
     }
   };
 
@@ -355,41 +277,58 @@ const CandidateProfile = ({
         x: 0,
         transition: { duration: 3, type: "spring", bounce: 0.2 },
       }}
-      id="eligibility"
+      id="candprofile"
       className="candidate-tabs-content"
     >
-      <div className="md:max-w-3xl md:mx-auto max-md:mx-5">
-        {" "}
-        <FormFirstRow
-          handleInputChange={handleInputChange}
-          formErrors={formErrors}
-          candDetails={candDetails}
-          candNames={candNames}
-          setSelectedDocId={setSelectedDocId}
-          selectedDocId={selectedDocId}
-          selectedDetails={selectedDetails}
-          addContacts={addContacts}
-          setAddContacts={setAddContacts}
-          contacts={contacts}
-          formFields={formFields}
-        />
-        <FormSecondRow
-          stateDD={stateDD}
-          handleInputChange={handleInputChange}
-          formErrors={formErrors}
-          candDetails={candDetails}
-          candNames={candNames}
-          selectedDetails={selectedDetails}
-          selectedStateT={selectedStateT}
-          formFields={formFields}
-          citiesT={citiesT}
-          addTerritory={addTerritory}
-          setAddTerritory={setAddTerritory}
-          territorys={territorys}
-          citiesC={citiesC}
-          listingNames={listingNames}
-        />
-        {/* <FormThirdRow
+      {formErrors.error && (
+        <p className="border-2 border-red-600 text-red-600 rounded-xl p-4 flex justify-between">
+          {formErrors.error}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+            />
+          </svg>
+        </p>
+      )}{" "}
+      <FormFirstRow
+        handleInputChange={handleInputChange}
+        formErrors={formErrors}
+        candDetails={candDetails}
+        candNames={candNames}
+        setSelectedDocId={setSelectedDocId}
+        selectedDocId={selectedDocId}
+        selectedDetails={selectedDetails}
+        addContacts={addContacts}
+        setAddContacts={setAddContacts}
+        contacts={contacts}
+        formFields={formFields}
+      />
+      <FormSecondRow
+        stateDD={stateDD}
+        handleInputChange={handleInputChange}
+        formErrors={formErrors}
+        candDetails={candDetails}
+        candNames={candNames}
+        selectedDetails={selectedDetails}
+        selectedStateT={selectedStateT}
+        formFields={formFields}
+        citiesT={citiesT}
+        addTerritory={addTerritory}
+        setAddTerritory={setAddTerritory}
+        territorys={territorys}
+        citiesC={citiesC}
+        listingNames={listingNames}
+      />
+      {/* <FormThirdRow
         stateDD={stateDD}
         handleInputChange={handleInputChange}
         setFormFields={setFormFields}
@@ -401,32 +340,31 @@ const CandidateProfile = ({
         formFields={formFields}
         citiesC={citiesC}
       /> */}
-        {/* submit button ki jaga next button aega jo next step pr lekr jaega */}
-        <div
-          id="button-container-initial"
-          className="flex items-center mt-5 gap-10"
+      {/* submit button ki jaga next button aega jo next step pr lekr jaega */}
+      <div
+        id="button-container-initial"
+        className="flex items-center mt-5 gap-10"
+      >
+        <button
+          className="candidate-btn w-40 flex items-center justify-between"
+          onClick={handleCanProfile}
         >
-          <button
-            className="candidate-btn w-40 flex items-center justify-between"
-            onClick={handleCanProfile}
+          {loading ? "Loading..." : "Next"}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
           >
-            {loading ? "Loading..." : "Next"}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
-              />
-            </svg>
-          </button>
-        </div>
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+            />
+          </svg>
+        </button>
       </div>
     </motion.div>
   );
