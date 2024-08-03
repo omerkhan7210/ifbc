@@ -114,7 +114,7 @@
 }
 
 .funding-questions {
-  @apply text-black max-md:text-sm md:text-lg;
+  @apply text-black max-md:text-sm md:text-sm;
 }
 
 .candidate-profile-icons {

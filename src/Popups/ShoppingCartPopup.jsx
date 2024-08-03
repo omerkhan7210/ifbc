@@ -52,7 +52,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
                   className="pointer-events-auto w-screen max-w-md transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700 bg-white"
                 >
                   {cartListings?.length > 0 ? (
-                    <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                    <div className="flex h-full flex-col  bg-white shadow-xl">
                       <div className="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                         <div className="flex items-start justify-between">
                           <DialogTitle className="text-lg font-medium text-gray-900">

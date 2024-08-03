@@ -130,14 +130,14 @@ const CartIcon = ({ setShow }) => {
   return (
     <button
       onClick={() => setShow(true)}
-      className=" z-[999] bg-white rounded-custom-shape w-6 h-10 md:flex items-center justify-center max-md:hidden fixed top-1/2 right-0 border border-black/20 "
+      className=" z-[999] bg-custom-dark-blue rounded-custom-shape w-6 h-10 md:flex items-center justify-center max-md:hidden fixed top-1/2 right-0 border border-black/20 "
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="currentColor"
+        strokeWidth={2.5}
+        stroke="white"
         className="size-6"
       >
         <path

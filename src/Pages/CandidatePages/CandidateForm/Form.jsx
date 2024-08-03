@@ -464,7 +464,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         setLoading(false);
         setTimeout(() => {
           window.location.href = role && role === "C" ? "/candidate-list" : "/";
-        }, 245000);
+        }, 5000);
       }
     }
   };
