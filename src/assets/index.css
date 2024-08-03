@@ -20,11 +20,11 @@
 }
 
 .contact-input {
-  @apply bg-gray-50  text-gray-800 text-sm   block p-2 focus:outline-none placeholder:text-xs placeholder:text-gray-400;
+  @apply bg-gray-50  text-gray-800 text-sm   block p-2 focus:outline-none placeholder:text-xs placeholder:text-gray-400 rounded-3xl;
 }
 
 .contact-select {
-  @apply bg-gray-50  text-gray-700   block p-2 text-sm focus:outline-none placeholder:text-sm placeholder:text-gray-400;
+  @apply bg-gray-50  text-gray-700   block p-2 text-sm focus:outline-none placeholder:text-sm placeholder:text-gray-400 rounded-3xl;
 }
 
 .candidate-normal-input {
@@ -32,7 +32,7 @@
 }
 
 .candidate-label {
-  @apply text-black text-sm mt-3;
+  @apply text-black text-sm mt-3 mx-2;
 }
 .candidate-questions {
   @apply text-black  text-sm mt-2;
@@ -54,16 +54,17 @@
 }
 
 .candidate-select {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-xs p-2  block  focus:outline-none focus:ring-1;
+
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 md:max-w-60 max-md:w-full;
 }
 .candidate-input {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-xs p-2  block  focus:outline-none focus:ring-1;
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 md:max-w-60 max-md:w-full;
 }
 
 .candidate-tabs-content {
-  @apply py-5 px-10 max-w-3xl mx-auto flex flex-col bg-gray-50 text-gray-500  rounded-lg w-full shadow-[1px_10px_30px_-10px_rgba(0,0,0,0.2)];
-}
+  @apply p-6 flex flex-col bg-gray-50  max-w-full text-gray-500  rounded-3xl w-full shadow-[1px_10px_50px_-10px_rgba(0,0,0,0.3)] bg-custom-dark-blue/30;
 
+}
 .candidate-pending {
   @apply bg-custom-grey rounded-full py-1 px-4 text-xs text-white;
 }
