@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
+
 import {
   formatCurrency,
   sanitizeInput,
@@ -944,6 +945,12 @@ const FundingCalculator = () => {
                   rows={10}
                   className="funding-input"
                 />
+                {formErrors.firstName && formErrors.firstName === "invalid" && (
+                  <p className=" text-[#dc2626] py-2 flex justify-between">
+                    Invalid username. It should be 3-16 characters long and can
+                    include letters, numbers, underscores, and spaces.
+                  </p>
+                )}
               </div>
               <p className="text-sm text-custom-heading-color text-left  p-5 rounded-3xl max-w-[80%]">
                 By submitting the form, you agree to receive calls, text

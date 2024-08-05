@@ -436,6 +436,7 @@ const Contact = () => {
                   onChange={handleChange}
                   id="contactPath"
                   name="contactPath"
+                  isMulti={true}
                   className="contact-select w-full"
                   style={{
                     border: formErrors.contactPath
