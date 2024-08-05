@@ -27,6 +27,7 @@ import FundingResult from "./Pages/StaticPages/FundingResult";
 import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
 import TermsConditions from "./Pages/StaticPages/TermsConditions";
 import { useEffect, useState } from "react";
+import BecomeAConsultant from "./Pages/StaticPages/BecomeAConsultant";
 
 const RouteRenderer = ({ setRegistrationType, setShow }) => {
   const consultantRoutes = [
@@ -137,6 +138,10 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
     {
       path: "/privacy-policy",
       element: <PrivacyPolicy />,
+    },
+    {
+      path: "/become-a-consultant",
+      element: <BecomeAConsultant />,
     },
     {
       path: "/funding-calculator",
