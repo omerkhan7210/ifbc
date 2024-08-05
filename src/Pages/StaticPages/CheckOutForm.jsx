@@ -61,17 +61,17 @@ const ShoppingCart = ({ cartListings, listings }) => {
   return (
     <div
       id="main-right-container"
-      className="h-full w-full col-span-5 rounded-3xl shadow-2xl p-8"
+      className="h-full w-full col-span-4 rounded-3xl shadow-2xl p-8"
     >
       <div>
-        <h1 className="max-md:text-center text-2xl  capitalize text-custom-heading-color">
+        <h1 className="max-md:text-center text-2xl  capitalize text-custom-heading-color my-5">
           Review Franchises
         </h1>
       </div>
 
       <div
         id="sub-container"
-        className="divide-y-2 divide-custom-heading-color/10 w-full md:h-[400px]  overflow-y-auto "
+        className="divide-y-2 divide-custom-heading-color/10 w-full md:h-[330px]  overflow-y-auto "
       >
         {/* items-row */}
         {listings
@@ -84,21 +84,21 @@ const ShoppingCart = ({ cartListings, listings }) => {
               >
                 <div
                   id="item-side"
-                  className="flex flex-col sm:flex-row gap-1 items-center w-full"
+                  className="flex flex-col sm:flex-row gap-2 items-center w-full"
                 >
-                  <div>
-                    <img
-                      src={`./${listing.imgUrl}`}
-                      alt=""
-                      className="rounded-lg"
-                      width={100}
-                    />
-                  </div>
+                  <img
+                    src={`./${listing.imgUrl}`}
+                    alt=""
+                    className="rounded-lg  object-cover"
+                    width={80}
+                    height={80}
+                  />
+
                   <div
                     id="content-side"
                     className="flex flex-col max-sm:items-center"
                   >
-                    <h2 className="text-md font-bold">{listing.name}</h2>
+                    <h2 className="text-sm">{listing.name}</h2>
 
                     <h2 className="text-xs">
                       Category: <b>{listing.category}</b>
@@ -417,7 +417,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
   return (
     <div
       id="left-side-checkout-form"
-      className="col-span-7 rounded-3xl shadow-2xl p-8"
+      className="col-span-8 rounded-3xl shadow-2xl p-8 bg-[#2176ff]/30"
     >
       <DialogBox setShow={setShow} show={show}>
         <button
@@ -471,8 +471,8 @@ const LeftSidebar = ({ cartListings, listings }) => {
           </p>
         )}
 
-        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5">
-          <div className="">
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
+          <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="name">
               Name
             </label>
@@ -530,7 +530,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             )}
           </div>
         </div>
-        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5">
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="state">
               State
@@ -594,7 +594,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             />
           </div>
         </div>
-        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5">
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="country">
               Desired Location
@@ -653,7 +653,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
           </div>
         </div>
         {/* Terms and conditions message */}
-        <p className="text-sm text-custom-heading-color text-left my-6 bg-[#2176ff]/30 p-5 rounded-3xl">
+        <p className="text-sm text-custom-heading-color text-left   py-5 rounded-3xl mt-3">
           By submitting the form, you agree to receive calls, text messages, or
           emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
           information provided. Message rates may apply. <br />
@@ -668,7 +668,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
           </a>{" "}
           for additional details.
         </p>
-        <div className="mt-6 flex justify-center">
+        <div className=" flex justify-center">
           <button
             className="candidate-btn md:w-64 flex justify-between items-center max-md:w-full"
             type="submit"

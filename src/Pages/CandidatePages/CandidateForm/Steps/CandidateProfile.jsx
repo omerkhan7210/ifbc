@@ -327,6 +327,7 @@ const CandidateProfile = ({
         territorys={territorys}
         citiesC={citiesC}
         listingNames={listingNames}
+        selectedStateC={selectedStateC}
       />
       {/* <FormThirdRow
         stateDD={stateDD}

@@ -156,7 +156,21 @@ const FranchiseCategories = ({
             {/* <h1 className="text-lg text-[#2176ff] font-bold">FLS Filters</h1> */}
             {/* Yahn Tabs Ayainge Fls filtes ke */}
           </div>
-
+          <p className="text-sm text-custom-heading-color text-left   p-5 rounded-3xl">
+            By submitting the form, you agree to receive calls, text messages,
+            or emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
+            information provided. Message rates may apply. <br />
+            Text STOP to cancel text messaging at any time. <br />
+            See{" "}
+            <a href="/terms-conditions" className="  underline">
+              Terms & Conditions
+            </a>{" "}
+            and{" "}
+            <a href="/privacy-policy" className="  underline">
+              Privacy Policy
+            </a>{" "}
+            for additional details.
+          </p>
           <div className="candidate-two-col">
             <div
               id="button-container-initial"
@@ -184,6 +198,7 @@ const FranchiseCategories = ({
                 Previous
               </button>
             </div>
+
             <div
               id="button-container-initial"
               className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-3"

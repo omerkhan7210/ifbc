@@ -291,28 +291,31 @@ const SearchingSection = () => {
 
   const handleSearchInputChange = (e) => {
     e.preventDefault();
+    console.log("button");
     const searchValue = ref.current.value;
     const uniqueFilters = selectedCats.reduce((acc, current) => {
-      return { ...acc, ...current };
+      acc[current.code] = current; // Assuming `current` has a `code` property
+      return acc;
     }, {});
 
-    if (searchValue === "") {
-      setFilters((prev) => ({ ...prev, ...uniqueFilters }));
-    } else {
-      setFilters({
-        search: [searchValue],
-      });
-    }
-    console.log(selectedCats, uniqueFilters);
+    const filters = searchValue
+      ? { search: searchValue, ...uniqueFilters }
+      : uniqueFilters;
 
-    //history("/search-franchises");
+    console.log("Filters:", filters);
+
+    // Navigate to the search results page or update the URL with search params
+    // navigate('/search-franchises', { state: { filters } });
+
+    // If you want to update state in the same component, do it here:
+    // setFilters(filters);
   };
 
   return (
     <form
       id="searching-container"
-      className="grid grid-cols-12 gap-2 p-5 w-full md:w-1/2 mx-auto" // Adjust the form's width and center it
-      ref={dropdownRef}
+      className="grid grid-cols-12 gap-2 p-5 w-full md:w-1/2 mx-auto"
+      ref={ref}
       onSubmit={handleSearchInputChange}
     >
       <div className="relative col-span-12 md:col-span-4 flex items-center">
@@ -323,7 +326,11 @@ const SearchingSection = () => {
           ref={ref}
           className="block w-full px-2 h-12 text-sm rounded-lg text-black pr-10 outline-none bg-white"
         />
-        <button className="absolute right-2.5 top-5.5 w-4 h-4">
+        <button
+          type="button"
+          className="absolute right-2.5 top-5.5 w-4 h-4"
+          onClick={handleSearchInputChange}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlSpace="preserve"
@@ -333,25 +340,16 @@ const SearchingSection = () => {
           </svg>
         </button>
       </div>
-      {/* {filterDataa.map((config, index) => (
-        <SearchDropdown
-          key={index}
-          config={config}
-          setSelectedCats={setSelectedCats}
-          selectedCats={selectedCats}
-          activeDD={activeDD}
-          setActiveDD={setActiveDD}
-        />
-      ))} */}
+
       <MultiSelect
         value={selectedCats}
         onChange={(e) => setSelectedCats(e.value)}
-        options={categories}
+        options={categories} // Assuming `categories` is defined
         optionLabel="code"
         filter
         display="chip"
         placeholder="Select Categories"
-        className="col-span-12 md:col-span-4" // Adjust the width of the dropdown
+        className="col-span-12 md:col-span-4"
         style={{ width: "100%" }}
       />
 
@@ -401,46 +399,6 @@ const SearchDropdown = ({
   const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
   const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
-
-  const categories = [
-    "Advertising",
-    "Automotive",
-    "Beauty & Spa",
-    "Business Management & Coaching",
-    "Business Services",
-    "Child Education, STEM & Tutoring",
-    "Child Services & Products",
-    "Cleaning: Residential & Commercial",
-    "Computer Technology",
-    "Distribution Services",
-    "Dry Cleaning-Laundry",
-    "Financial Services",
-    "Fitness",
-    "Food & Beverage: Restaurant/QSR/Catering",
-    "Food: Coffee/Tea/Smoothies/Sweets",
-    "Food: Stores & Catering",
-    "Health/Medical",
-    "Health/Wellness",
-    "Home Improvement",
-    "Interior/Exterior Design",
-    "Maintenance & Repair",
-    "Moving,Storage & Junk Removal",
-    "Painting",
-    "Pet Care & Grooming",
-    "Pest Control",
-    "Print, Copy & Mailing",
-    "Real Estate",
-    "Restoration",
-    "Retail",
-    "Security",
-    "Senior Care: Medical/Non-Medical Option",
-    "Signs",
-    "Special Event Planning",
-    "Sports & Recreation",
-    "Staffing",
-    "Travel Planning",
-    "Vending",
-  ];
 
   let uniqueItems = [];
   if (property === "franchiseFee") {
@@ -551,49 +509,78 @@ const SearchDropdown = ({
 };
 
 const ListingBox = ({ id, bgcolor, svg, min, max }) => {
-  const uniqueFranchisedCats = [
-    "Advertising",
-    "Automotive",
-    "Beauty & Spa",
-    "Business Management & Coaching",
-    "Business Services",
-    "Child Education",
-    "Child Services & Products",
-    "Cleaning: Residential & Commercial",
-    "Computer Technology",
-    "Copy & Mailing",
-    "Distribution Services",
-    "Dry Cleaning-Laundry",
-    "Financial Services",
-    "Fitness",
-    "Food & Beverage: Restaurant/QSR/Catering",
-    "Food: Coffee/Tea/Smoothies/Sweets",
-    "Food: Stores & Catering",
-    "Health/Medical",
-    "Health/Wellness",
-    "Home Improvement",
-    "Interior/Exterior Design",
-    "Maintenance & Repair",
-    "Pet Care & Grooming",
-    "Print",
-    "Real Estate",
-    "Restoration",
-    "Retail",
-    "Senior Care: Medical/Non-Medical Option",
-    "Signs",
-    "Special Event Planning",
-    "Sports & Recreation",
-    "Staffing",
-    "STEM & Tutoring",
-  ];
-
   const { setFilters } = useContext(MyContext);
+  const categories = [
+    { name: "Advertising", code: "Advertising" },
+    { name: "Automotive", code: "Automotive" },
+    { name: "BeautySpa", code: "Beauty & Spa" },
+    {
+      name: "BusinessManagementCoaching",
+      code: "Business Management & Coaching",
+    },
+    { name: "BusinessServices", code: "Business Services" },
+    {
+      name: "ChildEducationStemTutoring",
+      code: "Child Education, STEM & Tutoring",
+    },
+    { name: "ChildServicesProducts", code: "Child Services & Products" },
+    {
+      name: "CleaningResidentialCommercial",
+      code: "Cleaning: Residential & Commercial",
+    },
+    { name: "ComputerTechnology", code: "Computer Technology" },
+    {
+      name: "DistributionServices",
+      code: "Select a rating Distribution Services",
+    },
+    { name: "DryCleaningLaundry", code: "Dry Cleaning-Laundry" },
+    { name: "FinancialServices", code: "Financial Services" },
+    { name: "Fitness", code: "Fitness" },
+    {
+      name: "FoodBeverageRestaurantQSR",
+      code: "Food & Beverage: Restaurant/QSR/Catering",
+    },
+    {
+      name: "FoodCoffeeTeaSmoothiesSweets",
+      code: "Food: Coffee/Tea/Smoothies/Sweets",
+    },
+    { name: "FoodStoresCatering", code: "Food: Stores & Catering" },
+    { name: "HealthMedical", code: "Health/Medical" },
+    { name: "HealthWellness", code: "Health/Wellness" },
+    { name: "HomeImprovement", code: "Home Improvement" },
+    { name: "InteriorExteriorDesign", code: "Interior/Exterior Design" },
+    { name: "MaintenanceRepair", code: "Maintenance & Repair" },
+    {
+      name: "MovingStorageJunkRemoval",
+      code: "Moving, Storage & Junk Removal",
+    },
+    { name: "Painting", code: "Painting" },
+    { name: "PestControl", code: "Pest Control" },
+    { name: "PetCareGrooming", code: "Pet Care & Grooming" },
+    { name: "PrintCopyMailing", code: "Print, Copy & Mailing" },
+    { name: "RealState", code: "Real Estate" },
+    { name: "Restoration", code: "Restoration" },
+    { name: "Retail", code: "Retail" },
+    { name: "Security", code: "Security" },
+    {
+      name: "SeniorCareMedicalNonMedical",
+      code: "Senior Care: Medical/Non-Medical",
+    },
+
+    { name: "Signs", code: "Signs" },
+    { name: "SpecialEventPlanning", code: "Special Event Planning" },
+    { name: "SportsRecreation", code: "Sports & Recreation" },
+    { name: "Staffing", code: "Staffing" },
+    { name: "TravelPlanning", code: "Travel Planning" },
+    { name: "Vending", code: "Vending" },
+  ];
   const history = useNavigate();
   const handleSearchInputChange = (cat) => {
     setFilters({ category: [cat] });
 
     history("/search-franchises");
   };
+
   return (
     <div
       id={id}
@@ -605,21 +592,21 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
         {id} Franchises
       </h3>
       <ul id="list-container " className="ml-7 mt-3 flex flex-col gap-2">
-        {uniqueFranchisedCats.map((listing, index) => {
-          if (index > min && index < max) {
+        {categories.map((listing, index) => {
+          if (index >= min && index <= max) {
             return (
-              <li key={listing.name} className="text-sm text-white list-disc ">
+              <li key={listing.name} className="text-sm text-white list-disc">
                 <button
                   onClick={() => handleSearchInputChange(listing)}
-                  to="/search-franchises"
                   className="group relative text-left"
                 >
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
-                  {listing}
+                  {listing.name}
                 </button>
               </li>
             );
           }
+          return null;
         })}
       </ul>
     </div>

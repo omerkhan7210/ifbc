@@ -208,26 +208,27 @@ const FundingCalculator = () => {
             Available To You
           </p>
         </div>
-        {formErrors.error && (
-          <p className="border border-[#dc2626] text-[#dc2626] p-4 flex justify-between">
-            {formErrors.error}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
-              />
-            </svg>
-          </p>
-        )}
+
         <div className="md:max-w-3xl md:mx-auto max-md:mx-5">
+          {formErrors.error && (
+            <p className="border border-[#dc2626] text-[#dc2626] p-4 flex justify-between">
+              {formErrors.error}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.25-8.25-3.286Zm0 13.036h.008v.008H12v-.008Z"
+                />
+              </svg>
+            </p>
+          )}
           <form onSubmit={handleSubmit}>
             <div className="my-10">
               <div className="flex gap-2 items-center">
@@ -857,7 +858,7 @@ const FundingCalculator = () => {
               </div>
             </div>
 
-            <div className="w-full mx-auto flex justify-center items-center flex-col shadow-xl p-5 rounded-3xl">
+            <div className="w-full mx-auto gap-2 flex justify-center items-center flex-col shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.07),0px_0px_0px_1px_rgba(25,28,33,0.1)] p-5 rounded-3xl bg-[#2176ff]/30">
               <div className="flex md:gap-4 max-md:flex-col md:flex-row w-full justify-center">
                 <div className="candidate-sub-childs">
                   <p className="funding-questions">First Name</p>
@@ -933,7 +934,7 @@ const FundingCalculator = () => {
                   )}
                 </div>
               </div>
-              <div className=" flex md:gap-4 flex-col  w-full justify-center mx-auto max-w-[80%]">
+              <div className=" flex md:gap-2 flex-col  w-full justify-center mx-auto max-w-[80%]">
                 <label htmlFor="message" className="funding-questions">
                   Message
                 </label>
@@ -951,27 +952,27 @@ const FundingCalculator = () => {
                   </p>
                 )}
               </div>
-            </div>
-
-            <p className="text-sm text-custom-heading-color text-left my-6 bg-[#2176ff]/30 p-5 rounded-3xl">
-              By submitting the form, you agree to receive calls, text messages,
-              or emails from <a href="https://ifbc.co">ifbc.co</a> at the
-              contact information provided. Message rates may apply. <br />
-              Text STOP to cancel text messaging at any time. <br />
-              See{" "}
-              <a href="/terms-conditions" className="  underline">
-                Terms & Conditions
-              </a>{" "}
-              and{" "}
-              <a href="/privacy-policy" className="  underline">
-                Privacy Policy
-              </a>{" "}
-              for additional details.
-            </p>
-            <div className="flex justify-center">
-              <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
-                {loading ? "Loading..." : "Calculate My Results"}
-              </button>
+              <p className="text-sm text-custom-heading-color text-left  p-5 rounded-3xl max-w-[80%]">
+                By submitting the form, you agree to receive calls, text
+                messages, or emails from <a href="https://ifbc.co">ifbc.co</a>{" "}
+                at the contact information provided. Message rates may apply.{" "}
+                <br />
+                Text STOP to cancel text messaging at any time. <br />
+                See{" "}
+                <a href="/terms-conditions" className="  underline">
+                  Terms & Conditions
+                </a>{" "}
+                and{" "}
+                <a href="/privacy-policy" className="  underline">
+                  Privacy Policy
+                </a>{" "}
+                for additional details.
+              </p>
+              <div className="flex justify-center">
+                <button className="border-2 border-custom-heading-color bg-custom-heading-color  text-white px-5 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-semibold">
+                  {loading ? "Loading..." : "Calculate My Results"}
+                </button>
+              </div>
             </div>
           </form>
         </div>

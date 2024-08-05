@@ -38,7 +38,7 @@
   @apply text-black  text-sm mt-2;
 }
 .candidate-radio-text {
-  @apply block text-custom-dark-blue text-sm;
+  @apply block text-custom-heading-color text-sm;
 }
 
 .candidate-sub-heading {
@@ -54,10 +54,10 @@
 }
 
 .candidate-select {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 md:max-w-60 max-md:w-full p-2;
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 p-2;
 }
 .candidate-input {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 md:max-w-60 max-md:w-full p-2;
+  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1  p-2;
 }
 .funding-input {
   @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 p-2;
@@ -114,7 +114,7 @@
 }
 
 .funding-questions {
-  @apply text-black max-md:text-sm md:text-lg;
+  @apply text-black max-md:text-sm md:text-sm;
 }
 
 .candidate-profile-icons {

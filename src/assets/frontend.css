@@ -12737,10 +12737,5 @@ blockquote {
   }
 }
 
-.custom-multiselect .p-multiselect-filter {
-  border-color: #1256c4 !important;
-  color: #1256c4;
-}
-
 /* abhi bhi overwrite hora */
 /* !important lagane se ye wala style ab overwrite nhi hoskta */

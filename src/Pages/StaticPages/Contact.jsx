@@ -290,15 +290,15 @@ const Contact = () => {
     <PageTransition>
       <DialogBox show={show} setShow={setShow}>
         <div className="ml-3 flex h-7 items-center absolute top-5 right-5">
-          <button
+          <NavLink
+            to="/"
             type="button"
-            onClick={() => setShow(false)}
             className="relative -m-2 p-2 text-red-600 hover:text-gray-500"
           >
             <span className="absolute -inset-0.5" />
             <span className="sr-only">Close panel</span>
             <XMarkIcon aria-hidden="true" className="h-6 w-6" />
-          </button>
+          </NavLink>
         </div>
         <div className="bg-white p-10">
           <p className="text-xl text-center text-custom-heading-color">
@@ -314,7 +314,7 @@ const Contact = () => {
           </p>
         </div>
       </DialogBox>
-      <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[65%] mx-auto">
+      <div className="max-md:p-2 max-md:w-full md:p-10 max-w-[85%] mx-auto">
         <ServicesGrid />
         <div className=" md:rounded-3xl grid max-md:grid-cols-1 md:grid-cols-2 md:h-[650px] md:gap-4">
           <img
