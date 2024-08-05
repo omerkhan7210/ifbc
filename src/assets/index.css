@@ -165,3 +165,7 @@
 .p-multiselect-filter-container {
   outline: none !important;
 }
+.p-inputwrapper.p-focus:focus-visible {
+  outline: none !important;
+  border: none !important;
+}

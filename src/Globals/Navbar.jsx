@@ -37,6 +37,11 @@ const Navbar = ({ active, setActive, selectedCandName }) => {
       path: "/search-franchises",
       label: "Search Franchises (SF)",
     },
+    {
+      id: "menu-item-552363",
+      path: "/become-a-consultant",
+      label: "Become a Consultant",
+    },
   ];
 
   const extraLink = [

@@ -191,10 +191,14 @@ const ListingsFilter = () => {
   ];
   const [selectedCats, setSelectedCats] = useState([]);
   useEffect(() => {
-    const selectedValues = selectedCats.map((cats) => cats.code);
+    if (selectedCats.length > 0) {
+      const selectedValues = selectedCats.map((cats) => cats.code);
+      setFilters({ category: selectedValues });
+    }
+  }, [selectedCats]);
 
-    setFilters({ category: selectedValues });
-  });
+  console.log(filters);
+
   return (
     <div id="main-filter-container" ref={dropdownRef}>
       {roleCheck && (
