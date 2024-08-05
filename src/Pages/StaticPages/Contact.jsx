@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
+import { MultiSelect } from "primereact/multiselect";
 import {
   sanitizeInput,
   validateEmail,

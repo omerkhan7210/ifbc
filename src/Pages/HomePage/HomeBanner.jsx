@@ -310,21 +310,20 @@ const SearchingSection = () => {
 
   return (
     <form
-      id="searching-contianer"
-      className="grid grid-cols-12 gap-2   p-5"
+      id="searching-container"
+      className="grid grid-cols-12 gap-2 p-5 w-full md:w-1/2 mx-auto" // Adjust the form's width and center it
       ref={dropdownRef}
       onSubmit={handleSearchInputChange}
     >
-      <div className="relative col-span-12 md:col-span-4  flex items-center">
+      <div className="relative col-span-12 md:col-span-4 flex items-center">
         <input
           type="search"
           id="search-field"
           placeholder="Search Any Listing"
           ref={ref}
-          className="block w-full px-2 h-12 text-sm rounded-lg  text-black pr-10  outline-none bg-white"
+          className="block w-full px-2 h-12 text-sm rounded-lg text-black pr-10 outline-none bg-white"
         />
-
-        <button className=" absolute right-2.5 top-5.5 w-4 h-4">
+        <button className="absolute right-2.5 top-5.5 w-4 h-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlSpace="preserve"
@@ -350,13 +349,15 @@ const SearchingSection = () => {
         options={categories}
         optionLabel="code"
         filter
+        display="chip"
         placeholder="Select Categories"
-        // maxSelectedLabels={3}
-        className="col-span-3"
+        className="col-span-12 md:col-span-4" // Adjust the width of the dropdown
+        style={{ width: "100%" }}
       />
+
       <button
         type="submit"
-        className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
+        className="max-md:col-span-12 md:col-span-2 w-full overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
       >
         Search
       </button>
