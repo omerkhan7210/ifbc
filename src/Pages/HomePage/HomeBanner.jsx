@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { MultiSelect } from "primereact/multiselect";
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+import "primereact/resources/themes/lara-light-teal/theme.css";
 
 const categories = [
   { name: "Advertising", code: "Advertising" },
@@ -75,32 +75,6 @@ const categories = [
   { name: "TravelPlanning", code: "Travel Planning" },
   { name: "Vending", code: "Vending" },
 ];
-
-const generateRangeArray = (start, end, step, check) => {
-  let rangeArray = [];
-  for (let i = start; i < end; i += step) {
-    let rangeEnd = i + step;
-    if (rangeEnd > end) rangeEnd = end; // Ensure the final range does not exceed 'end'
-
-    if (check) {
-      rangeArray.push(`$${i.toLocaleString()} - $${rangeEnd.toLocaleString()}`);
-    } else {
-      rangeArray.push(`${i} - ${rangeEnd}`);
-    }
-  }
-  if (check) {
-    rangeArray.push(`> $${end}`);
-  } else {
-    rangeArray.push(`> ${end}`);
-  }
-  return rangeArray;
-};
-
-const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
-
-const franchisedUnits = generateRangeArray(0, 1000, 100, false);
-
-const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
 
 const HomeBanner = () => {
   const listingBoxes = [
@@ -254,8 +228,9 @@ const HomeBanner = () => {
 
 const SearchingSection = () => {
   const ref = useRef();
-  const { setFilters, filters } = useContext(MyContext);
+  const { setFilters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
+  const [selectedInvest, setSelectedInvest] = useState("");
   const [activeDD, setActiveDD] = useState(false);
   const dropdownRef = useRef(null);
   const handleClickOutside = (event) => {
@@ -277,11 +252,11 @@ const SearchingSection = () => {
   }, [activeDD]);
   const history = useNavigate();
   const filterDataa = [
-    {
-      anotherText: "Select Category",
-      normalText: "Category",
-      property: "category",
-    },
+    // {
+    //   anotherText: "Select Category",
+    //   normalText: "Category",
+    //   property: "category",
+    // },
     {
       anotherText: "Select Investment Range",
       normalText: "Investment Range",
@@ -293,23 +268,30 @@ const SearchingSection = () => {
     e.preventDefault();
     console.log("button");
     const searchValue = ref.current.value;
-    const uniqueFilters = selectedCats.reduce((acc, current) => {
-      acc[current.code] = current; // Assuming `current` has a `code` property
-      return acc;
-    }, {});
+    const selectedValues = selectedCats.map((cats) => cats.code);
 
-    const filters = searchValue
-      ? { search: searchValue, ...uniqueFilters }
-      : uniqueFilters;
+    if (searchValue === "" && selectedValues.length > 0) {
+      setFilters({ category: selectedValues });
+    } else if (
+      searchValue === "" &&
+      !selectedValues.length > 0 &&
+      selectedInvest !== ""
+    ) {
+      setFilters(...selectedInvest);
+    } else {
+      setFilters({
+        search: [searchValue],
+      });
+    }
 
-    console.log("Filters:", filters);
-
-    // Navigate to the search results page or update the URL with search params
-    // navigate('/search-franchises', { state: { filters } });
-
-    // If you want to update state in the same component, do it here:
-    // setFilters(filters);
+    history("/search-franchises");
   };
+
+  useEffect(() => {
+    if (selectedCats.length > 0) {
+      setSelectedInvest();
+    }
+  }, [selectedCats, selectedInvest]);
 
   return (
     <form
@@ -346,13 +328,22 @@ const SearchingSection = () => {
         onChange={(e) => setSelectedCats(e.value)}
         options={categories} // Assuming `categories` is defined
         optionLabel="code"
-        filter
-        display="chip"
+        //filter
         placeholder="Select Categories"
-        className="col-span-12 md:col-span-4"
-        style={{ width: "100%" }}
+        // maxSelectedLabels={3}
+        className="col-span-3 bg-[#e3e4e6]"
       />
 
+      {filterDataa.map((config, index) => (
+        <SearchDropdown
+          key={index}
+          config={config}
+          setSelectedCats={setSelectedInvest}
+          selectedCats={selectedInvest}
+          activeDD={activeDD}
+          setActiveDD={setActiveDD}
+        />
+      ))}
       <button
         type="submit"
         className="max-md:col-span-12 md:col-span-2 w-full overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
@@ -394,24 +385,64 @@ const SearchDropdown = ({
     return rangeArray;
   };
 
-  const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
+  // const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
 
-  const franchisedUnits = generateRangeArray(0, 1000, 100, false);
+  // const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
   const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
 
+  // const categories = [
+  //   "Advertising",
+  //   "Automotive",
+  //   "Beauty & Spa",
+  //   "Business Management & Coaching",
+  //   "Business Services",
+  //   "Child Education, STEM & Tutoring",
+  //   "Child Services & Products",
+  //   "Cleaning: Residential & Commercial",
+  //   "Computer Technology",
+  //   "Distribution Services",
+  //   "Dry Cleaning-Laundry",
+  //   "Financial Services",
+  //   "Fitness",
+  //   "Food & Beverage: Restaurant/QSR/Catering",
+  //   "Food: Coffee/Tea/Smoothies/Sweets",
+  //   "Food: Stores & Catering",
+  //   "Health/Medical",
+  //   "Health/Wellness",
+  //   "Home Improvement",
+  //   "Interior/Exterior Design",
+  //   "Maintenance & Repair",
+  //   "Moving,Storage & Junk Removal",
+  //   "Painting",
+  //   "Pet Care & Grooming",
+  //   "Pest Control",
+  //   "Print, Copy & Mailing",
+  //   "Real Estate",
+  //   "Restoration",
+  //   "Retail",
+  //   "Security",
+  //   "Senior Care: Medical/Non-Medical Option",
+  //   "Signs",
+  //   "Special Event Planning",
+  //   "Sports & Recreation",
+  //   "Staffing",
+  //   "Travel Planning",
+  //   "Vending",
+  // ];
+
   let uniqueItems = [];
-  if (property === "franchiseFee") {
-    uniqueItems = franchiseFee;
-  } else if (property === "franchisedUnits") {
-    uniqueItems = franchisedUnits;
-  } else if (property === "investmentRange") {
-    uniqueItems = investmentRange;
-  } else if (property === "category") {
-    uniqueItems = categories;
-  } else if (property === "yearEstablished") {
-    uniqueItems = yearEstablished;
-  }
+  // if (property === "franchiseFee") {
+  //   uniqueItems = franchiseFee;
+  // } else if (property === "franchisedUnits") {
+  //   uniqueItems = franchisedUnits;
+  // } else if (property === "investmentRange") {
+  uniqueItems = investmentRange;
+  // } else if (property === "category") {
+  //   uniqueItems = categories;
+  // } else if (property === "yearEstablished") {
+  //   uniqueItems = yearEstablished;
+  // }
 
   const handleRemoveCat = () => {
     setActiveDD("");
@@ -448,18 +479,17 @@ const SearchDropdown = ({
           <>
             {selectedCats[0][property]}
             <svg
-              onClick={handleRemoveCat}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
+              strokeWidth={2}
+              stroke="rgb(107, 114, 128)"
+              className="size-5"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
               />
             </svg>
           </>
@@ -468,16 +498,16 @@ const SearchDropdown = ({
             {anotherText !== "" && anotherText}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
+              fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-4 h-4"
+              strokeWidth={2}
+              stroke="rgb(107, 114, 128)"
+              className="size-5"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="M4.5 5.25l7.5 7.5 7.5-7.5m-15 6l7.5 7.5 7.5-7.5"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
               />
             </svg>
           </>

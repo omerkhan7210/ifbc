@@ -124,3 +124,44 @@
 .candidate-two-col {
   @apply flex max-md:flex-col justify-between;
 }
+
+.p-multiselect-label-container {
+  display: flex;
+  align-items: center;
+}
+.p-multiselect-items-label,
+.p-multiselect-label.p-placeholder {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: black;
+}
+
+.p-multiselect-item {
+  align-items: center !important;
+}
+.p-multiselect-item span {
+  font-size: 14px;
+}
+.p-multiselect-item.p-highlight span {
+  color: white !important;
+}
+
+.p-highlight {
+  background-color: rgb(33, 118, 255) !important;
+}
+.p-checkbox-box {
+  border: 1px solid rgba(0, 0, 0, 0.3) !important;
+}
+.p-multiselect-item.p-highlight .p-checkbox-box {
+  background-color: rgb(24 96 211);
+}
+
+.p-multiselect-filter.p-inputtext:focus,
+.p-multiselect-filter.p-inputtext:focus-within {
+  outline: none !important;
+}
+.p-multiselect-filter.p-inputtext,
+.p-multiselect-filter-container {
+  outline: none !important;
+}

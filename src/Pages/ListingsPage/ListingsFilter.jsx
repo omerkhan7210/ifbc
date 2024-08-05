@@ -2,6 +2,9 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { MyContext } from "src/Context/ListingDataContext";
 import SearchingComponent from "./SearchingComponent";
 
+import { MultiSelect } from "primereact/multiselect";
+import "primereact/resources/themes/lara-light-teal/theme.css";
+
 const ListingsFilter = () => {
   const { filters, setFilters, role, token } = useContext(MyContext);
   const [filterData, setFilterData] = useState([]);
@@ -11,11 +14,11 @@ const ListingsFilter = () => {
   useEffect(() => {
     if (roleCheck) {
       const filterDataa = [
-        {
-          anotherText: "Select Category",
-          normalText: "Category",
-          property: "category",
-        },
+        // {
+        //   anotherText: "Select Category",
+        //   normalText: "Category",
+        //   property: "category",
+        // },
 
         {
           anotherText: "Select Investment Range",
@@ -36,11 +39,11 @@ const ListingsFilter = () => {
       setFilterData(filterDataa);
     } else {
       const filterDataa = [
-        {
-          anotherText: "Select Category",
-          normalText: "Category",
-          property: "category",
-        },
+        // {
+        //   anotherText: "Select Category",
+        //   normalText: "Category",
+        //   property: "category",
+        // },
         {
           anotherText: "Select Franchise Fee",
           normalText: "Franchise Fee",
@@ -117,11 +120,81 @@ const ListingsFilter = () => {
     };
   }, [activeDD]);
 
-  // const handleRemoveFilter = (key, value) => {
-  //   setFilters((prevFilters) => ({
-  //     [key]: prevFilters[key].filter((filterValue) => filterValue !== value),
-  //   }));
-  // };
+  const handleRemoveFilter = (key, value) => {
+    setFilters((prevFilters) => ({
+      [key]: prevFilters[key].filter((filterValue) => filterValue !== value),
+    }));
+  };
+  const categories = [
+    { name: "Advertising", code: "Advertising" },
+    { name: "Automotive", code: "Automotive" },
+    { name: "BeautySpa", code: "Beauty & Spa" },
+    {
+      name: "BusinessManagementCoaching",
+      code: "Business Management & Coaching",
+    },
+    { name: "BusinessServices", code: "Business Services" },
+    {
+      name: "ChildEducationStemTutoring",
+      code: "Child Education, STEM & Tutoring",
+    },
+    { name: "ChildServicesProducts", code: "Child Services & Products" },
+    {
+      name: "CleaningResidentialCommercial",
+      code: "Cleaning: Residential & Commercial",
+    },
+    { name: "ComputerTechnology", code: "Computer Technology" },
+    {
+      name: "DistributionServices",
+      code: "Select a rating Distribution Services",
+    },
+    { name: "DryCleaningLaundry", code: "Dry Cleaning-Laundry" },
+    { name: "FinancialServices", code: "Financial Services" },
+    { name: "Fitness", code: "Fitness" },
+    {
+      name: "FoodBeverageRestaurantQSR",
+      code: "Food & Beverage: Restaurant/QSR/Catering",
+    },
+    {
+      name: "FoodCoffeeTeaSmoothiesSweets",
+      code: "Food: Coffee/Tea/Smoothies/Sweets",
+    },
+    { name: "FoodStoresCatering", code: "Food: Stores & Catering" },
+    { name: "HealthMedical", code: "Health/Medical" },
+    { name: "HealthWellness", code: "Health/Wellness" },
+    { name: "HomeImprovement", code: "Home Improvement" },
+    { name: "InteriorExteriorDesign", code: "Interior/Exterior Design" },
+    { name: "MaintenanceRepair", code: "Maintenance & Repair" },
+    {
+      name: "MovingStorageJunkRemoval",
+      code: "Moving, Storage & Junk Removal",
+    },
+    { name: "Painting", code: "Painting" },
+    { name: "PestControl", code: "Pest Control" },
+    { name: "PetCareGrooming", code: "Pet Care & Grooming" },
+    { name: "PrintCopyMailing", code: "Print, Copy & Mailing" },
+    { name: "RealState", code: "Real Estate" },
+    { name: "Restoration", code: "Restoration" },
+    { name: "Retail", code: "Retail" },
+    { name: "Security", code: "Security" },
+    {
+      name: "SeniorCareMedicalNonMedical",
+      code: "Senior Care: Medical/Non-Medical",
+    },
+
+    { name: "Signs", code: "Signs" },
+    { name: "SpecialEventPlanning", code: "Special Event Planning" },
+    { name: "SportsRecreation", code: "Sports & Recreation" },
+    { name: "Staffing", code: "Staffing" },
+    { name: "TravelPlanning", code: "Travel Planning" },
+    { name: "Vending", code: "Vending" },
+  ];
+  const [selectedCats, setSelectedCats] = useState([]);
+  useEffect(() => {
+    const selectedValues = selectedCats.map((cats) => cats.code);
+
+    setFilters({ category: selectedValues });
+  });
   return (
     <div id="main-filter-container" ref={dropdownRef}>
       {roleCheck && (
@@ -140,7 +213,7 @@ const ListingsFilter = () => {
           <div className="mt-2">
             <h3 className="font-semibold">Active Filters:</h3>
             <ul className="divide-y-2">
-              {activeFilters.map(([key, values]) =>
+              {activeFilters?.map(([key, values]) =>
                 values.map((value) => (
                   <li
                     key={`${key}-${value}`}
@@ -149,13 +222,17 @@ const ListingsFilter = () => {
                     <span className="font-bold">
                       {key.replace(/([A-Z])/g, " $1").trim()} :{" "}
                       {value.replace(/^.*?:/, "").trim()}
+                      {/* {key} : {value} */}
                     </span>
-                    {/* <button
-                      className="ml-2 text-red-600 font-bold cursor-pointer"
-                      onClick={() => handleRemoveFilter(key, value)}
-                    >
-                      X
-                    </button> */}
+
+                    {key === "category" && (
+                      <button
+                        className="ml-2 text-red-600 font-bold cursor-pointer"
+                        onClick={() => handleRemoveFilter(key, value)}
+                      >
+                        X
+                      </button>
+                    )}
                   </li>
                 ))
               )}
@@ -163,7 +240,16 @@ const ListingsFilter = () => {
           </div>
         </div>
       )}
-
+      <MultiSelect
+        value={selectedCats}
+        onChange={(e) => setSelectedCats(e.value)}
+        options={categories}
+        optionLabel="code"
+        //filter
+        placeholder="Select Categories"
+        // maxSelectedLabels={3}
+        className=" w-full md:text-sm text-site transition-all duration-300 bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold mb-5"
+      />
       {filterData.map((filter, index) => (
         <CategorySearch
           key={index}
@@ -320,7 +406,7 @@ const CategorySearch = ({
   return (
     <div className="relative w-full group flex flex-col gap-2 mb-5">
       <button
-        className="py-2.5 px-3 w-full md:text-sm text-site hover:bg-custom-heading-color hover:text-white focus:bg-custom-heading-color focus:text-white transition-all duration-300 bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold"
+        className="py-2.5 px-3 w-full md:text-sm text-site transition-all duration-300 bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold"
         onClick={() => handleDropdown(property)}
       >
         {selectedCats.length > 0 ? anotherText : normalText}
@@ -328,14 +414,14 @@ const CategorySearch = ({
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-4 h-4"
+          strokeWidth={2}
+          stroke="rgb(107, 114, 128)"
+          className="size-5"
         >
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            d="M4.5 5.25l7.5 7.5 7.5-7.5m-15 6l7.5 7.5 7.5-7.5"
+            d="m19.5 8.25-7.5 7.5-7.5-7.5"
           />
         </svg>
       </button>
