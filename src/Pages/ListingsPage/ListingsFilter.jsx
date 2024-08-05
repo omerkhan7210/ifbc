@@ -191,10 +191,14 @@ const ListingsFilter = () => {
   ];
   const [selectedCats, setSelectedCats] = useState([]);
   useEffect(() => {
-    const selectedValues = selectedCats.map((cats) => cats.code);
+    if (selectedCats.length > 0) {
+      const selectedValues = selectedCats.map((cats) => cats.code);
+      setFilters({ category: selectedValues });
+    }
+  }, [selectedCats]);
 
-    setFilters({ category: selectedValues });
-  });
+  console.log(filters);
+
   return (
     <div id="main-filter-container" ref={dropdownRef}>
       {roleCheck && (
@@ -220,8 +224,8 @@ const ListingsFilter = () => {
                     className="text-gray-700 flex items-center capitalize justify-between py-2 text-xs"
                   >
                     <span className="font-bold">
-                      {key.replace(/([A-Z])/g, " $1").trim()} :{" "}
-                      {value.replace(/^.*?:/, "").trim()}
+                      {key?.replace(/([A-Z])/g, " $1").trim()} :{" "}
+                      {value?.replace(/^.*?:/, "").trim()}
                       {/* {key} : {value} */}
                     </span>
 

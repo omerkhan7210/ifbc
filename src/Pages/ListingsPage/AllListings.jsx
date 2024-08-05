@@ -316,6 +316,12 @@ const AllListings = ({ setRegistrationType, setShow }) => {
                       maxValueListing <= maxValueFilter
                     );
                   });
+                } else if (Array.isArray(filters[key]) && key === "category") {
+                  return filters["category"].some((searchString) => {
+                    return listing.category
+                      .toLowerCase()
+                      .includes(searchString.toLowerCase());
+                  });
                 } else {
                   return listing[key]
                     ?.toLowerCase()
