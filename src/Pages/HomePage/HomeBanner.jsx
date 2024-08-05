@@ -9,7 +9,7 @@ import "swiper/css";
 import "swiper/css/effect-fade";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { MultiSelect } from "primereact/multiselect";
-import "primereact/resources/themes/lara-light-teal/theme.css";
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 const categories = [
   { name: "Advertising", code: "Advertising" },
@@ -75,6 +75,32 @@ const categories = [
   { name: "TravelPlanning", code: "Travel Planning" },
   { name: "Vending", code: "Vending" },
 ];
+
+const generateRangeArray = (start, end, step, check) => {
+  let rangeArray = [];
+  for (let i = start; i < end; i += step) {
+    let rangeEnd = i + step;
+    if (rangeEnd > end) rangeEnd = end; // Ensure the final range does not exceed 'end'
+
+    if (check) {
+      rangeArray.push(`$${i.toLocaleString()} - $${rangeEnd.toLocaleString()}`);
+    } else {
+      rangeArray.push(`${i} - ${rangeEnd}`);
+    }
+  }
+  if (check) {
+    rangeArray.push(`> $${end}`);
+  } else {
+    rangeArray.push(`> ${end}`);
+  }
+  return rangeArray;
+};
+
+const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
+
+const franchisedUnits = generateRangeArray(0, 1000, 100, false);
+
+const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
 
 const HomeBanner = () => {
   const listingBoxes = [
@@ -228,9 +254,8 @@ const HomeBanner = () => {
 
 const SearchingSection = () => {
   const ref = useRef();
-  const { setFilters } = useContext(MyContext);
+  const { setFilters, filters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
-  const [selectedInvest, setSelectedInvest] = useState("");
   const [activeDD, setActiveDD] = useState(false);
   const dropdownRef = useRef(null);
   const handleClickOutside = (event) => {
@@ -252,11 +277,11 @@ const SearchingSection = () => {
   }, [activeDD]);
   const history = useNavigate();
   const filterDataa = [
-    // {
-    //   anotherText: "Select Category",
-    //   normalText: "Category",
-    //   property: "category",
-    // },
+    {
+      anotherText: "Select Category",
+      normalText: "Category",
+      property: "category",
+    },
     {
       anotherText: "Select Investment Range",
       normalText: "Investment Range",
@@ -266,38 +291,28 @@ const SearchingSection = () => {
 
   const handleSearchInputChange = (e) => {
     e.preventDefault();
-    console.log("button");
     const searchValue = ref.current.value;
-    const selectedValues = selectedCats.map((cats) => cats.code);
+    const uniqueFilters = selectedCats.reduce((acc, current) => {
+      return { ...acc, ...current };
+    }, {});
 
-    if (searchValue === "" && selectedValues.length > 0) {
-      setFilters({ category: selectedValues });
-    } else if (
-      searchValue === "" &&
-      !selectedValues.length > 0 &&
-      selectedInvest !== ""
-    ) {
-      setFilters(...selectedInvest);
+    if (searchValue === "") {
+      setFilters((prev) => ({ ...prev, ...uniqueFilters }));
     } else {
       setFilters({
         search: [searchValue],
       });
     }
+    console.log(selectedCats, uniqueFilters);
 
-    history("/search-franchises");
+    //history("/search-franchises");
   };
-
-  useEffect(() => {
-    if (selectedCats.length > 0) {
-      setSelectedInvest();
-    }
-  }, [selectedCats, selectedInvest]);
 
   return (
     <form
       id="searching-container"
-      className="grid grid-cols-12 gap-2 p-5 w-full md:w-1/2 mx-auto"
-      ref={ref}
+      className="grid grid-cols-12 gap-2 p-5 w-full md:w-1/2 mx-auto" // Adjust the form's width and center it
+      ref={dropdownRef}
       onSubmit={handleSearchInputChange}
     >
       <div className="relative col-span-12 md:col-span-4 flex items-center">
@@ -308,11 +323,7 @@ const SearchingSection = () => {
           ref={ref}
           className="block w-full px-2 h-12 text-sm rounded-lg text-black pr-10 outline-none bg-white"
         />
-        <button
-          type="button"
-          className="absolute right-2.5 top-5.5 w-4 h-4"
-          onClick={handleSearchInputChange}
-        >
+        <button className="absolute right-2.5 top-5.5 w-4 h-4">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlSpace="preserve"
@@ -326,24 +337,15 @@ const SearchingSection = () => {
       <MultiSelect
         value={selectedCats}
         onChange={(e) => setSelectedCats(e.value)}
-        options={categories} // Assuming `categories` is defined
+        options={categories}
         optionLabel="code"
-        //filter
+        filter
+        display="chip"
         placeholder="Select Categories"
-        // maxSelectedLabels={3}
-        className="col-span-3 bg-[#e3e4e6]"
+        className="col-span-12 md:col-span-4" // Adjust the width of the dropdown
+        style={{ width: "100%" }}
       />
 
-      {filterDataa.map((config, index) => (
-        <SearchDropdown
-          key={index}
-          config={config}
-          setSelectedCats={setSelectedInvest}
-          selectedCats={selectedInvest}
-          activeDD={activeDD}
-          setActiveDD={setActiveDD}
-        />
-      ))}
       <button
         type="submit"
         className="max-md:col-span-12 md:col-span-2 w-full overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
@@ -385,64 +387,64 @@ const SearchDropdown = ({
     return rangeArray;
   };
 
-  // const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
+  const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
 
-  // const franchisedUnits = generateRangeArray(0, 1000, 100, false);
+  const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
   const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
 
-  // const categories = [
-  //   "Advertising",
-  //   "Automotive",
-  //   "Beauty & Spa",
-  //   "Business Management & Coaching",
-  //   "Business Services",
-  //   "Child Education, STEM & Tutoring",
-  //   "Child Services & Products",
-  //   "Cleaning: Residential & Commercial",
-  //   "Computer Technology",
-  //   "Distribution Services",
-  //   "Dry Cleaning-Laundry",
-  //   "Financial Services",
-  //   "Fitness",
-  //   "Food & Beverage: Restaurant/QSR/Catering",
-  //   "Food: Coffee/Tea/Smoothies/Sweets",
-  //   "Food: Stores & Catering",
-  //   "Health/Medical",
-  //   "Health/Wellness",
-  //   "Home Improvement",
-  //   "Interior/Exterior Design",
-  //   "Maintenance & Repair",
-  //   "Moving,Storage & Junk Removal",
-  //   "Painting",
-  //   "Pet Care & Grooming",
-  //   "Pest Control",
-  //   "Print, Copy & Mailing",
-  //   "Real Estate",
-  //   "Restoration",
-  //   "Retail",
-  //   "Security",
-  //   "Senior Care: Medical/Non-Medical Option",
-  //   "Signs",
-  //   "Special Event Planning",
-  //   "Sports & Recreation",
-  //   "Staffing",
-  //   "Travel Planning",
-  //   "Vending",
-  // ];
+  const categories = [
+    "Advertising",
+    "Automotive",
+    "Beauty & Spa",
+    "Business Management & Coaching",
+    "Business Services",
+    "Child Education, STEM & Tutoring",
+    "Child Services & Products",
+    "Cleaning: Residential & Commercial",
+    "Computer Technology",
+    "Distribution Services",
+    "Dry Cleaning-Laundry",
+    "Financial Services",
+    "Fitness",
+    "Food & Beverage: Restaurant/QSR/Catering",
+    "Food: Coffee/Tea/Smoothies/Sweets",
+    "Food: Stores & Catering",
+    "Health/Medical",
+    "Health/Wellness",
+    "Home Improvement",
+    "Interior/Exterior Design",
+    "Maintenance & Repair",
+    "Moving,Storage & Junk Removal",
+    "Painting",
+    "Pet Care & Grooming",
+    "Pest Control",
+    "Print, Copy & Mailing",
+    "Real Estate",
+    "Restoration",
+    "Retail",
+    "Security",
+    "Senior Care: Medical/Non-Medical Option",
+    "Signs",
+    "Special Event Planning",
+    "Sports & Recreation",
+    "Staffing",
+    "Travel Planning",
+    "Vending",
+  ];
 
   let uniqueItems = [];
-  // if (property === "franchiseFee") {
-  //   uniqueItems = franchiseFee;
-  // } else if (property === "franchisedUnits") {
-  //   uniqueItems = franchisedUnits;
-  // } else if (property === "investmentRange") {
-  uniqueItems = investmentRange;
-  // } else if (property === "category") {
-  //   uniqueItems = categories;
-  // } else if (property === "yearEstablished") {
-  //   uniqueItems = yearEstablished;
-  // }
+  if (property === "franchiseFee") {
+    uniqueItems = franchiseFee;
+  } else if (property === "franchisedUnits") {
+    uniqueItems = franchisedUnits;
+  } else if (property === "investmentRange") {
+    uniqueItems = investmentRange;
+  } else if (property === "category") {
+    uniqueItems = categories;
+  } else if (property === "yearEstablished") {
+    uniqueItems = yearEstablished;
+  }
 
   const handleRemoveCat = () => {
     setActiveDD("");
@@ -479,17 +481,18 @@ const SearchDropdown = ({
           <>
             {selectedCats[0][property]}
             <svg
+              onClick={handleRemoveCat}
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="rgb(107, 114, 128)"
-              className="size-5"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                d="M6 18L18 6M6 6l12 12"
               />
             </svg>
           </>
@@ -498,16 +501,16 @@ const SearchDropdown = ({
             {anotherText !== "" && anotherText}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              fill="none"
+              fill="currentColor"
               viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="rgb(107, 114, 128)"
-              className="size-5"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                d="M4.5 5.25l7.5 7.5 7.5-7.5m-15 6l7.5 7.5 7.5-7.5"
               />
             </svg>
           </>
@@ -539,78 +542,49 @@ const SearchDropdown = ({
 };
 
 const ListingBox = ({ id, bgcolor, svg, min, max }) => {
-  const { setFilters } = useContext(MyContext);
-  const categories = [
-    { name: "Advertising", code: "Advertising" },
-    { name: "Automotive", code: "Automotive" },
-    { name: "BeautySpa", code: "Beauty & Spa" },
-    {
-      name: "BusinessManagementCoaching",
-      code: "Business Management & Coaching",
-    },
-    { name: "BusinessServices", code: "Business Services" },
-    {
-      name: "ChildEducationStemTutoring",
-      code: "Child Education, STEM & Tutoring",
-    },
-    { name: "ChildServicesProducts", code: "Child Services & Products" },
-    {
-      name: "CleaningResidentialCommercial",
-      code: "Cleaning: Residential & Commercial",
-    },
-    { name: "ComputerTechnology", code: "Computer Technology" },
-    {
-      name: "DistributionServices",
-      code: "Select a rating Distribution Services",
-    },
-    { name: "DryCleaningLaundry", code: "Dry Cleaning-Laundry" },
-    { name: "FinancialServices", code: "Financial Services" },
-    { name: "Fitness", code: "Fitness" },
-    {
-      name: "FoodBeverageRestaurantQSR",
-      code: "Food & Beverage: Restaurant/QSR/Catering",
-    },
-    {
-      name: "FoodCoffeeTeaSmoothiesSweets",
-      code: "Food: Coffee/Tea/Smoothies/Sweets",
-    },
-    { name: "FoodStoresCatering", code: "Food: Stores & Catering" },
-    { name: "HealthMedical", code: "Health/Medical" },
-    { name: "HealthWellness", code: "Health/Wellness" },
-    { name: "HomeImprovement", code: "Home Improvement" },
-    { name: "InteriorExteriorDesign", code: "Interior/Exterior Design" },
-    { name: "MaintenanceRepair", code: "Maintenance & Repair" },
-    {
-      name: "MovingStorageJunkRemoval",
-      code: "Moving, Storage & Junk Removal",
-    },
-    { name: "Painting", code: "Painting" },
-    { name: "PestControl", code: "Pest Control" },
-    { name: "PetCareGrooming", code: "Pet Care & Grooming" },
-    { name: "PrintCopyMailing", code: "Print, Copy & Mailing" },
-    { name: "RealState", code: "Real Estate" },
-    { name: "Restoration", code: "Restoration" },
-    { name: "Retail", code: "Retail" },
-    { name: "Security", code: "Security" },
-    {
-      name: "SeniorCareMedicalNonMedical",
-      code: "Senior Care: Medical/Non-Medical",
-    },
-
-    { name: "Signs", code: "Signs" },
-    { name: "SpecialEventPlanning", code: "Special Event Planning" },
-    { name: "SportsRecreation", code: "Sports & Recreation" },
-    { name: "Staffing", code: "Staffing" },
-    { name: "TravelPlanning", code: "Travel Planning" },
-    { name: "Vending", code: "Vending" },
+  const uniqueFranchisedCats = [
+    "Advertising",
+    "Automotive",
+    "Beauty & Spa",
+    "Business Management & Coaching",
+    "Business Services",
+    "Child Education",
+    "Child Services & Products",
+    "Cleaning: Residential & Commercial",
+    "Computer Technology",
+    "Copy & Mailing",
+    "Distribution Services",
+    "Dry Cleaning-Laundry",
+    "Financial Services",
+    "Fitness",
+    "Food & Beverage: Restaurant/QSR/Catering",
+    "Food: Coffee/Tea/Smoothies/Sweets",
+    "Food: Stores & Catering",
+    "Health/Medical",
+    "Health/Wellness",
+    "Home Improvement",
+    "Interior/Exterior Design",
+    "Maintenance & Repair",
+    "Pet Care & Grooming",
+    "Print",
+    "Real Estate",
+    "Restoration",
+    "Retail",
+    "Senior Care: Medical/Non-Medical Option",
+    "Signs",
+    "Special Event Planning",
+    "Sports & Recreation",
+    "Staffing",
+    "STEM & Tutoring",
   ];
+
+  const { setFilters } = useContext(MyContext);
   const history = useNavigate();
   const handleSearchInputChange = (cat) => {
     setFilters({ category: [cat] });
 
     history("/search-franchises");
   };
-
   return (
     <div
       id={id}
@@ -622,21 +596,21 @@ const ListingBox = ({ id, bgcolor, svg, min, max }) => {
         {id} Franchises
       </h3>
       <ul id="list-container " className="ml-7 mt-3 flex flex-col gap-2">
-        {categories.map((listing, index) => {
-          if (index >= min && index <= max) {
+        {uniqueFranchisedCats.map((listing, index) => {
+          if (index > min && index < max) {
             return (
-              <li key={listing.name} className="text-sm text-white list-disc">
+              <li key={listing.name} className="text-sm text-white list-disc ">
                 <button
                   onClick={() => handleSearchInputChange(listing)}
+                  to="/search-franchises"
                   className="group relative text-left"
                 >
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full group-hover:transition-all"></span>
-                  {listing.name}
+                  {listing}
                 </button>
               </li>
             );
           }
-          return null;
         })}
       </ul>
     </div>

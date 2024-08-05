@@ -219,9 +219,10 @@ const ListingsFilter = () => {
                     key={`${key}-${value}`}
                     className="text-gray-700 flex items-center capitalize justify-between py-2 text-xs"
                   >
+                    {console.log("span*****", values, value)}
                     <span className="font-bold">
-                      {key.replace(/([A-Z])/g, " $1").trim()} :{" "}
-                      {value.replace(/^.*?:/, "").trim()}
+                      {key?.replace(/([A-Z])/g, " $1").trim()} :{" "}
+                      {value?.replace(/^.*?:/, "").trim()}
                       {/* {key} : {value} */}
                     </span>
 
