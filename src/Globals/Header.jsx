@@ -313,6 +313,15 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
             className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999]  justify-center items-center"
             style={elementStyle}
           >
+            <div className="w-[210px pb-2]">
+              <img
+                src="/images/logo/IFBC 1.png"
+                alt=""
+                height={120}
+                width={120}
+              />
+            </div>
+
             {/* signin button */}
             <NavLink
               to="/login"
