@@ -142,7 +142,7 @@ const ShoppingCart = ({ cartListings, listings }) => {
           to="/search-franchises"
           className="candidate-btn flex items-center md:w-64 justify-between max-md:w-full"
         >
-          See More Listings
+          Add More Listings
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -475,18 +475,38 @@ const LeftSidebar = ({ cartListings, listings }) => {
 
         <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="name">
-              Name
+            <label className="text-custom-heading-color" htmlFor="firstname">
+              First Name
             </label>
             <input
               onChange={handleInputChange}
-              name="Name"
-              placeholder="Name"
+              name="firstname"
+              placeholder="First Name"
               className="candidate-select w-full"
-              style={{ borderColor: formErrors.name ? "red" : undefined }}
+              style={{ borderColor: formErrors.firstname ? "red" : undefined }}
               type="text"
             />{" "}
-            {formErrors.name && formErrors.name === "invalid" && (
+            {formErrors.firstname && formErrors.firstname === "invalid" && (
+              <p className=" text-red text-xs py-2 flex justify-between">
+                Invalid username. It should be 3-16 characters long and can
+                include letters, numbers, underscores, and spaces.
+              </p>
+            )}
+          </div>
+
+          <div className="flex-1">
+            <label className="text-custom-heading-color" htmlFor="firstname">
+              Last Name
+            </label>
+            <input
+              onChange={handleInputChange}
+              name="lastname"
+              placeholder="Last Name"
+              className="candidate-select w-full"
+              style={{ borderColor: formErrors.lastname ? "red" : undefined }}
+              type="text"
+            />{" "}
+            {formErrors.lastname && formErrors.lastname === "invalid" && (
               <p className=" text-red text-xs py-2 flex justify-between">
                 Invalid username. It should be 3-16 characters long and can
                 include letters, numbers, underscores, and spaces.
@@ -513,12 +533,14 @@ const LeftSidebar = ({ cartListings, listings }) => {
               </p>
             )}
           </div>
+        </div>
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
             <label className="text-custom-heading-color">Phone</label>
             <input
               onChange={handleInputChange}
               name="phone"
-              placeholder="Phone"
+              placeholder="Phone Number"
               className="candidate-input w-full"
               style={{ borderColor: formErrors.phone ? "red" : undefined }}
               id="phone"
@@ -531,8 +553,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
               </p>
             )}
           </div>
-        </div>
-        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="zip">
               ZIP
@@ -544,7 +564,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               className="candidate-input w-full"
               style={{ borderColor: formErrors.zipcode ? "red" : undefined }}
               id="zip"
-              type="tel"
+              type="number"
             />
           </div>
         </div>
@@ -556,7 +576,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             <select
               name="desiredLoc"
               className={`candidate-select w-full ${
-                formErrors.location ? "bg-red-300" : ""
+                formErrors.desiredLoc ? "bg-red-300" : ""
               }`}
               id="desiredLoc"
               onChange={handleInputChange}
@@ -575,7 +595,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             <select
               name="availCapital"
               className={`candidate-select w-full ${
-                formErrors.capital ? "bg-red-300" : ""
+                formErrors.availCapital ? "bg-red-300" : ""
               }`}
               id="availCapital"
               onChange={handleInputChange}
@@ -594,9 +614,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             </label>
             <select
               name="timeFrame"
-              className={`candidate-select w-full ${
-                formErrors.invest ? "bg-red-300" : ""
-              }`}
+              className="candidate-select w-full "
               id="timeFrame"
               onChange={handleInputChange}
             >

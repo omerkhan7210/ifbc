@@ -122,7 +122,7 @@
 }
 
 .candidate-two-col {
-  @apply flex max-md:flex-col justify-between;
+  @apply flex max-md:flex-col justify-between gap-5;
 }
 
 .p-multiselect-label-container {
