@@ -12,7 +12,7 @@
 
 .candidate-secondary-btn {
   @apply border-2 
-  text-center border-custom-dark-blue bg-custom-dark-blue rounded-3xl  text-white px-5  hover:bg-white hover:text-custom-dark-blue transition-all duration-500 py-2  font-semibold;
+  text-center border-custom-dark-blue bg-custom-dark-blue rounded-3xl  text-white px-5  hover:bg-white hover:text-custom-dark-blue transition-all duration-500 py-2 font-light;
 }
 .candidate-funding-btn {
   @apply border
@@ -54,10 +54,10 @@
 }
 
 .candidate-select {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 p-2;
+  @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1 p-2;
 }
 .candidate-input {
-  @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1  p-2;
+  @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1  p-2;
 }
 .funding-input {
   @apply bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm rounded-3xl block  focus:outline-none focus:ring-1 p-2;

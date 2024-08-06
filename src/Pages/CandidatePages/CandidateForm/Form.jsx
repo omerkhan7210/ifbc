@@ -196,6 +196,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         TrafficViolation: formFields.TrafficViolation ?? "",
         Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
         Bankruptcy: formFields.Bankruptcy ?? "",
+        TrafficViolationReason: formFields.TrafficViolationReason ?? "",
+        UnsatisfiedjudgmentReason: formFields.UnsatisfiedjudgmentReason ?? "",
         isCompleted: true,
       };
 
