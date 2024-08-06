@@ -513,7 +513,9 @@ const LeftSidebar = ({ cartListings, listings }) => {
               </p>
             )}
           </div>
+        </div>
 
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="state">
               Email
@@ -533,8 +535,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               </p>
             )}
           </div>
-        </div>
-        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
+
           <div className="flex-1">
             <label className="text-custom-heading-color">Phone</label>
             <input
@@ -553,6 +554,8 @@ const LeftSidebar = ({ cartListings, listings }) => {
               </p>
             )}
           </div>
+        </div>
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="zip">
               ZIP
@@ -567,8 +570,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               type="tel"
             />
           </div>
-        </div>
-        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
+
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="country">
               Desired Location
@@ -588,6 +590,9 @@ const LeftSidebar = ({ cartListings, listings }) => {
               ))}
             </select>
           </div>
+        </div>
+
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
             <label className="text-custom-heading-color">
               Available Capital
@@ -627,6 +632,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             </select>
           </div>
         </div>
+
         {/* Terms and conditions message */}
         <p className="text-sm text-custom-heading-color text-left py-5 rounded-3xl mt-3">
           {/* By submitting the form, you agree to receive calls, text messages, or
