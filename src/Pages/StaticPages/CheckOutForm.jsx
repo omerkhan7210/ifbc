@@ -179,6 +179,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
   const [cities, setCities] = useState([]);
   const [selectedState, setSelectedState] = useState(null);
   const capitalOptions = [
+    { value: "", label: "Select one" },
     { value: "10000", label: "Less than $10,000" },
     { value: "20000", label: "$20,000" },
     { value: "30000", label: "$30,000" },
@@ -199,73 +200,74 @@ const LeftSidebar = ({ cartListings, listings }) => {
     { value: "500000", label: "$500,000" },
     { value: "500001", label: "$500,000+" },
   ];
-  const states = [
-    { value: "AL", text: "Alabama" },
-    { value: "AB", text: "Alberta" },
-    { value: "AK", text: "Alaska" },
-    { value: "AZ", text: "Arizona" },
-    { value: "AR", text: "Arkansas" },
-    { value: "BC", text: "British Columbia" },
-    { value: "CA", text: "California" },
-    { value: "CO", text: "Colorado" },
-    { value: "CT", text: "Connecticut" },
-    { value: "DE", text: "Delaware" },
-    { value: "DC", text: "District Of Columbia" },
-    { value: "FL", text: "Florida" },
-    { value: "GA", text: "Georgia" },
-    { value: "HI", text: "Hawaii" },
-    { value: "ID", text: "Idaho" },
-    { value: "IL", text: "Illinois" },
-    { value: "IN", text: "Indiana" },
-    { value: "IA", text: "Iowa" },
-    { value: "KS", text: "Kansas" },
-    { value: "KY", text: "Kentucky" },
-    { value: "LA", text: "Louisiana" },
-    { value: "ME", text: "Maine" },
-    { value: "MB", text: "Manitoba" },
-    { value: "MD", text: "Maryland" },
-    { value: "MA", text: "Massachusetts" },
-    { value: "MI", text: "Michigan" },
-    { value: "MN", text: "Minnesota" },
-    { value: "MS", text: "Mississippi" },
-    { value: "MO", text: "Missouri" },
-    { value: "MT", text: "Montana" },
-    { value: "NE", text: "Nebraska" },
-    { value: "NV", text: "Nevada" },
-    { value: "NB", text: "New Brunswick" },
-    { value: "NH", text: "New Hampshire" },
-    { value: "NJ", text: "New Jersey" },
-    { value: "NM", text: "New Mexico" },
-    { value: "NY", text: "New York" },
-    { value: "NL", text: "Newfoundland and Labrador" },
-    { value: "NC", text: "North Carolina" },
-    { value: "ND", text: "North Dakota" },
-    { value: "NT", text: "Northwest Territories" },
-    { value: "NS", text: "Nova Scotia" },
-    { value: "NU", text: "Nunavut" },
-    { value: "OH", text: "Ohio" },
-    { value: "OK", text: "Oklahoma" },
-    { value: "ON", text: "Ontario" },
-    { value: "OR", text: "Oregon" },
-    { value: "PA", text: "Pennsylvania" },
-    { value: "PE", text: "Prince Edward Island" },
-    { value: "QC", text: "Quebec" },
-    { value: "RI", text: "Rhode Island" },
-    { value: "SC", text: "South Carolina" },
-    { value: "SD", text: "South Dakota" },
-    { value: "SK", text: "Saskatchewan" },
-    { value: "TN", text: "Tennessee" },
-    { value: "TX", text: "Texas" },
-    { value: "UT", text: "Utah" },
-    { value: "VT", text: "Vermont" },
-    { value: "VA", text: "Virginia" },
-    { value: "WA", text: "Washington" },
-    { value: "WV", text: "West Virginia" },
-    { value: "WI", text: "Wisconsin" },
-    { value: "WY", text: "Wyoming" },
-    { value: "YT", text: "Yukon Territory" },
-    { value: "INT", text: "International" },
-  ];
+  // const states = [
+  //   { value: "", text: "Select one" },
+  //   { value: "AL", text: "Alabama" },
+  //   { value: "AB", text: "Alberta" },
+  //   { value: "AK", text: "Alaska" },
+  //   { value: "AZ", text: "Arizona" },
+  //   { value: "AR", text: "Arkansas" },
+  //   { value: "BC", text: "British Columbia" },
+  //   { value: "CA", text: "California" },
+  //   { value: "CO", text: "Colorado" },
+  //   { value: "CT", text: "Connecticut" },
+  //   { value: "DE", text: "Delaware" },
+  //   { value: "DC", text: "District Of Columbia" },
+  //   { value: "FL", text: "Florida" },
+  //   { value: "GA", text: "Georgia" },
+  //   { value: "HI", text: "Hawaii" },
+  //   { value: "ID", text: "Idaho" },
+  //   { value: "IL", text: "Illinois" },
+  //   { value: "IN", text: "Indiana" },
+  //   { value: "IA", text: "Iowa" },
+  //   { value: "KS", text: "Kansas" },
+  //   { value: "KY", text: "Kentucky" },
+  //   { value: "LA", text: "Louisiana" },
+  //   { value: "ME", text: "Maine" },
+  //   { value: "MB", text: "Manitoba" },
+  //   { value: "MD", text: "Maryland" },
+  //   { value: "MA", text: "Massachusetts" },
+  //   { value: "MI", text: "Michigan" },
+  //   { value: "MN", text: "Minnesota" },
+  //   { value: "MS", text: "Mississippi" },
+  //   { value: "MO", text: "Missouri" },
+  //   { value: "MT", text: "Montana" },
+  //   { value: "NE", text: "Nebraska" },
+  //   { value: "NV", text: "Nevada" },
+  //   { value: "NB", text: "New Brunswick" },
+  //   { value: "NH", text: "New Hampshire" },
+  //   { value: "NJ", text: "New Jersey" },
+  //   { value: "NM", text: "New Mexico" },
+  //   { value: "NY", text: "New York" },
+  //   { value: "NL", text: "Newfoundland and Labrador" },
+  //   { value: "NC", text: "North Carolina" },
+  //   { value: "ND", text: "North Dakota" },
+  //   { value: "NT", text: "Northwest Territories" },
+  //   { value: "NS", text: "Nova Scotia" },
+  //   { value: "NU", text: "Nunavut" },
+  //   { value: "OH", text: "Ohio" },
+  //   { value: "OK", text: "Oklahoma" },
+  //   { value: "ON", text: "Ontario" },
+  //   { value: "OR", text: "Oregon" },
+  //   { value: "PA", text: "Pennsylvania" },
+  //   { value: "PE", text: "Prince Edward Island" },
+  //   { value: "QC", text: "Quebec" },
+  //   { value: "RI", text: "Rhode Island" },
+  //   { value: "SC", text: "South Carolina" },
+  //   { value: "SD", text: "South Dakota" },
+  //   { value: "SK", text: "Saskatchewan" },
+  //   { value: "TN", text: "Tennessee" },
+  //   { value: "TX", text: "Texas" },
+  //   { value: "UT", text: "Utah" },
+  //   { value: "VT", text: "Vermont" },
+  //   { value: "VA", text: "Virginia" },
+  //   { value: "WA", text: "Washington" },
+  //   { value: "WV", text: "West Virginia" },
+  //   { value: "WI", text: "Wisconsin" },
+  //   { value: "WY", text: "Wyoming" },
+  //   { value: "YT", text: "Yukon Territory" },
+  //   { value: "INT", text: "International" },
+  // ];
   const getCitiesOfState = (stateCode) => {
     const state = states.find((s) => s.value === stateCode);
     if (state) {
@@ -478,8 +480,8 @@ const LeftSidebar = ({ cartListings, listings }) => {
             </label>
             <input
               onChange={handleInputChange}
-              name="name"
-              placeholder="Your name"
+              name="Name"
+              placeholder="Name"
               className="candidate-select w-full"
               style={{ borderColor: formErrors.name ? "red" : undefined }}
               type="text"
@@ -499,7 +501,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             <input
               onChange={handleInputChange}
               name="email"
-              placeholder="Your email"
+              placeholder="Email"
               className="candidate-input w-full"
               style={{ borderColor: formErrors.email ? "red" : undefined }}
               id="email"
@@ -516,7 +518,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             <input
               onChange={handleInputChange}
               name="phone"
-              placeholder="Your phone"
+              placeholder="Phone"
               className="candidate-input w-full"
               style={{ borderColor: formErrors.phone ? "red" : undefined }}
               id="phone"
@@ -586,7 +588,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             <input
               onChange={handleInputChange}
               name="zipcode"
-              placeholder="Your ZIP code"
+              placeholder="ZIP Code"
               className="candidate-input w-full"
               style={{ borderColor: formErrors.zipcode ? "red" : undefined }}
               id="zip"
@@ -646,6 +648,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
               id="timeFrame"
               onChange={handleInputChange}
             >
+              <option value="">Select one</option>
               <option value="1-3 months">1-3 months</option>
               <option value="3-6 months">3-6 months</option>
               <option value="6+ months">6+ months</option>
@@ -653,21 +656,23 @@ const LeftSidebar = ({ cartListings, listings }) => {
           </div>
         </div>
         {/* Terms and conditions message */}
-        <p className="text-sm text-custom-heading-color text-left   py-5 rounded-3xl mt-3">
-          By submitting the form, you agree to receive calls, text messages, or
-          emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
-          information provided. Message rates may apply. <br />
-          Text STOP to cancel text messaging at any time. <br />
-          See{" "}
-          <a href="/terms-conditions" className="  underline">
+        <p className="text-sm text-custom-heading-color text-left py-5 rounded-3xl mt-3">
+          {/* By submitting the form, you agree to receive calls, text messages, or
+  emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
+  information provided. Message rates may apply. <br />
+  Text STOP to cancel text messaging at any time. <br />
+  See{" "} */}
+          By clicking the button, you agree to ifbc&nbsp;
+          <a href="/terms-conditions" className="underline">
             Terms & Conditions
           </a>{" "}
-          and{" "}
-          <a href="/privacy-policy" className="  underline">
+          and&nbsp;
+          <a href="/privacy-policy" className="underline">
             Privacy Policy
           </a>{" "}
-          for additional details.
+          {/* for additional details. */}
         </p>
+
         <div className=" flex justify-center">
           <button
             className="candidate-btn md:w-64 flex justify-between items-center max-md:w-full"
