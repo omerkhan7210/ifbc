@@ -31,6 +31,7 @@ const Eligibility = ({
   const sortedMilitaryOptions = militaryOptions.sort((a, b) =>
     a.value.localeCompare(b.value)
   );
+  
   return (
     <motion.div
       initial={{ opacity: 0, x: -100 }}
