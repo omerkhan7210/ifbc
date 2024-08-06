@@ -148,7 +148,7 @@ const ListingsColumns = ({ listing, index, slider }) => {
             onClick={handleRequest}
             className="bg-custom-orange w-full mt-3 py-2 text-white text-xs font-semibold rounded-full flex justify-between items-center px-5"
           >
-            <span>Request Info</span>
+            <span>Request Free Info</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

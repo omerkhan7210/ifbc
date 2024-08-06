@@ -107,7 +107,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         Status: formFields.status ?? "",
         PipelineStep: formFields.pipelinestep ?? "",
         lostReason: "string",
-        AgentUserId: userDetails?.docId ?? 0,
+        AgentUserId: userDetails?.docId ?? 19,
         isArchive: false,
         isCompleted: true,
         updateDt: "2024-07-27T15:00:45.871Z",

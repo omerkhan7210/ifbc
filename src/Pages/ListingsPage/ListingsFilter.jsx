@@ -4,7 +4,70 @@ import SearchingComponent from "./SearchingComponent";
 
 import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/themes/lara-light-teal/theme.css";
+const categories = [
+  { name: "Advertising", code: "Advertising" },
+  { name: "Automotive", code: "Automotive" },
+  { name: "BeautySpa", code: "Beauty & Spa" },
+  {
+    name: "BusinessManagementCoaching",
+    code: "Business Management & Coaching",
+  },
+  { name: "BusinessServices", code: "Business Services" },
+  {
+    name: "ChildEducationStemTutoring",
+    code: "Child Education, STEM & Tutoring",
+  },
+  { name: "ChildServicesProducts", code: "Child Services & Products" },
+  {
+    name: "CleaningResidentialCommercial",
+    code: "Cleaning: Residential & Commercial",
+  },
+  { name: "ComputerTechnology", code: "Computer Technology" },
+  {
+    name: "DistributionServices",
+    code: "Select a rating Distribution Services",
+  },
+  { name: "DryCleaningLaundry", code: "Dry Cleaning-Laundry" },
+  { name: "FinancialServices", code: "Financial Services" },
+  { name: "Fitness", code: "Fitness" },
+  {
+    name: "FoodBeverageRestaurantQSR",
+    code: "Food & Beverage: Restaurant/QSR/Catering",
+  },
+  {
+    name: "FoodCoffeeTeaSmoothiesSweets",
+    code: "Food: Coffee/Tea/Smoothies/Sweets",
+  },
+  { name: "FoodStoresCatering", code: "Food: Stores & Catering" },
+  { name: "HealthMedical", code: "Health/Medical" },
+  { name: "HealthWellness", code: "Health/Wellness" },
+  { name: "HomeImprovement", code: "Home Improvement" },
+  { name: "InteriorExteriorDesign", code: "Interior/Exterior Design" },
+  { name: "MaintenanceRepair", code: "Maintenance & Repair" },
+  {
+    name: "MovingStorageJunkRemoval",
+    code: "Moving, Storage & Junk Removal",
+  },
+  { name: "Painting", code: "Painting" },
+  { name: "PestControl", code: "Pest Control" },
+  { name: "PetCareGrooming", code: "Pet Care & Grooming" },
+  { name: "PrintCopyMailing", code: "Print, Copy & Mailing" },
+  { name: "RealState", code: "Real Estate" },
+  { name: "Restoration", code: "Restoration" },
+  { name: "Retail", code: "Retail" },
+  { name: "Security", code: "Security" },
+  {
+    name: "SeniorCareMedicalNonMedical",
+    code: "Senior Care: Medical/Non-Medical",
+  },
 
+  { name: "Signs", code: "Signs" },
+  { name: "SpecialEventPlanning", code: "Special Event Planning" },
+  { name: "SportsRecreation", code: "Sports & Recreation" },
+  { name: "Staffing", code: "Staffing" },
+  { name: "TravelPlanning", code: "Travel Planning" },
+  { name: "Vending", code: "Vending" },
+];
 const ListingsFilter = () => {
   const { filters, setFilters, role, token } = useContext(MyContext);
   const [filterData, setFilterData] = useState([]);
@@ -122,80 +185,27 @@ const ListingsFilter = () => {
 
   const handleRemoveFilter = (key, value) => {
     setFilters((prevFilters) => ({
+      ...prevFilters,
       [key]: prevFilters[key].filter((filterValue) => filterValue !== value),
     }));
-  };
-  const categories = [
-    { name: "Advertising", code: "Advertising" },
-    { name: "Automotive", code: "Automotive" },
-    { name: "BeautySpa", code: "Beauty & Spa" },
-    {
-      name: "BusinessManagementCoaching",
-      code: "Business Management & Coaching",
-    },
-    { name: "BusinessServices", code: "Business Services" },
-    {
-      name: "ChildEducationStemTutoring",
-      code: "Child Education, STEM & Tutoring",
-    },
-    { name: "ChildServicesProducts", code: "Child Services & Products" },
-    {
-      name: "CleaningResidentialCommercial",
-      code: "Cleaning: Residential & Commercial",
-    },
-    { name: "ComputerTechnology", code: "Computer Technology" },
-    {
-      name: "DistributionServices",
-      code: "Select a rating Distribution Services",
-    },
-    { name: "DryCleaningLaundry", code: "Dry Cleaning-Laundry" },
-    { name: "FinancialServices", code: "Financial Services" },
-    { name: "Fitness", code: "Fitness" },
-    {
-      name: "FoodBeverageRestaurantQSR",
-      code: "Food & Beverage: Restaurant/QSR/Catering",
-    },
-    {
-      name: "FoodCoffeeTeaSmoothiesSweets",
-      code: "Food: Coffee/Tea/Smoothies/Sweets",
-    },
-    { name: "FoodStoresCatering", code: "Food: Stores & Catering" },
-    { name: "HealthMedical", code: "Health/Medical" },
-    { name: "HealthWellness", code: "Health/Wellness" },
-    { name: "HomeImprovement", code: "Home Improvement" },
-    { name: "InteriorExteriorDesign", code: "Interior/Exterior Design" },
-    { name: "MaintenanceRepair", code: "Maintenance & Repair" },
-    {
-      name: "MovingStorageJunkRemoval",
-      code: "Moving, Storage & Junk Removal",
-    },
-    { name: "Painting", code: "Painting" },
-    { name: "PestControl", code: "Pest Control" },
-    { name: "PetCareGrooming", code: "Pet Care & Grooming" },
-    { name: "PrintCopyMailing", code: "Print, Copy & Mailing" },
-    { name: "RealState", code: "Real Estate" },
-    { name: "Restoration", code: "Restoration" },
-    { name: "Retail", code: "Retail" },
-    { name: "Security", code: "Security" },
-    {
-      name: "SeniorCareMedicalNonMedical",
-      code: "Senior Care: Medical/Non-Medical",
-    },
-
-    { name: "Signs", code: "Signs" },
-    { name: "SpecialEventPlanning", code: "Special Event Planning" },
-    { name: "SportsRecreation", code: "Sports & Recreation" },
-    { name: "Staffing", code: "Staffing" },
-    { name: "TravelPlanning", code: "Travel Planning" },
-    { name: "Vending", code: "Vending" },
-  ];
-  const [selectedCats, setSelectedCats] = useState([]);
-  useEffect(() => {
-    if (selectedCats.length > 0) {
-      const selectedValues = selectedCats.map((cats) => cats.code);
-      setFilters({ category: selectedValues });
+    if (key === "category") {
+      setSelectedCats((prevCats) => {
+        console.log(
+          prevCats.filter((filterValue) => filterValue.code !== value)
+        );
+        return prevCats.filter((filterValue) => filterValue.code !== value);
+      });
     }
-  }, [selectedCats]);
+  };
+
+  const [selectedCats, setSelectedCats] = useState([]);
+
+  const handleSelectCats = (e) => {
+    const selectedCats = e.target.value;
+    setSelectedCats(selectedCats);
+    const selectedValues = selectedCats.map((cats) => cats.code);
+    setFilters((prev) => ({ ...prev, category: selectedValues }));
+  };
 
   return (
     <div id="main-filter-container" ref={dropdownRef}>
@@ -221,21 +231,18 @@ const ListingsFilter = () => {
                     key={`${key}-${value}`}
                     className="text-gray-700 flex items-center capitalize justify-between py-2 text-xs"
                   >
-                    {console.log("span*****", values, value)}
                     <span className="font-bold">
                       {key?.replace(/([A-Z])/g, " $1").trim()} :{" "}
                       {value?.replace(/^.*?:/, "").trim()}
                       {/* {key} : {value} */}
                     </span>
 
-                    {key === "category" && (
-                      <button
-                        className="ml-2 text-red-600 font-bold cursor-pointer"
-                        onClick={() => handleRemoveFilter(key, value)}
-                      >
-                        X
-                      </button>
-                    )}
+                    <button
+                      className="ml-2 text-red-600 font-bold cursor-pointer"
+                      onClick={() => handleRemoveFilter(key, value)}
+                    >
+                      X
+                    </button>
                   </li>
                 ))
               )}
@@ -245,7 +252,7 @@ const ListingsFilter = () => {
       )}
       <MultiSelect
         value={selectedCats}
-        onChange={(e) => setSelectedCats(e.value)}
+        onChange={handleSelectCats}
         options={categories}
         optionLabel="code"
         //filter
@@ -290,7 +297,7 @@ const CategorySearch = ({
     }
     setActiveDD(false);
     setSelectedCats(newSelCats);
-    setFilters({ [property]: newSelCats });
+    setFilters((prev) => ({ ...prev, [property]: newSelCats }));
   };
 
   const generateRangeArray = (start, end, step, check) => {
