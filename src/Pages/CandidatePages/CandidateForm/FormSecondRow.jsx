@@ -167,9 +167,9 @@ const FormSecondRow = ({
       <div id="third-sub-row" className="candidate-two-col">
         <div className="candidate-sub-childs">
           <p className="candidate-label">
-            {" "}
             What franchise are you interested in?*
           </p>
+
           {listingNames?.length > 0 ? (
             <select
               name="franchiseinterested"
@@ -178,15 +178,21 @@ const FormSecondRow = ({
                 borderColor: formErrors.franchiseinterested ? "red" : undefined,
               }}
               onChange={handleFranchiseSelect}
+              value={formFields.franchiseinterested || ""} // Set the value of the select box
             >
-              {listingNames.map((item) => (
-                <option
-                  value={item.docId}
-                  selected={formFields?.franchiseinterested == item.docId}
-                >
-                  {item.name}
-                </option>
-              ))}
+              <option value="" hidden={formFields.franchiseinterested}>
+                Select a franchise
+              </option>
+              {listingNames
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((item) => (
+                  <option
+                    key={item.docId} // Add a unique key for each option
+                    value={item.docId}
+                  >
+                    {item.name}
+                  </option>
+                ))}
             </select>
           ) : (
             <h1>Loading...</h1>

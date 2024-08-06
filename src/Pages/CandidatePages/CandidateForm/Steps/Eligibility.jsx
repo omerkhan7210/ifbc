@@ -11,13 +11,14 @@ const Eligibility = ({
   formFields,
 }) => {
   const militaryOptions = [
-    { value: "", label: "Select one" },
+    { value: "AA", label: "Select one" },
     { value: "Veteran", label: "Veteran" },
     { value: "First Responder", label: "First Responder" },
     { value: "Minority", label: "Minority" },
     { value: "Woman", label: "Woman" },
     { value: "Conversion", label: "Conversion" },
     { value: "Existing Franchisee", label: "Existing Franchisee" },
+    { value: "N/A", label: "N/A" },
   ];
 
   const handleEligibility = async (e) => {
@@ -25,6 +26,11 @@ const Eligibility = ({
 
     setStep((prevStep) => prevStep + 1);
   };
+
+  // Sort the options alphabetically by value
+  const sortedMilitaryOptions = militaryOptions.sort((a, b) =>
+    a.value.localeCompare(b.value)
+  );
   return (
     <motion.div
       initial={{ opacity: 0, x: -100 }}
