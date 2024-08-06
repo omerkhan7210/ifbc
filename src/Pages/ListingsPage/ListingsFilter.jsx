@@ -197,8 +197,6 @@ const ListingsFilter = () => {
     }
   }, [selectedCats]);
 
-  console.log(filters);
-
   return (
     <div id="main-filter-container" ref={dropdownRef}>
       {roleCheck && (
