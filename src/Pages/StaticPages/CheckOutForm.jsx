@@ -200,74 +200,74 @@ const LeftSidebar = ({ cartListings, listings }) => {
     { value: "500000", label: "$500,000" },
     { value: "500001", label: "$500,000+" },
   ];
-  // const states = [
-  //   { value: "", text: "Select one" },
-  //   { value: "AL", text: "Alabama" },
-  //   { value: "AB", text: "Alberta" },
-  //   { value: "AK", text: "Alaska" },
-  //   { value: "AZ", text: "Arizona" },
-  //   { value: "AR", text: "Arkansas" },
-  //   { value: "BC", text: "British Columbia" },
-  //   { value: "CA", text: "California" },
-  //   { value: "CO", text: "Colorado" },
-  //   { value: "CT", text: "Connecticut" },
-  //   { value: "DE", text: "Delaware" },
-  //   { value: "DC", text: "District Of Columbia" },
-  //   { value: "FL", text: "Florida" },
-  //   { value: "GA", text: "Georgia" },
-  //   { value: "HI", text: "Hawaii" },
-  //   { value: "ID", text: "Idaho" },
-  //   { value: "IL", text: "Illinois" },
-  //   { value: "IN", text: "Indiana" },
-  //   { value: "IA", text: "Iowa" },
-  //   { value: "KS", text: "Kansas" },
-  //   { value: "KY", text: "Kentucky" },
-  //   { value: "LA", text: "Louisiana" },
-  //   { value: "ME", text: "Maine" },
-  //   { value: "MB", text: "Manitoba" },
-  //   { value: "MD", text: "Maryland" },
-  //   { value: "MA", text: "Massachusetts" },
-  //   { value: "MI", text: "Michigan" },
-  //   { value: "MN", text: "Minnesota" },
-  //   { value: "MS", text: "Mississippi" },
-  //   { value: "MO", text: "Missouri" },
-  //   { value: "MT", text: "Montana" },
-  //   { value: "NE", text: "Nebraska" },
-  //   { value: "NV", text: "Nevada" },
-  //   { value: "NB", text: "New Brunswick" },
-  //   { value: "NH", text: "New Hampshire" },
-  //   { value: "NJ", text: "New Jersey" },
-  //   { value: "NM", text: "New Mexico" },
-  //   { value: "NY", text: "New York" },
-  //   { value: "NL", text: "Newfoundland and Labrador" },
-  //   { value: "NC", text: "North Carolina" },
-  //   { value: "ND", text: "North Dakota" },
-  //   { value: "NT", text: "Northwest Territories" },
-  //   { value: "NS", text: "Nova Scotia" },
-  //   { value: "NU", text: "Nunavut" },
-  //   { value: "OH", text: "Ohio" },
-  //   { value: "OK", text: "Oklahoma" },
-  //   { value: "ON", text: "Ontario" },
-  //   { value: "OR", text: "Oregon" },
-  //   { value: "PA", text: "Pennsylvania" },
-  //   { value: "PE", text: "Prince Edward Island" },
-  //   { value: "QC", text: "Quebec" },
-  //   { value: "RI", text: "Rhode Island" },
-  //   { value: "SC", text: "South Carolina" },
-  //   { value: "SD", text: "South Dakota" },
-  //   { value: "SK", text: "Saskatchewan" },
-  //   { value: "TN", text: "Tennessee" },
-  //   { value: "TX", text: "Texas" },
-  //   { value: "UT", text: "Utah" },
-  //   { value: "VT", text: "Vermont" },
-  //   { value: "VA", text: "Virginia" },
-  //   { value: "WA", text: "Washington" },
-  //   { value: "WV", text: "West Virginia" },
-  //   { value: "WI", text: "Wisconsin" },
-  //   { value: "WY", text: "Wyoming" },
-  //   { value: "YT", text: "Yukon Territory" },
-  //   { value: "INT", text: "International" },
-  // ];
+  const states = [
+    { value: "", text: "Select one" },
+    { value: "AL", text: "Alabama" },
+    { value: "AB", text: "Alberta" },
+    { value: "AK", text: "Alaska" },
+    { value: "AZ", text: "Arizona" },
+    { value: "AR", text: "Arkansas" },
+    { value: "BC", text: "British Columbia" },
+    { value: "CA", text: "California" },
+    { value: "CO", text: "Colorado" },
+    { value: "CT", text: "Connecticut" },
+    { value: "DE", text: "Delaware" },
+    { value: "DC", text: "District Of Columbia" },
+    { value: "FL", text: "Florida" },
+    { value: "GA", text: "Georgia" },
+    { value: "HI", text: "Hawaii" },
+    { value: "ID", text: "Idaho" },
+    { value: "IL", text: "Illinois" },
+    { value: "IN", text: "Indiana" },
+    { value: "IA", text: "Iowa" },
+    { value: "KS", text: "Kansas" },
+    { value: "KY", text: "Kentucky" },
+    { value: "LA", text: "Louisiana" },
+    { value: "ME", text: "Maine" },
+    { value: "MB", text: "Manitoba" },
+    { value: "MD", text: "Maryland" },
+    { value: "MA", text: "Massachusetts" },
+    { value: "MI", text: "Michigan" },
+    { value: "MN", text: "Minnesota" },
+    { value: "MS", text: "Mississippi" },
+    { value: "MO", text: "Missouri" },
+    { value: "MT", text: "Montana" },
+    { value: "NE", text: "Nebraska" },
+    { value: "NV", text: "Nevada" },
+    { value: "NB", text: "New Brunswick" },
+    { value: "NH", text: "New Hampshire" },
+    { value: "NJ", text: "New Jersey" },
+    { value: "NM", text: "New Mexico" },
+    { value: "NY", text: "New York" },
+    { value: "NL", text: "Newfoundland and Labrador" },
+    { value: "NC", text: "North Carolina" },
+    { value: "ND", text: "North Dakota" },
+    { value: "NT", text: "Northwest Territories" },
+    { value: "NS", text: "Nova Scotia" },
+    { value: "NU", text: "Nunavut" },
+    { value: "OH", text: "Ohio" },
+    { value: "OK", text: "Oklahoma" },
+    { value: "ON", text: "Ontario" },
+    { value: "OR", text: "Oregon" },
+    { value: "PA", text: "Pennsylvania" },
+    { value: "PE", text: "Prince Edward Island" },
+    { value: "QC", text: "Quebec" },
+    { value: "RI", text: "Rhode Island" },
+    { value: "SC", text: "South Carolina" },
+    { value: "SD", text: "South Dakota" },
+    { value: "SK", text: "Saskatchewan" },
+    { value: "TN", text: "Tennessee" },
+    { value: "TX", text: "Texas" },
+    { value: "UT", text: "Utah" },
+    { value: "VT", text: "Vermont" },
+    { value: "VA", text: "Virginia" },
+    { value: "WA", text: "Washington" },
+    { value: "WV", text: "West Virginia" },
+    { value: "WI", text: "Wisconsin" },
+    { value: "WY", text: "Wyoming" },
+    { value: "YT", text: "Yukon Territory" },
+    { value: "INT", text: "International" },
+  ];
   const getCitiesOfState = (stateCode) => {
     const state = states.find((s) => s.value === stateCode);
     if (state) {
@@ -475,18 +475,38 @@ const LeftSidebar = ({ cartListings, listings }) => {
 
         <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="name">
-              Name
+            <label className="text-custom-heading-color" htmlFor="firstname">
+              First Name
             </label>
             <input
               onChange={handleInputChange}
-              name="Name"
-              placeholder="Name"
+              name="firstname"
+              placeholder="First Name"
               className="candidate-select w-full"
-              style={{ borderColor: formErrors.name ? "red" : undefined }}
+              style={{ borderColor: formErrors.firstname ? "red" : undefined }}
               type="text"
             />{" "}
-            {formErrors.name && formErrors.name === "invalid" && (
+            {formErrors.firstname && formErrors.firstname === "invalid" && (
+              <p className=" text-red text-xs py-2 flex justify-between">
+                Invalid username. It should be 3-16 characters long and can
+                include letters, numbers, underscores, and spaces.
+              </p>
+            )}
+          </div>
+
+          <div className="flex-1">
+            <label className="text-custom-heading-color" htmlFor="firstname">
+              Last Name
+            </label>
+            <input
+              onChange={handleInputChange}
+              name="lastname"
+              placeholder="Last Name"
+              className="candidate-select w-full"
+              style={{ borderColor: formErrors.lastname ? "red" : undefined }}
+              type="text"
+            />{" "}
+            {formErrors.lastname && formErrors.lastname === "invalid" && (
               <p className=" text-red text-xs py-2 flex justify-between">
                 Invalid username. It should be 3-16 characters long and can
                 include letters, numbers, underscores, and spaces.
@@ -513,12 +533,14 @@ const LeftSidebar = ({ cartListings, listings }) => {
               </p>
             )}
           </div>
+        </div>
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
             <label className="text-custom-heading-color">Phone</label>
             <input
               onChange={handleInputChange}
               name="phone"
-              placeholder="Phone"
+              placeholder="Phone Number"
               className="candidate-input w-full"
               style={{ borderColor: formErrors.phone ? "red" : undefined }}
               id="phone"
@@ -529,56 +551,6 @@ const LeftSidebar = ({ cartListings, listings }) => {
               <p className=" text-red text-xs py-2 flex justify-between">
                 Invalid Phone Number (Please use numbers only)
               </p>
-            )}
-          </div>
-        </div>
-        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
-          <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="state">
-              State
-            </label>
-            {states.length > 0 && (
-              <select
-                name="state"
-                className="candidate-select w-full"
-                style={{ borderColor: formErrors.state ? "red" : undefined }}
-                onChange={handleStateChange}
-              >
-                {!selectedState && <option value="">Select State</option>}
-                {states.map((state) => (
-                  <option key={state.value} value={state.value}>
-                    {state.text}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-
-          <div className="flex-1">
-            <label className="text-custom-heading-color">City</label>
-            {selectedState && cities.length > 0 ? (
-              <select
-                name="city"
-                className="candidate-select w-full capitalize"
-                style={{ borderColor: formErrors.city ? "red" : undefined }}
-                onChange={handleInputChange}
-              >
-                {!formFields.city && <option value="">Select City</option>}
-
-                {cities.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <input
-                type="text"
-                name="city"
-                className="candidate-input w-full"
-                style={{ borderColor: formErrors.city ? "red" : undefined }}
-                onChange={handleInputChange}
-              />
             )}
           </div>
           <div className="flex-1">
