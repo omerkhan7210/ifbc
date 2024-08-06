@@ -49,7 +49,7 @@ const ListingsColumns = ({ listing, index, slider }) => {
         transition: { duration: 1, delay: index * 0.1 },
       }}
       onClick={role && role !== "N" ? handleCardClick : () => {}} // Correctly call handleCardClick here
-      className="flex flex-col justify-between gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[1px_1px_5px_grey] min-h-[450px] "
+      className="flex flex-col justify-between gap-8 bg-white rounded-3xl p-3 cursor-pointer shadow-[1px_1px_5px_grey] min-h-[450px] "
     >
       <motion.div
         id="image-container"
@@ -74,11 +74,11 @@ const ListingsColumns = ({ listing, index, slider }) => {
         className="flex flex-col items-center justify-center"
       >
         <h1
-          className={`text-custom-heading-color font-bold text-center text-md lg:text-lg`}
+          className={`text-custom-heading-color font-bold text-center text-[17px]`}
         >
           {listing.name}
         </h1>
-        <p className="text-sm text-black/80 text-center w-full max-w-full">
+        <p className="text-xs text-black/80 text-center w-full max-w-full">
           {listing.shortdescription}
         </p>
 
@@ -87,13 +87,13 @@ const ListingsColumns = ({ listing, index, slider }) => {
           className={` flex flex-col items-center justify-center gap-3 mt-3 w-full`}
         >
           {listing.investmentRange && (
-            <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg w-full">
+            <p className="bg-white py-2 text-xs text-center  px-4 rounded-full shadow-lg w-full">
               Cash Required: {listing.investmentRange}
             </p>
           )}
 
           {listing?.category && listing?.category !== "" && (
-            <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg w-full">
+            <p className="bg-white py-2 text-xs text-center px-2 rounded-full shadow-lg w-full">
               {listing?.category}
             </p>
           )}
