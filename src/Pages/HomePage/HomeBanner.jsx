@@ -269,13 +269,13 @@ const SearchingSection = () => {
     const searchValue = ref.current.value;
     const selectedValues = selectedCats.map((cats) => cats.code);
     if (selectedValues.length > 0) {
-      setFilters({ category: selectedValues });
+      setFilters((prev) => ({ ...prev, category: selectedValues }));
     }
     if (selectedInvest !== "") {
       setFilters((prev) => ({ ...prev, ...selectedInvest }));
     }
     if (searchValue !== "") {
-      setFilters({ search: [searchValue] });
+      setFilters((prev) => ({ ...prev, search: [searchValue] }));
     }
     history("/search-franchises");
   };
