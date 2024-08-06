@@ -232,7 +232,6 @@ const SearchingSection = () => {
   const { setFilters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
   const [selectedInvest, setSelectedInvest] = useState("");
-  const [selectedInvest, setSelectedInvest] = useState("");
   const [activeDD, setActiveDD] = useState(false);
   const dropdownRef = useRef(null);
   const handleClickOutside = (event) => {
@@ -297,12 +296,9 @@ const SearchingSection = () => {
     <form
       id="searching-contianer"
       className="grid grid-cols-12 gap-2   p-5"
-      id="searching-contianer"
-      className="grid grid-cols-12 gap-2   p-5"
       ref={dropdownRef}
       onSubmit={handleSearchInputChange}
     >
-      <div className="relative col-span-12 md:col-span-4  flex items-center">
       <div className="relative col-span-12 md:col-span-4  flex items-center">
         <input
           type="search"
@@ -310,10 +306,7 @@ const SearchingSection = () => {
           placeholder="Search Any Listing"
           ref={ref}
           className="block w-full px-2 h-12 text-sm rounded-lg  text-black pr-10  outline-none bg-white"
-          className="block w-full px-2 h-12 text-sm rounded-lg  text-black pr-10  outline-none bg-white"
         />
-
-        <button className=" absolute right-2.5 top-5.5 w-4 h-4">
 
         <button className=" absolute right-2.5 top-5.5 w-4 h-4">
           <svg
@@ -332,7 +325,6 @@ const SearchingSection = () => {
         options={categories}
         optionLabel="code"
         //filter
-        //filter
         placeholder="Select Categories"
         // maxSelectedLabels={3}
         className="max-md:col-span-12 md:col-span-3 bg-[#e3e4e6] "
@@ -350,7 +342,6 @@ const SearchingSection = () => {
       ))}
       <button
         type="submit"
-        className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
         className="max-md:col-span-12 md:col-span-2 w-full  overflow-hidden font-medium transition-all duration-500 bg-[#1256c4] h-12 text-center text-white rounded-lg"
       >
         Search
@@ -501,10 +492,10 @@ const SearchDropdown = ({
   //   uniqueItems = yearEstablished;
   // }
 
-  const handleRemoveCat = () => {
-    setActiveDD("");
-    setSelectedCats([]);
-  };
+  // const handleRemoveCat = () => {
+  //   setActiveDD("");
+  //   setSelectedCats([]);
+  // };
 
   const handleDropdown = (property) => {
     if (activeDD === property) {
@@ -540,14 +531,10 @@ const SearchDropdown = ({
               strokeWidth={2}
               stroke="rgb(107, 114, 128)"
               className="size-5"
-              strokeWidth={2}
-              stroke="rgb(107, 114, 128)"
-              className="size-5"
             >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="m19.5 8.25-7.5 7.5-7.5-7.5"
                 d="m19.5 8.25-7.5 7.5-7.5-7.5"
               />
             </svg>
@@ -558,11 +545,7 @@ const SearchDropdown = ({
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="rgb(107, 114, 128)"
-              className="size-5"
               strokeWidth={2}
               stroke="rgb(107, 114, 128)"
               className="size-5"
@@ -570,7 +553,6 @@ const SearchDropdown = ({
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                d="m19.5 8.25-7.5 7.5-7.5-7.5"
                 d="m19.5 8.25-7.5 7.5-7.5-7.5"
               />
             </svg>

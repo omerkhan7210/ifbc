@@ -5,68 +5,60 @@ import SearchingComponent from "./SearchingComponent";
 import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/themes/lara-light-teal/theme.css";
 const categories = [
-  { name: "Advertising", code: "Advertising" },
-  { name: "Automotive", code: "Automotive" },
-  { name: "BeautySpa", code: "Beauty & Spa" },
+  { code: "Advertising" },
+  { code: "Automotive" },
+  { code: "Beauty & Spa" },
   {
-    name: "BusinessManagementCoaching",
     code: "Business Management & Coaching",
   },
-  { name: "BusinessServices", code: "Business Services" },
+  { code: "Business Services" },
   {
-    name: "ChildEducationStemTutoring",
     code: "Child Education, STEM & Tutoring",
   },
-  { name: "ChildServicesProducts", code: "Child Services & Products" },
+  { code: "Child Services & Products" },
   {
-    name: "CleaningResidentialCommercial",
     code: "Cleaning: Residential & Commercial",
   },
-  { name: "ComputerTechnology", code: "Computer Technology" },
+  { code: "Computer Technology" },
   {
-    name: "DistributionServices",
     code: "Select a rating Distribution Services",
   },
-  { name: "DryCleaningLaundry", code: "Dry Cleaning-Laundry" },
-  { name: "FinancialServices", code: "Financial Services" },
-  { name: "Fitness", code: "Fitness" },
+  { code: "Dry Cleaning-Laundry" },
+  { code: "Financial Services" },
+  { code: "Fitness" },
   {
-    name: "FoodBeverageRestaurantQSR",
     code: "Food & Beverage: Restaurant/QSR/Catering",
   },
   {
-    name: "FoodCoffeeTeaSmoothiesSweets",
     code: "Food: Coffee/Tea/Smoothies/Sweets",
   },
-  { name: "FoodStoresCatering", code: "Food: Stores & Catering" },
-  { name: "HealthMedical", code: "Health/Medical" },
-  { name: "HealthWellness", code: "Health/Wellness" },
-  { name: "HomeImprovement", code: "Home Improvement" },
-  { name: "InteriorExteriorDesign", code: "Interior/Exterior Design" },
-  { name: "MaintenanceRepair", code: "Maintenance & Repair" },
+  { code: "Food: Stores & Catering" },
+  { code: "Health/Medical" },
+  { code: "Health/Wellness" },
+  { code: "Home Improvement" },
+  { code: "Interior/Exterior Design" },
+  { code: "Maintenance & Repair" },
   {
-    name: "MovingStorageJunkRemoval",
     code: "Moving, Storage & Junk Removal",
   },
-  { name: "Painting", code: "Painting" },
-  { name: "PestControl", code: "Pest Control" },
-  { name: "PetCareGrooming", code: "Pet Care & Grooming" },
-  { name: "PrintCopyMailing", code: "Print, Copy & Mailing" },
-  { name: "RealState", code: "Real Estate" },
-  { name: "Restoration", code: "Restoration" },
-  { name: "Retail", code: "Retail" },
+  { code: "Painting" },
+  { code: "Pest Control" },
+  { code: "Pet Care & Grooming" },
+  { code: "Print, Copy & Mailing" },
+  { code: "Real Estate" },
+  { code: "Restoration" },
+  { code: "Retail" },
   { name: "Security", code: "Security" },
   {
-    name: "SeniorCareMedicalNonMedical",
     code: "Senior Care: Medical/Non-Medical",
   },
 
-  { name: "Signs", code: "Signs" },
-  { name: "SpecialEventPlanning", code: "Special Event Planning" },
-  { name: "SportsRecreation", code: "Sports & Recreation" },
-  { name: "Staffing", code: "Staffing" },
-  { name: "TravelPlanning", code: "Travel Planning" },
-  { name: "Vending", code: "Vending" },
+  { code: "Signs" },
+  { code: "Special Event Planning" },
+  { code: "Sports & Recreation" },
+  { code: "Staffing" },
+  { code: "Travel Planning" },
+  { code: "Vending" },
 ];
 const ListingsFilter = () => {
   const { filters, setFilters, role, token } = useContext(MyContext);
@@ -74,6 +66,16 @@ const ListingsFilter = () => {
   const [activeDD, setActiveDD] = useState(false);
   const dropdownRef = useRef(null);
   const roleCheck = (!role || role === "N") && !token;
+  const [selectedCats, setSelectedCats] = useState([]);
+  useEffect(() => {
+    if (filters?.category) {
+      let cats = filters?.category.map((cat) => ({
+        code: cat,
+      }));
+      setSelectedCats(cats);
+    }
+  }, []);
+
   useEffect(() => {
     if (roleCheck) {
       const filterDataa = [
@@ -190,15 +192,10 @@ const ListingsFilter = () => {
     }));
     if (key === "category") {
       setSelectedCats((prevCats) => {
-        console.log(
-          prevCats.filter((filterValue) => filterValue.code !== value)
-        );
         return prevCats.filter((filterValue) => filterValue.code !== value);
       });
     }
   };
-
-  const [selectedCats, setSelectedCats] = useState([]);
 
   const handleSelectCats = (e) => {
     const selectedCats = e.target.value;
