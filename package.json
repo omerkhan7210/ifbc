@@ -19,6 +19,7 @@
     "@mui/material": "^5.15.20",
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.6.8",
+    "esbuild": "^0.23.0",
     "framer-motion": "^11.3.21",
     "helmet": "^7.1.0",
     "jwt-decode": "^4.0.0",
