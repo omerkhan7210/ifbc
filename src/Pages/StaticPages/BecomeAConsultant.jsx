@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const BecomeAConsultant = () => {
   return (
@@ -11,12 +11,11 @@ const BecomeAConsultant = () => {
       autoPlay
       controls
       loop
-      // className='w-full h-full object-cover'
       className='rounded-3xl'
       >
       </video>
     </div>
-  )
-}
+  );
+};
 
-export default BecomeAConsultant
+export default BecomeAConsultant;

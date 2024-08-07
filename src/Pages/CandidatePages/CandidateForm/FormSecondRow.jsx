@@ -145,7 +145,7 @@ const FormSecondRow = ({
   };
 
   return (
-    <div id="second-row" className="py-5">
+    <div id="second-row" className="py-5 w-full">
       <h1 className="candidate-sub-heading">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -229,7 +229,7 @@ const FormSecondRow = ({
         <div className="candidate-sub-childs">
           <p className="candidate-label">
             {" "}
-            Requested Territory State / Province*
+            Requested Territory State/Province*
           </p>
 
           {/* state dd */}
@@ -331,28 +331,29 @@ const FormSecondRow = ({
           )}
         </div>
       </div>
-
-      <div className="candidate-sub-childs">
-        <p className="candidate-label"> Current Zip / Postal Code*</p>
-        <input
-          type="tel"
-          name="currentzipcode"
-          className="candidate-input w-full"
-          style={{
-            borderColor: formErrors.currentzipcode ? "red" : undefined,
-          }}
-          onChange={handleInputChange}
-          {...(candNames
-            ? candNames.length > 0
-              ? { value: selectedDetails?.currentZipcode }
-              : { defaultValue: candDetails?.currentZipcode }
-            : { value: formFields?.currentzipcode })}
-        />
-        {formErrors?.currentzipcode === "invalid" && (
-          <p className=" text-red-600 py-2 flex justify-between">
-            Invalid zipcode. It should be 5 digits long!
-          </p>
-        )}
+      <div id="third-sub-row" className="candidate-two-col">
+        <div className="candidate-sub-childs">
+          <p className="candidate-label"> Current Zip / Postal Code*</p>
+          <input
+            type="tel"
+            name="currentzipcode"
+            className="candidate-input w-full"
+            style={{
+              borderColor: formErrors.currentzipcode ? "red" : undefined,
+            }}
+            onChange={handleInputChange}
+            {...(candNames
+              ? candNames.length > 0
+                ? { value: selectedDetails?.currentZipcode }
+                : { defaultValue: candDetails?.currentZipcode }
+              : { value: formFields?.currentzipcode })}
+          />
+          {formErrors?.currentzipcode === "invalid" && (
+            <p className=" text-red-600 py-2 flex justify-between">
+              Invalid zipcode. It should be 5 digits long!
+            </p>
+          )}
+        </div>
       </div>
 
       {/* <div id="fourth-sub-row" className="candidate-sub-childs">

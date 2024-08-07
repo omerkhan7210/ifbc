@@ -286,12 +286,6 @@ const SearchingSection = () => {
     history("/search-franchises");
   };
 
-  // useEffect(() => {
-  //   if (selectedCats.length > 0 && sele) {
-  //     setSelectedInvest();
-  //   }
-  // }, [selectedCats, selectedInvest]);
-
   return (
     <form
       id="searching-contianer"

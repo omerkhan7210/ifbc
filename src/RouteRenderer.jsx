@@ -84,6 +84,14 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
 
   const staticRoutes = [
     {
+      path: "/apply-now/:name",
+      element: (
+        <CandidatesDataContext>
+          <MainNewCand />
+        </CandidatesDataContext>
+      ),
+    },
+    {
       path: "/apply-now",
       element: (
         <CandidatesDataContext>

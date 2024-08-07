@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 const investmentOptions = [
-  { value: "", label: "Select one" },
+  { value: "AA", label: "Select one" },
   { value: "$5,000 - $49,999", label: "$5,000 - $49,999" },
   { value: "$50,000 - $99,999", label: "$50,000 - $99,999" },
   { value: "$100,000 - $199,999", label: "$100,000 - $199,999" },
@@ -11,7 +11,7 @@ const investmentOptions = [
   { value: "More than $750,000", label: "More than $750,000" },
 ];
 const fundingOptions = [
-  { value: "", label: "Select one" },
+  { value: "AA", label: "Select one" },
   { value: "Required to move forward", label: "Required to move forward" },
   { value: "Looking for options", label: "Looking for options" },
   {
@@ -139,7 +139,7 @@ const Initial = ({
 
   // Sort the options alphabetically by label
   const sortedFundingOptions = fundingOptions.sort((a, b) =>
-    a.label.localeCompare(b.label)
+    a.value.localeCompare(b.value)
   );
 
   // Sort the options alphabetically by value

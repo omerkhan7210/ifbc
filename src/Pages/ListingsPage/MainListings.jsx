@@ -12,7 +12,7 @@ const MainListings = ({ setShow, setRegistrationType }) => {
       >
         <div
           id="left-sidebar"
-          className="md:col-span-3  sm:col-span-6 col-span-12 md:my-5 bg-white"
+          className="md:col-span-3  sm:col-span-6 col-span-12 md:my-5 bg-white relative"
         >
           <ListingsFilter />
         </div>
