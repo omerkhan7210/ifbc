@@ -319,6 +319,7 @@ const SearchingSection = () => {
         options={categories}
         optionLabel="code"
         //filter
+        display="chip"
         placeholder="Select Categories"
         // maxSelectedLabels={3}
         className="max-md:col-span-12 md:col-span-3 bg-[#e3e4e6] "

@@ -70,6 +70,13 @@ const Steps = () => {
       description:
         "Lender Confidence: Lenders are often more confident in financing franchise ventures due to their established success and lower risk compared to new business ventures.",
     },
+    // {
+    //   imgSrc: "/images/home-seven/crm.png",
+    //   stepNumber: "04",
+    //   title: "Franchise Sales CRM",
+    //   description:
+    //     "The IFBC proprietary CRM system is designed specifically for Franchise Sales. This easy-to-use tool is essential for a successful Franchise Consultant business.",
+    // },
   ];
 
   const isMobile = window.innerWidth < 768 ? true : false;

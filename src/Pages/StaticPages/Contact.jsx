@@ -397,7 +397,8 @@ const Contact = () => {
                         ? "1px solid red"
                         : undefined,
                     }}
-                    placeholder="Email address"
+                    placeholder="Email A
+                    ddress"
                   />
                   {formErrors.contactEmail &&
                     formErrors.contactEmail === "invalid" && (
@@ -422,7 +423,7 @@ const Contact = () => {
                         ? "1px solid red"
                         : undefined,
                     }}
-                    placeholder="Phone number (123-456-7890)"
+                    placeholder="Phone Number (123-456-7890)"
                   />{" "}
                   {formErrors.contactPhone &&
                     formErrors.contactPhone === "invalid" && (
