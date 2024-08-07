@@ -58,7 +58,7 @@
 }
 
 .candidate-select {
-  @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1 p-2;
+  @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1 py-2 px-3;
 }
 .candidate-input {
   @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1  p-2;
@@ -171,4 +171,12 @@
 .p-inputwrapper.p-focus:focus-visible {
   outline: none !important;
   border: none !important;
+}
+
+#home-swiper > div {
+  padding: 2rem;
+}
+
+#franInt .p-multiselect-label {
+  padding: 0rem 0.5rem;
 }

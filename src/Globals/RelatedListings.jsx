@@ -53,7 +53,6 @@ const RelatedListings = () => {
     max,
     interval
   );
-  console.log(`Random Min: ${randomMin}, Random Max: ${randomMax}`);
 
   return loading ? (
     <div className="grid place-content-center bg-custom-dark-blue px-4 py-24">
@@ -62,11 +61,14 @@ const RelatedListings = () => {
     </div>
   ) : (
     <section className="hidden md:block bg-custom-dark-blue/15 p-12">
-      <h2 className="font-bold font-poppins text-5xl capitalize mb-4 text-custom-heading-color  text-center mt-0">
+      <h2 className="font-medium font-poppins text-5xl capitalize mb-4 text-custom-heading-color  text-center mt-0">
         Featured Franchises
       </h2>
 
-      <div className="max-w-5xl m-auto flex items-center h-full">
+      <div
+        className="max-w-5xl m-auto flex items-center h-full"
+        id="home-swiper"
+      >
         <Swiper
           modules={[Navigation, Autoplay, Pagination, A11y, EffectCoverflow]}
           spaceBetween={role && role !== "N" ? 50 : 20}

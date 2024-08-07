@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const FormFirstRow = ({
   handleInputChange,
@@ -12,7 +11,6 @@ const FormFirstRow = ({
   selectedDetails,
 }) => {
   const relationships = ["Business Partner", "Spouse", "Family Member"];
-
   return (
     <div id="first-row" className={`${candDetails ? "" : ""} py-5 w-full`}>
       <h1 className="candidate-sub-heading">
@@ -39,10 +37,10 @@ const FormFirstRow = ({
 
           {candNames && candNames.length > 0 ? (
             <select
-              name="firstname"
+              name="firstName"
               className="candidate-input w-full"
               style={{
-                borderColor: formErrors.firstname ? "red" : undefined,
+                borderColor: formErrors.firstName ? "red" : undefined,
               }}
               onChange={(e) => {
                 setSelectedDocId(e.target.value);
@@ -63,7 +61,7 @@ const FormFirstRow = ({
               name="firstName"
               className="candidate-input w-full"
               style={{
-                borderColor: formErrors.firstname ? "red" : undefined,
+                borderColor: formErrors.firstName ? "red" : undefined,
               }}
               required
               {...(candNames
@@ -272,42 +270,6 @@ const FormFirstRow = ({
           ))}
         </select>
       </div>
-
-      {/* {contacts && contacts.length > 0 && (
-        <div className="flex flex-col gap-8 mt-5">
-          {contacts.map((contact, index) => (
-            <AddContactDiv
-              contact={contact}
-              index={index}
-              handleInputChange={handleInputChange}
-              formErrors={formErrors}
-              setAddContacts={setAddContacts}
-            />
-          ))}
-        </div>
-      )} */}
-
-      {/* <div id="button-container" className="w-full flex justify-center">
-        <button
-          className="candidate-btn"
-          onClick={() => setAddContacts((prevContacts) => prevContacts + 1)}
-        >
-          ADD ADDITIONAL CONTACTS
-        </button>
-      </div> */}
-      {/* {addContacts > 0 && (
-        <div className="flex flex-col gap-8 mt-5">
-          {Array.from({ length: addContacts }).map((_, index) => (
-            <AddContactDiv
-              contact={null}
-              index={index}
-              handleInputChange={handleInputChange}
-              formErrors={formErrors}
-              setAddContacts={setAddContacts}
-            />
-          ))}
-        </div>
-      )} */}
     </div>
   );
 };

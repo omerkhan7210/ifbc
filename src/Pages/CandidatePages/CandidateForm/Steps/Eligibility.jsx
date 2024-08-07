@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
+import { useQuery } from "react-query";
 import axios from "axios";
 const Eligibility = ({
   handleInputChange,
@@ -9,6 +9,10 @@ const Eligibility = ({
   selectedDetails,
   setStep,
   formFields,
+  setFormFields,
+  docid,
+  visitedSteps,
+  setVisitedSteps,
 }) => {
   const militaryOptions = [
     { value: "AA", label: "Select one" },
@@ -21,17 +25,35 @@ const Eligibility = ({
     { value: "N/A", label: "N/A" },
   ];
 
+  const fetchCandidates = async () => {
+    const url = `https://backend.ifbc.co/api/eligibility/${docid}`;
+    const response = await axios.get(url);
+    return response.data;
+  };
+
+  // Use the query with enabled option based on docid
+  const { data, isLoading, error } = useQuery(
+    ["eligibility", docid], // Query key including docid
+    fetchCandidates, // Query function
+    {
+      enabled: !!docid, // Only enable if docid and name are available
+    }
+  );
+
+  // Optionally handle effects based on data, loading, and error
+  useEffect(() => {
+    if (data && !visitedSteps.elig) {
+      // Handle the data
+      setFormFields((prev) => ({ ...prev, ...data }));
+    }
+  }, [data]);
+
   const handleEligibility = async (e) => {
     e.preventDefault();
-
+    setVisitedSteps((prev) => ({ ...prev, elig: true }));
     setStep((prevStep) => prevStep + 1);
   };
 
-  // Sort the options alphabetically by value
-  const sortedMilitaryOptions = militaryOptions.sort((a, b) =>
-    a.value.localeCompare(b.value)
-  );
-  
   return (
     <motion.div
       initial={{ opacity: 0, x: -100 }}
@@ -71,7 +93,7 @@ const Eligibility = ({
           </div>
           <select
             onChange={handleInputChange}
-            name="VALoan"
+            name="vaLoan"
             id="Qualify"
             className="candidate-select "
           >
@@ -81,9 +103,9 @@ const Eligibility = ({
                 value={option.value}
                 {...(candNames
                   ? candNames.length > 0
-                    ? { selected: selectedDetails?.VALoan === option.value }
-                    : { selected: candDetails?.VALoan === option.value }
-                  : { selected: formFields?.VALoan === option.value })}
+                    ? { selected: selectedDetails?.vaLoan === option.value }
+                    : { selected: candDetails?.vaLoan === option.value }
+                  : { selected: formFields?.vaLoan === option.value })}
               >
                 {option.label}
               </option>
@@ -98,7 +120,7 @@ const Eligibility = ({
           </p>
           <input
             onChange={handleInputChange}
-            name="Bankruptcy"
+            name="bankruptcy"
             type="text"
             className="candidate-input"
             required
@@ -106,7 +128,7 @@ const Eligibility = ({
               ? candNames.length > 0
                 ? { value: selectedDetails?.bankruptcy }
                 : { defaultValue: candDetails?.bankruptcy }
-              : { value: formFields?.Bankruptcy })}
+              : { value: formFields?.bankruptcy })}
           />
         </div>
       </div>
@@ -116,7 +138,7 @@ const Eligibility = ({
           <p className="candidate-label">What is the value of your 401k/IRA?</p>
           <input
             onChange={handleInputChange}
-            name="EligibilityValue"
+            name="eligibilityValue"
             type="tel"
             className="candidate-input"
             required
@@ -124,7 +146,7 @@ const Eligibility = ({
               ? candNames.length > 0
                 ? { value: selectedDetails?.eligibilityValue }
                 : { defaultValue: candDetails?.eligibilityValue }
-              : { value: formFields?.EligibilityValue })}
+              : { value: formFields?.eligibilityValue })}
           />
         </div>
       </div>
@@ -141,7 +163,7 @@ const Eligibility = ({
                 onChange={handleInputChange}
                 type="radio"
                 className="mr-2"
-                name="TrafficViolation"
+                name="trafficViolation"
                 defaultValue="true"
                 {...(candNames
                   ? candNames.length > 0
@@ -152,7 +174,7 @@ const Eligibility = ({
                         defaultChecked:
                           candDetails?.trafficViolation === "true",
                       }
-                  : { checked: formFields?.TrafficViolation === "true" })}
+                  : { checked: formFields?.trafficViolation === "true" })}
               />
               <label
                 className="candidate-radio-text"
@@ -167,7 +189,7 @@ const Eligibility = ({
                 onChange={handleInputChange}
                 type="radio"
                 className="mr-2"
-                name="TrafficViolation"
+                name="trafficViolation"
                 defaultValue="false"
                 {...(candNames
                   ? candNames.length > 0
@@ -178,7 +200,7 @@ const Eligibility = ({
                         defaultChecked:
                           candDetails?.trafficViolation === "false",
                       }
-                  : { checked: formFields?.TrafficViolation === "false" })}
+                  : { checked: formFields?.trafficViolation === "false" })}
               />
               <label
                 className="candidate-radio-text"
@@ -201,7 +223,7 @@ const Eligibility = ({
                 onChange={handleInputChange}
                 type="radio"
                 className="mr-2"
-                name="Unsatisfiedjudgment"
+                name="unsatisfiedjudgment"
                 defaultValue="true"
                 {...(candNames
                   ? candNames.length > 0
@@ -213,7 +235,7 @@ const Eligibility = ({
                         defaultChecked:
                           candDetails?.unsatisfiedjudgment === "true",
                       }
-                  : { checked: formFields?.Unsatisfiedjudgment === "true" })}
+                  : { checked: formFields?.unsatisfiedjudgment === "true" })}
               />
               <label
                 className="candidate-radio-text"
@@ -227,7 +249,7 @@ const Eligibility = ({
                 onChange={handleInputChange}
                 type="radio"
                 className="mr-2"
-                name="Unsatisfiedjudgment"
+                name="unsatisfiedjudgment"
                 defaultValue="false"
                 {...(candNames
                   ? candNames.length > 0
@@ -239,7 +261,7 @@ const Eligibility = ({
                         defaultChecked:
                           candDetails?.unsatisfiedjudgment === "false",
                       }
-                  : { checked: formFields?.Unsatisfiedjudgment === "false" })}
+                  : { checked: formFields?.unsatisfiedjudgment === "false" })}
               />
               <label
                 className="candidate-radio-text"
@@ -261,7 +283,10 @@ const Eligibility = ({
         >
           <button
             className="candidate-btn w-40 flex items-center justify-between"
-            onClick={() => setStep((prevStep) => prevStep - 1)}
+            onClick={() => {
+              setVisitedSteps((prev) => ({ ...prev, elig: true }));
+              setStep((prevStep) => prevStep - 1);
+            }}
           >
             {" "}
             <svg

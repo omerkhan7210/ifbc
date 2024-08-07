@@ -48,34 +48,44 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [selectedDocId, setSelectedDocId] = useState();
   const [selectedDetails, setSelectedDetails] = useState({});
   const [showsuccess, setShowSuccess] = useState(false);
-  const [addContacts, setAddContacts] = useState(0);
-  const [addTerritory, setAddTerritory] = useState(0);
   const [step, setStep] = useState(0);
   const [listingNames, setListingNames] = useState([]);
   const { name } = useParams();
   const [searchParams] = useSearchParams();
-  const docid = searchParams.get("id");
+  const docidSelected = searchParams.get("id");
+  const [visitedSteps, setVisitedSteps] = useState({
+    candprofile: false,
+    intitial: false,
+    elig: false,
+    exp: false,
+    wants: false,
+    fc: false,
+  });
 
   const fetchCandidates = async () => {
-    const url = `https://backend.ifbc.co/api/candidateprofile/${docid}`;
+    const url = `https://backend.ifbc.co/api/candidateprofile/${docidSelected}`;
     const response = await axios.get(url);
     return response.data;
   };
 
   // Use the query with enabled option based on docid
   const { data, isLoading, error } = useQuery(
-    ["CANDIDATESFORM", docid], // Query key including docid
+    ["CANDIDATESFORM", docidSelected], // Query key including docid
     fetchCandidates, // Query function
     {
-      enabled: !!docid, // Only enable if docid and name are available
+      enabled: !!docidSelected, // Only enable if docid and name are available
     }
   );
 
   // Optionally handle effects based on data, loading, and error
   useEffect(() => {
-    if (data) {
-      // Handle the data
-      setFormFields(data);
+    if (data && !visitedSteps.candprofile) {
+      const frInt = JSON.parse(data.franchiseInterested);
+      setFormFields((prev) => ({
+        ...prev,
+        ...data,
+        franchiseInterested: frInt,
+      }));
     }
   }, [data]);
   console.log(formFields);
@@ -94,22 +104,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
     }
   }, [selectedDocId, candDetails]);
 
-  useEffect(() => {
-    if (candDetails) {
-      setFormFields(convertKeysToLowercase(candDetails));
-    }
-  }, [candDetails]);
-
-  useEffect(() => {
-    for (const [key, value] of Object.entries(formFields)) {
-      if (key === "sameasterritoryrequested" && value) {
-        formFields.currentcity && delete formFields.currentcity;
-        formFields.currentzipcode && delete formFields.currentzipcode;
-        formFields.currentstate && delete formFields.currentstate;
-      }
-    }
-  }, [formFields]);
-
   const handleSubmitCandProfileApi = async () => {
     try {
       const formData = {
@@ -118,44 +112,42 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           : formFields?.docid
             ? { DocId: formFields?.docid }
             : {}),
-        firstName: formFields.firstname ?? "",
-        lastName: formFields.lastname ?? "",
+        firstName: formFields.firstName ?? "",
+        lastName: formFields.lastName ?? "",
         Phone: formFields.phone ?? "",
         Email: formFields.email ?? "",
-        additionalFirstName: formFields.additionalfirstname ?? "",
-        additionalLastName: formFields.additionallastname ?? "",
-        additionalPhone: formFields.additionalphone ?? "",
-        additionalEmail: formFields.additionalemail ?? "",
-        additionalRelationship: formFields.additionalrelationship ?? "",
-        franchiseInterested: formFields.franchiseinterested ?? "",
-        territoryCity: formFields.territorycity ?? "",
-        territoryState: formFields.territorystate ?? "",
-        territoryZipcode: formFields.territoryzipcode ?? "",
-        currentCity: formFields.currentcity ?? "",
-        currentState: formFields.currentstate ?? "",
-        currentZipcode: formFields.currentzipcode ?? "",
+        additionalFirstName: formFields.additionalFirstName ?? "",
+        additionalLastName: formFields.additionalLastName ?? "",
+        additionalPhone: formFields.additionalPhone ?? "",
+        additionalEmail: formFields.additionalEmail ?? "",
+        additionalRelationship: formFields.additionalRelationship ?? "",
+        franchiseInterested: formFields.franchiseInterested ?? "",
+        territoryCity: formFields.territoryCity ?? "",
+        territoryState: formFields.territoryState ?? "",
+        territoryZipcode: formFields.territoryZipcode ?? "",
+        currentCity: formFields.currentCity ?? "",
+        currentState: formFields.currentState ?? "",
+        currentZipcode: formFields.currentZipcode ?? "",
         Status: formFields.status ?? "",
         PipelineStep: formFields.pipelinestep ?? "",
         lostReason: "string",
         AgentUserId: userDetails?.docId ?? 19,
         isArchive: false,
         isCompleted: true,
-        updateDt: "2024-07-27T15:00:45.871Z",
       };
       const baseUrl = "https://backend.ifbc.co/api/candidateprofile";
       let response = "";
 
       // Send the POST request using Axios
-      if (candDetails) {
-        response = await axios.put(
-          `${baseUrl}/${candDetails?.docId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      if (candDetails || docidSelected) {
+        const newUrl = candDetails?.docId
+          ? `${baseUrl}/${candDetails.docId}`
+          : `${baseUrl}/${docidSelected}`;
+        response = await axios.put(newUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } else {
         response = await axios.post(baseUrl, formData, {
           headers: {
@@ -181,33 +173,33 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleSubmitInitialApi = async (docid) => {
     try {
+      const resolvedDocId = candDetails?.docId || formFields?.docid || docid;
+
       const formData = {
-        docid,
-        funding: formFields.Funding ?? "",
-        investmentFranchise: formFields.InvestmentFranchise ?? "",
-        creditScore: formFields.CreditScore ?? "",
-        networth: formFields.Networth ?? "",
-        liquidCash: formFields.LiquidCash ?? "",
+        docId: resolvedDocId,
+        funding: formFields.funding ?? "",
+        investmentFranchise: formFields.investmentFranchise ?? "",
+        creditScore: formFields.creditScore ?? "",
+        networth: formFields.networth ?? "",
+        liquidCash: formFields.liquidCash ?? "",
         franchiseCause: formFields.FranchiseCause ?? "",
-        professionalBackground: formFields.ProfessionalBackground ?? "",
-        timeFrame: formFields.TimeFrame ?? "",
+        professionalBackground: formFields.professionalBackground ?? "",
+        timeFrame: formFields.timeFrame ?? "",
         isCompleted: true,
       };
 
       const baseUrl = "https://backend.ifbc.co/api/initialqualify";
       let response = "";
 
-      // Send the POST request using Axios
-      if (candDetails) {
-        response = await axios.put(
-          `${baseUrl}/${candDetails?.docId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      if (candDetails || docidSelected) {
+        const newUrl = candDetails?.docId
+          ? `${baseUrl}/${candDetails.docId}`
+          : `${baseUrl}/${docidSelected}`;
+        response = await axios.put(newUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } else {
         response = await axios.post(baseUrl, formData, {
           headers: {
@@ -215,6 +207,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           },
         });
       }
+
       return response.status;
     } catch (error) {
       console.error("Error:", error);
@@ -223,32 +216,32 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleSubmitEligApi = async (docid) => {
     try {
+      const resolvedDocId = candDetails?.docId || formFields?.docid || docid;
+
       const formData = {
-        docid,
-        VALoan: formFields.VALoan ?? "",
-        EligibilityValue: formFields.EligibilityValue ?? "",
-        TrafficViolation: formFields.TrafficViolation ?? "",
-        Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
-        Bankruptcy: formFields.Bankruptcy ?? "",
-        TrafficViolationReason: formFields.TrafficViolationReason ?? "",
-        UnsatisfiedjudgmentReason: formFields.UnsatisfiedjudgmentReason ?? "",
+        docId: resolvedDocId,
+        VALoan: formFields.vaLoan ?? "",
+        EligibilityValue: formFields.eligibilityValue ?? "",
+        TrafficViolation: formFields.trafficViolation ?? "",
+        Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
+        Bankruptcy: formFields.bankruptcy ?? "",
+        TrafficViolationReason: formFields.trafficViolationReason ?? "",
+        UnsatisfiedjudgmentReason: formFields.unsatisfiedjudgmentReason ?? "",
         isCompleted: true,
       };
 
       const baseUrl = "https://backend.ifbc.co/api/eligibility";
       let response = "";
 
-      // Send the POST request using Axios
-      if (candDetails) {
-        response = await axios.put(
-          `${baseUrl}/${candDetails?.docId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      if (candDetails || docidSelected) {
+        const newUrl = candDetails?.docId
+          ? `${baseUrl}/${candDetails.docId}`
+          : `${baseUrl}/${docidSelected}`;
+        response = await axios.put(newUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } else {
         response = await axios.post(baseUrl, formData, {
           headers: {
@@ -264,30 +257,30 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleSubmitExpApi = async (docid) => {
     try {
+      const resolvedDocId = candDetails?.docId || formFields?.docid || docid;
+
       const formData = {
-        docid,
-        BusinessBefore: formFields.BusinessBefore ?? "",
-        MarketingExperience: formFields.MarketingExperience ?? "",
-        ManagementExperience: formFields.ManagementExperience ?? "",
-        SalesExperience: formFields.SalesExperience ?? "",
-        ReviewFinancialStatement: formFields.ReviewFinancialStatement ?? "",
-        CSExperience: formFields.CSExperience ?? "",
+        docId: resolvedDocId,
+        BusinessBefore: formFields.businessBefore ?? "",
+        MarketingExperience: formFields.marketingExperience ?? "",
+        ManagementExperience: formFields.managementExperience ?? "",
+        SalesExperience: formFields.salesExperience ?? "",
+        ReviewFinancialStatement: formFields.reviewFinancialStatement ?? "",
+        CSExperience: formFields.csExperience ?? "",
         isCompleted: true,
       };
       const baseUrl = "https://backend.ifbc.co/api/experience";
       let response = "";
 
-      // Send the POST request using Axios
-      if (candDetails) {
-        response = await axios.put(
-          `${baseUrl}/${candDetails?.docId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      if (candDetails || docidSelected) {
+        const newUrl = candDetails?.docId
+          ? `${baseUrl}/${candDetails.docId}`
+          : `${baseUrl}/${docidSelected}`;
+        response = await axios.put(newUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } else {
         response = await axios.post(baseUrl, formData, {
           headers: {
@@ -303,33 +296,33 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleSubmitWantsApi = async (docid) => {
     try {
+      const resolvedDocId = candDetails?.docId || formFields?.docid || docid;
+
       const formData = {
-        docid,
-        AttractiveBusinessOwner: formFields.AttractiveBusinessOwner ?? "",
-        HandleNewBusiness: formFields.HandleNewBusiness ?? "",
-        BusinessExpectations: formFields.BusinessExpectations ?? "",
-        PreferB2b: formFields.PreferB2b ?? "",
-        PhysicalLocation: formFields.PhysicalLocation ?? "",
-        Inventory: formFields.Inventory ?? "",
-        ColdCalling: formFields.ColdCalling ?? "",
-        PassiveMode: formFields.PassiveMode ?? "",
-        BusinessHours: formFields.BusinessHours ?? "",
+        docId: resolvedDocId,
+        AttractiveBusinessOwner: formFields.attractiveBusinessOwner ?? "",
+        HandleNewBusiness: formFields.handleNewBusiness ?? "",
+        BusinessExpectations: formFields.husinessExpectations ?? "",
+        PreferB2b: formFields.preferb2b ?? "",
+        PhysicalLocation: formFields.physicalLocation ?? "",
+        Inventory: formFields.inventory ?? "",
+        ColdCalling: formFields.coldCalling ?? "",
+        PassiveMode: formFields.passiveMode ?? "",
+        BusinessHours: formFields.businessHours ?? "",
         isCompleted: true,
       };
       const baseUrl = "https://backend.ifbc.co/api/wants";
       let response = "";
 
-      // Send the POST request using Axios
-      if (candDetails) {
-        response = await axios.put(
-          `${baseUrl}/${candDetails?.docId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      if (candDetails || docidSelected) {
+        const newUrl = candDetails?.docId
+          ? `${baseUrl}/${candDetails.docId}`
+          : `${baseUrl}/${docidSelected}`;
+        response = await axios.put(newUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } else {
         response = await axios.post(baseUrl, formData, {
           headers: {
@@ -345,115 +338,115 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
   const handleSubmitFCApi = async (docid) => {
     try {
+      const resolvedDocId = candDetails?.docId || formFields?.docid || docid;
+
       const formData = {
-        docid,
-        firstName: formFields.firstname ?? "",
-        lastName: formFields.lastname ?? "",
+        docId: resolvedDocId,
+        firstName: formFields.firstName ?? "",
+        lastName: formFields.lastName ?? "",
         Phone: formFields.phone ?? "",
         Email: formFields.email ?? "",
-        additionalFirstName: formFields.additionalfirstname ?? "",
-        additionalLastName: formFields.additionallastname ?? "",
-        additionalPhone: formFields.additionalphone ?? "",
-        additionalEmail: formFields.additionalemail ?? "",
-        additionalRelationship: formFields.additionalrelationship ?? "",
-        franchiseInterested: formFields.franchiseinterested ?? "",
-        territoryCity: formFields.territorycity ?? "",
-        territoryState: formFields.territorystate ?? "",
-        territoryZipcode: formFields.territoryzipcode ?? "",
-        currentCity: formFields.currentcity ?? "",
-        currentState: formFields.currentstate ?? "",
-        currentZipcode: formFields.currentzipcode ?? "",
+        additionalFirstName: formFields.additionalFirstName ?? "",
+        additionalLastName: formFields.additionalLastName ?? "",
+        additionalPhone: formFields.additionalPhone ?? "",
+        additionalEmail: formFields.additionalEmail ?? "",
+        additionalRelationship: formFields.additionalRelationship ?? "",
+        franchiseInterested: formFields.franchiseInterested ?? "",
+        territoryCity: formFields.territoryCity ?? "",
+        territoryState: formFields.territoryState ?? "",
+        territoryZipcode: formFields.territoryZipcode ?? "",
+        currentCity: formFields.currentCity ?? "",
+        currentState: formFields.currentState ?? "",
+        currentZipcode: formFields.currentZipcode ?? "",
         Status: formFields.status ?? "",
         PipelineStep: formFields.pipelinestep ?? "",
         lostReason: "string",
-        funding: formFields.Funding ?? "",
-        investmentFranchise: formFields.InvestmentFranchise ?? "",
-        creditScore: formFields.CreditScore ?? "",
-        networth: formFields.Networth ?? "",
-        liquidCash: formFields.LiquidCash ?? "",
-        franchiseCause: formFields.FranchiseCause ?? "",
-        professionalBackground: formFields.ProfessionalBackground ?? "",
-        timeFrame: formFields.TimeFrame ?? "",
-        VALoan: formFields.VALoan ?? "",
-        EligibilityValue: formFields.EligibilityValue ?? "",
-        TrafficViolation: formFields.TrafficViolation ?? "",
-        Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
-        Bankruptcy: formFields.Bankruptcy ?? "",
-        BusinessBefore: formFields.BusinessBefore ?? "",
-        MarketingExperience: formFields.MarketingExperience ?? "",
-        ManagementExperience: formFields.ManagementExperience ?? "",
-        SalesExperience: formFields.SalesExperience ?? "",
-        ReviewFinancialStatement: formFields.ReviewFinancialStatement ?? "",
-        CSExperience: formFields.CSExperience ?? "",
-        AttractiveBusinessOwner: formFields.AttractiveBusinessOwner ?? "",
-        HandleNewBusiness: formFields.HandleNewBusiness ?? "",
-        BusinessExpectations: formFields.BusinessExpectations ?? "",
-        PreferB2b: formFields.PreferB2b ?? "",
-        PhysicalLocation: formFields.PhysicalLocation ?? "",
-        Inventory: formFields.Inventory ?? "",
-        ColdCalling: formFields.ColdCalling ?? "",
-        PassiveMode: formFields.PassiveMode ?? "",
-        BusinessHours: formFields.BusinessHours ?? "",
+        funding: formFields.funding ?? "",
+        investmentFranchise: formFields.investmentFranchise ?? "",
+        creditScore: formFields.creditScore ?? "",
+        networth: formFields.networth ?? "",
+        liquidCash: formFields.liquidCash ?? "",
+        franchiseCause: formFields.franchiseCause ?? "",
+        professionalBackground: formFields.professionalBackground ?? "",
+        timeFrame: formFields.timeFrame ?? "",
+        VALoan: formFields.vaLoan ?? "",
+        EligibilityValue: formFields.eligibilityValue ?? "",
+        TrafficViolation: formFields.trafficViolation ?? "",
+        Unsatisfiedjudgment: formFields.unsatisfiedjudgment ?? "",
+        Bankruptcy: formFields.bankruptcy ?? "",
+        BusinessBefore: formFields.businessBefore ?? "",
+        MarketingExperience: formFields.marketingExperience ?? "",
+        ManagementExperience: formFields.managementExperience ?? "",
+        SalesExperience: formFields.salesExperience ?? "",
+        ReviewFinancialStatement: formFields.reviewFinancialStatement ?? "",
+        CSExperience: formFields.csExperience ?? "",
+        AttractiveBusinessOwner: formFields.attractiveBusinessOwner ?? "",
+        HandleNewBusiness: formFields.handleNewBusiness ?? "",
+        BusinessExpectations: formFields.businessExpectations ?? "",
+        PreferB2b: formFields.preferB2b ?? "",
+        PhysicalLocation: formFields.physicalLocation ?? "",
+        Inventory: formFields.inventory ?? "",
+        ColdCalling: formFields.coldCalling ?? "",
+        PassiveMode: formFields.passiveMode ?? "",
+        BusinessHours: formFields.businessHours ?? "",
 
-        Advertising: formFields.Advertising ?? "",
-        Automotive: formFields.Automotive ?? "",
-        BeautySpa: formFields.BeautySpa ?? "",
-        BusinessManagementCoaching: formFields.BusinessManagementCoaching ?? "",
-        BusinessServices: formFields.BusinessServices ?? "",
-        ChildEducationStemTutoring: formFields.ChildEducationStemTutoring ?? "",
-        ChildServicesProducts: formFields.ChildServicesProducts ?? "",
+        Advertising: formFields.advertising ?? "",
+        Automotive: formFields.automotive ?? "",
+        BeautySpa: formFields.beautySpa ?? "",
+        BusinessManagementCoaching: formFields.businessManagementCoaching ?? "",
+        BusinessServices: formFields.businessServices ?? "",
+        ChildEducationStemTutoring: formFields.childEducationStemTutoring ?? "",
+        ChildServicesProducts: formFields.childServicesProducts ?? "",
         CleaningResidentialCommercial:
-          formFields.CleaningResidentialCommercial ?? "",
-        ComputerTechnology: formFields.ComputerTechnology ?? "",
-        DistributionServices: formFields.DistributionServices ?? "",
-        DryCleaningLaundry: formFields.DryCleaningLaundry ?? "",
-        FinancialServices: formFields.FinancialServices ?? "",
-        Fitness: formFields.Fitness ?? "",
-        FoodBeverageRestaurantQSR: formFields.FoodBeverageRestaurantQSR ?? "",
+          formFields.cleaningResidentialCommercial ?? "",
+        ComputerTechnology: formFields.computerTechnology ?? "",
+        DistributionServices: formFields.distributionServices ?? "",
+        DryCleaningLaundry: formFields.dryCleaningLaundry ?? "",
+        FinancialServices: formFields.financialServices ?? "",
+        Fitness: formFields.fitness ?? "",
+        FoodBeverageRestaurantQSR: formFields.foodBeverageRestaurantQSR ?? "",
         FoodCoffeeTeaSmoothiesSweets:
-          formFields.FoodCoffeeTeaSmoothiesSweets ?? "",
-        FoodStoresCatering: formFields.FoodStoresCatering ?? "",
-        HealthMedical: formFields.HealthMedical ?? "",
-        HealthWellness: formFields.HealthWellness ?? "",
-        HomeImprovement: formFields.HomeImprovement ?? "",
-        InteriorExteriorDesign: formFields.InteriorExteriorDesign ?? "",
-        MaintenanceRepair: formFields.MaintenanceRepair ?? "",
-        MovingStorageJunkRemoval: formFields.MovingStorageJunkRemoval ?? "",
-        Painting: formFields.Painting ?? "",
-        PestControl: formFields.PestControl ?? "",
-        PetCareGrooming: formFields.PetCareGrooming ?? "",
-        PrintCopyMailing: formFields.PrintCopyMailing ?? "",
-        RealState: formFields.RealState ?? "",
-        Restoration: formFields.Restoration ?? "",
-        Retail: formFields.Retail ?? "",
-        Security: formFields.Security ?? "",
+          formFields.foodCoffeeTeaSmoothiesSweets ?? "",
+        FoodStoresCatering: formFields.foodStoresCatering ?? "",
+        HealthMedical: formFields.healthMedical ?? "",
+        HealthWellness: formFields.healthWellness ?? "",
+        HomeImprovement: formFields.homeImprovement ?? "",
+        InteriorExteriorDesign: formFields.interiorExteriorDesign ?? "",
+        MaintenanceRepair: formFields.maintenanceRepair ?? "",
+        MovingStorageJunkRemoval: formFields.movingStorageJunkRemoval ?? "",
+        Painting: formFields.painting ?? "",
+        PestControl: formFields.pestControl ?? "",
+        PetCareGrooming: formFields.petCareGrooming ?? "",
+        PrintCopyMailing: formFields.printCopyMailing ?? "",
+        RealState: formFields.realState ?? "",
+        Restoration: formFields.restoration ?? "",
+        Retail: formFields.retail ?? "",
+        Security: formFields.security ?? "",
         SeniorCareMedicalNonMedical:
-          formFields.SeniorCareMedicalNonMedical ?? "",
-        Signs: formFields.Signs ?? "",
-        SpecialEventPlanning: formFields.SpecialEventPlanning ?? "",
-        SportsRecreation: formFields.SportsRecreation ?? "",
-        Staffing: formFields.Staffing ?? "",
-        TravelPlanning: formFields.TravelPlanning ?? "",
-        Vending: formFields.Vending ?? "",
-        Timezone: formFields.Timezone ?? "",
-        PreferredCallTime: formFields.PreferredCallTime ?? "",
-        RealEstate: formFields.RealEstate ?? "",
+          formFields.seniorCareMedicalNonMedical ?? "",
+        Signs: formFields.signs ?? "",
+        SpecialEventPlanning: formFields.specialEventPlanning ?? "",
+        SportsRecreation: formFields.sportsRecreation ?? "",
+        Staffing: formFields.staffing ?? "",
+        TravelPlanning: formFields.travelPlanning ?? "",
+        Vending: formFields.vending ?? "",
+        Timezone: formFields.timezone ?? "",
+        PreferredCallTime: formFields.preferredCallTime ?? "",
+        RealEstate: formFields.realEstate ?? "",
         isCompleted: true,
       };
       const baseUrl = "https://backend.ifbc.co/api/franchisecategories";
       let response = "";
 
-      // Send the POST request using Axios
-      if (candDetails) {
-        response = await axios.put(
-          `${baseUrl}/${candDetails?.docId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+      if (candDetails || docidSelected) {
+        const newUrl = candDetails?.docId
+          ? `${baseUrl}/${candDetails.docId}`
+          : `${baseUrl}/${docidSelected}`;
+        response = await axios.put(newUrl, formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
       } else {
         response = await axios.post(baseUrl, formData, {
           headers: {
@@ -485,7 +478,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         eligResStatus === 201 &&
         expResStatus === 201 &&
         wantsResStatus === 201 &&
-        fcResStatus
+        fcResStatus === 201
       ) {
         setFormErrors({});
         setShowSuccess(true);
@@ -494,6 +487,26 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           role && role === "C"
             ? "Candidate Information Saved Successfully!"
             : "Your Request has been submitted successfully!"
+        );
+        setLoading(false);
+        setTimeout(() => {
+          window.location.href = role && role === "C" ? "/candidate-list" : "/";
+        }, 5000);
+      } else if (
+        candProfileResStatus === 204 &&
+        initialResStatus === 204 &&
+        eligResStatus === 204 &&
+        expResStatus === 204 &&
+        wantsResStatus === 204 &&
+        fcResStatus === 204
+      ) {
+        setFormErrors({});
+        setShowSuccess(true);
+
+        setSuccessMsg(
+          role && role === "C"
+            ? "Candidate Information Updated Successfully!"
+            : "Your details has been updated successfully!"
         );
         setLoading(false);
         setTimeout(() => {
@@ -615,7 +628,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       case 0:
         return (
           <CandidateProfile
-            addContacts={addContacts}
             candDetails={candDetails}
             candNames={candNames}
             formErrors={formErrors}
@@ -623,14 +635,14 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             handleInputChange={handleInputChange}
             selectedDetails={selectedDetails}
             selectedDocId={selectedDocId}
-            setAddContacts={setAddContacts}
             setSelectedDocId={setSelectedDocId}
-            addTerritory={addTerritory}
-            setAddTerritory={setAddTerritory}
             setFormFields={setFormFields}
             setStep={setStep}
             setFormErrors={setFormErrors}
             listingNames={listingNames}
+            docid={docidSelected}
+            visitedSteps={visitedSteps}
+            setVisitedSteps={setVisitedSteps}
           />
         );
       case 1:
@@ -642,7 +654,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
-            setFormErrors={setFormErrors}
+            docid={docidSelected}
+            setFormFields={setFormFields}
+            visitedSteps={visitedSteps}
+            setVisitedSteps={setVisitedSteps}
           />
         );
 
@@ -655,7 +670,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
-            setFormErrors={setFormErrors}
+            docid={docidSelected}
+            setFormFields={setFormFields}
+            visitedSteps={visitedSteps}
+            setVisitedSteps={setVisitedSteps}
           />
         );
       case 3:
@@ -667,7 +685,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
-            setFormErrors={setFormErrors}
+            docid={docidSelected}
+            setFormFields={setFormFields}
+            visitedSteps={visitedSteps}
+            setVisitedSteps={setVisitedSteps}
           />
         );
 
@@ -680,7 +701,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
-            setFormErrors={setFormErrors}
+            docid={docidSelected}
+            setFormFields={setFormFields}
+            visitedSteps={visitedSteps}
+            setVisitedSteps={setVisitedSteps}
           />
         );
 
@@ -697,6 +721,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setShow={setShow}
             show={show}
             loading={loading}
+            docid={docidSelected}
+            setFormFields={setFormFields}
+            visitedSteps={visitedSteps}
+            setVisitedSteps={setVisitedSteps}
           />
         );
       default:
@@ -707,7 +735,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   return (
     <form>
       <DialogBox show={showsuccess} setShow={setShowSuccess}>
-        <div className="bg-white p-5 py-10 grid place-items-center text-3xl text-custom-heading-color">
+        <div className="bg-white p-5 py-10 capitalize grid place-items-center text-3xl text-custom-heading-color">
           {successMsg}
         </div>
       </DialogBox>
@@ -737,7 +765,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 "} ${step > 0 ? "md:max-w-[45%] " : "md:max-xl:max-w-[95%] xl:max-w-[75%]"}  `}
+        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 "} ${step > 0 ? "md:max-w-[50%] " : "md:max-2xl:max-w-[95%] 2xl:max-w-[75%]"}  `}
       >
         {handleSwitchCase()}
       </div>
