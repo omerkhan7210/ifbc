@@ -675,10 +675,10 @@ const NoListingsFound = () => {
       </svg>
 
       <h1 className="max-md:text-3xl md:text-5xl text-center font-bold text-custom-heading-color">
-        NO LISTINGS ADDED TO CART
+        No Franchises Added To Cart
       </h1>
       <NavLink to="/search-franchises" className="candidate-btn capitalize">
-        Add Listings
+        Discover More Franchises
       </NavLink>
     </div>
   );

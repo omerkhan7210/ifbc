@@ -80,22 +80,12 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   // Optionally handle effects based on data, loading, and error
   useEffect(() => {
     if (data && !visitedSteps.candprofile) {
-      if (data.franchiseInterested) {
-        const frInt = JSON.parse(data.franchiseInterested);
-        setFormFields((prev) => ({
-          ...prev,
-          ...data,
-          franchiseInterested: frInt,
-        }));
-      } else {
-        setFormFields((prev) => ({
-          ...prev,
-          ...data,
-        }));
-      }
+      setFormFields((prev) => ({
+        ...prev,
+        ...data,
+      }));
     }
   }, [data]);
-  console.log(formFields);
 
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
@@ -772,7 +762,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 "} ${step > 0 ? "md:max-w-[50%] " : "md:max-2xl:max-w-[95%] 2xl:max-w-[75%]"}  `}
+        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 "} ${step > 0 ? "md:max-w-[50%] " : "md:max-w-[95%]"}  `}
       >
         {handleSwitchCase()}
       </div>

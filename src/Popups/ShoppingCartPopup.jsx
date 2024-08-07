@@ -26,13 +26,13 @@ const ShoppingCartPopup = ({ show, setShow }) => {
     }
   }, [cartListings, setShow]);
 
-  // useEffect(() => {
-  //   if (show) {
-  //     setTimeout(() => {
-  //       setShow(false);
-  //     }, 5000);
-  //   }
-  // }, [show]);
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => {
+        setShow(false);
+      }, 5000);
+    }
+  }, [show]);
 
   return (
     <AnimatePresence>

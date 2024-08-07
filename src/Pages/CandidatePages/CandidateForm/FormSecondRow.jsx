@@ -28,8 +28,9 @@ const FormSecondRow = ({
       formFields?.franchiseInterested?.length > 0 &&
       listingNames?.length > 0
     ) {
+      const parsedFranchises = JSON.parse(formFields.franchiseInterested);
       const selectedData = listingNames.filter((listNames) =>
-        formFields.franchiseInterested.includes(listNames.docId)
+        parsedFranchises.includes(listNames.docId)
       );
       setSelectedFranchises(selectedData);
     }
@@ -88,7 +89,7 @@ const FormSecondRow = ({
                 }}
                 options={listingNames}
                 optionLabel="name"
-                //filter
+                filter
                 placeholder="Select a franchise"
                 className=" candidate-select w-full flex  "
               />

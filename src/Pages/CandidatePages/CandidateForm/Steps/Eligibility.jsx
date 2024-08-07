@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -211,6 +211,28 @@ const Eligibility = ({
               </label>
             </li>
           </ul>
+          {formFields?.trafficViolation === "true" && (
+            <div className="mt-3">
+              <label
+                htmlFor="trafficViolationReason"
+                className="candidate-label"
+              >
+                Please provide details:
+              </label>
+              <input
+                type="text"
+                id="trafficViolationReason"
+                name="trafficViolationReason"
+                {...(candNames
+                  ? candNames.length > 0
+                    ? { value: selectedDetails?.trafficViolationReason }
+                    : { defaultValue: candDetails?.trafficViolationReason }
+                  : { value: formFields?.trafficViolationReason })}
+                onChange={handleInputChange}
+                className="candidate-input md:w-[80%] max-md:w-[90%]"
+              />
+            </div>
+          )}
         </div>
         <div className="flex flex-col">
           <p className="candidate-label">
@@ -271,6 +293,28 @@ const Eligibility = ({
               </label>
             </li>
           </ul>
+          {formFields?.unsatisfiedjudgment === "true" && (
+            <div className="mt-3">
+              <label
+                htmlFor="unsatisfiedjudgmentReason"
+                className="candidate-label"
+              >
+                Please provide details:
+              </label>
+              <input
+                type="text"
+                id="unsatisfiedjudgmentReason"
+                name="unsatisfiedjudgmentReason"
+                {...(candNames
+                  ? candNames.length > 0
+                    ? { value: selectedDetails?.unsatisfiedjudgmentReason }
+                    : { defaultValue: candDetails?.unsatisfiedjudgmentReason }
+                  : { value: formFields?.unsatisfiedjudgmentReason })}
+                onChange={handleInputChange}
+                className="candidate-input md:w-[100%] max-md:w-[90%]"
+              />
+            </div>
+          )}
         </div>
       </div>
 
