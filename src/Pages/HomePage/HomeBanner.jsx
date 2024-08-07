@@ -286,12 +286,6 @@ const SearchingSection = () => {
     history("/search-franchises");
   };
 
-  // useEffect(() => {
-  //   if (selectedCats.length > 0 && sele) {
-  //     setSelectedInvest();
-  //   }
-  // }, [selectedCats, selectedInvest]);
-
   return (
     <form
       id="searching-contianer"
@@ -468,13 +462,7 @@ const SearchDropdown = ({
   //   "Vending",
   // ];
 
-  let uniqueItems = [];
-  uniqueItems = investmentRange;
-
-  // const handleRemoveCat = () => {
-  //   setActiveDD("");
-  //   setSelectedCats([]);
-  // };
+  let uniqueItems = investmentRange;
 
   const handleDropdown = (property) => {
     if (activeDD === property) {

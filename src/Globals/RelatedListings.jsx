@@ -20,6 +20,40 @@ import "swiper/css/scrollbar";
 
 const RelatedListings = () => {
   const { listings, loading, role } = useContext(MyContext);
+  function getRandomNumberInInterval(min, max, interval) {
+    const rangeMin = Math.ceil(min / interval) * interval;
+    const rangeMax = Math.floor(max / interval) * interval;
+    const randomInterval =
+      Math.floor(Math.random() * ((rangeMax - rangeMin) / interval + 1)) *
+      interval;
+    return rangeMin + randomInterval;
+  }
+
+  function getRandomMinMaxInIntervals(min, max, interval) {
+    // Generate a random minimum number within the interval
+    const randomMin = getRandomNumberInInterval(min, max - interval, interval);
+
+    // Generate a random maximum number within the interval that is at least one interval more than randomMin
+    const randomMax = getRandomNumberInInterval(
+      randomMin + interval,
+      max,
+      interval
+    );
+
+    return { randomMin, randomMax };
+  }
+
+  // Example usage
+  const min = 0;
+  const max = 508;
+  const interval = 25;
+
+  const { randomMin, randomMax } = getRandomMinMaxInIntervals(
+    min,
+    max,
+    interval
+  );
+  console.log(`Random Min: ${randomMin}, Random Max: ${randomMax}`);
 
   return loading ? (
     <div className="grid place-content-center bg-custom-dark-blue px-4 py-24">
@@ -55,7 +89,7 @@ const RelatedListings = () => {
           {listings &&
             listings.length > 0 &&
             listings.map((listing, index) => {
-              if (index < 25) {
+              if (index > randomMin && index < randomMax) {
                 return (
                   <SwiperSlide key={index}>
                     <ListingsColumns listing={listing} slider={true} />

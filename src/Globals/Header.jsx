@@ -320,19 +320,20 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
             />
 
             {/* signin button */}
-            <NavLink
-              to="/login"
-              className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-md text-custom-heading-color hover:bg-gray-300 focus:outline-none focus:bg-gray-100 cursor-pointer w-full"
-            >
-              Sign In
+            <NavLink to="/login" className="account-links">
+              Log Into Your Account
             </NavLink>
 
-            <NavLink
-              to="/registration"
-              className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-md text-custom-heading-color hover:bg-gray-300 focus:outline-none focus:bg-gray-100 cursor-pointer w-full"
-            >
-              Sign Up
+            <NavLink to="/registration" className="account-links">
+              Create a New Account
             </NavLink>
+            <a
+              href="http://crm.ifbc.co/"
+              target="_blank"
+              className="account-links"
+            >
+              Join Our CRM Now
+            </a>
           </div>
         </>
       )}
