@@ -365,7 +365,7 @@ const CategorySearch = ({
 
   const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
-  const investmentRange = generateRangeArray(10000, 300000, 30000, true);
+  const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
 
   const ownedUnits = generateRangeArray(0, 200, 50, false);
 

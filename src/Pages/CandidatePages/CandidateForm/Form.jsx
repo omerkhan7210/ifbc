@@ -20,6 +20,8 @@ import Eligibility from "./Steps/Eligibility";
 import Experience from "./Steps/Experience";
 import Wants from "./Steps/Wants";
 import FranchiseCategories from "./Steps/FranchiseCategories";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
 function convertKeysToLowercase(obj) {
   if (typeof obj !== "object" || obj === null) {
@@ -48,11 +50,35 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const [showsuccess, setShowSuccess] = useState(false);
   const [addContacts, setAddContacts] = useState(0);
   const [addTerritory, setAddTerritory] = useState(0);
-  // const [additionalContacts, setAdditionalContacts] = useState([]);
-  // const [additionalTerritories, setAdditionalTerritories] = useState([]);
-  const [form, setForm] = useState(0);
-  // const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts`;
-  // const additionalTerritoriesAddUrl = `https://backend.ifbc.co/api/TerritoryDetails`;
+  const [step, setStep] = useState(0);
+  const [listingNames, setListingNames] = useState([]);
+  const { name } = useParams();
+  const [searchParams] = useSearchParams();
+  const docid = searchParams.get("id");
+
+  const fetchCandidates = async () => {
+    const url = `https://backend.ifbc.co/api/candidateprofile/${docid}`;
+    const response = await axios.get(url);
+    return response.data;
+  };
+
+  // Use the query with enabled option based on docid
+  const { data, isLoading, error } = useQuery(
+    ["CANDIDATESFORM", docid], // Query key including docid
+    fetchCandidates, // Query function
+    {
+      enabled: !!docid, // Only enable if docid and name are available
+    }
+  );
+
+  // Optionally handle effects based on data, loading, and error
+  useEffect(() => {
+    if (data) {
+      // Handle the data
+      setFormFields(data);
+    }
+  }, [data]);
+  console.log(formFields);
 
   useEffect(() => {
     if (selectedDocId && selectedDocId !== "") {
@@ -87,7 +113,11 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   const handleSubmitCandProfileApi = async () => {
     try {
       const formData = {
-        ...(candDetails?.docId ? { DocId: candDetails?.docId } : {}),
+        ...(candDetails?.docId
+          ? { DocId: candDetails?.docId }
+          : formFields?.docid
+            ? { DocId: formFields?.docid }
+            : {}),
         firstName: formFields.firstname ?? "",
         lastName: formFields.lastname ?? "",
         Phone: formFields.phone ?? "",
@@ -133,11 +163,17 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           },
         });
       }
-
-      return {
-        candProfileResStatus: response.status,
-        docid: response.data.docid,
-      };
+      if (response.status === 201) {
+        return {
+          candProfileResStatus: response.status,
+          docid: response.data.docid,
+        };
+      } else if (response.status === 204) {
+        return {
+          candProfileResStatus: response.status,
+          docid: formFields?.docid,
+        };
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -186,9 +222,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   };
 
   const handleSubmitEligApi = async (docid) => {
-    // check krke daalo
     try {
-      // names galat hongay console log krwakr check krna kese arhe
       const formData = {
         docid,
         VALoan: formFields.VALoan ?? "",
@@ -282,7 +316,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         BusinessHours: formFields.BusinessHours ?? "",
         isCompleted: true,
       };
-      console.log(formData);
       const baseUrl = "https://backend.ifbc.co/api/wants";
       let response = "";
 
@@ -407,7 +440,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         RealEstate: formFields.RealEstate ?? "",
         isCompleted: true,
       };
-      console.log(formData);
       const baseUrl = "https://backend.ifbc.co/api/franchisecategories";
       let response = "";
 
@@ -558,62 +590,17 @@ const Form = ({ candDetails, candNames, activeListings }) => {
       inputValue = convertToMSSQLDate(value);
     }
 
-    // if (name.startsWith("additional")) {
-    //   const splittedName = name.split("_");
-    //   const index = parseInt(splittedName[1]); // Extract index from name
-
-    //   // Create a copy of additionalContacts array
-    //   const updatedContacts = additionalContacts ? [...additionalContacts] : [];
-    //   // Ensure updatedContacts[index] is initialized if it doesn't exist
-    //   if (!updatedContacts[index]) {
-    //     updatedContacts[index] = {};
-    //   }
-
-    //   // Check if both additionalFirstName and additionalLastName exist in updatedContacts[index]
-    //   updatedContacts[index] = {
-    //     ...updatedContacts[index],
-    //     [splittedName[0]]: value,
-    //   };
-
-    //   // Update additionalContacts state
-    //   setAdditionalContacts(
-    //     updatedContacts.filter((contact) => Object.keys(contact).length > 0)
-    //   );
-    //   // Reset form error for the current input
-    //   setFormErrors((prevErrors) => ({
-    //     ...prevErrors,
-    //     [name]: "",
-    //   }));
-    // } else {
-    // Update formFields state
     setFormFields((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-    // Reset form error for the current input
     setFormErrors((prevErrors) => ({
       ...prevErrors,
       [newName]: "",
     }));
-    // }
   };
 
-  // default step 0 hoga 0 se start hora
-  const [step, setStep] = useState(0);
-  const [listingNames, setListingNames] = useState([]);
-  // ek state banara hun blkl parent may taaky ye change na ho render pr is state ko phr har stepmay pass krwadengay
-  // const [submittedSteps, setSubmittedSteps] = useState({
-  //   candprofile: false,
-  //   initial: false,
-  //   eligibility: false,
-  //   experience: false,
-  //   wants: false,
-  //   fc: false,
-  // });
-
-  // this useEffect api is used for getting listing names with doc ids
   useEffect(() => {
-    // const response = axios.get("https://backend.ifbc.co/api/listingsmstr");
     axios.get("https://backend.ifbc.co/api/listingsmstr").then((response) => {
       const listingNames = response.data.map((listings) => ({
         name: listings.name,
@@ -624,12 +611,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   }, []);
 
   const handleSwitchCase = () => {
-    // window.scrollTo({
-    //   top: window.innerWidth < 768 ? 1000 : 0,
-    //   behavior: "smooth",
-    // });
     switch (step) {
-      // iska mtlb ye hai ke step jab 0 hoga to candprofile wala component render hoga
       case 0:
         return (
           <CandidateProfile
@@ -649,14 +631,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             setStep={setStep}
             setFormErrors={setFormErrors}
             listingNames={listingNames}
-            form={form}
-            setForm={setForm}
-            // submittedSteps={submittedSteps}
-            // setSubmittedSteps={setSubmittedSteps}
           />
         );
-      // ye sab may daalo or call bhi krwalo
-      // jab step 1 hoga mtlb next step hoga to initial ajaega
       case 1:
         return (
           <Initial
@@ -666,17 +642,10 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
-            form={form}
-            setForm={setForm}
             setFormErrors={setFormErrors}
-            // submittedSteps={submittedSteps}
-            // setSubmittedSteps={setSubmittedSteps}
           />
         );
 
-      // mene eligibility wale ko bhi separate krdya taake may usse bhi step ke tor pr use krskun
-      // case 2 mtlb step 3
-      // ek bhund ye hai uper scroll nhi hora pta nhi lagra change hua ya nhi wohi function chalao na paginate wala
       case 2:
         return (
           <Eligibility
@@ -686,11 +655,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
-            form={form}
-            setForm={setForm}
             setFormErrors={setFormErrors}
-            // submittedSteps={submittedSteps}
-            // setSubmittedSteps={setSubmittedSteps}
           />
         );
       case 3:
@@ -702,11 +667,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
-            form={form}
-            setForm={setForm}
             setFormErrors={setFormErrors}
-            // submittedSteps={submittedSteps}
-            // setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -719,11 +680,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             selectedDetails={selectedDetails}
             setStep={setStep}
             formFields={formFields}
-            form={form}
-            setForm={setForm}
             setFormErrors={setFormErrors}
-            // submittedSteps={submittedSteps}
-            // setSubmittedSteps={setSubmittedSteps}
           />
         );
 
@@ -736,11 +693,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
             formFields={formFields}
             candDetails={candDetails}
             candNames={candNames}
-            form={form}
-            setForm={setForm}
             setFormErrors={setFormErrors}
-            // submittedSteps={submittedSteps}
-            // setSubmittedSteps={setSubmittedSteps}
             setShow={setShow}
             show={show}
             loading={loading}
@@ -758,13 +711,6 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           {successMsg}
         </div>
       </DialogBox>
-
-      {/* ye jo labels hain na inme hamare step ke names aengay tum is site se dekhkr daaldo yahan pr*/}
-      {/* smjhgye?  han wo m dal dunga daldo may namaz prhkr arha k*/}
-      {/* daldye?an humein tabs nhi laane*/}
-
-      {/* hume ek state banani hogy step ke liye jisme step number aega 1 2 3 4 etc */}
-      {/* aagay ka krskte ho? kerta hu koshish  */}
       <Stepper
         steps={[
           { label: "Candidate Profile" },
@@ -791,7 +737,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 "} ${step > 0 ? "md:max-w-[45%] " : "md:max-w-[95%]"}  `}
+        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 "} ${step > 0 ? "md:max-w-[45%] " : "md:max-xl:max-w-[95%] xl:max-w-[75%]"}  `}
       >
         {handleSwitchCase()}
       </div>
