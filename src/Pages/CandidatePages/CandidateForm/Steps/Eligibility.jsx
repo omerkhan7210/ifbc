@@ -234,7 +234,7 @@ const Eligibility = ({
                 name="TrafficViolationComments"
                 value={trafficViolationComments}
                 onChange={handleInputChangeLocal}
-                className="candidate-input"
+                className="candidate-input md:w-[80%] max-md:w-[90%]"
               />
             </div>
           )}
@@ -309,7 +309,7 @@ const Eligibility = ({
                 name="UnsatisfiedjudgmentComments"
                 value={unsatisfiedJudgmentComments}
                 onChange={handleInputChangeLocal}
-                className="candidate-input"
+                className="candidate-input md:w-[100%] max-md:w-[90%]"
               />
             </div>
           )}
