@@ -469,28 +469,7 @@ const SearchDropdown = ({
   // ];
 
   let uniqueItems = [];
-  // if (property === "franchiseFee") {
-  //   uniqueItems = franchiseFee;
-  // } else if (property === "franchisedUnits") {
-  //   uniqueItems = franchisedUnits;
-  // } else if (property === "investmentRange") {
   uniqueItems = investmentRange;
-  // } else if (property === "category") {
-  //   uniqueItems = categories;
-  // } else if (property === "yearEstablished") {
-  //   uniqueItems = yearEstablished;
-  // }
-  // if (property === "franchiseFee") {
-  //   uniqueItems = franchiseFee;
-  // } else if (property === "franchisedUnits") {
-  //   uniqueItems = franchisedUnits;
-  // } else if (property === "investmentRange") {
-  uniqueItems = investmentRange;
-  // } else if (property === "category") {
-  //   uniqueItems = categories;
-  // } else if (property === "yearEstablished") {
-  //   uniqueItems = yearEstablished;
-  // }
 
   // const handleRemoveCat = () => {
   //   setActiveDD("");
@@ -511,7 +490,7 @@ const SearchDropdown = ({
       style={{ background: "#e3e4e6 " }}
     >
       <button
-        className={`h-full px-4 text-sm w-full capitalize text-[#000000]  transition-all duration-250  focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold  ${
+        className={`h-full px-4 text-sm w-full capitalize text-[#000000]  transition-all duration-250  focus:outline-none focus:ring-0 peer flex items-center justify-between   ${
           selectedCats &&
           selectedCats[property] &&
           selectedCats[property] !== ""
