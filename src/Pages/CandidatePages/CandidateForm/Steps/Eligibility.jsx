@@ -10,6 +10,23 @@ const Eligibility = ({
   setStep,
   formFields,
 }) => {
+
+  const [trafficViolation, setTrafficViolation] = useState(
+    candNames && candNames.length > 0
+      ? selectedDetails?.trafficViolation
+      : candDetails?.trafficViolation || formFields?.TrafficViolation
+  );
+
+  const [trafficViolationComments, setTrafficViolationComments] = useState("");
+
+  const [unsatisfiedJudgment, setUnsatisfiedJudgment] = useState(
+    candNames && candNames.length > 0
+      ? selectedDetails?.unsatisfiedjudgment
+      : candDetails?.unsatisfiedjudgment || formFields?.Unsatisfiedjudgment
+  );
+
+  const [unsatisfiedJudgmentComments, setUnsatisfiedJudgmentComments] = useState("");
+
   const militaryOptions = [
     { value: "AA", label: "Select one" },
     { value: "Veteran", label: "Veteran" },
@@ -31,6 +48,23 @@ const Eligibility = ({
   const sortedMilitaryOptions = militaryOptions.sort((a, b) =>
     a.value.localeCompare(b.value)
   );
+
+  const handleInputChangeLocal = (e) => {
+    const { name, value, type, checked } = e.target;
+    const inputValue = type === "checkbox" ? checked : value;
+
+    if (name === "TrafficViolation") {
+      setTrafficViolation(value);
+    } else if (name === "TrafficViolationComments") {
+      setTrafficViolationComments(value);
+    } else if (name === "Unsatisfiedjudgment") {
+      setUnsatisfiedJudgment(value);
+    } else if (name === "UnsatisfiedjudgmentComments") {
+      setUnsatisfiedJudgmentComments(value);
+    }
+
+    handleInputChange(e);
+  };
   
   return (
     <motion.div
@@ -138,7 +172,7 @@ const Eligibility = ({
           <ul className="flex mt-3 items-center">
             <li className="mr-4 flex items-center">
               <input
-                onChange={handleInputChange}
+                onChange={handleInputChangeLocal}
                 type="radio"
                 className="mr-2"
                 name="TrafficViolation"
@@ -164,7 +198,7 @@ const Eligibility = ({
             </li>
             <li className="flex items-center">
               <input
-                onChange={handleInputChange}
+                onChange={handleInputChangeLocal}
                 type="radio"
                 className="mr-2"
                 name="TrafficViolation"
@@ -189,6 +223,21 @@ const Eligibility = ({
               </label>
             </li>
           </ul>
+          {trafficViolation === "true" && (
+            <div className="mt-3">
+              <label htmlFor="trafficViolationComments" className="candidate-label">
+                Please provide details:
+              </label>
+              <input
+                type="text"
+                id="trafficViolationComments"
+                name="TrafficViolationComments"
+                value={trafficViolationComments}
+                onChange={handleInputChangeLocal}
+                className="candidate-input"
+              />
+            </div>
+          )}
         </div>
         <div className="flex flex-col">
           <p className="candidate-label">
@@ -198,7 +247,7 @@ const Eligibility = ({
           <ul className="flex items-center mt-3">
             <li className="mr-4 flex items-center">
               <input
-                onChange={handleInputChange}
+                onChange={handleInputChangeLocal}
                 type="radio"
                 className="mr-2"
                 name="Unsatisfiedjudgment"
@@ -224,7 +273,7 @@ const Eligibility = ({
             </li>
             <li className="flex items-center">
               <input
-                onChange={handleInputChange}
+                onChange={handleInputChangeLocal}
                 type="radio"
                 className="mr-2"
                 name="Unsatisfiedjudgment"
@@ -249,6 +298,21 @@ const Eligibility = ({
               </label>
             </li>
           </ul>
+          {unsatisfiedJudgment === "true" && (
+            <div className="mt-3">
+              <label htmlFor="unsatisfiedJudgmentComments" className="candidate-label">
+                Please provide details:
+              </label>
+              <input
+                type="text"
+                id="unsatisfiedJudgmentComments"
+                name="UnsatisfiedjudgmentComments"
+                value={unsatisfiedJudgmentComments}
+                onChange={handleInputChangeLocal}
+                className="candidate-input"
+              />
+            </div>
+          )}
         </div>
       </div>
 
