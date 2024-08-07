@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 const investmentOptions = [
-  { value: "", label: "Select one" },
+  { value: "AA", label: "Select one" },
   { value: "$5,000 - $49,999", label: "$5,000 - $49,999" },
   { value: "$50,000 - $99,999", label: "$50,000 - $99,999" },
   { value: "$100,000 - $199,999", label: "$100,000 - $199,999" },
@@ -11,7 +11,7 @@ const investmentOptions = [
   { value: "More than $750,000", label: "More than $750,000" },
 ];
 const fundingOptions = [
-  { value: "", label: "Select one" },
+  { value: "AA", label: "Select one" },
   { value: "Required to move forward", label: "Required to move forward" },
   { value: "Looking for options", label: "Looking for options" },
   {
@@ -21,7 +21,7 @@ const fundingOptions = [
   { value: "No funding required", label: "No funding required" },
 ];
 const creditScoreOptions = [
-  { value: "", label: "Select one" },
+  { value: "AA", label: "Select one" },
   { value: "Excellent - 780 to 850", label: "Excellent - 780 to 850" },
   { value: "Very good - 740 to 779", label: "Very good - 740 to 779" },
   {
@@ -97,7 +97,7 @@ const reasonOptions = [
   },
 ];
 const backgroundOptions = [
-  { value: "", label: "Select one" },
+  { value: "AA", label: "Select one" },
   { value: "No Preference", label: "No Preference" },
   { value: "Sales", label: "Sales" },
   { value: "Executive", label: "Executive" },
@@ -136,6 +136,22 @@ const Initial = ({
     e.preventDefault();
     setStep((prevStep) => prevStep + 1);
   };
+
+  // Sort the options alphabetically by label
+  const sortedFundingOptions = fundingOptions.sort((a, b) =>
+    a.value.localeCompare(b.value)
+  );
+
+  // Sort the options alphabetically by value
+  const sortedCreditScoreOptions = creditScoreOptions.sort((a, b) =>
+    a.value.localeCompare(b.value)
+  );
+
+  // Sort the options alphabetically by value
+  const sortedBackgroundOptions = backgroundOptions.sort((a, b) =>
+    a.value.localeCompare(b.value)
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -100 }}
@@ -213,7 +229,7 @@ const Initial = ({
               id="Funding"
               className="candidate-select "
             >
-              {fundingOptions.map((option) => (
+              {sortedFundingOptions.map((option) => (
                 <option
                   key={option.value}
                   value={option.value}
@@ -243,7 +259,7 @@ const Initial = ({
               id="score"
               className="candidate-select"
             >
-              {creditScoreOptions.map((option, index) => (
+              {sortedCreditScoreOptions.map((option, index) => (
                 <option
                   key={index}
                   value={option.value}

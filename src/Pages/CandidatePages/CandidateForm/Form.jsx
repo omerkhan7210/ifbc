@@ -196,6 +196,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         TrafficViolation: formFields.TrafficViolation ?? "",
         Unsatisfiedjudgment: formFields.Unsatisfiedjudgment ?? "",
         Bankruptcy: formFields.Bankruptcy ?? "",
+        TrafficViolationReason: formFields.TrafficViolationReason ?? "",
+        UnsatisfiedjudgmentReason: formFields.UnsatisfiedjudgmentReason ?? "",
         isCompleted: true,
       };
 
@@ -789,7 +791,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : "md:max-w-[45%] items-center justify-center mx-auto mb-10 col-span-12"} `}
+        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 "} ${step > 0 ? "md:max-w-[45%] " : "md:max-w-[95%]"}  `}
       >
         {handleSwitchCase()}
       </div>

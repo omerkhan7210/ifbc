@@ -5,68 +5,60 @@ import SearchingComponent from "./SearchingComponent";
 import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/themes/lara-light-teal/theme.css";
 const categories = [
-  { name: "Advertising", code: "Advertising" },
-  { name: "Automotive", code: "Automotive" },
-  { name: "BeautySpa", code: "Beauty & Spa" },
+  { code: "Advertising" },
+  { code: "Automotive" },
+  { code: "Beauty & Spa" },
   {
-    name: "BusinessManagementCoaching",
     code: "Business Management & Coaching",
   },
-  { name: "BusinessServices", code: "Business Services" },
+  { code: "Business Services" },
   {
-    name: "ChildEducationStemTutoring",
     code: "Child Education, STEM & Tutoring",
   },
-  { name: "ChildServicesProducts", code: "Child Services & Products" },
+  { code: "Child Services & Products" },
   {
-    name: "CleaningResidentialCommercial",
     code: "Cleaning: Residential & Commercial",
   },
-  { name: "ComputerTechnology", code: "Computer Technology" },
+  { code: "Computer Technology" },
   {
-    name: "DistributionServices",
     code: "Select a rating Distribution Services",
   },
-  { name: "DryCleaningLaundry", code: "Dry Cleaning-Laundry" },
-  { name: "FinancialServices", code: "Financial Services" },
-  { name: "Fitness", code: "Fitness" },
+  { code: "Dry Cleaning-Laundry" },
+  { code: "Financial Services" },
+  { code: "Fitness" },
   {
-    name: "FoodBeverageRestaurantQSR",
     code: "Food & Beverage: Restaurant/QSR/Catering",
   },
   {
-    name: "FoodCoffeeTeaSmoothiesSweets",
     code: "Food: Coffee/Tea/Smoothies/Sweets",
   },
-  { name: "FoodStoresCatering", code: "Food: Stores & Catering" },
-  { name: "HealthMedical", code: "Health/Medical" },
-  { name: "HealthWellness", code: "Health/Wellness" },
-  { name: "HomeImprovement", code: "Home Improvement" },
-  { name: "InteriorExteriorDesign", code: "Interior/Exterior Design" },
-  { name: "MaintenanceRepair", code: "Maintenance & Repair" },
+  { code: "Food: Stores & Catering" },
+  { code: "Health/Medical" },
+  { code: "Health/Wellness" },
+  { code: "Home Improvement" },
+  { code: "Interior/Exterior Design" },
+  { code: "Maintenance & Repair" },
   {
-    name: "MovingStorageJunkRemoval",
     code: "Moving, Storage & Junk Removal",
   },
-  { name: "Painting", code: "Painting" },
-  { name: "PestControl", code: "Pest Control" },
-  { name: "PetCareGrooming", code: "Pet Care & Grooming" },
-  { name: "PrintCopyMailing", code: "Print, Copy & Mailing" },
-  { name: "RealState", code: "Real Estate" },
-  { name: "Restoration", code: "Restoration" },
-  { name: "Retail", code: "Retail" },
+  { code: "Painting" },
+  { code: "Pest Control" },
+  { code: "Pet Care & Grooming" },
+  { code: "Print, Copy & Mailing" },
+  { code: "Real Estate" },
+  { code: "Restoration" },
+  { code: "Retail" },
   { name: "Security", code: "Security" },
   {
-    name: "SeniorCareMedicalNonMedical",
     code: "Senior Care: Medical/Non-Medical",
   },
 
-  { name: "Signs", code: "Signs" },
-  { name: "SpecialEventPlanning", code: "Special Event Planning" },
-  { name: "SportsRecreation", code: "Sports & Recreation" },
-  { name: "Staffing", code: "Staffing" },
-  { name: "TravelPlanning", code: "Travel Planning" },
-  { name: "Vending", code: "Vending" },
+  { code: "Signs" },
+  { code: "Special Event Planning" },
+  { code: "Sports & Recreation" },
+  { code: "Staffing" },
+  { code: "Travel Planning" },
+  { code: "Vending" },
 ];
 const ListingsFilter = () => {
   const { filters, setFilters, role, token } = useContext(MyContext);
@@ -74,6 +66,16 @@ const ListingsFilter = () => {
   const [activeDD, setActiveDD] = useState(false);
   const dropdownRef = useRef(null);
   const roleCheck = (!role || role === "N") && !token;
+  const [selectedCats, setSelectedCats] = useState([]);
+  useEffect(() => {
+    if (filters?.category) {
+      let cats = filters?.category.map((cat) => ({
+        code: cat,
+      }));
+      setSelectedCats(cats);
+    }
+  }, []);
+
   useEffect(() => {
     if (roleCheck) {
       const filterDataa = [
@@ -190,15 +192,10 @@ const ListingsFilter = () => {
     }));
     if (key === "category") {
       setSelectedCats((prevCats) => {
-        console.log(
-          prevCats.filter((filterValue) => filterValue.code !== value)
-        );
         return prevCats.filter((filterValue) => filterValue.code !== value);
       });
     }
   };
-
-  const [selectedCats, setSelectedCats] = useState([]);
 
   const handleSelectCats = (e) => {
     const selectedCats = e.target.value;
@@ -208,46 +205,80 @@ const ListingsFilter = () => {
   };
 
   return (
-    <div id="main-filter-container" ref={dropdownRef}>
-      {roleCheck && (
-        <div className="w-full my-5">
-          <SearchingComponent setFilters={setFilters} />
-        </div>
-      )}
+    <div
+      id="main-filter-container"
+      ref={dropdownRef}
+      className="p-8 bg-[#2176ff]/30 rounded-3xl mt-20"
+    >
       {hasActiveFilters && (
         <div className="mb-4">
           <button
             onClick={() => setFilters({})}
-            className="font-bold cursor-pointer hover:bg-red-800 hover:text-white transition flex items-center gap-1 border-2 border-red-800 px-2 justify-between w-full not-prose uppercase text-red-950"
+            className=" cursor-pointer rounded-xl   transition flex items-center gap-1 bg-red-800 px-3 justify-between w-full outline-none capitalize text-sm py-1 text-white"
           >
-            Clear All Filters <span className="text-red">X</span>
+            Clear All Filters{" "}
+            <span className="text-red">
+              {" "}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2.5}
+                stroke="white"
+                className="size-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </span>
           </button>
           <div className="mt-2">
-            <h3 className="font-semibold">Active Filters:</h3>
+            <h3>Active Filters:</h3>
             <ul className="divide-y-2">
               {activeFilters?.map(([key, values]) =>
                 values.map((value) => (
                   <li
                     key={`${key}-${value}`}
-                    className="text-gray-700 flex items-center capitalize justify-between py-2 text-xs"
+                    className="bg-gray-700 flex items-center capitalize justify-between my-2 py-2  text-xs border border-gray-700 px-3 rounded-xl"
                   >
-                    <span className="font-bold">
+                    <span className="text-white">
                       {key?.replace(/([A-Z])/g, " $1").trim()} :{" "}
                       {value?.replace(/^.*?:/, "").trim()}
                       {/* {key} : {value} */}
                     </span>
 
                     <button
-                      className="ml-2 text-red-600 font-bold cursor-pointer"
+                      className="ml-2 text-red-600  cursor-pointer"
                       onClick={() => handleRemoveFilter(key, value)}
                     >
-                      X
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="white"
+                        className="size-4"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18 18 6M6 6l12 12"
+                        />
+                      </svg>
                     </button>
                   </li>
                 ))
               )}
             </ul>
           </div>
+        </div>
+      )}
+      {roleCheck && (
+        <div className="w-full my-5">
+          <SearchingComponent setFilters={setFilters} />
         </div>
       )}
       <MultiSelect
@@ -258,7 +289,7 @@ const ListingsFilter = () => {
         //filter
         placeholder="Select Categories"
         // maxSelectedLabels={3}
-        className=" w-full md:text-sm text-site transition-all duration-300 bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold mb-5"
+        className=" w-full md:text-xs  transition-all duration-300 bg-white border border-gray-700 focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded  mb-5"
       />
       {filterData.map((filter, index) => (
         <CategorySearch
@@ -416,7 +447,7 @@ const CategorySearch = ({
   return (
     <div className="relative w-full group flex flex-col gap-2 mb-5">
       <button
-        className="py-2.5 px-3 w-full md:text-sm text-site transition-all duration-300 bg-white border border-dimmed focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded font-semibold"
+        className="py-2.5 px-3 w-full md:text-sm text-site transition-all duration-300 bg-white border border-gray-700 focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded "
         onClick={() => handleDropdown(property)}
       >
         {selectedCats.length > 0 ? anotherText : normalText}

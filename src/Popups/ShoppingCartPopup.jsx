@@ -8,7 +8,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
@@ -18,6 +18,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
   const cartListings = useSelector((state) => state.counter.cartListings);
   const dispatch = useDispatch();
   const loc = useLocation();
+  const ref = useRef();
 
   useEffect(() => {
     if (cartListings.length > 0) {
@@ -25,13 +26,13 @@ const ShoppingCartPopup = ({ show, setShow }) => {
     }
   }, [cartListings, setShow]);
 
-  useEffect(() => {
-    if (show) {
-      setTimeout(() => {
-        setShow(false);
-      }, 3000);
-    }
-  }, [show]);
+  // useEffect(() => {
+  //   if (show) {
+  //     setTimeout(() => {
+  //       setShow(false);
+  //     }, 3000);
+  //   }
+  // }, [show]);
 
   return (
     <AnimatePresence>
@@ -40,6 +41,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
           open={show}
           onClose={() => setShow(false)}
           className="relative z-9999"
+          ref={ref}
         >
           <motion.div
             initial={{ opacity: 0 }}
@@ -95,7 +97,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
                                 cartListings.includes(listing.docId)
                               )
                               .map((listing, index) => (
-                                <div
+                                <motion.div
                                   key={index}
                                   className="flex flex-col sm:flex-row justify-between items-center py-3 relative"
                                 >
@@ -151,7 +153,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
                                       />
                                     </svg>
                                   </div>
-                                </div>
+                                </motion.div>
                               ))}
                           </div>
                         </div>
@@ -162,31 +164,33 @@ const ShoppingCartPopup = ({ show, setShow }) => {
                           id="button-container"
                           className="flex max-sm:justify-center sm:justify-center items-center py-5 gap-5 flex-col"
                         >
-                          <NavLink
-                            to="/search-franchises"
-                            className="candidate-btn flex items-center justify-between w-full"
-                          >
-                            See More Listings
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              strokeWidth={1.5}
-                              stroke="currentColor"
-                              className="size-6"
+                          {loc.pathname !== "/search-franchises" && (
+                            <NavLink
+                              to="/search-franchises"
+                              className="candidate-btn flex items-center justify-between w-full"
                             >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                              />
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                              />
-                            </svg>
-                          </NavLink>
+                              See More Listings
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="size-6"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
+                                />
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                />
+                              </svg>
+                            </NavLink>
+                          )}
                           <NavLink
                             to="/checkout"
                             className="candidate-secondary-btn flex items-center justify-between w-full"

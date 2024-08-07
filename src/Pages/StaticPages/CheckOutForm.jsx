@@ -21,8 +21,6 @@ import {
   validateUsername,
   validateZipcode,
 } from "src/Utils/SanitizeInput";
-import data from "../../../public/files/data.json"; // Adjust the path if necessary
-import ShoppingCartPopup from "src/Popups/ShoppingCartPopup";
 
 const CheckOutForm = () => {
   const { listings } = useContext(MyContext);
@@ -61,76 +59,76 @@ const ShoppingCart = ({ cartListings, listings }) => {
   return (
     <div
       id="main-right-container"
-      className="h-full w-full col-span-4 rounded-3xl shadow-2xl p-8"
+      className="h-full w-full col-span-5 flex flex-col justify-between rounded-3xl shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-8"
     >
       <div>
         <h1 className="max-md:text-center text-2xl  capitalize text-custom-heading-color my-5">
           Review Franchises
         </h1>
-      </div>
-
-      <div
-        id="sub-container"
-        className="divide-y-2 divide-custom-heading-color/10 w-full md:h-[330px]  overflow-y-auto "
-      >
-        {/* items-row */}
-        {listings
-          .filter((listing) => cartListings.includes(listing.docId))
-          .map((listing, index) => {
-            return (
-              <div
-                key={index}
-                className=" flex flex-col sm:flex-row justify-between  items-center py-3 relative"
-              >
+        <div
+          id="sub-container"
+          className="divide-y-2 divide-custom-heading-color/10 w-full md:h-[330px]  overflow-y-auto "
+        >
+          {" "}
+          {/* items-row */}
+          {listings
+            .filter((listing) => cartListings.includes(listing.docId))
+            .map((listing, index) => {
+              return (
                 <div
-                  id="item-side"
-                  className="flex flex-col sm:flex-row gap-2 items-center w-full"
+                  key={index}
+                  className=" flex flex-col sm:flex-row justify-between  items-center py-3 relative"
                 >
-                  <img
-                    src={`./${listing.imgUrl}`}
-                    alt=""
-                    className="rounded-lg  object-cover"
-                    width={80}
-                    height={80}
-                  />
-
                   <div
-                    id="content-side"
-                    className="flex flex-col max-sm:items-center"
+                    id="item-side"
+                    className="flex flex-col sm:flex-row gap-2 items-center w-full"
                   >
-                    <h2 className="text-sm">{listing.name}</h2>
+                    <img
+                      src={`./${listing.imgUrl}`}
+                      alt=""
+                      className="rounded-lg  object-cover"
+                      width={80}
+                      height={80}
+                    />
 
-                    <h2 className="text-xs">
-                      Category: <b>{listing.category}</b>
-                    </h2>
-                    <h2 className="text-xs">
-                      Cash Required: <b>{listing.investmentRange}</b>
-                    </h2>
+                    <div
+                      id="content-side"
+                      className="flex flex-col max-sm:items-center"
+                    >
+                      <h2 className="text-sm">{listing.name}</h2>
+
+                      <h2 className="text-xs">
+                        Category: <b>{listing.category}</b>
+                      </h2>
+                      <h2 className="text-xs">
+                        Cash Required: <b>{listing.investmentRange}</b>
+                      </h2>
+                    </div>
+                  </div>
+                  <div
+                    onClick={() => dispatch(decrementByListing(listing.docId))}
+                    id="btn-side"
+                    className="sm:px-6 max-sm:absolute max-sm:top-[10px] max-sm:right-[40px] max-sm:rounded-full max-sm:w-8 max-sm:h-8 max-sm:bg-red-700 max-sm:text-white max-sm:flex max-sm:justify-center max-sm:items-center sm:text-red-800 cursor-pointer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="currentColor"
+                      className="size-5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                      />
+                    </svg>
                   </div>
                 </div>
-                <div
-                  onClick={() => dispatch(decrementByListing(listing.docId))}
-                  id="btn-side"
-                  className="sm:px-6 max-sm:absolute max-sm:top-[10px] max-sm:right-[40px] max-sm:rounded-full max-sm:w-8 max-sm:h-8 max-sm:bg-red-700 max-sm:text-white max-sm:flex max-sm:justify-center max-sm:items-center sm:text-red-800 cursor-pointer"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="currentColor"
-                    className="size-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
-                    />
-                  </svg>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+        </div>
       </div>
 
       {/* btn row */}
@@ -140,9 +138,9 @@ const ShoppingCart = ({ cartListings, listings }) => {
       >
         <NavLink
           to="/search-franchises"
-          className="candidate-btn flex items-center md:w-64 justify-between max-md:w-full"
+          className="candidate-btn flex items-center md:w-72 justify-between max-md:w-full"
         >
-          See More Listings
+          Explore New Franchises
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -176,9 +174,8 @@ const LeftSidebar = ({ cartListings, listings }) => {
   const [formErrors, setFormErrors] = useState({});
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
-  const [cities, setCities] = useState([]);
-  const [selectedState, setSelectedState] = useState(null);
   const capitalOptions = [
+    { value: "", label: "Select one" },
     { value: "10000", label: "Less than $10,000" },
     { value: "20000", label: "$20,000" },
     { value: "30000", label: "$30,000" },
@@ -200,6 +197,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
     { value: "500001", label: "$500,000+" },
   ];
   const states = [
+    { value: "", text: "Select one" },
     { value: "AL", text: "Alabama" },
     { value: "AB", text: "Alberta" },
     { value: "AK", text: "Alaska" },
@@ -266,27 +264,9 @@ const LeftSidebar = ({ cartListings, listings }) => {
     { value: "YT", text: "Yukon Territory" },
     { value: "INT", text: "International" },
   ];
-  const getCitiesOfState = (stateCode) => {
-    const state = states.find((s) => s.value === stateCode);
-    if (state) {
-      const stateName = state.text;
-
-      return data[stateName] || [];
-    } else {
-      return [];
-    }
-  };
-
-  const handleStateChange = (e) => {
-    const stateCode = e.target.value;
-    setSelectedState(stateCode);
-    setFormFields((prev) => ({ ...prev, state: stateCode }));
-    const cityList = getCitiesOfState(stateCode);
-    setCities(cityList);
-  };
 
   const validateFields = () => {
-    const reqFields = ["name", "city", "email", "phone", "zipcode", "state"];
+    const reqFields = ["firstname", "lastname", "email", "phone", "zipcode"];
     let allFieldsValid = true;
     let formErrors = {};
 
@@ -305,7 +285,10 @@ const LeftSidebar = ({ cartListings, listings }) => {
         } else if (newKey === "phone" && !validatePhone(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
-        } else if (newKey === "name" && !validateUsername(value)) {
+        } else if (newKey === "firstname" && !validateUsername(value)) {
+          formErrors[newKey] = "invalid";
+          allFieldsValid = false;
+        } else if (newKey === "lastname" && !validateUsername(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
         } else if (newKey === "zipcode" && !validateZipcode(value)) {
@@ -346,13 +329,11 @@ const LeftSidebar = ({ cartListings, listings }) => {
       }
 
       const formData = {
-        name: formFields.name,
+        firstname: formFields.firstname,
+        lastname: formFields.lastname,
         phone: formFields.phone,
         email: formFields.email,
-        city: formFields.city,
-        country: "USA",
         zipcode: formFields.zipcode,
-        state: formFields.state,
         desiredLoc: formFields.desiredLoc ?? "Alabama",
         timeFrame: formFields.timeFrame ?? "1-3 months",
         availCapital: formFields.availCapital ?? "Less than $10,000",
@@ -417,7 +398,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
   return (
     <div
       id="left-side-checkout-form"
-      className="col-span-8 rounded-3xl shadow-2xl p-8 bg-[#2176ff]/30"
+      className="col-span-7 rounded-3xl shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] p-8 bg-[#2176ff]/30"
     >
       <DialogBox setShow={setShow} show={show}>
         <button
@@ -473,18 +454,18 @@ const LeftSidebar = ({ cartListings, listings }) => {
 
         <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="name">
-              Name
+            <label className="text-custom-heading-color" htmlFor="firstname">
+              First Name
             </label>
             <input
               onChange={handleInputChange}
-              name="name"
-              placeholder="Your name"
+              name="firstname"
+              placeholder="First Name"
               className="candidate-select w-full"
-              style={{ borderColor: formErrors.name ? "red" : undefined }}
+              style={{ borderColor: formErrors.firstname ? "red" : undefined }}
               type="text"
             />{" "}
-            {formErrors.name && formErrors.name === "invalid" && (
+            {formErrors.firstname && formErrors.firstname === "invalid" && (
               <p className=" text-red text-xs py-2 flex justify-between">
                 Invalid username. It should be 3-16 characters long and can
                 include letters, numbers, underscores, and spaces.
@@ -493,13 +474,35 @@ const LeftSidebar = ({ cartListings, listings }) => {
           </div>
 
           <div className="flex-1">
+            <label className="text-custom-heading-color" htmlFor="firstname">
+              Last Name
+            </label>
+            <input
+              onChange={handleInputChange}
+              name="lastname"
+              placeholder="Last Name"
+              className="candidate-select w-full"
+              style={{ borderColor: formErrors.lastname ? "red" : undefined }}
+              type="text"
+            />{" "}
+            {formErrors.lastname && formErrors.lastname === "invalid" && (
+              <p className=" text-red text-xs py-2 flex justify-between">
+                Invalid username. It should be 3-16 characters long and can
+                include letters, numbers, underscores, and spaces.
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
+          <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="state">
               Email
             </label>
             <input
               onChange={handleInputChange}
               name="email"
-              placeholder="Your email"
+              placeholder="Email"
               className="candidate-input w-full"
               style={{ borderColor: formErrors.email ? "red" : undefined }}
               id="email"
@@ -511,12 +514,13 @@ const LeftSidebar = ({ cartListings, listings }) => {
               </p>
             )}
           </div>
+
           <div className="flex-1">
             <label className="text-custom-heading-color">Phone</label>
             <input
               onChange={handleInputChange}
               name="phone"
-              placeholder="Your phone"
+              placeholder="Phone Number"
               className="candidate-input w-full"
               style={{ borderColor: formErrors.phone ? "red" : undefined }}
               id="phone"
@@ -532,69 +536,20 @@ const LeftSidebar = ({ cartListings, listings }) => {
         </div>
         <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
-            <label className="text-custom-heading-color" htmlFor="state">
-              State
-            </label>
-            {states.length > 0 && (
-              <select
-                name="state"
-                className="candidate-select w-full"
-                style={{ borderColor: formErrors.state ? "red" : undefined }}
-                onChange={handleStateChange}
-              >
-                {!selectedState && <option value="">Select State</option>}
-                {states.map((state) => (
-                  <option key={state.value} value={state.value}>
-                    {state.text}
-                  </option>
-                ))}
-              </select>
-            )}
-          </div>
-
-          <div className="flex-1">
-            <label className="text-custom-heading-color">City</label>
-            {selectedState && cities.length > 0 ? (
-              <select
-                name="city"
-                className="candidate-select w-full capitalize"
-                style={{ borderColor: formErrors.city ? "red" : undefined }}
-                onChange={handleInputChange}
-              >
-                {!formFields.city && <option value="">Select City</option>}
-
-                {cities.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <input
-                type="text"
-                name="city"
-                className="candidate-input w-full"
-                style={{ borderColor: formErrors.city ? "red" : undefined }}
-                onChange={handleInputChange}
-              />
-            )}
-          </div>
-          <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="zip">
               ZIP
             </label>
             <input
               onChange={handleInputChange}
               name="zipcode"
-              placeholder="Your ZIP code"
+              placeholder="ZIP Code"
               className="candidate-input w-full"
               style={{ borderColor: formErrors.zipcode ? "red" : undefined }}
               id="zip"
-              type="tel"
+              type="number"
             />
           </div>
-        </div>
-        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
+
           <div className="flex-1">
             <label className="text-custom-heading-color" htmlFor="country">
               Desired Location
@@ -602,7 +557,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             <select
               name="desiredLoc"
               className={`candidate-select w-full ${
-                formErrors.location ? "bg-red-300" : ""
+                formErrors.desiredLoc ? "bg-red-300" : ""
               }`}
               id="desiredLoc"
               onChange={handleInputChange}
@@ -614,6 +569,9 @@ const LeftSidebar = ({ cartListings, listings }) => {
               ))}
             </select>
           </div>
+        </div>
+
+        <div className="mt-6 flex flex-row md:space-x-2 max-md:flex-col max-md:gap-5 gap-4">
           <div className="flex-1">
             <label className="text-custom-heading-color">
               Available Capital
@@ -621,7 +579,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             <select
               name="availCapital"
               className={`candidate-select w-full ${
-                formErrors.capital ? "bg-red-300" : ""
+                formErrors.availCapital ? "bg-red-300" : ""
               }`}
               id="availCapital"
               onChange={handleInputChange}
@@ -640,34 +598,36 @@ const LeftSidebar = ({ cartListings, listings }) => {
             </label>
             <select
               name="timeFrame"
-              className={`candidate-select w-full ${
-                formErrors.invest ? "bg-red-300" : ""
-              }`}
+              className="candidate-select w-full "
               id="timeFrame"
               onChange={handleInputChange}
             >
+              <option value="">Select one</option>
               <option value="1-3 months">1-3 months</option>
               <option value="3-6 months">3-6 months</option>
               <option value="6+ months">6+ months</option>
             </select>
           </div>
         </div>
+
         {/* Terms and conditions message */}
-        <p className="text-sm text-custom-heading-color text-left   py-5 rounded-3xl mt-3">
-          By submitting the form, you agree to receive calls, text messages, or
-          emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
-          information provided. Message rates may apply. <br />
-          Text STOP to cancel text messaging at any time. <br />
-          See{" "}
-          <a href="/terms-conditions" className="  underline">
+        <p className="text-sm text-custom-heading-color text-left py-5 rounded-3xl mt-3">
+          {/* By submitting the form, you agree to receive calls, text messages, or
+  emails from <a href="https://ifbc.co">ifbc.co</a> at the contact
+  information provided. Message rates may apply. <br />
+  Text STOP to cancel text messaging at any time. <br />
+  See{" "} */}
+          By clicking the button, you agree to ifbc&nbsp;
+          <a href="/terms-conditions" className="underline">
             Terms & Conditions
           </a>{" "}
-          and{" "}
-          <a href="/privacy-policy" className="  underline">
+          and&nbsp;
+          <a href="/privacy-policy" className="underline">
             Privacy Policy
           </a>{" "}
-          for additional details.
+          {/* for additional details. */}
         </p>
+
         <div className=" flex justify-center">
           <button
             className="candidate-btn md:w-64 flex justify-between items-center max-md:w-full"

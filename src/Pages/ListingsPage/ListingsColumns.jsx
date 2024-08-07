@@ -49,11 +49,11 @@ const ListingsColumns = ({ listing, index, slider }) => {
         transition: { duration: 1, delay: index * 0.1 },
       }}
       onClick={role && role !== "N" ? handleCardClick : () => {}} // Correctly call handleCardClick here
-      className="flex flex-col justify-between gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[1px_1px_5px_grey] min-h-[450px] "
+      className="flex flex-col justify-between gap-8 bg-white rounded-3xl p-5 cursor-pointer shadow-[rgba(6,_24,_44,_0.4)_0px_0px_0px_2px,_rgba(6,_24,_44,_0.65)_0px_4px_6px_-1px,_rgba(255,_255,_255,_0.08)_0px_1px_0px_inset]  "
     >
       <motion.div
         id="image-container"
-        className="w-full h-full relative flex justify-center"
+        className=" h-full relative flex justify-center  "
         {...(role && role !== "N"
           ? { whileTap: { scale: isActive ? 0.9 : 1 } }
           : {})}
@@ -65,20 +65,20 @@ const ListingsColumns = ({ listing, index, slider }) => {
               : "/images/listing-placeholder-img.png"
           }
           alt={listing.name}
-          className="object-contain h-44 w-64"
+          className="object-contain  rounded-3xl h-44 border border-gray-300"
         />
       </motion.div>
 
       <div
         id="heading-container"
-        className="flex flex-col items-center justify-center"
+        className="flex flex-col items-center justify-center gap-2"
       >
         <h1
-          className={`text-custom-heading-color font-bold text-center text-md lg:text-lg`}
+          className={`text-custom-heading-color font-medium text-center text-[17px]`}
         >
           {listing.name}
         </h1>
-        <p className="text-sm text-black/80 text-center w-full max-w-full">
+        <p className="text-sm text-black/80 text-justify w-full max-w-full ">
           {listing.shortdescription}
         </p>
 
@@ -87,16 +87,16 @@ const ListingsColumns = ({ listing, index, slider }) => {
           className={` flex flex-col items-center justify-center gap-3 mt-3 w-full`}
         >
           {listing.investmentRange && (
-            <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg w-full">
+            <p className="bg-white py-2 text-xs text-center font-semibold   px-4 rounded-full shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] w-full">
               Cash Required: {listing.investmentRange}
             </p>
           )}
 
-          {listing?.category && listing?.category !== "" && (
-            <p className="bg-white py-2 text-xs text-center font-bold px-4 rounded-full shadow-lg w-full">
+          {/* {listing?.category && listing?.category !== "" && (
+            <p className="bg-white py-2 px-4 font-semibold text-xs text-center  rounded-full shadow-[0px_0px_0px_1px_rgba(0,0,0,0.06),0px_1px_1px_-0.5px_rgba(0,0,0,0.06),0px_3px_3px_-1.5px_rgba(0,0,0,0.06),_0px_6px_6px_-3px_rgba(0,0,0,0.06),0px_12px_12px_-6px_rgba(0,0,0,0.06),0px_24px_24px_-12px_rgba(0,0,0,0.06)] w-full h-14 items-center flex justify-center">
               {listing?.category}
             </p>
-          )}
+          )} */}
         </div>
         {/* temporary role */}
         {role === "C" ? (

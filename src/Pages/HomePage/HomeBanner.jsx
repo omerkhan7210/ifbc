@@ -10,6 +10,7 @@ import "swiper/css/effect-fade";
 import { Autoplay, EffectFade, Pagination } from "swiper/modules";
 import { MultiSelect } from "primereact/multiselect";
 import "primereact/resources/themes/lara-light-teal/theme.css";
+import "primereact/resources/themes/lara-light-teal/theme.css";
 
 const categories = [
   { name: "Advertising", code: "Advertising" },
@@ -228,7 +229,7 @@ const HomeBanner = () => {
 
 const SearchingSection = () => {
   const ref = useRef();
-  const { setFilters, filters } = useContext(MyContext);
+  const { setFilters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState([]);
   const [selectedInvest, setSelectedInvest] = useState("");
   const [activeDD, setActiveDD] = useState(false);
@@ -252,6 +253,11 @@ const SearchingSection = () => {
   }, [activeDD]);
   const history = useNavigate();
   const filterDataa = [
+    // {
+    //   anotherText: "Select Category",
+    //   normalText: "Category",
+    //   property: "category",
+    // },
     // {
     //   anotherText: "Select Category",
     //   normalText: "Category",
@@ -315,7 +321,7 @@ const SearchingSection = () => {
         //filter
         placeholder="Select Categories"
         // maxSelectedLabels={3}
-        className="col-span-3 bg-[#e3e4e6]"
+        className="max-md:col-span-12 md:col-span-3 bg-[#e3e4e6] "
       />
 
       {filterDataa.map((config, index) => (
@@ -370,11 +376,52 @@ const SearchDropdown = ({
   };
 
   // const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
+  // const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
 
+  // const franchisedUnits = generateRangeArray(0, 1000, 100, false);
   // const franchisedUnits = generateRangeArray(0, 1000, 100, false);
 
   const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
 
+  // const categories = [
+  //   "Advertising",
+  //   "Automotive",
+  //   "Beauty & Spa",
+  //   "Business Management & Coaching",
+  //   "Business Services",
+  //   "Child Education, STEM & Tutoring",
+  //   "Child Services & Products",
+  //   "Cleaning: Residential & Commercial",
+  //   "Computer Technology",
+  //   "Distribution Services",
+  //   "Dry Cleaning-Laundry",
+  //   "Financial Services",
+  //   "Fitness",
+  //   "Food & Beverage: Restaurant/QSR/Catering",
+  //   "Food: Coffee/Tea/Smoothies/Sweets",
+  //   "Food: Stores & Catering",
+  //   "Health/Medical",
+  //   "Health/Wellness",
+  //   "Home Improvement",
+  //   "Interior/Exterior Design",
+  //   "Maintenance & Repair",
+  //   "Moving,Storage & Junk Removal",
+  //   "Painting",
+  //   "Pet Care & Grooming",
+  //   "Pest Control",
+  //   "Print, Copy & Mailing",
+  //   "Real Estate",
+  //   "Restoration",
+  //   "Retail",
+  //   "Security",
+  //   "Senior Care: Medical/Non-Medical Option",
+  //   "Signs",
+  //   "Special Event Planning",
+  //   "Sports & Recreation",
+  //   "Staffing",
+  //   "Travel Planning",
+  //   "Vending",
+  // ];
   // const categories = [
   //   "Advertising",
   //   "Automotive",
@@ -427,11 +474,22 @@ const SearchDropdown = ({
   // } else if (property === "yearEstablished") {
   //   uniqueItems = yearEstablished;
   // }
+  // if (property === "franchiseFee") {
+  //   uniqueItems = franchiseFee;
+  // } else if (property === "franchisedUnits") {
+  //   uniqueItems = franchisedUnits;
+  // } else if (property === "investmentRange") {
+  uniqueItems = investmentRange;
+  // } else if (property === "category") {
+  //   uniqueItems = categories;
+  // } else if (property === "yearEstablished") {
+  //   uniqueItems = yearEstablished;
+  // }
 
-  const handleRemoveCat = () => {
-    setActiveDD("");
-    setSelectedCats([]);
-  };
+  // const handleRemoveCat = () => {
+  //   setActiveDD("");
+  //   setSelectedCats([]);
+  // };
 
   const handleDropdown = (property) => {
     if (activeDD === property) {

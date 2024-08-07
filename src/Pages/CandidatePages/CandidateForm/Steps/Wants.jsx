@@ -91,7 +91,7 @@ const Wants = ({
             name="BusinessExpectations"
             id="message"
             rows={10}
-            className="bg-gray-50 border border-custom-dark-blue text-custom-dark-blue text-sm block focus:outline-none focus:ring-1 w-full"
+            className="bg-gray-50 border p-2 rounded-3xl border-custom-dark-blue text-custom-dark-blue text-sm block focus:outline-none focus:ring-1 w-full"
             value={
               candNames
                 ? candNames.length > 0
