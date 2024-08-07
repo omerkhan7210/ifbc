@@ -80,12 +80,19 @@ const Form = ({ candDetails, candNames, activeListings }) => {
   // Optionally handle effects based on data, loading, and error
   useEffect(() => {
     if (data && !visitedSteps.candprofile) {
-      const frInt = JSON.parse(data.franchiseInterested);
-      setFormFields((prev) => ({
-        ...prev,
-        ...data,
-        franchiseInterested: frInt,
-      }));
+      if (data.franchiseInterested) {
+        const frInt = JSON.parse(data.franchiseInterested);
+        setFormFields((prev) => ({
+          ...prev,
+          ...data,
+          franchiseInterested: frInt,
+        }));
+      } else {
+        setFormFields((prev) => ({
+          ...prev,
+          ...data,
+        }));
+      }
     }
   }, [data]);
   console.log(formFields);

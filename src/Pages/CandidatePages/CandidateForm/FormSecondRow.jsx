@@ -17,26 +17,41 @@ const FormSecondRow = ({
   setFormFields,
   docid,
   visitedSteps,
+  setVisitedSteps,
 }) => {
   const [selectedFranchises, setSelectedFranchises] = useState([]);
+
   useEffect(() => {
     if (
       docid &&
       !visitedSteps.candprofile &&
-      formFields?.franchiseInterested.length > 0
+      formFields?.franchiseInterested?.length > 0 &&
+      listingNames?.length > 0
     ) {
-      setSelectedFranchises(formFields.franchiseInterested);
+      const selectedData = listingNames.filter((listNames) =>
+        formFields.franchiseInterested.includes(listNames.docId)
+      );
+      setSelectedFranchises(selectedData);
     }
-  }, [docid]);
+  }, [
+    docid,
+    visitedSteps.candprofile,
+    formFields?.franchiseInterested,
+    listingNames,
+  ]);
+
   useEffect(() => {
-    if (selectedFranchises.length > 0) {
+    if (selectedFranchises.length > 0 && visitedSteps.candprofile) {
       const franchisesIds = selectedFranchises.map((fr) => fr.docId);
+      console.log(franchisesIds);
+
       setFormFields((prev) => ({
         ...prev,
         franchiseInterested: JSON.stringify(franchisesIds),
       }));
     }
   }, [selectedFranchises]);
+
   return (
     <div id="second-row" className="py-5 w-full">
       <h1 className="candidate-sub-heading">
@@ -67,7 +82,10 @@ const FormSecondRow = ({
             <>
               <MultiSelect
                 value={selectedFranchises}
-                onChange={(e) => setSelectedFranchises(e.value)}
+                onChange={(e) => {
+                  setVisitedSteps((prev) => ({ ...prev, candprofile: true }));
+                  setSelectedFranchises(e.value);
+                }}
                 options={listingNames}
                 optionLabel="name"
                 //filter

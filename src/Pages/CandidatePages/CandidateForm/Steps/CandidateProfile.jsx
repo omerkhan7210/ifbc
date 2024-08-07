@@ -25,6 +25,7 @@ const CandidateProfile = ({
   listingNames,
   docid,
   visitedSteps,
+  setVisitedSteps,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
@@ -284,6 +285,7 @@ const CandidateProfile = ({
           setFormFields={setFormFields}
           docid={docid}
           visitedSteps={visitedSteps}
+          setVisitedSteps={setVisitedSteps}
         />
       </div>
       <div
