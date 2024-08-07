@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FormFirstRow from "../FormFirstRow";
 import FormSecondRow from "../FormSecondRow";
 import { useQuery } from "react-query";
@@ -95,7 +95,7 @@ const CandidateProfile = ({
                 : {
                     selected: state.value === selectedDetails[`${name}State`],
                   }
-              : { selected: formFields[`${name}state`] === state.value })}
+              : { selected: formFields[`${name}State`] === state.value })}
           >
             {state.text}
           </option>
@@ -196,7 +196,7 @@ const CandidateProfile = ({
     setFormFields((prev) => {
       return {
         ...prev,
-        [`${name}state`]: stateCode,
+        [`${name}State`]: stateCode,
       };
     });
   };
