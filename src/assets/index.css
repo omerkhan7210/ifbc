@@ -7,7 +7,7 @@
 }
 
 .candidate-btn {
-  @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-light;
+  @apply border-2 text-sm border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-light;
 }
 
 .candidate-inverted-btn {
@@ -156,8 +156,9 @@
 .p-checkbox-box {
   border: 1px solid rgba(0, 0, 0, 0.3) !important;
 }
-.p-multiselect-item.p-highlight .p-checkbox-box {
+.p-highlight .p-checkbox-box {
   background-color: rgb(24 96 211);
+  border: none !important;
 }
 
 .p-multiselect-filter.p-inputtext:focus,

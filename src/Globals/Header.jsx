@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import ToggleButton from "./ToggleButton";
 import { useDispatch, useSelector } from "react-redux";
@@ -189,6 +189,20 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
   const dispatch = useDispatch();
   const [roleName, setRoleName] = useState("Member");
   const loc = useLocation();
+  const dropdownRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setActive(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     setActive(false);
@@ -216,6 +230,7 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
     dispatch(setToken(false));
     window.location.href = "/";
   };
+
   const elementStyle = active
     ? {
         position: "fixed",
@@ -234,19 +249,22 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
       ? `/images/uploads/${userDetails.profileImage}`
       : "/images/avatar-placeholder.png"
   );
+
   const handleError = () => {
     setImgSrc("/images/avatar-placeholder.png");
   };
+
   return (
     <motion.div
       initial={{ y: 0 }}
       animate={{ y: hidden && window.innerWidth > 768 ? "200%" : 0 }}
       className="hs-dropdown relative md:inline-flex max-sm:hidden"
+      ref={dropdownRef}
     >
       {token ? (
         <>
           <button
-            id="user-icon "
+            id="user-icon"
             onClick={() => setActive(!active)}
             className="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
           >
@@ -258,10 +276,10 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
             />
           </button>
           <div
-            className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999]"
+            className={`hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 ${active ? "block" : "hidden"} min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999]`}
             style={elementStyle}
           >
-            <div className="flex flex-col items-start  py-2 px-3">
+            <div className="flex flex-col items-start py-2 px-3">
               <p className="text-[15px] text-[#333] font-bold">
                 {userDetails
                   ? userDetails?.firstName?.charAt(0).toUpperCase() +
@@ -276,14 +294,12 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
               </p>
               <p className="text-xs text-gray-500 mt-0.5">{roleName}</p>
             </div>
-            {/* logout button */}
             <NavLink
               to="/profile"
               className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
             >
               My Profile
             </NavLink>
-
             <a
               className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 cursor-pointer"
               onClick={handleLogOut}
@@ -295,7 +311,7 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
       ) : (
         <>
           <button
-            id="user-icon "
+            id="user-icon"
             onClick={() => setActive(!active)}
             className=" shadow-lg cursor-pointer bg-orange-500 rounded-full py-2.5 px-3"
           >
@@ -318,7 +334,7 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
             </div>
           </button>
           <div
-            className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999]  justify-center items-center"
+            className={`hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 ${active ? "block" : "hidden"} w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999] justify-center items-center`}
             style={elementStyle}
           >
             <img
@@ -326,12 +342,9 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
               alt="IFBC"
               className="w-full px-3 py-2"
             />
-
-            {/* signin button */}
             <NavLink to="/login" className="account-links">
               Log Into Your Account
             </NavLink>
-
             <NavLink to="/registration" className="account-links">
               Create a New Account
             </NavLink>

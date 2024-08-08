@@ -44,7 +44,6 @@ const FormSecondRow = ({
   useEffect(() => {
     if (selectedFranchises.length > 0 && visitedSteps.candprofile) {
       const franchisesIds = selectedFranchises.map((fr) => fr.docId);
-      console.log(franchisesIds);
 
       setFormFields((prev) => ({
         ...prev,

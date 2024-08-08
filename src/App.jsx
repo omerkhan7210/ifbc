@@ -94,7 +94,7 @@ const App = () => {
           setRegistrationType={setRegistrationType}
         />
 
-        <CartIcon setShow={setShowCart} />
+        {/* <CartIcon setShow={setShowCart} /> */}
 
         <ListingDataContext>
           <CandidatesDataContext>
@@ -104,7 +104,7 @@ const App = () => {
                 show={show}
                 registrationType={registrationType}
               />
-              <ShoppingCartPopup setShow={setShowCart} show={showCart} />
+              {/* <ShoppingCartPopup setShow={setShowCart} show={showCart} /> */}
             </TCFRDataContext>
           </CandidatesDataContext>
         </ListingDataContext>
