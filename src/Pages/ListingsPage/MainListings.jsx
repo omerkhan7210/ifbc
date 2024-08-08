@@ -1,3 +1,4 @@
+import ShoppingCartPopup from "src/Popups/ShoppingCartPopup";
 import AllListings from "./AllListings";
 import ListingsFilter from "./ListingsFilter";
 import PageTransition from "src/Animations/PageTransition";
@@ -14,7 +15,7 @@ const MainListings = ({ setShow, setRegistrationType }) => {
           id="left-sidebar"
           className="md:col-span-3  sm:col-span-6 col-span-12 md:my-5 bg-white relative"
         >
-          <ListingsFilter />
+          <ShoppingCartPopup />
         </div>
 
         <div

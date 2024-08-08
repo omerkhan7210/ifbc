@@ -425,7 +425,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
           <p className="text-xl text-center">We will contact you soon.</p>
         </div>
       </DialogBox>
-      <div className="flex flex-col rounded-lg ">
+      <form className="flex flex-col rounded-lg ">
         <div>
           <h1 className="text-2xl capitalize text-custom-heading-color max-md:text-center">
             Fill in your details
@@ -651,7 +651,7 @@ const LeftSidebar = ({ cartListings, listings }) => {
             </svg>
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
