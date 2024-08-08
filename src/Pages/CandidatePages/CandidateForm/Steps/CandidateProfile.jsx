@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import FormFirstRow from "../FormFirstRow";
 import FormSecondRow from "../FormSecondRow";
-import { useQuery } from "react-query";
 import { motion } from "framer-motion";
 
 import data from "../../../../../public/files/data.json"; // Adjust the path if necessary
@@ -11,7 +10,6 @@ import {
   validateUsername,
   validateZipcode,
 } from "src/Utils/SanitizeInput";
-import axios from "axios";
 const CandidateProfile = ({
   handleInputChange,
   formErrors,
@@ -20,15 +18,14 @@ const CandidateProfile = ({
   setSelectedDocId,
   selectedDocId,
   selectedDetails,
-  addContacts,
-  setAddContacts,
   formFields,
-  addTerritory,
-  setAddTerritory,
   setFormFields,
   setStep,
   setFormErrors,
   listingNames,
+  docid,
+  visitedSteps,
+  setVisitedSteps,
 }) => {
   const [citiesT, setCitiesT] = useState([]);
   const [citiesC, setCitiesC] = useState([]);
@@ -36,55 +33,17 @@ const CandidateProfile = ({
   const [selectedStateT, setSelectedStateT] = useState(null);
   const [selectedStateC, setSelectedStateC] = useState(null);
 
-  const getAdditionalContacts = async () => {
-    const response = await axios.get(additionalContactAddUrl);
-    return response.data;
-  };
-
-  const getAdditionalTerritories = async () => {
-    const response = await axios.get(additionalTerritoriesAddUrl);
-    return response.data;
-  };
-
-  const { data: contacts, isLoading } = useQuery(
-    "contacts",
-    getAdditionalContacts,
-    {
-      select: (data) => {
-        return data?.filter(
-          (contact) => contact.candidateId === candDetails?.docId
-        );
-      },
-      cacheTime: 24000,
-      enabled: !!candDetails,
-      refetchOnWindowFocus: false,
-      refetchInterval: false,
-    }
-  );
-
-  const { data: territorys } = useQuery("territory", getAdditionalTerritories, {
-    select: (data) => {
-      return data?.filter(
-        (territory) => territory.candidateId === candDetails?.docId
-      );
-    },
-    cacheTime: 24000,
-    enabled: !!candDetails,
-    refetchOnWindowFocus: false,
-    refetchInterval: false,
-  });
-
   const stateDD = (name) => {
     return (
       <select
         onChange={(e) => handleStateChange(e, name)}
-        name={`${name}state`}
+        name={`${name}State`}
         className="candidate-select"
         style={{
-          borderColor: formErrors[`${name}state`] ? "red" : undefined,
+          borderColor: formErrors[`${name}State`] ? "red" : undefined,
         }}
       >
-        {!formFields[`${name}state`] && <option value="">Select State</option>}
+        {!formFields[`${name}State`] && <option value="">Select State</option>}
         {states.map((state, index) => (
           <option
             key={index}
@@ -205,23 +164,23 @@ const CandidateProfile = ({
     e.preventDefault();
 
     const reqFields = [
-      "firstname",
-      "lastname",
+      "firstName",
+      "lastName",
       "phone",
       "email",
-      "territorystate",
-      "territorycity",
-      "territoryzipcode",
+      "territoryState",
+      "territoryCity",
+      "territoryZipcode",
       "franchiseInterested",
-      "currentcity",
-      "currentzipcode",
+      "currentCity",
+      "currentZipcode",
       "currentState",
     ];
     let allFieldsValid = true;
     let formErrors = {};
 
     reqFields.forEach((field) => {
-      const newKey = field.toLowerCase().split(" ").join("");
+      const newKey = field;
       const value = formFields[newKey]?.trim() || "";
 
       if (!value) {
@@ -235,16 +194,16 @@ const CandidateProfile = ({
         } else if (newKey === "phone" && !validatePhone(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
-        } else if (newKey === "firstname" && !validateUsername(value)) {
+        } else if (newKey === "firstName" && !validateUsername(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
-        } else if (newKey === "lastname" && !validateUsername(value)) {
+        } else if (newKey === "lastName" && !validateUsername(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
-        } else if (newKey === "territoryzipcode" && !validateZipcode(value)) {
+        } else if (newKey === "territoryZipcode" && !validateZipcode(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
-        } else if (newKey === "currentzipcode" && !validateZipcode(value)) {
+        } else if (newKey === "currentZipcode" && !validateZipcode(value)) {
           formErrors[newKey] = "invalid";
           allFieldsValid = false;
         } else {
@@ -299,7 +258,7 @@ const CandidateProfile = ({
           </svg>
         </p>
       )}{" "}
-      <div className="flex justify-between gap-44">
+      <div className="flex justify-between md:max-2xl:gap-32 2xl:gap-44">
         <FormFirstRow
           handleInputChange={handleInputChange}
           formErrors={formErrors}
@@ -308,9 +267,6 @@ const CandidateProfile = ({
           setSelectedDocId={setSelectedDocId}
           selectedDocId={selectedDocId}
           selectedDetails={selectedDetails}
-          addContacts={addContacts}
-          setAddContacts={setAddContacts}
-          contacts={contacts}
           formFields={formFields}
         />
         <FormSecondRow
@@ -323,27 +279,15 @@ const CandidateProfile = ({
           selectedStateT={selectedStateT}
           formFields={formFields}
           citiesT={citiesT}
-          addTerritory={addTerritory}
-          setAddTerritory={setAddTerritory}
-          territorys={territorys}
           citiesC={citiesC}
           listingNames={listingNames}
           selectedStateC={selectedStateC}
+          setFormFields={setFormFields}
+          docid={docid}
+          visitedSteps={visitedSteps}
+          setVisitedSteps={setVisitedSteps}
         />
       </div>
-      {/* <FormThirdRow
-        stateDD={stateDD}
-        handleInputChange={handleInputChange}
-        setFormFields={setFormFields}
-        formErrors={formErrors}
-        candDetails={candDetails}
-        candNames={candNames}
-        selectedDetails={selectedDetails}
-        selectedStateC={selectedStateC}
-        formFields={formFields}
-        citiesC={citiesC}
-      /> */}
-      {/* submit button ki jaga next button aega jo next step pr lekr jaega */}
       <div
         id="button-container-initial"
         className="flex items-center mt-5 gap-10"

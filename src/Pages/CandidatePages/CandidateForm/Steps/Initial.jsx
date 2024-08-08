@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 const investmentOptions = [
   { value: "AA", label: "Select one" },
@@ -37,7 +39,7 @@ const creditScoreOptions = [
   { value: "Very poor - Under 580", label: "Very poor - Under 580" },
   { value: "I do not know", label: "I do not know" },
 ];
-const netWorthOptions = [
+const networthOptions = [
   { value: "", label: "Select one" },
   { value: "$0 or Negative", label: "$0 or Negative" },
   { value: "$100,000 or less", label: "$100,000 or less" },
@@ -131,9 +133,36 @@ const Initial = ({
   selectedDetails,
   setStep,
   formFields,
+  setFormFields,
+  docid,
+  visitedSteps,
+  setVisitedSteps,
 }) => {
+  const fetchCandidates = async () => {
+    const url = `https://backend.ifbc.co/api/initialqualify/${docid}`;
+    const response = await axios.get(url);
+    return response.data;
+  };
+
+  // Use the query with enabled option based on docid
+  const { data, isLoading, error } = useQuery(
+    ["CANDIDATESFORM", docid], // Query key including docid
+    fetchCandidates, // Query function
+    {
+      enabled: !!docid, // Only enable if docid and name are available
+    }
+  );
+
+  // Optionally handle effects based on data, loading, and error
+  useEffect(() => {
+    if (data && !visitedSteps.initial) {
+      setFormFields((prev) => ({ ...prev, ...data }));
+    }
+  }, [data]);
+
   const handleInitial = async (e) => {
     e.preventDefault();
+    setVisitedSteps((prev) => ({ ...prev, initial: true }));
     setStep((prevStep) => prevStep + 1);
   };
 
@@ -143,7 +172,7 @@ const Initial = ({
   );
 
   // Sort the options alphabetically by value
-  const sortedCreditScoreOptions = creditScoreOptions.sort((a, b) =>
+  const sortedcreditScoreOptions = creditScoreOptions.sort((a, b) =>
     a.value.localeCompare(b.value)
   );
 
@@ -190,7 +219,7 @@ const Initial = ({
             </div>
             <select
               onChange={handleInputChange}
-              name="InvestmentFranchise"
+              name="investmentFranchise"
               id="money"
               className="candidate-select"
             >
@@ -211,7 +240,7 @@ const Initial = ({
                         }
                     : {
                         selected:
-                          formFields?.InvestmentFranchise === option.value,
+                          formFields?.investmentFranchise === option.value,
                       })}
                 >
                   {option.label}
@@ -225,8 +254,8 @@ const Initial = ({
             </div>
             <select
               onChange={handleInputChange}
-              name="Funding"
-              id="Funding"
+              name="funding"
+              id="funding"
               className="candidate-select "
             >
               {sortedFundingOptions.map((option) => (
@@ -237,7 +266,7 @@ const Initial = ({
                     ? candNames.length > 0
                       ? { selected: selectedDetails?.funding === option.value }
                       : { selected: candDetails?.funding === option.value }
-                    : { selected: formFields?.Funding === option.value })}
+                    : { selected: formFields?.funding === option.value })}
                 >
                   {option.label}
                 </option>
@@ -255,11 +284,11 @@ const Initial = ({
             </div>
             <select
               onChange={handleInputChange}
-              name="CreditScore"
+              name="creditScore"
               id="score"
               className="candidate-select"
             >
-              {sortedCreditScoreOptions.map((option, index) => (
+              {sortedcreditScoreOptions.map((option, index) => (
                 <option
                   key={index}
                   value={option.value}
@@ -267,10 +296,10 @@ const Initial = ({
                     ? candNames.length > 0
                       ? {
                           selected:
-                            selectedDetails?.CreditScore === option.value,
+                            selectedDetails?.creditScore === option.value,
                         }
-                      : { selected: candDetails?.CreditScore === option.value }
-                    : { selected: formFields?.CreditScore === option.value })}
+                      : { selected: candDetails?.creditScore === option.value }
+                    : { selected: formFields?.creditScore === option.value })}
                 >
                   {option.label}
                 </option>
@@ -283,19 +312,19 @@ const Initial = ({
             </div>
             <select
               onChange={handleInputChange}
-              name="Networth"
+              name="networth"
               id="worth"
               className="candidate-select"
             >
-              {netWorthOptions.map((option, index) => (
+              {networthOptions.map((option, index) => (
                 <option
                   key={index}
                   value={option.value}
                   {...(candNames
                     ? candNames.length > 0
-                      ? { selected: selectedDetails?.Networth === option.value }
-                      : { selected: candDetails?.Networth === option.value }
-                    : { selected: formFields?.Networth === option.value })}
+                      ? { selected: selectedDetails?.networth === option.value }
+                      : { selected: candDetails?.networth === option.value }
+                    : { selected: formFields?.networth === option.value })}
                 >
                   {option.label}
                 </option>
@@ -311,7 +340,7 @@ const Initial = ({
             </div>
             <select
               onChange={handleInputChange}
-              name="LiquidCash"
+              name="liquidCash"
               id="liquid-cash"
               className="candidate-select"
             >
@@ -323,10 +352,10 @@ const Initial = ({
                     ? candNames.length > 0
                       ? {
                           selected:
-                            selectedDetails?.LiquidCash === option.value,
+                            selectedDetails?.liquidCash === option.value,
                         }
-                      : { selected: candDetails?.LiquidCash === option.value }
-                    : { selected: formFields?.LiquidCash === option.value })}
+                      : { selected: candDetails?.liquidCash === option.value }
+                    : { selected: formFields?.liquidCash === option.value })}
                 >
                   {option.label}
                 </option>
@@ -341,7 +370,7 @@ const Initial = ({
             </div>
             <select
               onChange={handleInputChange}
-              name="FranchiseCause"
+              name="franchiseCause"
               id="franchise"
               className="candidate-select"
             >
@@ -353,14 +382,14 @@ const Initial = ({
                     ? candNames.length > 0
                       ? {
                           selected:
-                            selectedDetails?.FranchiseCause === option.value,
+                            selectedDetails?.franchiseCause === option.value,
                         }
                       : {
                           selected:
-                            candDetails?.FranchiseCause === option.value,
+                            candDetails?.franchiseCause === option.value,
                         }
                     : {
-                        selected: formFields?.FranchiseCause === option.value,
+                        selected: formFields?.franchiseCause === option.value,
                       })}
                 >
                   {option.label}
@@ -379,7 +408,7 @@ const Initial = ({
             </div>
             <select
               onChange={handleInputChange}
-              name="ProfessionalBackground"
+              name="professionalBackground"
               id="background"
               className="candidate-select"
             >
@@ -391,17 +420,17 @@ const Initial = ({
                     ? candNames.length > 0
                       ? {
                           selected:
-                            selectedDetails?.ProfessionalBackground ===
+                            selectedDetails?.professionalBackground ===
                             option.value,
                         }
                       : {
                           selected:
-                            candDetails?.ProfessionalBackground ===
+                            candDetails?.professionalBackground ===
                             option.value,
                         }
                     : {
                         selected:
-                          formFields?.ProfessionalBackground === option.value,
+                          formFields?.professionalBackground === option.value,
                       })}
                 >
                   {option.label}
@@ -416,7 +445,7 @@ const Initial = ({
             </div>
             <select
               onChange={handleInputChange}
-              name="TimeFrame"
+              name="timeFrame"
               id="time-frame"
               className="candidate-select"
             >
@@ -427,10 +456,10 @@ const Initial = ({
                   {...(candNames
                     ? candNames.length > 0
                       ? {
-                          selected: selectedDetails?.TimeFrame === option.value,
+                          selected: selectedDetails?.timeFrame === option.value,
                         }
-                      : { selected: candDetails?.TimeFrame === option.value }
-                    : { selected: formFields?.TimeFrame === option.value })}
+                      : { selected: candDetails?.timeFrame === option.value }
+                    : { selected: formFields?.timeFrame === option.value })}
                 >
                   {option.label}
                 </option>
@@ -447,7 +476,10 @@ const Initial = ({
           >
             <button
               className="candidate-btn w-40 flex items-center justify-between"
-              onClick={() => setStep((prevStep) => prevStep - 1)}
+              onClick={() => {
+                setVisitedSteps((prev) => ({ ...prev, initial: true }));
+                setStep((prevStep) => prevStep - 1);
+              }}
             >
               {" "}
               <svg

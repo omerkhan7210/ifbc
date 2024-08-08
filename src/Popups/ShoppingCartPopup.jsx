@@ -26,13 +26,13 @@ const ShoppingCartPopup = ({ show, setShow }) => {
     }
   }, [cartListings, setShow]);
 
-  // useEffect(() => {
-  //   if (show) {
-  //     setTimeout(() => {
-  //       setShow(false);
-  //     }, 3000);
-  //   }
-  // }, [show]);
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => {
+        setShow(false);
+      }, 5000);
+    }
+  }, [show]);
 
   return (
     <AnimatePresence>
@@ -107,7 +107,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
                                   >
                                     <div>
                                       <img
-                                        src={`./${listing.imgUrl}`}
+                                        src={`/${listing.imgUrl}`}
                                         alt=""
                                         className="rounded-lg"
                                         width={80}
@@ -159,7 +159,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
                         </div>
                       </div>
 
-                      <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
+                      <div className="border-t border-gray-200 px-4 py-6 sm:px-6 mb-10">
                         <div
                           id="button-container"
                           className="flex max-sm:justify-center sm:justify-center items-center py-5 gap-5 flex-col"
@@ -169,7 +169,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
                               to="/search-franchises"
                               className="candidate-btn flex items-center justify-between w-full"
                             >
-                              See More Listings
+                              Browse Additional Franchise Options
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -181,12 +181,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
                                 <path
                                   strokeLinecap="round"
                                   strokeLinejoin="round"
-                                  d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                                />
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                  d="M13.5 21v-7.5a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75V21m-4.5 0H2.36m11.14 0H18m0 0h3.64m-1.39 0V9.349M3.75 21V9.349m0 0a3.001 3.001 0 0 0 3.75-.615A2.993 2.993 0 0 0 9.75 9.75c.896 0 1.7-.393 2.25-1.016a2.993 2.993 0 0 0 2.25 1.016c.896 0 1.7-.393 2.25-1.015a3.001 3.001 0 0 0 3.75.614m-16.5 0a3.004 3.004 0 0 1-.621-4.72l1.189-1.19A1.5 1.5 0 0 1 5.378 3h13.243a1.5 1.5 0 0 1 1.06.44l1.19 1.189a3 3 0 0 1-.621 4.72M6.75 18h3.75a.75.75 0 0 0 .75-.75V13.5a.75.75 0 0 0-.75-.75H6.75a.75.75 0 0 0-.75.75v3.75c0 .414.336.75.75.75Z"
                                 />
                               </svg>
                             </NavLink>
@@ -207,12 +202,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
                               <path
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
-                                d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"
-                              />
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                d="M9 12.75 11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043A3.745 3.745 0 0 1 12 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 0 1-3.296-1.043 3.745 3.745 0 0 1-1.043-3.296A3.745 3.745 0 0 1 3 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 0 1 1.043-3.296 3.746 3.746 0 0 1 3.296-1.043A3.746 3.746 0 0 1 12 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.296A3.745 3.745 0 0 1 21 12Z"
                               />
                             </svg>
                           </NavLink>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { MultiSelect } from "primereact/multiselect";
+import { useEffect, useState } from "react";
 
 const FormSecondRow = ({
   handleInputChange,
@@ -13,7 +14,45 @@ const FormSecondRow = ({
   citiesC,
   listingNames,
   selectedStateC,
+  setFormFields,
+  docid,
+  visitedSteps,
+  setVisitedSteps,
 }) => {
+  const [selectedFranchises, setSelectedFranchises] = useState([]);
+
+  useEffect(() => {
+    if (
+      docid &&
+      !visitedSteps.candprofile &&
+      formFields?.franchiseInterested?.length > 0 &&
+      listingNames?.length > 0
+    ) {
+      const parsedFranchises = JSON.parse(formFields.franchiseInterested);
+      const selectedData = listingNames.filter((listNames) =>
+        parsedFranchises.includes(listNames.docId)
+      );
+      setSelectedFranchises(selectedData);
+    }
+  }, [
+    docid,
+    visitedSteps.candprofile,
+    formFields?.franchiseInterested,
+    listingNames,
+  ]);
+
+  useEffect(() => {
+    if (selectedFranchises.length > 0 && visitedSteps.candprofile) {
+      const franchisesIds = selectedFranchises.map((fr) => fr.docId);
+      console.log(franchisesIds);
+
+      setFormFields((prev) => ({
+        ...prev,
+        franchiseInterested: JSON.stringify(franchisesIds),
+      }));
+    }
+  }, [selectedFranchises]);
+
   return (
     <div id="second-row" className="py-5 w-full">
       <h1 className="candidate-sub-heading">
@@ -35,40 +74,56 @@ const FormSecondRow = ({
       </h1>
 
       <div id="third-sub-row" className="candidate-two-col">
-        <div className="candidate-sub-childs">
+        <div className="candidate-sub-childs" id="franInt">
           <p className="candidate-label">
             What franchise are you interested in?*
           </p>
 
           {listingNames?.length > 0 ? (
-            <select
-              name="franchiseInterested"
-              className="candidate-select w-full"
-              style={{
-                borderColor: formErrors.franchiseInterested ? "red" : undefined,
-              }}
-              onChange={handleInputChange}
-              value={formFields.franchiseInterested || ""} // Set the value of the select box
-            >
-              <option value="" hidden={formFields.franchiseInterested}>
-                Select a franchise
-              </option>
-              {listingNames
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((item) => (
-                  <option
-                    key={item.docId} // Add a unique key for each option
-                    value={item.docId}
-                    {...(candNames
-                      ? candNames.length > 0
-                        ? { selected: selectedDetails?.franchiseInterested }
-                        : { selected: candDetails?.franchiseInterested }
-                      : { selected: formFields?.franchiseInterested })}
-                  >
-                    {item.name}
-                  </option>
-                ))}
-            </select>
+            <>
+              <MultiSelect
+                value={selectedFranchises}
+                onChange={(e) => {
+                  setVisitedSteps((prev) => ({ ...prev, candprofile: true }));
+                  setSelectedFranchises(e.value);
+                }}
+                options={listingNames}
+                optionLabel="name"
+                filter
+                placeholder="Select a franchise"
+                className=" candidate-select w-full flex  "
+              />
+              {/* <select
+                name="franchiseInterested"
+                className="candidate-select w-full"
+                style={{
+                  borderColor: formErrors.franchiseInterested
+                    ? "red"
+                    : undefined,
+                }}
+                onChange={handleInputChange}
+                value={formFields.franchiseInterested || ""} // Set the value of the select box
+              >
+                <option value="" hidden={formFields.franchiseInterested}>
+                  Select a franchise
+                </option>
+                {listingNames
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((item) => (
+                    <option
+                      key={item.docId} // Add a unique key for each option
+                      value={item.docId}
+                      {...(candNames
+                        ? candNames.length > 0
+                          ? { selected: selectedDetails?.franchiseInterested }
+                          : { selected: candDetails?.franchiseInterested }
+                        : { selected: formFields?.franchiseInterested })}
+                    >
+                      {item.name}
+                    </option>
+                  ))}
+              </select> */}
+            </>
           ) : (
             <h1>Loading...</h1>
           )}
@@ -118,10 +173,10 @@ const FormSecondRow = ({
               name="territoryCity"
               onChange={handleInputChange}
               style={{
-                borderColor: formErrors.territorycity ? "red" : undefined,
+                borderColor: formErrors.territoryCity ? "red" : undefined,
               }}
             >
-              {!formFields.territorycity && (
+              {!formFields.territoryCity && (
                 <option value="">Select City</option>
               )}
               {citiesT.map((city, index) => (
@@ -145,7 +200,7 @@ const FormSecondRow = ({
               name="territoryCity"
               className="candidate-input w-full"
               style={{
-                borderColor: formErrors.territorycity ? "red" : undefined,
+                borderColor: formErrors.territoryCity ? "red" : undefined,
               }}
               required
               {...(candNames

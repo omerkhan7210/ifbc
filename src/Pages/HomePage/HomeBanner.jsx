@@ -253,16 +253,6 @@ const SearchingSection = () => {
   }, [activeDD]);
   const history = useNavigate();
   const filterDataa = [
-    // {
-    //   anotherText: "Select Category",
-    //   normalText: "Category",
-    //   property: "category",
-    // },
-    // {
-    //   anotherText: "Select Category",
-    //   normalText: "Category",
-    //   property: "category",
-    // },
     {
       anotherText: "Select Investment Range",
       normalText: "Investment Range",
@@ -376,92 +366,7 @@ const SearchDropdown = ({
     return rangeArray;
   };
 
-  // const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
-  // const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
-
-  // const franchisedUnits = generateRangeArray(0, 1000, 100, false);
-  // const franchisedUnits = generateRangeArray(0, 1000, 100, false);
-
   const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
-
-  // const categories = [
-  //   "Advertising",
-  //   "Automotive",
-  //   "Beauty & Spa",
-  //   "Business Management & Coaching",
-  //   "Business Services",
-  //   "Child Education, STEM & Tutoring",
-  //   "Child Services & Products",
-  //   "Cleaning: Residential & Commercial",
-  //   "Computer Technology",
-  //   "Distribution Services",
-  //   "Dry Cleaning-Laundry",
-  //   "Financial Services",
-  //   "Fitness",
-  //   "Food & Beverage: Restaurant/QSR/Catering",
-  //   "Food: Coffee/Tea/Smoothies/Sweets",
-  //   "Food: Stores & Catering",
-  //   "Health/Medical",
-  //   "Health/Wellness",
-  //   "Home Improvement",
-  //   "Interior/Exterior Design",
-  //   "Maintenance & Repair",
-  //   "Moving,Storage & Junk Removal",
-  //   "Painting",
-  //   "Pet Care & Grooming",
-  //   "Pest Control",
-  //   "Print, Copy & Mailing",
-  //   "Real Estate",
-  //   "Restoration",
-  //   "Retail",
-  //   "Security",
-  //   "Senior Care: Medical/Non-Medical Option",
-  //   "Signs",
-  //   "Special Event Planning",
-  //   "Sports & Recreation",
-  //   "Staffing",
-  //   "Travel Planning",
-  //   "Vending",
-  // ];
-  // const categories = [
-  //   "Advertising",
-  //   "Automotive",
-  //   "Beauty & Spa",
-  //   "Business Management & Coaching",
-  //   "Business Services",
-  //   "Child Education, STEM & Tutoring",
-  //   "Child Services & Products",
-  //   "Cleaning: Residential & Commercial",
-  //   "Computer Technology",
-  //   "Distribution Services",
-  //   "Dry Cleaning-Laundry",
-  //   "Financial Services",
-  //   "Fitness",
-  //   "Food & Beverage: Restaurant/QSR/Catering",
-  //   "Food: Coffee/Tea/Smoothies/Sweets",
-  //   "Food: Stores & Catering",
-  //   "Health/Medical",
-  //   "Health/Wellness",
-  //   "Home Improvement",
-  //   "Interior/Exterior Design",
-  //   "Maintenance & Repair",
-  //   "Moving,Storage & Junk Removal",
-  //   "Painting",
-  //   "Pet Care & Grooming",
-  //   "Pest Control",
-  //   "Print, Copy & Mailing",
-  //   "Real Estate",
-  //   "Restoration",
-  //   "Retail",
-  //   "Security",
-  //   "Senior Care: Medical/Non-Medical Option",
-  //   "Signs",
-  //   "Special Event Planning",
-  //   "Sports & Recreation",
-  //   "Staffing",
-  //   "Travel Planning",
-  //   "Vending",
-  // ];
 
   let uniqueItems = investmentRange;
 

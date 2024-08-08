@@ -1,5 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useQuery } from "react-query";
+import axios from "axios";
 const Wants = ({
   setStep,
   handleInputChange,
@@ -7,10 +9,37 @@ const Wants = ({
   candNames,
   selectedDetails,
   formFields,
-  setFormErrors,
+  setFormFields,
+  docid,
+  visitedSteps,
+  setVisitedSteps,
 }) => {
+  const fetchCandidates = async () => {
+    const url = `https://backend.ifbc.co/api/wants/${docid}`;
+    const response = await axios.get(url);
+    return response.data;
+  };
+
+  // Use the query with enabled option based on docid
+  const { data, isLoading, error } = useQuery(
+    ["wants", docid], // Query key including docid
+    fetchCandidates, // Query function
+    {
+      enabled: !!docid, // Only enable if docid and name are available
+    }
+  );
+
+  // Optionally handle effects based on data, loading, and error
+  useEffect(() => {
+    if (data && !visitedSteps.wants) {
+      // Handle the data
+      setFormFields((prev) => ({ ...prev, ...data }));
+    }
+  }, [data]);
+
   const handleWants = async (e) => {
     e.preventDefault();
+    setVisitedSteps((prev) => ({ ...prev, wants: true }));
     setStep((prevStep) => prevStep + 1);
   };
   return (
@@ -50,7 +79,7 @@ const Wants = ({
             </p>
             <input
               onChange={handleInputChange}
-              name="AttractiveBusinessOwner"
+              name="attractiveBusinessOwner"
               type="text"
               className="candidate-input"
               required
@@ -58,7 +87,7 @@ const Wants = ({
                 ? candNames.length > 0
                   ? { value: selectedDetails?.attractiveBusinessOwner }
                   : { defaultValue: candDetails?.attractiveBusinessOwner }
-                : { value: formFields?.AttractiveBusinessOwner })}
+                : { value: formFields?.attractiveBusinessOwner })}
             />
           </div>
           <div className="candidate-sub-childs">
@@ -68,7 +97,7 @@ const Wants = ({
             </p>
             <input
               onChange={handleInputChange}
-              name="HandleNewBusiness"
+              name="handleNewBusiness"
               type="text"
               className="candidate-input"
               required
@@ -76,7 +105,7 @@ const Wants = ({
                 ? candNames.length > 0
                   ? { value: selectedDetails?.handleNewBusiness }
                   : { defaultValue: candDetails?.handleNewBusiness }
-                : { value: formFields?.HandleNewBusiness })}
+                : { value: formFields?.handleNewBusiness })}
             />
           </div>
         </div>
@@ -88,7 +117,7 @@ const Wants = ({
           </label>
           <textarea
             onChange={handleInputChange}
-            name="BusinessExpectations"
+            name="businessExpectations"
             id="message"
             rows={10}
             className="bg-gray-50 border p-2 rounded-3xl border-custom-dark-blue text-custom-dark-blue text-sm block focus:outline-none focus:ring-1 w-full"
@@ -97,7 +126,7 @@ const Wants = ({
                 ? candNames.length > 0
                   ? selectedDetails?.businessExpectations
                   : candDetails?.businessExpectations
-                : formFields?.BusinessExpectations || ""
+                : formFields?.businessExpectations || ""
             }
           />
         </div>
@@ -111,7 +140,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="PreferB2b"
+                  name="preferB2b"
                   defaultValue="Both"
                   {...(candNames
                     ? candNames.length > 0
@@ -119,7 +148,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.preferB2b === "Both",
                         }
-                    : { checked: formFields?.PreferB2b === "Both" })}
+                    : { checked: formFields?.preferB2b === "Both" })}
                 />
                 <label className="candidate-radio-text">Both</label>
               </li>
@@ -128,7 +157,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="PreferB2b"
+                  name="preferB2b"
                   defaultValue="B2B"
                   {...(candNames
                     ? candNames.length > 0
@@ -136,7 +165,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.preferB2b === "B2B",
                         }
-                    : { checked: formFields?.PreferB2b === "B2B" })}
+                    : { checked: formFields?.preferB2b === "B2B" })}
                 />
                 <label className="candidate-radio-text">B2B</label>
               </li>
@@ -145,7 +174,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="PreferB2b"
+                  name="preferB2b"
                   defaultValue="B2C"
                   {...(candNames
                     ? candNames.length > 0
@@ -153,7 +182,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.preferB2b === "B2C",
                         }
-                    : { checked: formFields?.PreferB2b === "B2C" })}
+                    : { checked: formFields?.preferB2b === "B2C" })}
                 />
                 <label className="candidate-radio-text">B2C</label>
               </li>
@@ -169,7 +198,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="PhysicalLocation"
+                  name="physicalLocation"
                   defaultValue="Both"
                   {...(candNames
                     ? candNames.length > 0
@@ -180,7 +209,7 @@ const Wants = ({
                           defaultChecked:
                             candDetails?.physicalLocation === "Both",
                         }
-                    : { checked: formFields?.PhysicalLocation === "Both" })}
+                    : { checked: formFields?.physicalLocation === "Both" })}
                 />
                 <label className="candidate-radio-text" htmlFor="Both">
                   Both
@@ -191,7 +220,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="PhysicalLocation"
+                  name="physicalLocation"
                   defaultValue="Home-based"
                   {...(candNames
                     ? candNames.length > 0
@@ -204,7 +233,7 @@ const Wants = ({
                             candDetails?.physicalLocation === "Home-based",
                         }
                     : {
-                        checked: formFields?.PhysicalLocation === "Home-based",
+                        checked: formFields?.physicalLocation === "Home-based",
                       })}
                 />
                 <label className="candidate-radio-text" htmlFor="Home-based">
@@ -216,7 +245,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="PhysicalLocation"
+                  name="physicalLocation"
                   defaultValue="Physical"
                   {...(candNames
                     ? candNames.length > 0
@@ -228,7 +257,7 @@ const Wants = ({
                           defaultChecked:
                             candDetails?.physicalLocation === "Physical",
                         }
-                    : { checked: formFields?.PhysicalLocation === "Physical" })}
+                    : { checked: formFields?.physicalLocation === "Physical" })}
                 />
                 <label className="candidate-radio-text" htmlFor="Physical">
                   Physical
@@ -250,7 +279,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="Inventory"
+                  name="inventory"
                   defaultValue="Both"
                   {...(candNames
                     ? candNames.length > 0
@@ -258,7 +287,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.inventory === "Both",
                         }
-                    : { checked: formFields?.Inventory === "Both" })}
+                    : { checked: formFields?.inventory === "Both" })}
                 />
                 <label
                   className="candidate-radio-text"
@@ -273,19 +302,19 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="Inventory"
-                  defaultValue="Inventory"
+                  name="inventory"
+                  defaultValue="inventory"
                   {...(candNames
                     ? candNames.length > 0
-                      ? { checked: selectedDetails?.inventory === "Inventory" }
+                      ? { checked: selectedDetails?.inventory === "inventory" }
                       : {
                           defaultChecked:
-                            candDetails?.inventory === "Inventory",
+                            candDetails?.inventory === "inventory",
                         }
-                    : { checked: formFields?.Inventory === "Inventory" })}
+                    : { checked: formFields?.inventory === "inventory" })}
                 />
                 <label className="candidate-radio-text" htmlFor="type1">
-                  Inventory
+                  inventory
                 </label>
               </li>
               <li className="flex items-center">
@@ -293,7 +322,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="Inventory"
+                  name="inventory"
                   defaultValue="Service"
                   {...(candNames
                     ? candNames.length > 0
@@ -301,7 +330,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.inventory === "Service",
                         }
-                    : { checked: formFields?.Inventory === "Service" })}
+                    : { checked: formFields?.inventory === "Service" })}
                 />
                 <label className="candidate-radio-text" htmlFor="type2">
                   Service
@@ -319,7 +348,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="ColdCalling"
+                  name="coldCalling"
                   defaultValue="Both"
                   {...(candNames
                     ? candNames.length > 0
@@ -327,7 +356,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.coldCalling === "Both",
                         }
-                    : { checked: formFields?.ColdCalling === "Both" })}
+                    : { checked: formFields?.coldCalling === "Both" })}
                 />
                 <label
                   className="candidate-radio-text"
@@ -341,7 +370,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="ColdCalling"
+                  name="coldCalling"
                   defaultValue="Yes"
                   {...(candNames
                     ? candNames.length > 0
@@ -349,7 +378,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.coldCalling === "Yes",
                         }
-                    : { checked: formFields?.ColdCalling === "Yes" })}
+                    : { checked: formFields?.coldCalling === "Yes" })}
                 />
                 <label
                   className="candidate-radio-text"
@@ -365,7 +394,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="ColdCalling"
+                  name="coldCalling"
                   defaultValue="No"
                   {...(candNames
                     ? candNames.length > 0
@@ -373,7 +402,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.coldCalling === "No",
                         }
-                    : { checked: formFields?.ColdCalling === "No" })}
+                    : { checked: formFields?.coldCalling === "No" })}
                 />
                 <label
                   className="candidate-radio-text"
@@ -402,7 +431,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="PassiveMode"
+                  name="passiveMode"
                   defaultValue="Owner/Operator"
                   {...(candNames
                     ? candNames.length > 0
@@ -415,7 +444,7 @@ const Wants = ({
                             candDetails?.passiveMode === "Owner/Operator",
                         }
                     : {
-                        checked: formFields?.PassiveMode === "Owner/Operator",
+                        checked: formFields?.passiveMode === "Owner/Operator",
                       })}
                 />
                 <label
@@ -430,7 +459,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="PassiveMode"
+                  name="passiveMode"
                   defaultValue="Passive"
                   {...(candNames
                     ? candNames.length > 0
@@ -439,7 +468,7 @@ const Wants = ({
                           defaultChecked:
                             candDetails?.passiveMode === "Passive",
                         }
-                    : { checked: formFields?.PassiveMode === "Passive" })}
+                    : { checked: formFields?.passiveMode === "Passive" })}
                 />
                 <label
                   className="candidate-radio-text"
@@ -455,7 +484,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="PassiveMode"
+                  name="passiveMode"
                   defaultValue="Semi"
                   {...(candNames
                     ? candNames.length > 0
@@ -463,7 +492,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.passiveMode === "Semi",
                         }
-                    : { checked: formFields?.PassiveMode === "Semi" })}
+                    : { checked: formFields?.passiveMode === "Semi" })}
                 />
                 <label
                   className="candidate-radio-text"
@@ -486,7 +515,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="BusinessHours"
+                  name="businessHours"
                   defaultValue="Both"
                   {...(candNames
                     ? candNames.length > 0
@@ -494,7 +523,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.businessHours === "Both",
                         }
-                    : { checked: formFields?.BusinessHours === "Both" })}
+                    : { checked: formFields?.businessHours === "Both" })}
                 />
                 <label
                   className="candidate-radio-text"
@@ -508,7 +537,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="BusinessHours"
+                  name="businessHours"
                   defaultValue="Yes"
                   {...(candNames
                     ? candNames.length > 0
@@ -516,7 +545,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.businessHours === "Yes",
                         }
-                    : { checked: formFields?.BusinessHours === "Yes" })}
+                    : { checked: formFields?.businessHours === "Yes" })}
                 />
                 <label
                   className="candidate-radio-text"
@@ -532,7 +561,7 @@ const Wants = ({
                   onChange={handleInputChange}
                   type="radio"
                   className="mr-2"
-                  name="BusinessHours"
+                  name="businessHours"
                   defaultValue="No"
                   {...(candNames
                     ? candNames.length > 0
@@ -540,7 +569,7 @@ const Wants = ({
                       : {
                           defaultChecked: candDetails?.businessHours === "No",
                         }
-                    : { checked: formFields?.BusinessHours === "No" })}
+                    : { checked: formFields?.businessHours === "No" })}
                 />
                 <label
                   className="candidate-radio-text"
@@ -561,7 +590,10 @@ const Wants = ({
           >
             <button
               className="candidate-btn w-40 flex items-center justify-between"
-              onClick={() => setStep((prevStep) => prevStep - 1)}
+              onClick={() => {
+                setVisitedSteps((prev) => ({ ...prev, wants: true }));
+                setStep((prevStep) => prevStep - 1);
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
