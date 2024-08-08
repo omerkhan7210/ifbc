@@ -7,6 +7,14 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { MyContext } from "src/Context/ListingDataContext";
 import { decrementByListing } from "src/Redux/listingReducer";
 import DialogBox from "./DialogBox";
+import {
+  sanitizeInput,
+  validateEmail,
+  validatePhone,
+  validateUsername,
+  validateZipcode,
+} from "src/Utils/SanitizeInput";
+import axios from "axios";
 const ShoppingCartPopup = ({ show, setShow }) => {
   const { listings } = useContext(MyContext);
   const cartListings = useSelector((state) => state.counter.cartListings);
@@ -14,16 +22,16 @@ const ShoppingCartPopup = ({ show, setShow }) => {
   const [formShow, setFormShow] = useState(false);
 
   return (
-    <motion.div className="pointer-events-auto bg-[#2176ff]/30 rounded-3xl transform transition duration-500 ease-in-out md:mt-6">
+    <motion.div className="w-full   pointer-events-auto bg-[#2176ff]/30 rounded-3xl transform transition duration-500 ease-in-out md:mt-3">
       {cartListings?.length > 0 ? (
-        <div className="my-2 overflow-y-auto px-4 py-6 ">
-          <h1 className="text-md font-light text-center text-white bg-custom-dark-blue p-2 mb-4 rounded-3xl">
+        <div className="my-1 overflow-y-auto px-4 py-6 w-full">
+          <h1 className="text-md font-light text-center text-white bg-custom-dark-blue p-1 mb-4 rounded-3xl">
             Review Franchises
           </h1>
 
           <div
             id="sub-container"
-            className="divide-y-2 divide-custom-dark-blue/10 w-full h-[150px] overflow-y-scroll px-2"
+            className="divide-y-2 divide-custom-dark-blue/10 w-full max-h-[100px] overflow-y-auto px-2"
           >
             {/* items-row */}
             {listings
@@ -31,7 +39,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
               .map((listing, index) => (
                 <motion.div
                   key={index}
-                  className="flex flex-col sm:flex-row justify-between items-center py-3 relative"
+                  className="flex flex-col sm:flex-row justify-between items-center py-1 relative"
                 >
                   <div
                     id="item-side"
@@ -69,7 +77,7 @@ const ShoppingCartPopup = ({ show, setShow }) => {
           </div>
 
           {formShow ? (
-            <CheckOutForm />
+            <CheckOutForm listings={listings} cartListings={cartListings} />
           ) : (
             <div
               id="button-container"
@@ -99,47 +107,19 @@ const ShoppingCartPopup = ({ show, setShow }) => {
           )}
         </div>
       ) : (
-        <NoListingsFound setShow={setShow} />
+        <NoListingsFound />
       )}
     </motion.div>
   );
 };
 
-const NoListingsFound = ({ setShow }) => {
+const NoListingsFound = () => {
   return (
-    <div className="flex flex-col justify-center items-center gap-6  h-full">
-      <div className="ml-3 flex h-7 items-center absolute top-5 right-5">
-        <button
-          type="button"
-          onClick={() => setShow(false)}
-          className="relative -m-2 p-2 text-red-600 hover:text-gray-500"
-        >
-          <span className="absolute -inset-0.5" />
-          <span className="sr-only">Close panel</span>
-          <XMarkIcon aria-hidden="true" className="h-6 w-6" />
-        </button>
-      </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        strokeWidth={1.5}
-        stroke="rgb(0, 17, 54)"
-        className=" size-24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-        />
-      </svg>
-
-      <h1 className="text-2xl  text-center  text-custom-heading-color">
-        NO LISTINGS ADDED TO CART
+    <div className="flex flex-col justify-center items-center gap-6  h-full p-4">
+      <h1 className="text-md  text-center  text-custom-heading-color">
+        Select up to 20 franchises to gain detailed insights and make informed
+        decisions!
       </h1>
-      <NavLink to="/search-franchises" className="candidate-btn capitalize">
-        Add Listings
-      </NavLink>
     </div>
   );
 };
@@ -173,74 +153,6 @@ const CheckOutForm = ({ cartListings, listings }) => {
     { value: "450000", label: "$450,000" },
     { value: "500000", label: "$500,000" },
     { value: "500001", label: "$500,000+" },
-  ];
-  const states = [
-    { value: "", text: "Desired Location" },
-    { value: "AL", text: "Alabama" },
-    { value: "AB", text: "Alberta" },
-    { value: "AK", text: "Alaska" },
-    { value: "AZ", text: "Arizona" },
-    { value: "AR", text: "Arkansas" },
-    { value: "BC", text: "British Columbia" },
-    { value: "CA", text: "California" },
-    { value: "CO", text: "Colorado" },
-    { value: "CT", text: "Connecticut" },
-    { value: "DE", text: "Delaware" },
-    { value: "DC", text: "District Of Columbia" },
-    { value: "FL", text: "Florida" },
-    { value: "GA", text: "Georgia" },
-    { value: "HI", text: "Hawaii" },
-    { value: "ID", text: "Idaho" },
-    { value: "IL", text: "Illinois" },
-    { value: "IN", text: "Indiana" },
-    { value: "IA", text: "Iowa" },
-    { value: "KS", text: "Kansas" },
-    { value: "KY", text: "Kentucky" },
-    { value: "LA", text: "Louisiana" },
-    { value: "ME", text: "Maine" },
-    { value: "MB", text: "Manitoba" },
-    { value: "MD", text: "Maryland" },
-    { value: "MA", text: "Massachusetts" },
-    { value: "MI", text: "Michigan" },
-    { value: "MN", text: "Minnesota" },
-    { value: "MS", text: "Mississippi" },
-    { value: "MO", text: "Missouri" },
-    { value: "MT", text: "Montana" },
-    { value: "NE", text: "Nebraska" },
-    { value: "NV", text: "Nevada" },
-    { value: "NB", text: "New Brunswick" },
-    { value: "NH", text: "New Hampshire" },
-    { value: "NJ", text: "New Jersey" },
-    { value: "NM", text: "New Mexico" },
-    { value: "NY", text: "New York" },
-    { value: "NL", text: "Newfoundland and Labrador" },
-    { value: "NC", text: "North Carolina" },
-    { value: "ND", text: "North Dakota" },
-    { value: "NT", text: "Northwest Territories" },
-    { value: "NS", text: "Nova Scotia" },
-    { value: "NU", text: "Nunavut" },
-    { value: "OH", text: "Ohio" },
-    { value: "OK", text: "Oklahoma" },
-    { value: "ON", text: "Ontario" },
-    { value: "OR", text: "Oregon" },
-    { value: "PA", text: "Pennsylvania" },
-    { value: "PE", text: "Prince Edward Island" },
-    { value: "QC", text: "Quebec" },
-    { value: "RI", text: "Rhode Island" },
-    { value: "SC", text: "South Carolina" },
-    { value: "SD", text: "South Dakota" },
-    { value: "SK", text: "Saskatchewan" },
-    { value: "TN", text: "Tennessee" },
-    { value: "TX", text: "Texas" },
-    { value: "UT", text: "Utah" },
-    { value: "VT", text: "Vermont" },
-    { value: "VA", text: "Virginia" },
-    { value: "WA", text: "Washington" },
-    { value: "WV", text: "West Virginia" },
-    { value: "WI", text: "Wisconsin" },
-    { value: "WY", text: "Wyoming" },
-    { value: "YT", text: "Yukon Territory" },
-    { value: "INT", text: "International" },
   ];
 
   const validateFields = () => {
@@ -402,13 +314,13 @@ const CheckOutForm = ({ cartListings, listings }) => {
       </DialogBox>
       <form className="flex flex-col gap-2 rounded-lg ">
         <div>
-          <h1 className="text-md font-light text-center text-white bg-custom-dark-blue p-2  rounded-3xl mt-5">
+          <h1 className="text-md font-light text-center text-white bg-custom-dark-blue p-1 capitalize  rounded-3xl mt-5">
             Fill in your details
           </h1>
         </div>
 
         {formErrors.error && (
-          <p className="border-2 border-red-600 text-red-600 p-4 flex justify-between mt-5">
+          <p className="border-2 border-red-600 text-red-600 p-2 items-center flex justify-between mt-5 text-sm">
             {formErrors.error}
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -416,7 +328,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="size-5"
             >
               <path
                 strokeLinecap="round"
@@ -428,7 +340,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
         )}
 
         <div className="flex gap-2">
-          <div className="my-2">
+          <div className="my-1">
             <input
               onChange={handleInputChange}
               name="firstname"
@@ -445,7 +357,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
             )}
           </div>
 
-          <div className="my-2 ">
+          <div className="my-1 ">
             <input
               onChange={handleInputChange}
               name="lastname"
@@ -463,7 +375,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
           </div>
         </div>
 
-        <div className="my-2">
+        <div className="my-1">
           <input
             onChange={handleInputChange}
             name="email"
@@ -480,7 +392,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
           )}
         </div>
 
-        <div className="my-2">
+        <div className="my-1">
           <input
             onChange={handleInputChange}
             name="phone"
@@ -498,7 +410,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
           )}
         </div>
 
-        <div className="my-2">
+        <div className="my-1">
           <input
             onChange={handleInputChange}
             name="zipcode"
@@ -510,24 +422,19 @@ const CheckOutForm = ({ cartListings, listings }) => {
           />
         </div>
 
-        <div className="my-2">
-          <select
+        <div className="my-1">
+          <input
             name="desiredLoc"
             className={`candidate-select w-full ${
               formErrors.desiredLoc ? "bg-red-300" : ""
             }`}
             id="desiredLoc"
+            placeholder="Desired Location"
             onChange={handleInputChange}
-          >
-            {states.map((state, index) => (
-              <option key={index} value={state.value}>
-                {state.text}
-              </option>
-            ))}
-          </select>
+          />
         </div>
 
-        <div className="my-2">
+        <div className="my-1">
           <select
             name="availCapital"
             className={`candidate-select w-full ${
@@ -544,7 +451,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
           </select>
         </div>
 
-        <div className="my-2">
+        <div className="my-1">
           <select
             name="timeFrame"
             className="candidate-select w-full "
@@ -584,7 +491,7 @@ const CheckOutForm = ({ cartListings, listings }) => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="size-5"
             >
               <path
                 strokeLinecap="round"

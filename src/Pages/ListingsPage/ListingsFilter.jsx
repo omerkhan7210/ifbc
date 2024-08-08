@@ -67,6 +67,7 @@ const ListingsFilter = () => {
   const dropdownRef = useRef(null);
   const roleCheck = (!role || role === "N") && !token;
   const [selectedCats, setSelectedCats] = useState([]);
+
   useEffect(() => {
     if (filters?.category) {
       let cats = filters?.category.map((cat) => ({
@@ -281,7 +282,7 @@ const ListingsFilter = () => {
       <div className="grid grid-cols-4 items-center gap-3">
         {roleCheck && (
           <div className="w-full ">
-            <SearchingComponent setFilters={setFilters} />
+            <SearchingComponent setFilters={setFilters} filters={filters} />
           </div>
         )}
         <MultiSelect
@@ -316,7 +317,7 @@ const CategorySearch = ({
   activeDD,
   setActiveDD,
 }) => {
-  const { listings, filters, setFilters } = useContext(MyContext);
+  const { filters, setFilters } = useContext(MyContext);
   const [selectedCats, setSelectedCats] = useState(
     (filters && filters[property]) || []
   );

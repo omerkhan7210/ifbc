@@ -134,7 +134,6 @@ const AllListings = ({ setRegistrationType, setShow }) => {
                     const maxValueListing = Number(
                       splittedListingValue[1]?.trim()?.replace(/[$,]/g, "")
                     );
-                    console.log(minValueListing, maxValueListing, valueFilter);
                     return (
                       minValueListing <= valueFilter &&
                       maxValueListing <= valueFilter
