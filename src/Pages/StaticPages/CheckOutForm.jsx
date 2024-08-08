@@ -554,20 +554,20 @@ const LeftSidebar = ({ cartListings, listings }) => {
             <label className="text-custom-heading-color" htmlFor="country">
               Desired Location
             </label>
-            <select
-              name="desiredLoc"
-              className={`candidate-select w-full ${
-                formErrors.desiredLoc ? "bg-red-300" : ""
-              }`}
-              id="desiredLoc"
+            <input
               onChange={handleInputChange}
-            >
-              {states.map((state, index) => (
-                <option key={index} value={state.value}>
-                  {state.text}
-                </option>
-              ))}
-            </select>
+              name="desiredLoc"
+              placeholder="Enter Any Location"
+              className="candidate-select w-full"
+              style={{ borderColor: formErrors.desiredLoc ? "red" : undefined }}
+              type="text"
+            />{" "}
+            {formErrors.desiredLoc && formErrors.desiredLoc === "invalid" && (
+              <p className=" text-red text-xs py-2 flex justify-between">
+                Invalid Location. It should be 3-16 characters long and can
+                include letters, numbers, underscores, and spaces.
+              </p>
+            )}
           </div>
         </div>
 
