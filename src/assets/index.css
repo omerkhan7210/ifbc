@@ -2,12 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.account-links {
+  @apply flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-custom-heading-color hover:bg-gray-300 focus:outline-none focus:bg-gray-100 cursor-pointer w-full;
+}
+
 .candidate-btn {
   @apply border-2 border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-light;
 }
 
 .candidate-inverted-btn {
-  @apply border-2 border-white bg-white  text-custom-dark-blue px-5  hover:text-white hover:bg-custom-heading-color transition-all duration-500 py-2  font-semibold text-sm;
+  @apply border-2 border-white bg-white  text-custom-dark-blue px-5  hover:text-white hover:bg-custom-heading-color transition-all duration-500 py-2  font-light text-sm;
 }
 
 .candidate-secondary-btn {
@@ -16,7 +20,7 @@
 }
 .candidate-funding-btn {
   @apply border
-  text-center border-custom-dark-blue text-custom-dark-blue p-1.5 rounded transition-all duration-500   font-semibold;
+  text-center border-custom-dark-blue text-custom-dark-blue p-1.5 rounded transition-all duration-500   font-light;
 }
 
 .contact-input {
@@ -54,7 +58,7 @@
 }
 
 .candidate-select {
-  @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1 p-2;
+  @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1 py-2 px-3;
 }
 .candidate-input {
   @apply bg-gray-50 border border-custom-dark-blue text-black/90 text-sm rounded-3xl block  focus:outline-none focus:ring-1  p-2;
@@ -167,4 +171,12 @@
 .p-inputwrapper.p-focus:focus-visible {
   outline: none !important;
   border: none !important;
+}
+
+#home-swiper > div {
+  padding: 2rem;
+}
+
+#franInt .p-multiselect-label {
+  padding: 0rem 0.5rem;
 }

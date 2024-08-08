@@ -253,16 +253,6 @@ const SearchingSection = () => {
   }, [activeDD]);
   const history = useNavigate();
   const filterDataa = [
-    // {
-    //   anotherText: "Select Category",
-    //   normalText: "Category",
-    //   property: "category",
-    // },
-    // {
-    //   anotherText: "Select Category",
-    //   normalText: "Category",
-    //   property: "category",
-    // },
     {
       anotherText: "Select Investment Range",
       normalText: "Investment Range",
@@ -375,121 +365,9 @@ const SearchDropdown = ({
     return rangeArray;
   };
 
-  // const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
-  // const franchiseFee = generateRangeArray(1000, 150000, 10000, true);
-
-  // const franchisedUnits = generateRangeArray(0, 1000, 100, false);
-  // const franchisedUnits = generateRangeArray(0, 1000, 100, false);
-
   const investmentRange = generateRangeArray(10000, 1000000, 100000, true);
 
-  // const categories = [
-  //   "Advertising",
-  //   "Automotive",
-  //   "Beauty & Spa",
-  //   "Business Management & Coaching",
-  //   "Business Services",
-  //   "Child Education, STEM & Tutoring",
-  //   "Child Services & Products",
-  //   "Cleaning: Residential & Commercial",
-  //   "Computer Technology",
-  //   "Distribution Services",
-  //   "Dry Cleaning-Laundry",
-  //   "Financial Services",
-  //   "Fitness",
-  //   "Food & Beverage: Restaurant/QSR/Catering",
-  //   "Food: Coffee/Tea/Smoothies/Sweets",
-  //   "Food: Stores & Catering",
-  //   "Health/Medical",
-  //   "Health/Wellness",
-  //   "Home Improvement",
-  //   "Interior/Exterior Design",
-  //   "Maintenance & Repair",
-  //   "Moving,Storage & Junk Removal",
-  //   "Painting",
-  //   "Pet Care & Grooming",
-  //   "Pest Control",
-  //   "Print, Copy & Mailing",
-  //   "Real Estate",
-  //   "Restoration",
-  //   "Retail",
-  //   "Security",
-  //   "Senior Care: Medical/Non-Medical Option",
-  //   "Signs",
-  //   "Special Event Planning",
-  //   "Sports & Recreation",
-  //   "Staffing",
-  //   "Travel Planning",
-  //   "Vending",
-  // ];
-  // const categories = [
-  //   "Advertising",
-  //   "Automotive",
-  //   "Beauty & Spa",
-  //   "Business Management & Coaching",
-  //   "Business Services",
-  //   "Child Education, STEM & Tutoring",
-  //   "Child Services & Products",
-  //   "Cleaning: Residential & Commercial",
-  //   "Computer Technology",
-  //   "Distribution Services",
-  //   "Dry Cleaning-Laundry",
-  //   "Financial Services",
-  //   "Fitness",
-  //   "Food & Beverage: Restaurant/QSR/Catering",
-  //   "Food: Coffee/Tea/Smoothies/Sweets",
-  //   "Food: Stores & Catering",
-  //   "Health/Medical",
-  //   "Health/Wellness",
-  //   "Home Improvement",
-  //   "Interior/Exterior Design",
-  //   "Maintenance & Repair",
-  //   "Moving,Storage & Junk Removal",
-  //   "Painting",
-  //   "Pet Care & Grooming",
-  //   "Pest Control",
-  //   "Print, Copy & Mailing",
-  //   "Real Estate",
-  //   "Restoration",
-  //   "Retail",
-  //   "Security",
-  //   "Senior Care: Medical/Non-Medical Option",
-  //   "Signs",
-  //   "Special Event Planning",
-  //   "Sports & Recreation",
-  //   "Staffing",
-  //   "Travel Planning",
-  //   "Vending",
-  // ];
-
-  let uniqueItems = [];
-  // if (property === "franchiseFee") {
-  //   uniqueItems = franchiseFee;
-  // } else if (property === "franchisedUnits") {
-  //   uniqueItems = franchisedUnits;
-  // } else if (property === "investmentRange") {
-  uniqueItems = investmentRange;
-  // } else if (property === "category") {
-  //   uniqueItems = categories;
-  // } else if (property === "yearEstablished") {
-  //   uniqueItems = yearEstablished;
-  // }
-  // if (property === "franchiseFee") {
-  //   uniqueItems = franchiseFee;
-  // } else if (property === "franchisedUnits") {
-  //   uniqueItems = franchisedUnits;
-  // } else if (property === "investmentRange") {
-  uniqueItems = investmentRange;
-  // } else if (property === "category") {
-  //   uniqueItems = categories;
-  // } else if (property === "yearEstablished") {
-  //   uniqueItems = yearEstablished;
-  // }
-
-  // const handleRemoveCat = () => {
-  //   setActiveDD("");
-  //   setSelectedCats([]);
-  // };
+  let uniqueItems = investmentRange;
 
   const handleDropdown = (property) => {
     if (activeDD === property) {
@@ -505,7 +383,7 @@ const SearchDropdown = ({
       style={{ background: "#e3e4e6 " }}
     >
       <button
-        className={`h-full px-4 text-sm w-full capitalize text-[#000000]  transition-all duration-250  focus:outline-none focus:ring-0 peer flex items-center justify-between font-semibold  ${
+        className={`h-full px-4 text-sm w-full capitalize text-[#000000]  transition-all duration-250  focus:outline-none focus:ring-0 peer flex items-center justify-between   ${
           selectedCats &&
           selectedCats[property] &&
           selectedCats[property] !== ""

@@ -1,119 +1,6 @@
-import { useState } from "react";
+import { MultiSelect } from "primereact/multiselect";
+import { useEffect, useState } from "react";
 
-const AddTerritoryDiv = ({
-  territory,
-  index,
-  handleInputChange,
-  formErrors,
-  stateDD,
-  selectedStateT,
-  candNames,
-  candDetails,
-  setAddTerritory,
-}) => {
-  return (
-    <div
-      key={index}
-      id={`additional-contact-row-${index}`}
-      className="p-5 border-2 border-custom-heading-color shadow-lg"
-    >
-      <h1 className="candidate-sub-heading">Additional Territory</h1>
-      <div id="first-sub-row" className="candidate-two-col">
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">State / Province*</p>
-
-          {/* state dd */}
-          {stateDD("territory")}
-        </div>
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">City*</p>
-          {citiesT.length > 0 ? (
-            <select
-              className="candidate-select"
-              name="territorycity"
-              onChange={handleInputChange}
-            >
-              {!formFields.territorycity && (
-                <option value="">Select City</option>
-              )}
-              {citiesT.map((city, index) => (
-                <option
-                  key={index}
-                  value={city}
-                  {...(candNames && candNames.length > 0
-                    ? { selected: selectedDetails?.territoryCity }
-                    : { selected: candDetails?.territoryCity })}
-                >
-                  {city}
-                </option>
-              ))}
-            </select>
-          ) : (
-            <input
-              onChange={handleInputChange}
-              type="text"
-              name="territorycity"
-              className="candidate-input w-full"
-              style={{
-                borderColor: formErrors.territorycity ? "red" : undefined,
-              }}
-              required
-              {...(candNames && candNames.length > 0
-                ? { value: selectedDetails?.territoryCity }
-                : { defaultValue: candDetails?.territoryCity })}
-            />
-          )}
-        </div>
-
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">Zip / Postal Code*</p>
-          <input
-            type="number"
-            name="territoryzipcode"
-            className="candidate-input w-full"
-            style={{
-              borderColor: formErrors.territoryzipcode ? "red" : undefined,
-            }}
-            onChange={handleInputChange}
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.territoryZipcode }
-              : { defaultValue: candDetails?.territoryZipcode })}
-          />
-        </div>
-      </div>
-      <div id="second-sub-row" className="gap-[15px] sm:flex-row sm:gap-[35px]">
-        <div id="fourth-sub-row" className="candidate-sub-childs">
-          <p className="candidate-label">Territory Notes</p>
-          <textarea
-            onChange={handleInputChange}
-            name="territoryNotes"
-            rows={10}
-            className="candidate-input"
-            {...(candNames && candNames.length > 0
-              ? { value: selectedDetails?.territoryNotes }
-              : { defaultValue: candDetails?.territoryNotes })}
-          ></textarea>
-        </div>
-      </div>
-
-      <div id="button-container" className="w-full flex justify-center gap-5">
-        <button
-          className="candidate-btn"
-          onClick={() => setAddTerritory((prevContacts) => prevContacts - 1)}
-        >
-          REMOVE TERRITORY
-        </button>
-
-        <button
-          className="candidate-secondary-btn"
-          // onClick={() => setAddTerritory((prevContacts) => prevContacts - 1)}
-        >
-          MAKE PRIMARY TERRITORY
-        </button>
-      </div>
-    </div>
-  );
-};
 const FormSecondRow = ({
   handleInputChange,
   stateDD,
@@ -124,25 +11,47 @@ const FormSecondRow = ({
   selectedStateT,
   formFields,
   citiesT,
-  addTerritory,
-  setAddTerritory,
-  territorys,
   citiesC,
   listingNames,
   selectedStateC,
+  setFormFields,
+  docid,
+  visitedSteps,
+  setVisitedSteps,
 }) => {
-  // hum blkl parent component may se lekr arhe taakay baar baar calling na ho api ki kunke parent component hamara ek hi dafa render hona hai bas to first time pr jab page load hoga tab hi srf api call hogy phr nhi hogy back ya aagay jaane pr
-  // ab nhi hui dekha? loading wagera kch nhi aya han dekha agr koi cheez baar baar re render hori to usse parent component ya kisi context may rakhkr use krskte taakay ek hi cheez baar baar call na ho
-  // in fields may bhi conditions lagengy saari jese baaki may lagi wi hain ye to required nahi hena?
-  // req nhi lekn diukhni to chayein na jab koi dalega to gayab thori honi chayei sahi he han
-  const [selectedFranchises, setSelectedFranchises] = useState(0);
+  const [selectedFranchises, setSelectedFranchises] = useState([]);
 
-  const handleFranchiseSelect = (e) => {
-    const selecteddocId = e.target.value;
-    handleInputChange(e);
-    // setSelectedFranchises((previousId) => [...previousId, selecteddocId]);
-    setSelectedFranchises(selecteddocId);
-  };
+  useEffect(() => {
+    if (
+      docid &&
+      !visitedSteps.candprofile &&
+      formFields?.franchiseInterested?.length > 0 &&
+      listingNames?.length > 0
+    ) {
+      const parsedFranchises = JSON.parse(formFields.franchiseInterested);
+      const selectedData = listingNames.filter((listNames) =>
+        parsedFranchises.includes(listNames.docId)
+      );
+      setSelectedFranchises(selectedData);
+    }
+  }, [
+    docid,
+    visitedSteps.candprofile,
+    formFields?.franchiseInterested,
+    listingNames,
+  ]);
+
+  useEffect(() => {
+    if (selectedFranchises.length > 0 && visitedSteps.candprofile) {
+      const franchisesIds = selectedFranchises.map((fr) => fr.docId);
+      console.log(franchisesIds);
+
+      setFormFields((prev) => ({
+        ...prev,
+        franchiseInterested: JSON.stringify(franchisesIds),
+      }));
+    }
+  }, [selectedFranchises]);
 
   return (
     <div id="second-row" className="py-5 w-full">
@@ -165,35 +74,56 @@ const FormSecondRow = ({
       </h1>
 
       <div id="third-sub-row" className="candidate-two-col">
-        <div className="candidate-sub-childs">
+        <div className="candidate-sub-childs" id="franInt">
           <p className="candidate-label">
             What franchise are you interested in?*
           </p>
 
           {listingNames?.length > 0 ? (
-            <select
-              name="franchiseinterested"
-              className="candidate-select w-full"
-              style={{
-                borderColor: formErrors.franchiseinterested ? "red" : undefined,
-              }}
-              onChange={handleFranchiseSelect}
-              value={formFields.franchiseinterested || ""} // Set the value of the select box
-            >
-              <option value="" hidden={formFields.franchiseinterested}>
-                Select a franchise
-              </option>
-              {listingNames
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((item) => (
-                  <option
-                    key={item.docId} // Add a unique key for each option
-                    value={item.docId}
-                  >
-                    {item.name}
-                  </option>
-                ))}
-            </select>
+            <>
+              <MultiSelect
+                value={selectedFranchises}
+                onChange={(e) => {
+                  setVisitedSteps((prev) => ({ ...prev, candprofile: true }));
+                  setSelectedFranchises(e.value);
+                }}
+                options={listingNames}
+                optionLabel="name"
+                filter
+                placeholder="Select a franchise"
+                className=" candidate-select w-full flex  "
+              />
+              {/* <select
+                name="franchiseInterested"
+                className="candidate-select w-full"
+                style={{
+                  borderColor: formErrors.franchiseInterested
+                    ? "red"
+                    : undefined,
+                }}
+                onChange={handleInputChange}
+                value={formFields.franchiseInterested || ""} // Set the value of the select box
+              >
+                <option value="" hidden={formFields.franchiseInterested}>
+                  Select a franchise
+                </option>
+                {listingNames
+                  .sort((a, b) => a.name.localeCompare(b.name))
+                  .map((item) => (
+                    <option
+                      key={item.docId} // Add a unique key for each option
+                      value={item.docId}
+                      {...(candNames
+                        ? candNames.length > 0
+                          ? { selected: selectedDetails?.franchiseInterested }
+                          : { selected: candDetails?.franchiseInterested }
+                        : { selected: formFields?.franchiseInterested })}
+                    >
+                      {item.name}
+                    </option>
+                  ))}
+              </select> */}
+            </>
           ) : (
             <h1>Loading...</h1>
           )}
@@ -206,19 +136,19 @@ const FormSecondRow = ({
           </p>
           <input
             type="tel"
-            name="territoryzipcode"
+            name="territoryZipcode"
             className="candidate-input w-full"
             style={{
-              borderColor: formErrors.territoryzipcode ? "red" : undefined,
+              borderColor: formErrors.territoryZipcode ? "red" : undefined,
             }}
             onChange={handleInputChange}
             {...(candNames
               ? candNames.length > 0
                 ? { value: selectedDetails?.territoryZipcode }
                 : { defaultValue: candDetails?.territoryZipcode }
-              : { value: formFields?.territoryzipcode })}
+              : { value: formFields?.territoryZipcode })}
           />
-          {formErrors?.territoryzipcode === "invalid" && (
+          {formErrors?.territoryZipcode === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
               Invalid zipcode. It should be 5 digits long!
             </p>
@@ -240,22 +170,24 @@ const FormSecondRow = ({
           {selectedStateT && citiesT.length > 0 ? (
             <select
               className="candidate-select"
-              name="territorycity"
+              name="territoryCity"
               onChange={handleInputChange}
               style={{
-                borderColor: formErrors.territorycity ? "red" : undefined,
+                borderColor: formErrors.territoryCity ? "red" : undefined,
               }}
             >
-              {!formFields.territorycity && (
+              {!formFields.territoryCity && (
                 <option value="">Select City</option>
               )}
               {citiesT.map((city, index) => (
                 <option
                   key={index}
                   value={city}
-                  {...(candNames && candNames.length > 0
-                    ? { selected: selectedDetails?.territoryCity }
-                    : { selected: candDetails?.territoryCity })}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? { selected: selectedDetails?.territoryCity }
+                      : { selected: candDetails?.territoryCity }
+                    : { selected: formFields?.territoryCity })}
                 >
                   {city}
                 </option>
@@ -265,17 +197,17 @@ const FormSecondRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="territorycity"
+              name="territoryCity"
               className="candidate-input w-full"
               style={{
-                borderColor: formErrors.territorycity ? "red" : undefined,
+                borderColor: formErrors.territoryCity ? "red" : undefined,
               }}
               required
               {...(candNames
                 ? candNames.length > 0
                   ? { value: selectedDetails?.territoryCity }
                   : { defaultValue: candDetails?.territoryCity }
-                : { value: formFields?.territorycity })}
+                : { value: formFields?.territoryCity })}
             />
           )}
         </div>
@@ -293,20 +225,22 @@ const FormSecondRow = ({
           {selectedStateC && citiesC.length > 0 ? (
             <select
               className="candidate-select"
-              name="currentcity"
+              name="currentCity"
               onChange={handleInputChange}
               style={{
-                borderColor: formErrors.currentcity ? "red" : undefined,
+                borderColor: formErrors.currentCity ? "red" : undefined,
               }}
             >
-              {!formFields.currentcity && <option value="">Select City</option>}
+              {!formFields.currentCity && <option value="">Select City</option>}
               {citiesC.map((city, index) => (
                 <option
                   key={index}
                   value={city}
-                  {...(candNames && candNames.length > 0
-                    ? { selected: selectedDetails?.currentCity }
-                    : { selected: candDetails?.currentCity })}
+                  {...(candNames
+                    ? candNames.length > 0
+                      ? { value: selectedDetails?.currentCity }
+                      : { defaultValue: candDetails?.currentCity }
+                    : { value: formFields?.currentCity })}
                 >
                   {city}
                 </option>
@@ -316,17 +250,17 @@ const FormSecondRow = ({
             <input
               onChange={handleInputChange}
               type="text"
-              name="currentcity"
+              name="currentCity"
               className="candidate-input w-full"
               style={{
-                borderColor: formErrors.currentcity ? "red" : undefined,
+                borderColor: formErrors.currentCity ? "red" : undefined,
               }}
               required
               {...(candNames
                 ? candNames.length > 0
                   ? { value: selectedDetails?.currentCity }
                   : { defaultValue: candDetails?.currentCity }
-                : { value: formFields?.currentcity })}
+                : { value: formFields?.currentCity })}
             />
           )}
         </div>
@@ -336,82 +270,25 @@ const FormSecondRow = ({
           <p className="candidate-label"> Current Zip / Postal Code*</p>
           <input
             type="tel"
-            name="currentzipcode"
+            name="currentZipcode"
             className="candidate-input w-full"
             style={{
-              borderColor: formErrors.currentzipcode ? "red" : undefined,
+              borderColor: formErrors.currentZipcode ? "red" : undefined,
             }}
             onChange={handleInputChange}
             {...(candNames
               ? candNames.length > 0
                 ? { value: selectedDetails?.currentZipcode }
                 : { defaultValue: candDetails?.currentZipcode }
-              : { value: formFields?.currentzipcode })}
+              : { value: formFields?.currentZipcode })}
           />
-          {formErrors?.currentzipcode === "invalid" && (
+          {formErrors?.currentZipcode === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
               Invalid zipcode. It should be 5 digits long!
             </p>
           )}
         </div>
       </div>
-
-      {/* <div id="fourth-sub-row" className="candidate-sub-childs">
-        <p className="candidate-label">Territory Notes</p>
-        <textarea
-          onChange={handleInputChange}
-          name="territoryNotes"
-          rows={10}
-          className="candidate-input"
-          {...(candNames && candNames.length > 0
-            ? { value: selectedDetails?.territoryNotes }
-            : { defaultValue: candDetails?.territoryNotes })}
-        ></textarea>
-      </div> */}
-
-      {/* {territorys && territorys.length > 0 && (
-        <div className="flex flex-col gap-8 mt-5">
-          {territorys.map((territory, index) => (
-            <AddTerritoryDiv
-              territory={territory}
-              index={index} 
-              handleInputChange={handleInputChange}
-              formErrors={formErrors}
-              stateDD={stateDD}
-              selectedStateT={selectedStateT}
-              candNames={candNames}
-              candDetails={candDetails}
-              setAddTerritory={setAddTerritory}
-            />
-          ))}
-        </div>
-      )}
-      <div id="button-container" className="w-full flex justify-center">
-        <button
-          className="candidate-btn"
-          onClick={() => setAddTerritory((prevTerritory) => prevTerritory + 1)}
-        >
-          ADD ADDITIONAL TERRITORY
-        </button>
-      </div> */}
-
-      {addTerritory > 0 && (
-        <div className="flex flex-col gap-8 mt-5">
-          {Array.from({ length: addTerritory }).map((_, index) => (
-            <AddTerritoryDiv
-              territory={null}
-              index={index}
-              handleInputChange={handleInputChange}
-              formErrors={formErrors}
-              stateDD={stateDD}
-              selectedStateT={selectedStateT}
-              candNames={candNames}
-              candDetails={candDetails}
-              setAddTerritory={setAddTerritory}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 };

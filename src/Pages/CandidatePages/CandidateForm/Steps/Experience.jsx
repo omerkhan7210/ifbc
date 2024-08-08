@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { MyCandContext } from "src/Context/CandidatesDataContext";
+import { useQuery } from "react-query";
 const Experience = ({
   setStep,
   handleInputChange,
@@ -9,9 +9,37 @@ const Experience = ({
   candNames,
   selectedDetails,
   formFields,
+  setFormFields,
+  docid,
+  visitedSteps,
+  setVisitedSteps,
 }) => {
+  const fetchCandidates = async () => {
+    const url = `https://backend.ifbc.co/api/experience/${docid}`;
+    const response = await axios.get(url);
+    return response.data;
+  };
+
+  // Use the query with enabled option based on docid
+  const { data, isLoading, error } = useQuery(
+    ["experience", docid], // Query key including docid
+    fetchCandidates, // Query function
+    {
+      enabled: !!docid, // Only enable if docid and name are available
+    }
+  );
+
+  // Optionally handle effects based on data, loading, and error
+  useEffect(() => {
+    if (data && !visitedSteps.exp) {
+      // Handle the data
+      setFormFields((prev) => ({ ...prev, ...data }));
+    }
+  }, [data]);
+
   const handleExperience = async (e) => {
     e.preventDefault();
+    setVisitedSteps((prev) => ({ ...prev, exp: true }));
     setStep((prevStep) => prevStep + 1);
   };
   return (
@@ -50,7 +78,7 @@ const Experience = ({
           </p>
           <input
             onChange={handleInputChange}
-            name="BusinessBefore"
+            name="businessBefore"
             type="text"
             className="candidate-input"
             required
@@ -58,7 +86,7 @@ const Experience = ({
               ? candNames.length > 0
                 ? { value: selectedDetails?.businessBefore }
                 : { defaultValue: candDetails?.businessBefore }
-              : { value: formFields?.BusinessBefore })}
+              : { value: formFields?.businessBefore })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -67,7 +95,7 @@ const Experience = ({
           </p>
           <input
             onChange={handleInputChange}
-            name="MarketingExperience"
+            name="marketingExperience"
             type="text"
             className="candidate-input"
             required
@@ -75,7 +103,7 @@ const Experience = ({
               ? candNames.length > 0
                 ? { value: selectedDetails?.marketingExperience }
                 : { defaultValue: candDetails?.marketingExperience }
-              : { value: formFields?.MarketingExperience })}
+              : { value: formFields?.marketingExperience })}
           />
         </div>
       </div>
@@ -86,7 +114,7 @@ const Experience = ({
           </p>
           <input
             onChange={handleInputChange}
-            name="ManagementExperience"
+            name="managementExperience"
             type="text"
             className="candidate-input"
             required
@@ -94,14 +122,14 @@ const Experience = ({
               ? candNames.length > 0
                 ? { value: selectedDetails?.managementExperience }
                 : { defaultValue: candDetails?.managementExperience }
-              : { value: formFields?.ManagementExperience })}
+              : { value: formFields?.managementExperience })}
           />
         </div>
         <div className="candidate-sub-childs">
           <p className="candidate-questions ">Do you have sales experience?</p>
           <input
             onChange={handleInputChange}
-            name="SalesExperience"
+            name="salesExperience"
             type="text"
             className="candidate-input"
             required
@@ -109,7 +137,7 @@ const Experience = ({
               ? candNames.length > 0
                 ? { value: selectedDetails?.salesExperience }
                 : { defaultValue: candDetails?.salesExperience }
-              : { value: formFields?.SalesExperience })}
+              : { value: formFields?.salesExperience })}
           />
         </div>
       </div>
@@ -121,7 +149,7 @@ const Experience = ({
           </p>
           <input
             onChange={handleInputChange}
-            name="ReviewFinancialStatement"
+            name="reviewFinancialStatement"
             type="text"
             className="candidate-input"
             required
@@ -129,7 +157,7 @@ const Experience = ({
               ? candNames.length > 0
                 ? { value: selectedDetails?.reviewFinancialStatement }
                 : { defaultValue: candDetails?.reviewFinancialStatement }
-              : { value: formFields?.ReviewFinancialStatement })}
+              : { value: formFields?.reviewFinancialStatement })}
           />
         </div>
         <div className="candidate-sub-childs">
@@ -138,15 +166,15 @@ const Experience = ({
           </p>
           <input
             onChange={handleInputChange}
-            name="CSExperience"
+            name="csExperience"
             type="text"
             className="candidate-input"
             required
             {...(candNames
               ? candNames.length > 0
-                ? { value: selectedDetails?.cSExperience }
-                : { defaultValue: candDetails?.cSExperience }
-              : { value: formFields?.CSExperience })}
+                ? { value: selectedDetails?.csExperience }
+                : { defaultValue: candDetails?.csExperience }
+              : { value: formFields?.csExperience })}
           />
         </div>
       </div>
@@ -158,7 +186,10 @@ const Experience = ({
         >
           <button
             className="candidate-btn w-40 flex items-center justify-between"
-            onClick={() => setStep((prevStep) => prevStep - 1)}
+            onClick={() => {
+              setVisitedSteps((prev) => ({ ...prev, exp: true }));
+              setStep((prevStep) => prevStep - 1);
+            }}
           >
             {" "}
             <svg

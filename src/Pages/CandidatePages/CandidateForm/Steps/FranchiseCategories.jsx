@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 import DialogBox from "src/Popups/DialogBox";
 import { NavLink } from "react-router-dom";
+import { useQuery } from "react-query";
+import axios from "axios";
 const FranchiseCategories = ({
   handleSubmit,
   handleInputChange,
@@ -13,69 +15,96 @@ const FranchiseCategories = ({
   show,
   setShow,
   loading,
+  setFormFields,
+  docid,
+  visitedSteps,
+  setVisitedSteps,
 }) => {
+  const fetchCandidates = async () => {
+    const url = `https://backend.ifbc.co/api/franchisecategories/${docid}`;
+    const response = await axios.get(url);
+    return response.data;
+  };
+
+  // Use the query with enabled option based on docid
+  const { data, isLoading, error } = useQuery(
+    ["franchisecategories", docid], // Query key including docid
+    fetchCandidates, // Query function
+    {
+      enabled: !!docid, // Only enable if docid and name are available
+    }
+  );
+
+  // Optionally handle effects based on data, loading, and error
+  useEffect(() => {
+    if (data && !visitedSteps.fc) {
+      // Handle the data
+      setFormFields((prev) => ({ ...prev, ...data }));
+    }
+  }, [data]);
+
   const selectData = [
-    { name: "Advertising", label: "Advertising" },
-    { name: "Automotive", label: "Automotive" },
-    { name: "BeautySpa", label: "Beauty & Spa" },
+    { name: "advertising", label: "Advertising" },
+    { name: "automotive", label: "Automotive" },
+    { name: "beautySpa", label: "Beauty & Spa" },
     {
-      name: "BusinessManagementCoaching",
-      label: "Business Management & Coaching",
+      name: "businessManagementCoaching",
+      label: "business Management & Coaching",
     },
-    { name: "BusinessServices", label: "Business Services" },
+    { name: "businessServices", label: "Business Services" },
     {
-      name: "ChildEducationStemTutoring",
+      name: "childEducationStemTutoring",
       label: "Child Education, STEM & Tutoring",
     },
-    { name: "ChildServicesProducts", label: "Child Services & Products" },
+    { name: "childServicesProducts", label: "Child Services & Products" },
     {
-      name: "CleaningResidentialCommercial",
+      name: "cleaningResidentialCommercial",
       label: "Cleaning: Residential & Commercial",
     },
-    { name: "ComputerTechnology", label: "Computer Technology" },
+    { name: "computerTechnology", label: "Computer Technology" },
     {
-      name: "DistributionServices",
+      name: "distributionServices",
       label: "Select a rating Distribution Services",
     },
-    { name: "DryCleaningLaundry", label: "Dry Cleaning-Laundry" },
-    { name: "FinancialServices", label: "Financial Services" },
-    { name: "Fitness", label: "Fitness" },
+    { name: "dryCleaningLaundry", label: "Dry Cleaning-Laundry" },
+    { name: "financialServices", label: "Financial Services" },
+    { name: "fitness", label: "Fitness" },
     {
-      name: "FoodBeverageRestaurantQSR",
+      name: "foodBeverageRestaurantQSR",
       label: "Food & Beverage: Restaurant/QSR/Catering",
     },
     {
-      name: "FoodCoffeeTeaSmoothiesSweets",
+      name: "foodCoffeeTeaSmoothiesSweets",
       label: "Food: Coffee/Tea/Smoothies/Sweets",
     },
-    { name: "FoodStoresCatering", label: "Food: Stores & Catering" },
-    { name: "HealthMedical", label: "Health/Medical" },
-    { name: "HealthWellness", label: "Health/Wellness" },
-    { name: "HomeImprovement", label: "Home Improvement" },
-    { name: "InteriorExteriorDesign", label: "Interior/Exterior Design" },
-    { name: "MaintenanceRepair", label: "Maintenance & Repair" },
+    { name: "foodStoresCatering", label: "Food: Stores & Catering" },
+    { name: "healthMedical", label: "Health/Medical" },
+    { name: "healthWellness", label: "Health/Wellness" },
+    { name: "homeImprovement", label: "Home Improvement" },
+    { name: "interiorExteriorDesign", label: "Interior/Exterior Design" },
+    { name: "maintenanceRepair", label: "Maintenance & Repair" },
     {
-      name: "MovingStorageJunkRemoval",
+      name: "movingStorageJunkRemoval",
       label: "Moving, Storage & Junk Removal",
     },
-    { name: "Painting", label: "Painting" },
-    { name: "PestControl", label: "Pest Control" },
-    { name: "PetCareGrooming", label: "Pet Care & Grooming" },
-    { name: "PrintCopyMailing", label: "Print, Copy & Mailing" },
-    { name: "RealState", label: "Real Estate" },
-    { name: "Restoration", label: "Restoration" },
-    { name: "Retail", label: "Retail" },
-    { name: "Security", label: "Security" },
+    { name: "painting", label: "Painting" },
+    { name: "pestControl", label: "Pest Control" },
+    { name: "petCareGrooming", label: "Pet Care & Grooming" },
+    { name: "printCopyMailing", label: "Print, Copy & Mailing" },
+    { name: "realState", label: "Real Estate" },
+    { name: "restoration", label: "Restoration" },
+    { name: "retail", label: "Retail" },
+    { name: "security", label: "Security" },
     {
-      name: "SeniorCareMedicalNonMedical",
+      name: "seniorCareMedicalNonMedical",
       label: "Senior Care: Medical/Non-Medical",
     },
-    { name: "Signs", label: "Signs" },
-    { name: "SpecialEventPlanning", label: "Special Event Planning" },
-    { name: "SportsRecreation", label: "Sports & Recreation" },
-    { name: "Staffing", label: "Staffing" },
-    { name: "TravelPlanning", label: "Travel Planning" },
-    { name: "Vending", label: "Vending" },
+    { name: "signs", label: "Signs" },
+    { name: "specialEventPlanning", label: "Special Event Planning" },
+    { name: "sportsRecreation", label: "Sports & Recreation" },
+    { name: "staffing", label: "Staffing" },
+    { name: "travelPlanning", label: "Travel Planning" },
+    { name: "vending", label: "Vending" },
   ];
 
   return (
@@ -129,7 +158,8 @@ const FranchiseCategories = ({
             </h1>
             <p className="text-sm text-black font-semibold">
               Rank the Franchise Categories in order of preference, with 1 being
-              the least favorite and 10 being the most favorite.
+              the least favorite and 10 being the most favorite (so that we can
+              search according to your requirements).
             </p>
           </div>
 
@@ -164,7 +194,10 @@ const FranchiseCategories = ({
             >
               <button
                 className="candidate-btn w-40 flex items-center justify-between"
-                onClick={() => setStep((prevStep) => prevStep - 1)}
+                onClick={() => {
+                  setVisitedSteps((prev) => ({ ...prev, fc: true }));
+                  setStep((prevStep) => prevStep - 1);
+                }}
               >
                 {" "}
                 <svg

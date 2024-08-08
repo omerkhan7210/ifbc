@@ -1,149 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-
-const AddContactDiv = ({
-  contact,
-  index,
-  handleInputChange,
-  formErrors,
-  setAddContacts,
-}) => {
-  const relationships = ["Business Partner", "Spouse", "Family Member"];
-  const handleRemoveAdditionalContactDiv = () => {
-    setAddContacts((prevContacts) => prevContacts - 1);
-  };
-  const handleRemoveAdditionalContact = async (docId) => {
-    const additionalContactAddUrl = `https://backend.ifbc.co/api/CandidateContacts/${docId}`;
-    await axios.delete(additionalContactAddUrl);
-  };
-  return (
-    <div
-      key={index}
-      id={`additional-contact-row-${index}`}
-      className="p-5 border-2 border-custom-heading-color shadow-lg my-5"
-    >
-      <h1 className="candidate-sub-heading">Additional Contact</h1>
-      <div
-        id="first-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">First Name</p>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            name={`additionalFirstName_${index}`}
-            className="candidate-input"
-            style={{
-              borderColor: `${formErrors.additionalFirstName}_${index}`
-                ? "red"
-                : undefined,
-            }}
-            required
-            defaultValue={contact ? contact.firstName : ""}
-          />
-        </div>
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">Last Name</p>
-          <input
-            onChange={handleInputChange}
-            type="text"
-            name={`additionalLastName_${index}`}
-            className="candidate-input"
-            style={{
-              borderColor: `${formErrors.additionalLastName}_${index}`
-                ? "red"
-                : undefined,
-            }}
-            required
-            defaultValue={contact ? contact.lastName : ""}
-          />
-        </div>
-      </div>
-      <div
-        id="second-sub-row"
-        className="grid md:grid-cols-2 gap-[15px] max-sm:grid-cols-1"
-      >
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">Phone Number</p>
-          <input
-            onChange={handleInputChange}
-            type="tel"
-            name={`additionalPhone_${index}`}
-            className="candidate-input"
-            style={{
-              borderColor: `${formErrors.additionalPhone}_${index}`
-                ? "red"
-                : undefined,
-            }}
-            required
-            defaultValue={contact ? contact.phone : ""}
-          />
-        </div>
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">Email</p>
-          <input
-            onChange={handleInputChange}
-            type="email"
-            name={`additionalEmail_${index}`}
-            className="candidate-input"
-            style={{
-              borderColor: `${formErrors.additionalEmail}_${index}`
-                ? "red"
-                : undefined,
-            }}
-            required
-            defaultValue={contact ? contact.email : ""}
-          />
-        </div>
-
-        <div className="candidate-sub-childs">
-          <p className="candidate-label">Relationship to Primary Candidate</p>
-          <select
-            onChange={handleInputChange}
-            className="candidate-input"
-            style={{
-              borderColor: `${formErrors.additionalRelationship}_${index}`
-                ? "red"
-                : undefined,
-            }}
-            name={`additionalRelationship_${index}`}
-          >
-            <option value="">Select One</option>
-            {relationships.map((relationship, idx) => (
-              <option
-                key={idx}
-                value={relationship}
-                selected={
-                  contact ? contact.relationShip === relationship : false
-                }
-              >
-                {relationship}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-      <div id="button-container" className="w-full flex justify-center">
-        {contact ? (
-          <button
-            className="candidate-btn"
-            onClick={() => handleRemoveAdditionalContact(contact.docId)}
-          >
-            REMOVE CONTACT
-          </button>
-        ) : (
-          <button
-            className="candidate-btn"
-            onClick={handleRemoveAdditionalContactDiv}
-          >
-            REMOVE CONTACT
-          </button>
-        )}
-      </div>
-    </div>
-  );
-};
+import React from "react";
 
 const FormFirstRow = ({
   handleInputChange,
@@ -154,12 +9,8 @@ const FormFirstRow = ({
   selectedDocId,
   setSelectedDocId,
   selectedDetails,
-  addContacts,
-  setAddContacts,
-  contacts,
 }) => {
   const relationships = ["Business Partner", "Spouse", "Family Member"];
-
   return (
     <div id="first-row" className={`${candDetails ? "" : ""} py-5 w-full`}>
       <h1 className="candidate-sub-heading">
@@ -186,10 +37,10 @@ const FormFirstRow = ({
 
           {candNames && candNames.length > 0 ? (
             <select
-              name="firstname"
+              name="firstName"
               className="candidate-input w-full"
               style={{
-                borderColor: formErrors.firstname ? "red" : undefined,
+                borderColor: formErrors.firstName ? "red" : undefined,
               }}
               onChange={(e) => {
                 setSelectedDocId(e.target.value);
@@ -207,21 +58,21 @@ const FormFirstRow = ({
             <input
               type="text"
               onChange={handleInputChange}
-              name="firstname"
+              name="firstName"
               className="candidate-input w-full"
               style={{
-                borderColor: formErrors.firstname ? "red" : undefined,
+                borderColor: formErrors.firstName ? "red" : undefined,
               }}
               required
               {...(candNames
                 ? candNames.length > 0
                   ? { value: selectedDetails?.firstName }
                   : { defaultValue: candDetails?.firstName }
-                : { value: formFields?.firstname })}
+                : { value: formFields?.firstName })}
             />
           )}
 
-          {formErrors.firstname && formErrors.firstname === "invalid" && (
+          {formErrors.firstName && formErrors.firstName === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
               Invalid username. It should be 3-16 characters long and can
               include letters, numbers, underscores, and spaces.
@@ -233,19 +84,19 @@ const FormFirstRow = ({
           <input
             onChange={handleInputChange}
             type="text"
-            name="lastname"
+            name="lastName"
             className="candidate-input w-full"
             style={{
-              borderColor: formErrors.lastname ? "red" : undefined,
+              borderColor: formErrors.lastName ? "red" : undefined,
             }}
             required
             {...(candNames
               ? candNames.length > 0
                 ? { value: selectedDetails?.lastName }
                 : { defaultValue: candDetails?.lastName }
-              : { value: formFields?.lastname })}
+              : { value: formFields?.lastName })}
           />
-          {formErrors.lastname && formErrors.lastname === "invalid" && (
+          {formErrors.lastName && formErrors.lastName === "invalid" && (
             <p className=" text-red-600 py-2 flex justify-between">
               Invalid username. It should be 3-16 characters long and can
               include letters, numbers, underscores, and spaces.
@@ -419,42 +270,6 @@ const FormFirstRow = ({
           ))}
         </select>
       </div>
-
-      {/* {contacts && contacts.length > 0 && (
-        <div className="flex flex-col gap-8 mt-5">
-          {contacts.map((contact, index) => (
-            <AddContactDiv
-              contact={contact}
-              index={index}
-              handleInputChange={handleInputChange}
-              formErrors={formErrors}
-              setAddContacts={setAddContacts}
-            />
-          ))}
-        </div>
-      )} */}
-
-      {/* <div id="button-container" className="w-full flex justify-center">
-        <button
-          className="candidate-btn"
-          onClick={() => setAddContacts((prevContacts) => prevContacts + 1)}
-        >
-          ADD ADDITIONAL CONTACTS
-        </button>
-      </div> */}
-      {/* {addContacts > 0 && (
-        <div className="flex flex-col gap-8 mt-5">
-          {Array.from({ length: addContacts }).map((_, index) => (
-            <AddContactDiv
-              contact={null}
-              index={index}
-              handleInputChange={handleInputChange}
-              formErrors={formErrors}
-              setAddContacts={setAddContacts}
-            />
-          ))}
-        </div>
-      )} */}
     </div>
   );
 };

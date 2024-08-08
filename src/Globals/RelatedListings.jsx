@@ -20,6 +20,39 @@ import "swiper/css/scrollbar";
 
 const RelatedListings = () => {
   const { listings, loading, role } = useContext(MyContext);
+  function getRandomNumberInInterval(min, max, interval) {
+    const rangeMin = Math.ceil(min / interval) * interval;
+    const rangeMax = Math.floor(max / interval) * interval;
+    const randomInterval =
+      Math.floor(Math.random() * ((rangeMax - rangeMin) / interval + 1)) *
+      interval;
+    return rangeMin + randomInterval;
+  }
+
+  function getRandomMinMaxInIntervals(min, max, interval) {
+    // Generate a random minimum number within the interval
+    const randomMin = getRandomNumberInInterval(min, max - interval, interval);
+
+    // Generate a random maximum number within the interval that is at least one interval more than randomMin
+    const randomMax = getRandomNumberInInterval(
+      randomMin + interval,
+      max,
+      interval
+    );
+
+    return { randomMin, randomMax };
+  }
+
+  // Example usage
+  const min = 0;
+  const max = 508;
+  const interval = 25;
+
+  const { randomMin, randomMax } = getRandomMinMaxInIntervals(
+    min,
+    max,
+    interval
+  );
 
   return loading ? (
     <div className="grid place-content-center bg-custom-dark-blue px-4 py-24">
@@ -28,11 +61,14 @@ const RelatedListings = () => {
     </div>
   ) : (
     <section className="hidden md:block bg-custom-dark-blue/15 p-12">
-      <h2 className="font-bold font-poppins text-5xl capitalize mb-4 text-custom-heading-color  text-center mt-0">
+      <h2 className="font-medium font-poppins text-5xl capitalize mb-4 text-custom-heading-color  text-center mt-0">
         Featured Franchises
       </h2>
 
-      <div className="max-w-5xl m-auto flex items-center h-full">
+      <div
+        className="max-w-5xl m-auto flex items-center h-full"
+        id="home-swiper"
+      >
         <Swiper
           modules={[Navigation, Autoplay, Pagination, A11y, EffectCoverflow]}
           spaceBetween={role && role !== "N" ? 50 : 20}
@@ -55,7 +91,7 @@ const RelatedListings = () => {
           {listings &&
             listings.length > 0 &&
             listings.map((listing, index) => {
-              if (index < 25) {
+              if (index > randomMin && index < randomMax) {
                 return (
                   <SwiperSlide key={index}>
                     <ListingsColumns listing={listing} slider={true} />
