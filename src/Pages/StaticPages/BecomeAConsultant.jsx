@@ -33,11 +33,39 @@ Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laboriosam at ipsam si
       // height="60%"
       autoPlay
       controls
+      muted={true}
       loop
       className='rounded-3xl max-md:w-[90%] max-md:h-[90%] mb-10 md:w-[75%] md:h-[68%]'
       >
       </video>
     </div>
+    <section className="bg-custom-dark-blue/30 flex justify-center mb-10">
+<div className="max-md:w-[90%] md:w-[75%]">
+  <h1 className="font-bold text-center candidate-sub-heading max-md:text-xl md:text-3xl mb-10 mt-10">
+  The Benefits of Working with Us
+  </h1>
+  <p className="candidate-label">
+  Business Alliance, Inc. is home to the most highly-trained franchise brokers in the industry. We have developed a comprehensive training and ongoing support platform that gives you all the resources you need to excel in your new career as a Registered Franchise Broker.
+  </p>
+  <p className="mt-6 candidate-label">
+  When you become a Registered Franchise Consultant with BAI, you’re joining a company that cares. Our brokers are highly qualified. They may be full-time, part-time, or do this in conjunction with another business, but they are never alone.
+  </p>
+  <div className="max-md:w-[90%] md:w-[75%]">
+<h2 className="font-bold text-center candidate-sub-heading max-md:text-xl md:text-3xl mb-10 mt-10 ml-24">
+Our Brokers C.A.R.E.
+  </h2>
+  <div className="flex max-md:w-[90%] md:w-[75%]">
+    <div1>
+    1
+    </div1>
+    <div2>2</div2>
+    <div3>3</div3>
+    <div4>4</div4>
+  </div>
+</div>
+</div>
+
+    </section>
     </div>
   );
 };
