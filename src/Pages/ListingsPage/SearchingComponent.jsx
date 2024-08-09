@@ -34,7 +34,7 @@ const SearchingComponent = ({ setFilters, filters }) => {
   };
 
   return (
-    <form className="relative max-md:pb-3" onSubmit={handleSearchInputChange}>
+    <form className="relative" onSubmit={handleSearchInputChange}>
       <input
         type="search"
         id="search-field"

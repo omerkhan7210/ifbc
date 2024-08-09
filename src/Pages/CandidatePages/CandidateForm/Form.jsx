@@ -757,7 +757,9 @@ const Form = ({ candDetails, candNames, activeListings }) => {
           completedTextColor: "#2b7cff",
           size: "3em",
         }}
-        className={"stepper md:max-w-7xl mx-auto"}
+        className={
+          "stepper md:max-w-7xl max-md:max-w-[100%] max-md:mb-3 mx-auto"
+        }
         stepClassName={"stepper__step border-stepper"}
       />
 

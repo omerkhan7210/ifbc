@@ -162,7 +162,7 @@ const FundingCalculator = () => {
   return (
     <PageTransition>
       <div id="description" className="flex flex-col  gap-5 my-8 ">
-        <div className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-full md:w-[50%] mx-auto">
+        <div className="text-md my-5 text-center flex flex-col gap-3 md:mx-5 max-md:w-[90%] md:w-[50%] mx-auto">
           <p className=" text-md ">
             By Rolling Your IRA, 401(K), 403(B), Keogh Or Other Retirement Funds
             Into A 401(K) Franchise Financing Vehicle
@@ -934,7 +934,7 @@ const FundingCalculator = () => {
                   )}
                 </div>
               </div>
-              <div className=" flex md:gap-2 flex-col  w-full justify-center mx-auto max-w-[80%]">
+              <div className=" flex md:gap-2 flex-col  w-full justify-center mx-auto md:max-w-[80%]">
                 <label htmlFor="message" className="funding-questions">
                   Message
                 </label>
@@ -952,12 +952,11 @@ const FundingCalculator = () => {
                   </p>
                 )}
               </div>
-              <p className="text-sm text-custom-heading-color text-left  p-5 rounded-3xl max-w-[80%]">
+              <p className="text-xs text-custom-heading-color text-justify  max-md:p-3 md:p-5 rounded-3xl md:max-w-[80%]">
                 By submitting the form, you agree to receive calls, text
                 messages, or emails from <a href="https://ifbc.co">ifbc.co</a>{" "}
-                at the contact information provided. Message rates may apply.{" "}
+                at the contact information provided.
                 <br />
-                Text STOP to cancel text messaging at any time. <br />
                 See{" "}
                 <a href="/terms-conditions" className="  underline">
                   Terms & Conditions

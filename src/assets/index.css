@@ -54,7 +54,7 @@
 }
 
 .candidate-sub-childs {
-  @apply flex flex-col w-full my-3 gap-2 max-w-72 justify-between;
+  @apply flex flex-col w-full my-3 gap-2 md:max-w-72 justify-between;
 }
 
 .candidate-select {
@@ -76,9 +76,6 @@
   @apply bg-custom-dark-blue rounded-full py-1 px-4 text-xs text-white;
 }
 
-.candidate-sub-childs {
-  @apply flex flex-col w-full;
-}
 .side-bar-first-box {
   @apply w-full h-auto bg-white rounded-lg;
 }
@@ -127,6 +124,17 @@
 
 .candidate-two-col {
   @apply flex max-md:flex-col justify-between gap-5;
+}
+
+.bg-custom {
+  background-color: #5b99c2;
+}
+
+.text-custom-consultant {
+  color: #5b99c2;
+  font-weight: bolder;
+  font-size: 50px;
+  text-align: center;
 }
 
 .p-multiselect-label-container {

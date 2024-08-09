@@ -279,7 +279,7 @@ const ListingsFilter = () => {
           </div>
         </>
       )}
-      <div className="grid grid-cols-4 items-center gap-3">
+      <div className="max-md:flex flex-col md:grid grid-cols-4 items-center gap-3">
         {roleCheck && (
           <div className="w-full ">
             <SearchingComponent setFilters={setFilters} filters={filters} />

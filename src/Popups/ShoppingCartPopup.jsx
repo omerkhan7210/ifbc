@@ -39,12 +39,9 @@ const ShoppingCartPopup = ({ show, setShow }) => {
               .map((listing, index) => (
                 <motion.div
                   key={index}
-                  className="flex flex-col sm:flex-row justify-between items-center py-1 relative"
+                  className="flex justify-between py-1 relative"
                 >
-                  <div
-                    id="item-side"
-                    className="flex flex-col sm:flex-row gap-1 items-center w-full"
-                  >
+                  <div id="item-side" className="flex  items-center w-full">
                     <div
                       id="content-side"
                       className="flex flex-col max-sm:items-center"

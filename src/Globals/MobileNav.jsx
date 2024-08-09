@@ -164,7 +164,9 @@ const MobileNav = ({
                 id="menu-item-552290"
                 className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
               >
-                <a href="https://crm.ifbc.co">Join our CRM now!</a>
+                <a href="https://crm.ifbc.co" target="_blank">
+                  Join our CRM now!
+                </a>
               </li>
             </>
           )}
