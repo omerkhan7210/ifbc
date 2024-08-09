@@ -616,7 +616,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         name: listings.name,
         docId: listings.docId,
       }));
-      setListingNames(listingNames);
+      const moreListingNames = [...listingNames, { name: "Others", docId: 0 }];
+      setListingNames(moreListingNames);
     });
   }, []);
 
@@ -762,7 +763,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 "} ${step > 0 ? "md:max-w-[50%] " : "md:max-w-[95%]"}  `}
+        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 md:max-2xl:max-w-[50%] 2xl:max-w-[40%]"}  `}
       >
         {handleSwitchCase()}
       </div>

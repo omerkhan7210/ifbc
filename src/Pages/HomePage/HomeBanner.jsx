@@ -308,7 +308,7 @@ const SearchingSection = () => {
         onChange={(e) => setSelectedCats(e.value)}
         options={categories}
         optionLabel="code"
-        //filter
+        filter
         display="chip"
         placeholder="Select Categories"
         // maxSelectedLabels={3}

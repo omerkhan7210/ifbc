@@ -312,8 +312,9 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
         <>
           <button
             id="user-icon"
-            onClick={() => setActive(!active)}
-            className=" shadow-lg cursor-pointer bg-orange-500 rounded-full py-2.5 px-3"
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
+            className="  cursor-pointer bg-orange-500 rounded-full py-2.5 px-3"
           >
             <div className="flex justify-center items-center gap-1">
               <h3 className="text-sm font-bold">Login</h3>
@@ -336,6 +337,8 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
           <div
             className={`hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 ${active ? "block" : "hidden"} w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999] justify-center items-center`}
             style={elementStyle}
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
           >
             <img
               src="/images/logo/IFBC 1.png"

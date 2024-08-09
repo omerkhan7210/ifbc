@@ -290,9 +290,8 @@ const ListingsFilter = () => {
           onChange={handleSelectCats}
           options={categories}
           optionLabel="code"
-          //filter
+          filter
           placeholder="Select Categories"
-          // maxSelectedLabels={3}
           className=" w-full md:text-xs  transition-all duration-300 bg-white border border-gray-700 focus:border-brand focus:outline-none focus:ring-0 peer flex items-center justify-between rounded  "
         />
         {filterData.map((filter, index) => (
