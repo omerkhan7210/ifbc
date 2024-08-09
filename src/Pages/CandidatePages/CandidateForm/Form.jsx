@@ -616,7 +616,8 @@ const Form = ({ candDetails, candNames, activeListings }) => {
         name: listings.name,
         docId: listings.docId,
       }));
-      setListingNames(listingNames);
+      const moreListingNames = [...listingNames, { name: "Others", docId: 0 }];
+      setListingNames(moreListingNames);
     });
   }, []);
 
