@@ -32,12 +32,11 @@ const BecomeAConsultant = () => {
         </Link>
       </section>
 
+      {/* Video section */}
       <div className='flex justify-center'>
       <video 
       src='/video/becomeaconsultant.mp4' 
       type="video/mp4"
-      // width="60%" 
-      // height="60%"
       autoPlay
       controls
       muted={true}
@@ -46,6 +45,8 @@ const BecomeAConsultant = () => {
       >
       </video>
     </div>
+
+    {/* The Benefits of Working with Us section */}
     <section className="bg-custom-dark-blue/30 flex justify-center mb-10">
 <div className="max-md:w-[90%] md:w-[75%]">
   <h1 className="font-bold text-center candidate-sub-heading max-md:text-xl md:text-3xl mb-10 mt-10">
@@ -71,23 +72,23 @@ const BecomeAConsultant = () => {
 Career counselors, outplacement consultants, attorneys, accountants, bankers, and other clients looking for quality franchises can expect IFBC Franchise Consultants to curate an ongoing referral network. They also assist clients in locating legal, accounting, and financial resources for specific franchises.
   </p>
   <div className="max-md:w-[90%] md:w-[75%]">
-<h2 className="font-bold text-center candidate-sub-heading max-md:text-xl md:text-3xl mb-10 mt-10 ml-32">
+<h2 className="font-bold text-center candidate-sub-heading max-md:text-xl md:text-3xl md:mb-10 md:mt-10 md:ml-32">
 Our Consultants C.A.R.E.
   </h2>
-  <div className="flex max-md:w-[90%] md:w-[75%] mx-auto gap-10 mb-20">
-    <div1 className="flex flex-col mx-5 w-[25%]">
+  <div className="flex max-md:w-[90%] md:w-[75%] max-md:flex-col mx-auto gap-10 mb-20">
+    <div1 className="flex flex-col mx-5 md:w-[25%] max-md:w-[100%]">
       <img src="./images/collaborative.png" alt="collaborative" className="h-36 w-36"/>
       <h3>Collaborative</h3>
     </div1>
-    <div2 className="flex flex-col mx-5 w-[25%]">
+    <div2 className="flex flex-col mx-5 md:w-[25%] max-md:w-[100%]">
     <img src="./images/accountable.png" alt="accountable" className="h-36 w-36"/>
     <h3>Accountable</h3>
     </div2>
-    <div3 className="flex flex-col mx-5 w-[25%]">
+    <div3 className="flex flex-col mx-5 md:w-[25%] max-md:w-[100%]">
     <img src="./images/respectful.png" alt="respectful" className="h-36 w-36"/>
     <h3>Respectful</h3>
     </div3>
-    <div4 className="flex flex-col mx-5 w-[25%]">
+    <div4 className="flex flex-col mx-5 md:w-[25%] max-md:w-[100%]">
     <img src="./images/ethical.png" alt="ethical" className="h-36 w-36"/>
     <h3 className="ml-4">Ethical</h3>
       </div4>
@@ -95,6 +96,43 @@ Our Consultants C.A.R.E.
 </div>
 </div>
     </section>
+
+    {/* How Much Does It Cost to Become a Franchise Consultant section */}
+    <section className="max-md:w-[90%] md:w-[75%] flex max-md:flex-col mx-auto my-8 gap-10">
+<div className="md:w-[50%] max-md:w-full">
+  <img src="./images/cost.webp" alt="How much does it cost you" className="md:w-[100%] md:h-[100%]" />
+</div>
+<div className="md:w-[50%] max-md:w-full">
+  <div>
+  <h2 className="text-custom-consultant">GETTING STARTED</h2>
+  </div>
+  <div className="bg-custom w-[100%] rounded-xl p-4">
+  {/* <h2 className="candidate-sub-heading">Getting Started</h2> */}
+  <h3 className="candidate-sub-heading">How Much Does It Cost to Become a Franchise Consultant?</h3>
+  <p>You will be surprised to know that we are the only company in the industry that doesn’t charge any fees from our franchise consultants. While other companies charge between $25,000 and $50,000 just for training, we provide them with free access to the IFBC CRM and our website portal.</p>
+
+  <h3 className="candidate-sub-heading">How does an IFBC franchise consultant make money?</h3>
+  <p>When you become an IFBC Franchise Consultant , you will receive leads from your own local advertising programs, as well as from advertising and Internet marketing systems. Every time a client invests in a franchise business you recommend, you, as an IFBC Franchise Consultant, will receive a sizable referral fee!</p>
+  </div>
+  
+</div>
+    </section>
+
+    {/* Frequently Asked Questions section */}
+    <section className="bg-custom-dark-blue/30  flex justify-center mb-10"> 
+    <div className="max-md:w-[90%] md:w-[75%] mt-4 h-52">
+    <h2 className="mb-5 font-bold">Get Step-by-Step Guidance as an IFBC Franchise Consultant</h2>
+    <p>Here’s a summary of the special advantages you’ll have when you join the IFBC family:
+•	We offer comprehensive training both online and in-class with industry experts.
+•	The company offers extensive technology tools and industry-specific CRM software.
+•	An intranet communication platform for sharing best practices.
+•	Databases containing useful industry information.
+•	Marketing and advertising materials to help generate leads.
+A franchise consulting franchise offers enormous growth potential. We can give you all the details and help you explore opportunities with IFBC. Call 90-TEAM-IFBC or book an appointment.
+</p>   
+    </div>   
+    </section>
+
     </div>
   );
 };

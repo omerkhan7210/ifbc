@@ -129,6 +129,17 @@
   @apply flex max-md:flex-col justify-between gap-5;
 }
 
+.bg-custom {
+  background-color: #5B99C2;
+}
+
+.text-custom-consultant {
+  color: #5B99C2;
+  font-weight: bolder;
+  font-size: 50px;
+  text-align: center;
+}
+
 .p-multiselect-label-container {
   display: flex;
   align-items: center;
