@@ -185,7 +185,7 @@ const Experience = ({
           className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
         >
           <button
-            className="candidate-btn w-40 flex items-center justify-between"
+            className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
             onClick={() => {
               setVisitedSteps((prev) => ({ ...prev, exp: true }));
               setStep((prevStep) => prevStep - 1);
@@ -214,7 +214,7 @@ const Experience = ({
           className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-6"
         >
           <button
-            className="candidate-btn  w-40  flex items-center justify-between"
+            className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
             onClick={handleExperience}
           >
             Next

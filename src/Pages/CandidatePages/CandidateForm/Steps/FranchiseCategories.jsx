@@ -163,7 +163,10 @@ const FranchiseCategories = ({
             </p>
           </div>
 
-          <div id="container3" className="grid grid-cols-2 gap-x-10">
+          <div
+            id="container3"
+            className="grid md:grid-cols-2 max-md:grid-cols-1 md:gap-x-10"
+          >
             {selectData.map((item, index) => (
               <div
                 key={index}
@@ -180,6 +183,7 @@ const FranchiseCategories = ({
                   candNames={candNames}
                   formFields={formFields}
                   candDetails={candDetails}
+                  className="candidate-select w-full"
                 />
               </div>
             ))}
@@ -193,7 +197,7 @@ const FranchiseCategories = ({
               className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
             >
               <button
-                className="candidate-btn w-40 flex items-center justify-between"
+                className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
                 onClick={() => {
                   setVisitedSteps((prev) => ({ ...prev, fc: true }));
                   setStep((prevStep) => prevStep - 1);
@@ -222,7 +226,7 @@ const FranchiseCategories = ({
               className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-3"
             >
               <button
-                className="candidate-btn  w-40  flex items-center justify-between"
+                className="candidate-btn  md:w-40 max-md:w-full  flex items-center justify-between"
                 onClick={handleSubmit}
               >
                 {loading ? "Loading..." : "Submit"}
