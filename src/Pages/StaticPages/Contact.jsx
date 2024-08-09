@@ -397,8 +397,7 @@ const Contact = () => {
                         ? "1px solid red"
                         : undefined,
                     }}
-                    placeholder="Email A
-                    ddress"
+                    placeholder="Email Address"
                   />
                   {formErrors.contactEmail &&
                     formErrors.contactEmail === "invalid" && (
