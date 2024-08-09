@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import PageTransition from "src/Animations/PageTransition";
 import DialogBox from "src/Popups/DialogBox";
 import {
   sanitizeInput,
@@ -142,201 +143,205 @@ const Referral = () => {
     return allFieldsValid;
   };
   return (
-    <div className="flex items-center justify-center p-6">
-      <DialogBox setShow={setShow} show={show}>
-        <button
-          className="absolute top-5 right-10"
-          onClick={() => setShow(false)}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="red"
-            className="size-9"
+    <PageTransition>
+      <div className="flex items-center justify-center p-6">
+        <DialogBox setShow={setShow} show={show}>
+          <button
+            className="absolute top-5 right-10"
+            onClick={() => setShow(false)}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-            />
-          </svg>
-        </button>
-        <div className="bg-white p-10 flex flex-col gap-3">
-          <h1 className="text-3xl uppercase text-center">{successMsg}</h1>
-          <p className="text-xl text-center">We will contact you soon.</p>
-        </div>
-      </DialogBox>
-      <form
-        className="p-8 flex flex-col gap-6 max-w-4xl text-gray-600 rounded-3xl w-full bg-custom-dark-blue/50 shadow-lg"
-        onSubmit={handleSubmit}
-      >
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="flex flex-col">
-            <label
-              className="text-custom-heading-color font-semibold"
-              htmlFor="firstname"
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="red"
+              className="size-9"
             >
-              First Name
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="firstname"
-              placeholder="Enter First Name"
-              className="candidate-select w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
-              type="text"
-              style={{
-                borderColor: formErrors.firstname ? "red" : undefined,
-              }}
-            />
-            {formErrors.firstname && formErrors.firstname === "invalid" && (
-              <p className=" text-red text-xs py-2 flex justify-between">
-                Invalid username. It should be 3-16 characters long and can
-                include letters, numbers, underscores, and spaces.
-              </p>
-            )}
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </button>
+          <div className="bg-white p-10 flex flex-col gap-3">
+            <h1 className="text-3xl uppercase text-center">{successMsg}</h1>
+            <p className="text-xl text-center">We will contact you soon.</p>
           </div>
-
-          <div className="flex flex-col">
-            <label
-              className="text-custom-heading-color font-semibold"
-              htmlFor="lastname"
-            >
-              Last Name
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="lastname"
-              placeholder="Enter Last Name"
-              className="candidate-select w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
-              type="text"
-              style={{
-                borderColor: formErrors.lastname ? "red" : undefined,
-              }}
-            />
-            {formErrors.lastname && formErrors.lastname === "invalid" && (
-              <p className=" text-red text-xs py-2 flex justify-between">
-                Invalid username. It should be 3-16 characters long and can
-                include letters, numbers, underscores, and spaces.
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="flex flex-col">
-            <label
-              className="text-custom-heading-color font-semibold"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="email"
-              placeholder="Enter Email"
-              className="candidate-input w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
-              type="email"
-              style={{
-                borderColor: formErrors.email ? "red" : undefined,
-              }}
-            />
-            {formErrors.email && formErrors.email === "invalid" && (
-              <p className=" text-red text-xs py-2 flex justify-between">
-                Invalid Email (john@example.com)
-              </p>
-            )}
-          </div>
-
-          <div className="flex flex-col">
-            <label
-              className="text-custom-heading-color font-semibold"
-              htmlFor="phone"
-            >
-              Phone
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="phone"
-              placeholder="(123) 456-7890"
-              className="candidate-input w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
-              type="tel"
-              style={{
-                borderColor: formErrors.phone ? "red" : undefined,
-              }}
-            />
-            {formErrors.phone && formErrors.phone === "invalid" && (
-              <p className=" text-red text-xs py-2 flex justify-between">
-                Invalid Phone Number (Please use numbers only)
-              </p>
-            )}
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="flex flex-col">
-            <label
-              className="text-custom-heading-color font-semibold"
-              htmlFor="franchiseinterested"
-            >
-              Franchise Interested
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="franchiseinterested"
-              placeholder="Enter Franchise Name"
-              className="candidate-input w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
-              type="text"
-              style={{
-                borderColor: formErrors.franchiseinterested ? "red" : undefined,
-              }}
-            />
-            {formErrors.franchiseinterested &&
-              formErrors.franchiseinterested === "invalid" && (
+        </DialogBox>
+        <form
+          className="p-8 flex flex-col gap-6 max-w-[45%] text-gray-600 rounded-3xl w-full bg-custom-dark-blue/50 shadow-lg"
+          onSubmit={handleSubmit}
+        >
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="flex flex-col">
+              <label
+                className="text-custom-heading-color font-medium text-sm"
+                htmlFor="firstname"
+              >
+                First Name
+              </label>
+              <input
+                onChange={handleInputChange}
+                name="firstname"
+                placeholder="Enter First Name"
+                className="candidate-input w-full"
+                type="text"
+                style={{
+                  borderColor: formErrors.firstname ? "red" : undefined,
+                }}
+              />
+              {formErrors.firstname && formErrors.firstname === "invalid" && (
                 <p className=" text-red text-xs py-2 flex justify-between">
-                  Invalid franchise name. It should be 3-16 characters long and
-                  can include letters, numbers, underscores, and spaces.
+                  Invalid username. It should be 3-16 characters long and can
+                  include letters, numbers, underscores, and spaces.
                 </p>
               )}
+            </div>
+
+            <div className="flex flex-col">
+              <label
+                className="text-custom-heading-color font-semibold"
+                htmlFor="lastname"
+              >
+                Last Name
+              </label>
+              <input
+                onChange={handleInputChange}
+                name="lastname"
+                placeholder="Enter Last Name"
+                className="candidate-select w-full"
+                type="text"
+                style={{
+                  borderColor: formErrors.lastname ? "red" : undefined,
+                }}
+              />
+              {formErrors.lastname && formErrors.lastname === "invalid" && (
+                <p className=" text-red text-xs py-2 flex justify-between">
+                  Invalid username. It should be 3-16 characters long and can
+                  include letters, numbers, underscores, and spaces.
+                </p>
+              )}
+            </div>
           </div>
 
-          <div className="flex flex-col">
-            <label
-              className="text-custom-heading-color font-semibold"
-              htmlFor="desiredLoc"
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="flex flex-col">
+              <label
+                className="text-custom-heading-color font-semibold"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                onChange={handleInputChange}
+                name="email"
+                placeholder="Enter Email"
+                className="candidate-input w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
+                type="email"
+                style={{
+                  borderColor: formErrors.email ? "red" : undefined,
+                }}
+              />
+              {formErrors.email && formErrors.email === "invalid" && (
+                <p className=" text-red text-xs py-2 flex justify-between">
+                  Invalid Email (john@example.com)
+                </p>
+              )}
+            </div>
+
+            <div className="flex flex-col">
+              <label
+                className="text-custom-heading-color font-semibold"
+                htmlFor="phone"
+              >
+                Phone
+              </label>
+              <input
+                onChange={handleInputChange}
+                name="phone"
+                placeholder="(123) 456-7890"
+                className="candidate-input w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
+                type="tel"
+                style={{
+                  borderColor: formErrors.phone ? "red" : undefined,
+                }}
+              />
+              {formErrors.phone && formErrors.phone === "invalid" && (
+                <p className=" text-red text-xs py-2 flex justify-between">
+                  Invalid Phone Number (Please use numbers only)
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="flex flex-col">
+              <label
+                className="text-custom-heading-color font-semibold"
+                htmlFor="franchiseinterested"
+              >
+                Franchise Interested
+              </label>
+              <input
+                onChange={handleInputChange}
+                name="franchiseinterested"
+                placeholder="Enter Franchise Name"
+                className="candidate-input w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
+                type="text"
+                style={{
+                  borderColor: formErrors.franchiseinterested
+                    ? "red"
+                    : undefined,
+                }}
+              />
+              {formErrors.franchiseinterested &&
+                formErrors.franchiseinterested === "invalid" && (
+                  <p className=" text-red text-xs py-2 flex justify-between">
+                    Invalid franchise name. It should be 3-16 characters long
+                    and can include letters, numbers, underscores, and spaces.
+                  </p>
+                )}
+            </div>
+
+            <div className="flex flex-col">
+              <label
+                className="text-custom-heading-color font-semibold"
+                htmlFor="desiredLoc"
+              >
+                Desired Location
+              </label>
+              <input
+                onChange={handleInputChange}
+                name="desiredLoc"
+                placeholder="Enter Desired Location"
+                className="candidate-select w-full"
+                type="text"
+                style={{
+                  borderColor: formErrors.desiredLoc ? "red" : undefined,
+                }}
+              />
+              {formErrors.desiredLoc && formErrors.desiredLoc === "invalid" && (
+                <p className=" text-red text-xs py-2 flex justify-between">
+                  Invalid location. It should be 3-16 characters long and can
+                  include letters, numbers, underscores, and spaces.
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex justify-center w-full">
+            <button
+              className="candidate-btn md:w-44 max-md:w-full"
+              type="submit"
             >
-              Desired Location
-            </label>
-            <input
-              onChange={handleInputChange}
-              name="desiredLoc"
-              placeholder="Enter Desired Location"
-              className="candidate-select w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
-              type="text"
-              style={{
-                borderColor: formErrors.desiredLoc ? "red" : undefined,
-              }}
-            />
-            {formErrors.desiredLoc && formErrors.desiredLoc === "invalid" && (
-              <p className=" text-red text-xs py-2 flex justify-between">
-                Invalid location. It should be 3-16 characters long and can
-                include letters, numbers, underscores, and spaces.
-              </p>
-            )}
+              {loading ? "Loading..." : "Submit"}
+            </button>
           </div>
-        </div>
-
-        <div className="flex justify-center mt-6">
-          <button
-            className="candidate-btn md:min-w-[150px] max-md:w-full"
-            type="submit"
-          >
-            {loading ? "Loading..." : "Submit"}
-          </button>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </PageTransition>
   );
 };
 

@@ -11,7 +11,7 @@ const Logo = () => {
   return (
     <Link
       to="/"
-      className="flex shrink-0 justify-center items-center text-medium-gold "
+      className="flex shrink-0 justify-center items-center text-medium-gold max-md:col-span-12 md:col-span-2"
     >
       <img
         src="/images/logo/IFBC 6.png"
@@ -97,12 +97,12 @@ const Header = ({
       >
         <div
           id="navbar-centered"
-          className="w-full max-md:flex max-md:justify-between max-md:items-center md:grid grid-cols-3 px-8 py-3"
+          className="w-full max-md:flex max-md:justify-between max-md:items-center md:grid grid-cols-12 px-8 py-3"
         >
           {/* DETAILS */}
           <ul
             id="info-details-header"
-            className="max-md:hidden md:flex items-center justify-start gap-5"
+            className="max-md:hidden md:flex items-center justify-start gap-5 max-md:col-span-12 md:col-span-5"
           >
             {socials.map((button, index) => (
               <li key={index} className="flex gap-1 text-sm items-center">
@@ -143,12 +143,7 @@ const Header = ({
   );
 };
 
-const RightSideButtonsContainer = ({
-  mobileActive,
-  setMobileActive,
-  hidden,
-  setShow,
-}) => {
+const RightSideButtonsContainer = ({ mobileActive, setMobileActive }) => {
   const userDetails = useSelector((state) => state.counter.userDetails);
   const token = useSelector((state) => state.counter.token);
   const role =
@@ -156,19 +151,19 @@ const RightSideButtonsContainer = ({
       ? userDetails.userType
       : null;
   return (
-    <div className="md:flex md:justify-end md:items-start md:pt-1 md:gap-5">
+    <div className="md:flex md:justify-end md:items-start md:pt-1 md:gap-5 max-md:col-span-12 md:col-span-5">
       {/* button appointment */}
       {(!role || role === "N") && !token && (
         <a
           href="https://calendly.com/info-ifbc"
-          className="duration-500 max-md:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-6  text-sm h-10"
+          className="duration-500 max-md:hidden capitalize font-semibold rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-6  text-sm h-10"
         >
           Book an appointment
         </a>
       )}
-      <Link to="/referral-form">
-        <button className="duration-500 max-md:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-6  text-sm h-10">
-          MAKE A REFERRAL
+      <Link to="/make-a-referral">
+        <button className="duration-500 max-md:hidden capitalize font-semibold rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-6  text-sm h-10">
+          Make a Referral
         </button>
       </Link>
 
@@ -189,20 +184,6 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
   const dispatch = useDispatch();
   const [roleName, setRoleName] = useState("Member");
   const loc = useLocation();
-  const dropdownRef = useRef(null);
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setActive(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, []);
 
   useEffect(() => {
     setActive(false);
@@ -259,13 +240,13 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
       initial={{ y: 0 }}
       animate={{ y: hidden && window.innerWidth > 768 ? "200%" : 0 }}
       className="hs-dropdown relative md:inline-flex max-sm:hidden"
-      ref={dropdownRef}
     >
       {token ? (
         <>
           <button
             id="user-icon"
-            onClick={() => setActive(!active)}
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
             className="flex shadow-lg flex-wrap items-center justify-start gap-2 cursor-pointer"
           >
             <img
@@ -276,6 +257,8 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
             />
           </button>
           <div
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
             className={`hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 ${active ? "block" : "hidden"} min-w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999]`}
             style={elementStyle}
           >
@@ -324,7 +307,7 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
                 viewBox="0 0 24 24"
                 strokeWidth={3}
                 stroke="white"
-                className="size-3"
+                className={`size-3 transform transition-all duration-300 ${active ? "rotate-180 " : ""}`}
               >
                 <path
                   strokeLinecap="round"

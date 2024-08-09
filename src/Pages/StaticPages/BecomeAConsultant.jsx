@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PageTransition from "src/Animations/PageTransition";
 
 const BecomeAConsultant = () => {
   return (
-    <div>
+    <PageTransition>
       <h1 className="font-bold text-center text-custom-dark-blue max-md:text-xl md:text-3xl mb-10 mt-10">
         Become a Consultant
       </h1>
@@ -46,7 +47,7 @@ const BecomeAConsultant = () => {
           className="rounded-3xl max-md:w-[90%] max-md:h-[90%] mb-10 md:w-[75%] md:h-[68%]"
         ></video>
       </div>
-    </div>
+    </PageTransition>
   );
 };
 

@@ -69,6 +69,15 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      {mobileActive && (
+        <MobileNav
+          setMobileActive={setMobileActive}
+          active={active}
+          setActive={setActive}
+          selectedCandName={selectedCandName}
+          setShow={setShowCart}
+        />
+      )}
       <AnimatePresence mode="wait">
         <Header
           mobileActive={mobileActive}
@@ -78,15 +87,6 @@ const App = () => {
           selectedCandName={selectedCandName}
           setShow={setShowCart}
         />
-        {mobileActive && (
-          <MobileNav
-            setMobileActive={setMobileActive}
-            active={active}
-            setActive={setActive}
-            selectedCandName={selectedCandName}
-            setShow={setShowCart}
-          />
-        )}
 
         <RouteRenderer
           isAuthenticated={token}

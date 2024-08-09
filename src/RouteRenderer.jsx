@@ -11,7 +11,6 @@ import MainListings from "src/Pages/ListingsPage/MainListings";
 import MainDetails from "src/Pages/ListingsDetails/MainDetails";
 import MainHome from "src/Pages/HomePage/MainHome";
 import NotFoundPage from "src/Pages/StaticPages/NotFoundPage";
-import CheckOutForm from "./Pages/StaticPages/CheckOutForm";
 import { useRoutes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -26,7 +25,6 @@ import Contact from "./Pages/StaticPages/Contact";
 import FundingResult from "./Pages/StaticPages/FundingResult";
 import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
 import TermsConditions from "./Pages/StaticPages/TermsConditions";
-import { useEffect, useState } from "react";
 import BecomeAConsultant from "./Pages/StaticPages/BecomeAConsultant";
 import Referral from "./Pages/StaticPages/Referral";
 
@@ -153,7 +151,7 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
       element: <BecomeAConsultant />,
     },
     {
-      path: "/referral-form",
+      path: "/make-a-referral",
       element: <Referral />,
     },
     {
@@ -184,16 +182,6 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
     },
   ];
 
-  const normalUserRoutes = [
-    {
-      path: "/checkout",
-      element: (
-        <ListingDataContext>
-          <CheckOutForm />
-        </ListingDataContext>
-      ),
-    },
-  ];
   const userDetails = useSelector((state) => state.counter.userDetails);
 
   const role =
@@ -203,7 +191,7 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
 
   const routes = useRoutes(
     !role || role === "N"
-      ? [...normalUserRoutes, ...staticRoutes]
+      ? staticRoutes
       : [...consultantRoutes, ...staticRoutes]
   );
   return routes;
