@@ -7,7 +7,7 @@
 }
 
 .candidate-btn {
-  @apply border-2 text-sm border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2  font-light;
+  @apply border-2 text-sm border-custom-heading-color bg-custom-heading-color  text-white md:px-5 max-md:p-3 rounded-3xl hover:bg-white hover:text-custom-heading-color transition-all duration-500 py-2 font-light;
 }
 
 .candidate-inverted-btn {
