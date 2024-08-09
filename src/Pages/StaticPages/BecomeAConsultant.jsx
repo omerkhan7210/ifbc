@@ -120,7 +120,7 @@ Our Consultants C.A.R.E.
 
     {/* Frequently Asked Questions section */}
     <section className="bg-custom-dark-blue/30  flex justify-center mb-10"> 
-    <div className="max-md:w-[90%] md:w-[75%] mt-4 h-52">
+    <div className="max-md:w-[90%] md:w-[75%] mt-4 md:h-52 max-md:h-auto">
     <h2 className="mb-5 font-bold">Get Step-by-Step Guidance as an IFBC Franchise Consultant</h2>
     <p>Here’s a summary of the special advantages you’ll have when you join the IFBC family:
 •	We offer comprehensive training both online and in-class with industry experts.
