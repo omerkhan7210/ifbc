@@ -258,36 +258,34 @@ const CandidateProfile = ({
           </svg>
         </p>
       )}{" "}
-      <div className="flex justify-between md:max-2xl:gap-32 2xl:gap-44">
-        <FormFirstRow
-          handleInputChange={handleInputChange}
-          formErrors={formErrors}
-          candDetails={candDetails}
-          candNames={candNames}
-          setSelectedDocId={setSelectedDocId}
-          selectedDocId={selectedDocId}
-          selectedDetails={selectedDetails}
-          formFields={formFields}
-        />
-        <FormSecondRow
-          stateDD={stateDD}
-          handleInputChange={handleInputChange}
-          formErrors={formErrors}
-          candDetails={candDetails}
-          candNames={candNames}
-          selectedDetails={selectedDetails}
-          selectedStateT={selectedStateT}
-          formFields={formFields}
-          citiesT={citiesT}
-          citiesC={citiesC}
-          listingNames={listingNames}
-          selectedStateC={selectedStateC}
-          setFormFields={setFormFields}
-          docid={docid}
-          visitedSteps={visitedSteps}
-          setVisitedSteps={setVisitedSteps}
-        />
-      </div>
+      <FormFirstRow
+        handleInputChange={handleInputChange}
+        formErrors={formErrors}
+        candDetails={candDetails}
+        candNames={candNames}
+        setSelectedDocId={setSelectedDocId}
+        selectedDocId={selectedDocId}
+        selectedDetails={selectedDetails}
+        formFields={formFields}
+      />
+      <FormSecondRow
+        stateDD={stateDD}
+        handleInputChange={handleInputChange}
+        formErrors={formErrors}
+        candDetails={candDetails}
+        candNames={candNames}
+        selectedDetails={selectedDetails}
+        selectedStateT={selectedStateT}
+        formFields={formFields}
+        citiesT={citiesT}
+        citiesC={citiesC}
+        listingNames={listingNames}
+        selectedStateC={selectedStateC}
+        setFormFields={setFormFields}
+        docid={docid}
+        visitedSteps={visitedSteps}
+        setVisitedSteps={setVisitedSteps}
+      />
       <div
         id="button-container-initial"
         className="flex items-center mt-5 gap-10"

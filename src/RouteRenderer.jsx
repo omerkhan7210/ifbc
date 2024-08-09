@@ -28,6 +28,7 @@ import PrivacyPolicy from "./Pages/StaticPages/PrivacyPolicy";
 import TermsConditions from "./Pages/StaticPages/TermsConditions";
 import { useEffect, useState } from "react";
 import BecomeAConsultant from "./Pages/StaticPages/BecomeAConsultant";
+import Referral from "./Pages/StaticPages/Referral";
 
 const RouteRenderer = ({ setRegistrationType, setShow }) => {
   const consultantRoutes = [
@@ -150,6 +151,10 @@ const RouteRenderer = ({ setRegistrationType, setShow }) => {
     {
       path: "/become-a-consultant",
       element: <BecomeAConsultant />,
+    },
+    {
+      path: "/referral-form",
+      element: <Referral />,
     },
     {
       path: "/funding-calculator",

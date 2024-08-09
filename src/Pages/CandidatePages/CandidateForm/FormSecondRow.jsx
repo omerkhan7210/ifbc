@@ -90,38 +90,13 @@ const FormSecondRow = ({
                 optionLabel="name"
                 filter
                 placeholder="Select a franchise"
-                className=" candidate-select w-full flex  "
-              />
-              {/* <select
-                name="franchiseInterested"
-                className="candidate-select w-full"
+                className=" candidate-select w-full flex"
                 style={{
                   borderColor: formErrors.franchiseInterested
                     ? "red"
                     : undefined,
                 }}
-                onChange={handleInputChange}
-                value={formFields.franchiseInterested || ""} // Set the value of the select box
-              >
-                <option value="" hidden={formFields.franchiseInterested}>
-                  Select a franchise
-                </option>
-                {listingNames
-                  .sort((a, b) => a.name.localeCompare(b.name))
-                  .map((item) => (
-                    <option
-                      key={item.docId} // Add a unique key for each option
-                      value={item.docId}
-                      {...(candNames
-                        ? candNames.length > 0
-                          ? { selected: selectedDetails?.franchiseInterested }
-                          : { selected: candDetails?.franchiseInterested }
-                        : { selected: formFields?.franchiseInterested })}
-                    >
-                      {item.name}
-                    </option>
-                  ))}
-              </select> */}
+              />
             </>
           ) : (
             <h1>Loading...</h1>

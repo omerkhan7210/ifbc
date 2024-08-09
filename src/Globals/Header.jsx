@@ -156,16 +156,21 @@ const RightSideButtonsContainer = ({
       ? userDetails.userType
       : null;
   return (
-    <div className="md:flex md:justify-end md:items-start md:pt-1 md:gap-5 ">
+    <div className="md:flex md:justify-end md:items-start md:pt-1 md:gap-5">
       {/* button appointment */}
       {(!role || role === "N") && !token && (
         <a
           href="https://calendly.com/info-ifbc"
-          className="duration-500 max-md:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-10  text-sm h-10"
+          className="duration-500 max-md:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-6  text-sm h-10"
         >
           Book an appointment
         </a>
       )}
+      <Link to="/referral-form">
+        <button className="duration-500 max-md:hidden uppercase font-semibold rounded-full hover:bg-custom-heading-color md:flex items-center hover:text-white transition-all  bg-white text-custom-heading-color px-6  text-sm h-10">
+          MAKE A REFERRAL
+        </button>
+      </Link>
 
       {/* USER BUTTON */}
       <AccountDD token={token} userDetails={userDetails} role={role} />
@@ -307,27 +312,33 @@ const AccountDD = ({ userDetails, token, hidden, role }) => {
         <>
           <button
             id="user-icon"
-            onClick={() => setActive(!active)}
-            className="shadow-lg flex-wrap gap-2 cursor-pointer bg-white w-10 h-10 rounded-full flex justify-center items-center"
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
+            className="  cursor-pointer bg-orange-500 rounded-full py-2.5 px-3"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="rgb(33, 118, 255)"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-              />
-            </svg>
+            <div className="flex justify-center items-center gap-1">
+              <h3 className="text-sm font-bold">Login</h3>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={3}
+                stroke="white"
+                className="size-3"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </div>
           </button>
           <div
             className={`hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 ${active ? "block" : "hidden"} w-60 bg-white shadow-md rounded-lg p-2 mt-2 after:h-4 after:absolute after:-bottom-4 after:start-0 after:w-full before:h-4 before:absolute before:-top-4 before:start-0 before:w-full z-[999] justify-center items-center`}
             style={elementStyle}
+            onMouseEnter={() => setActive(true)}
+            onMouseLeave={() => setActive(false)}
           >
             <img
               src="/images/logo/IFBC 1.png"
