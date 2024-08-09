@@ -124,12 +124,12 @@ const MobileNav = ({
             <Link to="/apply-now">Apply Now</Link>
           </li>
 
-          <li
+          {/* <li
             id="menu-item-552290"
             className="menu-item menu-item-type-custom menu-item-object-custom   menu-item-552290"
           >
             <Link to="/make-a-referral">Make a Referral</Link>
-          </li>
+          </li> */}
 
           <li
             id="menu-item-552290"

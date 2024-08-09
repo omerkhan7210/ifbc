@@ -765,7 +765,7 @@ const Form = ({ candDetails, candNames, activeListings }) => {
 
       <div
         id="main-new-candidate-form-container"
-        className={`  ${candDetails ? "" : " items-center justify-center mx-auto mb-10 col-span-12 md:max-2xl:max-w-[50%] 2xl:max-w-[40%]"}  `}
+        className={`  ${candDetails ? "" : "max-md:max-w-[100%] items-center justify-center mx-auto mb-10 col-span-12 md:max-2xl:max-w-[50%] 2xl:max-w-[40%]"}  `}
       >
         {handleSwitchCase()}
       </div>

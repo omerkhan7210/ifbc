@@ -171,13 +171,13 @@ const Referral = () => {
           </div>
         </DialogBox>
         <form
-          className="p-8 flex flex-col gap-6 max-w-[45%] text-gray-600 rounded-3xl w-full bg-custom-dark-blue/50 shadow-lg"
+          className="p-8 flex flex-col gap-6 md:max-w-[45%] max-md:w-full text-gray-600 rounded-3xl w-full bg-custom-dark-blue/50 shadow-lg"
           onSubmit={handleSubmit}
         >
           <div className="grid md:grid-cols-2 gap-6">
             <div className="flex flex-col">
               <label
-                className="text-custom-heading-color font-medium text-sm"
+                className="text-custom-heading-color font-semibold "
                 htmlFor="firstname"
               >
                 First Name
@@ -238,7 +238,7 @@ const Referral = () => {
                 onChange={handleInputChange}
                 name="email"
                 placeholder="Enter Email"
-                className="candidate-input w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
+                className="candidate-input w-full"
                 type="email"
                 style={{
                   borderColor: formErrors.email ? "red" : undefined,
@@ -262,7 +262,7 @@ const Referral = () => {
                 onChange={handleInputChange}
                 name="phone"
                 placeholder="(123) 456-7890"
-                className="candidate-input w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
+                className="candidate-input w-full"
                 type="tel"
                 style={{
                   borderColor: formErrors.phone ? "red" : undefined,
@@ -288,7 +288,7 @@ const Referral = () => {
                 onChange={handleInputChange}
                 name="franchiseinterested"
                 placeholder="Enter Franchise Name"
-                className="candidate-input w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-custom-heading-color transition-shadow"
+                className="candidate-input w-full"
                 type="text"
                 style={{
                   borderColor: formErrors.franchiseinterested

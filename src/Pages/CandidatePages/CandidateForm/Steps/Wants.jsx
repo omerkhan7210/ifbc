@@ -449,9 +449,9 @@ const Wants = ({
                 />
                 <label
                   className="candidate-radio-text"
-                  htmlFor="Are you going to be in this business as an owner/operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)Owner/Operator"
+                  htmlFor="Are you going to be in this business as an operator or do you prefer a passive model, semi-passive model? (Passive Ownership means the owner is working 15 hours or less per week in the business.)Owner/Operator"
                 >
-                  Owner/Operator
+                  Operator
                 </label>
               </li>
               <li className="mr-4 flex">
@@ -589,7 +589,7 @@ const Wants = ({
             className="flex md:justify-start mt-5 max-md:flex-col max-md:gap-5"
           >
             <button
-              className="candidate-btn w-40 flex items-center justify-between"
+              className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
               onClick={() => {
                 setVisitedSteps((prev) => ({ ...prev, wants: true }));
                 setStep((prevStep) => prevStep - 1);
@@ -617,7 +617,7 @@ const Wants = ({
             className="flex md:justify-end mt-5 max-md:flex-col max-md:gap-5 md:mr-6"
           >
             <button
-              className="candidate-btn w-40 flex items-center justify-between"
+              className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
               onClick={handleWants}
             >
               Next

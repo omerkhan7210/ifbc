@@ -109,7 +109,7 @@ const FormFirstRow = ({
           <p className="candidate-label">Phone Number*</p>
 
           <input
-            type="tel"
+            type="number"
             name="phone"
             className="candidate-input w-full"
             style={{

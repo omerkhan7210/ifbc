@@ -291,7 +291,7 @@ const CandidateProfile = ({
         className="flex items-center mt-5 gap-10"
       >
         <button
-          className="candidate-btn w-40 flex items-center justify-between"
+          className="candidate-btn md:w-40 max-md:w-full flex items-center justify-between"
           onClick={handleCanProfile}
         >
           {loading ? "Loading..." : "Next"}
